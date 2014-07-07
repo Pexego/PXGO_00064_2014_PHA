@@ -53,20 +53,21 @@ $ mkdir eggs
 ```
 $ sandbox/bin/python bootstrap.py -c <configuracion_elegida>
 ```
-Ejecutar Supervisor, encargado de lanzar los servicios postgresql y odoo
+- Ejecutar Supervisor, encargado de lanzar los servicios postgresql y odoo
+```
 $ bin/supervisord
+```
+- No crea carpeta project-addons, crearla a mano
+```
+$ mkdir project-addons
 ```
 - Y por último
 ```
-#No crea carpeta project-addons, crearla a mano
-mkdir project-addons
-
 $ bin/buildout -c <configuracion_elegida>
-
 ```
-## Urls
-Supervisor : http://localhost:9002
-Odoo: http://localhost:9069
+- Urls
+- Supervisor : http://localhost:9002
+- Odoo: http://localhost:9069
       admin//admin
 
 ## Configurar OpenERP
