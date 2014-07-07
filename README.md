@@ -33,7 +33,7 @@ $ sudo apt-get install libreadline-dev
 ```
 - Descargar el  repositorio de buildouts :
 ```
-$ git clone https://github.com/Pexego/PXGO_00064_2014_PHA.git
+$ git clone https://github.com/Pexego/PXGO_00064_2014_PHA.git <ubicacion_local_repo>
 ```
 - [EN REVISIÓN] Hacer checkout de la rama deseada según proyecto
 ```
@@ -42,6 +42,7 @@ $ git checkout master
 - Crear un virtualenv dentro de la carpeta del respositorio. Esto podría ser opcional, obligatorio para desarrollo o servidor de pruebas, tal vez podríamos no hacerlo para un despliegue en producción. Si no está instalado, instalar el paquete de virtualenv
 ```
 $ sudo apt-get install python-virtualenv
+$ cd <ubicacion_local_repo>
 $ virtualenv sandbox --no-setuptools
 ```
 - Crear la carpeta eggs (no se crea al vuelo, ¿debería?
@@ -52,12 +53,21 @@ $ mkdir eggs
 ```
 $ sandbox/bin/python bootstrap.py -c <configuracion_elegida>
 ```
+Ejecutar Supervisor, encargado de lanzar los servicios postgresql y odoo
+$ bin/supervisord
+```
 - Y por último
 ```
+#No crea carpeta project-addons, crearla a mano
+mkdir project-addons
+
 $ bin/buildout -c <configuracion_elegida>
+
 ```
-
-
+## Urls
+Supervisor : http://localhost:9002
+Odoo: http://localhost:9069
+      admin//admin
 
 ## Configurar OpenERP
 Archivo de configuración: etc/openerp.cfg, si sequieren cambiar opciones en  openerp.cfg, no se debe editar el fichero,
@@ -87,6 +97,10 @@ postgres_port = 5434        (5432 default postgres)
 
 # Contributors
 
+Marcos Ybarra - Pharmadus
+Pexego
+
 ## Creators
 
 Rastislav Kober, http://www.kybi.sk
+
