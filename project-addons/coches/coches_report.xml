@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data><!-- el campo name tiene que ser unico en todo openerp -->
+        <report
+            id="report_expense_list"
+            model="coche"
+            name="expense.type" 
+            rml="coches/report/Lista_gastos.jrxml"
+            string="Listado de gastos"/>
+    </data>
+</openerp>
