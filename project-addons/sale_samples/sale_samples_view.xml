@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+
+        <record id="sale_order_add_sample_form" model="ir.ui.view">
+            <field name="name">sale.order.add.sample.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="sample"/>
+                </field>
+            </field>
+        </record>
+        <record id="sale_order_line_add_sample_form" model="ir.ui.view">
+            <field name="name">sale.order.line.add.sample.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="price_unit" position="after">
+                    <field name="sample_rel" invisible="0"/>
+                </field>
+                <field name="price_unit" position="attributes">
+                    <attribute name="attrs">{'readonly': [('sample_rel', '=', True)]}</attribute>
+                </field>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="replace">
+                       <field name="product_id"
+                       context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                       groups="base.group_user"
+                       on_change="product_id_change_with_sample(parent.pricelist_id,product_id,product_uom_qty,False,product_uos_qty,False,name,parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, parent.warehouse_id, context, sample_rel)"/>
+                   </xpath>
+                   <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="replace">
+                       <field context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                             name="product_uom_qty"
+                       on_change="product_id_change_with_sample(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.date_order, product_packaging, parent.fiscal_position, True, parent.warehouse_id, context, sample_rel)"/>
+                   </xpath>
+                   <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="replace">
+                       <field name="product_id"
+                       context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                       groups="base.group_user"
+                       on_change="product_id_change_with_sample(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, parent.warehouse_id, context, sample_rel)"/>
+                   </xpath>
+                   <xpath expr="//field[@name='order_line']/form//field[@name='product_uom_qty']" position="replace">
+                       <field context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                             name="product_uom_qty" class="oe_inline"
+                       on_change="product_id_change_with_sample(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.date_order, product_packaging, parent.fiscal_position, True, parent.warehouse_id, context, sample_rel)"/>
+                   </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_add_sample_attrs_order_policy" model="ir.ui.view">
+            <field name="name">sale.order.add.sample.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'readonly': [('sample', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
         <record id="action_samples" model="ir.actions.act_window">
             <field name="name">Quotations</field>
             <field name="type">ir.actions.act_window</field>
@@ -8,7 +66,7 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="sale.view_quotation_tree"/>
             <field name="view_mode">tree,form,calendar,graph</field>
-            <field name="context">{'search_default_my_sale_orders_filter': 1, 'default_sample': 1}</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1, 'default_sample': 1, 'default_order_policy': 'picking'}</field>
             <field name="domain">[('sample', '=', 1)]</field>
             <field name="search_view_id" ref="sale.view_sales_order_filter"/>
             <field name="help" type="html">

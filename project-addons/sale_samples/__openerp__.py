@@ -27,7 +27,8 @@
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
     "depends" : ['base',
-                 'sale'],
+                 'sale',
+                 'sale_stock'],
     "data" : ['sale_samples_view.xml'],
     "installable": True
 }

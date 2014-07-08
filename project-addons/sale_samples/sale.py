@@ -19,15 +19,34 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, orm
+from openerp import fields, models, api
 from openerp.tools.translate import _
 
 
-class sale_order(orm.Model):
+class sale_order(models.Model):
 
     _inherit = 'sale.order'
 
-    _columns = {
-        'sample': fields.boolean('Sample'),
-    }
+    sample = fields.Boolean('Sample')
 
+class sale_order_line(models.Model):
+
+    _inherit = 'sale.order.line'
+
+    sample_rel = fields.Boolean('Sample', compute='_get_sample')
+
+    @api.one
+    @api.depends('order_id.sample')
+    def _get_sample(self):
+        self.sample_rel = self.order_id.sample
+
+    @api.v7
+    def product_id_change_with_sample(self, cr, uid, ids, pricelist, product, qty=0,
+            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
+            lang=False, update_tax=True, date_order=False, packaging=False,
+            fiscal_position=False, flag=False, warehouse_id=False, context=None, sample=None):
+        res = super(sale_order_line,self).product_id_change_with_wh(cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name, partner_id,
+            lang, update_tax, date_order, packaging, fiscal_position, flag, warehouse_id, context)
+        if res.get('value', {}).get('price_unit', False) and sample:
+            res['value']['price_unit'] = 0.0
+        return res
