@@ -30,3 +30,43 @@ class sale(models.Model):
     shipping_responsible_id = fields.Many2one('res.partner',
                                               'Responsible for shipping')
     notified_partner_id = fields.Many2one('res.partner', 'Notified partner')
+
+
+    def action_quotation_send(self, cr, uid, ids, context=None):
+        '''
+        Se sobreescribe para utilizar un template diferente para los pedidos
+        transfer
+        '''
+        assert len(ids) == 1, 'This option should only be used for a single id at a time.'
+        ir_model_data = self.pool.get('ir.model.data')
+        order = self.browse(cr, uid, ids[0], context)
+        try:
+            if order.transfer:
+                template_id = ir_model_data.get_object_reference(cr, uid, 'sale_transfer', 'email_template_sale_transfer')[1]
+            else:
+                template_id = ir_model_data.get_object_reference(cr, uid, 'sale', 'email_template_edi_sale')[1]
+        except ValueError:
+            template_id = False
+        try:
+            compose_form_id = ir_model_data.get_object_reference(cr, uid, 'mail', 'email_compose_message_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False
+        ctx = dict(context)
+        ctx.update({
+            'default_model': 'sale.order',
+            'default_res_id': ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }

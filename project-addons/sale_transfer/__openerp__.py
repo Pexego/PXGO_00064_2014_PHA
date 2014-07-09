@@ -30,6 +30,7 @@
                  'sale',
                  'sale_stock'],
     "data" : ['sale_view.xml',
-              'sale_workflow.xml'],
+              'sale_workflow.xml',
+              'templates/template_mail.xml'],
     "installable": True
 }
