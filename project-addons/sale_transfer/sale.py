@@ -19,8 +19,7 @@
 #
 ##############################################################################
 
-from openerp import fields, models, api
-from openerp.tools.translate import _
+from openerp import fields, models
 
 
 class sale(models.Model):
@@ -28,5 +27,6 @@ class sale(models.Model):
     _inherit = 'sale.order'
 
     transfer = fields.Boolean('Transfer')
-
-
+    shipping_responsible_id = fields.Many2one('res.partner',
+                                              'Responsible for shipping')
+    notified_partner_id = fields.Many2one('res.partner', 'Notified partner')

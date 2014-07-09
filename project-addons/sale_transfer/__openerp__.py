@@ -29,6 +29,7 @@
     "depends" : ['base',
                  'sale',
                  'sale_stock'],
-    "data" : ['sale_view.xml'],
+    "data" : ['sale_view.xml',
+              'sale_workflow.xml'],
     "installable": True
 }

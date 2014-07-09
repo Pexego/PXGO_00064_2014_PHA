@@ -8,10 +8,51 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <div name="transfer">
+                    <newline/>
+                    <h2>
                         <label for="transfer"/>
                         <field name="transfer" readonly="1"/>
-                    </div>
+                    </h2>
+                </field>
+
+                <field name="client_order_ref" position="after">
+                    <field name="shipping_responsible_id" attrs="{'invisible': [('transfer', '!=', True)], 'required': [('transfer', '=', True)]}"/>
+                    <field name="notified_partner_id" attrs="{'invisible': [('transfer', '!=', True)], 'required': [('transfer', '=', True)]}"/>
+                </field>
+
+                <field name="payment_term" position="attributes">
+                    <attribute name="attrs">{'invisible': [('transfer', '=', True)]}</attribute>
+                </field>
+
+                <field name="fiscal_position" position="attributes">
+                    <attribute name="attrs">{'invisible': [('transfer', '=', True)]}</attribute>
+                </field>
+
+                <field name="invoiced" position="attributes">
+                    <attribute name="attrs">{'invisible': [('transfer', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="sale_order_stock_add_attrs_transfer_form" model="ir.ui.view">
+            <field name="name">sale.order.stock.add.transfer.attrs.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="warehouse_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('transfer', '=', True)]}</attribute>
+                </field>
+
+                <field name="picking_policy" position="attributes">
+                    <attribute name="attrs">{'invisible': [('transfer', '=', True)]}</attribute>
+                </field>
+
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'invisible': [('transfer', '=', True)]}</attribute>
+                </field>
+
+                <field name="shipped" position="attributes">
+                    <attribute name="attrs">{'invisible': [('transfer', '=', True)]}</attribute>
                 </field>
             </field>
         </record>
@@ -28,21 +69,12 @@
             <field name="search_view_id" ref="sale.view_sales_order_filter"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
-                Click to create a transfer order, the first step of a new sale.
-              </p><p>
-                OpenERP will help you handle efficiently the complete sale transfer flow:
-                from the quotation to the sales order and the
-                delivery.
-              </p><p>
-                The social feature helps you organize discussions on each sales
-                order, and allow your customers to keep track of the evolution
-                of the sales order.
-              </p>
+                Click to create a transfer order.
             </field>
         </record>
 
         <menuitem id="sale_order_transfer" name="Transfer orders" string="Transfer sale order"
-        action="action_transfer"  parent="base.menu_sales" sequence="5"/>
+        action="action_transfer"  parent="base.menu_sales" sequence="7"/>
 
     </data>
 </openerp>
