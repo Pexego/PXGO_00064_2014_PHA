@@ -29,6 +29,12 @@ class sale_order(models.Model):
 
     sample = fields.Boolean('Sample')
 
+    def _prepare_order_line_procurement(self, cr, uid, order, line, group_id=False, context=None):
+        res = super(sale_order,self)._prepare_order_line_procurement(cr, uid, order, line, group_id, context)
+        if order.sample:
+            res['invoice_state'] = 'none'
+        return res
+
 class sale_order_line(models.Model):
 
     _inherit = 'sale.order.line'

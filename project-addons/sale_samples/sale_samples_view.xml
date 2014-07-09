@@ -8,7 +8,10 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field name="sample"/>
+                    <div name="sample">
+                        <label for="sample"/>
+                        <field name="sample" readonly="1"/>
+                    </div>
                 </field>
             </field>
         </record>
