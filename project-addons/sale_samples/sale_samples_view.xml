@@ -168,5 +168,23 @@
             </field>
         </record>
 
+    <!-- Se añade el filtro de muestras al analisis de ventas-->
+    <record id="view_order_product_search_add_sample" model="ir.ui.view">
+        <field name="name">sale.report.search</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+
+            <filter name="Quotations" position="replace">
+                <filter name="Quotations" domain="[('state','in',('draft','sent')), ('sample','!=', 1)]]"/>
+            </filter>
+
+            <filter name="Sales" position="replace">
+                <filter name="Samples" string="Samples" domain="[('sample','=', 1)]"/>
+                <filter name="Sales" string="Sales" domain="[('state','not in',('draft','sent','cancel')), ('sample','!=', 1)]"/>
+            </filter>
+        </field>
+    </record>
+
     </data>
 </openerp>

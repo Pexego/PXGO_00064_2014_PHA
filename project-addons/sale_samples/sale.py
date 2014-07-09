@@ -164,3 +164,25 @@ class sale_order_line(models.Model):
                     }
         res.update({'warning': warning})
         return res
+
+class sale_report(models.Model):
+
+    _inherit = 'sale.report'
+
+    sample = fields.Boolean('Sample')
+
+    def _select(self):
+        res = super(sale_report,self)._select()
+        select_str = """
+                    s.sample as sample
+        """
+        return res + ',' + select_str
+
+    def _group_by(self):
+        res = super(sale_report,self)._group_by()
+        group_by_str = """
+                    s.sample
+        """
+        return res + ',' + group_by_str
+
+
