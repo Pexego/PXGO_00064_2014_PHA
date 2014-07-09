@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sale_order_add_transfer_form" model="ir.ui.view">
+            <field name="name">sale.order.add.transfer.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <div name="transfer">
+                        <label for="transfer"/>
+                        <field name="transfer" readonly="1"/>
+                    </div>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_transfer" model="ir.actions.act_window">
+            <field name="name">transfer orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1, 'default_transfer': 1}</field>
+            <field name="domain">[('transfer', '=', 1)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a transfer order, the first step of a new sale.
+              </p><p>
+                OpenERP will help you handle efficiently the complete sale transfer flow:
+                from the quotation to the sales order and the
+                delivery.
+              </p><p>
+                The social feature helps you organize discussions on each sales
+                order, and allow your customers to keep track of the evolution
+                of the sales order.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="sale_order_transfer" name="Transfer orders" string="Transfer sale order"
+        action="action_transfer"  parent="base.menu_sales" sequence="5"/>
+
+    </data>
+</openerp>
