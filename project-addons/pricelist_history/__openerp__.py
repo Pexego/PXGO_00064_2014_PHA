@@ -20,18 +20,18 @@
 ##############################################################################
 
 {
-    'name': "Sale transfer",
+    'name': "Pricelist history",
     'version': '1.0',
-    'category': 'sale',
-    'description': """Sale transfer""",
+    'category': '',
+    'description': """Adds a history of pricelist for the partner""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
     "depends" : ['base',
+                 'product',
                  'sale',
-                 'sale_stock',
-                 'sale_samples'],
-    "data" : ['sale_view.xml',
-              'sale_workflow.xml',
-              'templates/template_mail.xml'],
+                 'purchase'],
+    "data" : ['pricelist_history_view.xml',
+              'res_partner_view.xml',
+              'security/ir.model.access.csv'],
     "installable": True
 }

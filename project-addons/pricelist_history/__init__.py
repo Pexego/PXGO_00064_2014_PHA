@@ -19,19 +19,5 @@
 #
 ##############################################################################
 
-{
-    'name': "Sale transfer",
-    'version': '1.0',
-    'category': 'sale',
-    'description': """Sale transfer""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'sale',
-                 'sale_stock',
-                 'sale_samples'],
-    "data" : ['sale_view.xml',
-              'sale_workflow.xml',
-              'templates/template_mail.xml'],
-    "installable": True
-}
+import res_partner
+import pricelist_history

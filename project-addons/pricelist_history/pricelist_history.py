@@ -19,19 +19,16 @@
 #
 ##############################################################################
 
-{
-    'name': "Sale transfer",
-    'version': '1.0',
-    'category': 'sale',
-    'description': """Sale transfer""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'sale',
-                 'sale_stock',
-                 'sale_samples'],
-    "data" : ['sale_view.xml',
-              'sale_workflow.xml',
-              'templates/template_mail.xml'],
-    "installable": True
-}
+from openerp import models, fields
+
+
+class pricelist_history(models.Model):
+
+    _name = "product.pricelist.partner.history"
+    _description = "History of partner pricelists"
+
+    date = fields.Date('Date of change')
+    pricelist_id = fields.Many2one('product.pricelist', 'Pricelist')
+    partner_id = fields.Many2one('res.partner', 'Partner')
+    type = fields.Selection((('purchase', 'Purchase'), ('sale',  'Sale')),
+                            'Type of pricelist')

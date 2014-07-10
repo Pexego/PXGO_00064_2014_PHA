@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="res_partner_add_history_button_view" model="ir.ui.view">
+            <field name="name">res.partner.add.history.button.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="purchase.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <field name="property_product_pricelist_purchase" position="after">
+                    <button name="view_pricelist_history" type="object" string="view pricelist history"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

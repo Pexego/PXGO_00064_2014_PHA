@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record id="pricelist_history_tree" model="ir.ui.view">
+        <field name="name">pricelist.history.tree</field>
+        <field name="model">product.pricelist.partner.history</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Pricelist history">
+                <field name="partner_id"/>
+                <field name="pricelist_id"/>
+                <field name="type"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pricelist_history_form" model="ir.ui.view">
+        <field name="name">pricelist.history.form</field>
+        <field name="model">product.pricelist.partner.history</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Pricelist history">
+                <sheet>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="pricelist_id"/>
+                    </group>
+                    <group>
+                        <field name="type"/>
+                        <field name="date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pricelist_history_filter" model="ir.ui.view">
+        <field name="name">pricelist.history.filter</field>
+        <field name="model">product.pricelist.partner.history</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="partner_id"/>
+                <field name="pricelist_id"/>
+                <field name="type"/>
+                <field name="date"/>
+                <group expand="0" string="Group By">
+                        <filter string="Partner" context="{'group_by':'partner_id'}"/>
+                        <filter string="Pricelist" context="{'group_by':'pricelist_id'}"/>
+                        <filter string="Type" context="{'group_by':'type'}"/>
+                        <filter string="Date" context="{'group_by':'date'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_pricelist_history">
+        <field name="name">Pricelist history</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.pricelist.partner.history</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="pricelist_history_tree"/>
+        <field name="search_view_id" ref="pricelist_history_filter"/>
+    </record>
+
+    <menuitem name="Pricelist history" parent="base.menu_base_config" action="action_pricelist_history" id="sales_pricelist_history"/>
+
+</data>
+</openerp>
