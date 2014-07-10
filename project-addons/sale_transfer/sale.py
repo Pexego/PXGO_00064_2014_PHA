@@ -31,7 +31,6 @@ class sale(models.Model):
                                               'Responsible for shipping')
     notified_partner_id = fields.Many2one('res.partner', 'Notified partner')
 
-
     def action_quotation_send(self, cr, uid, ids, context=None):
         '''
         Se sobreescribe para utilizar un template diferente para los pedidos
@@ -42,13 +41,17 @@ class sale(models.Model):
         order = self.browse(cr, uid, ids[0], context)
         try:
             if order.transfer:
-                template_id = ir_model_data.get_object_reference(cr, uid, 'sale_transfer', 'email_template_sale_transfer')[1]
+                template_id = ir_model_data.get_object_reference(cr, uid,
+                                                                 'sale_transfer',
+                                                                 'email_template_sale_transfer')[1]
             else:
-                template_id = ir_model_data.get_object_reference(cr, uid, 'sale', 'email_template_edi_sale')[1]
+                template_id = ir_model_data.get_object_reference(cr, uid, 'sale',
+                                                                 'email_template_edi_sale')[1]
         except ValueError:
             template_id = False
         try:
-            compose_form_id = ir_model_data.get_object_reference(cr, uid, 'mail', 'email_compose_message_wizard_form')[1]
+            compose_form_id = ir_model_data.get_object_reference(cr, uid, 'mail',
+                                                                 'email_compose_message_wizard_form')[1]
         except ValueError:
             compose_form_id = False
         ctx = dict(context)

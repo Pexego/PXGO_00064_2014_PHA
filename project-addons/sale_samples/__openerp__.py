@@ -28,7 +28,9 @@
     'website': 'www.pexego.es',
     "depends" : ['base',
                  'sale',
+                 'stock',
                  'sale_stock'],
-    "data" : ['sale_samples_view.xml'],
+    "data" : ['sale_samples_view.xml',
+              'sale_workflow.xml'],
     "installable": True
 }

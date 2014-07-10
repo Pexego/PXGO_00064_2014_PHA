@@ -23,6 +23,7 @@ from openerp import fields, models, api
 from openerp.tools.translate import _
 from openerp.tools import float_compare
 
+
 class sale_order(models.Model):
 
     _inherit = 'sale.order'
@@ -31,12 +32,24 @@ class sale_order(models.Model):
 
     def _prepare_order_line_procurement(self, cr, uid, order, line,
                                         group_id=False, context=None):
-        res = super(sale_order,self)._prepare_order_line_procurement(cr, uid,
-                                                                    order, line,
-                                                                    group_id, context)
+        res = super(sale_order, self)._prepare_order_line_procurement(cr, uid,
+                                                                      order,
+                                                                      line,
+                                                                      group_id,
+                                                                      context)
         if order.sample:
             res['invoice_state'] = 'none'
         return res
+
+    def test_done_sample(self, cr, uid, ids, *args):
+        res = False
+        for sale in self.browse(cr, uid, ids):
+            if sale.sample:
+                for picking in sale.picking_ids:
+                    if picking.state == 'done':
+                        res = True
+        return res
+
 
 class sale_order_line(models.Model):
 
@@ -100,27 +113,36 @@ class sale_order_line(models.Model):
         product_obj = self.pool.get('product.product')
         warning = {}
         res = self.product_id_change(cr, uid, ids, pricelist, product, qty=qty,
-            uom=uom, qty_uos=qty_uos, uos=uos, name=name, partner_id=partner_id,
-            lang=lang, update_tax=update_tax, date_order=date_order,
-            packaging=packaging, fiscal_position=fiscal_position, flag=flag, context=context)
+                                     uom=uom, qty_uos=qty_uos, uos=uos,
+                                     name=name, partner_id=partner_id,
+                                     lang=lang, update_tax=update_tax,
+                                     date_order=date_order, packaging=packaging,
+                                     fiscal_position=fiscal_position, flag=flag,
+                                     context=context)
 
         if not product:
             res['value'].update({'product_packaging': False})
             return res
 
-        #update of result obtained in super function
+        # update of result obtained in super function
         product_obj = product_obj.browse(cr, uid, product, context=context)
         res['value']['delay'] = (product_obj.sale_delay or 0.0)
 
         # Calling product_packaging_change function after updating UoM
-        res_packing = self.product_packaging_change(cr, uid, ids, pricelist, product, qty, uom, partner_id, packaging, context=context)
+        res_packing = self.product_packaging_change(cr, uid, ids, pricelist,
+                                                    product, qty, uom,
+                                                    partner_id, packaging,
+                                                    context=context)
         res['value'].update(res_packing.get('value', {}))
-        warning_msgs = res_packing.get('warning') and res_packing['warning']['message'] or ''
+        warning_msgs = res_packing.get('warning') and \
+            res_packing['warning']['message'] or ''
 
-        #determine if the product is MTO or not (for a further check)
+        # determine if the product is MTO or not (for a further check)
         isMto = False
         if warehouse_id:
-            warehouse = self.pool.get('stock.warehouse').browse(cr, uid, warehouse_id, context=context)
+            warehouse = self.pool.get('stock.warehouse').browse(cr, uid,
+                                                                warehouse_id,
+                                                                context=context)
             for product_route in product_obj.route_ids:
                 if warehouse.mto_pull_id and warehouse.mto_pull_id.route_id and \
                         warehouse.mto_pull_id.route_id.id == product_route.id:
@@ -128,9 +150,12 @@ class sale_order_line(models.Model):
                     break
         else:
             try:
-                mto_route_id = self.pool.get('ir.model.data').get_object(cr, uid, 'stock', 'route_warehouse0_mto').id
+                mto_route_id = self.pool.get('ir.model.data').get_object(cr, uid,
+                                                                         'stock',
+                                                                         'route_warehouse0_mto').id
             except:
-                # if route MTO not found in ir_model_data, we treat the product as in MTS
+                # if route MTO not found in ir_model_data, we treat
+                # the product as in MTS
                 mto_route_id = False
             if mto_route_id:
                 for product_route in product_obj.route_ids:
@@ -148,22 +173,24 @@ class sale_order_line(models.Model):
                     uom = False
             if not uom2:
                 uom2 = product_obj.uom_id
-            compare_qty = float_compare(product_obj.virtual_available, qty, precision_rounding=uom2.rounding)
-            if (product_obj.type=='product') and int(compare_qty) == -1:
+            compare_qty = float_compare(product_obj.virtual_available, qty,
+                                        precision_rounding=uom2.rounding)
+            if (product_obj.type == 'product') and int(compare_qty) == -1:
                 warn_msg = _('You plan to sell %.2f %s but you only have %.2f %s available !\nThe real stock is %.2f %s. (without reservations)') % \
                     (qty, uom2.name,
-                     max(0,product_obj.virtual_available), uom2.name,
-                     max(0,product_obj.qty_available), uom2.name)
+                     max(0, product_obj.virtual_available), uom2.name,
+                     max(0, product_obj.qty_available), uom2.name)
                 warning_msgs += _("Not enough stock ! : ") + warn_msg + "\n\n"
 
-        #update of warning messages
+        # update of warning messages
         if warning_msgs:
             warning = {
-                       'title': _('Configuration Error!'),
-                       'message' : warning_msgs
-                    }
+                'title': _('Configuration Error!'),
+                'message': warning_msgs
+            }
         res.update({'warning': warning})
         return res
+
 
 class sale_report(models.Model):
 
@@ -172,17 +199,15 @@ class sale_report(models.Model):
     sample = fields.Boolean('Sample')
 
     def _select(self):
-        res = super(sale_report,self)._select()
+        res = super(sale_report, self)._select()
         select_str = """
                     s.sample as sample
         """
         return res + ',' + select_str
 
     def _group_by(self):
-        res = super(sale_report,self)._group_by()
+        res = super(sale_report, self)._group_by()
         group_by_str = """
                     s.sample
         """
         return res + ',' + group_by_str
-
-

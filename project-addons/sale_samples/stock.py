@@ -18,5 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import sale
-import stock
+
+from openerp import models, api
+from openerp import workflow
+
+
+class stock_picking(models.Model):
+    _inherit = 'stock.picking'
+
+    @api.cr_uid_ids_context
+    def do_transfer(self, cr, uid, picking_ids, context=None):
+        res = super(stock_picking, self).do_transfer(cr, uid, picking_ids,
+                                                     context)
+        for picking in self.browse(cr, uid, picking_ids, context):
+            if picking.sale_id and picking.sale_id.sample:
+                workflow.trg_write(uid, 'sale.order', picking.sale_id.id, cr)
+        return res
