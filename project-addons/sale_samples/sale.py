@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import fields, models, api
+from openerp import fields, models
 from openerp.tools.translate import _
 from openerp.tools import float_compare
 
@@ -55,12 +55,7 @@ class sale_order_line(models.Model):
 
     _inherit = 'sale.order.line'
 
-    sample_rel = fields.Boolean('Sample', compute='_get_sample')
-
-    @api.one
-    @api.depends('order_id.sample')
-    def _get_sample(self):
-        self.sample_rel = self.order_id.sample
+    sample_rel = fields.Boolean('Sample', related='order_id.sample')
 
     def create(self, cr, uid, vals, context={}):
         order_id = vals.get('order_id', False)
