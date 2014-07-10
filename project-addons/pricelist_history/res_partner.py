@@ -45,10 +45,23 @@ class res_partner(models.Model):
             pricelist_history_obj.create(vals_history)
         return super(res_partner, self).write(vals)
 
-    @api.one
+    @api.multi
     def view_pricelist_history(self):
         act = self.env.ref('pricelist_history.action_pricelist_history')
         result = act.read()[0]
         result['domain'] = "[('partner_id','='," + str(self.id) + ")]"
         return result
+
+    """
+    def view_pricelist_history(self, cr, uid, ids, context=None):
+        mod_obj = self.pool.get('ir.model.data')
+        act_obj = self.pool.get('ir.actions.act_window')
+        if context is None:
+            context = {}
+        result = mod_obj.get_object_reference(cr, uid, 'pricelist_history', 'action_pricelist_history')
+        id = result and result[1] or False
+        result = act_obj.read(cr, uid, [id], context=context)[0]
+        result['domain'] = "[('partner_id','='," + str(ids[0]) + ")]"
+        return result"""
+
 
