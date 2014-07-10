@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
+    <data>
 
     <record id="pricelist_history_tree" model="ir.ui.view">
         <field name="name">pricelist.history.tree</field>
@@ -68,5 +68,5 @@
 
     <menuitem name="Pricelist history" parent="base.menu_base_config" action="action_pricelist_history" id="sales_pricelist_history"/>
 
-</data>
+    </data>
 </openerp>

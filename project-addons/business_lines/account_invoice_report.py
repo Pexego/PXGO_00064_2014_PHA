@@ -19,5 +19,26 @@
 #
 ##############################################################################
 
-import sale_order
-import account_invoice_report
+from openerp import models, fields
+
+
+class account_invoice_report(models.Model):
+
+    _inherit = "account.invoice.report"
+
+    account_analytic_id = fields.Many2one('account.analytic.account', 'Analytic account', readonly=True)
+
+    def _select(self):
+        select_str = """, sub.account_analytic_id as account_analytic_id"""
+        str_super = super(account_invoice_report, self)._select()
+        return str_super + select_str
+
+    def _sub_select(self):
+        select_str = """, ail.account_analytic_id as account_analytic_id """
+        str_super = super(account_invoice_report, self)._sub_select()
+        return str_super + select_str
+
+    def _group_by(self):
+        group_by_str = """, ail.account_analytic_id"""
+        str_super = super(account_invoice_report, self)._group_by()
+        return str_super + group_by_str

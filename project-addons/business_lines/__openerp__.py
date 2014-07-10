@@ -32,6 +32,6 @@
     "depends" : ['base',
                  'sale',
                  'analytic'],
-    "data" : [],
+    "data" : ['account_invoice_report_view.xml'],
     "installable": True
 }
