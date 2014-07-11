@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra Mayor <marcos.ybarra@pharmadus.com>$
+#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,4 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import newclient_clients_to_review
+
+from openerp import models, fields
+
+
+class partner_review(models.Model):
+
+    _name = "partner.review"
+    _description = "List of partners in ""Waiting for review"" state"
+
+    date = fields.Date('Date of change')
+    pricelist_id = fields.Many2one('product.pricelist', 'Pricelist')
+    partner_id = fields.Many2one('res.partner', 'Partner')
+    state = fields.Selection((('to_review', 'To review'), ('ok',  'OK')),
+                            'State')
+    type = fields.Selection((('purchase', 'Purchase'), ('sale',  'Sale')),
+                            'Type of pricelist')
