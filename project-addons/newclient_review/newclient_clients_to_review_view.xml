@@ -31,8 +31,7 @@
         <field name="res_model">partner.review</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="partner_review_tree"/>
     </record>
-    <menuitem name="Partners to review" parent="base.menu_base_config" action="action_newclient_clients_to_review" id="partner_review_menu"/>
+    <menuitem name="Clientes pendientes de revision" parent="base.menu_sales" sequence="3" action="action_newclient_clients_to_review" id="partner_review_menu"/>
     </data>
 </openerp>
