@@ -22,7 +22,7 @@
 from openerp.osv import orm, fields
 
 class Partner_review(orm.Model):
-    _name = "partner_review"
+    _name = "partner.review"
     _description = "List of partners in Waiting for review state"
     _columns = {
         'name': fields.char('Nombre', size=150, required=True)
