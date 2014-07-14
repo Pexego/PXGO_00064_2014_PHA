@@ -17,7 +17,7 @@
     </record>
 
     <record id="pricelist_history_form" model="ir.ui.view">
-        <field name="name">pricelist.history.form</field>
+        <field name="name"> pricelist.history.form</field>
         <field name="model">product.pricelist.partner.history</field>
         <field name="type">form</field>
         <field name="arch" type="xml">

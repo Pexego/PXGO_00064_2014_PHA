@@ -64,4 +64,3 @@
         <menuitem id="menu_coches" action="action_coche" parent="menu_coches_padre"/>
 </data>
 </openerp>
-    

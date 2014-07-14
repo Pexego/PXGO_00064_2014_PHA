@@ -19,18 +19,17 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp.osv import orm, fields
 
-
-class partner_review(models.Model):
-
-    _name = "partner.review"
-    _description = "List of partners in ""Waiting for review"" state"
-
-    date = fields.Date('Date of change')
-    pricelist_id = fields.Many2one('product.pricelist', 'Pricelist')
-    partner_id = fields.Many2one('res.partner', 'Partner')
-    state = fields.Selection((('to_review', 'To review'), ('ok',  'OK')),
-                            'State')
-    type = fields.Selection((('purchase', 'Purchase'), ('sale',  'Sale')),
-                            'Type of pricelist')
+class Partner_review(orm.Model):
+    _name = "partner_review"
+    _description = "List of partners in Waiting for review state"
+    _columns = {
+        'name': fields.char('Nombre', size=150, required=True)
+    }
+    _defaults = {
+            'name' : 'Pedro'
+    }
+    def create(self, cr, uid, vals, context=None):
+        if context is None: context = {}
+        return super(Partner_review, self).create(cr, uid, vals, context=context)

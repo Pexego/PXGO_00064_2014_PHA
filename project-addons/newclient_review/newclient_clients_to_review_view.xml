@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <record id="newclient_clients_to_review_tree" model="ir.ui.view">
+        <field name="name">partner_review.tree</field>
+        <field name="model">partner_review</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Partners to review">
+            	<field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="newclient_clients_to_review_form" model="ir.ui.view">
+        <field name="name">partner_review.form</field>
+        <field name="model">partner_review</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Partners to review">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_newclient_clients_to_review">
+        <field name="name">Partners to review</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">partner_review</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="partner_review_tree"/>
+    </record>
+    <menuitem name="Partners to review" parent="base.menu_base_config" action="action_newclient_clients_to_review" id="partner_review_menu"/>
+    </data>
+</openerp>

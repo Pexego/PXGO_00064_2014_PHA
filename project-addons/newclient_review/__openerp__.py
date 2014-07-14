@@ -18,16 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': "Newclient Review",
     'version': '1.0',
     'category': '',
-    'description': """If a new client is added by a commercial, client will be in "Waiting for revision" state until every data are reviewed by an authorized person.""",
+    'description': "If a new client is added by a commercial, client will be in Waiting for revision state until every data are reviewed by an authorized person.",
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
     "depends" : ['base',
                  'sale'],
-    "data" : ['newclient_clients_to_review.xml'],
+    "data" : ['newclient_clients_to_review_view.xml'],
     "installable": True
 }
