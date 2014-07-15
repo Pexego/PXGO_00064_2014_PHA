@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sale_order_add_sample_form" model="ir.ui.view">
+            <field name="name">sale.order.add.sample.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <newline/>
+                    <h2>
+                        <label for="sample"/>
+                        <field name="sample" readonly="1"/>
+                    </h2>
+                </field>
+            </field>
+        </record>
+
+        <!--
+            se añaden al form/tree de lineas de venta attrs para que
+            si son ventas de muestra se oculten los campos:
+            -price_unit
+            -discount
+            -tax_id
+        -->
+        <record id="sale_order_line_add_sample_form" model="ir.ui.view">
+            <field name="name">sale.order.line.add.sample.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']"  position="after">
+                    <field name="sample_rel" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']"  position="after">
+                    <field name="sample_rel" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('sample_rel', '=', True)]}</attribute>
+                </xpath>
+
+               <xpath expr="//field[@name='order_line']/tree//field[@name='tax_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('sample_rel', '=', True)]}</attribute>
+               </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('sample_rel', '=', True)]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="attributes">
+                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'sample': sample_rel}</attribute>
+                </xpath>
+
+               <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'sample': sample_rel}</attribute>
+               </xpath>
+
+
+               <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('sample_rel', '=', True)]}</attribute>
+               </xpath>
+
+               <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('sample_rel', '=', True)]}</attribute>
+               </xpath>
+
+               <xpath expr="//field[@name='order_line']/form//label[@for='discount']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('sample_rel', '=', True)]}</attribute>
+               </xpath>
+               <xpath expr="//field[@name='order_line']/form//div[@name='discount']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('sample_rel', '=', True)]}</attribute>
+               </xpath>
+
+               <xpath expr="//field[@name='order_line']/form//field[@name='invoice_lines']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('sample_rel', '=', True)]}</attribute>
+               </xpath>
+
+               <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="attributes">
+                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'sample': sample_rel}}</attribute>
+               </xpath>
+
+               <xpath expr="//field[@name='order_line']/form//field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'sample': sample_rel}}</attribute>
+               </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_add_sample_attrs_order_policy" model="ir.ui.view">
+            <field name="name">sale.order.add.sample.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'readonly': [('sample', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_samples" model="ir.actions.act_window">
+            <field name="name">Sample orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1, 'default_sample': 1, 'default_order_policy': 'picking'}</field>
+            <field name="domain">[('sample', '=', 1)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a sample order.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="sale_order_sample" name="Sample orders" string="Sample sale order"
+        action="action_samples"  parent="base.menu_sales" sequence="7"/>
+
+        <!-- Se sobreescriben las acciones de los menús de ordenes y presupuestos
+             para que no se muestren los pedidos de muestra-->
+
+        <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="name">Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="context">{
+                    'search_default_my_sale_orders_filter': 1
+                }
+            </field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')), ('sample', '=', 0)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a quotation that can be converted into a sales
+                    order.
+                </p><p>
+                    OpenERP will help you efficiently handle the complete sales flow:
+                    quotation, sales order, delivery, invoicing and payment.
+                </p>
+            </field>
+        </record>
+
+        <record id="sale.action_quotations" model="ir.actions.act_window">
+            <field name="name">Quotations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+            <field name="domain">[('state','in',('draft','sent','cancel')), ('sample', '=', 0)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a quotation, the first step of a new sale.
+              </p><p>
+                OpenERP will help you handle efficiently the complete sale flow:
+                from the quotation to the sales order, the
+                delivery, the invoicing and the payment collection.
+              </p><p>
+                The social feature helps you organize discussions on each sales
+                order, and allow your customers to keep track of the evolution
+                of the sales order.
+              </p>
+            </field>
+        </record>
+
+    <!-- Se añade el filtro de muestras al analisis de ventas-->
+    <record id="view_order_product_search_add_sample" model="ir.ui.view">
+        <field name="name">sale.report.search</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+
+            <filter name="Quotations" position="replace">
+                <filter name="Quotations" domain="[('state','in',('draft','sent')), ('sample','!=', 1)]]"/>
+            </filter>
+
+            <filter name="Sales" position="replace">
+                <filter name="Samples" string="Samples" domain="[('sample','=', 1)]"/>
+                <filter name="Sales" string="Sales" domain="[('state','not in',('draft','sent','cancel')), ('sample','!=', 1)]"/>
+            </filter>
+        </field>
+    </record>
+
+    </data>
+</openerp>
