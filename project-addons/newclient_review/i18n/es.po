@@ -1,13 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#   * newclient_review
+#	* newclient_review
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 8.0rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-11 11:51+0000\n"
-"PO-Revision-Date: 2014-07-11 11:51+0000\n"
+"POT-Creation-Date: 2014-07-15 11:01+0000\n"
+"PO-Revision-Date: 2014-07-15 11:01+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,68 +15,59 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: pricelist_history
-#: view:product.pricelist.partner.history:0
-msgid "Date"
-msgstr "Fecha"
+#. module: newclient_review
+#: model:ir.ui.menu,name:newclient_review.partner_review_menu
+msgid "Clientes a revisar"
+msgstr ""
 
-#. module: pricelist_history
-#: field:product.pricelist.partner.history,date:0
-msgid "Date of change"
-msgstr "Fecha de cambio"
+#. module: newclient_review
+#: field:res.partner,confirmed:0
+msgid "Confirmado"
+msgstr ""
 
-#. module: pricelist_history
-#: view:product.pricelist.partner.history:0
-msgid "Group By"
-msgstr "Agrupar por"
+#. module: newclient_review
+#: field:partner.review,create_uid:0
+msgid "Created by"
+msgstr ""
 
-#. module: pricelist_history
-#: model:ir.model,name:pricelist_history.model_product_pricelist_partner_history
-msgid "History of partner pricelists"
-msgstr "Historial detarifas"
+#. module: newclient_review
+#: field:partner.review,create_date:0
+msgid "Created on"
+msgstr ""
 
-#. module: pricelist_history
-#: model:ir.model,name:pricelist_history.model_res_partner
-#: view:product.pricelist.partner.history:0
-#: field:product.pricelist.partner.history,partner_id:0
+#. module: newclient_review
+#: field:partner.review,id:0
+msgid "ID"
+msgstr ""
+
+#. module: newclient_review
+#: field:partner.review,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: newclient_review
+#: field:partner.review,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: newclient_review
+#: model:ir.model,name:newclient_review.model_partner_review
+msgid "List of partners in Waiting for review state"
+msgstr ""
+
+#. module: newclient_review
+#: field:partner.review,name:0
+msgid "Nombre"
+msgstr ""
+
+#. module: newclient_review
+#: model:ir.model,name:newclient_review.model_res_partner
 msgid "Partner"
-msgstr "Empresa"
+msgstr ""
 
-#. module: pricelist_history
-#: view:product.pricelist.partner.history:0
-#: field:product.pricelist.partner.history,pricelist_id:0
-msgid "Pricelist"
-msgstr "Tarifa"
-
-#. module: pricelist_history
-#: model:ir.actions.act_window,name:pricelist_history.action_pricelist_history
-#: model:ir.ui.menu,name:pricelist_history.sales_pricelist_history
-#: view:product.pricelist.partner.history:0
-msgid "Pricelist history"
-msgstr "Historial de tarifas"
-
-#. module: pricelist_history
-#: selection:product.pricelist.partner.history,type:0
-msgid "Purchase"
-msgstr "Compra"
-
-#. module: pricelist_history
-#: selection:product.pricelist.partner.history,type:0
-msgid "Sale"
-msgstr "Venta"
-
-#. module: pricelist_history
-#: view:product.pricelist.partner.history:0
-msgid "Type"
-msgstr "Tipo"
-
-#. module: pricelist_history
-#: field:product.pricelist.partner.history,type:0
-msgid "Type of pricelist"
-msgstr "Tipo de tarifa"
-
-#. module: pricelist_history
+#. module: newclient_review
+#: model:ir.actions.act_window,name:newclient_review.action_newclient_clients_to_review
 #: view:res.partner:0
-msgid "view pricelist history"
-msgstr "Ver historial de tarifas"
+msgid "Partners to review"
+msgstr "Clientes sin revisar"
 

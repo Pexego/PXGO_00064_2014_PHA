@@ -21,13 +21,13 @@
 from openerp.osv import orm, fields
 
 class Partner_review(orm.Model):
-    _name = "partner.review"
+    _inherit = 'res.partner'
     _description = "List of partners in Waiting for review state"
     _columns = {
-        'name': fields.char('Nombre', size=150, required=True)
+        'confirmed': fields.boolean('Cliente con datos revisados?'),
     }
     _defaults = {
-            'name' : 'Pedro'
+            'confirmed' : False,
     }
     def create(self, cr, uid, vals, context=None):
         if context is None: context = {}
