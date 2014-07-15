@@ -2,10 +2,11 @@
 <openerp>
     <data>
     <record id="newclient_clients_to_review_tree" model="ir.ui.view">
-        <field name="name">res.partner.tree</field>
+        <field name="name">res.partner.custom.tree</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_tree"></field>
         <field name="type">tree</field>
+        <field eval="50" name="priority"/>
+        <field name="inherit_id" ref="base.view_partner_tree"></field>
         <field name="arch" type="xml">
            <field name="display_name" position="after">
 	           <field name="date"/>
@@ -22,6 +23,7 @@
         <field name="res_model">res.partner</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree</field>
+        <field name="view_id" ref="newclient_clients_to_review_tree"/>
     </record>
     <menuitem name="Clientes a revisar" parent="base.menu_sales" sequence="3" action="action_newclient_clients_to_review" id="partner_review_menu"/>
     </data>
