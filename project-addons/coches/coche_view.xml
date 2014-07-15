@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Fiscal Year -->
+        <record id="view_coche_form" model="ir.ui.view">
+            <field name="name">coche.form</field>
+            <field name="model">coche</field>
+            <field name="arch" type="xml">
+                <form string="Coche">
+						<field name="name" />
+						<field name="marca_id"/>
+						<field name="matricula"/>
+						<field name="bastidor_no"/>
+						<field name="active"/>
+						<newline/>
+						<separator string="Descripcción" colspan="4"/>
+						<field name="descripccion" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_coche_tree" model="ir.ui.view">
+            <field name="name">coche.tree</field>
+            <field name="model">coche</field>
+            <field name="arch" type="xml">
+                <tree string="Coches">
+                    <field name="marca_id"/>
+                    <field name="name"/>
+                    <field name="matricula"/>
+                    <field name="bastidor_no"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_coche_search" model="ir.ui.view">
+            <field name="name">coche.search</field>
+            <field name="model">coche</field>
+            <field name="arch" type="xml">
+                <search string="Search Coches">
+                    <field name="name"/>
+                    <field name="marca_id"/>
+                    <field name="matricula"/>
+                    <field name="bastidor_no"/>
+                     <group expand="0" string="Group By...">
+                        <filter string="Marca" context="{'group_by': 'marca_id'}" icon="terp-stock_effects-object-colorize"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_coche" model="ir.actions.act_window">
+            <field name="name">Coches</field>
+            <field name="res_model">coche</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_coche_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Listado de coches.
+              </p><p>
+                lorem ipsum texto.
+              </p>
+            </field>
+        </record>
+        
+        <menuitem id="menu_coches" action="action_coche" parent="menu_coches_padre"/>
+</data>
+</openerp>
+    
