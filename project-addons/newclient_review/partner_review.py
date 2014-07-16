@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp.osv import orm, fields
 
 class Partner_review(orm.Model):
@@ -29,6 +30,4 @@ class Partner_review(orm.Model):
     _defaults = {
             'confirmed' : False,
     }
-    def create(self, cr, uid, vals, context=None):
-        if context is None: context = {}
-        return super(Partner_review, self).create(cr, uid, vals, context=context)
+    
