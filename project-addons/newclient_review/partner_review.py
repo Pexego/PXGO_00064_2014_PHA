@@ -32,4 +32,7 @@ class Partner_review(orm.Model):
     }
     def create(self, cr, uid, vals, context=None):
         if context is None: context = {}
+        
         return super(Partner_review, self).create(cr, uid, vals, context=context)
+    
+    

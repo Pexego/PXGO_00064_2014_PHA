@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
 	        <tree string="customTree" create="false" edit="false" version="7.0">
 		           <field name="name"/>
-		           <field name="user_id"/>
+		           <field name="create_uid"/>
 		           <field name="city"/>
 		           <field name="date"/> 
 		    </tree>
@@ -21,16 +21,17 @@
         <field name="arch" type="xml">
         	<search string="">
                 <field name="name"/>
-                <field name="user_id"/>
+                <field name="create_uid"/>
                 <field name="city"/>
                 <field name="date"/>
                  <filter string="Customers" name="customer" domain="[('customer','=',1)]" 
                  	help="Customer Partners"/>
-                 <filter string="Without review" name="confirmed" domain="[('confirmed','=',0)]" 
+                 <separator orientation="vertical"/>
+                 <filter string="Without review" name="confirmed" domain="[('confirmed','=',0)]"
                  	help="Customer without review"/>
                 <group expand="0" string="Group By">
                         <filter string="Ciudad" context="{'group_by':'city'}"/>
-                        <filter string="Comercial" context="{'group_by':'user_id'}"/>
+                        <filter string="Comercial" context="{'group_by':'create_uid'}"/>
                 </group>
            </search>
 	    </field>
