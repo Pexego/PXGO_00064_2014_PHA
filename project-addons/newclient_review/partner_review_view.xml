@@ -6,11 +6,11 @@
         <field name="model">res.partner</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-	        <tree string="">
+	        <tree string="customTree" create="false" edit="false" version="7.0">
 		           <field name="name"/>
-		           <field name="date"/>
-		           <field name="city"/>
 		           <field name="user_id"/>
+		           <field name="city"/>
+		           <field name="date"/> 
 		    </tree>
 	    </field>
     </record>
@@ -21,14 +21,17 @@
         <field name="arch" type="xml">
         	<search string="">
                 <field name="name"/>
+                <field name="user_id"/>
                 <field name="city"/>
                 <field name="date"/>
-
+                 <filter string="Customers" name="customer" domain="[('customer','=',1)]" 
+                 	help="Customer Partners"/>
+                 <filter string="Without review" name="confirmed" domain="[('confirmed','=',0)]" 
+                 	help="Customer without review"/>
                 <group expand="0" string="Group By">
-                        <filter string="Nombre" context="{'group_by':'name'}"/>
                         <filter string="Ciudad" context="{'group_by':'city'}"/>
-                        <filter string="Fecha" context="{'group_by':'date'}"/>
-                </group><!-- <form create="false" edit="false" version="7.0" -->
+                        <filter string="Comercial" context="{'group_by':'user_id'}"/>
+                </group>
            </search>
 	    </field>
     </record>
@@ -39,6 +42,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="newclient_clients_to_review_tre"/>
+        <field name="context">{"search_default_confirmed":1}</field>
          <field name="search_view_id" ref="newclient_clients_to_review_filter"/>
     </record>
     <menuitem name="Clientes a revisar" sequence="3" parent="base.menu_sales"
