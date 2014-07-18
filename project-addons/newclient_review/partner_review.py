@@ -56,6 +56,9 @@ class Partner_review(orm.Model):
             return False
 
 
+    def confirm_review(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'confirmed': True})
+
     def create(self, cr, uid, vals, context=None):
         if context is None:
             context = {}
