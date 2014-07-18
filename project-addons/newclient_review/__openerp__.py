@@ -27,6 +27,8 @@
     'website': 'www.pharmadus.com',
     "depends" : ['base',
                  'sale'],
-    "data" : ['partner_review_view.xml'],
+    "data" : ['security/partner_review_security.xml',
+              'security/ir.model.access.csv',
+              'partner_review_view.xml'],
     "installable": True
 }

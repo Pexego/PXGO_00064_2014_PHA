@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+from openerp.osv import orm, fields, osv
 
 class Partner_review(orm.Model):
     _inherit = 'res.partner'
@@ -30,9 +30,35 @@ class Partner_review(orm.Model):
     _defaults = {
             'confirmed' : False,
     }
+
+    #Return true if the user is Manager to edit the new client state "Confirmed"
+    def _check_permissions(self, cr, uid,  context):
+        res = {}
+        # Get the PR Manager id's
+        group_obj = self.pool.get('res.groups')
+        manager_ids = group_obj.search(cr, uid, [('name','=', 'PR/Manager')])
+
+        # Get the user and see what groups he/she is in
+        user_obj = self.pool.get('res.users')
+        user = user_obj.browse(cr, uid, uid, context=context)
+
+        user_group_ids = []
+        for grp in user.groups_id:
+            user_group_ids.append(grp.id)
+
+        if ( manager_ids[0] in user_group_ids):
+            # 'Manager'
+            return True
+        else:
+            # = 'User'
+            return False
+
+
     def create(self, cr, uid, vals, context=None):
-        if context is None: context = {}
-        
+        if context is None:
+            context = {}
+        if (self._check_permissions(cr, uid, context)):
+            vals['confirmed']=True
+        else:
+            raise osv.except_osv(_('Hi!'), _('Your data were saved successfully'))
         return super(Partner_review, self).create(cr, uid, vals, context=context)
-    
-    
