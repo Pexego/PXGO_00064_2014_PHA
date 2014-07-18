@@ -1,0 +1,278 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* coches
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-20 13:17+0000\n"
+"PO-Revision-Date: 2014-02-20 13:17+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: coches
+#: field:tipo_gasto,precio_unidad:0
+msgid "Precio gasto unidad"
+msgstr "Precio gasto unidad"
+
+#. module: coches
+#: field:gasto_flota,tipogasto_id:0
+#: model:ir.actions.act_window,name:coches.action_tipo_gasto
+#: model:ir.ui.menu,name:coches.menu_tipo_gasto
+#: field:tipo_gasto,name:0
+msgid "Tipo de gasto"
+msgstr "Tipo de gasto"
+
+#. module: coches
+#: field:marca,coche_ids:0
+msgid "coches"
+msgstr "coches"
+
+#. module: coches
+#: view:crear.factura:0
+msgid "Crear factura !"
+msgstr "Crear factura !"
+
+#. module: coches
+#: model:ir.actions.act_window,name:coches.action_marca
+#: model:ir.ui.menu,name:coches.menu_marcas
+#: view:marca:0
+msgid "Marcas"
+msgstr "Marcas"
+
+#. module: coches
+#: field:coche,marca_id:0
+msgid "Mark"
+msgstr "Mark"
+
+#. module: coches
+#: view:coche:0
+#: view:gasto_flota:0
+#: view:tipo_gasto:0
+msgid "Descripcción"
+msgstr "Descripcción"
+
+#. module: coches
+#: model:ir.actions.act_window,name:coches.action_crear_factura
+msgid "Creando factura"
+msgstr "Creando factura"
+
+#. module: coches
+#: field:coche,name:0
+msgid "Nommbre"
+msgstr "Nommbre"
+
+#. module: coches
+#: view:tipo_gasto:0
+msgid "Nombre"
+msgstr "Nombre"
+
+#. module: coches
+#: view:tipo_gasto:0
+msgid "Tipos de gasto"
+msgstr "Tipos de gasto"
+
+#. module: coches
+#: model:ir.model,name:coches.model_crear_factura
+msgid "Asistente para la creacion de la factura"
+msgstr "Asistente para la creacion de la factura"
+
+#. module: coches
+#: field:gasto_flota,subtotal:0
+msgid "Cantidad total"
+msgstr "Cantidad total"
+
+#. module: coches
+#: field:coche,bastidor_no:0
+msgid "Nº de bastidor"
+msgstr "Nº de bastidor"
+
+#. module: coches
+#: field:marca,codigo:0
+msgid "Codigo"
+msgstr "Codigo"
+
+#. module: coches
+#: field:tipo_gasto,producto_id:0
+msgid "Productoo"
+msgstr "Productoo"
+
+#. module: coches
+#: field:crear.factura,journal_id:0
+msgid "Journal"
+msgstr "Journal"
+
+#. module: coches
+#: field:coche,descripccion:0
+#: field:gasto_flota,name:0
+msgid "Descripccion"
+msgstr "Descripccion"
+
+#. module: coches
+#: view:coche:0
+#: view:marca:0
+msgid "Marca"
+msgstr "Marca"
+
+#. module: coches
+#: view:coche:0
+#: view:gasto_flota:0
+msgid "Coche"
+msgstr "Coche"
+
+#. module: coches
+#: field:gasto_flota,coche_id:0
+msgid "Nombre coche"
+msgstr "Nombre coche"
+
+#. module: coches
+#: model:ir.actions.act_window,help:coches.action_coche
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Listado de coches.\n"
+"              </p><p>\n"
+"                lorem ipsum texto.\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Listado de coches.\n"
+"              </p><p>\n"
+"                lorem ipsum texto.\n"
+"              </p>\n"
+"            "
+
+#. module: coches
+#: field:gasto_flota,date:0
+msgid "Date"
+msgstr "Date"
+
+#. module: coches
+#: model:ir.ui.menu,name:coches.menu_tipo_gasto_configuracion
+msgid "Configuracion"
+msgstr "Configuracion"
+
+#. module: coches
+#: view:marca:0
+msgid "Search Marca"
+msgstr "Search Marca"
+
+#. module: coches
+#: field:marca,name:0
+msgid "Nnombre"
+msgstr "Nnombre"
+
+#. module: coches
+#: view:crear.factura:0
+msgid "Crear factura"
+msgstr "Crear factura"
+
+#. module: coches
+#: field:coche,active:0
+#: field:marca,active:0
+msgid "Active"
+msgstr "Active"
+
+#. module: coches
+#: field:gasto_flota,empresa:0
+msgid "Empresa a la que pertenece"
+msgstr "Empresa a la que pertenece"
+
+#. module: coches
+#: view:gasto_flota:0
+msgid "Gasto_flotas"
+msgstr "Gasto_flotas"
+
+#. module: coches
+#: field:crear.factura,partner_group:0
+msgid "Group by partner"
+msgstr "Group by partner"
+
+#. module: coches
+#: view:gasto_flota:0
+#: model:ir.actions.act_window,name:coches.action_gasto_flota
+#: model:ir.model,name:coches.model_gasto_flota
+#: model:ir.ui.menu,name:coches.menu_gastos_flota
+#: view:tipo_gasto:0
+msgid "Gasto flota"
+msgstr "Gasto flota"
+
+#. module: coches
+#: view:coche:0
+#: view:gasto_flota:0
+#: view:tipo_gasto:0
+msgid "Search Coches"
+msgstr "Search Coches"
+
+#. module: coches
+#: field:gasto_flota,cantidad:0
+msgid "Cantidad"
+msgstr "Cantidad"
+
+#. module: coches
+#: view:coche:0
+#: view:gasto_flota:0
+#: view:tipo_gasto:0
+msgid "Group By..."
+msgstr "Group By..."
+
+#. module: coches
+#: view:coche:0
+#: model:ir.actions.act_window,name:coches.action_coche
+#: model:ir.model,name:coches.model_coche
+#: model:ir.ui.menu,name:coches.menu_coches
+#: model:ir.ui.menu,name:coches.menu_coches_padre
+#: model:ir.ui.menu,name:coches.menu_coches_titulo
+#: view:marca:0
+msgid "Coches"
+msgstr "Coches"
+
+#. module: coches
+#: view:gasto_flota:0
+msgid "Gastos flota"
+msgstr "Gastos flota"
+
+#. module: coches
+#: field:gasto_flota,precio_unidad:0
+msgid "Precio unidad"
+msgstr "Precio unidad"
+
+#. module: coches
+#: model:ir.model,name:coches.model_marca
+msgid "Marcas de coches"
+msgstr "Marcas de coches"
+
+#. module: coches
+#: model:ir.model,name:coches.model_tipo_gasto
+msgid "Tipo de gasto computable"
+msgstr "Tipo de gasto computable"
+
+#. module: coches
+#: model:ir.actions.act_window,help:coches.action_gasto_flota
+#: model:ir.actions.act_window,help:coches.action_tipo_gasto
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Listado de gastos.\n"
+"              </p><p>\n"
+"                lorem ipsum texto.\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Listado de gastos.\n"
+"              </p><p>\n"
+"                lorem ipsum texto.\n"
+"              </p>\n"
+"            "
+
+#. module: coches
+#: view:crear.factura:0
+msgid "Cancel"
+msgstr "Cancelar la factura"
+
+#. module: coches
+#: field:coche,matricula:0
+msgid "Matriicula"
+msgstr "Matriicula"
+
