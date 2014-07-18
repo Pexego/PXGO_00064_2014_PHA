@@ -17,4 +17,5 @@ upgrade.py
 *.pyc
 atlassian-ide-plugin.xml
 *~
+devel_*
 /.~lock.configuraciones_odoo_ybarra.ods#
