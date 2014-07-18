@@ -20,6 +20,8 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields, osv
+from openerp import tools
+from openerp.tools.translate import _
 
 class Partner_review(orm.Model):
     _inherit = 'res.partner'
@@ -59,6 +61,7 @@ class Partner_review(orm.Model):
             context = {}
         if (self._check_permissions(cr, uid, context)):
             vals['confirmed']=True
-        else:
-            raise osv.except_osv(_('Hi!'), _('Your data were saved successfully'))
+         #Show popup message
+        #else:
+            #self.message_post(cr, uid, False, body=_("New Question has been <b>created</b>"), context=context)
         return super(Partner_review, self).create(cr, uid, vals, context=context)
