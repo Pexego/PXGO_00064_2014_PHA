@@ -42,8 +42,9 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="name" position="after">
+                <field name="confirmed" invisible="1"/>
                 <button name="confirm_review" string="Confirm" type="object"
-                        attrs="{'invisible': [('confirmed','=',1)]}" class="oe_highlight" help="Confirm data"/>
+                        attrs="{'invisible': [('confirmed','=',1)]}"/>
             </field>
         </field>
 
