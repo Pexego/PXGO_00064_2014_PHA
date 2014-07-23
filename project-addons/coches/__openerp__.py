@@ -20,13 +20,13 @@
 ##############################################################################
 {
     'name': 'Practica coches',
-    'version': '0.1',
+    'version': '0.2',
     'category': 'Practicas',
     'description': """
 First practice.
 ===============================================================
 
-Testing how to developt an erp module.
+Testing how to developt an erp module, for ODOO.
     """,
     'author': 'Pharmadus SL',
     'website': 'http://www.pharmadus.com',
