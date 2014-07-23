@@ -24,12 +24,17 @@ from openerp import fields, models
 
 class sale(models.Model):
 
+    def _get_active_user(self):
+        return self.env.user.partner_id.id
+
     _inherit = 'sale.order'
 
     transfer = fields.Boolean('Transfer')
     shipping_responsible_id = fields.Many2one('res.partner',
-                                              'Responsible for shipping')
+                                              'Responsible for shipping',
+                                              default=_get_active_user)
     notified_partner_id = fields.Many2one('res.partner', 'Cooperative')
+
 
     def action_quotation_send(self, cr, uid, ids, context=None):
         '''
