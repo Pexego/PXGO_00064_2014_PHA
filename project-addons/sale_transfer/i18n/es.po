@@ -188,8 +188,8 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 
 #. module: sale_transfer
 #: field:sale.order,notified_partner_id:0
-msgid "Notified partner"
-msgstr "Partner a notificar"
+msgid "Cooperative"
+msgstr "Cooperativa"
 
 #. module: sale_transfer
 #: field:sale.order,shipping_responsible_id:0
