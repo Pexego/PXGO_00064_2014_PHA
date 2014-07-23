@@ -66,8 +66,8 @@ $ mkdir project-addons
 $ bin/buildout -c <configuracion_elegida>
 ```
 - Urls
-- Supervisor : http://localhost:9002
-- Odoo: http://localhost:9069
+- Supervisor : http://localhost:9003
+- Odoo: http://localhost:9169
       admin//admin
 
 ## Configurar OpenERP
