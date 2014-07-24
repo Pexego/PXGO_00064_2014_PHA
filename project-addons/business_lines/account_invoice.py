@@ -19,6 +19,23 @@
 #
 ##############################################################################
 
-import sale_order
-import account_invoice_report
-import account_invoice
+from openerp import models, api
+from datetime import date
+
+
+class account_invoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.multi
+    def action_date_assign(self):
+        """
+            Se hereda la función debido al bug #1236
+            ya que no se añade la fecha actual a la factura
+            al validarla.
+        """
+        import ipdb; ipdb.set_trace()
+        res = super(account_invoice, self).action_date_assign()
+        for invoice in self:
+            if not invoice.date_invoice:
+                invoice.date_invoice = date.today()
+        return res
