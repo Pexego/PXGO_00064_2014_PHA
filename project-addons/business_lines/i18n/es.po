@@ -24,7 +24,7 @@ msgstr "Cuenta"
 #: view:account.invoice.report:0
 #: field:account.invoice.report,account_analytic_id:0
 msgid "Business line"
-msgstr "Línea de factura"
+msgstr "Línea de negocio"
 
 #. module: business_lines
 #: model:ir.model,name:business_lines.model_account_invoice_report
