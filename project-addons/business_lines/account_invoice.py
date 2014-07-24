@@ -33,7 +33,6 @@ class account_invoice(models.Model):
             ya que no se añade la fecha actual a la factura
             al validarla.
         """
-        import ipdb; ipdb.set_trace()
         res = super(account_invoice, self).action_date_assign()
         for invoice in self:
             if not invoice.date_invoice:
