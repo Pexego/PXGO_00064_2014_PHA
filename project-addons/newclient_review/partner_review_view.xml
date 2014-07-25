@@ -43,8 +43,10 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="confirmed" invisible="1"/>
-                <button name="confirm_review" string="Confirm" type="object" class="oe_highlight" groups="base.group_user"
+                <button name="confirm_review" string="Confirm" type="object" class="oe_highlight" groups="newclient_review.group_partners_review"
                         attrs="{'invisible': [('confirmed','=',True)]}"/>
+                <newline/>
+                <label name="field_confirmed" style="font-size:50%;color:red" string="Data not confirmed!" attrs="{'invisible': [('confirmed','=',True)]}"/>
             </field>
         </field>
     </record>
@@ -58,8 +60,7 @@
         <field name="context">{"search_default_confirmed":1}</field>
         <field name="search_view_id" ref="newclient_clients_to_review_filter"/>
     </record>
-    <menuitem name="Clientes a revisar" sequence="3" parent="base.menu_sales"
-    	action="action_newclient_clients_to_review" id="partner_review_menu_"
-            groups="group_partners_review"/>
+    <menuitem name="Clients to review" sequence="3" parent="base.menu_sales"
+    	action="action_newclient_clients_to_review" id="partner_review_menu_"/>
     </data>
 </openerp>

@@ -18,18 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': "Newclient Review",
-    'version': '1.0',
-    'category': '',
-    'description': "If a new client is added by a commercial, client will be in Waiting for revision state until every data are reviewed by an authorized person.",
-    'author': 'Pharmadus I+D+i',
-    'website': 'www.pharmadus.com',
-    'depends' : ['base',
-                 'sale'],
-    'css': ['static/src/css/my_css.css'],
-    'data' : ['security/partner_review_security.xml',
-              'security/ir.model.access.csv',
-              'partner_review_view.xml'],
-    'installable': True
-}
+from openerp.osv import osv, fields
+
+class partner_review_sale(osv.Model):
+
+    _inherit = 'sale.order'
+
+    def action_button_confirm(self, cr, uid, ids, context=None):
+         #If data is not confirmed, sale cant be done
+        val = 0.0
+        print("Confirmando venta" %val)
+        return super(partner_review_sale, self).action_button_confirm(cr, uid, ids, context=context)

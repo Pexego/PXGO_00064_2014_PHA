@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
@@ -62,9 +61,7 @@ class Partner_review(orm.Model):
     def create(self, cr, uid, vals, context=None):
         if context is None:
             context = {}
-        if (self._check_permissions(cr, uid, context)):
+        #If partner is added by a Manager or is a supplier... data is always confirmed
+        if ((self._check_permissions(cr, uid, context)) or (vals['supplier']==True)):
             vals['confirmed']=True
-         #Show popup message
-        #else:
-            #self.message_post(cr, uid, False, body=_("New Question has been <b>created</b>"), context=context)
         return super(Partner_review, self).create(cr, uid, vals, context=context)
