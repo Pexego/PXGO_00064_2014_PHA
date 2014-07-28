@@ -43,10 +43,13 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="confirmed" invisible="1"/>
-                <button name="confirm_review" string="Confirm" type="object" class="oe_highlight" groups="newclient_review.group_partners_review"
-                        attrs="{'invisible': [('confirmed','=',True)]}"/>
+                <button name="confirm_review" string="Confirm" type="object" class="oe_highlight"
+                        attrs="{'invisible': [('confirmed','=',True)]}"  groups="newclient_review.group_partners_review"/>
                 <newline/>
-                <label name="field_confirmed" style="font-size:50%;color:red" string="Data not confirmed!" attrs="{'invisible': [('confirmed','=',True)]}"/>
+                <label name="field_confirmed" style="font-size:50%;color:red" string="Data not confirmed!"
+                       attrs="{'invisible': [('confirmed','=',True)]}" groups="newclient_review.group_partners_review"/>
+                <label name="field_confirmed_required" style="font-size:50%;color:red"
+                       string="Client data must be reviewed before confirm one order" attrs="{'invisible': [('confirmed','=',True)]}"/>
             </field>
         </field>
     </record>

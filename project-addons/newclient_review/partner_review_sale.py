@@ -26,10 +26,10 @@ class partner_review_sale(models.Model):
     _inherit = 'sale.order'
 
     def action_button_confirm(self, cr, uid, ids, context=None):
-         #If data is not confirmed, sale cant be done
+         #If client data is not confirmed, sale cant be done
         sale = self.browse(cr,uid,ids,context=None)
         partner_objt = sale.partner_id
         if (not partner_objt.confirmed):
-            print("Cliente sin confirmar")
-            raise osv.except_osv(_('Error'), _('Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en "Guardar" para que su pedido sea procesado posteriormente.'))
+            #Show message and rollback
+            raise osv.except_osv(_('Error'), _('Client without review. A manager must review data to confirm it before confirm order, you can "Save" this order to confirm later.'))
         return super(partner_review_sale, self).action_button_confirm(cr, uid, ids, context=context)

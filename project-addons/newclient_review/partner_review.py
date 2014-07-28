@@ -26,7 +26,7 @@ class Partner_review(orm.Model):
     _inherit = 'res.partner'
     _description = "List of partners in Waiting for review state"
     _columns = {
-        'confirmed': fields.boolean('Cliente con datos revisados?'),
+        'confirmed': fields.boolean('Client with data reviewed?'),
     }
     _defaults = {
             'confirmed' : False,
