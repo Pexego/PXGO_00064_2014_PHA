@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra Mayor <marcos.ybarra@pharmadus.com>$
+#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,3 +19,4 @@
 #
 ##############################################################################
 import partner_review
+import partner_review_sale

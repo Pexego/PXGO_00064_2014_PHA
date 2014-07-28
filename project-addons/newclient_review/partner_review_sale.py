@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra Mayor <marcos.ybarra@pharmadus.com>$
+#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,14 +18,18 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp import models, fields
+from openerp.osv import osv
+from openerp.tools.translate import _
 
-class partner_review_sale(osv.Model):
-
+class partner_review_sale(models.Model):
     _inherit = 'sale.order'
 
     def action_button_confirm(self, cr, uid, ids, context=None):
          #If data is not confirmed, sale cant be done
-        val = 0.0
-        print("Confirmando venta" %val)
+        sale = self.browse(cr,uid,ids,context=None)
+        partner_objt = sale.partner_id
+        if (not partner_objt.confirmed):
+            print("Cliente sin confirmar")
+            raise osv.except_osv(_('Error'), _('Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en "Guardar" para que su pedido sea procesado posteriormente.'))
         return super(partner_review_sale, self).action_button_confirm(cr, uid, ids, context=context)
