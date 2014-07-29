@@ -1,0 +1,129 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* newclient_review
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 8.0rc1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-28 11:39+0000\n"
+"PO-Revision-Date: 2014-07-28 11:39+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Ciudad"
+msgstr "Ciudad"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Client data must be reviewed before confirm one order"
+msgstr "Los datos deben ser revisados antes de confirmar venta"
+
+#. module: newclient_review
+#: code:addons/newclient_review/partner_review_sale.py:34
+#, python-format
+msgid "Client without review. A manager must review data to confirm it before confirm order, you can \"Save\" this order to confirm later."
+msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en \"Guardar\" para que su pedido sea procesado posteriormente."
+
+#. module: newclient_review
+#: field:res.partner,confirmed:0
+msgid "Cliente con datos revisados?"
+msgstr "Cliente con datos revisados?"
+
+#. module: newclient_review
+#: model:ir.ui.menu,name:newclient_review.partner_review_menu_
+msgid "Clients to review"
+msgstr "Clientes sin revisar"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Comercial"
+msgstr "Comercial"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Confirm"
+msgstr "Confirm"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Customer Partners"
+msgstr "Clientes"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Customer without review"
+msgstr "Customer without review"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Customers"
+msgstr "Clientes"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Data not confirmed!"
+msgstr "Data not confirmed!"
+
+#. module: newclient_review
+#: code:addons/newclient_review/partner_review_sale.py:34
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Group By"
+msgstr "Group By"
+
+#. module: newclient_review
+#: model:ir.model,name:newclient_review.model_partner_review
+msgid "List of partners in Waiting for review state"
+msgstr "List of partners in Waiting for review state"
+
+#. module: newclient_review
+#: model:res.groups,name:newclient_review.group_partners_review
+msgid "PR/Manager"
+msgstr "PR/Manager"
+
+#. module: newclient_review
+#: model:ir.model,name:newclient_review.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: newclient_review
+#: model:ir.module.category,name:newclient_review.module_partner_review_category
+msgid "Partner review"
+msgstr "Partner review"
+
+#. module: newclient_review
+#: model:ir.actions.act_window,name:newclient_review.action_newclient_clients_to_review
+msgid "Partners to review"
+msgstr "Clientes sin revisar"
+
+#. module: newclient_review
+#: model:ir.module.category,description:newclient_review.module_partner_review_category
+msgid "Permite revisar la información de los nuevos clientes agregados por los comerciales."
+msgstr "Permite revisar la información de los nuevos clientes agregados por los comerciales."
+
+#. module: newclient_review
+#: model:ir.model,name:newclient_review.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "Without review"
+msgstr "Without review"
+
+#. module: newclient_review
+#: view:res.partner:0
+msgid "customTree"
+msgstr "customTree"
+
