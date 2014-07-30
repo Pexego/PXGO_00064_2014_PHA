@@ -19,18 +19,23 @@
 #
 ##############################################################################
 
-{
-    'name': "Sale samples",
-    'version': '1.0',
-    'category': 'sale',
-    'description': """Adds the management for sale orders of samples""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'sale',
-                 'stock',
-                 'sale_stock'],
-    "data" : ['sale_samples_view.xml',
-              'sale_workflow.xml',],
-    "installable": True
-}
+from openerp import fields, models
+
+
+class sale_order(models.Model):
+
+    def _get_type(self):
+        if self.transfer:
+            return 'transfer'
+        if self.sample:
+            return 'sample'
+        return 'normal'
+
+    _inherit = 'sale.order'
+
+    #este campo no se muestra en el formulario de ventas,
+    # es usado para filtrar en el informe de ventas y para agrupar en el search
+    sale_type = fields.Selection(selection=[('normal', 'Normal'),
+                                            ('sample', 'Sample'),
+                                            ('transfer', 'Transfer')],
+                                 string="Type", default=_get_type)

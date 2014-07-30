@@ -20,17 +20,23 @@
 ##############################################################################
 
 {
-    'name': "Sale samples",
+    'name': "Relation transfer and sample",
     'version': '1.0',
     'category': 'sale',
-    'description': """Adds the management for sale orders of samples""",
+    'description': """
+                      -Añade campos comunes para transfers y muestras,
+                      -Añade el domain para que no se muestren samples/transfer en pedidos y presupuestos.
+                      -Añade campos para filtrar y agrupar por samples/transfer en el informe de ventas.
+                      -Añade un selection oculto para poder agrupar por tipo.
+                      -Se añade un menú para poder ver las ventas de todos los tipos.
+                   """,
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'sale',
-                 'stock',
-                 'sale_stock'],
-    "data" : ['sale_samples_view.xml',
-              'sale_workflow.xml',],
+    "depends": ['sale',
+                'sale_transfer',
+                'sale_samples'],
+
+    "data": ['sale_view.xml',
+             'report/sale_report_view.xml'],
     "installable": True
 }

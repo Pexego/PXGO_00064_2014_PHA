@@ -21,3 +21,4 @@
 
 import sale_order
 import account_invoice_report
+import account_invoice

@@ -18,19 +18,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import fields, models
 
-{
-    'name': "Sale samples",
-    'version': '1.0',
-    'category': 'sale',
-    'description': """Adds the management for sale orders of samples""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'sale',
-                 'stock',
-                 'sale_stock'],
-    "data" : ['sale_samples_view.xml',
-              'sale_workflow.xml',],
-    "installable": True
-}
+
+class sale_report(models.Model):
+
+    _inherit = 'sale.report'
+
+    sale_type = fields.Selection(selection=[('normal', 'Normal'),
+                                            ('sample', 'Sample'),
+                                            ('transfer', 'Transfer')],
+                                 string="Type")
+
+    def _select(self):
+        res = super(sale_report, self)._select()
+        select_str = """
+                    s.sale_type as sale_type
+        """
+        return res + ',' + select_str
+
+    def _group_by(self):
+        res = super(sale_report, self)._group_by()
+        group_by_str = """
+                    s.sale_type
+        """
+        return res + ',' + group_by_str

@@ -27,7 +27,7 @@ class sale_order(models.Model):
     _inherit = "sale.order"
 
     project_id = fields.Many2one('account.analytic.account',
-                                 'Contract / Analytic', required=True,
+                                 string='Bussines line', required=True,
                                  readonly=True,
                                  states={'draft': [('readonly', False)],
                                          'sent': [('readonly', False)]},

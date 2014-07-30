@@ -18,19 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    'name': "Sale samples",
-    'version': '1.0',
-    'category': 'sale',
-    'description': """Adds the management for sale orders of samples""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'sale',
-                 'stock',
-                 'sale_stock'],
-    "data" : ['sale_samples_view.xml',
-              'sale_workflow.xml',],
-    "installable": True
-}
+import sale_order_report

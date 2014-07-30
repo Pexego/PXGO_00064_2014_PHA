@@ -19,18 +19,22 @@
 #
 ##############################################################################
 
-{
-    'name': "Sale samples",
-    'version': '1.0',
-    'category': 'sale',
-    'description': """Adds the management for sale orders of samples""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'sale',
-                 'stock',
-                 'sale_stock'],
-    "data" : ['sale_samples_view.xml',
-              'sale_workflow.xml',],
-    "installable": True
-}
+from openerp import models, api
+from datetime import date
+
+
+class account_invoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.multi
+    def action_date_assign(self):
+        """
+            Se hereda la función debido al bug #1236
+            ya que no se añade la fecha actual a la factura
+            al validarla.
+        """
+        res = super(account_invoice, self).action_date_assign()
+        for invoice in self:
+            if not invoice.date_invoice:
+                invoice.date_invoice = date.today()
+        return res
