@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record model="ir.module.category" id="module_partner_review_category">
+            <field name="name">Partner review</field>
+            <field name="description">Permite revisar la información de los nuevos clientes agregados por los comerciales.</field>
+            <field name="sequence">16</field>
+        </record>
+        <record id="group_partners_review" model="res.groups">
+             <field name="name">PR/Manager</field>
+             <field name="category_id" ref="module_partner_review_category"/>
+        </record>
+    </data>
+</openerp>

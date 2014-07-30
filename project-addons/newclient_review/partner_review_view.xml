@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+     <record model="ir.ui.view" id="newclient_clients_to_review_t">
+        <field name="name">partner.review.cust.tree</field>
+        <field name="model">res.partner</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+	        <tree string="customTree" create="false" edit="true" version="7.0">
+		           <field name="name"/>
+		           <field name="create_uid"/>
+		           <field name="city"/>
+		           <field name="date"/>
+		    </tree>
+	    </field>
+    </record>
+    <record model="ir.ui.view" id="newclient_clients_to_review_filter">
+        <field name="name">partner.review.custom.search</field>
+        <field name="model">res.partner</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+        	<search string="">
+                <field name="name"/>
+                <field name="create_uid"/>
+                <field name="city"/>
+                <field name="date"/>
+                 <filter string="Customers" name="customer" domain="[('customer','=',1)]" 
+                 	help="Customer Partners"/>
+                 <separator orientation="vertical"/>
+                 <filter string="Without review" name="confirmed" domain="[('confirmed','=',0)]"
+                 	help="Customer without review"/>
+                <group expand="0" string="Group By">
+                        <filter string="Ciudad" context="{'group_by':'city'}"/>
+                        <filter string="Comercial" context="{'group_by':'create_uid'}"/>
+                </group>
+           </search>
+	    </field>
+    </record>
+    <record model="ir.ui.view" id="newclient_clients_to_review_form">
+        <field name="name">partner.review.cust.form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="confirmed" invisible="1"/>
+                <button name="confirm_review" string="Confirm" type="object" class="oe_highlight"
+                        attrs="{'invisible': [('confirmed','=',True)]}"  groups="newclient_review.group_partners_review"/>
+                <newline/>
+                <label name="field_confirmed" style="font-size:50%;color:red" string="Data not confirmed!"
+                       attrs="{'invisible': [('confirmed','=',True)]}" groups="newclient_review.group_partners_review"/>
+                <label name="field_confirmed_required" style="font-size:50%;color:red"
+                       string="Client data must be reviewed before confirm one order" attrs="{'invisible': [('confirmed','=',True)]}"/>
+            </field>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_newclient_clients_to_review">
+        <field name="name">Partners to review</field>
+        <field name="res_model">res.partner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="newclient_clients_to_review_t"/>
+        <field name="context">{"search_default_confirmed":1}</field>
+        <field name="search_view_id" ref="newclient_clients_to_review_filter"/>
+    </record>
+    <menuitem name="Clients to review" sequence="7" parent="base.menu_sales"
+    	action="action_newclient_clients_to_review" id="partner_review_menu_"/>
+    </data>
+</openerp>
