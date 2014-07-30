@@ -27,7 +27,6 @@
     'website': 'www.pharmadus.com',
     'depends' : ['base',
                  'sale'],
-    'css': ['static/src/css/my_css.css'],
     'data' : ['security/partner_review_security.xml',
               'security/ir.model.access.csv',
               'partner_review_view.xml'],

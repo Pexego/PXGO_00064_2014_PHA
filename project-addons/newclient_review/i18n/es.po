@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 8.0rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-28 11:39+0000\n"
-"PO-Revision-Date: 2014-07-28 11:39+0000\n"
+"POT-Creation-Date: 2014-07-30 14:09+0000\n"
+"PO-Revision-Date: 2014-07-30 14:09+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,15 +26,15 @@ msgid "Client data must be reviewed before confirm one order"
 msgstr "Los datos deben ser revisados antes de confirmar venta"
 
 #. module: newclient_review
+#: field:res.partner,confirmed:0
+msgid "Client with data reviewed?"
+msgstr "Cliente con datos revisados?"
+
+#. module: newclient_review
 #: code:addons/newclient_review/partner_review_sale.py:34
 #, python-format
 msgid "Client without review. A manager must review data to confirm it before confirm order, you can \"Save\" this order to confirm later."
 msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en \"Guardar\" para que su pedido sea procesado posteriormente."
-
-#. module: newclient_review
-#: field:res.partner,confirmed:0
-msgid "Cliente con datos revisados?"
-msgstr "Cliente con datos revisados?"
 
 #. module: newclient_review
 #: model:ir.ui.menu,name:newclient_review.partner_review_menu_
@@ -49,7 +49,7 @@ msgstr "Comercial"
 #. module: newclient_review
 #: view:res.partner:0
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Confirmar"
 
 #. module: newclient_review
 #: view:res.partner:0
@@ -59,7 +59,7 @@ msgstr "Clientes"
 #. module: newclient_review
 #: view:res.partner:0
 msgid "Customer without review"
-msgstr "Customer without review"
+msgstr "Cliente sin revisar"
 
 #. module: newclient_review
 #: view:res.partner:0
@@ -69,7 +69,7 @@ msgstr "Clientes"
 #. module: newclient_review
 #: view:res.partner:0
 msgid "Data not confirmed!"
-msgstr "Data not confirmed!"
+msgstr "Datos no confirmados!"
 
 #. module: newclient_review
 #: code:addons/newclient_review/partner_review_sale.py:34
@@ -80,12 +80,7 @@ msgstr "Error"
 #. module: newclient_review
 #: view:res.partner:0
 msgid "Group By"
-msgstr "Group By"
-
-#. module: newclient_review
-#: model:ir.model,name:newclient_review.model_partner_review
-msgid "List of partners in Waiting for review state"
-msgstr "List of partners in Waiting for review state"
+msgstr "Agrupar por"
 
 #. module: newclient_review
 #: model:res.groups,name:newclient_review.group_partners_review
@@ -120,7 +115,7 @@ msgstr "Pedido de venta"
 #. module: newclient_review
 #: view:res.partner:0
 msgid "Without review"
-msgstr "Without review"
+msgstr "Sin revisar"
 
 #. module: newclient_review
 #: view:res.partner:0
