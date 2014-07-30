@@ -1,2 +1,2 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_partner_review","res.partner.partner.managener","model_partner_review","group_partners_review",1,1,1,1
+"access_partner_review","res.partner.partner.managener","base.model_res_partner","group_partners_review",1,1,1,1

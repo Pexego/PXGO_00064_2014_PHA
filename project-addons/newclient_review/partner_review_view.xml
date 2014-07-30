@@ -38,6 +38,7 @@
     </record>
     <record model="ir.ui.view" id="newclient_clients_to_review_form">
         <field name="name">partner.review.cust.form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="model">res.partner</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
@@ -55,7 +56,7 @@
     </record>
     <record model="ir.actions.act_window" id="action_newclient_clients_to_review">
         <field name="name">Partners to review</field>
-        <field name="model">res.partner</field>
+        <field name="res_model">res.partner</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

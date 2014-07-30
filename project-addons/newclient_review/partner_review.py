@@ -22,7 +22,7 @@ from openerp.osv import orm, fields, osv
 from openerp import tools
 from openerp.tools.translate import _
 
-class Partner_review(orm.Model):
+class partner_review(orm.Model):
     _inherit = 'res.partner'
     _description = "List of partners in Waiting for review state"
     _columns = {
@@ -64,4 +64,4 @@ class Partner_review(orm.Model):
         #If partner is added by a Manager or is a supplier... data is always confirmed
         if ((self._check_permissions(cr, uid, context)) or (vals['supplier']==True)):
             vals['confirmed']=True
-        return super(Partner_review, self).create(cr, uid, vals, context=context)
+        return super(partner_review, self).create(cr, uid, vals, context=context)
