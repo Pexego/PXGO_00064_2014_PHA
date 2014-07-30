@@ -5,7 +5,7 @@ include/
 eggs/
 develop-eggs/
 downloads/
-data/
+/data/
 etc/
 bin/
 sandbox/
@@ -17,3 +17,4 @@ upgrade.py
 *.pyc
 atlassian-ide-plugin.xml
 *~
+devel_*
