@@ -28,7 +28,7 @@
     'author': 'Pharmadus',
     'website': 'www.pharmadus.com',
     "depends": ['sale'],
-    "data": ['sale_channel_view.xml', 'sale_invoice_view.xml'],
+    "data": ['sale_channel_view.xml', 'sale_order_invoice_view.xml'],
     "installable": True
 }
 
