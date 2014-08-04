@@ -39,3 +39,12 @@ class sale_order(models.Model):
                                             ('sample', 'Sample'),
                                             ('transfer', 'Transfer')],
                                  string="Type", default=_get_type)
+
+
+class sale_order_line(models.Model):
+    """
+        TODO: mover a otro modulo?
+    """
+    _inherit = 'sale.order.line'
+
+    virtual_available = fields.Float('Virtual Available', related='product_id.virtual_available')
