@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, exceptions
+from openerp import models, fields, exceptions, api
 from openerp.tools.translate import _
 
 
@@ -71,8 +71,9 @@ class sale_order(models.Model):
             for line in order.order_line:
                 if line.replacement:
                     line_obj._get_orig_line(cr, uid, line, context)
-        return super(sale_order, self).action_button_confirm(cr, uid, ids, context)
-
+        return super(sale_order, self).action_button_confirm(cr, uid,
+                                                             ids,
+                                                             context)
 
 
 class sale_order_line(models.Model):
@@ -80,6 +81,14 @@ class sale_order_line(models.Model):
     _inherit = "sale.order.line"
 
     replacement = fields.Boolean('Replacement')
+
+    qty_replacement = fields.Float('Quantity replacement')
+
+    is_all_replacement = fields.Float('All replacement' compute="_is_all_replacement")
+
+    @api.depends('product_uom_qty', 'qty_replacement')
+    def _is_all_replacement(self):
+        self.is_all_replacement = self.product_uom_qty - self.qty_replacement == 0 or False
 
     def need_procurement(self, cr, uid, ids, context=None):
         # when sale is installed alone, there is no need to create
@@ -112,12 +121,17 @@ class sale_order_line(models.Model):
         orig_line_id = self.search(cr, uid,
                                    [('order_id', '=', sale_id),
                                     ('product_id', '=',
-                                     line.product_id.id)],
+                                     line.product_id.id),
+                                    ('is_all_replacement', '=', False),],
                                    context=context)
         if not orig_line_id:
             raise exceptions.MissingError(
                 _('Not found the original line of replacement'))
         orig_line = self.browse(cr, uid, orig_line_id[0], context)
+        if ( orig_line.product_uom_qty - orig_line.qty_replacement) < \
+                line.product_uom_qty:
+            raise exceptions.MissingError(
+                _('Qty error in replacement.'))
 
         return orig_line
 
@@ -137,7 +151,6 @@ class sale_order_line(models.Model):
            precio original.
         """
         res = {}
-        sale_obj = self.pool.get('sale.order')
         if line.replacement and not line.invoiced:
             if not account_id:
                 if line.product_id:
