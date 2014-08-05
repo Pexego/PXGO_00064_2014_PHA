@@ -34,7 +34,8 @@
     'website': 'www.pexego.es',
     "depends": ['sale',
                 'sale_transfer',
-                'sale_samples'],
+                'sale_samples',
+                'sale_replacement'],
 
     "data": ['sale_view.xml',
              'report/sale_report_view.xml'],
