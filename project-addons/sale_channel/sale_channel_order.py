@@ -33,8 +33,8 @@ class sale_channel_order(osv.Model):
     }
 
     def pasar_informacion_factura(self, cr, uid, ids, context=None):
-        algo = "xxx"
-        return algo
+        var = "valor"
+        return var
 
 
 sale_channel_order()

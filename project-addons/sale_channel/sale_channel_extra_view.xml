@@ -39,5 +39,22 @@
             </field>
         </record>
 
+        <!--<record id="inherit_view_crm_case_leads_filter" model="ir.ui.view">
+            <field name="name">CRM - Leads Search</field>
+            <field name="model">sale.report</field>
+            <field name="inherit_id" ref="sale.view_order_product_search" />
+            <field name="arch" type="xml">
+
+                <xpath expr="filter[@string='Assigned to My Team(s)']" position="after">
+                     <filter string="My Filtre" domain="[('name', '=', 'Canal de venta')]" />
+                </xpath>
+
+                <xpath expr="//filter[@string='Creation']" position="after">
+                    <filter string="My Groupe" domain="[]" context="{'group_by':'name'}"/>
+                </xpath>
+
+            </field>
+        </record>-->
+
     </data>
 </openerp>
