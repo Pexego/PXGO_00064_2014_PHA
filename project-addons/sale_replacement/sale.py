@@ -19,9 +19,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, exceptions, api
+from openerp import models, fields, exceptions, api, workflow
 from openerp.tools.translate import _
-
 
 class sale_order(models.Model):
 
@@ -84,11 +83,13 @@ class sale_order_line(models.Model):
 
     qty_replacement = fields.Float('Quantity replacement')
 
-    is_all_replacement = fields.Float('All replacement' compute="_is_all_replacement")
+    is_all_replacement = fields.Float('All replacement',
+                                      compute="_is_all_replacement")
 
     @api.depends('product_uom_qty', 'qty_replacement')
     def _is_all_replacement(self):
-        self.is_all_replacement = self.product_uom_qty - self.qty_replacement == 0 or False
+        self.is_all_replacement = self.product_uom_qty - \
+            self.qty_replacement == 0 or False
 
     def need_procurement(self, cr, uid, ids, context=None):
         # when sale is installed alone, there is no need to create
@@ -122,18 +123,44 @@ class sale_order_line(models.Model):
                                    [('order_id', '=', sale_id),
                                     ('product_id', '=',
                                      line.product_id.id),
-                                    ('is_all_replacement', '=', False),],
+                                    ('is_all_replacement', '=', False)],
                                    context=context)
         if not orig_line_id:
             raise exceptions.MissingError(
                 _('Not found the original line of replacement'))
         orig_line = self.browse(cr, uid, orig_line_id[0], context)
-        if ( orig_line.product_uom_qty - orig_line.qty_replacement) < \
-                line.product_uom_qty:
+        if (orig_line.product_uom_qty - orig_line.qty_replacement) < \
+                line.product_uom_qty and not context.get('no_control_qty'):
             raise exceptions.MissingError(
                 _('Qty error in replacement.'))
 
         return orig_line
+
+    def invoice_line_create(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+
+        create_ids = []
+        sales = set()
+        for line in self.browse(cr, uid, ids, context=context):
+            vals = self._prepare_order_line_invoice_line(cr, uid, line, False, context)
+            ids = []
+            if vals:
+                if line.replacement:
+                    context['no_control_qty'] = True
+                    orig = self._get_orig_line(cr, uid, line, context)
+                    context.pop('', False)
+                    ids.append(orig.id)
+                else:
+                    ids.append(line.id)
+                inv_id = self.pool.get('account.invoice.line').create(cr, uid, vals, context=context)
+                self.write(cr, uid, ids, {'invoice_lines': [(4, inv_id)]}, context=context)
+                sales.add(line.order_id.id)
+                create_ids.append(inv_id)
+        # Trigger workflow events
+        for sale_id in sales:
+            workflow.trg_write(uid, 'sale.order', sale_id, cr)
+        return create_ids
 
     def _prepare_order_line_invoice_line(self, cr, uid, line, account_id=False,
                                          context=None):
@@ -173,6 +200,10 @@ class sale_order_line(models.Model):
             pu = 0.0
             if uosqty:
                 orig_line = self._get_orig_line(cr, uid, line, context)
+                qty_replacement = orig_line.qty_replacement + \
+                    line.product_uom_qty
+                self.write(cr, uid, [orig_line.id],
+                           {'qty_replacement': qty_replacement}, context)
                 precision = self.pool.get('decimal.precision').precision_get(
                     cr, uid, 'Product Price')
                 pu = round(
@@ -205,5 +236,6 @@ class sale_order_line(models.Model):
             return res
         else:
             return super(sale_order_line,
-                         self)._prepare_order_line_invoice_line(
-                cr, uid, line, account_id, context)
+                         self)._prepare_order_line_invoice_line(cr, uid, line,
+                                                                account_id,
+                                                                context)
