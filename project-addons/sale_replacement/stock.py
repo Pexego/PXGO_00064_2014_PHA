@@ -27,16 +27,33 @@ class stock_picking(models.Model):
 
     _inherit = 'stock.picking'
 
-    def _create_invoice_from_picking(self, cr, uid, picking, vals, context=None):
+    def _create_invoice_from_picking(self, cr, uid, picking, vals,
+                                     context=None):
         sale_obj = self.pool.get('sale.order')
         sale_line_obj = self.pool.get('sale.order.line')
         invoice_line_obj = self.pool.get('account.invoice.line')
-        invoice_id = super(stock_picking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
+        invoice_id = super(stock_picking,
+                           self)._create_invoice_from_picking(cr, uid, picking,
+                                                              vals,
+                                                              context=context)
         if picking.group_id:
-            sale_ids = sale_obj.search(cr, uid, [('procurement_group_id', '=', picking.group_id.id)], context=context)
+            sale_ids = sale_obj.search(cr, uid,
+                                       [('procurement_group_id', '=',
+                                         picking.group_id.id)],
+                                       context=context)
             if sale_ids:
-                sale_line_ids = sale_line_obj.search(cr, uid, [('order_id', 'in', sale_ids), ('replacement', '=', True), ('invoiced', '=', False)], context=context)
+                sale_line_ids = sale_line_obj.search(cr, uid,
+                                                     [('order_id', 'in',
+                                                       sale_ids),
+                                                      ('replacement', '=',
+                                                       True),
+                                                      ('invoiced', '=',
+                                                       False)],
+                                                     context=context)
                 if sale_line_ids:
-                    created_lines = sale_line_obj.invoice_line_create(cr, uid, sale_line_ids, context=context)
-                    invoice_line_obj.write(cr, uid, created_lines, {'invoice_id': invoice_id}, context=context)
+                    created_lines = sale_line_obj.invoice_line_create(
+                        cr, uid, sale_line_ids, context=context)
+                    invoice_line_obj.write(cr, uid, created_lines,
+                                           {'invoice_id': invoice_id},
+                                           context=context)
         return invoice_id

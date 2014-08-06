@@ -143,7 +143,8 @@ class sale_order_line(models.Model):
         create_ids = []
         sales = set()
         for line in self.browse(cr, uid, ids, context=context):
-            vals = self._prepare_order_line_invoice_line(cr, uid, line, False, context)
+            vals = self._prepare_order_line_invoice_line(cr, uid, line, False,
+                                                         context)
             ids = []
             if vals:
                 if line.replacement:
