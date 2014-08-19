@@ -11,7 +11,7 @@
                     <page string="Product indexbook">
                         <group name="product_indexbook">
                              <group name="product_indexbook" string="Product indexbook">
-                                <field name="macro_char"/>
+                                <field name="specie_id"/>
                                 <field name="reference"/>
                             </group>
                         </group>

@@ -19,20 +19,20 @@
 ##############################################################################
 #
 
-from openerp.osv import orm, fields
+from openerp.osv import osv, fields
 
-class product_species(orm.Model):
+class product_species(osv.Model):
     _name = 'product.species'
     _columns = {
-       'name': fields.char(help='Nombre'),
-        'macro_char': fields.char(help='Carácter macro'),
-        'reference': fields.char(help='Referencia a ficha en libro de referencias'),
+        'name': fields.char('Name', help='Nombre'),
+        'macro_char': fields.char('Macro character', help='Carácter macro'),
+        'reference': fields.char('Reference', help='Referencia a ficha en libro de referencias'),
+        'product_id': fields.many2one('product.template', 'Product')
     }
 
-class product_template(orm.Model):
-    _name = 'product.template'
+class product_template(osv.Model):
     _inherit = 'product.template'
     _columns = {
-        'macro_char': fields.one2many('product.species', 'name', 'macro_char'),
-        'reference': fields.related('macro_char', 'reference'),
+        'specie_id': fields.one2many('product.species', 'product_id', 'Macro characters'),
+        'reference': fields.related('specie_id', 'reference', type='char', string='Reference to references\'s book'),
     }
