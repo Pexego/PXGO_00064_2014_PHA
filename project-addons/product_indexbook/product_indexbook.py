@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Oscar Salvador<oscar.salvador@pharmadus.com>$
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -16,5 +16,23 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 ##############################################################################
+#
+
+from openerp.osv import orm, fields
+
+class product_species(orm.Model):
+    _name = 'product.species'
+    _columns = {
+       'name': fields.char(help='Nombre'),
+        'macro_char': fields.char(help='Carácter macro'),
+        'reference': fields.char(help='Referencia a ficha en libro de referencias'),
+    }
+
+class product_template(orm.Model):
+    _name = 'product.template'
+    _inherit = 'product.template'
+    _columns = {
+        'macro_char': fields.one2many('product.species', 'name', 'macro_char'),
+        'reference': fields.related('macro_char', 'reference'),
+    }

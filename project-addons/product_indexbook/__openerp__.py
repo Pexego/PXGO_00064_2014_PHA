@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Oscar Salvador<oscar.salvador@pharmadus.com>$
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -20,13 +20,17 @@
 ##############################################################################
 
 {
-    'name': "Product IndexBook",
+    'name': 'Product index book',
     'version': '1.0',
-    'category': 'Quality',
-    'description': """Product Index Book""",
     'author': 'Pharmadus I+D+i',
+    'description': 'Product index book',
+    'category': 'Quality',
     'website': 'www.pharmadus.com',
-    "depends" : ['base'],
-    "data" : ['product_indexbook_view.xml'],
-    "installable": True
+    'depends' : ['base',
+                 'product'],
+    'data' : [
+        'view/product_indexbook_view.xml',
+        'security/ir.model.access.csv',
+    ],
+    'installable': True
 }
