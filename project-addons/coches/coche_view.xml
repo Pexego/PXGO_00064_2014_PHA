@@ -7,6 +7,7 @@
             <field name="name">coche.form</field>
             <field name="model">coche</field>
             <field name="arch" type="xml">
+            <label string="PRUEBA"></label>
                 <form string="Coche">
 						<field name="name" />
 						<field name="marca_id"/>
