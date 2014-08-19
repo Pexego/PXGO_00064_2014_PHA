@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="product.product_template_form_view" />
             <field name="priority">4</field>
             <field name="arch" type="xml">
-                <page string="Sales" position="after">
+                <notebook position="inside">
                     <page string="Product indexbook">
                         <group name="product_indexbook">
                              <group name="product_indexbook" string="Product indexbook">
@@ -16,7 +16,7 @@
                             </group>
                         </group>
                     </page>
-                </page>
+                </notebook>
             </field>
         </record>
     </data>
