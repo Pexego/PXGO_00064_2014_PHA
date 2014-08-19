@@ -26,13 +26,19 @@ class product_species(osv.Model):
     _columns = {
         'name': fields.char('Name', help='Nombre'),
         'macro_char': fields.char('Macro character', help='Carácter macro'),
-        'reference': fields.char('Reference', help='Referencia a ficha en libro de referencias'),
-        'product_id': fields.many2one('product.template', 'Product')
+        'reference': fields.char('Reference', help='Referencia a ficha en libro de referencias')
     }
 
 class product_template(osv.Model):
     _inherit = 'product.template'
     _columns = {
-        'specie_id': fields.one2many('product.species', 'product_id', 'Macro characters'),
-        'reference': fields.related('specie_id', 'reference', type='char', string='Reference to references\'s book'),
+        'specie_id': fields.many2one('product.species', 'Macro characters'),
+        'reference': fields.related('specie_id', 'reference', type='char', string='Reference to references\'s book')
+    }
+
+# Redefinimos objeto species para agregar relación a posteriori
+class product_species(osv.Model):
+    _inherit = 'product.species'
+    _columns = {
+        'product_id': fields.one2many('product.template', 'specie_id', 'Products')
     }
