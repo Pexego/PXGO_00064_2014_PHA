@@ -26,8 +26,8 @@ class sale_channel_order_report(osv.Model):
 
     _inherit = 'sale.report'
 
-    _columns = {
-        'sale_channel_id': fields.many2one('sale_channel', 'Canal de venta', required=False),
-    }
+    #_columns = {
+    #    'sale_channel_id': fields.many2one('sale_channel', 'Canal de venta', required=False),
+    #}
 
 sale_channel_order_report()
