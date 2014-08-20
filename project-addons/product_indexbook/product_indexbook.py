@@ -24,21 +24,21 @@ from openerp.osv import osv, fields
 class product_species(osv.Model):
     _name = 'product.species'
     _columns = {
-        'name': fields.char('Name', help='Nombre'),
-        'macro_char': fields.char('Macro character', help='Carácter macro'),
-        'reference': fields.char('Reference', help='Referencia a ficha en libro de referencias')
+        'name': fields.char('Name'),
+        'macro_char': fields.char('Macro character'),
+        'reference': fields.char('Reference')
     }
 
 class product_template(osv.Model):
     _inherit = 'product.template'
     _columns = {
-        'specie_id': fields.many2one('product.species', 'Macro characters'),
-        'reference': fields.related('specie_id', 'reference', type='char', string='Reference to references\'s book')
+        'species_id': fields.many2one('product.species', 'Macro characters'),
+        'reference': fields.related('species_id', 'reference', type='char', string='Reference to references\'s book')
     }
 
-# Redefinimos objeto species para agregar relación a posteriori
+# Retouch object product.species to add relationship with product.template
 class product_species(osv.Model):
     _inherit = 'product.species'
     _columns = {
-        'product_id': fields.one2many('product.template', 'specie_id', 'Products')
+        'product_id': fields.one2many('product.template', 'species_id', 'Products')
     }
