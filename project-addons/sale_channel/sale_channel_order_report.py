@@ -19,16 +19,15 @@
 #
 ##############################################################################
 
-{
-    'name': "Sale channels",
-    'version': '1.0',
-    'category': 'sale',
-    'description': """Adds the management for sale channels""",
-    'icon': '/sale_channel/static/src/img/icon.png',
-    'author': 'Pharmadus',
-    'website': 'www.pharmadus.com',
-    "depends": ['sale'],
-    "data": ['sale_channel_view.xml', 'sale_channel_extra_view.xml', 'sale_channel_order_report.xml'],
-    "installable": True
-}
+from openerp.osv import fields, osv
 
+
+class sale_channel_order_report(osv.Model):
+
+    _inherit = 'sale.report'
+
+    _columns = {
+        'sale_channel_id': fields.many2one('sale_channel', 'Canal de venta', required=False),
+    }
+
+sale_channel_order_report()

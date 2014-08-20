@@ -27,14 +27,7 @@ class sale_channel_order(osv.Model):
     _inherit = 'sale.order'
 
     _columns = {
-
         'sale_channel_id': fields.many2one('sale_channel', 'Canal de venta', required=True),
-
     }
-
-    def pasar_informacion_factura(self, cr, uid, ids, context=None):
-        var = "valor"
-        return var
-
 
 sale_channel_order()
