@@ -2,6 +2,40 @@
 <openerp>
     <data>
 
+        <!-- Se sobreescriben las vistas de los 3 módulos. -->
+        <record id="sale_order_add_attrs_order_policy" model="ir.ui.view">
+            <field name="name">sale.order.add.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_samples.sale_order_add_sample_attrs_order_policy"/>
+            <field name="arch" type="xml">
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('sample', '=', True), '|', ('replacement', '=', True), ('transfer', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="sale_order_add_attrs_order_policy_2" model="ir.ui.view">
+            <field name="name">sale.order.add.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_transfer.sale_order_stock_add_attrs_transfer_form"/>
+            <field name="arch" type="xml">
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('sample', '=', True), '|', ('replacement', '=', True), ('transfer', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="sale_order_add_attrs_order_policy_3" model="ir.ui.view">
+            <field name="name">sale.order.add.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_replacement.sale_order_add_replacement_attrs_order_policy"/>
+            <field name="arch" type="xml">
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('sample', '=', True), '|', ('replacement', '=', True), ('transfer', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
         <record id="sale.action_orders" model="ir.actions.act_window">
             <field name="name">Sales Orders</field>
             <field name="type">ir.actions.act_window</field>
@@ -13,7 +47,7 @@
                     'search_default_my_sale_orders_filter': 1
                 }
             </field>
-            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')), ('sample', '=', 0), ('transfer', '=', 0)]</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')), ('replacement', '=', 0), ('sample', '=', 0), ('transfer', '=', 0)]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click to create a quotation that can be converted into a sales
@@ -33,7 +67,7 @@
             <field name="view_id" ref="sale.view_quotation_tree"/>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
-            <field name="domain">[('state','in',('draft','sent','cancel')), ('sample', '=', 0), ('transfer', '=', 0)]</field>
+            <field name="domain">[('state','in',('draft','sent','cancel')), ('replacement', '=', 0), ('sample', '=', 0), ('transfer', '=', 0)]</field>
             <field name="search_view_id" ref="sale.view_sales_order_filter"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -87,6 +121,21 @@
             <field name="view_mode">tree,form,calendar,graph</field>
             <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
             <field name="search_view_id" ref="all_sales_filter"/>
+        </record>
+
+        <!-- TODO: mover a otro modulo? -->
+        <record id="view_order_form_add_virtual_available" model="ir.ui.view">
+            <field name="name">sale.order.form_add_display_virtual_available</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/form/group/group/field[@name='product_id']" position="after">
+                    <field name="virtual_available" readonly="1" />
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="virtual_available" readonly="1" />
+                </xpath>
+            </field>
         </record>
 
         <menuitem id="menu_all_sales"

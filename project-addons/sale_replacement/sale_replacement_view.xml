@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sale_order_add_replacement_form" model="ir.ui.view">
+            <field name="name">sale.order.add.replacement.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <newline/>
+                    <h2>
+                        <label for="replacement"/>
+                        <field name="replacement" readonly="1"/>
+                    </h2>
+                </field>
+            </field>
+        </record>
+
+        <!--
+            se añaden al form/tree de lineas de venta attrs para que
+            si son ventas de muestra se oculten los campos:
+            -price_unit
+            -discount
+            -tax_id
+        -->
+        <record id="sale_order_line_add_replacement_form" model="ir.ui.view">
+            <field name="name">sale.order.line.add.replacement.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree//field[@name='discount']"  position="after">
+                    <field name="replacement"/>
+                </xpath>
+
+               <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="before">
+                    <field name="replacement" />
+               </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_add_replacement_attrs_order_policy" model="ir.ui.view">
+            <field name="name">sale.order.add.replacement.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'readonly': [('replacement', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_replacements" model="ir.actions.act_window">
+            <field name="name">replacement orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1, 'default_replacement': 1, 'default_order_policy': 'picking'}</field>
+            <field name="domain">[('replacement', '=', 1)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a replacement order.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="sale_order_replacement" name="replacement orders" string="replacement sale order"
+        action="action_replacements"  parent="base.menu_sales" sequence="3"/>
+
+        <!-- Se sobreescriben las acciones de los menús de ordenes y presupuestos
+             para que no se muestren los pedidos de muestra-->
+
+        <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="name">Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="context">{
+                    'search_default_my_sale_orders_filter': 1
+                }
+            </field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')), ('replacement', '=', 0)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a quotation that can be converted into a sales
+                    order.
+                </p><p>
+                    OpenERP will help you efficiently handle the complete sales flow:
+                    quotation, sales order, delivery, invoicing and payment.
+                </p>
+            </field>
+        </record>
+
+        <record id="sale.action_quotations" model="ir.actions.act_window">
+            <field name="name">Quotations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+            <field name="domain">[('state','in',('draft','sent','cancel')), ('replacement', '=', 0)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a quotation, the first step of a new sale.
+              </p><p>
+                OpenERP will help you handle efficiently the complete sale flow:
+                from the quotation to the sales order, the
+                delivery, the invoicing and the payment collection.
+              </p><p>
+                The social feature helps you organize discussions on each sales
+                order, and allow your customers to keep track of the evolution
+                of the sales order.
+              </p>
+            </field>
+        </record>
+
+
+    <!-- Modify the sale menu order-->
+    <menuitem action="sale.action_orders" id="sale.menu_sale_order" parent="base.menu_sales" sequence="2" groups="base.group_sale_salesman,base.group_sale_manager"/>
+    <menuitem id="base.menu_partner_form" parent="base.menu_sales" action="base.action_partner_form" sequence="5"/>
+    <menuitem id="sale.menu_sale_quotations"
+                action="sale.action_quotations" parent="base.menu_sales"
+                sequence="6"/>
+
+
+
+    </data>
+</openerp>

@@ -29,6 +29,8 @@ class sale_order(models.Model):
             return 'transfer'
         if self.sample:
             return 'sample'
+        if self.replacement:
+            return 'replacement'
         return 'normal'
 
     _inherit = 'sale.order'
@@ -37,5 +39,15 @@ class sale_order(models.Model):
     # es usado para filtrar en el informe de ventas y para agrupar en el search
     sale_type = fields.Selection(selection=[('normal', 'Normal'),
                                             ('sample', 'Sample'),
-                                            ('transfer', 'Transfer')],
+                                            ('transfer', 'Transfer'),
+                                            ('replacement', 'Replacement')],
                                  string="Type", default=_get_type)
+
+
+class sale_order_line(models.Model):
+    """
+        TODO: mover a otro modulo?
+    """
+    _inherit = 'sale.order.line'
+
+    virtual_available = fields.Float('Virtual Available', related='product_id.virtual_available')

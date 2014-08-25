@@ -27,7 +27,8 @@ class sale_report(models.Model):
 
     sale_type = fields.Selection(selection=[('normal', 'Normal'),
                                             ('sample', 'Sample'),
-                                            ('transfer', 'Transfer')],
+                                            ('transfer', 'Transfer'),
+                                            ('replacement', 'Replacement')],
                                  string="Type")
 
     def _select(self):
