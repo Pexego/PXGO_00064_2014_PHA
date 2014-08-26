@@ -25,7 +25,7 @@
     'category': 'sale',
     'description': """Adds the management for sale channels""",
     'icon': '/sale_channel/static/src/img/icon.png',
-    'author': 'Pharmadus',
+    'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
     "depends": ['sale'],
     "data": ['sale_channel_view.xml', 'sale_channel_extra_view.xml', 'sale_channel_order_report.xml'],
