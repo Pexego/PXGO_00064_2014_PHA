@@ -68,3 +68,7 @@ class sale_order(orm.Model):
         # Care for deprecated _inv_get() hook - FIXME: to be removed after 6.1
         invoice_vals.update(self._inv_get(cr, uid, order, context=context))
         return invoice_vals
+
+        #return super(sale.order, self)._prepare_invoice(self, cr, uid, order, lines, context=None)
+
+sale_order()
