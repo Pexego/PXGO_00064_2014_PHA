@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="sale.view_order_product_search"/>
             <field name="arch" type="xml">
                 <filter string="Product" position="after">
-                    <filter string="Canal de venta" domain="[]" context="{'group_by':'sale_channel_id'}"/>
+                    <filter string="Sale channel" domain="[]" context="{'group_by':'sale_channel_id'}"/>
                 </filter>
             </field>
         </record>
@@ -18,7 +18,7 @@
             <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
             <field name="arch" type="xml">
                 <filter string="Product" position="after">
-                    <filter string="Canal de venta" domain="[]" context="{'group_by':'sale_channel_id'}"/>
+                    <filter string="Sale channel" domain="[]" context="{'group_by':'sale_channel_id'}"/>
                 </filter>
             </field>
         </record>

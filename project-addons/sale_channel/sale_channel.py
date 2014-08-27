@@ -26,10 +26,10 @@ class sale_channel(osv.Model):
 
     _name = "sale_channel"
 
-    _description = "Canales de venta"
+    _description = "Sale channels"
 
     _columns = {
-        'name': fields.char('Nombre', size=150, required=True, help=""),
+        'name': fields.char('Name', size=150, required=True, help=""),
     }
 
 sale_channel()

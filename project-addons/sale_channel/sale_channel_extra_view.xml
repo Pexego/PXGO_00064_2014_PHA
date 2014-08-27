@@ -21,7 +21,7 @@
                 <search string="Search Sales Order">
                     <field name="sale_channel_id"/>
                     <group expand="0" string="Group By">
-                        <filter string="Canal de venta" icon="terp-personal" domain="[]" context="{'group_by':'sale_channel_id'}"/>
+                        <filter string="Sale channel" icon="terp-personal" domain="[]" context="{'group_by':'sale_channel_id'}"/>
                     </group>
                </search>
             </field>

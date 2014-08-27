@@ -27,7 +27,7 @@ class sale_channel_invoice(osv.Model):
     _inherit = 'account.invoice'
 
     _columns = {
-        'sale_channel_id': fields.many2one('sale_channel', 'Canal de venta', required=False),
+        'sale_channel_id': fields.many2one('sale_channel', 'Sale channel', required=False),
     }
 
 sale_channel_invoice()

@@ -121,11 +121,3 @@ class sale_channel_order_report(osv.Model):
             )""" % (self._table, self._select(), self._from(), self._group_by()))
 
 sale_channel_order_report()
-
-#class sale_channel_account_invoice_report (osv.Model):
-
-#    _inherit = 'account.invoice.report'
-
-#    _columns = {
-#        'sale_channel_id': fields.many2one('sale_channel', 'Canal de venta', required=False),
-#    }

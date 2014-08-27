@@ -31,7 +31,7 @@
     </record>
     
     <record id="action_view_menuitem" model="ir.actions.act_window">
-        <field name="name">Canales de venta</field>
+        <field name="name">sale_channel.action.menuitem</field>
         <field name="res_model">sale_channel</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
