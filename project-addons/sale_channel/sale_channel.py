@@ -32,5 +32,4 @@ class sale_channel(osv.Model):
         'name': fields.char('Name', size=150, required=True, help=""),
     }
 
-
 sale_channel()
