@@ -19,10 +19,11 @@
 #
 ##############################################################################
 
+from openerp import tools
 from openerp.osv import fields, osv
 
 
-class sale_channel_order_report(osv.Model):
+class sale_channel_order_report(osv.osv):
 
     _inherit = "sale.report"
     _description = "Sales Orders Statistics"
