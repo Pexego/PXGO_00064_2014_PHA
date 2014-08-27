@@ -1,10 +1,10 @@
 <openerp>
     <data>
 
-        <record id="sale_report_sale_channel" model="ir.ui.view">
-            <field name="name">sale.report.sale.channel</field>
-            <field name="model">sale.report</field>
-            <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <record id="acoount_invoice_report_sale_channel" model="ir.ui.view">
+            <field name="name">account_invoice.report.sale.channel</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
             <field name="arch" type="xml">
                 <filter string="Product" position="after">
                     <filter string="Sale channel" domain="[]" context="{'group_by':'sale_channel_id'}"/>

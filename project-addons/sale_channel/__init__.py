@@ -21,6 +21,7 @@
 
 import sale_channel
 import sale_channel_invoice
+import sale_channel_invoice_report
 import sale_channel_order
 import sale_channel_order_report
 import sale
