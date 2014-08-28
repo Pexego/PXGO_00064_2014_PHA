@@ -63,7 +63,7 @@ class sale_order(osv.Model):
             'company_id': order.company_id.id,
             'user_id': order.user_id and order.user_id.id or False,
             'section_id' : order.section_id.id,
-            'sale_channel_id' : order.sale_channel_id,
+            'sale_channel_id' : order.sale_channel_id.id,
         }
 
         # Care for deprecated _inv_get() hook - FIXME: to be removed after 6.1
