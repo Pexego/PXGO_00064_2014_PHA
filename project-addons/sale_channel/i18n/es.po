@@ -132,5 +132,5 @@ msgstr "Buscar pedido de venta"
 #. module: sale_channel
 #: model:ir.actions.act_window,name:sale_channel.action_view_menuitem
 msgid "sale_channel.action.menuitem"
-msgstr "sale_channel.action.menuitem"
+msgstr "Canales de venta"
 
