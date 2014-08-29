@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_settlement_form_noeditable">
+            <field name="name">Settlements</field>
+            <field name="model">settlement</field>
+            <field name="inherit_id" ref="sale_commission.view_settlement_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='settlement_agent_id']/tree"  position="attributes">
+                    <attribute name="editable" eval="False"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

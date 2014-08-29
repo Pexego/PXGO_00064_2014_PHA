@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sale_commission.view_settlement_line_tree">
+            <field name="name">Settlement Lines</field>
+            <field name="model">settlement.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Settlement lines" editable="bottom">
+                    <field name="name"/>
+                    <field name="invoice_id"/>
+                    <field name="invoice_date"/>
+                    <field name="invoice_line_id"/>
+                    <field name="pharma_group_sale_id"/>
+                    <field name="amount"/>
+                    <field name="commission_id" required="1"/>
+                    <field name="commission" sum="Settled total"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

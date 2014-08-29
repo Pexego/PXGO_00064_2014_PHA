@@ -23,7 +23,7 @@ from openerp import models, exceptions
 from openerp.tools.translate import _
 
 
-class stock_return_picking(models.Model):
+class stock_return_picking(models.TransientModel):
     _inherit = 'stock.return.picking'
 
     def _create_returns(self, cr, uid, ids, context=None):

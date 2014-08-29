@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_settled_invoice_rep_mode" model="ir.ui.view">
+            <field name="name">Make invoices rerp mode</field>
+            <field name="model">settled.invoice.wizard</field>
+            <field name="inherit_id" ref="sale_commission.view_settled_invoice"/>
+            <field name="arch" type="xml">
+                <field name="mode" position="replace">
+                    <field name="mode" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
