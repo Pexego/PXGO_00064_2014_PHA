@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="pharma_group_sale_form" model="ir.ui.view">
+            <field name="name">pharma.group.sale.form</field>
+            <field name="model">pharma.group.sale</field>
+            <field name="arch" type="xml">
+                <form string="Pharma group sale">
+                    <group string="Pharmacy data">
+                        <field name="pharmacy_name"/>
+                        <field name="pharmacy_street"/>
+                        <field name="pharmacy_zip"/>
+                        <field name="pharmacy_location"/>
+                    </group>
+                    <group string="Sale data">
+                        <field name="product_id"/>
+                        <field name="product_cn"/>
+                        <field name="product_qty"/>
+                        <field name="price_unit"/>
+                        <field name="agent_id"/>
+                        <field name="price_subtotal"/>
+                    </group>
+                    <group string="Other info">
+                        <field name="date"/>
+                        <field name="settled"/>
+                        <field name="settled_qty"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="pharma_group_sale_tree" model="ir.ui.view">
+            <field name="name">pharma.group.sale.tree</field>
+            <field name="model">pharma.group.sale</field>
+            <field name="arch" type="xml">
+                <tree string="Pharma groups sales">
+                    <field name="date"/>
+                    <field name="pharmacy_name"/>
+                    <field name="pharmacy_zip"/>
+                    <field name="pharmacy_location"/>
+                    <field name="agent_id"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="price_unit"/>
+                    <field name="price_subtotal"/>
+                    <field name="settled"/>
+                    <field name="settled_qty"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pharma_group_sale_filter" model="ir.ui.view">
+            <field name="name">pharma.group.sale.filter</field>
+            <field name="model">pharma.group.sale</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="pharmacy_name"/>
+                    <field name="agent_id"/>
+                    <field name="product_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Pharmacy" context="{'group_by':'pharmacy_name'}"/>
+                        <filter string="Product" context="{'group_by':'product_id'}"/>
+                        <filter string="Agent" context="{'group_by':'agent_id'}"/>
+                        <filter string="Date" context="{'group_by':'date'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_pharma_group_sale" model="ir.actions.act_window">
+             <field name="name">act.pharma.group.sale</field>
+             <field name="res_model">pharma.group.sale</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="pharma_group_sale_tree"/>
+             <field name="search_view_id" ref="pharma_group_sale_filter"/>
+             <field name="context">{}</field>
+       </record>
+
+       <menuitem
+            name="Pharma groups sales"
+            action="action_pharma_group_sale"
+            id="menu_pharma_group_sale"
+            parent="sale_commission.menu_sale_commissions"/>
+
+
+    </data>
+</openerp>

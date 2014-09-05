@@ -6,7 +6,7 @@
             <field name="model">account.invoice.report</field>
             <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
             <field name="arch" type="xml">
-                <filter string="Account" position="after">
+                <filter string="Company" position="after">
                     <filter string="Business line" context="{'group_by':'account_analytic_id'}"/>
                 </filter>
             </field>
