@@ -87,9 +87,9 @@ options.log_handler = [':ERROR']
 Si se quiere jeecutar más de una instancia de OpenERP, se deben cambiar los puertos,
 please change ports:
 ```
-openerp_xmlrpc_port = 8069  (8069 default openerp)
+openerp_xmlrpc_port = 9169  (8069 default openerp)
 openerp_xmlrpcs_port = 8071 (8071 default openerp)
-supervisor_port = 9002      (9001 default supervisord)
+supervisor_port = 9003      (9001 default supervisord)
 postgres_port = 5434        (5432 default postgres)
 ```
 
