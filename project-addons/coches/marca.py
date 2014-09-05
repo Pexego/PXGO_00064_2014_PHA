@@ -31,7 +31,7 @@ class Marca(orm.Model):
 												# activo no valdria
 	}
 	_defaults = {
-		'codigo' : 'Z',
+		'codigo' : 'MY',
 		'active' : True
 	} # Marca() se vería en versiones antiguas para cerrar la clase, en 7.0 ya no es necesario poner nada
 	 #None es el null , por eso si llega null lo crea aunque este vacio

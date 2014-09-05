@@ -12,7 +12,7 @@
                 </header>
 					<sheet>
 						<div class="oe_edit_only">
-						<label for="codigo"/>
+						<label for="codigoSS"/>
 						<field name="codigo"/>
 						<label for="name"/>
 						<field name="name"/>
