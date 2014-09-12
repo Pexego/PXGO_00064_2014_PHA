@@ -19,10 +19,11 @@
 #
 ##############################################################################
 
-from openerp import models, fields, exceptions, api, workflow
+from openerp import models, fields
 
 
 class QualityProtocolReport(models.Model):
+    """Objeto usado para definir los diferentes documentos de protocolo"""
 
     _name = "quality.protocol.report"
 
@@ -31,7 +32,10 @@ class QualityProtocolReport(models.Model):
     report_line_ids = fields.One2many("quality.protocol.report.line",
                                       "report_id", "Sections")
 
+
 class QualityProtocolReportLine(models.Model):
+    """Dentro de un documento de protodolo cada una  de sus secciones,
+se pueden asociar a vistas qweb o a surveys. Se ordenan por secuencia."""
 
     _name = "quality.protocol.report.line"
     _order = "sequence asc"

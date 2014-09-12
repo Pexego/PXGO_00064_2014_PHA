@@ -25,15 +25,18 @@ from openerp.addons.web.http import request
 
 class WebsiteProtocol(http.Controller):
 
-    # Printing routes
+    # Url que se genera desde el wizard de impresión de protocolo, recive producción y protocolo como parámetros
+    # Los parámetros se recien de la forma <tipo_de_dato:nombre_de_parametro>
     @http.route(['/protocol/print/<model("mrp.production"):production>/<model("quality.protocol.report"):protocol>'],
                 type='http', auth='public', website=True)
     def print_survey(self, production, protocol, **post):
         context = {'production': production}
         seq = 1
+        # Se generar un surveyX por cada survey en el protocolo, luego la plantilla se encargará de parsear para cada uno el parámetro survey, que es el que usa internamente la vista genérica
         for line in protocol.report_line_ids:
             if line.survey_id:
                 context.update({'survey' + str(seq): line.survey_id})
                 seq += 1
+        # renderiza la vista qweb con id protocol_print, de este módulo, pasándole en contexto production y tantos surveyX como surveys en el protocolo
         return request.website.render('quality_protocol_report.protocol_print',
                                       context)

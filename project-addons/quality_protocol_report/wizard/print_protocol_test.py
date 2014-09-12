@@ -26,10 +26,13 @@ from urlparse import urljoin
 
 
 class PrintProtocolTest(models.TransientModel):
-
+    """Wizard de prueba, que se lanza desde producciones seleccionando manualmente el protocolo a imprimir,
+    fuera del prototipo este wizard no debería existir, la funcionalidad de impresión debería de hacerse desde la producción en alguno de los cambios de estado,
+    y el protocolo debería de sacarlo del producto final"""
     _name = "print.protocol.test"
 
     def _get_print_url(self, cr, uid, ids, name, arg, context=None):
+        """Genera la url de impresión, el controller la espera en este formato, pasa como parámetros la producción y el protocolo"""
         res = {}
         if context.get('relative_url'):
             base_url = '/'
@@ -51,6 +54,7 @@ class PrintProtocolTest(models.TransientModel):
 
     def print_protocol(self, cr, uid, ids, context=None):
         obj = self.browse(cr, uid, ids, context=context)
+        # Abre vista web
         return {
             'type': 'ir.actions.act_url',
             'name': "Print Protocol",

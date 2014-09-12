@@ -2,6 +2,7 @@
 <openerp>
 <data>
 
+    <!-- Vista qweb de prueba que lista los productos a consumir de una produccion -->
     <template id="stock_move_mrp_consume" name="Moves to consume">
         <div class="wrap">
             <div class="container">
@@ -36,6 +37,7 @@
         </div>
     </template>
 
+    <!-- Vista de prueba usada como cabecera del protocolo de produccion -->
     <template id="production_header" name="Production header">
         <div class="wrap">
             <div class="container">
@@ -49,6 +51,7 @@
         </div>
     </template>
 
+    <!-- Vista generica de impresion de surveys -->
     <template id="generic_survey" name="Production header">
         <div class="wrap">
             <div class="container">
@@ -85,15 +88,16 @@
         </div>
     </template>
 
+    <!-- Vista contenedora para el prototipo, se debe mirar como se puede generar al vuelo, desde el controller -->
     <template id="protocol_print" name="Protocol">
         <t t-call="website.layout">
             <div class="wrap">
                 <div class="container">
                     <div class="row">
-                        <t t-call="quality_protocol_report.production_header"/>
-                        <t t-call="quality_protocol_report.stock_move_mrp_consume"/>
-                        <t t-call="quality_protocol_report.generic_survey">
-                            <t t-set="survey" t-value="survey1"/>
+                        <t t-call="quality_protocol_report.production_header"/> <!-- Muestra la vista qweb de cabecera -->
+                        <t t-call="quality_protocol_report.stock_move_mrp_consume"/> <!-- Muestra la vista qweb de movimientos a consumir de una produccion -->
+                        <t t-call="quality_protocol_report.generic_survey"> <!-- Muestra la vista genérica de surveys, instanciando survey abajo, con la variable pasada en contexto del controller survey1 -->
+                            <t t-set="survey" t-value="survey1"/> <!-- El valor de survey1 se enlaza a survey para que se pueda utilizar survey en la vista generica -->
                         </t>
                     </div>
                 </div>
