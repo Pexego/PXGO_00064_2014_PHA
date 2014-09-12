@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record id="quality_protocol_report_form" model="ir.ui.view">
+        <field name="name">quality.protocol.report.form</field>
+        <field name="model">quality.protocol.report</field>
+        <field name="arch" type="xml">
+            <form string="Quality protocol report">
+                <group>
+                    <field name="name" colspan="4"/>
+                    <field name="model_id"/>
+                </group>
+                <group string="Sections">
+                    <field name="report_line_ids" nolabel="1" colspan="4">
+                        <tree>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="report_id"/>
+                            <field name="survey_id"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="name" colspan="4"/>
+                                <field name="subtitle" colspan="4"/>
+                                <field name="view_id"/>
+                                <field name="survey_id"/>
+                            </group>
+                        </form>
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="quality_protocol_report_tree" model="ir.ui.view">
+        <field name="name">quality.protocol.report.tree</field>
+        <field name="model">quality.protocol.report</field>
+        <field name="arch" type="xml">
+            <tree string="Quality protocol reports">
+                <field name="name"/>
+                <field name="model_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="quality_protocol_report_filter" model="ir.ui.view">
+        <field name="name">quality.protocol.report.filter</field>
+        <field name="model">quality.protocol.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <group expand="0" string="Group By">
+                    <filter string="Model" context="{'group_by':'model_id'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <menuitem
+        name="Quality management"
+        id="menu_quality_management"
+        sequence="60"/>
+
+    <record id="action_quality_protocol_report" model="ir.actions.act_window">
+         <field name="name">act.quality.protocol.report</field>
+         <field name="res_model">quality.protocol.report</field>
+         <field name="type">ir.actions.act_window</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">tree,form</field>
+         <field name="view_id" ref="quality_protocol_report_tree"/>
+         <field name="search_view_id" ref="quality_protocol_report_filter"/>
+         <field name="context">{}</field>
+   </record>
+
+   <menuitem
+        name="Quality protocols"
+        id="menu_quality_protocols"
+        parent="menu_quality_management"/>
+
+   <menuitem
+        name="Quality protocols reports"
+        action="action_quality_protocol_report"
+        id="menu_quality_protocol_reports"
+        parent="menu_quality_protocols"/>
+
+
+</data>
+</openerp>
