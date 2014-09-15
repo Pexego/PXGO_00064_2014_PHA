@@ -86,6 +86,8 @@ class sale_order_line(models.Model):
     is_all_replacement = fields.Float('All replacement',
                                       compute="_is_all_replacement")
 
+    orig_sale = fields.Many2one('sale.order', 'Original order')
+
     @api.depends('product_uom_qty', 'qty_replacement')
     def _is_all_replacement(self):
         self.is_all_replacement = self.product_uom_qty - \
@@ -109,16 +111,7 @@ class sale_order_line(models.Model):
         :param context: context
         :return: the browse record of original line for the replacement.
         """
-        sale_obj = self.pool.get('sale.order')
-        sale_id = sale_obj.search(
-            cr, uid, [('replacement', '=', True),
-                      ('partner_id', '=',
-                       line.order_id.partner_id.id)],
-            context=context)
-        if not sale_id:
-            raise exceptions.MissingError(
-                _('Not found a replacement order for the partner'))
-        sale_id = sale_id[0]
+        sale_id = line.orig_sale.id
         orig_line_id = self.search(cr, uid,
                                    [('order_id', '=', sale_id),
                                     ('product_id', '=',
@@ -240,3 +233,44 @@ class sale_order_line(models.Model):
                          self)._prepare_order_line_invoice_line(cr, uid, line,
                                                                 account_id,
                                                                 context)
+
+    def product_id_change(
+            self, cr, uid, ids, pricelist, product, qty=0, uom=False,
+            qty_uos=0, uos=False, name='', partner_id=False, lang=False,
+            update_tax=True, date_order=False, packaging=False,
+            fiscal_position=False, flag=False, context=None):
+        """
+            Modify the onchange of product_id, if the replacement checkbox
+            is True use the price_unit of the origin_sale.
+        """
+
+        if not context:
+            context = {}
+        replacement = context.get('rep', False)
+        origin_sale = context.get('orig', False)
+        res = super(sale_order_line, self).product_id_change(
+            cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name,
+            partner_id, lang, update_tax, date_order, packaging,
+            fiscal_position, flag, context)
+        if replacement:
+            warning = res.get('warning', False)
+            warning = warning != False and warning or {'title': 'Replacement error', 'message': ''}
+            if not origin_sale:
+                warning['message'] += _('Not found the original sale.\n')
+            orig_line_id = self.search(cr, uid,
+                               [('order_id', '=', origin_sale),
+                                ('product_id', '=', product),
+                                ('is_all_replacement', '=', False)],
+                               context=context)
+            if not orig_line_id:
+                warning['message'] += _('Not found the original sale line.\n')
+            line = self.browse(cr, uid, orig_line_id[0], context)
+            if (line.product_uom_qty - line.qty_replacement) < qty:
+                res['value']['product_uom_qty'] = line.product_uom_qty - line.qty_replacement
+                res['value']['product_uos_qty'] = line.product_uom_qty - line.qty_replacement
+                warning['message'] += _('The quantity is bigger than the original.\n')
+            res['value']['price_unit'] = line.price_unit
+            if len(warning['message']):
+                res['warning'] = warning
+
+        return res

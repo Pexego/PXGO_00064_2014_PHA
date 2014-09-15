@@ -17,25 +17,50 @@
             </field>
         </record>
 
-        <!--
-            se añaden al form/tree de lineas de venta attrs para que
-            si son ventas de muestra se oculten los campos:
-            -price_unit
-            -discount
-            -tax_id
-        -->
         <record id="sale_order_line_add_replacement_form" model="ir.ui.view">
             <field name="name">sale.order.line.add.replacement.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
             <field name="arch" type="xml">
+                <!--xpath expr="//field[@name='order_line']/tree//field[@name='product_id']"  position="attributes">
+                    <attribute name="on_change">product_id_change(parent.pricelist_id, product_id, product_uom_qty, False, product_uos_qty, False, name, parent.partner_id, False, True, parent.date_order, False, parent.fiscal_position, False, dict(context, rep=replacement, orig=orig_sale))</attribute>
+                </xpath-->
+
                 <xpath expr="//field[@name='order_line']/tree//field[@name='discount']"  position="after">
                     <field name="replacement"/>
+                    <field name="orig_sale" attrs="{'required': [('replacement', '=', True)], 'readonly': [('replacement', '=', False)], 'invisible': [('replacement', '=', False)]}" domain="[('replacement', '=', True), ('state', 'not in', ['draft', 'sent', 'cancel'])]" />
                 </xpath>
 
                <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="before">
                     <field name="replacement" />
+                    <field name="orig_sale" attrs="{'required': [('replacement', '=', True)], 'readonly': [('replacement', '=', False)], 'invisible': [('replacement', '=', False)]}" domain="[('replacement', '=', True), ('state', 'not in', ['draft', 'sent', 'cancel'])]" />
                </xpath>
+
+               <!--
+                    Se sobreescribe el onchange de sale_stock para añadir campos en el contexto.
+               -->
+               <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="replace">
+                       <field name="product_id"
+                       context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                       groups="base.group_user"
+                       on_change="product_id_change_with_wh(parent.pricelist_id,product_id,product_uom_qty,False,product_uos_qty,False,name,parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, parent.warehouse_id, dict(context, rep=replacement, orig=orig_sale))"/>
+                   </xpath>
+                   <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="replace">
+                       <field context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                             name="product_uom_qty"
+                       on_change="product_id_change_with_wh(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.date_order, product_packaging, parent.fiscal_position, True, parent.warehouse_id, dict(context, rep=replacement, orig=orig_sale))"/>
+                   </xpath>
+                   <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="replace">
+                       <field name="product_id"
+                       context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                       groups="base.group_user"
+                       on_change="product_id_change_with_wh(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, parent.warehouse_id, dict(context, rep=replacement, orig=orig_sale))"/>
+                   </xpath>
+                   <xpath expr="//field[@name='order_line']/form//field[@name='product_uom_qty']" position="replace">
+                       <field context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                             name="product_uom_qty" class="oe_inline"
+                       on_change="product_id_change_with_wh(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.date_order, product_packaging, parent.fiscal_position, True, parent.warehouse_id, dict(context, rep=replacement, orig=orig_sale))"/>
+                   </xpath>
             </field>
         </record>
 
