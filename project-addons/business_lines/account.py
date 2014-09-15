@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, api, fields
 from datetime import date
 
 
@@ -38,3 +38,10 @@ class account_invoice(models.Model):
             if not invoice.date_invoice:
                 invoice.date_invoice = date.today()
         return res
+
+
+class account_analytic_account(models.Model):
+
+    _inherit = 'account.analytic.account'
+
+    is_business_line = fields.Boolean('Is business line')
