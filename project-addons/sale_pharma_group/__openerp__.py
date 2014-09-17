@@ -33,6 +33,7 @@
                 'product_pharma_fields'],
     "data": ['better_zip_view.xml',
              'sale_agent_view.xml',
+             'sale_order_view.xml',
              'pharma_group_sale_view.xml',
              'wizard/import_pharma_group_sales_view.xml',
              'settlement_line_view.xml',

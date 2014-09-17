@@ -22,9 +22,54 @@
 from openerp import models, fields
 
 
+class commission_bussines_line(models.Model):
+
+    _name = 'commission.bussines.line'
+
+    name = fields.Char('Name', size=64, required=True)
+    type = fields.Selection((('fijo', 'Fix percentage'),
+                             ('tramos', 'By sections')), 'Type',
+                             required=True, default='fijo')
+    fix_qty = fields.Float('Fix Percentage')
+    sections = fields.One2many('commission.section',
+                                'commission_id', 'Sections')
+    bussiness_line_id = fields.Many2one('account.analytic.account',
+                                         'bussiness line')
+    commission_id = fields.Many2one('commission', 'Commission')
+
+    def calcula_tramos(self, cr, uid, ids, base):
+        commission = self.browse(cr, uid, ids)[0]
+        for section in commission.sections:
+            if abs(base) >= section.commission_from and (
+                    abs(base) <
+                    section.commission_until or section.commission_until == 0):
+                res = base * section.percent / 100.0
+                return res
+        return 0.0
+
+
+class commission_section(models.Model):
+
+    _inherit = "commission.section"
+
+    commission_id = fields.Many2one('commission.bussines.line', 'Commission',
+                                     required=True)
+
+class commission(models.Model):
+    """Objeto comisión"""
+
+    _inherit = "commission"
+    commission_line_id = fields.One2many('commission.bussines.line',
+                                           'commission_id', 'commissions')
+    type = fields.Selection((('fijo', 'Fix percentage'),
+                                 ('tramos', 'By sections')), 'Type',
+                                 required=False)
+
 class SaleAgent(models.Model):
 
     _inherit = "sale.agent"
 
     related_zip_ids = fields.One2many('res.better.zip', 'agent_id',
                                       string="Zips", readonly=True)
+
+    commission_group = fields.Float('Default commission group', default=10)

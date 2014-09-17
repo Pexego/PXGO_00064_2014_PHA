@@ -45,19 +45,66 @@ class SettlementLine(models.Model):
     @api.model
     def calcula(self):
         if self.invoice_line_id:
-            return super(SettlementLine, self).calcula()
+            currency_obj = self.env['res.currency']
+            commission_obj = self.env['commission.bussines.line']
+            amount = 0
+            user = self.env.user
+            # Recorre los agentes y condiciones asignados a la factura
+            for commission in self.invoice_line_id.commission_ids:
+                # selecciona el asignado al agente para el que está liquidando
+                if commission.agent_id.id == self.settlement_agent_id.agent_id.id:
+                    analytic = self.invoice_line_id.account_analytic_id
+                    commission_applied = commission_obj.search([('bussiness_line_id', '=', analytic.id), ('commission_id', '=', commission.commission_id.id)])
+                    if not commission_applied:
+                        commission_applied = commission_obj.search([('bussiness_line_id', '=', False), ('commission_id', '=', commission.commission_id.id)])
+                    if not commission_applied:
+                        raise orm.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
+                    commission_app = commission_applied[0]
+                    # commission_app = commission.commission_id  # Obtiene el objeto
+                    invoice_line_amount = self.invoice_line_id.price_subtotal
+                    if commission_app.type == "fijo":
+                        commission_per = commission_app.fix_qty
+                        # Para tener en cuenta las rectificativas
+                        if self.invoice_line_id.invoice_id.type == 'out_refund':
+                            amount = amount - \
+                                self.invoice_line_id.price_subtotal * \
+                                float(commission_per) / 100
+                        else:
+                            amount = amount + \
+                                self.invoice_line_id.price_subtotal * \
+                                float(commission_per) / 100
+
+                    elif commission_app.type == "tramos":
+                        invoice_line_amount = 0
+                        amount = 0
+
+                    cc_amount_subtotal = self.invoice_id.currency_id.id != \
+                        user.company_id.currency_id.id and \
+                        currency_obj.compute(cr, uid,
+                                             self.invoice_id.currency_id.id,
+                                             user.company_id.currency_id.id,
+                                             invoice_line_amount,
+                                             round=False) or invoice_line_amount
+                    cc_commission_amount = self.invoice_id.currency_id.id != \
+                        user.company_id.currency_id.id and \
+                        currency_obj.compute(cr, uid,
+                                             self.invoice_id.currency_id.id,
+                                             user.company_id.currency_id.id,
+                                             amount, round=False) or amount
+
+                    self.write({'amount': cc_amount_subtotal,
+                                'commission_id': commission.commission_id.id,
+                                'commission': cc_commission_amount,
+                                'currency_id': user.company_id.currency_id.id})
+
         elif self.pharma_group_sale_id:
             if (self.pharma_group_sale_id.agent_id.id ==
                     self.settlement_agent_id.agent_id.id):
-                comm = self.pharma_group_sale_id.agent_id.commission
+                comm = self.pharma_group_sale_id.agent_id.commission_group
                 self.amount = self.pharma_group_sale_id.price_unit * \
                     self.pharma_group_sale_id.product_qty
-                self.commission_id = comm.id
-                if comm.type == "fijo":
-                    self.commission = self.amount * \
-                        float(comm.fix_qty) / 100.0
-                elif comm.type == "tramos":
-                    self.commission = comm.calcula_tramos(self.amount)
+                self.commission = self.amount * float(comm) / 100.0
+
         elif self.amount and self.commission_id:
             comm = self.commission_id
             if comm.type == "fijo":
