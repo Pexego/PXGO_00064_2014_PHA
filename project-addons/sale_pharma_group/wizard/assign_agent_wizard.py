@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,13 +19,17 @@
 #
 ##############################################################################
 
-from . import better_zip
-from . import sale_agent
-from . import pharma_group_sale
-from . import wizard
-from . import settlement
-from . import settlement_agent
-from . import settlement_line
-from . import sale_order
-from . import invoice_line_agent
-from . import res_partner
+
+from openerp import models, api
+
+
+class assign_agent_by_zip(models.TransientModel):
+
+    _name = "assign.agent.zip.wizard"
+
+    @api.one
+    def assign(self):
+        partner_ids = self.env.context.get('active_ids', [])
+        for partner in self.env['res.partner'].browse(partner_ids):
+            partner.assign_agent()
+        return {'type': 'ir.actions.act_window_close'}

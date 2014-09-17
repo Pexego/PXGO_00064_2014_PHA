@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <record id="view_partner_form" model="ir.ui.view">
+      <field name="name">res.partner.zip_id.2</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="sale_commission.view_partner_form_add_agents"/>
+      <field name="arch" type="xml">
+            <field name="commission_ids" position="before">
+                <button name="assign_agent" type="object" string="Assign agent by ZIP"/>
+            </field>
+      </field>
+    </record>
+  </data>
+</openerp>
