@@ -36,6 +36,11 @@
                     <field name="sample_rel" invisible="1"/>
                 </xpath>
 
+
+                <xpath expr="//field[@name='order_line']/tree//field[@name='replacement']"  position="after">
+                    <field name="delay"/>
+                </xpath>
+
                 <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
                     <attribute name="attrs">{'readonly': [('sample_rel', '=', True)]}</attribute>
                 </xpath>
