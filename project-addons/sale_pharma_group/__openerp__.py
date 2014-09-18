@@ -38,6 +38,7 @@
              'pharma_group_sale_view.xml',
              'wizard/import_pharma_group_sales_view.xml',
              'wizard/assign_agent_wizard_view.xml',
+             'wizard/assign_zip_agent_wizard_view.xml',
              'settlement_line_view.xml',
              'settlement_view.xml',
              'wizard/wizard_invoice_view.xml',

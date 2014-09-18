@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="assign_zip_agent_wizard_view" model="ir.ui.view">
+            <field name="name">assign.agent.zip</field>
+            <field name="model">assign.zip.agent.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Assign zip to agent">
+                    <group>
+                        <field name="agent_id"/>
+                        <field name="zip"/>
+                    </group>
+                    <button string="Assign" name="assign" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Assign zip to agent"
+            res_model="assign.zip.agent.wizard"
+            src_model="sale.agent"
+            view_id="assign_zip_agent_wizard_view"
+            view_mode="form"
+            target="new"
+            id="assign_zip_agent_wizard_action"/>
+
+    </data>
+</openerp>
+
