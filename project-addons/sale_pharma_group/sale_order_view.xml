@@ -8,27 +8,6 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="sale_replacement.sale_order_line_add_replacement_form"/>
             <field name="arch" type="xml">
-                <field name="origin" position="after">
-                    <group colspan="2" col="2">
-                    <separator colspan="2" string="Agents/Consultancy"/>
-                       <field name="sale_agent_ids" nolabel="1">
-                            <tree string="Agents and Commissions" editable="top">
-                                <field name="agent_id" on_change="onchange_agent_id(agent_id)"/>
-                                <field name="commission_id" on_change="onchange_commission_id(agent_id,commission_id)"/>
-                            </tree>
-                        </field>
-                    </group>
-                </field>
-                 <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
-                    <page string='Agents and Commisions'>
-                        <field name="line_agent_ids" nolabel="1" colspan="4">
-                            <tree string="Agents and Commissions" editable="top">
-                                <field name="agent_id" on_change="onchange_agent_id(agent_id)" />
-                                <field name="commission_id" on_change="onchange_commission_id(agent_id,commission_id)"/>
-                            </tree>
-                        </field>
-                    </page>
-                </xpath>
                 <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="replace">
                        <field name="product_id"
                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
