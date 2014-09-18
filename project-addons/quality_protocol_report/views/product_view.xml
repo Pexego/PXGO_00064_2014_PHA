@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_view_add_protocol" model="ir.ui.view">
+            <field name="name">product.view.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref=""/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="after">
+                    <field name="protocol_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

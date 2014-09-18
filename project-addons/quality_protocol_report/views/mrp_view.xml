@@ -90,6 +90,9 @@
 
     <!-- Vista contenedora para el prototipo, se debe mirar como se puede generar al vuelo, desde el controller -->
     <template id="protocol_print" name="Protocol">
+        <t t-set="head">
+                <script type="text/javascript" src="/quality_protocol_report/static/src/js/test.js" />
+        </t>
         <t t-call="website.layout">
             <div class="wrap">
                 <div class="container">

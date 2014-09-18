@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,7 +19,11 @@
 #
 ##############################################################################
 
-from . import quality_protocol_report
-from . import wizard
-from . import controllers
-from . import product
+from openerp import models, fields
+
+
+class product_product(models.Model):
+
+    _inherit = 'product.product'
+
+    protocol_id = fields.Many2one('quality.protocol.report', 'Report protocol')
