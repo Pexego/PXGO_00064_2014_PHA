@@ -113,6 +113,24 @@
             </field>
         </record>
 
+        <record id="view_all_sales" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Quotation" fonts="bold:message_unread==True" colors="grey:state=='cancel';blue:state in ('waiting_date','manual');red:state in ('invoice_except','shipping_except')">
+                    <field name="message_unread" invisible="1"/>
+                    <field name="name" string="Quotation Number"/>
+                    <field name="sale_type"/>
+                    <field name="date_order"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="amount_total" sum="Total Tax Included"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="action_show_all_sales" model="ir.actions.act_window">
             <field name="name">All sales</field>
             <field name="type">ir.actions.act_window</field>
@@ -120,6 +138,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+            <field name="view_id" ref="view_all_sales"/>
             <field name="search_view_id" ref="all_sales_filter"/>
         </record>
 
