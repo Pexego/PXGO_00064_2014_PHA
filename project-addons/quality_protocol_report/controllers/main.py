@@ -33,10 +33,15 @@ class WebsiteProtocol(http.Controller):
         context = {'production': production}
         seq = 1
         # Se generar un surveyX por cada survey en el protocolo, luego la plantilla se encargará de parsear para cada uno el parámetro survey, que es el que usa internamente la vista genérica
+        parts = []
         for line in protocol.report_line_ids:
             if line.survey_id:
-                context.update({'survey' + str(seq): line.survey_id})
-                seq += 1
+                #context.update({'survey' + str(seq): line.survey_id})
+                #seq += 1
+                parts.append(('s',line.survey_id))
+            elif line.view_id:
+                parts.append(('v',line.view_id.xml_id))
+        context.update({'parts': parts})
         # renderiza la vista qweb con id protocol_print, de este módulo, pasándole en contexto production y tantos surveyX como surveys en el protocolo
         return request.website.render('quality_protocol_report.protocol_print',
                                       context)

@@ -93,12 +93,21 @@
         <t t-call="website.layout">
             <div class="wrap">
                 <div class="container">
+                    <div groups="base.group_website_publisher" t-ignore="true" class="text-right">
+                        <a href="#" class="btn btn-default">Print</a>
+                    </div>
                     <div class="row">
-                        <t t-call="quality_protocol_report.production_header"/> <!-- Muestra la vista qweb de cabecera -->
-                        <t t-call="quality_protocol_report.stock_move_mrp_consume"/> <!-- Muestra la vista qweb de movimientos a consumir de una produccion -->
-                        <t t-call="quality_protocol_report.generic_survey"> <!-- Muestra la vista genérica de surveys, instanciando survey abajo, con la variable pasada en contexto del controller survey1 -->
-                            <t t-set="survey" t-value="survey1"/> <!-- El valor de survey1 se enlaza a survey para que se pueda utilizar survey en la vista generica -->
-                        </t>
+                        <t t-set="parts" t-value="parts"/>
+                        <div t-foreach="parts" t-as="part">
+                            <t t-if="part[0] == 's'">
+                                <t t-call="quality_protocol_report.generic_survey">
+                                    <t t-set="survey" t-value="part[1]"/>
+                                </t>
+                            </t>
+                            <t t-if="part[0] == 'v'">
+                                <t t-call="#{part[1]}"/>
+                            </t>
+                        </div>
                     </div>
                 </div>
             </div>
