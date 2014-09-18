@@ -5,7 +5,7 @@
         <record id="product_view_add_protocol" model="ir.ui.view">
             <field name="name">product.view.form</field>
             <field name="model">product.product</field>
-            <field name="inherit_id" ref=""/>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <field name="default_code" position="after">
                     <field name="protocol_id"/>

@@ -55,8 +55,8 @@
     <template id="generic_survey" name="Production header">
         <div class="wrap">
             <div class="container">
-                <div class="row">
-                    <form role="form" method="post" class="js_surveyform" t-att-name="'%s' % (survey.id)" t-att-data-prefill="'/survey/prefill/%s/%s' % (slug(survey), token)" t-att-data-scores="'/survey/scores/%s/%s' % (slug(survey), token) if quizz_correction else ''">
+                <div class="row" url_submit="'/survey/submit/%s' % (slug(survey))" t-att-token="token">
+
                         <t t-foreach="survey.page_ids" t-as="page">
                             <div class="page-header">
                                 <h1 t-field='page.title' />
@@ -64,7 +64,7 @@
                             </div>
                             <t t-foreach='page.question_ids' t-as='question'>
                                 <t t-set="prefix" t-value="'%s_%s_%s' % (survey.id, page.id, question.id)" />
-                                <div class="js_question-wrapper" t-att-id="prefix">
+                                <div class="js_question-wrapper" t-att-id="prefix" t-att-token="token">
                                     <h2>
                                         <span t-field='question.question' />
                                         <span t-if="question.constr_mandatory" class="text-danger">*</span>
@@ -82,7 +82,6 @@
                                 </div>
                             </t>
                         </t>
-                    </form>
                 </div>
             </div>
         </div>
@@ -98,19 +97,27 @@
                 <div class="container">
                     <div groups="base.group_website_publisher" t-ignore="true" class="text-right">
                         <a href="#" class="btn btn-default">Print</a>
+
                     </div>
                     <div class="row">
-                        <t t-set="parts" t-value="parts"/>
-                        <div t-foreach="parts" t-as="part">
-                            <t t-if="part[0] == 's'">
-                                <t t-call="quality_protocol_report.generic_survey">
-                                    <t t-set="survey" t-value="part[1]"/>
+                        <form role="form" method="post" class="js_surveyform">
+                            <t t-set="parts" t-value="parts"/>
+                            <div t-foreach="parts" t-as="part">
+                                <t t-if="part[0] == 's'">
+                                        <t t-call="quality_protocol_report.generic_survey">
+                                            <t t-set="survey" t-value="part[1]"/>
+                                            <t t-set="token" t-value="part[2]"/>
+                                        </t>
                                 </t>
-                            </t>
-                            <t t-if="part[0] == 'v'">
-                                <t t-call="#{part[1]}"/>
-                            </t>
-                        </div>
+                                <t t-if="part[0] == 'v'">
+                                    <div class="view">
+                                        <t t-call="#{part[1]}"/>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" name="button_submit" value="finish" id="send_form">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
