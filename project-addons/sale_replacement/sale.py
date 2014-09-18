@@ -86,6 +86,8 @@ class sale_order_line(models.Model):
     is_all_replacement = fields.Float('All replacement',
                                       compute="_is_all_replacement")
 
+    is_sale_replacement = fields.Boolean('is sale replacement', related='order_id.replacement')
+
     orig_sale = fields.Many2one('sale.order', 'Original order')
 
     @api.depends('product_uom_qty', 'qty_replacement')
