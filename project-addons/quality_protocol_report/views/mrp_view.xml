@@ -55,12 +55,10 @@
     <template id="generic_survey" name="Production header">
         <div class="wrap">
             <div class="container">
-                <div class="row datos_survey" t-att-url_submit="'/survey/submit/%s' % (slug(survey))">
                     <div t-field='survey.title' class="oe_no_empty"/>
                         <t t-foreach="survey.page_ids" t-as="page">
                             <div class="survey_page">
-                                <form role="form" method="post" class="js_surveyform">
-                                    <input type="hidden" name="page_id" t-att-value="page.id" />
+                                    <input type="hidden" name="survey_id" t-att-value="survey.id" />
                                     <!--Campo añadido para evitar errores en el servidor -->
                                     <input type="hidden" name="button_submit" value=""/>
                                     <input type="hidden" name="token" t-att-value="token" />
@@ -87,10 +85,8 @@
                                             <div class="js_errzone alert alert-danger" style="display:none;"></div>
                                         </div>
                                     </t>
-                                </form>
                             </div>
                         </t>
-                </div>
             </div>
         </div>
     </template>
@@ -112,10 +108,14 @@
                             <t t-set="parts" t-value="parts"/>
                             <div t-foreach="parts" t-as="part">
                                 <t t-if="part[0] == 's'">
-                                        <t t-call="quality_protocol_report.generic_survey">
-                                            <t t-set="survey" t-value="part[1]"/>
-                                            <t t-set="token" t-value="part[2]"/>
-                                        </t>
+                                    <div class="survey" t-att-url_submit="'/protocol/submit/%s' % (slug(part[1]))">
+                                        <form role="form" method="post" class="js_surveyform">
+                                            <t t-call="quality_protocol_report.generic_survey">
+                                                <t t-set="survey" t-value="part[1]"/>
+                                                <t t-set="token" t-value="part[2]"/>
+                                            </t>
+                                        </form>
+                                    </div>
                                 </t>
                                 <t t-if="part[0] == 'v'">
                                     <div class="view">

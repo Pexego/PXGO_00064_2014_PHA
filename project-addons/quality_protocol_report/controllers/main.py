@@ -18,10 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+import json
+import logging
+import werkzeug
+import werkzeug.utils
 from openerp.addons.web import http
 from openerp.addons.web.http import request
 
+_logger = logging.getLogger(__name__)
 
 class WebsiteProtocol(http.Controller):
 
@@ -51,9 +55,13 @@ class WebsiteProtocol(http.Controller):
                                       context)
 
     # AJAX submission of a survey
-    @http.route(['/protocol/submit/<model("quality.protocol.report"):protocol>'],
+    @http.route(['/protocol/submit/<model("survey.survey"):survey>'],
                 type='http', methods=['POST'], auth='public', website=True)
-    def submit(self, protocol, **post):
+    def submit(self, survey, **post):
+        """
+            Función copiada de survey.
+            TODO: es mejorable, sigue devolviendo la siguiente página aunque no se usa en el cliente.
+        """
         _logger.debug('Incoming data: %s', post)
         cr, uid, context = request.cr, request.uid, request.context
         survey_obj = request.registry['survey.survey']
@@ -94,8 +102,8 @@ class WebsiteProtocol(http.Controller):
 
                 user_input = user_input_obj.browse(cr, uid, user_input_id, context=context)
                 go_back = post['button_submit'] == 'previous'
-                next_page, _, last = survey_obj.next_page(cr, uid, user_input, page_id, go_back=go_back, context=context)
-                vals = {'last_displayed_page_id': page_id}
+                next_page, _, last = survey_obj.next_page(cr, uid, user_input, page.id, go_back=go_back, context=context)
+                vals = {'last_displayed_page_id': page.id}
                 if next_page is None and not go_back:
                     vals.update({'state': 'done'})
                 else:
