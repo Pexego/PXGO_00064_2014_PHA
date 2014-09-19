@@ -56,7 +56,7 @@
         <div class="wrap">
             <div class="container">
                 <div class="row datos_survey" t-att-url_submit="'/survey/submit/%s' % (slug(survey))">
-
+                    <div t-field='survey.title' class="oe_no_empty"/>
                         <t t-foreach="survey.page_ids" t-as="page">
                             <div class="survey_page">
                                 <form role="form" method="post" class="js_surveyform">
@@ -108,6 +108,7 @@
 
                     </div-->
                     <div class="row">
+                        <div id="all_data">
                             <t t-set="parts" t-value="parts"/>
                             <div t-foreach="parts" t-as="part">
                                 <t t-if="part[0] == 's'">
@@ -122,7 +123,7 @@
                                     </div>
                                 </t>
                             </div>
-
+                        </div>
                         <button type="button" class="btn btn-primary" name="button_submit" value="finish" id="send_form">Submit</button>
                         <div class="js_errzone alert" id="general_info" style="display:none;"></div>
                     </div>

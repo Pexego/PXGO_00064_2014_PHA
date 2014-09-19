@@ -35,6 +35,7 @@ function send_form_server(){
                         else if (_.has(response, 'redirect')){      // form is ok
                             $("#general_info").html("");
                             $("#general_info").append('<p>Respuestas enviadas.</p>').show();
+                            return true;
                         }
                         else {                                      // server sends bad data
                             console.error("Incorrect answer sent by server");
