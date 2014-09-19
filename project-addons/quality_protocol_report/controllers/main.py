@@ -25,7 +25,7 @@ from openerp.addons.web.http import request
 
 class WebsiteProtocol(http.Controller):
 
-    # Url que se genera desde el wizard de impresión de protocolo, recive producción y protocolo como parámetros
+    # Url que se genera desde el wizard de impresión de protocolo, recibe producción y protocolo como parámetros
     # Los parámetros se recien de la forma <tipo_de_dato:nombre_de_parametro>
     @http.route(['/protocol/print/<model("mrp.production"):production>/<model("quality.protocol.report"):protocol>'],
                 type='http', auth='public', website=True)

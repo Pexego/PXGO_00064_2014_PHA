@@ -29,6 +29,7 @@
     "depends": ['base',
                 'survey',
                 'mrp',
+                'mrp_automatic_lot',
                 'stock'],
     "data": ['views/quality_protocol_report_view.xml',
              'views/mrp_view.xml',
