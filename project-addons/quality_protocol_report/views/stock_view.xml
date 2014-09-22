@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Responses">
+                        <button name="%(action_print_protocol_lot)d" type="action" string="Print protocol"/>
                         <field name="response_ids" />
                     </page>
                 </notebook>

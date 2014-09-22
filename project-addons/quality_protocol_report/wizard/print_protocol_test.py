@@ -26,9 +26,9 @@ from urlparse import urljoin
 
 
 class PrintProtocolTest(models.TransientModel):
-    """Wizard de prueba, que se lanza desde producciones seleccionando manualmente el protocolo a imprimir,
+    """Wizard de prueba, que se lanza desde producciones y lotes,
     fuera del prototipo este wizard no debería existir, la funcionalidad de impresión debería de hacerse desde la producción en alguno de los cambios de estado,
-    y el protocolo debería de sacarlo del producto final"""
+    """
     _name = "print.protocol.test"
 
     def _get_print_url(self, cr, uid, ids, name, arg, context=None):
@@ -39,8 +39,14 @@ class PrintProtocolTest(models.TransientModel):
         else:
             base_url = self.pool['ir.config_parameter'].\
                 get_param(cr, uid, 'web.base.url')
-        obj = self.pool[context['active_model']].browse(cr, uid,
-                                                        context['active_id'])
+        if context['active_model'] == u'stock.production.lot':
+            obj_id = self.pool['mrp.production'].search(cr, uid, [('final_lot_id', '=', context['active_id'])])
+            if not obj_id:
+                return ""
+            obj = self.pool['mrp.production'].browse(cr, uid, obj_id[0])
+        else:
+            obj = self.pool[context['active_model']].browse(cr, uid,
+                                                            context['active_id'])
         for wzd in self.browse(cr, uid, ids):
             res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s" % (slug(obj), slug(obj.product_id.protocol_id)))
         return res
@@ -53,8 +59,14 @@ class PrintProtocolTest(models.TransientModel):
     def print_protocol(self, cr, uid, ids, context=None):
         obj = self.browse(cr, uid, ids, context=context)
         # Abre vista web
-        obj2 = self.pool[context['active_model']].browse(cr, uid,
-                                                        context['active_id'])
+        if context['active_model'] == u'stock.production.lot':
+            obj_id = self.pool['mrp.production'].search(cr, uid, [('final_lot_id', '=', context['active_id'])])
+            if not obj_id:
+                raise exceptions.except_orm(_('Protocol error'), _('The lot not have a production'))
+            obj2 = self.pool['mrp.production'].browse(cr, uid, obj_id[0])
+        else:
+            obj2 = self.pool[context['active_model']].browse(cr, uid,
+                                                            context['active_id'])
         if not obj2.product_id.protocol_id:
             raise exceptions.except_orm(_('Protocol error'), _('The product %s not have a protocol assigned') % (obj2.product_id.name))
         return {

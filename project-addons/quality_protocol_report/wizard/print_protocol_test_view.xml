@@ -29,5 +29,13 @@
             target="new"
             id="action_print_protocol"/>
 
+        <act_window name="Print protocol"
+            res_model="print.protocol.test"
+            src_model="stock.production.lot"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_print_protocol_lot"/>
+
     </data>
 </openerp>

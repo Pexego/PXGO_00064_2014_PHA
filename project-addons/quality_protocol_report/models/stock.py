@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, _, exceptions
 
 
 class stock_production_lot(models.Model):
@@ -27,3 +27,4 @@ class stock_production_lot(models.Model):
     _inherit = 'stock.production.lot'
 
     response_ids = fields.One2many('survey.user_input', 'lot_id', 'Responses')
+
