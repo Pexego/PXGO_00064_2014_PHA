@@ -35,21 +35,34 @@ class WebsiteProtocol(http.Controller):
                 type='http', auth='public', website=True)
     def print_survey(self, production, protocol, **post):
         cr, uid, context2 = request.cr, request.uid, request.context
+        user_obj = request.registry['res.users']
+        user = user_obj.browse(cr, uid, uid, context2)
         user_input_obj = request.registry['survey.user_input']
         context = {'production': production}
-        seq = 1
+        # seq = 1
+
         # Se generar un surveyX por cada survey en el protocolo, luego la plantilla se encargará de parsear para cada uno el parámetro survey, que es el que usa internamente la vista genérica
         parts = []
+        survey_responsed_ids = [x.survey_id.id for x in production.final_lot_id.response_ids]
         for line in protocol.report_line_ids:
             if line.survey_id:
                 #context.update({'survey' + str(seq): line.survey_id})
                 #seq += 1
-                user_input_id = user_input_obj.create(cr, uid, {'survey_id': line.survey_id.id, 'test_entry': True}, context2)
-                user_input = user_input_obj.browse(cr, uid, user_input_id, context2)
-                parts.append(('s',line.survey_id, user_input.token))
+                if line.survey_id.id not in survey_responsed_ids:
+                    user_input_id = user_input_obj.create(cr, uid, {'survey_id': line.survey_id.id, 'partner_id': user.partner_id.id, 'lot_id': production.final_lot_id.id}, context2)
+                    user_input = user_input_obj.browse(cr, uid, user_input_id, context2)
+                    parts.append(('s',line.survey_id, user_input.token))
+                    context.update({'exist': False})
+                else:
+                    response_id = user_input_obj.search(cr, uid, [('survey_id' ,'=', line.survey_id.id), ('partner_id' ,'=', user.partner_id.id), ('lot_id' ,'=', production.final_lot_id.id)], context=context2)
+                    response = user_input_obj.browse(cr, uid, response_id, context2)[0]
+                    parts.append(('s',line.survey_id, response.token))
+                    context.update({'exist': True})
+
             elif line.view_id:
                 parts.append(('v',line.view_id.xml_id))
         context.update({'parts': parts})
+
         # renderiza la vista qweb con id protocol_print, de este módulo, pasándole en contexto production y tantos surveyX como surveys en el protocolo
         return request.website.render('quality_protocol_report.protocol_print',
                                       context)
@@ -67,7 +80,6 @@ class WebsiteProtocol(http.Controller):
         survey_obj = request.registry['survey.survey']
         questions_obj = request.registry['survey.question']
         page_obj = request.registry['survey.page']
-
         survey_id = int(post['survey_id'])
 
 
@@ -113,3 +125,52 @@ class WebsiteProtocol(http.Controller):
                 if go_back:
                     ret['redirect'] += '/prev'
         return json.dumps(ret)
+
+
+    # AJAX prefilling of a survey
+    @http.route(['/protocol/fill/<model("survey.survey"):survey>/<string:token>'],
+                type='http', auth='public', website=True)
+    def fill_data(self, survey, token, **post):
+        cr, uid, context = request.cr, request.uid, request.context
+        user_input_line_obj = request.registry['survey.user_input_line']
+        ret = {}
+
+        ids = user_input_line_obj.search(cr, uid, [('user_input_id.token', '=', token)], context=context)
+        answers = user_input_line_obj.browse(cr, uid, ids, context=context)
+
+        # Return non empty answers in a JSON compatible format
+        for answer in answers:
+            if not answer.skipped:
+                answer_tag = '%s_%s_%s' % (answer.survey_id.id, answer.page_id.id, answer.question_id.id)
+                answer_value = None
+                if answer.answer_type == 'free_text':
+                    answer_value = answer.value_free_text
+                elif answer.answer_type == 'text' and answer.question_id.type == 'textbox':
+                    answer_value = answer.value_text
+                elif answer.answer_type == 'text' and answer.question_id.type != 'textbox':
+                    # here come comment answers for matrices, simple choice and multiple choice
+                    answer_tag = "%s_%s" % (answer_tag, 'comment')
+                    answer_value = answer.value_text
+                elif answer.answer_type == 'number':
+                    answer_value = answer.value_number.__str__()
+                elif answer.answer_type == 'date':
+                    answer_value = answer.value_date
+                elif answer.answer_type == 'suggestion' and not answer.value_suggested_row:
+                    answer_value = answer.value_suggested.id
+                elif answer.answer_type == 'suggestion' and answer.value_suggested_row:
+                    answer_tag = "%s_%s" % (answer_tag, answer.value_suggested_row.id)
+                    answer_value = answer.value_suggested.id
+                if answer_value:
+                    dict_soft_update(ret, answer_tag, answer_value)
+                else:
+                    _logger.warning("[survey] No answer has been found for question %s marked as non skipped" % answer_tag)
+        return json.dumps(ret)
+
+def dict_soft_update(dictionary, key, value):
+    ''' Insert the pair <key>: <value> into the <dictionary>. If <key> is
+    already present, this function will append <value> to the list of
+    existing data (instead of erasing it) '''
+    if key in dictionary:
+        dictionary[key].append(value)
+    else:
+        dictionary.update({key: [value]})

@@ -19,7 +19,6 @@
 #
 ##############################################################################
 
-from . import quality_protocol_report
 from . import wizard
 from . import controllers
-from . import product
+from . import models

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_production_lot_add_survey_responses" model="ir.ui.view">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Responses">
+                        <field name="response_ids" />
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

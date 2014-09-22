@@ -68,7 +68,7 @@
                                     </div>
                                     <t t-foreach='page.question_ids' t-as='question'>
                                         <t t-set="prefix" t-value="'%s_%s_%s' % (survey.id, page.id, question.id)" />
-                                        <div class="js_question-wrapper" t-att-id="prefix" t-att-token="token">
+                                        <div class="js_question-wrapper" t-att-id="prefix">
                                             <h2>
                                                 <span t-field='question.question' />
                                                 <span t-if="question.constr_mandatory" class="text-danger">*</span>
@@ -94,7 +94,7 @@
     <!-- Vista contenedora para el prototipo, se debe mirar como se puede generar al vuelo, desde el controller -->
     <template id="protocol_print" name="Protocol">
         <t t-set="head">
-                <script type="text/javascript" src="/quality_protocol_report/static/src/js/submit_survey.js" />
+                <script type="text/javascript" src="/quality_protocol_report/static/src/js/survey.js" />
         </t>
         <t t-call="website.layout">
             <div class="wrap">
@@ -103,12 +103,17 @@
                         <a href="#" class="btn btn-default">P</a>
 
                     </div-->
+                    <!--Para no modificar las vistas de cada tipo de pregunta, si la encuesta ya fue respondida
+                        se añade un div id=exist y desde static/src/js/survey.js se rellenan las respuestas por ajax. -->
+                    <t t-if="exist != False">
+                        <div id="exist"></div>
+                    </t>
                     <div class="row">
                         <div id="all_data">
                             <t t-set="parts" t-value="parts"/>
                             <div t-foreach="parts" t-as="part">
                                 <t t-if="part[0] == 's'">
-                                    <div class="survey" t-att-url_submit="'/protocol/submit/%s' % (slug(part[1]))">
+                                    <div class="survey" t-att-url_submit="'/protocol/submit/%s' % (slug(part[1]))" t-att-fill="'/protocol/fill/%s/%s' % (slug(part[1]), part[2])">
                                         <form role="form" method="post" class="js_surveyform">
                                             <t t-call="quality_protocol_report.generic_survey">
                                                 <t t-set="survey" t-value="part[1]"/>

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,22 +19,11 @@
 #
 ##############################################################################
 
-{
-    'name': "Quality protocols reports",
-    'version': '1.0',
-    'category': 'quality',
-    'description': """Allow to print quality protocols reports""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends": ['base',
-                'survey',
-                'mrp',
-                'mrp_automatic_lot',
-                'stock'],
-    "data": ['views/quality_protocol_report_view.xml',
-             'views/mrp_view.xml',
-             'views/product_view.xml',
-             'views/stock_view.xml',
-             'wizard/print_protocol_test_view.xml'],
-    "installable": True
-}
+from openerp import models, fields
+
+
+class stock_production_lot(models.Model):
+
+    _inherit = 'stock.production.lot'
+
+    response_ids = fields.One2many('survey.user_input', 'lot_id', 'Responses')
