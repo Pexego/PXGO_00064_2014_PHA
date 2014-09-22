@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, exceptions, _
 
 
 class SettlementAgent(models.Model):
@@ -100,7 +100,7 @@ class SettlementAgent(models.Model):
             if not commission_applied:
                 commission_applied = commission_obj.search(cr, uid, [('bussiness_line_id', '=', False), ('commission_id', '=', line.commission_id.id)])
             if not commission_applied:
-                raise orm.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
+                raise exceptions.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
             commission = commission_obj.browse(cr, uid, commission_applied[0])
 
             # Marca la comision en la factura como liquidada y establece la

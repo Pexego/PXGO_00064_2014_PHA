@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 
 
 class SettlementLine(models.Model):
@@ -58,7 +58,7 @@ class SettlementLine(models.Model):
                     if not commission_applied:
                         commission_applied = commission_obj.search([('bussiness_line_id', '=', False), ('commission_id', '=', commission.commission_id.id)])
                     if not commission_applied:
-                        raise orm.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
+                        raise exceptions.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
                     commission_app = commission_applied[0]
                     # commission_app = commission.commission_id  # Obtiene el objeto
                     invoice_line_amount = self.invoice_line_id.price_subtotal

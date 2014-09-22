@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, exceptions, _
 
 
 class invoice_agent(models.Model):
@@ -35,7 +35,7 @@ class invoice_agent(models.Model):
             if not commission_applied:
                 commission_applied = commission_obj.search(cr, uid, [('bussiness_line_id', '=', False), ('commission_id', '=', line_agent.commission_id.id)])
             if not commission_applied:
-                raise orm.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
+                raise exceptions.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
             commission = commission_obj.browse(cr, uid, commission_applied[0])
             if commission.type == 'fijo' and \
                     commission.fix_qty:
