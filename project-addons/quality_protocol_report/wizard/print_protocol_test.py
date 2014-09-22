@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models
+from openerp import models, exceptions, _
 from openerp.osv import fields
 from openerp.addons.website.models.website import slug
 from urlparse import urljoin
@@ -42,12 +42,10 @@ class PrintProtocolTest(models.TransientModel):
         obj = self.pool[context['active_model']].browse(cr, uid,
                                                         context['active_id'])
         for wzd in self.browse(cr, uid, ids):
-            res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s" % (slug(obj), slug(wzd.protocol_id)))
+            res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s" % (slug(obj), slug(obj.product_id.protocol_id)))
         return res
 
     _columns = {
-        'protocol_id': fields.many2one("quality.protocol.report",
-                                       "Protocol", required=True),
         'print_url': fields.function(_get_print_url, string="Print link",
                                      readonly=True, type="char")
     }
@@ -55,6 +53,10 @@ class PrintProtocolTest(models.TransientModel):
     def print_protocol(self, cr, uid, ids, context=None):
         obj = self.browse(cr, uid, ids, context=context)
         # Abre vista web
+        obj2 = self.pool[context['active_model']].browse(cr, uid,
+                                                        context['active_id'])
+        if not obj2.product_id.protocol_id:
+            raise exceptions.except_orm(_('Protocol error'), _('The product %s not have a protocol assigned') % (obj2.product_id.name))
         return {
             'type': 'ir.actions.act_url',
             'name': "Print Protocol",
