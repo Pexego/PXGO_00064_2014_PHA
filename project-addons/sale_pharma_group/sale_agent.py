@@ -20,7 +20,7 @@
 ##############################################################################
 
 from openerp import models, fields
-
+from openerp.osv import fields as fieldsOld
 
 class commission_bussines_line(models.Model):
 
@@ -32,7 +32,7 @@ class commission_bussines_line(models.Model):
                              required=True, default='fijo')
     fix_qty = fields.Float('Fix Percentage')
     sections = fields.One2many('commission.section',
-                                'commission_id', 'Sections')
+                                'commission_line_id', 'Sections')
     bussiness_line_id = fields.Many2one('account.analytic.account',
                                          'bussiness line')
     commission_id = fields.Many2one('commission', 'Commission')
@@ -52,8 +52,14 @@ class commission_section(models.Model):
 
     _inherit = "commission.section"
 
-    commission_id = fields.Many2one('commission.bussines.line', 'Commission',
+    commission_line_id = fields.Many2one('commission.bussines.line', 'Commission',
                                      required=True)
+    # se modifica para añadir el campo con la api antigua, issue #2605
+    _columns = {
+
+        'commission_id': fieldsOld.many2one('commission', 'Commission', required=False)
+
+    }
 
 class commission(models.Model):
     """Objeto comisión"""
