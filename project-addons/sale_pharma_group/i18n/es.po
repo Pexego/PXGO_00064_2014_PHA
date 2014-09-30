@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-29 13:08+0000\n"
-"PO-Revision-Date: 2014-08-29 13:08+0000\n"
+"POT-Creation-Date: 2014-09-18 15:43+0000\n"
+"PO-Revision-Date: 2014-09-18 15:43+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,9 +21,9 @@ msgid " City/locations completion object"
 msgstr " Objeto de completado de ciudad/ubicación"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_filter
 #: field:pharma.group.sale,agent_id:0
-#: view:res.better.zip:0
+#: view:res.better.zip:sale_pharma_group.view_better_zip_filter_add_agent
 #: field:res.better.zip,agent_id:0
 msgid "Agent"
 msgstr "Agente"
@@ -40,9 +40,42 @@ msgid "April"
 msgstr "Abril"
 
 #. module: sale_pharma_group
+#: view:assign.agent.zip.wizard:sale_pharma_group.assign_agent_zip_wizard_view
+#: view:assign.zip.agent.wizard:sale_pharma_group.assign_zip_agent_wizard_view
+msgid "Assign"
+msgstr "Assignar"
+
+#. module: sale_pharma_group
+#: view:sale.agent:sale_pharma_group.view_saleagent_form_add_zips
+msgid "Assign ZIP"
+msgstr "Asignar CP"
+
+#. module: sale_pharma_group
+#: view:res.partner:sale_pharma_group.view_partner_form
+msgid "Assign agent by ZIP"
+msgstr "Asignar agente por CP"
+
+#. module: sale_pharma_group
+#: view:assign.agent.zip.wizard:sale_pharma_group.assign_agent_zip_wizard_view
+#: model:ir.actions.act_window,name:sale_pharma_group.assign_agent_by_zip_wizard_action
+msgid "Assign agent by zip"
+msgstr "Asignar agente por CP"
+
+#. module: sale_pharma_group
+#: view:assign.zip.agent.wizard:sale_pharma_group.assign_zip_agent_wizard_view
+#: model:ir.actions.act_window,name:sale_pharma_group.assign_zip_agent_wizard_action
+msgid "Assign zip to agent"
+msgstr "Assignar CP a agente"
+
+#. module: sale_pharma_group
 #: selection:import.pharma.group.sales.wzd,month:0
 msgid "August"
 msgstr "Agosto"
+
+#. module: sale_pharma_group
+#: field:res.partner.agent,auto:0
+msgid "Automatic created"
+msgstr "Automatic created"
 
 #. module: sale_pharma_group
 #: field:pharma.group.sale,product_cn:0
@@ -50,29 +83,54 @@ msgid "CN"
 msgstr "CN"
 
 #. module: sale_pharma_group
-#: view:import.pharma.group.sales.wzd:0
+#: view:assign.agent.zip.wizard:sale_pharma_group.assign_agent_zip_wizard_view
+#: view:assign.zip.agent.wizard:sale_pharma_group.assign_zip_agent_wizard_view
+#: view:import.pharma.group.sales.wzd:sale_pharma_group.import_pharma_group_sales_wzd_form
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: sale_pharma_group
+#: view:commission.bussines.line:sale_pharma_group.commission_bussines_line_form
+#: model:ir.model,name:sale_pharma_group.model_commission
+msgid "Commission"
+msgstr "Comisión"
+
+#. module: sale_pharma_group
+#: code:addons/sale_pharma_group/invoice_line_agent.py:38
+#: code:addons/sale_pharma_group/settlement_agent.py:103
+#: code:addons/sale_pharma_group/settlement_line.py:61
+#, python-format
+msgid "Commission Error"
+msgstr "Commission Error"
+
+#. module: sale_pharma_group
+#: model:ir.model,name:sale_pharma_group.model_commission_section
+msgid "Commission section"
+msgstr "Tramo de comisión"
+
+#. module: sale_pharma_group
+#: field:assign.agent.zip.wizard,create_uid:0
+#: field:assign.zip.agent.wizard,create_uid:0
 #: field:import.pharma.group.sales.wzd,create_uid:0
 #: field:pharma.group.sale,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: sale_pharma_group
+#: field:assign.agent.zip.wizard,create_date:0
+#: field:assign.zip.agent.wizard,create_date:0
 #: field:import.pharma.group.sales.wzd,create_date:0
 #: field:pharma.group.sale,create_date:0
 msgid "Created on"
 msgstr "Creado en"
 
 #. module: sale_pharma_group
-#: view:sale.agent:0
+#: view:sale.agent:sale_pharma_group.view_saleagent_form_add_zips
 msgid "Customer assigned"
 msgstr "Cliente asignado"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_filter
 msgid "Date"
 msgstr "Fecha"
 
@@ -80,6 +138,16 @@ msgstr "Fecha"
 #: selection:import.pharma.group.sales.wzd,month:0
 msgid "December"
 msgstr "Diciembre"
+
+#. module: sale_pharma_group
+#: field:sale.agent,commission_group:0
+msgid "Default commission group"
+msgstr "Default commission group"
+
+#. module: sale_pharma_group
+#: view:commission.bussines.line:sale_pharma_group.commission_bussines_line_form
+msgid "Definition of rates"
+msgstr "Definition of rates"
 
 #. module: sale_pharma_group
 #: field:settlement.line,name:0
@@ -97,19 +165,26 @@ msgid "File to import"
 msgstr "Fihero a importar (.xls)"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
-#: view:res.better.zip:0
+#: view:commission.bussines.line:sale_pharma_group.commission_bussines_line_form
+msgid "General info."
+msgstr "General info."
+
+#. module: sale_pharma_group
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_filter
+#: view:res.better.zip:sale_pharma_group.view_better_zip_filter_add_agent
 msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: sale_pharma_group
+#: field:assign.agent.zip.wizard,id:0
+#: field:assign.zip.agent.wizard,id:0
 #: field:import.pharma.group.sales.wzd,id:0
 #: field:pharma.group.sale,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: sale_pharma_group
-#: view:import.pharma.group.sales.wzd:0
+#: view:import.pharma.group.sales.wzd:sale_pharma_group.import_pharma_group_sales_wzd_form
 msgid "Import"
 msgstr "Importar"
 
@@ -119,7 +194,7 @@ msgid "Import date"
 msgstr "Fecha importación"
 
 #. module: sale_pharma_group
-#: view:import.pharma.group.sales.wzd:0
+#: view:import.pharma.group.sales.wzd:sale_pharma_group.import_pharma_group_sales_wzd_form
 #: model:ir.ui.menu,name:sale_pharma_group.menu_import_pharma_group_sales_wzd
 msgid "Import pharma groups sales"
 msgstr "Importar ventas grupo farmacias"
@@ -140,12 +215,16 @@ msgid "June"
 msgstr "Junio"
 
 #. module: sale_pharma_group
+#: field:assign.agent.zip.wizard,write_uid:0
+#: field:assign.zip.agent.wizard,write_uid:0
 #: field:import.pharma.group.sales.wzd,write_uid:0
 #: field:pharma.group.sale,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: sale_pharma_group
+#: field:assign.agent.zip.wizard,write_date:0
+#: field:assign.zip.agent.wizard,write_date:0
 #: field:import.pharma.group.sales.wzd,write_date:0
 #: field:pharma.group.sale,write_date:0
 msgid "Last Updated on"
@@ -182,12 +261,17 @@ msgid "October"
 msgstr "Octubre"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_form
 msgid "Other info"
 msgstr "Otra información"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: model:ir.model,name:sale_pharma_group.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: sale_pharma_group
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_form
 #: field:settlement.line,pharma_group_sale_id:0
 msgid "Pharma group sale"
 msgstr "Ventas grupo farmacias"
@@ -195,18 +279,18 @@ msgstr "Ventas grupo farmacias"
 #. module: sale_pharma_group
 #: model:ir.model,name:sale_pharma_group.model_pharma_group_sale
 #: model:ir.ui.menu,name:sale_pharma_group.menu_pharma_group_sale
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_tree
 msgid "Pharma groups sales"
 msgstr "Ventas grupo farmacias"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_filter
 #: field:pharma.group.sale,pharmacy_name:0
 msgid "Pharmacy"
 msgstr "Farmacia"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_form
 msgid "Pharmacy data"
 msgstr "Datos farmacia"
 
@@ -226,7 +310,7 @@ msgid "Pricelist"
 msgstr "Tarifa"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_filter
 #: field:pharma.group.sale,product_id:0
 msgid "Product"
 msgstr "Producto"
@@ -237,7 +321,7 @@ msgid "Qty."
 msgstr "Cant."
 
 #. module: sale_pharma_group
-#: view:sale.agent:0
+#: view:sale.agent:sale_pharma_group.view_saleagent_form_add_zips
 msgid "Related zips"
 msgstr "CPs relacionados"
 
@@ -247,9 +331,14 @@ msgid "Sale agent"
 msgstr "Agente de ventas"
 
 #. module: sale_pharma_group
-#: view:pharma.group.sale:0
+#: view:pharma.group.sale:sale_pharma_group.pharma_group_sale_form
 msgid "Sale data"
 msgstr "Datos venta"
+
+#. module: sale_pharma_group
+#: model:ir.model,name:sale_pharma_group.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
 
 #. module: sale_pharma_group
 #: selection:import.pharma.group.sales.wzd,month:0
@@ -267,19 +356,19 @@ msgid "Settled qty."
 msgstr "Cant. liquidada"
 
 #. module: sale_pharma_group
-#: code:addons/sale_pharma_group/settlement_agent.py:148
+#: code:addons/sale_pharma_group/settlement_agent.py:265
 #, python-format
 msgid "Settlements on invoices"
 msgstr "Liquidación en facturas"
 
 #. module: sale_pharma_group
-#: code:addons/sale_pharma_group/settlement_agent.py:156
+#: code:addons/sale_pharma_group/settlement_agent.py:273
 #, python-format
 msgid "Settlements on others"
 msgstr "Liquidación en otros"
 
 #. module: sale_pharma_group
-#: code:addons/sale_pharma_group/settlement_agent.py:152
+#: code:addons/sale_pharma_group/settlement_agent.py:269
 #, python-format
 msgid "Settlements on pharma groups sales"
 msgstr "Liquidación en ventas grupo farmacias"
@@ -312,6 +401,11 @@ msgid "Zip %s not found"
 msgstr "El CP %s no se ha encontrado"
 
 #. module: sale_pharma_group
+#: field:assign.zip.agent.wizard,zip:0
+msgid "Zip code"
+msgstr "Zip code"
+
+#. module: sale_pharma_group
 #: field:pharma.group.sale,pharmacy_zip:0
 msgid "Zipcode"
 msgstr "Cód. postal"
@@ -332,27 +426,15 @@ msgid "act.pharma.group.sale"
 msgstr "act.pharma.group.sale"
 
 #. module: sale_pharma_group
-#: view:import.pharma.group.sales.wzd:0
-msgid "or"
-msgstr "o"
+#: code:addons/sale_pharma_group/invoice_line_agent.py:38
+#: code:addons/sale_pharma_group/settlement_agent.py:103
+#: code:addons/sale_pharma_group/settlement_line.py:61
+#, python-format
+msgid "not found the appropiate commission."
+msgstr "No se ha encontrado la comisión apropiada."
 
 #. module: sale_pharma_group
-#: model:ir.model,name:sale_pharma_group.model_settled_invoice_wizard
-msgid "settled.invoice.wizard"
-msgstr "settled.invoice.wizard"
-
-#. module: sale_pharma_group
-#: model:ir.model,name:sale_pharma_group.model_settlement
-msgid "settlement"
-msgstr "Liquidación"
-
-#. module: sale_pharma_group
-#: model:ir.model,name:sale_pharma_group.model_settlement_agent
-msgid "settlement.agent"
-msgstr "settlement.agent"
-
-#. module: sale_pharma_group
-#: model:ir.model,name:sale_pharma_group.model_settlement_line
-msgid "settlement.line"
-msgstr "Línea de liquidación"
+#: view:commission.bussines.line:sale_pharma_group.commission_bussines_line_form
+msgid "sections"
+msgstr "sections"
 

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,13 +19,22 @@
 #
 ##############################################################################
 
-from . import better_zip
-from . import sale_agent
-from . import pharma_group_sale
-from . import wizard
-from . import settlement
-from . import settlement_agent
-from . import settlement_line
-from . import sale_order
-from . import invoice_line_agent
-from . import res_partner
+
+from openerp import models, fields, api
+
+
+class assign_zip_agent_wizard(models.TransientModel):
+
+    _name = 'assign.zip.agent.wizard'
+
+    zip = fields.Char('Zip code', size=64)
+    agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
+
+    def _get_agent(self):
+        self.agent_id = self.env.context.get('active_id', False)
+
+    @api.one
+    def assign(self):
+        locations = self.env['res.better.zip'].search([('name', '=', self.zip)])
+        for location in locations:
+            location.agent_id = self.agent_id

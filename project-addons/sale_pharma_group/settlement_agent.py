@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, exceptions, _
 
 
 class SettlementAgent(models.Model):
@@ -51,7 +51,124 @@ class SettlementAgent(models.Model):
                             'Lines', readonly=False)
 
     def calcula(self, cr, uid, ids, date_from, date_to):
-        super(SettlementAgent, self).calcula(cr, uid, ids, date_from, date_to)
+        set_agent = self.browse(cr, uid, ids)
+        commission_obj = self.pool.get('commission.bussines.line')
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        # Recalculamos todas las lineas sujetas a comision
+
+        sql = 'SELECT  invoice_line_agent.id FROM account_invoice_line ' \
+              'INNER JOIN invoice_line_agent ON invoice_line_agent.invoice_line_id=account_invoice_line.id ' \
+              'INNER JOIN account_invoice ON account_invoice_line.invoice_id = account_invoice.id ' \
+              'WHERE invoice_line_agent.agent_id=' + str(set_agent.agent_id.id) + ' AND invoice_line_agent.settled=True ' \
+              'AND account_invoice.state not in (\'draft\',\'cancel\') AND account_invoice.type=\'out_invoice\''\
+              'AND account_invoice.date_invoice >= \'' + date_from + '\' AND account_invoice.date_invoice <= \'' + date_to + '\''\
+              ' AND account_invoice.company_id = ' + str(user.company_id.id)
+
+        cr.execute(sql)
+        res = cr.fetchall()
+        inv_line_agent_ids = [x[0] for x in res]
+
+        self.pool.get('invoice.line.agent').calculate_commission(
+            cr, uid, inv_line_agent_ids)
+
+        sql = 'SELECT  account_invoice_line.id FROM account_invoice_line ' \
+              'INNER JOIN invoice_line_agent ON invoice_line_agent.invoice_line_id=account_invoice_line.id ' \
+              'INNER JOIN account_invoice ON account_invoice_line.invoice_id = account_invoice.id ' \
+              'WHERE invoice_line_agent.agent_id=' + str(set_agent.agent_id.id) + ' AND invoice_line_agent.settled=False ' \
+              'AND account_invoice.state not in (\'draft\',\'cancel\') AND account_invoice.type in (\'out_invoice\',\'out_refund\')'\
+              'AND account_invoice.date_invoice >= \'' + date_from + '\' AND account_invoice.date_invoice <= \'' + date_to + '\''\
+              ' AND account_invoice.company_id = ' + str(user.company_id.id)
+
+        cr.execute(sql)
+        res = cr.fetchall()
+        inv_line_ids = [x[0] for x in res]
+
+        total_per = 0
+        total_sections = 0
+        total = 0
+        sections = {}
+        for inv_line_id in inv_line_ids:
+            linea_id = self.pool.get('settlement.line').create(
+                cr, uid, {'invoice_line_id': inv_line_id,
+                          'settlement_agent_id': ids})
+            self.pool.get('settlement.line').calcula(cr, uid, linea_id)
+
+            line = self.pool.get('settlement.line').browse(cr, uid, linea_id)
+
+            analytic = line.invoice_line_id.account_analytic_id
+            commission_applied = commission_obj.search(cr, uid, [('bussiness_line_id', '=', analytic.id), ('commission_id', '=', line.commission_id.id)])
+            if not commission_applied:
+                commission_applied = commission_obj.search(cr, uid, [('bussiness_line_id', '=', False), ('commission_id', '=', line.commission_id.id)])
+            if not commission_applied:
+                raise exceptions.except_orm(_('Commission Error'), _('not found the appropiate commission.'))
+            commission = commission_obj.browse(cr, uid, commission_applied[0])
+
+            # Marca la comision en la factura como liquidada y establece la
+            # cantidad Si es por tramos la cantidad será cero, pero se
+            # reflejará sobre el tramo del Agente
+
+            if commission.type == "fijo":
+                total_per = total_per + line.commission
+                inv_ag_ids = self.pool.get('invoice.line.agent').search(
+                    cr, uid, [('invoice_line_id', '=', inv_line_id),
+                              ('agent_id', '=', set_agent.agent_id.id)])
+                self.pool.get('invoice.line.agent').write(cr, uid, inv_ag_ids,
+                                                          {'settled': True,
+                                                           'quantity':
+                                                               line.commission}
+                                                          )
+            if commission.type == "tramos":
+                if line.invoice_line_id.product_id.commission_exent is not \
+                        True:
+                    # Hacemos un agregado de la base de cálculo agrupándolo
+                    # por las distintas comisiones en tramos que tenga el
+                    # agente asignadas
+                    if line.invoice_line_id.invoice_id.type == 'out_refund':
+                        sign_price = - line.invoice_line_id.price_subtotal
+                    else:
+                        sign_price = line.invoice_line_id.price_subtotal
+
+                    if commission.id in sections:
+                        sections[commission.id]['base'] = \
+                            sections[commission.id]['base'] + \
+                            sign_price
+                        # Añade la línea de la que se añade esta
+                        # base para el cálculo por tramos
+                        sections[commission.id]['lines'].append(line)
+                    else:
+                        sections[commission.id] = \
+                            {'type': commission,
+                             'base': sign_price, 'lines': [line]}
+        # Tramos para cada tipo de comisión creados
+        for tramo in sections:
+            # Cálculo de la comisión  para cada tramo
+            #TODO
+            new_tramo = {'commission': sections[tramo]['type'].calcula_tramos(
+                sections[tramo]['base'])}
+            sections[tramo].update(new_tramo)
+            total_sections = total_sections+sections[tramo]['commission']
+            # reparto de la comisión para cada linea
+
+            for linea_tramo in sections[tramo]['lines']:
+                com_por_linea = sections[tramo]['commission'] * \
+                    (linea_tramo.invoice_line_id.price_subtotal /
+                     (abs(sections[tramo]['base']) or 1.0))
+                linea_tramo.write({'commission': com_por_linea})
+                inv_ag_ids = self.pool.get('invoice.line.agent').search(
+                    cr, uid,
+                    [('invoice_line_id', '=', linea_tramo.invoice_line_id.id),
+                     ('agent_id', '=', set_agent.agent_id.id)])
+                self.pool.get('invoice.line.agent').write(cr, uid, inv_ag_ids,
+                                                          {'settled': True,
+                                                           'quantity':
+                                                               com_por_linea})
+
+        total = total_per + total_sections
+        self.write(cr, uid, ids, {'total_per': total_per,
+                                  'total_sections': total_sections,
+                                  'total': total})
+
+
         total_per = 0
         total_sections = 0
 

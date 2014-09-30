@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="mrp_production_add_review" model="ir.ui.view">
+        <field name="name">mrp.production.review.form</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <button name="button_confirm" position="after">
+                <button name="action_done_review"  type="object" string="Done" states="review" class="oe_highlight"/>
+            </button>
+        </field>
+    </record>
+</data>
+</openerp>

@@ -34,7 +34,9 @@ class sale(models.Model):
                                               'Responsible for shipping',
                                               default=_get_active_user)
     notified_partner_id = fields.Many2one('res.partner', 'Cooperative')
+    settled = fields.Boolean('Settled', readonly=True, default=False)
 
+    settlement_agent_id = fields.Many2one('settlement.agent', 'Settlement')
 
     def action_quotation_send(self, cr, uid, ids, context=None):
         '''
@@ -78,3 +80,20 @@ class sale(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+class sale_order_line(models.Model):
+
+    _inherit = 'sale.order.line'
+
+    def get_applied_commission(self, line):
+        if not line.product_id.commission_exent:
+            # si la linea no tiene comissiones arrastro los del pedido a la
+            # linea de factura
+            commissions = []
+            if not line.line_agent_ids:
+                for so_comm in line.order_id.sale_agent_ids:
+                    commissions.append(so_comm)
+            else:
+                for l_comm in line.line_agent_ids:
+                    commissions.append(l_comm)
+        return commissions

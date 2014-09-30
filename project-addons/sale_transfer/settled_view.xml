@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="settlement_agent_add_transfer_tree" model="ir.ui.view">
+            <field name="name">settlement.agent.tree</field>
+            <field name="model">settlement.agent</field>
+            <field name="inherit_id" ref="sale_commission.view_settlement_agent_tree"/>
+            <field name="arch" type="xml">
+                <field name="total" position="before">
+                    <field name="commission_transfer"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="settlement_agent_add_transfer_form" model="ir.ui.view">
+            <field name="name">settlement.agent.form</field>
+            <field name="model">settlement.agent</field>
+            <field name="inherit_id" ref="sale_commission.view_settlement_agent_form"/>
+            <field name="arch" type="xml">
+                <field name="total" position="before">
+                    <field name="commission_transfer"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Transfer sales">
+                        <field name="sale_transfer_ids"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>
