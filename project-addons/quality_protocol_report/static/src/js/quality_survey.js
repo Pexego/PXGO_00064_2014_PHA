@@ -41,7 +41,7 @@ function fill_data() {
 function send_form_server() {
     $('.js_errzone').html("").hide();
     $('#all_data').find('.survey').each(function() {
-        var url_submit = $(this).attr("url_submit");
+        var url_submit = $(this).attr("url-submit");
         var dat = $(this).find("form").serialize();
         // Si se cambia a disabled antes de serializar falla
         $(this).find(":input").attr("disabled", true);
