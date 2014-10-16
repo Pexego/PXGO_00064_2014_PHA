@@ -49,11 +49,13 @@ class WebsiteProtocol(http.Controller):
                 #context.update({'survey' + str(seq): line.survey_id})
                 #seq += 1
                 if line.survey_id.id not in survey_responsed_ids:
+                    print "not exists"
                     user_input_id = user_input_obj.create(cr, uid, {'survey_id': line.survey_id.id, 'partner_id': user.partner_id.id, 'lot_id': production.final_lot_id.id}, context2)
                     user_input = user_input_obj.browse(cr, uid, user_input_id, context2)
                     parts.append(('s',line.survey_id, user_input.token))
                     context.update({'exist': False})
                 else:
+                    print "exists"
                     response_id = user_input_obj.search(cr, uid, [('survey_id' ,'=', line.survey_id.id), ('partner_id' ,'=', user.partner_id.id), ('lot_id' ,'=', production.final_lot_id.id)], context=context2)
                     response = user_input_obj.browse(cr, uid, response_id, context2)[0]
                     parts.append(('s',line.survey_id, response.token))
@@ -75,6 +77,7 @@ class WebsiteProtocol(http.Controller):
             Función copiada de survey.
             TODO: es mejorable, sigue devolviendo la siguiente página aunque no se usa en el cliente.
         """
+        print "SUBMIT"
         _logger.debug('Incoming data: %s', post)
         cr, uid, context = request.cr, request.uid, request.context
         survey_obj = request.registry['survey.survey']
