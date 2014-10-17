@@ -25,6 +25,7 @@
                                 <field name="name" colspan="4"/>
                                 <field name="subtitle" colspan="4"/>
                                 <field name="view_id"/>
+                                <field name="odoo_field_id" domain="[('model_id', '=', parent.model_id),('ttype', '=', 'one2many')]"/>
                                 <field name="survey_id"/>
                             </group>
                         </form>

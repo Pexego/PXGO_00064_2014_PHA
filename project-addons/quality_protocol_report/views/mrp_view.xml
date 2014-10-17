@@ -37,22 +37,34 @@
         </div>
     </template>
 
-    <!-- Vista de prueba usada como cabecera del protocolo de produccion -->
-    <template id="production_header" name="Production header">
+    <!--<template id="production_adjustements" name="Production adjustements">
         <div class="wrap">
             <div class="container">
                 <div class="row">
-                   <div>
-                        <p>PRODUCTO: </p><span t-field='production.product_id.name' />
-                        <p>LOTE: </p><span t-if='production.final_lot_id' t-field='production.final_lot_id.name' />
-                   </div>
+                    <form role="form" method="post" t-att-data-submit="'/protocol/submit/%s' % (slug(part[1]))">
+
+                    </form>
                 </div>
             </div>
         </div>
+    </template>-->
+
+    <!-- Vista de prueba usada como cabecera del protocolo de produccion -->
+    <template id="production_header" name="Production header">
+       <div>
+            <p>PRODUCTO: </p><span t-field='production.product_id.name' />
+            <p>LOTE: </p><span t-if='production.final_lot_id' t-field='production.final_lot_id.name' />
+            <br />
+            <form role="form" method="post" class="oe_form" t-att-url-submit="'/protocol/submit/%s' % (slug(production))">
+                <table class="oe_list_content oe_form_field_one2many quality_field" id="tblAppendGrid" t-att-qfield="'adjustsments_ids'"
+                      t-att-columns="'start_date,name,reanudation_date,initials,id'" t-att-model="production._name" t-att-record="production.id">
+                </table>
+            </form>
+       </div>
     </template>
 
     <!-- Vista generica de impresion de surveys -->
-    <template id="generic_survey" name="Production header">
+    <template id="generic_survey" name="Generic survey template">
         <div class="wrap">
             <div class="container">
                 <div t-field='survey.title' class="oe_no_empty"/>
@@ -91,15 +103,21 @@
         </div>
     </template>
 
-    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Survey assets">
+    <template id="assets_backend" inherit_id="web.assets_backend" name="Survey assets">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
+            <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.min.js" />
         </xpath>
     </template>
 
     <!-- Vista contenedora para el prototipo, se debe mirar como se puede generar al vuelo, desde el controller -->
     <template id="protocol_print" name="Protocol">
-        <t t-call="website.layout">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <link rel="stylesheet" href="/quality_protocol_report/static/src/css/jquery.appendGrid-1.4.2.css"/>
+                    <t t-call-assets="web.assets_common"/>
+                    <t t-call-assets="web.assets_backend"/>
+            </t>
             <div class="wrap">
                 <div class="container">
                     <!--div groups="base.group_website_publisher" t-ignore="true" class="text-right">

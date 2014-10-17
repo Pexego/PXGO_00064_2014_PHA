@@ -32,12 +32,13 @@ class WebsiteProtocol(http.Controller):
     # Url que se genera desde el wizard de impresión de protocolo, recibe producción y protocolo como parámetros
     # Los parámetros se recien de la forma <tipo_de_dato:nombre_de_parametro>
     @http.route(['/protocol/print/<model("mrp.production"):production>/<model("quality.protocol.report"):protocol>'],
-                type='http', auth='public', website=True)
+                type='http', auth='user', website=True)
     def print_survey(self, production, protocol, **post):
-        cr, uid, context2 = request.cr, request.uid, request.context
+        cr, uid, context2, session = request.cr, request.uid, request.context, request.session
         user_obj = request.registry['res.users']
         user = user_obj.browse(cr, uid, uid, context2)
         user_input_obj = request.registry['survey.user_input']
+        view_obj = request.registry['ir.ui.view']
         context = {'production': production}
         # seq = 1
 
@@ -49,13 +50,11 @@ class WebsiteProtocol(http.Controller):
                 #context.update({'survey' + str(seq): line.survey_id})
                 #seq += 1
                 if line.survey_id.id not in survey_responsed_ids:
-                    print "not exists"
                     user_input_id = user_input_obj.create(cr, uid, {'survey_id': line.survey_id.id, 'partner_id': user.partner_id.id, 'lot_id': production.final_lot_id.id}, context2)
                     user_input = user_input_obj.browse(cr, uid, user_input_id, context2)
                     parts.append(('s',line.survey_id, user_input.token))
                     context.update({'exist': False})
                 else:
-                    print "exists"
                     response_id = user_input_obj.search(cr, uid, [('survey_id' ,'=', line.survey_id.id), ('partner_id' ,'=', user.partner_id.id), ('lot_id' ,'=', production.final_lot_id.id)], context=context2)
                     response = user_input_obj.browse(cr, uid, response_id, context2)[0]
                     parts.append(('s',line.survey_id, response.token))
@@ -63,21 +62,28 @@ class WebsiteProtocol(http.Controller):
 
             elif line.view_id:
                 parts.append(('v',line.view_id.xml_id))
+            # elif line.odoo_field_id:
+            #     parts.append(('f'))
+            #     tree_view = view_obj.search(cr, uid, [('type', '=', 'tree'),('model', '=', line.odoo_field_id.model_id.model)])
+            #     field_model_obj = request.registry[line.odoo_field_id.model_id.model]
+            #     field_model_obj.fields_view_get(cr, uid, view_id=tree_view[0], view_type='tree', toolbar=False, submenu=False)
         context.update({'parts': parts})
-
         # renderiza la vista qweb con id protocol_print, de este módulo, pasándole en contexto production y tantos surveyX como surveys en el protocolo
+        #return request.registry.get('ir.ui.view').render(cr, uid,
+        #                            'quality_protocol_report.protocol_print',
+        #                            context)
         return request.website.render('quality_protocol_report.protocol_print',
                                       context)
 
+
     # AJAX submission of a survey
     @http.route(['/protocol/submit/<model("survey.survey"):survey>'],
-                type='http', methods=['POST'], auth='public', website=True)
+                type='http', methods=['POST'], auth='user')
     def submit(self, survey, **post):
         """
             Función copiada de survey.
             TODO: es mejorable, sigue devolviendo la siguiente página aunque no se usa en el cliente.
         """
-        print "SUBMIT"
         _logger.debug('Incoming data: %s', post)
         cr, uid, context = request.cr, request.uid, request.context
         survey_obj = request.registry['survey.survey']
@@ -134,6 +140,7 @@ class WebsiteProtocol(http.Controller):
     @http.route(['/protocol/fill/<model("survey.survey"):survey>/<string:token>'],
                 type='http', auth='public', website=True)
     def fill_data(self, survey, token, **post):
+        print "ENTRA"
         cr, uid, context = request.cr, request.uid, request.context
         user_input_line_obj = request.registry['survey.user_input_line']
         ret = {}

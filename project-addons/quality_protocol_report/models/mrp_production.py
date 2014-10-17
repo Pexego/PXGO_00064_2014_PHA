@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    $Omar Castiñeira Saavedra <omar@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,9 +19,12 @@
 #
 ##############################################################################
 
-import quality_protocol_report
-import product
-import stock
-import survey
-import production_adjustments
-import mrp_production
+from openerp import models, fields
+
+
+class MrpProduction(models.Model):
+
+    _inherit = "mrp.production"
+
+    adjustsments_ids = fields.One2many('mrp.production.adjustments',
+                                       'production_id', 'Adjustments')
