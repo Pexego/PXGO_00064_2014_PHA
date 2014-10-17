@@ -36,7 +36,7 @@
              'views/mrp_view.xml',
              'views/product_view.xml',
              'wizard/print_protocol_test_view.xml',
-             'views/stock_view.xml',
-             'views/production_view.xml'],
+             'views/production_view.xml',
+             'views/stock_view.xml'],
     "installable": True
 }
