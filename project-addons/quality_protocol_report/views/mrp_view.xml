@@ -37,27 +37,15 @@
         </div>
     </template>
 
-    <!--<template id="production_adjustements" name="Production adjustements">
-        <div class="wrap">
-            <div class="container">
-                <div class="row">
-                    <form role="form" method="post" t-att-data-submit="'/protocol/submit/%s' % (slug(part[1]))">
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </template>-->
-
     <!-- Vista de prueba usada como cabecera del protocolo de produccion -->
     <template id="production_header" name="Production header">
        <div>
-            <p>PRODUCTO: </p><span t-field='production.product_id.name' />
-            <p>LOTE: </p><span t-if='production.final_lot_id' t-field='production.final_lot_id.name' />
-            <br />
-            <form role="form" method="post" class="oe_form" t-att-url-submit="'/protocol/submit/%s' % (slug(production))">
+            <p>PRODUCTO: <span t-field='production.product_id.name' /></p>
+            <p>LOTE: <span t-if='production.final_lot_id' t-field='production.final_lot_id.name' /></p>
+            <form role="form" method="post" class="oe_form" t-att-model="production._name" t-att-record="production.id">
+                <p>CANT: <input class="form-control" name="product_qty" t-att-value='production.product_qty' type="numeric"/></p>
                 <table class="oe_list_content oe_form_field_one2many quality_field" id="tblAppendGrid" t-att-qfield="'adjustsments_ids'"
-                      t-att-columns="'start_date,name,reanudation_date,initials,id'" t-att-model="production._name" t-att-record="production.id">
+                      t-att-columns="'start_date,name,reanudation_date,initials,id'">
                 </table>
             </form>
        </div>

@@ -3,10 +3,18 @@ $(document).ready(function() {
     $("#send_form").click(send_form_server);
     // Si el div #exist existe se rellenan las preguntas por ajax.
     if ($("#exist").length != 0) {
-        $("#all_data :input").attr("disabled", true);
+        $("#all_data #survey :input").attr("disabled", true);
         //$("#send_form").hide();
         fill_data();
     }
+
+if (typeof String.prototype.startsWith != 'function') {
+    // see below for better implementation!
+    String.prototype.startsWith = function (str){ return this.indexOf(str) == 0; };
+}
+if (typeof String.prototype.contains != 'function') {
+    String.prototype.contains = function(it){ return this.indexOf(it) != -1; };
+}
 });
 
 var JQUERY_UI_TYPES = {
@@ -79,101 +87,103 @@ function datetimeToISOStr(date) {
 };
 
 $(function () {
-    $('#all_data').find('.quality_field').each(function() {
-        var field_to_represent = $(this).attr("qfield");
-        var columns = $(this).attr("columns").split(",");
+    $('#all_data').find('.oe_form').each(function() {
         var record = Number($(this).attr("record"));
         var model = $(this).attr("model");
-        var self = $(this);
         var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
-        var obj = new openerp.web.Model(model, context);
-        obj.call("fields_get", [field_to_represent], {context: context}).then(function(field_data) {
-            var view_model = new openerp.web.Model(field_data[field_to_represent].relation, context);
-            var table_columns = [];
-            var format_columns = {};
-            view_model.call("fields_get", [columns], {context: context}).then(function(fields) {
-                for (var key in fields) {
-                    if (key === "id") {
-                        table_columns.push({name: key, type: 'hidden'});
+        $(this).find('table').each(function() {
+            var field_to_represent = $(this).attr("qfield");
+            var columns = $(this).attr("columns").split(",");
+            var self = $(this);
+            var obj = new openerp.web.Model(model, context);
+            obj.call("fields_get", [field_to_represent], {context: context}).then(function(field_data) {
+                var view_model = new openerp.web.Model(field_data[field_to_represent].relation, context);
+                var table_columns = [];
+                var format_columns = {};
+                view_model.call("fields_get", [columns], {context: context}).then(function(fields) {
+                    for (var key in fields) {
+                        if (key === "id") {
+                            table_columns.push({name: key, type: 'hidden'});
+                        }
+                        else {
+                            var ctrlProp = {}
+                            if (fields[key].required) {
+                                ctrlProp['required'] = true;
+                            }
+                            if (fields[key].readonly) {
+                                ctrlProp['disabled'] = true;
+                            }
+                            format_columns[key] = fields[key].type;
+                            if (ctrlProp) {
+                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp});
+                            } else {
+                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type]});
+                            }
+
+                        }
+                    }
+
+                obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
+                    if (response[field_to_represent].length > 0) {
+                        var initData = [];
+                        view_model.call('read', [response[field_to_represent], columns], {context: context}).then(function(rows_data) {
+                            for (var j = 0; j<rows_data.length;j++) {
+                                var gridRow = {};
+                                for (var k=0; k<columns.length; k++) {
+                                    if (format_columns[columns[k]] === "datetime") {
+                                        gridRow[columns[k]] = rows_data[j][columns[k]] ? datetimeToISOStr(openerp.str_to_datetime(rows_data[j][columns[k]])) : '';
+                                    }
+                                    else {
+                                        gridRow[columns[k]] = rows_data[j][columns[k]] ? rows_data[j][columns[k]] : '';
+                                    }
+                                }
+                                initData.push(gridRow);
+                            }
+                            self.appendGrid({
+                                    caption: field_data[field_to_represent].string,
+                                    initRows: 5,
+                                    columns: table_columns,
+                                    hideButtons: {
+                                        removeLast: true,
+                                        remove: true,
+                                        moveUp: true,
+                                        moveDown: true,
+                                        insert: true
+                                    },
+                                    hideRowNumColumn: true,
+                                    initData: initData,
+                                    customRowButtons: [
+                                                        { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
+                                                    ]
+                                });
+                        })
                     }
                     else {
-                        var ctrlProp = {}
-                        if (fields[key].required) {
-                            ctrlProp['required'] = true;
-                        }
-                        if (fields[key].readonly) {
-                            ctrlProp['disabled'] = true;
-                        }
-                        format_columns[key] = fields[key].type;
-                        if (ctrlProp) {
-                            table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp});
-                        } else {
-                            table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type]});
-                        }
-
-                    }
-                }
-
-            obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
-                if (response[field_to_represent].length > 0) {
-                    var initData = [];
-                    view_model.call('read', [response[field_to_represent], columns], {context: context}).then(function(rows_data) {
-                        for (var j = 0; j<rows_data.length;j++) {
-                            var gridRow = {};
-                            for (var k=0; k<columns.length; k++) {
-                                if (format_columns[columns[k]] === "datetime") {
-                                    gridRow[columns[k]] = rows_data[j][columns[k]] ? datetimeToISOStr(openerp.str_to_datetime(rows_data[j][columns[k]])) : '';
-                                }
-                                else {
-                                    gridRow[columns[k]] = rows_data[j][columns[k]] ? rows_data[j][columns[k]] : '';
-                                }
-                            }
-                            initData.push(gridRow);
-                        }
                         self.appendGrid({
-                                caption: field_data[field_to_represent].string,
-                                initRows: 5,
-                                columns: table_columns,
-                                hideButtons: {
-                                    removeLast: true,
-                                    remove: true,
-                                    moveUp: true,
-                                    moveDown: true,
-                                    insert: true
-                                },
-                                hideRowNumColumn: true,
-                                initData: initData,
-                                customRowButtons: [
-                                                    { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
-                                                ]
-                            });
-                    })
-                }
-                else {
-                    self.appendGrid({
-                        caption: field_data[field_to_represent].string,
-                        initRows: 5,
-                        columns: table_columns,
-                        hideButtons: {
-                            removeLast: true,
-                            moveUp: true,
-                            remove: true,
-                            moveDown: true,
-                            insert: true
-                        },
-                        hideRowNumColumn: true,
-                        customRowButtons: [
-                                            { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
-                                        ]
-                    });
-                }
+                            caption: field_data[field_to_represent].string,
+                            initRows: 5,
+                            columns: table_columns,
+                            hideButtons: {
+                                removeLast: true,
+                                moveUp: true,
+                                remove: true,
+                                moveDown: true,
+                                insert: true
+                            },
+                            hideRowNumColumn: true,
+                            customRowButtons: [
+                                                { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
+                                            ]
+                        });
+                    }
 
+                });
+                });
             });
-            });
+
+
         });
-
-
-});
+    });
 });
 
 function deleteRow(evtObj, uniqueIndex, rowData) {
@@ -233,7 +243,7 @@ function send_form_server() {
                     success: function(response, status, xhr, wfe) { // submission attempt
                         console.log("entra en success")
                         if (_.has(response, 'errors')) { // some questions have errors
-                            $("#all_data :input").attr("disabled", false);
+                            $("#all_data #survey :input").attr("disabled", false);
                             $("#send_form").show();
                             _.each(_.keys(response.errors), function(key) {
                                 $("#" + key + '>.js_errzone').append('<p>' + response.errors[key] + '</p>').show();
@@ -260,80 +270,100 @@ function send_form_server() {
     };
     $('#all_data').find('.view').each(function() {
         var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
-        var dat = decodeURIComponent($(this).find("form").serialize());
-        console.log(dat);
-        var url_submit = $(this).find("form").find("table").attr("url-submit");
-        var base_model = $(this).find("form").find("table").attr("model");
-        var base_record = Number($(this).find("form").find("table").attr("record"));
-        var form_field = $(this).find("form").find("table").attr("qfield");
-        var records = {};
-        var elements = dat.split('&');
-        for (var i = 0; i< elements.length - 1; i++) {
-            var vals = elements[i].split('=');
-            var def = vals[0].split("_");
-            var row_index = def.pop();
-            var elem_id = def[0];
-            var field_name = def.join("_").replace(elem_id + "_", "");
-            if (row_index in records) {
-                records[row_index][field_name] = vals[1];
-            }
-            else {
-                records[row_index] = {};
-                records[row_index][field_name] = vals[1];
-            }
-        };
-        var to_delete_rows = []
-        for (var row in records) {
-            var empty = true;
-            for (var column in records[row]) {
-                if (records[row][column] != "") {
-                    empty = false;
+        if ($(this).find("form").length) {
+            var base_model = $(this).find("form").attr("model");
+            var base_record = Number($(this).find("form").attr("record"));
+            var obj = new openerp.web.Model(base_model, context);
+            var dat = decodeURIComponent($(this).find("form").serialize());
+            console.log(dat);
+            $(this).find("form").find("table").each(function() {
+                var form_field = $(this).attr("qfield");
+                var table_id = $(this).attr("id");
+                console.log(table_id);
+                var records = {};
+                var elements = dat.split('&');
+                for (var i = 0; i< elements.length; i++) {
+                    if (!elements[i].startsWith(table_id)){
+                        continue;
+                    }
+                    if (elements[i].contains("rowOrder")) {
+                        continue;
+                    }
+                    var vals = elements[i].split('=');
+                    var def = vals[0].split("_");
+                    var row_index = def.pop();
+                    var elem_id = def[0];
+                    var field_name = def.join("_").replace(elem_id + "_", "");
+                    if (row_index in records) {
+                        records[row_index][field_name] = vals[1];
+                    }
+                    else {
+                        records[row_index] = {};
+                        records[row_index][field_name] = vals[1];
+                    }
+                };
+                var to_delete_rows = []
+                for (var row in records) {
+                    var empty = true;
+                    for (var column in records[row]) {
+                        if (records[row][column] != "") {
+                            empty = false;
+                        }
+                        else {
+                            records[row][column] = null;
+                        }
+                    }
+                    if (empty) {
+                        to_delete_rows.push(row);
+                    }
                 }
-                else {
-                    records[row][column] = null;
+
+                for (var i = 0; i <  to_delete_rows.length; i++) {
+                    delete records[to_delete_rows[i]];
                 }
-            }
-            if (empty) {
-                to_delete_rows.push(row);
-            }
-        }
 
-        for (var i = 0; i <  to_delete_rows.length; i++) {
-            delete records[to_delete_rows[i]];
-        }
+                if (to_remove_rows.length != 0) {
+                    var fields = {};
+                    for (var i=0;i<to_remove_rows.length;i++) {
+                        fields[form_field] = [[2, to_remove_rows[i]]];
+                        obj.call("write", [base_record, fields], {context: context});
+                    }
+                    to_remove_rows = [];
+                }
 
-        var obj = new openerp.web.Model(base_model, context);
-        if (to_remove_rows.length != 0) {
+                for (var row in records) {
+                    for (var column in records[row]) {
+                        if (isDate(records[row][column]) === true) {
+                            records[row][column] = openerp.web.datetime_to_str(Date.parse(records[row][column]));
+                        }
+                    }
+
+                    var fields = {};
+                    if (records[row].id) {
+                        console.log("update");
+                        var update_id = records[row].id;
+                        delete records[row].id;
+                        fields[form_field] = [[1, Number(update_id), records[row]]];
+                        obj.call("write", [base_record, fields], {context: context});
+                    }
+                    else {
+                        console.log("insert");
+                        delete records[row].id;
+                        fields[form_field] = [[0, 0, records[row]]];
+                        obj.call("write", [base_record, fields], {context: context});
+                    }
+                }
+        });
+        $(this).find("form").find(".form-control").each(function() {
+            var input_value = $(this).attr("value");
+            var name = $(this).attr("name");;
+            console.log(input_value);
+            console.log(name);
             var fields = {};
-            for (var i=0;i<to_remove_rows.length;i++) {
-                fields[form_field] = [[2, to_remove_rows[i]]];
-                obj.call("write", [base_record, fields], {context: context});
-            }
-            to_remove_rows = [];
-        }
-
-        for (var row in records) {
-            for (var column in records[row]) {
-                if (isDate(records[row][column]) === true) {
-                    records[row][column] = openerp.web.datetime_to_str(Date.parse(records[row][column]));
-                }
-            }
-
-            var fields = {};
-            if (records[row].id) {
-                console.log("update");
-                var update_id = records[row].id;
-                delete records[row].id;
-                fields[form_field] = [[1, Number(update_id), records[row]]];
-                obj.call("write", [base_record, fields], {context: context});
-            }
-            else {
-                console.log("insert");
-                delete records[row].id;
-                fields[form_field] = [[0, 0, records[row]]];
-                obj.call("write", [base_record, fields], {context: context});
-            }
-        }
+            fields[name] = input_value;
+            obj.call("write", [base_record, fields], {context: context});
+        });
+    }
     });
 
 }
