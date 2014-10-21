@@ -18,6 +18,10 @@
                         </tree>
                     </field>
                 </page>
+                <field name="priority" position="after">
+                    <field name="goods_request_date"/>
+                    <field name="goods_return_date"/>
+                </field>
             </field>
         </record>
 

@@ -39,7 +39,8 @@ class WebsiteProtocol(http.Controller):
         user = user_obj.browse(cr, uid, uid, context2)
         user_input_obj = request.registry['survey.user_input']
         view_obj = request.registry['ir.ui.view']
-        context = {'production': production}
+        context = {'production': production,
+                   'protocol': protocol}
         # seq = 1
 
         # Se generar un surveyX por cada survey en el protocolo, luego la plantilla se encargará de parsear para cada uno el parámetro survey, que es el que usa internamente la vista genérica

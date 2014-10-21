@@ -28,3 +28,11 @@ class stock_production_lot(models.Model):
 
     response_ids = fields.One2many('survey.user_input', 'lot_id', 'Responses')
 
+class stock_move(models.Model):
+
+    _inherit = "stock.move"
+
+    acceptance_date = fields.Date('Acceptance date')
+    served_qty = fields.Float('Served qty', readonly=True, help="Quality system field, no data")
+    initials = fields.Char('Initials')
+

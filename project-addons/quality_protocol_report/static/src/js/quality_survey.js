@@ -25,12 +25,12 @@ var JQUERY_UI_TYPES = {
     'datetime': 'datetime-local',
     'integer': 'number',
     'float': 'number',
+    'many2one': 'text'
 };
 
 var to_remove_rows = [];
 
-// Solo comprueba datetimes
-function isDate(date) {
+function isDateTime(date) {
     try
     {
         if ((date.length == 19 || date.length == 16) && isNaN(date)) {
@@ -69,6 +69,36 @@ function isDate(date) {
     }
 };
 
+function isDate(date) {
+    try
+    {
+        console.log(date);
+        if (date.length == 10 && isNaN(date)) {
+            //check if date is a valid date by using Date.prase();
+            //datetocheck is string 'YYYY-MM-DDThh:mm(:ss)'
+            var month = +date.substring(0,2);
+            var day = +date.substring(3,5);
+            var year = +date.substring(6,10);
+
+            if(isNaN(month)) return false;
+            if(isNaN(day)) return false;
+            if(isNaN(year)) return false;
+
+            datetocheck = Date(year, month, day, 0, 0, 0, 0);
+            Date.parse(datetocheck);
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+    catch(err)
+    {
+        return false;
+    }
+};
+
 function datetimeToISOStr(date) {
             var day = date.getDate();
             var month = date.getMonth() + 1;
@@ -87,42 +117,53 @@ function datetimeToISOStr(date) {
 };
 
 $(function () {
-    $('#all_data').find('.oe_form').each(function() {
+    $('#all_data').find('.quality_form').each(function() {
         var record = Number($(this).attr("record"));
         var model = $(this).attr("model");
         var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
-        $(this).find('table').each(function() {
+        $(this).find('.quality_field').each(function() {
             var field_to_represent = $(this).attr("qfield");
             var columns = $(this).attr("columns").split(",");
+            var columns_options = $(this).attr("columns-options") ? eval('(' + $(this).attr("columns-options") + ')') : {};
+            var columns_widths = $(this).attr("columns-widths") ? $(this).attr("columns-widths").split(',') : [];
+            var no_delete_option = $(this).attr("nodelete") ? $(this).attr("nodelete") : false;
+            var no_insert_option = $(this).attr("noinsert")  ? $(this).attr("noinsert") : false;
             var self = $(this);
             var obj = new openerp.web.Model(model, context);
             obj.call("fields_get", [field_to_represent], {context: context}).then(function(field_data) {
+                console.log(field_data[field_to_represent]);
                 var view_model = new openerp.web.Model(field_data[field_to_represent].relation, context);
                 var table_columns = [];
                 var format_columns = {};
                 view_model.call("fields_get", [columns], {context: context}).then(function(fields) {
-                    for (var key in fields) {
+                    for (var i = 0; i<columns.length; i++) {
+                        var key = columns[i];
                         if (key === "id") {
                             table_columns.push({name: key, type: 'hidden'});
                         }
                         else {
-                            var ctrlProp = {}
+                            var ctrlProp = {};
+                            var displayCss = {};
+                            var uiOption = {};
                             if (fields[key].required) {
                                 ctrlProp['required'] = true;
                             }
-                            if (fields[key].readonly) {
+                            if (columns_options && columns_options[key] == "disabled") {
                                 ctrlProp['disabled'] = true;
                             }
-                            format_columns[key] = fields[key].type;
-                            if (ctrlProp) {
-                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp});
-                            } else {
-                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type]});
+                            if (columns_widths.length > 0) {
+                                displayCss['width'] = columns_widths[i];
                             }
+                            format_columns[key] = fields[key].type;
+
+                            if (JQUERY_UI_TYPES[fields[key].type] == "ui-datepicker") {
+                                uiOption['dateFormat'] = 'dd/mm/yy'
+                            }
+
+                            table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp, displayCss: displayCss, uiOption: uiOption});
 
                         }
                     }
-
                 obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
                     if (response[field_to_represent].length > 0) {
                         var initData = [];
@@ -133,6 +174,12 @@ $(function () {
                                     if (format_columns[columns[k]] === "datetime") {
                                         gridRow[columns[k]] = rows_data[j][columns[k]] ? datetimeToISOStr(openerp.str_to_datetime(rows_data[j][columns[k]])) : '';
                                     }
+                                    else if (format_columns[columns[k]] === "date") {
+                                        gridRow[columns[k]] = rows_data[j][columns[k]] ? openerp.str_to_date(rows_data[j][columns[k]]).format("d/m/Y") : '';
+                                    }
+                                    else if (format_columns[columns[k]] === "many2one") {
+                                        gridRow[columns[k]] = rows_data[j][columns[k]] ? rows_data[j][columns[k]][1] : '';
+                                    }
                                     else {
                                         gridRow[columns[k]] = rows_data[j][columns[k]] ? rows_data[j][columns[k]] : '';
                                     }
@@ -140,7 +187,6 @@ $(function () {
                                 initData.push(gridRow);
                             }
                             self.appendGrid({
-                                    caption: field_data[field_to_represent].string,
                                     initRows: 5,
                                     columns: table_columns,
                                     hideButtons: {
@@ -148,11 +194,12 @@ $(function () {
                                         remove: true,
                                         moveUp: true,
                                         moveDown: true,
-                                        insert: true
+                                        insert: true,
+                                        append: no_insert_option
                                     },
                                     hideRowNumColumn: true,
                                     initData: initData,
-                                    customRowButtons: [
+                                    customRowButtons: no_delete_option ? [] : [
                                                         { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
                                                     ]
                                 });
@@ -160,7 +207,6 @@ $(function () {
                     }
                     else {
                         self.appendGrid({
-                            caption: field_data[field_to_represent].string,
                             initRows: 5,
                             columns: table_columns,
                             hideButtons: {
@@ -168,10 +214,11 @@ $(function () {
                                 moveUp: true,
                                 remove: true,
                                 moveDown: true,
-                                insert: true
+                                insert: true,
+                                append: no_insert_option
                             },
                             hideRowNumColumn: true,
-                            customRowButtons: [
+                            customRowButtons: no_delete_option ? [] : [
                                                 { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
                                             ]
                         });
@@ -186,6 +233,7 @@ $(function () {
     });
 });
 
+//Falta pepararlo para multiples tablas
 function deleteRow(evtObj, uniqueIndex, rowData) {
     console.log(rowData);
     if (rowData.id) {
@@ -276,10 +324,9 @@ function send_form_server() {
             var obj = new openerp.web.Model(base_model, context);
             var dat = decodeURIComponent($(this).find("form").serialize());
             console.log(dat);
-            $(this).find("form").find("table").each(function() {
+            $(this).find("form").find(".quality_field").each(function() {
                 var form_field = $(this).attr("qfield");
                 var table_id = $(this).attr("id");
-                console.log(table_id);
                 var records = {};
                 var elements = dat.split('&');
                 for (var i = 0; i< elements.length; i++) {
@@ -333,8 +380,11 @@ function send_form_server() {
 
                 for (var row in records) {
                     for (var column in records[row]) {
-                        if (isDate(records[row][column]) === true) {
+                        if (isDateTime(records[row][column]) === true) {
                             records[row][column] = openerp.web.datetime_to_str(Date.parse(records[row][column]));
+                        }
+                        else if (isDate(records[row][column]) === true) {
+                            records[row][column] = openerp.web.date_to_str(Date.parseExact(records[row][column], "d/M/yyyy"));
                         }
                     }
 

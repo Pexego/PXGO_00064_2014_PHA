@@ -2,53 +2,115 @@
 <openerp>
 <data>
 
-    <!-- Vista qweb de prueba que lista los productos a consumir de una produccion -->
-    <template id="stock_move_mrp_consume" name="Moves to consume">
-        <div class="wrap">
-            <div class="container">
-                <div class="row">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Fecha:</th>
-                            </tr>
-                            <tr>
-                                <th>Material</th>
-                                <th>Lote</th>
-                                <th>Fecha aceptado por C.Calidad</th>
-                                <th>Cantidad a servir</th>
-                                <th>Cantidad servida</th>
-                                <th>Iniciales</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="production.move_lines" t-as="move">
-                                <td><span t-field='move.product_id.name' /></td>
-                                <td><span t-if='move.reserved_quant_ids and move.reserved_quant_ids[0].lot_id' t-field='move.reserved_quant_ids[0].lot_id.name' /></td>
-                                <td></td>
-                                <td><span t-field='move.product_qty'/> <span t-field='move.product_uom.name'/></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <template id="document_header" name="Document header">
+        <div class="header">
+            <div style="display: table-row">
+                <t t-if='production.company_id.logo'>
+                    <img t-att-src="'data:image/png;base64,%s' % production.company_id.logo"/>
+                </t>
+                <h1 t-field='protocol.name'></h1>
             </div>
         </div>
     </template>
 
-    <!-- Vista de prueba usada como cabecera del protocolo de produccion -->
-    <template id="production_header" name="Production header">
-       <div>
-            <p>PRODUCTO: <span t-field='production.product_id.name' /></p>
-            <p>LOTE: <span t-if='production.final_lot_id' t-field='production.final_lot_id.name' /></p>
-            <form role="form" method="post" class="oe_form" t-att-model="production._name" t-att-record="production.id">
-                <p>CANT: <input class="form-control" name="product_qty" t-att-value='production.product_qty' type="numeric"/></p>
-                <table class="oe_list_content oe_form_field_one2many quality_field" id="tblAppendGrid" t-att-qfield="'adjustsments_ids'"
-                      t-att-columns="'start_date,name,reanudation_date,initials,id'">
+
+    <template id="stock_move_mrp_consume" name="Moves to consume">
+        <div class="quality_view">
+            <h2>1.- PETICIÓN DE MATERIALES A ENTREGAR</h2>
+            <h4>Anotar la cantidad del material que se entrega a fabricación:</h4>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <div class="unique_field">
+                    <label for="goods_request_date">Fecha:</label>
+                    <input class="form-control" name="goods_request_date" id="goods_request_date" t-att-value='production.goods_request_date' type="date"/>
+                </div>
+                <table class="quality_field" id="tblAppendGrid" t-att-qfield="'move_lines'"
+                      t-att-columns="'product_id,restrict_lot_id,acceptance_date,product_uom_qty,product_uom,served_qty,initials,id'"
+                      t-att-columns-widths="'35%,10%,15%,12%,8%,15%,5%,0%'"
+                      t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'product_uom_qty': 'disabled', 'product_uom': 'disabled'}">
                 </table>
             </form>
-       </div>
+        </div>
+    </template>
+
+    <template id="stock_move_mrp_return" name="Moves to return">
+        <div class="quality_view">
+            <h2>2.- DEVOLUCIÓN DE MATERIALES AL ALMACÉN</h2>
+            <h4>Anotar la cantidad del material que se devuelve:</h4>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <div class="unique_field">
+                    <label for="goods_return_date">Fecha:</label>
+                    <input class="form-control" name="goods_return_date" id="goods_return_date" t-att-value='production.goods_return_date' type="date"/>
+                </div>
+                <table class="quality_field" id="tblAppendGrid" t-att-qfield="'move_lines_scrapped'"
+                      t-att-columns="'product_id,restrict_lot_id,product_uom_qty,product_uom,served_qty,initials,id'"
+                      t-att-columns-widths="'45%,15%,12%,8%,15%,5%,0%'"
+                      t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'product_uom_qty': 'disabled', 'product_uom': 'disabled'}">
+                </table>
+            </form>
+        </div>
+    </template>
+
+    <template id="production_protocol_header" name="Production protocol header">
+       <div class="quality_view">
+           <div class="quality_row">
+               <ul>
+                   <li>
+                        <h4>Según procedimiento:</h4>
+                        <table>
+                            <tr>
+                                <td>PNT-PR-109</td>
+                                <td>Edición: 1</td>
+                            </tr>
+                            <tr>
+                                <td>PNT-PR-INF- 232</td>
+                                <td>Edición: 1</td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li>
+                        <table>
+                            <tr>
+                                <td>PRODUCTO: <b><span t-field='production.product_id.name'/></b></td>
+                            </tr>
+                            <tr>
+                                <td>LOTE: <t t-if="production.final_lot_id"><b><span t-field='production.final_lot_id.name'/></b></t></td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+            <div class="quality_row">
+                <ul>
+                   <li>
+                        <table>
+                            <tr>
+                                <td>Lote Pirámide:</td>
+                            </tr>
+                            <tr>
+                                <td>Fabricación: <b><span t-field='production.name'/></b></td>
+                            </tr>
+                            <tr>
+                                <td>Fecha de fabricación: <b><span t-field='production.date_planned'/></b></td>
+                                <td>Cantidad a Fabricar: <b><span t-field='production.product_qty'/></b></td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li>
+                        <table>
+                            <tr>
+                                <td>Emisión de protocolo:</td>
+                            </tr>
+                            <tr>
+                                <td>Fecha</td>
+                            </tr>
+                            <tr>
+                                <td>Firma</td>
+                            </tr>
+                        </table>
+                     </li>
+                </ul>
+            </div>
+        </div>
     </template>
 
     <!-- Vista generica de impresion de surveys -->
@@ -103,15 +165,12 @@
         <t t-call="web.layout">
             <t t-set="head">
                 <link rel="stylesheet" href="/quality_protocol_report/static/src/css/jquery.appendGrid-1.4.2.css"/>
+                <link rel="stylesheet" href="/quality_protocol_report/static/src/css/base.css"/>
                     <t t-call-assets="web.assets_common"/>
                     <t t-call-assets="web.assets_backend"/>
             </t>
-            <div class="wrap">
-                <div class="container">
-                    <!--div groups="base.group_website_publisher" t-ignore="true" class="text-right">
-                        <a href="#" class="btn btn-default">P</a>
-
-                    </div-->
+            <div class="openerp ">
+                <div class="container oe_form">
                     <!--Para no modificar las vistas de cada tipo de pregunta, si la encuesta ya fue respondida
                         se añade un div id=exist y desde static/src/js/survey.js se rellenan las respuestas por ajax. -->
                     <t t-if="exist != False">

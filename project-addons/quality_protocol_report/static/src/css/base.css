@@ -1,0 +1,42 @@
+.openerp .quality_row {
+  float: left;
+  display: table;
+  width: 100%;
+}
+.openerp .quality_row table {
+    margin: 0px;
+    padding: 0px;
+}
+.openerp .quality_row ul {
+  display: table-row;
+}
+.openerp .quality_row li {
+  list-style-type: none;
+  float: none;
+  display: table-cell;
+  position: relative;
+  padding-left: 10px;
+  padding-top: 3px;
+  border: 1px solid #ababab;
+  }
+.openerp .quality_row table {
+  width: 100%;
+  position: relative;
+}
+.openerp .quality_row tr {
+  height: 20px;
+}
+.openerp .quality_row tr td {
+  padding-left: 5px;
+}
+.unique_field {
+    display: inline-block;
+    padding-bottom: 3px;
+}
+.unique_field label {
+    width: 25%;
+    float: left;
+}
+.unique_field input {
+    width: 75%;
+}

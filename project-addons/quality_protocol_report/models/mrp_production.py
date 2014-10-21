@@ -28,3 +28,13 @@ class MrpProduction(models.Model):
 
     adjustsments_ids = fields.One2many('mrp.production.adjustments',
                                        'production_id', 'Adjustments')
+    goods_request_date = fields.Date('Request date')
+    goods_return_date = fields.Date('Return date')
+    move_lines_scrapped = fields.One2many('stock.move',
+                                          'raw_material_production_id',
+                                          'Scrapped Products',
+                                          domain=[('state', 'in',
+                                                   ('done', 'cancel')),
+                                                  ('scrapped', '=', True)],
+                                          readonly=True)
+

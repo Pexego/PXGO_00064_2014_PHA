@@ -42,10 +42,7 @@ se pueden asociar a vistas qweb o a surveys. Se ordenan por secuencia."""
 
     view_id = fields.Many2one("ir.ui.view", 'Qweb View',
                               domain=[('type', '=', 'qweb')])
-    odoo_field_id = fields.Many2one("ir.model.fields", 'Editable field',
-                              domain=[('ttype', '=', 'one2many')])
     survey_id = fields.Many2one("survey.survey", "Survey")
-    name = fields.Char("Title", required=True)
-    subtitle = fields.Char("Subtitle")
+    name = fields.Char("Name", required=True)
     sequence = fields.Integer("Sequence", default="1")
     report_id = fields.Many2one("quality.protocol.report", "Report")
