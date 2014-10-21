@@ -48,12 +48,19 @@ class PrintProtocolTest(models.TransientModel):
             obj = self.pool[context['active_model']].browse(cr, uid,
                                                             context['active_id'])
         for wzd in self.browse(cr, uid, ids):
-            res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s" % (slug(obj), slug(obj.product_id.protocol_id)))
+            use_protocol = False
+            for protocol in obj.product_id.protocol_ids:
+                if protocol.name.id == wzd.protocol_type_id.id:
+                    use_protocol = protocol.protocol_id
+            if not use_protocol:
+                raise exceptions.except_orm(_('Not found'), _('Protocol not found for the product %s.') % obj.product_id.name)
+            res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s" % (slug(obj), slug(use_protocol)))
         return res
 
     _columns = {
         'print_url': fields.function(_get_print_url, string="Print link",
-                                     readonly=True, type="char")
+                                     readonly=True, type="char"),
+        'protocol_type_id': fields.many2one('protocol.type', 'Protocol type', required=True),
     }
 
     def print_protocol(self, cr, uid, ids, context=None):
@@ -67,8 +74,6 @@ class PrintProtocolTest(models.TransientModel):
         else:
             obj2 = self.pool[context['active_model']].browse(cr, uid,
                                                             context['active_id'])
-        if not obj2.product_id.protocol_id:
-            raise exceptions.except_orm(_('Protocol error'), _('The product %s not have a protocol assigned') % (obj2.product_id.name))
         return {
             'type': 'ir.actions.act_url',
             'name': "Print Protocol",

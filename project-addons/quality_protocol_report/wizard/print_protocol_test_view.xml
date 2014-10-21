@@ -7,9 +7,9 @@
             <field name="model">print.protocol.test</field>
             <field name="arch" type="xml">
                 <form string="Test">
-                    <!--group>
-                        <field name="protocol_id"/>
-                    </group-->
+                    <group>
+                        <field name="protocol_type_id"/>
+                    </group>
                     <footer>
                         <button name="print_protocol" string="Print" type="object" class="oe_highlight"/>
                         or

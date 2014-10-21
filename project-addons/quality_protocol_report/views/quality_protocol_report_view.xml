@@ -10,6 +10,8 @@
                 <group>
                     <field name="name" colspan="4"/>
                     <field name="model_id"/>
+                    <field name="type_id"/>
+                    <!--field name="product_ids"/-->
                 </group>
                 <group string="Sections">
                     <field name="report_line_ids" nolabel="1" colspan="4">
@@ -40,6 +42,7 @@
             <tree string="Quality protocol reports">
                 <field name="name"/>
                 <field name="model_id"/>
+                <field name="type_id"/>
             </tree>
         </field>
     </record>
@@ -63,7 +66,7 @@
         sequence="60"/>
 
     <record id="action_quality_protocol_report" model="ir.actions.act_window">
-         <field name="name">act.quality.protocol.report</field>
+         <field name="name">Quality protocol reports</field>
          <field name="res_model">quality.protocol.report</field>
          <field name="type">ir.actions.act_window</field>
          <field name="view_type">form</field>

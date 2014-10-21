@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class QualityProtocolReport(models.Model):
@@ -28,10 +28,27 @@ class QualityProtocolReport(models.Model):
     _name = "quality.protocol.report"
 
     name = fields.Char("Name", required=True)
+    type_id = fields.Many2one('protocol.type', 'Type', required=True)
+    # product_ids = fields.One2many('product.product', string='Products', compute='_get_product_ids')
     model_id = fields.Many2one("ir.model", "Model")
     report_line_ids = fields.One2many("quality.protocol.report.line",
                                       "report_id", "Sections")
 
+    '''@api.one
+    def _get_product_ids(self):
+        # TODO: Falla https://github.com/odoo/odoo/issues/3205
+        product_protocols = self.env['product.protocol'].search([('protocol_id', '=', self.id)])
+        prod_ids = []
+        for protocol in product_protocols:
+            for product in protocol.product_ids:
+                if product.id not in prod_ids:
+                    prod_ids.append(product.id)
+        self.product_ids = [(6,0,prod_ids)]'''
+
+
+class protocol_type(models.Model):
+    _name = 'protocol.type'
+    name = fields.Char('Name', size=64)
 
 class QualityProtocolReportLine(models.Model):
     """Dentro de un documento de protodolo cada una  de sus secciones,

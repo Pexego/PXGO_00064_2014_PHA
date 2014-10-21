@@ -1,17 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <record id="product_protocol_form_view" model="ir.ui.view">
+            <field name="name">product.protocol.form</field>
+            <field name="model">product.protocol</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Protocol">
+                    <sheet>
+                        <group>
+                            <field name="protocol_id"/>
+                            <field name="name"/>
+                            <field name="product_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_protocol_tree_view" model="ir.ui.view">
+            <field name="name">product.protocol.tree</field>
+            <field name="model">product.protocol</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Protocols">
+                    <field name="name"/>
+                    <field name="protocol_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_protocol_search_view" model="ir.ui.view">
+            <field name="name">product.protocol.search</field>
+            <field name="model">product.protocol</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Protocol">
+                    <field name="name"/>
+                    <field name="protocol_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_view_product_protocol" model="ir.actions.act_window">
+            <field name="name">Protocols</field>
+            <field name="res_model">product.protocol</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_protocol_tree_view"/>
+            <field name="search_view_id" ref="product_protocol_search_view"/>
+            <field name="domain">[('product_ids', '=', active_id)]</field>
+            <field name="context">{'default_product_ids': [active_id]}</field>
+        </record>
+
+
+        <record id="action_view_product_protocol2" model="ir.actions.act_window">
+            <field name="name">Protocols</field>
+            <field name="res_model">product.protocol</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_protocol_tree_view"/>
+            <field name="search_view_id" ref="product_protocol_search_view"/>
+        </record>
+
+        <menuitem
+            id="menu_product_protocol"
+            name="Protocols for products"
+            string="Protocols"
+            action="action_view_product_protocol2"
+            parent="menu_quality_protocols"/>
 
         <record id="product_view_add_protocol" model="ir.ui.view">
             <field name="name">product.view.form</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <field name="default_code" position="after">
-                    <field name="protocol_id"/>
-                </field>
+                <div name="buttons" position="inside">
+                    <button class="oe_inline oe_stat_button" name="%(action_view_product_protocol)d" type="action"
+                            attrs="{'invisible':[('type', '=', 'service')]}" icon="fa-edit">
+                        <field string="Protocols" name="protocol_count" widget="statinfo" />
+                    </button>
+                </div>
             </field>
         </record>
-
     </data>
 </openerp>
