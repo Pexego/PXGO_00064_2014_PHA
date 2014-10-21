@@ -19,22 +19,17 @@
 #
 ##############################################################################
 
+
 from openerp import models, api
-from datetime import date
 
 
-class account_invoice(models.Model):
-    _inherit = 'account.invoice'
+class assign_agent_by_zip(models.TransientModel):
 
-    @api.multi
-    def action_date_assign(self):
-        """
-            Se hereda la función debido al bug #1236
-            ya que no se añade la fecha actual a la factura
-            al validarla.
-        """
-        res = super(account_invoice, self).action_date_assign()
-        for invoice in self:
-            if not invoice.date_invoice:
-                invoice.date_invoice = date.today()
-        return res
+    _name = "assign.agent.zip.wizard"
+
+    @api.one
+    def assign(self):
+        partner_ids = self.env.context.get('active_ids', [])
+        for partner in self.env['res.partner'].browse(partner_ids):
+            partner.assign_agent()
+        return {'type': 'ir.actions.act_window_close'}

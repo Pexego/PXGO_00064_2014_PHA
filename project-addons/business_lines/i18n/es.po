@@ -39,5 +39,5 @@ msgstr "Pedido de venta"
 #. module: business_lines
 #: view:sale.order:0
 #: field:sale.order,project_id:0
-msgid "Bussines line"
+msgid "Business line"
 msgstr "Línea de negocio"

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,13 +19,15 @@
 #
 ##############################################################################
 
-from . import better_zip
-from . import sale_agent
-from . import pharma_group_sale
-from . import wizard
-from . import settlement
-from . import settlement_agent
-from . import settlement_line
-from . import sale_order
-from . import invoice_line_agent
-from . import res_partner
+{
+    'name': "MRP review",
+    'version': '1.0',
+    'category': 'production',
+    'description': """Adds the state review on mrp.production.""",
+    'author': 'Pexego Sistemas Informáticos',
+    'website': 'www.pexego.es',
+    "depends": ['mrp'],
+    "data": ['mrp_workflow.xml',
+             'mrp_view.xml'],
+    "installable": True
+}

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,13 +19,29 @@
 #
 ##############################################################################
 
-from . import better_zip
-from . import sale_agent
-from . import pharma_group_sale
-from . import wizard
-from . import settlement
-from . import settlement_agent
-from . import settlement_line
-from . import sale_order
-from . import invoice_line_agent
-from . import res_partner
+from openerp import models, api, fields
+from datetime import date
+
+
+class account_invoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.multi
+    def action_date_assign(self):
+        """
+            Se hereda la función debido al bug #1236
+            ya que no se añade la fecha actual a la factura
+            al validarla.
+        """
+        res = super(account_invoice, self).action_date_assign()
+        for invoice in self:
+            if not invoice.date_invoice:
+                invoice.date_invoice = date.today()
+        return res
+
+
+class account_analytic_account(models.Model):
+
+    _inherit = 'account.analytic.account'
+
+    is_business_line = fields.Boolean('Is business line')

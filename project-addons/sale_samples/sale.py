@@ -131,6 +131,7 @@ class sale_order_line(models.Model):
         res['value'].update(res_packing.get('value', {}))
         warning_msgs = res_packing.get('warning') and \
             res_packing['warning']['message'] or ''
+        warning_msgs += res.get('warning', False) and res['warning']['message'] or ''
 
         # determine if the product is MTO or not (for a further check)
         isMto = False

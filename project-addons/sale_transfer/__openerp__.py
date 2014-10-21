@@ -28,8 +28,11 @@
     'website': 'www.pexego.es',
     "depends" : ['base',
                  'sale',
-                 'sale_stock'],
+                 'sale_stock',
+                 'sale_commission',
+                 'sale_pharma_group'],
     "data" : ['sale_view.xml',
+              'settled_view.xml',
               'sale_workflow.xml',
               'templates/template_mail.xml'],
     "installable": True
