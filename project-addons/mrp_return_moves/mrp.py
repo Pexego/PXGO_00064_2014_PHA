@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    $Omar Castiñeira Saavedra <omar@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -22,18 +22,13 @@
 from openerp import models, fields
 
 
-class StockProductionLot(models.Model):
+class MrpProduction(models.Model):
 
-    _inherit = 'stock.production.lot'
+    _inherit = "mrp.production"
 
-    response_ids = fields.One2many('survey.user_input', 'lot_id', 'Responses')
-
-
-class StockMove(models.Model):
-
-    _inherit = "stock.move"
-
-    acceptance_date = fields.Date('Acceptance date')
-    served_qty = fields.Float('Served qty',
-                              help="Quality system field, no data")
-    initials = fields.Char('Initials')
+    move_lines = fields.One2many('stock.move', 'raw_material_production_id',
+                                 'Products to Consume', readonly=True,
+                                 domain=[('state', 'not in',
+                                          ('done', 'cancel'))],
+                                 states={'draft': [('readonly', False)],
+                                         'confirmed': [('readonly', False)]})

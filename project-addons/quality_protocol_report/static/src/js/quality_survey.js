@@ -389,6 +389,7 @@ function send_form_server() {
                     }
 
                     var fields = {};
+                    console.log(records[row]);
                     if (records[row].id) {
                         console.log("update");
                         var update_id = records[row].id;

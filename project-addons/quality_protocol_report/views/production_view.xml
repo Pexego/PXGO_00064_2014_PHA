@@ -22,6 +22,13 @@
                     <field name="goods_request_date"/>
                     <field name="goods_return_date"/>
                 </field>
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='product_uom_qty']" position="after">
+                    <field name="served_qty"/>
+                </xpath>
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='state']" position="after">
+                    <field name="acceptance_date"/>
+                    <field name="initials"/>
+                </xpath>
             </field>
         </record>
 

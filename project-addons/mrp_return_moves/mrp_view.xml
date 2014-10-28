@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_production_form_view_add_return_qty" model="ir.ui.view">
+            <field name="name">mrp.production.form.add_return_qty</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='product_uom_qty']" position="after">
+                    <field name="returned_qty"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

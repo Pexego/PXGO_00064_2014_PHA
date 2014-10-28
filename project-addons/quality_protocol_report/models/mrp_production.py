@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, _, exceptions
 
 
 class MrpProduction(models.Model):
@@ -30,11 +30,18 @@ class MrpProduction(models.Model):
                                        'production_id', 'Adjustments')
     goods_request_date = fields.Date('Request date')
     goods_return_date = fields.Date('Return date')
-    move_lines_scrapped = fields.One2many('stock.move',
-                                          'raw_material_production_id',
-                                          'Scrapped Products',
-                                          domain=[('state', 'in',
-                                                   ('done', 'cancel')),
-                                                  ('scrapped', '=', True)],
-                                          readonly=True)
 
+    def action_assign(self, cr, uid, ids, context=None):
+        """
+        Checks the availability on the consume lines of the production order
+        """
+        for production in self.browse(cr, uid, ids, context=context):
+            for move in production.move_lines:
+                if move.raw_material_production_id and move.served_qty:
+                    if move.served_qty != move.product_uom_qty:
+                        raise exceptions.Warning(_("""Cannot produce because
+ move quantity %s and served quantity %s don't match""") %
+                                                 (str(move.product_uom_qty),
+                                                  str(move.served_qty)))
+        return super(MrpProduction, self).action_assign(cr, uid, ids,
+                                                        context=context)
