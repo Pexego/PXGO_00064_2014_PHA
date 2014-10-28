@@ -40,3 +40,6 @@
 .unique_field input {
     width: 75%;
 }
+.textCenter {
+    text-align: center;
+}

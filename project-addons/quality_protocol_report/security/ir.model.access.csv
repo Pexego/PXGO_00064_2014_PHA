@@ -1,5 +1,6 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 access_quality_protocol_report,access_quality_protocol_report,model_quality_protocol_report,,1,1,1,1
+access_quality_procedure,access_quality_procedure,model_quality_procedure,,1,1,1,1
 access_quality_protocol_report_line,access_quality_protocol_report_line,model_quality_protocol_report_line,,1,1,1,1
 access_mrp_production_adjustments,access_mrp_production_adjustments,model_mrp_production_adjustments,,1,1,1,1
 access_product_protocol,access_product_protocol,model_product_protocol,,1,1,1,1

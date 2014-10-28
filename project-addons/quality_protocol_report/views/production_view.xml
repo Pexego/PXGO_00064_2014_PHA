@@ -17,6 +17,8 @@
                             <field name="initials"/>
                         </tree>
                     </field>
+                    <separator string="Picking notes" colspan="4"/>
+                    <field name="picking_notes" nolabel="1" colspan="4"/>
                 </page>
                 <field name="priority" position="after">
                     <field name="goods_request_date"/>

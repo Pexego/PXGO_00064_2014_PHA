@@ -12,6 +12,8 @@
                         <field name="name" colspan="4"/>
                         <field name="model_id"/>
                         <field name="type_id"/>
+                        <field name="first_procedure_id"/>
+                        <field name="second_procedure_id"/>
                     </group>
                     <notebook>
                         <page string="Sections">

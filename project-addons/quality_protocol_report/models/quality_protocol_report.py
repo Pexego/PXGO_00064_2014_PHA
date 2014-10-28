@@ -36,7 +36,10 @@ class QualityProtocolReport(models.Model):
                                       "report_id", "Sections")
     protocol_ids = fields.One2many('product.protocol', 'protocol_id',
                                    string="Protocols")
-
+    first_procedure_id = fields.Many2one('quality.procedure',
+                                         'Primary procedure')
+    second_procedure_id = fields.Many2one('quality.procedure',
+                                          'Secondary procedure')
 
     @api.depends('protocol_ids.product_ids')
     def _get_product_ids(self):
@@ -46,6 +49,7 @@ class QualityProtocolReport(models.Model):
 class protocol_type(models.Model):
     _name = 'protocol.type'
     name = fields.Char('Name', size=64)
+
 
 class QualityProtocolReportLine(models.Model):
     """Dentro de un documento de protodolo cada una  de sus secciones,

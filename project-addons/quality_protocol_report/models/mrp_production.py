@@ -30,6 +30,7 @@ class MrpProduction(models.Model):
                                        'production_id', 'Adjustments')
     goods_request_date = fields.Date('Request date')
     goods_return_date = fields.Date('Return date')
+    picking_notes = fields.Text('Picking notes')
 
     def action_assign(self, cr, uid, ids, context=None):
         """

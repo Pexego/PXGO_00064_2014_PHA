@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    $Omar Castiñeira Saavedra <omar@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,10 +19,20 @@
 #
 ##############################################################################
 
-import quality_procedure
-import quality_protocol_report
-import product
-import stock
-import survey
-import production_adjustments
-import mrp_production
+from openerp import models, fields
+
+
+class QualityProcedure(models.Model):
+
+    _name = "quality.procedure"
+
+    name = fields.Char('Name', size=256, required=True)
+    code = fields.Char('Code', size=36, required=True)
+    edition = fields.Char('Edition', size=12, required=True)
+
+    def name_get(self, cr, uid, ids, context=None):
+        res = []
+        for proc in self.browse(cr, uid, ids, context=context):
+            name = proc.code + " Ed: " + proc.edition
+            res.append((proc.id, name))
+        return res

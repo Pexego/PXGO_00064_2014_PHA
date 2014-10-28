@@ -50,6 +50,20 @@
         </div>
     </template>
 
+    <template id="mrp_picking_notes" name="Picking notes">
+        <div class="quality_view">
+            <h3><ins>Revisión protocolo</ins></h3>
+            <h4>Observaciones:</h4>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <textarea class="form-control" name="picking_notes" id="picking_notes" rows="3"><t t-esc="production.picking_notes or ''"/></textarea>
+            </form>
+            <div class="textCenter">
+                <h4>Responsable de Almacén:</h4>
+                <h4>(Firma y fecha)</h4>
+            </div>
+        </div>
+    </template>
+
     <template id="production_protocol_header" name="Production protocol header">
        <div class="quality_view">
            <div class="quality_row">
@@ -58,12 +72,12 @@
                         <h4>Según procedimiento:</h4>
                         <table>
                             <tr>
-                                <td>PNT-PR-109</td>
-                                <td>Edición: 1</td>
+                                <td><span t-field='protocol.first_procedure_id.code'/></td>
+                                <td>Edición: <span t-field='protocol.first_procedure_id.edition'/></td>
                             </tr>
                             <tr>
-                                <td>PNT-PR-INF- 232</td>
-                                <td>Edición: 1</td>
+                                <td><span t-field='protocol.second_procedure_id.code'/></td>
+                                <td>Edición: <span t-field='protocol.second_procedure_id.edition'/></td>
                             </tr>
                         </table>
                     </li>
