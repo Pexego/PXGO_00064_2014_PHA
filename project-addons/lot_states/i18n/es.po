@@ -1,0 +1,74 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * lot_states
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-28 15:38+0000\n"
+"PO-Revision-Date: 2014-10-28 15:38+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: lot_states
+#: view:stock.production.lot:lot_states.lot_add_states
+msgid "Approve"
+msgstr "Aprobar"
+
+#. module: lot_states
+#: selection:stock.production.lot,state:0
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: lot_states
+#: view:stock.production.lot:lot_states.lot_add_states
+msgid "In revision"
+msgstr "En revisión"
+
+#. module: lot_states
+#: model:ir.model,name:lot_states.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lot/Serial"
+
+#. module: lot_states
+#: selection:stock.production.lot,state:0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: lot_states
+#: view:stock.production.lot:lot_states.search_lot_state_filter
+msgid "Product"
+msgstr "Producto"
+
+#. module: lot_states
+#: view:stock.production.lot:lot_states.lot_add_states
+msgid "Reject"
+msgstr "Rechazar"
+
+#. module: lot_states
+#: selection:stock.production.lot,state:0
+msgid "Rejected"
+msgstr "Rechazado"
+
+#. module: lot_states
+#: view:stock.production.lot:lot_states.lot_add_states
+#: selection:stock.production.lot,state:0
+msgid "Revised"
+msgstr "Revisado"
+
+#. module: lot_states
+#: selection:stock.production.lot,state:0
+msgid "Revision(Q)"
+msgstr "En revisión(Q)"
+
+#. module: lot_states
+#: view:stock.production.lot:lot_states.search_lot_state_filter
+#: field:stock.production.lot,state:0
+msgid "State"
+msgstr "Estado"
+

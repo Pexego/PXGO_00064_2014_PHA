@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_lot_add_states_tree" model="ir.ui.view">
+            <field name="name">stock.production.lot.tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+            <field name="arch" type="xml">
+                <field name="create_date" position="after">
+                    <field name="state"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="stock.view_production_lot_form" model="ir.ui.view">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="arch" type="xml">
+                <form string="Serial Number">
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box oe_right">
+                            <button name="action_traceability" icon="fa-arrow-up" class="oe_stat_button" string="Traceability" type="object" attrs="{'invisible': [('quant_ids','=',[])]}"/>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group name="main_group">
+                            <group>
+                                <field name="product_id"/>
+                                <field name="ref"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Products">
+                                <field name="quant_ids">
+                                    <tree string="Stock Moves">
+                                        <field name="name"/>
+                                        <field name="product_id"/>
+                                        <field name="qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>
+                                        <field name="location_id" groups="stock.group_locations"/>
+                                    </tree>
+                                 </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="lot_add_states" model="ir.ui.view">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="in_revision" states="draft" string="In revision" groups="base.group_user"/>
+                    <button name="revised" states="in_rev" string="Revised" groups="base.group_user"/>
+                    <button name="approved" states="revised" string="Approve" groups="base.group_user"/>
+                    <button name="rejected" states="revised" string="Reject" groups="base.group_user"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,in_rev,revised,approved"/>
+                </header>
+            </field>
+        </record>
+
+        <record id="search_lot_state_filter" model="ir.ui.view">
+            <field name="name">Production Lots Filter</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.search_product_lot_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="state"/>
+                </field>
+
+                <filter string="Product" position="after">
+                    <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>
