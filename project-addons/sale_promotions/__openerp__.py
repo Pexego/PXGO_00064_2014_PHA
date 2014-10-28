@@ -29,16 +29,8 @@
     'website': 'www.pharmadus.com',
     'category' : 'Generic Modules/Sales & Purchases',
     'depends' : ["base","sale","stock"],
-    'description': """
-    Promotions on Sale Order for Odoo
-    = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-    Features:
-    1. Promotions based on conditions and coupons
-    2. Web services API compliance
-    
-    Credits:
-        Migrated to V8 from Promotions for OpenERP
-    """,
+    'summary' : ' Promotions on Sale Order for Odoo ',
+    'description': " //static/description/index.html//",
     'data': [
         'security/ir.model.access.csv',
         'views/rule.xml',
