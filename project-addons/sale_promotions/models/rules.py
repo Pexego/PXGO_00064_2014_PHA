@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    Odoo, Open Source Management Solution
+#    Copyright (C) 2014 Pharmadus i+D+I (<http://www.pharmadus.com>)
+#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #    Copyright (C) 2011 NovaPoint Group LLC (<http://www.novapointgroup.com>)
 #    Copyright (C) 2004-2010 OpenERP SA (<http://www.openerp.com>)
 #
@@ -31,9 +33,8 @@ from openerp.tools.misc import ustr
 from openerp import netsvc
 from openerp.tools.translate import _
 
-#LOGGER = netsvc.Logger()
 LOGGER = netsvc.init_logger()
-DEBUG = True
+DEBUG = False
 PRODUCT_UOM_ID = 1
 
 ATTRIBUTES = [
@@ -49,7 +50,7 @@ ATTRIBUTES = [
     ('prod_weight', 'Product Weight combination'),
     ('comp_sub_total', 'Compute sub total of products'),
     ('comp_sub_total_x', 'Compute sub total excluding products'),
-    #('tot_item_qty', 'Total Items Quantity'),
+    #('order_qty', 'Order Items Quantity'),
     #('tot_weight', 'Total Weight'),
     #('tot_item_qty', 'Total Items Quantity'),
     ('custom', 'Custom domain expression'),
@@ -251,7 +252,7 @@ class PromotionsRules(osv.Model):
                                            context)
         except Exception, e:
             if DEBUG:
-                netsvc.Logger().notifyChannel("Promotions",
+                netsvc.getLogger().notifyChannel("Promotions",
                                      netsvc.LOG_INFO,
                                      ustr(e))
             return False
@@ -278,7 +279,7 @@ class PromotionsRules(osv.Model):
                 raise osv.except_osv("Expression Error", e)
             finally:
                 if DEBUG:
-                    netsvc.Logger().notifyChannel(
+                    netsvc.init_logger().notifyChannel(
                         "Promotions",
                         netsvc.LOG_INFO,
                         "%s evaluated to %s" % (
@@ -305,7 +306,7 @@ class PromotionsRules(osv.Model):
         """
         action_obj = self.pool.get('promos.rules.actions')
         if DEBUG:
-            netsvc.Logger().notifyChannel(
+            netsvc.init_logger().notifyChannel(
                         "Promotions", netsvc.LOG_INFO,
                         "Applying promo %s to %s" % (
                                                promotion_rule.id,
@@ -355,9 +356,6 @@ class PromotionsRules(osv.Model):
                 if promotion_rule.stop_further:
                     return True
         return True
-            
-
-PromotionsRules()
 
 
 class PromotionsRulesConditionsExprs(osv.Model):
@@ -427,6 +425,7 @@ class PromotionsRulesConditionsExprs(osv.Model):
                          'amount_untaxed',
                          'amount_tax',
                          'amount_total',
+                         'order_qty',
                          ]:
             return {
                     'value':{
@@ -476,6 +475,8 @@ class PromotionsRulesConditionsExprs(osv.Model):
                          'prod_net_price',
                          'comp_sub_total',
                          'comp_sub_total_x',
+                         'order_qty',
+
                          ] and \
             not comparator in NUMERCIAL_COMPARATORS:
             raise Exception(
@@ -667,7 +668,6 @@ class PromotionsRulesConditionsExprs(osv.Model):
         super(PromotionsRulesConditionsExprs, self).write(cursor, user, ids,
                                                            vals, context)
         
-PromotionsRulesConditionsExprs()
 
 class PromotionsRulesActions(osv.Model):
     "Promotions actions"
@@ -1109,6 +1109,3 @@ class PromotionsRulesActions(osv.Model):
         vals = old_vals 
         super(PromotionsRulesActions, self).write(cursor, user, ids,
                                                            vals, context)
-    
-PromotionsRulesActions()
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

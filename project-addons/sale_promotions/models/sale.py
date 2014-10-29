@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    Odoo, Open Source Management Solution
+#    Copyright (C) 2014 Pharmadus i+D+I (<http://www.pharmadus.com>)
+#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #    Copyright (C) 2011 NovaPoint Group LLC (<http://www.novapointgroup.com>)
 #    Copyright (C) 2004-2010 OpenERP SA (<http://www.openerp.com>)
 #
@@ -45,8 +47,7 @@ class SaleOrder(osv.osv):
                                             order_id, context=None)
             
         return True
-            
-SaleOrder()
+
 
 
 class SaleOrderLine(osv.osv):
@@ -61,5 +62,3 @@ class SaleOrderLine(osv.osv):
                 help="Indicates if the line was created by promotions"
                                         )
     }
-SaleOrderLine()
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
