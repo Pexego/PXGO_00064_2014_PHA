@@ -40,6 +40,8 @@ class QualityProtocolReport(models.Model):
                                          'Primary procedure')
     second_procedure_id = fields.Many2one('quality.procedure',
                                           'Secondary procedure')
+    product_form_id = fields.Many2one('product.form', 'Form')
+    product_container_id = fields.Many2one('product.container', 'Container')
 
     @api.depends('protocol_ids.product_ids')
     def _get_product_ids(self):

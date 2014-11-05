@@ -12,6 +12,8 @@
                         <field name="name" colspan="4"/>
                         <field name="model_id"/>
                         <field name="type_id"/>
+                        <field name="product_container_id" widget="selection"/>
+                        <field name="product_form_id" widget="selection"/>
                         <field name="first_procedure_id"/>
                         <field name="second_procedure_id"/>
                     </group>
@@ -62,8 +64,12 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
+                <field name="product_form_id"/>
+                <field name="product_container_id"/>
                 <group expand="0" string="Group By">
                     <filter string="Model" context="{'group_by':'model_id'}"/>
+                    <filter string="Base form" context="{'group_by':'product_form_id'}"/>
+                    <filter string="Container" context="{'group_by':'product_container_id'}"/>
                 </group>
            </search>
         </field>

@@ -35,6 +35,24 @@ class product_product(models.Model):
     def _get_protocol_count(self):
         self.protocol_count = len(self.protocol_ids)
 
+    @api.one
+    def create_protocols(self):
+        prod_prot_obj = self.env['product.protocol']
+        for type_id in self.env['protocol.type'].search([]):
+            report_ids = self.env['quality.protocol.report'].search(
+                [('product_form_id', '=', self.base_form_id.id),
+                 ('product_container_id', '=', self.container_id.id),
+                 ('type_id', '=', type_id.id)])
+            if report_ids:
+                report_id = report_ids[0]
+                protocols = prod_prot_obj.search([('protocol_id', '=', report_id.id), ('name', '=', type_id.id)])
+                if not protocols:
+                    protocol = prod_prot_obj.create({'name': type_id.id, 'protocol_id':report_id.id})
+                else:
+                    protocol = protocols[0]
+                protocol.write({'product_ids': [(4,self.id)]})
+
+
 class ProductTemplate(models.Model):
 
     _inherit = "product.template"

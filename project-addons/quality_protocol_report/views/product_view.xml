@@ -76,6 +76,13 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
+                <sheet position="before">
+                    <header>
+                        <field name="protocol_count" invisible="1"/>
+                        <button name="create_protocols" string="create protocols" type="object"
+                                attrs="{'invisible':['|', ('type', '=', 'service'), ('protocol_count', '>', 0)]}"/>
+                    </header>
+                </sheet>
                 <div name="buttons" position="inside">
                     <button class="oe_inline oe_stat_button" name="%(action_view_product_protocol)d" type="action"
                             attrs="{'invisible':[('type', '=', 'service')]}" icon="fa-edit">

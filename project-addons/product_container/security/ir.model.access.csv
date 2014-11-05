@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_product_form,access_product_form,model_product_form,,1,1,1,1
+access_product_container,access_product_container,model_product_container,,1,1,1,1

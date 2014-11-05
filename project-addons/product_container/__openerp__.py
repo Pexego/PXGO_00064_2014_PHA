@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    Copyright (C) 2014 Pexego All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -20,27 +20,13 @@
 ##############################################################################
 
 {
-    'name': "Quality protocols reports",
+    'name': "product container fields ",
     'version': '1.0',
-    'category': 'quality',
-    'description': """Allow to print quality protocols reports""",
-    'author': 'Pexego Sistemas Informáticos',
+    'category': 'product',
+    'description': """""",
+    'author': 'Pexego',
     'website': 'www.pexego.es',
-    "depends": ['base',
-                'survey',
-                'mrp',
-                'mrp_automatic_lot',
-                'stock',
-                'web',
-                'product_container',
-                'mrp_return_moves'],
-    "data": ['views/quality_protocol_report_view.xml',
-             'views/quality_procedure_view.xml',
-             'views/mrp_view.xml',
-             'views/product_view.xml',
-             'wizard/print_protocol_test_view.xml',
-             'views/production_view.xml',
-             'views/stock_view.xml',
-             'security/ir.model.access.csv'],
+    "depends": ['base', 'product'],
+    "data": ['product_view.xml', 'security/ir.model.access.csv', 'data/product_data.xml'],
     "installable": True
 }
