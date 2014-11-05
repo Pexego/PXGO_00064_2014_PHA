@@ -38,6 +38,8 @@ class product_product(models.Model):
     @api.one
     def create_protocols(self):
         prod_prot_obj = self.env['product.protocol']
+        if not self.base_form_id or not self.container_id:
+            return
         for type_id in self.env['protocol.type'].search([]):
             report_ids = self.env['quality.protocol.report'].search(
                 [('product_form_id', '=', self.base_form_id.id),

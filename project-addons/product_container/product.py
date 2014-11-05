@@ -26,9 +26,9 @@ class product_template(models.Model):
 
     _inherit = 'product.template'
 
-    base_form_id = fields.Many2one('product.form', 'Base form', required=True)
+    base_form_id = fields.Many2one('product.form', 'Base form')
 
-    container_id = fields.Many2one('product.container', 'Container', required=True)
+    container_id = fields.Many2one('product.container', 'Container')
 
 
 class product_form(models.Model):
