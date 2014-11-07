@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <template id="document_header" name="Document header">
+        <div class="header">
+            <div style="display: table-row">
+                <t t-if='production.company_id.logo'>
+                    <img t-att-src="'data:image/png;base64,%s' % production.company_id.logo"/>
+                </t>
+                <h1 t-field='protocol.name'></h1>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="stock_move_mrp_consume" name="Moves to consume">
+        <div class="quality_view">
+            <h2>1.- PETICIÓN DE MATERIALES A ENTREGAR</h2>
+            <h4>Anotar la cantidad del material que se entrega a fabricación:</h4>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <div class="unique_field">
+                    <label for="goods_request_date">Fecha:</label>
+                    <input class="form-control" name="goods_request_date" id="goods_request_date" t-att-value='production.goods_request_date' type="date"/>
+                </div>
+                <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'move_lines'"
+                      t-att-columns="'product_id,restrict_lot_id,acceptance_date,product_uom_qty,product_uom,served_qty,initials,id'"
+                      t-att-columns-widths="'35%,10%,15%,12%,8%,15%,5%,0%'"
+                      t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'product_uom_qty': 'disabled', 'product_uom': 'disabled'}">
+                </table>
+            </form>
+        </div>
+    </template>
+
+    <template id="stock_move_mrp_return" name="Moves to return">
+        <div class="quality_view">
+            <h2>2.- DEVOLUCIÓN DE MATERIALES AL ALMACÉN</h2>
+            <h4>Anotar la cantidad del material que se devuelve:</h4>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <div class="unique_field">
+                    <label for="goods_return_date">Fecha:</label>
+                    <input class="form-control" name="goods_return_date" id="goods_return_date" t-att-value='production.goods_return_date' type="date"/>
+                </div>
+                <table class="quality_field" id="tblAppendGridReturn" t-att-qfield="'move_lines'"
+                      t-att-columns="'product_id,restrict_lot_id,product_uom_qty,product_uom,returned_qty,initials,id'"
+                      t-att-columns-widths="'45%,15%,12%,8%,15%,5%,0%'"
+                      t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'product_uom_qty': 'disabled', 'product_uom': 'disabled'}">
+                </table>
+            </form>
+        </div>
+    </template>
+
+    <template id="mrp_picking_notes" name="Picking notes">
+        <div class="quality_view">
+            <h3><ins>Revisión protocolo</ins></h3>
+            <h4>Observaciones:</h4>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <textarea class="form-control" name="picking_notes" id="picking_notes" rows="3"><t t-esc="production.picking_notes or ''"/></textarea>
+            </form>
+            <div class="textCenter">
+                <h4>Responsable de Almacén:</h4>
+                <h4>(Firma y fecha)</h4>
+            </div>
+        </div>
+    </template>
+
+    <template id="production_protocol_header" name="Production protocol header">
+       <div class="quality_view">
+           <div class="quality_row">
+               <ul>
+                   <li>
+                        <h4>Según procedimiento:</h4>
+                        <table>
+                            <tr>
+                                <td><span t-field='protocol.first_procedure_id.code'/></td>
+                                <td>Edición: <span t-field='protocol.first_procedure_id.edition'/></td>
+                            </tr>
+                            <tr>
+                                <td><span t-field='protocol.second_procedure_id.code'/></td>
+                                <td>Edición: <span t-field='protocol.second_procedure_id.edition'/></td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li>
+                        <table>
+                            <tr>
+                                <td>PRODUCTO: <b><span t-field='production.product_id.name'/></b></td>
+                            </tr>
+                            <tr>
+                                <td>LOTE: <t t-if="production.final_lot_id"><b><span t-field='production.final_lot_id.name'/></b></t></td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+            <div class="quality_row">
+                <ul>
+                   <li>
+                        <table>
+                            <tr>
+                                <td>Lote Pirámide:</td>
+                            </tr>
+                            <tr>
+                                <td>Fabricación: <b><span t-field='production.name'/></b></td>
+                            </tr>
+                            <tr>
+                                <td>Fecha de fabricación: <b><span t-field='production.date_planned'/></b></td>
+                                <td>Cantidad a Fabricar: <b><span t-field='production.product_qty'/></b></td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li>
+                        <table>
+                            <tr>
+                                <td>Emisión de protocolo:</td>
+                            </tr>
+                            <tr>
+                                <td>Fecha</td>
+                            </tr>
+                            <tr>
+                                <td>Firma</td>
+                            </tr>
+                        </table>
+                     </li>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+    <!-- Vista generica de impresion de surveys -->
+    <template id="generic_survey" name="Generic survey template">
+        <div class="wrap">
+            <div class="container">
+                <div t-field='survey.title' class="oe_no_empty"/>
+                <t t-foreach="survey.page_ids" t-as="page">
+                    <div class="survey_page">
+                            <input type="hidden" name="survey_id" t-att-value="survey.id" />
+                            <!--Campo añadido para evitar errores en el servidor -->
+                            <input type="hidden" name="button_submit" value=""/>
+                            <input type="hidden" name="token" t-att-value="token" />
+                            <div class="page-header">
+                                <h1 t-field='page.title' />
+                                <t t-if="page.description"><div t-field='page.description' class="oe_no_empty"/></t>
+                            </div>
+                            <t t-foreach='page.question_ids' t-as='question'>
+                                <t t-set="prefix" t-value="'%s_%s_%s' % (survey.id, page.id, question.id)" />
+                                <div class="js_question-wrapper" t-att-id="prefix">
+                                    <h2>
+                                        <span t-field='question.question' />
+                                        <span t-if="question.constr_mandatory" class="text-danger">*</span>
+                                        <span t-if="quizz_correction" class="badge" t-att-data-score-question="question.id"></span>
+                                    </h2>
+                                    <t t-if="question.description"><div class="text-muted oe_no_empty" t-field='question.description'/></t>
+                                    <t t-if="question.type == 'free_text'"><t t-call="survey.free_text"/></t>
+                                    <t t-if="question.type == 'textbox'"><t t-call="survey.textbox"/></t>
+                                    <t t-if="question.type == 'numerical_box'"><t t-call="survey.numerical_box"/></t>
+                                    <t t-if="question.type == 'datetime'"><t t-call="survey.datetime"/></t>
+                                    <t t-if="question.type == 'simple_choice'"><t t-call="survey.simple_choice"/></t>
+                                    <t t-if="question.type == 'multiple_choice'"><t t-call="survey.multiple_choice"/></t>
+                                    <t t-if="question.type == 'matrix'"><t t-call="survey.matrix"/></t>
+                                    <div class="js_errzone alert alert-danger" style="display:none;"></div>
+                                </div>
+                            </t>
+                    </div>
+                </t>
+        </div>
+        </div>
+    </template>
+
+    <template id="assets_backend" inherit_id="web.assets_backend" name="Survey assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
+            <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.min.js" />
+        </xpath>
+    </template>
+
+    <!-- Vista contenedora para el prototipo, se debe mirar como se puede generar al vuelo, desde el controller -->
+    <template id="protocol_print" name="Protocol">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <link rel="stylesheet" href="/quality_protocol_report/static/src/css/jquery.appendGrid-1.4.2.css"/>
+                <link rel="stylesheet" href="/quality_protocol_report/static/src/css/base.css"/>
+                    <t t-call-assets="web.assets_common"/>
+                    <t t-call-assets="web.assets_backend"/>
+            </t>
+            <div class="openerp ">
+                <div class="container oe_form">
+                    <!--Para no modificar las vistas de cada tipo de pregunta, si la encuesta ya fue respondida
+                        se añade un div id=exist y desde static/src/js/survey.js se rellenan las respuestas por ajax. -->
+                    <t t-if="exist != False">
+                        <div id="exist"></div>
+                    </t>
+                    <div class="row">
+                        <div id="all_data">
+                            <t t-set="parts" t-value="parts"/>
+                            <div t-foreach="parts" t-as="part">
+                                <t t-if="part[0] == 's'">
+                                    <div class="survey" t-att-fill="'/protocol/fill/%s/%s' % (slug(part[1]), part[2])" t-att-url-submit="'/protocol/submit/%s' % (slug(part[1]))">
+                                        <form role="form" method="post" class="js_surveyform" t-att-data-submit="'/protocol/submit/%s' % (slug(part[1]))">
+                                            <t t-call="quality_protocol_report.generic_survey">
+                                                <t t-set="survey" t-value="part[1]"/>
+                                                <t t-set="token" t-value="part[2]"/>
+                                            </t>
+                                        </form>
+                                    </div>
+                                </t>
+                                <t t-if="part[0] == 'v'">
+                                    <div class="view">
+                                        <t t-call="#{part[1]}"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" name="button_submit" value="finish" id="send_form">Submit</button>
+                        <div class="js_errzone alert" id="general_info" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</data>
+</openerp>
