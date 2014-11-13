@@ -1,0 +1,41 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * reset_lot_sequence
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-13 13:25+0000\n"
+"PO-Revision-Date: 2014-11-13 13:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: reset_lot_sequence
+#: view:reset.lot.wizard:reset_lot_sequence.reset_lot_wizard_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: reset_lot_sequence
+#: view:reset.lot.wizard:reset_lot_sequence.reset_lot_wizard_form_view
+msgid "Reset"
+msgstr "Reiniciar"
+
+#. module: reset_lot_sequence
+#: model:ir.actions.act_window,name:reset_lot_sequence.reset_lot_wizard_action
+#: model:ir.ui.menu,name:reset_lot_sequence.menu_reset_lots
+#: view:reset.lot.wizard:reset_lot_sequence.reset_lot_wizard_form_view
+msgid "Reset lot sequences"
+msgstr "Reiniciar las secuencias de lote"
+
+#. module: reset_lot_sequence
+#: view:reset.lot.wizard:reset_lot_sequence.reset_lot_wizard_form_view
+msgid "This wizard restarts sequences of lots for each product.\n"
+"                       Only sequences that include the year in the prefix or suffix is reset"
+msgstr "Este asistente reinicia las secuencias de los lotes para cada producto.\n"
+"                       Únicamente se reinician las secuencias que incluyen el año en el prefijo o el sufijo"
+
