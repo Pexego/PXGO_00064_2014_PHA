@@ -8,6 +8,7 @@
             <field name="inherit_id" ref="stock.view_production_lot_tree"/>
             <field name="arch" type="xml">
                 <field name="create_date" position="after">
+                    <field name="removal_date"/>
                     <field name="state"/>
                 </field>
             </field>
