@@ -33,7 +33,7 @@ class QualityProtocolReport(models.Model):
                                   compute='_get_product_ids')
     model_id = fields.Many2one("ir.model", "Model")
     report_line_ids = fields.One2many("quality.protocol.report.line",
-                                      "report_id", "Sections")
+                                      "report_id", "Sections", copy=True)
     protocol_ids = fields.One2many('product.protocol', 'protocol_id',
                                    string="Protocols")
     first_procedure_id = fields.Many2one('quality.procedure',
