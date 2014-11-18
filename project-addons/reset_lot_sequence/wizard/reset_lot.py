@@ -28,10 +28,4 @@ class reset_lot_wizard(models.TransientModel):
 
     @api.one
     def reset(self):
-        for product in self.env['product.product'].search([('sequence_id',
-                                                            '!=', False)]):
-            pre_suffix = str(product.sequence_id.prefix) + str(product.sequence_id.suffix)
-            if '%(year)s' in pre_suffix or \
-                    '%(y)s' in pre_suffix:
-                product.sequence_id.number_next_actual = 1
-        return True
+        return self.env['stock.production.lot'].reset_product_sequences()

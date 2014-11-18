@@ -19,5 +19,18 @@
 #
 ##############################################################################
 
-import wizard
-import stock
+from openerp import models, api
+
+class StockProductionLot(models.Model):
+
+    _inherit = 'stock.production.lot'
+
+    @api.model
+    def reset_product_sequences(self):
+        for product in self.env['product.product'].search([('sequence_id',
+                                                            '!=', False)]):
+            pre_suffix = str(product.sequence_id.prefix) + str(product.sequence_id.suffix)
+            if '%(year)s' in pre_suffix or \
+                    '%(y)s' in pre_suffix:
+                product.sequence_id.number_next_actual = 1
+        return True

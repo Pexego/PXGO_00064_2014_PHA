@@ -27,6 +27,6 @@
     'author': 'Pexego',
     'website': 'www.pexego.es',
     "depends": ['stock'],
-    "data": ['wizard/reset_lot_view.xml', 'lot_view.xml'],
+    "data": ['wizard/reset_lot_view.xml', 'lot_view.xml', 'data/ir_cron.xml'],
     "installable": True
 }
