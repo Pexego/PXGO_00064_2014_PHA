@@ -26,7 +26,7 @@
     'description': """Adds states to lot""",
     'author': 'Pexego',
     'website': 'www.pexego.es',
-    "depends": ['base', 'stock', 'product_expiry'],
-    "data": ['lot_view.xml', 'lot_workflow.xml'],
+    "depends": ['base', 'stock', 'product_expiry', 'mrp'],
+    "data": ['lot_view.xml', 'lot_workflow.xml', 'mrp_view.xml'],
     "installable": True
 }
