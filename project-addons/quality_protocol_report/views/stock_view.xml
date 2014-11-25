@@ -21,9 +21,6 @@
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="mrp_return_moves.view_move_form_add_return_qty"/>
             <field name="arch" type="xml">
-                <field name="returned_qty" position="before">
-                    <field name="served_qty"/>
-                </field>
                 <field name="date" position="after">
                     <field name="acceptance_date"/>
                     <field name="initials"/>

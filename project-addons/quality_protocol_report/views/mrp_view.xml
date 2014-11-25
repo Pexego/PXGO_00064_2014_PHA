@@ -23,7 +23,7 @@
                     <label for="goods_request_date">Fecha:</label>
                     <input class="form-control" name="goods_request_date" id="goods_request_date" t-att-value='production.goods_request_date' type="date"/>
                 </div>
-                <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'move_lines'"
+                <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'orig_move_ids'"
                       t-att-columns="'product_id,restrict_lot_id,acceptance_date,product_uom_qty,product_uom,served_qty,initials,id'"
                       t-att-columns-widths="'35%,10%,15%,12%,8%,15%,5%,0%'"
                       t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'product_uom_qty': 'disabled', 'product_uom': 'disabled'}">
@@ -41,7 +41,7 @@
                     <label for="goods_return_date">Fecha:</label>
                     <input class="form-control" name="goods_return_date" id="goods_return_date" t-att-value='production.goods_return_date' type="date"/>
                 </div>
-                <table class="quality_field" id="tblAppendGridReturn" t-att-qfield="'move_lines'"
+                <table class="quality_field" id="tblAppendGridReturn" t-att-qfield="'orig_move_ids'"
                       t-att-columns="'product_id,restrict_lot_id,product_uom_qty,product_uom,returned_qty,initials,id'"
                       t-att-columns-widths="'45%,15%,12%,8%,15%,5%,0%'"
                       t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'product_uom_qty': 'disabled', 'product_uom': 'disabled'}">

@@ -34,6 +34,4 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     acceptance_date = fields.Date('Acceptance date')
-    served_qty = fields.Float('Served qty',
-                              help="Quality system field, no data")
     initials = fields.Char('Initials')

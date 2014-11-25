@@ -18,8 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields
+from openerp import models, fields, api, exceptions, _
 
 
 class StockMove(models.Model):
@@ -27,9 +26,16 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     returned_qty = fields.Float('Returned qty.', help="""Qty. of move that will
- be returned on produce""")
+                                be returned on produce""")
 
-    def action_consume(self, cr, uid, ids, product_qty, location_id=False,
+    served_qty = fields.Float('Served qty',
+                              help="Quality system field, no data")
+
+    mrp_prev_move = fields.Boolean('Previous move')
+
+    q_production_id = fields.Many2one('mrp.production', '')
+
+    '''def action_consume(self, cr, uid, ids, product_qty, location_id=False,
                        restrict_lot_id=False, restrict_partner_id=False,
                        consumed_for=False, context=None):
         for move in self.browse(cr, uid, ids, context=context):
@@ -55,4 +61,22 @@ class StockMove(models.Model):
                                                      location_id,
                                                      restrict_lot_id,
                                                      restrict_partner_id,
-                                                     consumed_for, context)
+                                                     consumed_for, context)'''
+
+
+class stockPicking(models.Model):
+
+    _inherit = 'stock.picking'
+
+    @api.one
+    def action_assign(self):
+        for move in self.move_lines:
+            if move.mrp_prev_move:
+                if move.product_uom_qty != move.served_qty:
+                    raise exceptions.Warning(_("""Cannot produce because
+move quantity %s and served quantity %s don't match""") %
+                                             (str(move.product_uom_qty),
+                                              str(move.served_qty)))
+                if move.returned_qty > 0:
+                    move.product_uom_qty = move.served_qty - move.returned_qty
+        return super(stockPicking, self).action_assign()
