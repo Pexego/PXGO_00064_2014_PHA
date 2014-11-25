@@ -26,7 +26,7 @@
     'description': """""",
     'author': 'Pexego',
     'website': 'www.pexego.es',
-    "depends": ['base', 'stock', 'mrp'],
+    "depends": ['base', 'stock', 'mrp', 'stock_traceability_tree'],
     "data": ['lot_issue_view.xml', 'mrp_view.xml', 'security/ir.model.access.csv'],
     "installable": True
 }
