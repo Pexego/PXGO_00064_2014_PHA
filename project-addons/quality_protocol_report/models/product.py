@@ -30,6 +30,17 @@ class product_product(models.Model):
                                     'product_id', 'protocol_id', 'Protocols')
     protocol_count = fields.Integer('Protocols count', compute='_get_protocol_count')
 
+    weight_alert_full_from = fields.Float('From')
+    weight_alert_full_to = fields.Float('To')
+    weight_action_full_from = fields.Float('From')
+    weight_action_full_to = fields.Float('To')
+
+    weight_alert_unit_from = fields.Float('From')
+    weight_alert_unit_to = fields.Float('To')
+    weight_action_unit_from = fields.Float('From')
+    weight_action_unit_to  = fields.Float('To')
+    unit_weight = fields.Float('Unit weight')
+
     @api.one
     @api.depends('protocol_ids')
     def _get_protocol_count(self):

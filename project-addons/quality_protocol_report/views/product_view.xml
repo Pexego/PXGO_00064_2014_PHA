@@ -89,6 +89,39 @@
                         <field string="Protocols" name="protocol_count" widget="statinfo" />
                     </button>
                 </div>
+                <notebook position="inside">
+                    <page string="Quality">
+                        <group>
+                            <group>
+                                <label for="weight_alert_full_from" string="Full alert"/>
+                                <div>
+                                    <field name="weight_alert_full_from" class="oe_inline"/> -
+                                    <field name="weight_alert_full_to" class="oe_inline"/>
+                                </div>
+                                <label for="weight_action_full_from" string="Full action"/>
+                                <div>
+                                    <field name="weight_action_full_from"  class="oe_inline"/> -
+                                    <field name="weight_action_full_to" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group>
+                                <field name="unit_weight"/>
+                                <label for="weight_alert_unit_from" string="Unit alert"/>
+                                <div>
+                                    <field name="weight_alert_unit_from" class="oe_inline"/> -
+                                    <field name="weight_alert_unit_to" class="oe_inline"/>
+                                </div>
+
+                                <label for="weight_action_unit_from" string="Unit action"/>
+                                <div>
+                                    <field name="weight_action_unit_from"  class="oe_inline"/> -
+                                    <field name="weight_action_unit_to" class="oe_inline"/>
+                                </div>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
             </field>
         </record>
 

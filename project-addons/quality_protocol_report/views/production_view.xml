@@ -8,15 +8,6 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
                 <page string="Extra Information" position="inside">
-                    <separator string="Stops and adjustments needed" colspan="4"/>
-                    <field name="adjustsments_ids" nolabel="1" colspan="4">
-                        <tree editable="top">
-                            <field name="start_date"/>
-                            <field name="name"/>
-                            <field name="reanudation_date"/>
-                            <field name="initials"/>
-                        </tree>
-                    </field>
                     <separator string="Picking notes" colspan="4"/>
                     <field name="picking_notes" nolabel="1" colspan="4"/>
                 </page>
@@ -31,6 +22,86 @@
                     <field name="acceptance_date"/>
                     <field name="initials"/>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="workcenter_add_protocol_type" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
+            <field name="arch" type="xml">
+                <field name="active" position="before">
+                    <field name="protocol_type_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="bom_line_add_workcenter" model="ir.ui.view">
+            <field name="name">mrp.bom.form</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='date_stop']" position="after">
+                    <field name="workcenter_id" required="True"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mrp_production_product_tree_add_workcenter" model="ir.ui.view">
+            <field name="name">mrp.production.product.line.tree</field>
+            <field name="model">mrp.production.product.line</field>
+            <field name="inherit_id" ref="mrp.mrp_production_product_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="product_uos" position="after">
+                    <field name="workcenter_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="mrp_production_product_form_add_workcenter" model="ir.ui.view">
+            <field name="name">mrp.production.product.line.form</field>
+            <field name="model">mrp.production.product.line</field>
+            <field name="inherit_id" ref="mrp.mrp_production_product_form_view"/>
+            <field name="arch" type="xml">
+                <field name="product_uos" position="after">
+                    <field name="workcenter_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="mrp_workcenter_line_add_info" model="ir.ui.view">
+            <field name="name">mrp.workcenter.line</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Extra information">
+                        <separator string="Stops and adjustments needed" colspan="4"/>
+                        <field name="adjustsments_ids" nolabel="1" colspan="4">
+                            <tree editable="top">
+                                <field name="start_date"/>
+                                <field name="name"/>
+                                <field name="reanudation_date"/>
+                                <field name="initials"/>
+                            </tree>
+                        </field>
+                        <separator string="Controls" colspan="4"/>
+                        <field name="control_ids" nolabel="1" colspan="4">
+                            <tree editable="top">
+                                <field name="date"/>
+                                <field name="bag_maked"/>
+                                <field name="label"/>
+                                <field name="wrapped"/>
+                                <field name="full_weight"/>
+                                <field name="empty_weight"/>
+                                <field name="first"/>
+                                <field name="middle"/>
+                                <field name="last"/>
+                                <field name="initials"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
             </field>
         </record>
 

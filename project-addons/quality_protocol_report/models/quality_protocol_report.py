@@ -50,7 +50,10 @@ class QualityProtocolReport(models.Model):
 
 class protocol_type(models.Model):
     _name = 'protocol.type'
+
     name = fields.Char('Name', size=64)
+    workcenter_ids = fields.One2many('mrp.workcenter', 'protocol_type_id',
+                                     'Workcenter')
 
 
 class QualityProtocolReportLine(models.Model):

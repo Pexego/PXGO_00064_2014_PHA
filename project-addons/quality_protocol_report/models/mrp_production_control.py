@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
+#    Copyright (C) 2014 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,11 +19,21 @@
 #
 ##############################################################################
 
-import quality_procedure
-import quality_protocol_report
-import product
-import stock
-import survey
-import production_adjustments
-import mrp_production
-import mrp_production_control
+from openerp import models, fields
+
+
+class MrpProductionControl(models.Model):
+
+    _name = 'mrp.production.control'
+
+    date = fields.Datetime('Hour')
+    bag_maked = fields.Boolean('Maked')
+    label = fields.Boolean('label')
+    wrapped = fields.Boolean('wrapped')
+    full_weight = fields.Float('Full')
+    empty_weight = fields.Float('Empty')
+    first = fields.Float('First production')
+    middle = fields.Float('Middle production')
+    last = fields.Float('Final production')
+    initials = fields.Char("Initials")
+    Workcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Workcenter line')

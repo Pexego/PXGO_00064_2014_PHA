@@ -49,12 +49,18 @@ class PrintProtocolTest(models.TransientModel):
                                                             context['active_id'])
         for wzd in self.browse(cr, uid, ids):
             use_protocol = False
+            wkcenter_line = False
+            for workcenter_line in obj.workcenter_lines:
+                if workcenter_line.workcenter_id.protocol_type_id.id == wzd.protocol_type_id.id:
+                    wkcenter_line = workcenter_line
+            if not wkcenter_line:
+                raise exceptions.except_orm(_('Not found'), _('Protocol not found for the route %s.') % obj.routing_id.name)
             for protocol in obj.product_id.protocol_ids:
                 if protocol.name.id == wzd.protocol_type_id.id:
                     use_protocol = protocol.protocol_id
             if not use_protocol:
                 raise exceptions.except_orm(_('Not found'), _('Protocol not found for the product %s.') % obj.product_id.name)
-            res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s" % (slug(obj), slug(use_protocol)))
+            res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s/%s" % (slug(obj), slug(use_protocol), slug(wkcenter_line)))
         return res
 
     _columns = {

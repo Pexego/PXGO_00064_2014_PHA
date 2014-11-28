@@ -31,16 +31,17 @@ class WebsiteProtocol(http.Controller):
 
     # Url que se genera desde el wizard de impresión de protocolo, recibe producción y protocolo como parámetros
     # Los parámetros se recien de la forma <tipo_de_dato:nombre_de_parametro>
-    @http.route(['/protocol/print/<model("mrp.production"):production>/<model("quality.protocol.report"):protocol>'],
+    @http.route(['/protocol/print/<model("mrp.production"):production>/<model("quality.protocol.report"):protocol>/<model("mrp.production.workcenter.line"):wkcenter_line>'],
                 type='http', auth='user', website=True)
-    def print_survey(self, production, protocol, **post):
+    def print_survey(self, production, protocol, wkcenter_line, **post):
         cr, uid, context2, session = request.cr, request.uid, request.context, request.session
         user_obj = request.registry['res.users']
         user = user_obj.browse(cr, uid, uid, context2)
         user_input_obj = request.registry['survey.user_input']
         view_obj = request.registry['ir.ui.view']
         context = {'production': production,
-                   'protocol': protocol}
+                   'protocol': protocol,
+                   'wkcenter_line': wkcenter_line}
         # seq = 1
 
         # Se generar un surveyX por cada survey en el protocolo, luego la plantilla se encargará de parsear para cada uno el parámetro survey, que es el que usa internamente la vista genérica

@@ -35,3 +35,5 @@ class StockMove(models.Model):
 
     acceptance_date = fields.Date('Acceptance date')
     initials = fields.Char('Initials')
+    workcenter_id = fields.Many2one('mrp.workcenter', 'Workcenter')
+    used_lot = fields.Char('Used lot')

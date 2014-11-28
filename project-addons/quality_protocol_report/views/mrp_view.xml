@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-
+    <!--
+        t-att-filter: se filtran los resultados de la talba, el campo por el que se filtra tiene que estar en las columnas de la tabla.
+                      Si el campo es relacional solo se comprueba con id.
+    -->
     <template id="document_header" name="Document header">
         <div class="header">
             <div style="display: table-row">
@@ -13,10 +16,87 @@
         </div>
     </template>
 
+    <template id="stock_move_mrp_check" name="material_checking">
+        <div class="quality_view">
+            <h2>2.- COMPROBACIÓN DE MATERIALES</h2>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'move_lines'"
+                      t-att-filter = "'workcenter_id.id,==,' + str(wkcenter_line.workcenter_id.id)"
+                      t-att-columns="'product_id,restrict_lot_id,product_uom_qty,product_uom,used_lot,served_qty,id,workcenter_id'"
+                      t-att-columns-widths="'35%,10%,12%,8%,10,15%,0%,0%'"
+                      t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'product_uom_qty': 'disabled', 'product_uom': 'disabled', 'workcenter_id': 'hidden'}">
+                </table>
+            </form>
+        </div>
+    </template>
+
+    <template id="mrp_stops_adjustements" name="Stops and adjustsments">
+        <div class="quality_view">
+            <h2>4. - PARADAS Y AJUSTES NECESARIOS</h2>
+            <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                <table class="quality_field" id="tblAppendGridStop" t-att-qfield="'adjustsments_ids'"
+                      t-att-columns="'start_date,name,reanudation_date,initials,id'"
+                      t-att-columns-widths="'15%,65%,15%,5%,0%'"
+                      t-att-nodelete="'true'">
+                </table>
+            </form>
+        </div>
+    </template>
+
+    <template id="mrp_controls" name="Process control">
+        <div class="quality_view">
+            <h2>5.-CONTROLES EN PROCESO</h2>
+            <h4>5.1-Realizar los controles de proceso periodicamente y siempre que se sospechen problemas de dosificación.
+                Al finalizar el lote, al menos se habrán realizado 20 controles.</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <td class="ui-widget-header"> </td>
+                        <td class="ui-widget-header" style="text-align: center; padding:5px;">Estuches llenos</td>
+                        <td class="ui-widget-header" style="text-align: center; padding:5px;">Peso bolsita <span t-field="production.product_id.unit_weight"/></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ui-widget-header">Límite alerta</td>
+                        <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_alert_full_from"/> - <span t-field="production.product_id.weight_alert_full_to"/></td>
+                        <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_alert_unit_from"/> - <span t-field="production.product_id.weight_alert_unit_to"/></td>
+                    </tr>
+                    <tr>
+                        <td class="ui-widget-header">Límite acción</td>
+                        <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_action_full_from"/> - <span t-field="production.product_id.weight_action_full_to"/></td>
+                        <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_action_unit_from"/> - <span t-field="production.product_id.weight_action_unit_to"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                <table class="quality_field" id="tblAppendGridControls" t-att-qfield="'control_ids'"
+                      t-att-columns="'date,bag_maked,label,wrapped,full_weight,empty_weight,first,middle,last,initials,id'"
+                      t-att-columns-widths="'15%,3%,3%,3%,5%,5%,5%,5%,5%,3%'"
+                      t-att-nodelete="'true'" style="table-layout: fixed; width: 100%;" t-att-initrows="20">
+                </table>
+            </form>
+        </div>
+    </template>
+
+    <template id="stock_move_mrp_return_bolsitas" name="return moves bolsitas">
+        <div class="quality_view">
+            <h2>7.-DEVOLUCIÓN DE MATERIALES SOBRANTES</h2>
+            <h4>Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:</h4>
+            <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                <table class="quality_field" id="tblAppendGridreturn" t-att-qfield="'move_lines'"
+                      t-att-filter = "'workcenter_id.id,==,' + str(wkcenter_line.workcenter_id.id)"
+                      t-att-columns="'product_id,restrict_lot_id,returned_qty,id,workcenter_id'"
+                      t-att-columns-widths="'35%,10%,12%,0%,0%'"
+                      t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'restrict_lot_id': 'disabled', 'workcenter_id': 'hidden'}">
+                </table>
+            </form>
+        </div>
+    </template>
 
     <template id="stock_move_mrp_consume" name="Moves to consume">
         <div class="quality_view">
-            <h2>1.- PETICIÓN DE MATERIALES A ENTREGAR</h2>
+            <h2>1.-PETICIÓN DE MATERIALES A ENTREGAR</h2>
             <h4>Anotar la cantidad del material que se entrega a fabricación:</h4>
             <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
                 <div class="unique_field">
@@ -170,7 +250,7 @@
     <template id="assets_backend" inherit_id="web.assets_backend" name="Survey assets">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
-            <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.min.js" />
+            <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.js" />
         </xpath>
     </template>
 
@@ -179,7 +259,7 @@
         <t t-call="web.layout">
             <t t-set="head">
                 <link rel="stylesheet" href="/quality_protocol_report/static/src/css/jquery.appendGrid-1.4.2.css"/>
-                <link rel="stylesheet" href="/quality_protocol_report/static/src/css/base.css"/>
+                <link rel="stylesheet" href="/quality_protocol_report/static/src/css/quality_style.css"/>
                     <t t-call-assets="web.assets_common"/>
                     <t t-call-assets="web.assets_backend"/>
             </t>

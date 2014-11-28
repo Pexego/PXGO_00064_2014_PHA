@@ -103,5 +103,35 @@
         parent="menu_quality_protocols"/>
 
 
+    <!-- protocol.type views -->
+
+    <record id="protocol_type_tree" model="ir.ui.view">
+        <field name="name">protocol.type.tree</field>
+        <field name="model">protocol.type</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Protocol Types">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="protocol_type_form" model="ir.ui.view">
+        <field name="name">protocol.type.form</field>
+        <field name="model">protocol.type</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Protocol type">
+                <header></header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="workcenter_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
 </data>
 </openerp>
