@@ -116,6 +116,16 @@ function datetimeToISOStr(date) {
 };
 
 $(function () {
+    $("#bodyaccord").hide();
+    $("#headeraccord").click(function(){
+       if($("#bodyaccord").is(":visible")){
+            $("#bodyaccord").hide();
+       }
+       else{
+           $("#bodyaccord").show();
+       }
+    });
+    $('<div style="clear: both;"/>').insertAfter( ".unique_field" );
     $('#all_data').find('.quality_form').each(function() {
         var record = Number($(this).attr("record"));
         var model = $(this).attr("model");

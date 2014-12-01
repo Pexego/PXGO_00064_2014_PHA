@@ -30,6 +30,12 @@
   padding-left: 5px;
 }
 
+.openerp .quality_view table tr td input:not([type="checkbox"]) {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+
 .unique_field {
     display: inline-block;
     padding-bottom: 3px;
@@ -41,6 +47,15 @@
 .unique_field input {
     width: 75%;
 }
+.unique_field input[type="checkbox"] {
+    height: 17px;
+    width: 17px;
+}
 .textCenter {
     text-align: center;
+}
+
+.view,.survey {
+    padding-top:8px;
+    padding-bottom:8px;
 }

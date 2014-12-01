@@ -22,13 +22,15 @@
                             <field name="report_line_ids" nolabel="1" colspan="4">
                             <tree>
                                 <field name="sequence"/>
+                                <field name="log_realization"/>
                                 <field name="name"/>
-                                <field name="report_id"/>
+                                <field name="view_id"/>
                                 <field name="survey_id"/>
                             </tree>
                             <form>
                                 <group>
                                     <field name="sequence"/>
+                                    <field name="log_realization"/>
                                     <field name="name" colspan="4"/>
                                     <field name="view_id"/>
                                     <field name="survey_id"/>

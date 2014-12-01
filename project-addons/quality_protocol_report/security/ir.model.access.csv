@@ -5,3 +5,6 @@ access_quality_protocol_report_line,access_quality_protocol_report_line,model_qu
 access_mrp_production_adjustments,access_mrp_production_adjustments,model_mrp_production_adjustments,,1,1,1,1
 access_product_protocol,access_product_protocol,model_product_protocol,,1,1,1,1
 access_protocol_type,access_protocol_type,model_protocol_type,,1,1,1,1
+access_mrp_production_control,access_mrp_production_control,model_mrp_production_control,,1,1,1,1
+access_quality_realization,access_quality_realization,model_quality_realization,,1,1,1,1
+access_mrp_wender_temp,access_mrp_wender_temp,model_mrp_wender_temp,,1,1,1,1

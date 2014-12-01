@@ -60,6 +60,15 @@ class PrintProtocolTest(models.TransientModel):
                     use_protocol = protocol.protocol_id
             if not use_protocol:
                 raise exceptions.except_orm(_('Not found'), _('Protocol not found for the product %s.') % obj.product_id.name)
+            if not wkcenter_line.realized_ids:
+                for line in use_protocol.report_line_ids:
+                    if line.log_realization:
+                        self.pool.get('quality.realization').create(
+                            cr, uid, {
+                                'name': line.name,
+                                'workcenter_line_id': wkcenter_line.id
+                            }, context)
+
             res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s/%s" % (slug(obj), slug(use_protocol), slug(wkcenter_line)))
         return res
 

@@ -69,3 +69,4 @@ se pueden asociar a vistas qweb o a surveys. Se ordenan por secuencia."""
     name = fields.Char("Name", required=True)
     sequence = fields.Integer("Sequence", default="1")
     report_id = fields.Many2one("quality.protocol.report", "Report")
+    log_realization = fields.Boolean('Log realization')

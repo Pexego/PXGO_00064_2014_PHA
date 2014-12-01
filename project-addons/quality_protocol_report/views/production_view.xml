@@ -76,30 +76,71 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Extra information">
-                        <separator string="Stops and adjustments needed" colspan="4"/>
-                        <field name="adjustsments_ids" nolabel="1" colspan="4">
-                            <tree editable="top">
-                                <field name="start_date"/>
-                                <field name="name"/>
-                                <field name="reanudation_date"/>
-                                <field name="initials"/>
-                            </tree>
-                        </field>
-                        <separator string="Controls" colspan="4"/>
-                        <field name="control_ids" nolabel="1" colspan="4">
-                            <tree editable="top">
-                                <field name="date"/>
-                                <field name="bag_maked"/>
-                                <field name="label"/>
-                                <field name="wrapped"/>
-                                <field name="full_weight"/>
-                                <field name="empty_weight"/>
-                                <field name="first"/>
-                                <field name="middle"/>
-                                <field name="last"/>
-                                <field name="initials"/>
-                            </tree>
-                        </field>
+                        <group>
+                            <separator string="Stops and adjustments needed" colspan="4"/>
+                            <field name="adjustsments_ids" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="start_date"/>
+                                    <field name="name"/>
+                                    <field name="reanudation_date"/>
+                                    <field name="initials"/>
+                                </tree>
+                            </field>
+                            <separator string="Controls" colspan="4"/>
+                            <field name="control_ids" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="date"/>
+                                    <field name="bag_maked"/>
+                                    <field name="label"/>
+                                    <field name="wrapped"/>
+                                    <field name="full_weight"/>
+                                    <field name="empty_weight"/>
+                                    <field name="first"/>
+                                    <field name="middle"/>
+                                    <field name="last"/>
+                                    <field name="initials"/>
+                                </tree>
+                            </field>
+                            <separator string="Realization" colspan="4"/>
+                            <field name="realized_ids" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="name"/>
+                                    <field name="realized"/>
+                                    <field name="realization_date"/>
+                                </tree>
+                            </field>
+                            <separator string="Wender temperatures" colspan="4"/>
+                            <field name="wender_temp_ids" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="sequence"/>
+                                    <field name="temperature"/>
+                                </tree>
+                            </field>
+                            <field name="mrp_speed"/>
+                            <field name="adjustement_lever"/>
+                            <field name="fallen_scale"/>
+                            <field name="slow_funnel"/>
+                            <field name="fast_funnel"/>
+                            <separator string="Printer configuration" colspan="4"/>
+                            <field name="printed_configured_by"/>
+                            <field name="confirmed_printer"/>
+                            <field name="printed_lot"/>
+                            <field name="printed_date"/>
+                            <separator string="Print comprobations" colspan="4"/>
+                            <field name="print_comprobations" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="date"/>
+                                    <field name="correct"/>
+                                    <field name="initials"/>
+                                </tree>
+                            </field>
+                            <field name="mrp_start_date"/>
+                            <field name="final_count"/>
+                            <field name="continue_next_day"/>
+                            <field name="prod_issue"/>
+                            <field name="total_produced"/>
+                            <field name="observations"/>
+                        </group>
                     </page>
                 </notebook>
             </field>

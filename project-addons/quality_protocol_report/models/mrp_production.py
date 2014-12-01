@@ -168,6 +168,15 @@ class MrpProductionProductLine(models.Model):
     workcenter_id = fields.Many2one('mrp.workcenter', 'Workcenter')
 
 
+class QualityRealization(models.Model):
+
+    _name = 'quality.realization'
+
+    name = fields.Char('Name', size=64)
+    realized = fields.Char('Realized by', size=64)
+    realization_date = fields.Datetime('Date')
+    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Workcenter line')
+
 class MrpProductionWorkcenterLine(models.Model):
 
     _inherit = 'mrp.production.workcenter.line'
@@ -175,6 +184,45 @@ class MrpProductionWorkcenterLine(models.Model):
     adjustsments_ids = fields.One2many('mrp.production.adjustments',
                                        'production_id', 'Adjustments')
     control_ids = fields.One2many('mrp.production.control', 'Workcenter_line_id', 'Controls')
+    realized_ids = fields.One2many('quality.realization', 'workcenter_line_id', 'Realization')
+    on_time_machine = fields.Datetime('On time machine')
+    wender_temp_ids = fields.One2many('mrp.wender.temp', 'workcenter_line_id', 'Wender temps')
+    mrp_speed = fields.Float('Mrp speed')
+    adjustement_lever = fields.Float('adjustment lever')
+    fallen_scale = fields.Float('Fallen scale')
+    slow_funnel = fields.Float('slow funnel')
+    fast_funnel = fields.Float('fast_funnel')
+    printed_configured_by = fields.Char('Configured printer by', size=64)
+    confirmed_printer = fields.Char('Confirmed printer', size=64)
+    printed_lot = fields.Char('Printed lot', size=64)
+    printed_date = fields.Datetime('Printed date')
+    print_comprobations = fields.One2many('mrp.print.comprobations', 'wkcenter_line_id', 'Print comprobations')
+    mrp_start_date = fields.Datetime('Start production')
+    final_count = fields.Integer('Final counter')
+    continue_next_day = fields.Boolean('Continue production next day')
+    prod_issue = fields.Boolean('Production issue')
+    issue_ref = fields.Char('Issue ref', size=64)
+    total_produced = fields.Float('Total produced')
+    observations = fields.Text('Observations')
+
+
+class MrpPrintComprobations(models.Model):
+
+    _name = 'mrp.print.comprobations'
+
+    date = fields.Datetime('Date')
+    correct = fields.Boolean('Print correct')
+    initials = fields.Char('Initials', size=12)
+    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Workcenter line')
+
+
+class MrpWenderTemp(models.Model):
+
+    _name = 'mrp.wender.temp'
+
+    sequence = fields.Integer('Wender nº')
+    temperature = fields.Float('Temperature')
+    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Workcenter line')
 
 class MrpWorkcenter(models.Model):
 
