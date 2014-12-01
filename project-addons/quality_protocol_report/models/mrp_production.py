@@ -191,7 +191,7 @@ class MrpProductionWorkcenterLine(models.Model):
     adjustement_lever = fields.Float('adjustment lever')
     fallen_scale = fields.Float('Fallen scale')
     slow_funnel = fields.Float('slow funnel')
-    fast_funnel = fields.Float('fast_funnel')
+    fast_funnel = fields.Float('fast funnel')
     printed_configured_by = fields.Char('Configured printer by', size=64)
     confirmed_printer = fields.Char('Confirmed printer', size=64)
     printed_lot = fields.Char('Printed lot', size=64)

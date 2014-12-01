@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* quality_protocol_report
+#   * quality_protocol_report
 #
 msgid ""
 msgstr ""
@@ -107,12 +107,12 @@ msgstr "7.-DEVOLUCIÓN DE MATERIALES SOBRANTES"
 #. module: quality_protocol_report
 #: field:stock.move,acceptance_date:0
 msgid "Acceptance date"
-msgstr "Acceptance date"
+msgstr "Fecha aceptado"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,adjustsments_ids:0
 msgid "Adjustments"
-msgstr "Adjustments"
+msgstr "Ajustes"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_move_mrp_return
@@ -127,12 +127,12 @@ msgstr "Anotar la cantidad del material que se entrega a fabricación:"
 #. module: quality_protocol_report
 #: field:mrp.workcenter,protocol_type_id:0
 msgid "Associated protocol"
-msgstr "Associated protocol"
+msgstr "Protocolo asociado"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_filter
 msgid "Base form"
-msgstr "Base form"
+msgstr "Forma base"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_mrp_bom
@@ -159,7 +159,7 @@ msgstr "Bom lines"
 #. module: quality_protocol_report
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/mrp_production.py:47
@@ -177,12 +177,12 @@ msgstr "Cantidad a Fabricar:"
 #. module: quality_protocol_report
 #: field:quality.procedure,code:0
 msgid "Code"
-msgstr "Code"
+msgstr "Código"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,printed_configured_by:0
 msgid "Configured printer by"
-msgstr "Configured printer by"
+msgstr "Impresora configurada por"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -192,7 +192,7 @@ msgstr "Confirmado correcto por operario de acondicionamiento secundario"
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,confirmed_printer:0
 msgid "Confirmed printer"
-msgstr "Confirmed printer"
+msgstr "Impresora confirmada"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -203,18 +203,18 @@ msgstr "Cons. Pref.:"
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_filter
 #: field:quality.protocol.report,product_container_id:0
 msgid "Container"
-msgstr "Container"
+msgstr "Envasado"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,continue_next_day:0
 msgid "Continue production next day"
-msgstr "Continue production next day"
+msgstr "La producción continua el dia siguiente"
 
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
 #: field:mrp.production.workcenter.line,control_ids:0
 msgid "Controls"
-msgstr "Controls"
+msgstr "Controles"
 
 #. module: quality_protocol_report
 #: field:mrp.print.comprobations,create_uid:0
@@ -250,12 +250,12 @@ msgstr "Created on"
 #: field:mrp.print.comprobations,date:0
 #: field:quality.realization,realization_date:0
 msgid "Date"
-msgstr "Date"
+msgstr "Fecha"
 
 #. module: quality_protocol_report
 #: field:mrp.production.adjustments,name:0
 msgid "Description"
-msgstr "Description"
+msgstr "Descripción"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -265,7 +265,7 @@ msgstr "Edición:"
 #. module: quality_protocol_report
 #: field:quality.procedure,edition:0
 msgid "Edition"
-msgstr "Edition"
+msgstr "Edición"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -295,7 +295,7 @@ msgstr "Información extra"
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
 msgid "Extra information"
-msgstr "Extra information"
+msgstr "Información extra"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -305,7 +305,7 @@ msgstr "Fabricación:"
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,fallen_scale:0
 msgid "Fallen scale"
-msgstr "Fallen scale"
+msgstr "Escala caída producto"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -331,12 +331,12 @@ msgstr "Fecha:"
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,final_count:0
 msgid "Final counter"
-msgstr "Final counter"
+msgstr "Contador final"
 
 #. module: quality_protocol_report
 #: field:mrp.production.control,last:0
 msgid "Final production"
-msgstr "Final production"
+msgstr "Producción final"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -346,12 +346,12 @@ msgstr "Firma"
 #. module: quality_protocol_report
 #: field:mrp.production.control,first:0
 msgid "First production"
-msgstr "First production"
+msgstr "Primera producción"
 
 #. module: quality_protocol_report
 #: field:quality.protocol.report,product_form_id:0
 msgid "Form"
-msgstr "Form"
+msgstr "Forma"
 
 #. module: quality_protocol_report
 #: field:product.product,weight_action_full_from:0
@@ -359,22 +359,22 @@ msgstr "Form"
 #: field:product.product,weight_alert_full_from:0
 #: field:product.product,weight_alert_unit_from:0
 msgid "From"
-msgstr "From"
+msgstr "Desde"
 
 #. module: quality_protocol_report
 #: field:mrp.production.control,full_weight:0
 msgid "Full"
-msgstr "Full"
+msgstr "Lleno"
 
 #. module: quality_protocol_report
 #: view:product.product:quality_protocol_report.product_view_add_protocol
 msgid "Full action"
-msgstr "Full action"
+msgstr "Acción lleno"
 
 #. module: quality_protocol_report
 #: view:product.product:quality_protocol_report.product_view_add_protocol
 msgid "Full alert"
-msgstr "Full alert"
+msgstr "Alerta lleno"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_filter
@@ -384,7 +384,7 @@ msgstr "Group By"
 #. module: quality_protocol_report
 #: field:mrp.production.control,date:0
 msgid "Hour"
-msgstr "Hour"
+msgstr "Hora"
 
 #. module: quality_protocol_report
 #: field:mrp.print.comprobations,id:0
@@ -417,19 +417,19 @@ msgstr "Incidencias de fabricación:"
 #: field:mrp.production.control,initials:0
 #: field:stock.move,initials:0
 msgid "Initials"
-msgstr "Initials"
+msgstr "Iniciales"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/mrp_production.py:132
 #: code:addons/quality_protocol_report/models/mrp_production.py:159
 #, python-format
 msgid "Invalid Action!"
-msgstr "Invalid Action!"
+msgstr "Acción inválida!"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,issue_ref:0
 msgid "Issue ref"
-msgstr "Issue ref"
+msgstr "Referencia de incidencia"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -469,12 +469,12 @@ msgstr "Last Updated on"
 #. module: quality_protocol_report
 #: field:quality.protocol.report.line,log_realization:0
 msgid "Log realization"
-msgstr "Log realization"
+msgstr "Log de realización"
 
 #. module: quality_protocol_report
 #: field:survey.user_input,lot_id:0
 msgid "Lot"
-msgstr "Lot"
+msgstr "Lote"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/mrp_production.py:43
@@ -515,7 +515,7 @@ msgstr "Límite alerta"
 #. module: quality_protocol_report
 #: field:mrp.production.control,bag_maked:0
 msgid "Maked"
-msgstr "Maked"
+msgstr "Confección"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_mrp_production
@@ -525,18 +525,18 @@ msgstr "Órden de producción"
 #. module: quality_protocol_report
 #: field:mrp.production.control,middle:0
 msgid "Middle production"
-msgstr "Middle production"
+msgstr "Producción medio"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_filter
 #: field:quality.protocol.report,model_id:0
 msgid "Model"
-msgstr "Model"
+msgstr "Modelo"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,mrp_speed:0
 msgid "Mrp speed"
-msgstr "Mrp speed"
+msgstr "Velocidad de fabricación"
 
 #. module: quality_protocol_report
 #: field:protocol.type,name:0
@@ -545,7 +545,7 @@ msgstr "Mrp speed"
 #: field:quality.protocol.report.line,name:0
 #: field:quality.realization,name:0
 msgid "Name"
-msgstr "Name"
+msgstr "Nombre"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/wizard/print_protocol_test.py:57
@@ -573,12 +573,12 @@ msgstr "Observaciones:"
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,observations:0
 msgid "Observations"
-msgstr "Observations"
+msgstr "Observaciones"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,on_time_machine:0
 msgid "On time machine"
-msgstr "On time machine"
+msgstr "Hora encendido de máquina"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -599,28 +599,28 @@ msgstr "Peso bolsita"
 #: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
 #: field:mrp.production,picking_notes:0
 msgid "Picking notes"
-msgstr "Picking notes"
+msgstr "Notas de albarán"
 
 #. module: quality_protocol_report
 #: field:quality.protocol.report,first_procedure_id:0
 msgid "Primary procedure"
-msgstr "Primary procedure"
+msgstr "Procedimiento primario"
 
 #. module: quality_protocol_report
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
 msgid "Print"
-msgstr "Print"
+msgstr "Imprimir"
 
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
 #: field:mrp.production.workcenter.line,print_comprobations:0
 msgid "Print comprobations"
-msgstr "Print comprobations"
+msgstr "Comprobaciones de impresión"
 
 #. module: quality_protocol_report
 #: field:mrp.print.comprobations,correct:0
 msgid "Print correct"
-msgstr "Print correct"
+msgstr "Impresión correcta"
 
 #. module: quality_protocol_report
 #: field:print.protocol.test,print_url:0
@@ -632,22 +632,22 @@ msgstr "Print link"
 #: model:ir.actions.act_window,name:quality_protocol_report.action_print_protocol_lot
 #: view:stock.production.lot:quality_protocol_report.stock_production_lot_add_survey_responses
 msgid "Print protocol"
-msgstr "Print protocol"
+msgstr "Imprimir protocolo"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,printed_date:0
 msgid "Printed date"
-msgstr "Printed date"
+msgstr "Fecha impresa"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,printed_lot:0
 msgid "Printed lot"
-msgstr "Printed lot"
+msgstr "Lote impreso"
 
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
 msgid "Printer configuration"
-msgstr "Printer configuration"
+msgstr "Configuración de impresora"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_product_product
@@ -672,49 +672,49 @@ msgstr "Fabricación planificada producto"
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,prod_issue:0
 msgid "Production issue"
-msgstr "Production issue"
+msgstr "Incidencia de producción"
 
 #. module: quality_protocol_report
 #: field:product.protocol,product_ids:0
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_form
 msgid "Products"
-msgstr "Products"
+msgstr "Productos"
 
 #. module: quality_protocol_report
 #: view:product.protocol:quality_protocol_report.product_protocol_form_view
 #: view:product.protocol:quality_protocol_report.product_protocol_search_view
 #: field:product.protocol,protocol_id:0
 msgid "Protocol"
-msgstr "Protocol"
+msgstr "Protocolo"
 
 #. module: quality_protocol_report
 #: view:protocol.type:quality_protocol_report.protocol_type_tree
 msgid "Protocol Types"
-msgstr "Protocol Types"
+msgstr "Tipos de protocolo"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/wizard/print_protocol_test.py:87
 #, python-format
 msgid "Protocol error"
-msgstr "Protocol error"
+msgstr "Error de protocolo"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/wizard/print_protocol_test.py:62
 #, python-format
 msgid "Protocol not found for the product %s."
-msgstr "Protocol not found for the product %s."
+msgstr "Protocolo no encontrado para el producto %s."
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/wizard/print_protocol_test.py:57
 #, python-format
 msgid "Protocol not found for the route %s."
-msgstr "Protocol not found for the route %s."
+msgstr "Protocolo no encontrado para la ruta %s."
 
 #. module: quality_protocol_report
 #: field:print.protocol.test,protocol_type_id:0
 #: view:protocol.type:quality_protocol_report.protocol_type_form
 msgid "Protocol type"
-msgstr "Protocol type"
+msgstr "Tipo de protocolo"
 
 #. module: quality_protocol_report
 #: model:ir.actions.act_window,name:quality_protocol_report.action_view_product_protocol
@@ -725,22 +725,22 @@ msgstr "Protocol type"
 #: view:product.template:quality_protocol_report.product_template_form_add_protocols
 #: field:quality.protocol.report,protocol_ids:0
 msgid "Protocols"
-msgstr "Protocols"
+msgstr "Protocolos"
 
 #. module: quality_protocol_report
 #: model:ir.ui.menu,name:quality_protocol_report.menu_product_protocol
 msgid "Protocols for products"
-msgstr "Protocols for products"
+msgstr "Protocolos para productos"
 
 #. module: quality_protocol_report
 #: view:product.product:quality_protocol_report.product_view_add_protocol
 msgid "Quality"
-msgstr "Quality"
+msgstr "Calidad"
 
 #. module: quality_protocol_report
 #: model:ir.ui.menu,name:quality_protocol_report.menu_quality_management
 msgid "Quality management"
-msgstr "Quality management"
+msgstr "Gestión de calidad"
 
 #. module: quality_protocol_report
 #: view:quality.procedure:quality_protocol_report.quality_procedure_form
@@ -752,23 +752,23 @@ msgstr "Quality procedure"
 #: model:ir.ui.menu,name:quality_protocol_report.menu_quality_procedures
 #: view:quality.procedure:quality_protocol_report.quality_procedure_tree
 msgid "Quality procedures"
-msgstr "Quality procedures"
+msgstr "Procedimientos de calidad"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_form
 msgid "Quality protocol report"
-msgstr "Quality protocol report"
+msgstr "Protocolo de reporte de calidad"
 
 #. module: quality_protocol_report
 #: model:ir.actions.act_window,name:quality_protocol_report.action_quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_tree
 msgid "Quality protocol reports"
-msgstr "Quality protocol reports"
+msgstr "Protocolos de reporte de calidad"
 
 #. module: quality_protocol_report
 #: model:ir.ui.menu,name:quality_protocol_report.menu_quality_protocols
 msgid "Quality protocols"
-msgstr "Quality protocols"
+msgstr "Protocolos de calidad"
 
 #. module: quality_protocol_report
 #: model:ir.ui.menu,name:quality_protocol_report.menu_quality_protocol_reports
@@ -783,7 +783,7 @@ msgstr "Quality system field, no data"
 #. module: quality_protocol_report
 #: field:quality.protocol.report.line,view_id:0
 msgid "Qweb View"
-msgstr "Qweb View"
+msgstr "Vista Qweb"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -794,18 +794,18 @@ msgstr "Realizado por:"
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
 #: field:mrp.production.workcenter.line,realized_ids:0
 msgid "Realization"
-msgstr "Realization"
+msgstr "Realización"
 
 #. module: quality_protocol_report
 #: field:quality.realization,realized:0
 #: view:website:quality_protocol_report.protocol_print
 msgid "Realized by"
-msgstr "Realized by"
+msgstr "Realizado por"
 
 #. module: quality_protocol_report
 #: field:mrp.production.adjustments,reanudation_date:0
 msgid "Reanudation date"
-msgstr "Reanudation date"
+msgstr "Fecha de reanudación"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_move_mrp_return_bolsitas
@@ -851,13 +851,13 @@ msgstr "Revisión protocolo"
 #. module: quality_protocol_report
 #: field:quality.protocol.report,second_procedure_id:0
 msgid "Secondary procedure"
-msgstr "Secondary procedure"
+msgstr "Procedimiento secundario"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_form
 #: field:quality.protocol.report,report_line_ids:0
 msgid "Sections"
-msgstr "Sections"
+msgstr "Secciones"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -867,22 +867,22 @@ msgstr "Según procedimiento:"
 #. module: quality_protocol_report
 #: field:quality.protocol.report.line,sequence:0
 msgid "Sequence"
-msgstr "Sequence"
+msgstr "Secuencia"
 
 #. module: quality_protocol_report
 #: field:stock.move,served_qty:0
 msgid "Served qty"
-msgstr "Served qty"
+msgstr "Cantidad servida"
 
 #. module: quality_protocol_report
 #: field:mrp.production.adjustments,start_date:0
 msgid "Start date"
-msgstr "Start date"
+msgstr "Fecha de inicio"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,mrp_start_date:0
 msgid "Start production"
-msgstr "Start production"
+msgstr "Inicio de producción"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_stock_move
@@ -892,17 +892,17 @@ msgstr "Movimiento de existencias"
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
 msgid "Stops and adjustments needed"
-msgstr "Stops and adjustments needed"
+msgstr "Paradas y ajustes necesarios"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.protocol_print
 msgid "Submit"
-msgstr "Submit"
+msgstr "Enviar"
 
 #. module: quality_protocol_report
 #: field:quality.protocol.report.line,survey_id:0
 msgid "Survey"
-msgstr "Survey"
+msgstr "Encuesta"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_survey_user_input
@@ -912,7 +912,7 @@ msgstr "Entrada de usuario de la encuesta"
 #. module: quality_protocol_report
 #: field:mrp.wender.temp,temperature:0
 msgid "Temperature"
-msgstr "Temperature"
+msgstr "Temperatura"
 
 #. module: quality_protocol_report
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
@@ -923,19 +923,19 @@ msgstr "Test"
 #: code:addons/quality_protocol_report/wizard/print_protocol_test.py:87
 #, python-format
 msgid "The lot not have a production"
-msgstr "The lot not have a production"
+msgstr "El lote no tiene producciones"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/product.py:105
 #, python-format
 msgid "The product %s has another protocol with the same type"
-msgstr "The product %s has another protocol with the same type"
+msgstr "El producto %s tiene otro protocolo con el mismo tipo"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/mrp_production.py:44
 #, python-format
 msgid "The required lot %s and the received lot %s not mismatch"
-msgstr "The required lot %s and the received lot %s not mismatch"
+msgstr "El lote requerido %s y el recibido %s no son iguales"
 
 #. module: quality_protocol_report
 #: field:product.product,weight_action_full_to:0
@@ -948,32 +948,32 @@ msgstr "To"
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,total_produced:0
 msgid "Total produced"
-msgstr "Total produced"
+msgstr "Total producido"
 
 #. module: quality_protocol_report
 #: field:quality.protocol.report,type_id:0
 msgid "Type"
-msgstr "Type"
+msgstr "Tipo"
 
 #. module: quality_protocol_report
 #: view:product.product:quality_protocol_report.product_view_add_protocol
 msgid "Unit action"
-msgstr "Unit action"
+msgstr "Acción unidad"
 
 #. module: quality_protocol_report
 #: view:product.product:quality_protocol_report.product_view_add_protocol
 msgid "Unit alert"
-msgstr "Unit alert"
+msgstr "Alerta unidad"
 
 #. module: quality_protocol_report
 #: field:product.product,unit_weight:0
 msgid "Unit weight"
-msgstr "Unit weight"
+msgstr "Peso unitario"
 
 #. module: quality_protocol_report
 #: field:stock.move,used_lot:0
 msgid "Used lot"
-msgstr "Used lot"
+msgstr "Lote usado"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -993,17 +993,17 @@ msgstr "Velocidad rápida embudo"
 #. module: quality_protocol_report
 #: field:mrp.wender.temp,sequence:0
 msgid "Wender nº"
-msgstr "Wender nº"
+msgstr "Soldador nº"
 
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
 msgid "Wender temperatures"
-msgstr "Wender temperatures"
+msgstr "Temperaturas de soldador"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,wender_temp_ids:0
 msgid "Wender temps"
-msgstr "Wender temps"
+msgstr "Temperaturas de soldador"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_mrp_workcenter
@@ -1039,22 +1039,22 @@ msgstr "adjustment lever"
 #. module: quality_protocol_report
 #: view:product.product:quality_protocol_report.product_view_add_protocol
 msgid "create protocols"
-msgstr "create protocols"
+msgstr "Crear protocolos"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,fast_funnel:0
-msgid "fast_funnel"
-msgstr "fast_funnel"
+msgid "fast funnel"
+msgstr "Velocidad rápida de embudo"
 
 #. module: quality_protocol_report
 #: field:mrp.production.control,label:0
 msgid "label"
-msgstr "label"
+msgstr "etiqueta"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,slow_funnel:0
 msgid "slow funnel"
-msgstr "slow funnel"
+msgstr "Velocidad lenta de embudo"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -1064,5 +1064,5 @@ msgstr "velocidad lenta embudo"
 #. module: quality_protocol_report
 #: field:mrp.production.control,wrapped:0
 msgid "wrapped"
-msgstr "wrapped"
+msgstr "Envuelta"
 
