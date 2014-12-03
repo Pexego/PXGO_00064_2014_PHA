@@ -31,52 +31,31 @@ class StockMove(models.Model):
     served_qty = fields.Float('Served qty',
                               help="Quality system field, no data")
 
-    mrp_prev_move = fields.Boolean('Previous move')
-
     q_production_id = fields.Many2one('mrp.production', '')
 
-    '''def action_consume(self, cr, uid, ids, product_qty, location_id=False,
-                       restrict_lot_id=False, restrict_partner_id=False,
-                       consumed_for=False, context=None):
-        for move in self.browse(cr, uid, ids, context=context):
-            if move.raw_material_production_id and move.returned_qty:
-                prev_move_ids = self.search(cr, uid, [('move_dest_id', '=',
-                                                       move.id)],
-                                            context=context)
-                if prev_move_ids:
-                    prev_move = self.browse(cr, uid, prev_move_ids[0],
-                                            context=context)
-                    new_move = self.copy(cr, uid, prev_move.id, {
-                        'location_id': prev_move.location_dest_id.id,
-                        'location_dest_id': prev_move.location_id.id,
-                        'product_uom_qty': move.returned_qty,
-                        'picking_id': False,
-                        'move_dest_id': False,
-                        'raw_material_production_id':
-                            move.raw_material_production_id.id,
-                        'picking_type_id': False
-                    })
-                    self.action_done(cr, uid, [new_move], context=context)
-        return super(StockMove, self).action_consume(cr, uid, ids, product_qty,
-                                                     location_id,
-                                                     restrict_lot_id,
-                                                     restrict_partner_id,
-                                                     consumed_for, context)'''
+    changed_qty_return = fields.Boolean('changed_qty_return')
 
 
 class stockPicking(models.Model):
 
     _inherit = 'stock.picking'
 
-    @api.one
-    def action_assign(self):
+    @api.multi
+    def do_enter_transfer_details(self):
+        changed = False
         for move in self.move_lines:
-            if move.mrp_prev_move:
+            if (move.q_production_id or raw_material_production_id) and not move.changed_qty_return:
                 if move.product_uom_qty != move.served_qty:
                     raise exceptions.Warning(_("""Cannot produce because
 move quantity %s and served quantity %s don't match""") %
                                              (str(move.product_uom_qty),
                                               str(move.served_qty)))
                 if move.returned_qty > 0:
+                    changed = True
+                    move.changed_qty_return = True
                     move.product_uom_qty = move.served_qty - move.returned_qty
-        return super(stockPicking, self).action_assign()
+        if changed:
+            self.do_unreserve()
+            self.action_assign()
+        return super(stockPicking, self).do_enter_transfer_details()
+
