@@ -40,6 +40,7 @@ class product_product(models.Model):
     weight_action_unit_from = fields.Float('From')
     weight_action_unit_to  = fields.Float('To')
     unit_weight = fields.Float('Unit weight')
+    lot_label = fields.Boolean('Lot label')
 
     @api.one
     @api.depends('protocol_ids')

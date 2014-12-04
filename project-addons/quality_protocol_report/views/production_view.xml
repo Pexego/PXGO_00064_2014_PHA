@@ -15,13 +15,13 @@
                     <field name="goods_request_date"/>
                     <field name="goods_return_date"/>
                 </field>
-                <!--xpath expr="//field[@name='move_lines']/tree/field[@name='product_uom_qty']" position="after">
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='product_uom_qty']" position="after">
                     <field name="served_qty"/>
-                </xpath-->
-                <xpath expr="//field[@name='move_lines']/tree/field[@name='state']" position="after">
+                </xpath>
+                <!--xpath expr="//field[@name='move_lines']/tree/field[@name='state']" position="after">
                     <field name="acceptance_date"/>
                     <field name="initials"/>
-                </xpath>
+                </xpath-->
             </field>
         </record>
 
@@ -137,9 +137,53 @@
                             <field name="mrp_start_date"/>
                             <field name="final_count"/>
                             <field name="continue_next_day"/>
-                            <field name="prod_issue"/>
+                            <field name="fab_issue"/>
                             <field name="total_produced"/>
                             <field name="observations"/>
+                            <separator string="Wrap comprobations" colspan="4"/>
+                            <field name="wrap_comprobations" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="date"/>
+                                    <field name="correct"/>
+                                    <field name="quality_sample"/>
+                                    <field name="initials"/>
+                                    <field name="type"/>
+                                </tree>
+                            </field>
+                            <separator string="" colspan="4"/>
+                            <field name="print_comprobations_sec" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="date"/>
+                                    <field name="lot_correct"/>
+                                    <field name="date_correct"/>
+                                    <field name="initials"/>
+                                </tree>
+                            </field>
+                            <separator string="Coffin works" colspan="4"/>
+                            <field name="coffin_works" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="init_date"/>
+                                    <field name="end_date"/>
+                                    <field name="initials"/>
+                                </tree>
+                            </field>
+                            <separator string="Qty produced" colspan="4"/>
+                            <field name="qty_produced" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="date"/>
+                                    <field name="coffins"/>
+                                    <field name="boxes"/>
+                                    <field name="case"/>
+                                    <field name="initials"/>
+                                </tree>
+                            </field>
+                            <field name="lot_tag_ok"/>
+                            <field name="acond_issue"/>
+                            <field name="acond_issue_ref"/>
+                            <field name="accond_total_produced"/>
+                            <field name="accond_theorical_produced"/>
+                            <field name="prod_ratio"/>
+                            <field name="acond_observations"/>
                         </group>
                     </page>
                 </notebook>

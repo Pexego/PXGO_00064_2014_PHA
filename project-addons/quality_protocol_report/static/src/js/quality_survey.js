@@ -133,6 +133,8 @@ $(function () {
         $(this).find('.quality_field').each(function() {
             var field_to_represent = $(this).attr("qfield");
             var filter = $(this).attr("filter") ? $(this).attr("filter").split(",") : false;
+            filter = filter ? [[filter[0], filter[1], filter[2]]] : [];
+            var filter_model = $(this).attr("filter-model")
             var columns = $(this).attr("columns").split(",");
             var columns_options = $(this).attr("columns-options") ? eval('(' + $(this).attr("columns-options") + ')') : {};
             var columns_widths = $(this).attr("columns-widths") ? $(this).attr("columns-widths").split(',') : [];
@@ -182,16 +184,10 @@ $(function () {
                 obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
                     if (response[field_to_represent].length > 0) {
                         var initData = [];
-                        view_model.call('read', [response[field_to_represent], columns], {context: context}).then(function(rows_data) {
+                        var read_filter = filter.concat([['id', 'in', response[field_to_represent]]]);
+                        //var asd = view_model.call('search_read', [read_filter, columns], {context: context})
+                        view_model.call('search_read', [read_filter, columns], {context: context}).then(function(rows_data) {
                             for (var j = 0; j<rows_data.length;j++) {
-                                if(filter){
-                                    var field_filter = filter[0].split(".")
-                                    var field_filtered = rows_data[j][field_filter[0]]
-                                    if(field_filter.length > 1){
-                                        field_filtered = field_filtered[0]
-                                    }
-                                }
-                                if(filter && eval(field_filtered + " " + filter[1] + " " +  filter[2])==true || !filter){
 
                                     var gridRow = {};
                                     for (var k=0; k<columns.length; k++) {
@@ -209,7 +205,6 @@ $(function () {
                                         }
                                     }
                                     initData.push(gridRow);
-                                }
                             }
                             self.appendGrid({
                                     initRows: init_rows,
@@ -231,7 +226,7 @@ $(function () {
                                                         { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
                                                     ]
                                 });
-                        })
+                        });
                     }
                     else {
                         self.appendGrid({
@@ -351,6 +346,7 @@ function send_form_server() {
             var dat = decodeURIComponent($(this).find("form").serialize());
             $(this).find("form").find(".quality_field").each(function() {
                 var form_field = $(this).attr("qfield");
+                var table_context = $(this).attr("context") ? $.extend({}, $.parseJSON($(this).attr("context").split("'").join('"')), context) : context;
                 var table_id = $(this).attr("id");
                 var records = {};
                 var elements = dat.split('&');
@@ -399,7 +395,7 @@ function send_form_server() {
                     var fields = {};
                     for (var i=0;i<to_remove_rows.length;i++) {
                         fields[form_field] = [[2, to_remove_rows[i]]];
-                        obj.call("write", [base_record, fields], {context: context});
+                        obj.call("write", [base_record, fields], {context: table_context});
                     }
                     to_remove_rows = [];
                 }
@@ -419,12 +415,12 @@ function send_form_server() {
                         var update_id = records[row].id;
                         delete records[row].id;
                         fields[form_field] = [[1, Number(update_id), records[row]]];
-                        obj.call("write", [base_record, fields], {context: context});
+                        obj.call("write", [base_record, fields], {context: table_context});
                     }
                     else {
                         delete records[row].id;
                         fields[form_field] = [[0, 0, records[row]]];
-                        obj.call("write", [base_record, fields], {context: context});
+                        obj.call("write", [base_record, fields], {context: table_context});
                     }
                 }
         });

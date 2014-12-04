@@ -35,5 +35,9 @@ class StockMove(models.Model):
 
     acceptance_date = fields.Date('Acceptance date')
     initials = fields.Char('Initials')
+    initials_acond = fields.Char('Initials')
     workcenter_id = fields.Many2one('mrp.workcenter', 'Workcenter')
     used_lot = fields.Char('Used lot')
+    checked_disp = fields.Boolean('Checked availability')
+    qty_used = fields.Float('Qty used')
+    qty_scrapped = fields.Float('Qty scrapped')

@@ -122,6 +122,9 @@
                         </group>
                     </page>
                 </notebook>
+                <field name="default_code" position="after">
+                    <field name="lot_label"/>
+                </field>
             </field>
         </record>
 

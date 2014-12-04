@@ -19,15 +19,13 @@
 #
 ##############################################################################
 
-from openerp import models, fields, _, exceptions
-from openerp import tools, SUPERUSER_ID
+from openerp import models, fields, _, exceptions, api, tools
 from openerp.addons.product import _common
 
 
 class MrpProduction(models.Model):
 
     _inherit = "mrp.production"
-
 
     goods_request_date = fields.Date('Request date')
     goods_return_date = fields.Date('Return date')
@@ -64,6 +62,59 @@ class MrpProduction(models.Model):
             'workcenter_id': context.get('workcenter_id', False)
         }, context=context)
         return move
+
+
+    @api.one
+    def action_finish_review(self):
+        res = self.env['stock.move']
+        for move in self.move_lines:
+            if move.changed_qty_return:
+                continue
+            if move.served_qty != 0 and move.served_qty != move.product_uom_qty:
+                raise exceptions.Warning(_("""Cannot produce because
+move quantity %s and served quantity %s don't match""") %
+                                             (str(move.product_uom_qty),
+                                              str(move.served_qty)))
+            if move.returned_qty > 0:
+                move.changed_qty_return = True
+                move.product_uom_qty = move.served_qty - move.returned_qty
+                move.do_unreserve()
+                move.action_assign()
+                source_location = move.location_id.id
+                if move.state == 'done':
+                    source_location = move.location_dest_id.id
+                default_val = {
+                    'location_id': source_location,
+                    'product_uom_qty': move.returned_qty,
+                    'state': move.state,
+                    'served_qty': 0,
+                    'returned_qty': 0,
+                    'qty_scrapped': 0,
+                    'location_dest_id': move.raw_material_production_id.location_src_id.id,
+                }
+                res += move.copy(default_val)
+            if move.qty_scrapped != 0:
+                move.changed_qty_return = True
+                move.product_uom_qty = move.served_qty - move.qty_scrapped
+                move.do_unreserve()
+                move.action_assign()
+                source_location = move.location_id.id
+                if move.state == 'done':
+                    source_location = move.location_dest_id.id
+                scrap_location_id = self.env['stock.location'].search([('scrap_location','=',True)])
+                default_val = {
+                    'location_id': source_location,
+                    'product_uom_qty': move.qty_scrapped,
+                    'state': move.state,
+                    'served_qty': 0,
+                    'returned_qty': 0,
+                    'qty_scrapped': 0,
+                    'scrapped': True,
+                    'location_dest_id': scrap_location_id[0].id,
+                }
+                res += move.copy(default_val)
+        res.action_done()
+        return super(MrpProduction, self).action_finish_review()
 
 
 class MrpBom(models.Model):
@@ -175,7 +226,9 @@ class QualityRealization(models.Model):
     name = fields.Char('Name', size=64)
     realized = fields.Char('Realized by', size=64)
     realization_date = fields.Datetime('Date')
-    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Workcenter line')
+    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
+                                         'Workcenter line')
+
 
 class MrpProductionWorkcenterLine(models.Model):
 
@@ -183,10 +236,13 @@ class MrpProductionWorkcenterLine(models.Model):
 
     adjustsments_ids = fields.One2many('mrp.production.adjustments',
                                        'production_id', 'Adjustments')
-    control_ids = fields.One2many('mrp.production.control', 'Workcenter_line_id', 'Controls')
-    realized_ids = fields.One2many('quality.realization', 'workcenter_line_id', 'Realization')
+    control_ids = fields.One2many('mrp.production.control',
+                                  'Workcenter_line_id', 'Controls')
+    realized_ids = fields.One2many('quality.realization', 'workcenter_line_id',
+                                   'Realization')
     on_time_machine = fields.Datetime('On time machine')
-    wender_temp_ids = fields.One2many('mrp.wender.temp', 'workcenter_line_id', 'Wender temps')
+    wender_temp_ids = fields.One2many('mrp.wender.temp', 'workcenter_line_id',
+                                      'Wender temps')
     mrp_speed = fields.Float('Mrp speed')
     adjustement_lever = fields.Float('adjustment lever')
     fallen_scale = fields.Float('Fallen scale')
@@ -196,14 +252,78 @@ class MrpProductionWorkcenterLine(models.Model):
     confirmed_printer = fields.Char('Confirmed printer', size=64)
     printed_lot = fields.Char('Printed lot', size=64)
     printed_date = fields.Datetime('Printed date')
-    print_comprobations = fields.One2many('mrp.print.comprobations', 'wkcenter_line_id', 'Print comprobations')
+    print_comprobations = fields.One2many('mrp.print.comprobations',
+                                          'wkcenter_line_id',
+                                          'Print comprobations')
     mrp_start_date = fields.Datetime('Start production')
     final_count = fields.Integer('Final counter')
     continue_next_day = fields.Boolean('Continue production next day')
-    prod_issue = fields.Boolean('Production issue')
+    fab_issue = fields.Boolean('Production issue')
     issue_ref = fields.Char('Issue ref', size=64)
     total_produced = fields.Float('Total produced')
     observations = fields.Text('Observations')
+    wrap_comprobations = fields.One2many('mrp.wrap.comprobations',
+                                         'wkcenter_line_id',
+                                         'Print comprobations')
+    print_comprobations_sec = fields.One2many('mrp.print.comprobations.sec',
+                                              'wkcenter_line_id',
+                                              'Print comprobations')
+
+    coffin_works = fields.One2many('mrp.coffin.works', 'wkcenter_line_id', 'Coffin works')
+    qty_produced = fields.One2many('mrp.qty.produced', 'wkcenter_line_id', 'Qty produced')
+    lot_tag_ok = fields.Boolean('Validated lot number of tags')
+    acond_issue = fields.Boolean('issue')
+    acond_issue_ref = fields.Char('Issue ref', size=64)
+    accond_total_produced = fields.Float('Total produced')
+    accond_theorical_produced = fields.Float('theorical produced')
+    prod_ratio = fields.Float('production ratio')
+    acond_observations = fields.Text('Observations')
+
+
+class mrpQtyProduced(models.Model):
+
+    _name = 'mrp.qty.produced'
+
+    date = fields.Date('Date')
+    coffins = fields.Integer('Coffins')
+    boxes = fields.Integer('Boxes')
+    case = fields.Integer('Case')
+    initials = fields.Char('Initials')
+    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
+                                       'Workcenter line')
+
+
+class MrpWrapComprobations(models.Model):
+
+    _name = 'mrp.wrap.comprobations'
+
+    date = fields.Datetime('Date')
+    correct = fields.Boolean('Print correct')
+    quality_sample = fields.Char('Quality sample', size=64)
+    initials = fields.Char('Initials', size=12)
+    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
+                                       'Workcenter line')
+    type = fields.Selection(
+        (('wrap', 'Wrap'), ('box', 'Box')),
+        'Type')
+
+    @api.model
+    def create(self, vals):
+        type = self.env.context.get('type', False)
+        if 'type' not in vals.keys() and type:
+            vals['type'] = type
+        return super(MrpWrapComprobations, self).create(vals)
+
+
+class MrpPrintComprobations(models.Model):
+
+    _name = 'mrp.coffin.works'
+
+    init_date = fields.Datetime('Init date')
+    end_date = fields.Datetime('End date')
+    initials = fields.Char('Initials', size=12)
+    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
+                                       'Workcenter line')
 
 
 class MrpPrintComprobations(models.Model):
@@ -213,7 +333,20 @@ class MrpPrintComprobations(models.Model):
     date = fields.Datetime('Date')
     correct = fields.Boolean('Print correct')
     initials = fields.Char('Initials', size=12)
-    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Workcenter line')
+    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
+                                       'Workcenter line')
+
+
+class MrpPrintComprobationsSec(models.Model):
+
+    _name = 'mrp.print.comprobations.sec'
+
+    date = fields.Date('Date')
+    lot_correct = fields.Boolean('Lot correct')
+    date_correct = fields.Boolean('Date correct')
+    initials = fields.Char('Initials', size=12)
+    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
+                                       'Workcenter line')
 
 
 class MrpWenderTemp(models.Model):
@@ -222,7 +355,9 @@ class MrpWenderTemp(models.Model):
 
     sequence = fields.Integer('Wender nº')
     temperature = fields.Float('Temperature')
-    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Workcenter line')
+    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
+                                         'Workcenter line')
+
 
 class MrpWorkcenter(models.Model):
 

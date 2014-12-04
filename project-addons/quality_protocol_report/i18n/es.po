@@ -670,7 +670,7 @@ msgid "Production Scheduled Product"
 msgstr "Fabricación planificada producto"
 
 #. module: quality_protocol_report
-#: field:mrp.production.workcenter.line,prod_issue:0
+#: field:mrp.production.workcenter.line,fab_issue:0
 msgid "Production issue"
 msgstr "Incidencia de producción"
 

@@ -9,3 +9,7 @@ access_mrp_production_control,access_mrp_production_control,model_mrp_production
 access_quality_realization,access_quality_realization,model_quality_realization,,1,1,1,1
 access_mrp_wender_temp,access_mrp_wender_temp,model_mrp_wender_temp,,1,1,1,1
 access_mrp_print_comprobations,access_mrp_print_comprobations,model_mrp_print_comprobations,,1,1,1,1
+access_mrp_wrap_comprobations,access_mrp_wrap_comprobations,model_mrp_wrap_comprobations,,1,1,1,1
+access_mrp_print_comprobations_sec,access_mrp_print_comprobations_sec,model_mrp_print_comprobations_sec,,1,1,1,1
+access_mrp_coffin_works,access_mrp_coffin_works,model_mrp_coffin_works,,1,1,1,1
+access_mrp_qty_produced,access_mrp_qty_produced,model_mrp_qty_produced,,1,1,1,1
