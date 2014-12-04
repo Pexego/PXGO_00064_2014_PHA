@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-    <record id="mrp_production_add_review" model="ir.ui.view">
-        <field name="name">mrp.production.review.form</field>
-        <field name="model">mrp.production</field>
-        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
-        <field name="arch" type="xml">
-            <button name="button_confirm" position="after">
-                <button name="action_done_review"  type="object" string="Done" states="review" class="oe_highlight"/>
-            </button>
-        </field>
-    </record>
-</data>
+    <data>
+        <record id="mrp_production_add_review" model="ir.ui.view">
+            <field name="name">mrp.production.review.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <button name="button_confirm" position="after">
+                    <button name="button_produce_review" string="review" states="ready" class="oe_highlight"/>
+                    <button name="end_review"  string="Finish review" states="review" class="oe_highlight"/>
+                </button>
+                <button name="%(mrp.act_mrp_product_produce)d" position="replace">
+                    <button name="%(mrp.act_mrp_product_produce)d" states="end_review,in_production" string="Produce" type="action" class="oe_highlight"/>
+                </button>
+                <button name="button_produce" position="replace">
+                    <button name="button_produce" states="end_review" string="Mark as Started"/>
+                </button>
+                <button name="button_cancel" position="replace">
+                    <button name="button_cancel" states="draft,ready,end_review,in_production" string="Cancel Production"/>
+                </button>
+            </field>
+        </record>
+    </data>
 </openerp>
