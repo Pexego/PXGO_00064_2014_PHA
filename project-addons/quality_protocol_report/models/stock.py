@@ -34,6 +34,7 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     acceptance_date = fields.Date('Acceptance date')
+    orig_acceptance_date = fields.Date('Acceptance date', related='move_orig_ids.acceptance_date')
     initials = fields.Char('Initials')
     initials_acond = fields.Char('Initials')
     workcenter_id = fields.Many2one('mrp.workcenter', 'Workcenter')

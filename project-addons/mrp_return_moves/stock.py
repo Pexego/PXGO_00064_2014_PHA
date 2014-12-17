@@ -42,9 +42,12 @@ class stockPicking(models.Model):
 
     @api.multi
     def do_enter_transfer_details(self):
+        """
+            Se sobreescribe la funcion para evitar problemas con el contexto.
+        """
         changed = False
         for move in self.move_lines:
-            if (move.q_production_id or raw_material_production_id) and not move.changed_qty_return:
+            if (move.q_production_id or move.raw_material_production_id) and not move.changed_qty_return:
                 if move.product_uom_qty != move.served_qty:
                     raise exceptions.Warning(_("""Cannot produce because
 move quantity %s and served quantity %s don't match""") %
@@ -57,5 +60,11 @@ move quantity %s and served quantity %s don't match""") %
         if changed:
             self.do_unreserve()
             self.action_assign()
-        return super(stockPicking, self).do_enter_transfer_details()
+        created = self.env['stock.transfer_details'].with_context(
+            {'active_model': self._name,
+                'active_ids': self._ids,
+                'active_id': len(self) and self[0].id or False
+            }).create(
+            {'picking_id': len(self) and self[0].id or False})
+        return created.wizard_view()
 
