@@ -20,6 +20,7 @@
 ##############################################################################
 
 from openerp import models, fields, api
+import uuid
 
 
 class QualityProtocolReport(models.Model):
@@ -32,8 +33,9 @@ class QualityProtocolReport(models.Model):
     product_ids = fields.One2many('product.product', string='Products',
                                   compute='_get_product_ids')
     model_id = fields.Many2one("ir.model", "Model")
-    report_line_ids = fields.One2many("quality.protocol.report.line",
-                                      "report_id", "Sections", copy=True)
+    report_line_ids = fields.Many2many('quality.protocol.report.line',
+                                       'quality_protocols_lines_rel',
+                                       'line_id', 'protocol_id', 'Sections')
     protocol_ids = fields.One2many('product.protocol', 'protocol_id',
                                    string="Protocols")
     first_procedure_id = fields.Many2one('quality.procedure',
@@ -57,16 +59,37 @@ class protocol_type(models.Model):
 
 
 class QualityProtocolReportLine(models.Model):
-    """Dentro de un documento de protodolo cada una  de sus secciones,
-se pueden asociar a vistas qweb o a surveys. Se ordenan por secuencia."""
+    """
+       Dentro de un documento de protodolo cada una  de sus secciones,
+       se pueden asociar a vistas qweb o a surveys. Se ordenan por secuencia.
+    """
 
     _name = "quality.protocol.report.line"
     _order = "sequence asc"
 
     view_id = fields.Many2one("ir.ui.view", 'Qweb View',
-                              domain=[('type', '=', 'qweb')])
+                              domain=[('type', '=', 'qweb')], copy=True)
     survey_id = fields.Many2one("survey.survey", "Survey")
     name = fields.Char("Name", required=True)
     sequence = fields.Integer("Sequence", default="1")
-    report_id = fields.Many2one("quality.protocol.report", "Report")
+    report_ids = fields.Many2many('quality.protocol.report',
+                                  'quality_protocols_lines_rel', 'protocol_id',
+                                  'line_id', 'Reports')
     log_realization = fields.Boolean('Log realization')
+
+    @api.multi
+    def duplicate_line(self):
+        report_id = self.env.context.get('report_id', False)
+        new_line = self.copy()
+        new_line.report_ids = [(6, 0, [report_id])]
+        self.report_ids = [(3, report_id)]
+        new_line.view_id = self.view_id.copy()
+        model_data = self.env['ir.model.data'].search(
+            [('model', '=', 'ir.ui.view'),
+             ('res_id', '=', self.view_id.id)])
+        new_model = model_data.copy({'res_id': new_line.view_id.id,
+                         'module': 'quality_protocol_report',
+                         'name': str(uuid.uuid4()).replace('-',''),
+                         'noupdate': True})
+        new_line.view_id.arch = new_line.view_id.arch.replace(self.view_id.xml_id, new_model.complete_name)
+        return True
