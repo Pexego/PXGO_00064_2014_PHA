@@ -21,7 +21,7 @@
 
 {
     'name': 'Product index book',
-    'version': '1.0',
+    'version': '2.0',
     'author': 'Pharmadus I+D+i',
     'description': 'Product index book',
     'category': 'Quality',
