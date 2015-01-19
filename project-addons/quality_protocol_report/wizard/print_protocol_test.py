@@ -56,8 +56,8 @@ class PrintProtocolTest(models.TransientModel):
             if not wkcenter_line:
                 raise exceptions.except_orm(_('Not found'), _('Protocol not found for the route %s.') % obj.routing_id.name)
             for protocol in obj.product_id.protocol_ids:
-                if protocol.name.id == wzd.protocol_type_id.id:
-                    use_protocol = protocol.protocol_id
+                if protocol.type_id.id == wzd.protocol_type_id.id:
+                    use_protocol = protocol
             if not use_protocol:
                 raise exceptions.except_orm(_('Not found'), _('Protocol not found for the product %s.') % obj.product_id.name)
             if not wkcenter_line.realized_ids:

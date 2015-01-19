@@ -26,19 +26,19 @@ class product_product(models.Model):
 
     _inherit = 'product.product'
 
-    protocol_ids = fields.Many2many('product.protocol', 'product_protocol_rel',
+    protocol_ids = fields.Many2many('quality.protocol.report',
+                                    'product__protocol_rel',
                                     'product_id', 'protocol_id', 'Protocols')
-    protocol_count = fields.Integer('Protocols count', compute='_get_protocol_count')
-
+    protocol_count = fields.Integer('Protocols count',
+                                    compute='_get_protocol_count')
     weight_alert_full_from = fields.Float('From')
     weight_alert_full_to = fields.Float('To')
     weight_action_full_from = fields.Float('From')
     weight_action_full_to = fields.Float('To')
-
     weight_alert_unit_from = fields.Float('From')
     weight_alert_unit_to = fields.Float('To')
     weight_action_unit_from = fields.Float('From')
-    weight_action_unit_to  = fields.Float('To')
+    weight_action_unit_to = fields.Float('To')
     unit_weight = fields.Float('Unit weight')
     lot_label = fields.Boolean('Lot label')
 
@@ -49,9 +49,11 @@ class product_product(models.Model):
 
     @api.one
     def create_protocols(self):
-        prod_prot_obj = self.env['product.protocol']
         if not self.base_form_id or not self.container_id:
-            return
+            raise exceptions.except_orm(_('Protocol error'),
+                                        _('to assign protocols is necessary \
+                                           to establish the base form or \
+                                           container'))
         for type_id in self.env['protocol.type'].search([]):
             report_ids = self.env['quality.protocol.report'].search(
                 [('product_form_id', '=', self.base_form_id.id),
@@ -59,48 +61,54 @@ class product_product(models.Model):
                  ('type_id', '=', type_id.id)])
             if report_ids:
                 report_id = report_ids[0]
-                protocols = prod_prot_obj.search([('protocol_id', '=', report_id.id), ('name', '=', type_id.id)])
-                if not protocols:
-                    protocol = prod_prot_obj.create({'name': type_id.id, 'protocol_id':report_id.id})
-                else:
-                    protocol = protocols[0]
-                protocol.write({'product_ids': [(4,self.id)]})
+                report_id.write({'product_ids': [(4, self.id)]})
+
+    def _get_act_window_dict(self, cr, uid, name, context=None):
+        mod_obj = self.pool.get('ir.model.data')
+        act_obj = self.pool.get('ir.actions.act_window')
+        result = mod_obj.xmlid_to_res_id(cr, uid, name,
+                                         raise_if_not_found=True)
+        result = act_obj.read(cr, uid, [result], context=context)[0]
+        return result
+
+    def action_view_protocols(self, cr, uid, ids, context=None):
+        result = self._get_act_window_dict(
+            cr, uid, 'quality_protocol_report.action_quality_protocol_report',
+            context=context)
+        if len(ids) == 1:
+            result['context'] = "{'default_product_ids': [" + str(ids[0]) + \
+                "], 'search_default_product_ids': " + str(ids[0]) + "}"
+        else:
+            result['domain'] = "[('product_ids','in',[" + \
+                ','.join(map(str, ids)) + "])]"
+            result['context'] = "{}"
+        return result
 
 
 class ProductTemplate(models.Model):
 
     _inherit = "product.template"
 
-    protocol_count = fields.Integer('Protocols count', compute='_get_protocol_count')
+    protocol_count = fields.Integer('Protocols count',
+                                    compute='_get_protocol_count')
 
     @api.one
     @api.depends('product_variant_ids.protocol_ids')
     def _get_protocol_count(self):
-        self.protocol_count = sum([p.protocol_count for p in self.product_variant_ids])
+        self.protocol_count = sum([p.protocol_count for p in
+                                   self.product_variant_ids])
 
     def action_view_protocols(self, cr, uid, ids, context=None):
         products = self._get_products(cr, uid, ids, context=context)
-        result = self._get_act_window_dict(cr, uid, 'quality_protocol_report.action_view_product_protocol', context=context)
+        result = self._get_act_window_dict(
+            cr, uid, 'quality_protocol_report.action_quality_protocol_report',
+            context=context)
         if len(ids) == 1 and len(products) == 1:
-            result['context'] = "{'default_product_ids': [" + str(products[0]) + "], 'search_default_product_ids': " + str(products[0]) + "}"
+            result['context'] = "{'default_product_ids': [" + \
+                str(products[0]) + "], 'search_default_product_ids': " + \
+                str(products[0]) + "}"
         else:
-            result['domain'] = "[('product_ids','in',[" + ','.join(map(str, products)) + "])]"
+            result['domain'] = "[('product_ids','in',[" + \
+                ','.join(map(str, products)) + "])]"
             result['context'] = "{}"
         return result
-
-
-class product_protocol(models.Model):
-
-    _name = 'product.protocol'
-
-    name = fields.Many2one('protocol.type', 'Type', readonly=True, related='protocol_id.type_id')
-    product_ids = fields.Many2many('product.product', 'product_protocol_rel',
-                                  'protocol_id', 'product_id', 'Products')
-    protocol_id = fields.Many2one('quality.protocol.report', 'Protocol', required=True)
-
-    @api.one
-    @api.constrains('name', 'product_ids')
-    def unique_name_product(self):
-        for product in self.product_ids:
-            if self.name.id in [x.name.id for x in product.protocol_ids if x.id != self.id]:
-                raise exceptions.ValidationError(_("The product %s has another protocol with the same type") % product.name)

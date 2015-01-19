@@ -7,6 +7,9 @@
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
+                <field name="state" position="before">
+                    <button string="Print protocol" name="%(quality_protocol_report.action_print_protocol)d" type="action"/>
+                </field>
                 <page string="Extra Information" position="inside">
                     <separator string="Picking notes" colspan="4"/>
                     <field name="picking_notes" nolabel="1" colspan="4"/>

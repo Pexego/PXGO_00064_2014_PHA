@@ -51,6 +51,9 @@
         <field name="model">quality.protocol.report</field>
         <field name="arch" type="xml">
             <form string="Quality protocol report">
+                <header>
+                    <button name="%(quality_protocol_report.action_duplicate_protocol)d" string="Duplicate" type="action" />
+                </header>
                 <sheet>
                     <group>
                         <field name="name" colspan="4"/>
@@ -95,6 +98,7 @@
                 <field name="name"/>
                 <field name="product_form_id"/>
                 <field name="product_container_id"/>
+                <field name="product_ids"/>
                 <group expand="0" string="Group By">
                     <filter string="Model" context="{'group_by':'model_id'}"/>
                     <filter string="Base form" context="{'group_by':'product_form_id'}"/>

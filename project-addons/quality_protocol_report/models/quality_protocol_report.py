@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 import uuid
 
 
@@ -30,14 +30,12 @@ class QualityProtocolReport(models.Model):
 
     name = fields.Char("Name", required=True)
     type_id = fields.Many2one('protocol.type', 'Type', required=True)
-    product_ids = fields.One2many('product.product', string='Products',
-                                  compute='_get_product_ids')
+    product_ids = fields.Many2many('product.product', 'product__protocol_rel',
+                                    'protocol_id', 'product_id', 'Products')
     model_id = fields.Many2one("ir.model", "Model")
     report_line_ids = fields.Many2many('quality.protocol.report.line',
                                        'quality_protocols_lines_rel',
                                        'line_id', 'protocol_id', 'Sections')
-    protocol_ids = fields.One2many('product.protocol', 'protocol_id',
-                                   string="Protocols")
     first_procedure_id = fields.Many2one('quality.procedure',
                                          'Primary procedure')
     second_procedure_id = fields.Many2one('quality.procedure',
@@ -45,9 +43,13 @@ class QualityProtocolReport(models.Model):
     product_form_id = fields.Many2one('product.form', 'Form')
     product_container_id = fields.Many2one('product.container', 'Container')
 
-    @api.depends('protocol_ids.product_ids')
-    def _get_product_ids(self):
-        self.product_ids = self.mapped('protocol_ids.product_ids').sorted()
+    @api.one
+    @api.constrains('name', 'product_ids')
+    def unique_name_product(self):
+        for product in self.product_ids:
+            if self.type_id.id in [x.type_id.id for x in product.protocol_ids if x.id != self.id]:
+                raise exceptions.ValidationError(_("The product %s has another protocol with the same type") % product.name)
+
 
 
 class protocol_type(models.Model):
