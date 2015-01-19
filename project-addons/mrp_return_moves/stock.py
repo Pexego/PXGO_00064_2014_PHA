@@ -67,4 +67,3 @@ move quantity %s and served quantity %s don't match""") %
             }).create(
             {'picking_id': len(self) and self[0].id or False})
         return created.wizard_view()
-
