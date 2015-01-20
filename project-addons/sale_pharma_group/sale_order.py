@@ -33,7 +33,8 @@ class sale_order_line(models.Model):
                            partner_id=False, lang=False, update_tax=True,
                            date_order=False, packaging=False,
                            fiscal_position=False,
-                           flag=False, sale_agent_ids=[], context=None):
+                           flag=False, warehouse_id=False,
+                           sale_agent_ids=False, context=None):
         res = {'value': {}}
         if product:
             list_agent_ids = []
@@ -45,10 +46,12 @@ class sale_order_line(models.Model):
                     cr, uid, [('line_id', 'in', ids)]))
                 res['value']['line_agent_ids'] = []
             if not product_obj.commission_exent:
-                order_comm_ids = [x[-1] for x in sale_agent_ids if x[0] != 2]
+                order_comm_ids = [x[-1] for x in sale_agent_ids if x[0] not in [0, 2]]
                 order_comm_ids = list(itertools.chain(*order_comm_ids))
                 order_agent_ids = [x.agent_id.id for x in self.pool.get(
                     "sale.order.agent").browse(cr, uid, order_comm_ids)]
+                order_agent_ids += [x[-1]['agent_id'] for x in sale_agent_ids
+                                    if x[0] == 0]
                 dic = {}
                 for prod_record in product_obj.product_agent_ids:
                     # no hay agentes especificados para la comisión:
@@ -87,6 +90,6 @@ class sale_order_line(models.Model):
             res2 = self.product_id_change2(
                 cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name,
                 partner_id, lang, update_tax, date_order, packaging,
-                fiscal_position, flag, agent, context)
+                fiscal_position, flag, False, agent, context)
             res['value'] = dict(res['value'].items() + res2['value'].items())
         return res
