@@ -56,7 +56,14 @@ move quantity %s and served quantity %s don't match""") %
                 if move.returned_qty > 0:
                     changed = True
                     move.changed_qty_return = True
+                    move.do_unreserve()
                     move.product_uom_qty = move.served_qty - move.returned_qty
+                    if not move.original_move:
+                        continue
+                    move.original_move.do_unreserve()
+                    move.original_move.product_uom_qty += move.returned_qty
+                    move.original_move.action_assign()
+                    move.action_assign()
         if changed:
             self.do_unreserve()
             self.action_assign()

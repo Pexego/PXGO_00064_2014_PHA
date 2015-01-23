@@ -63,3 +63,15 @@ class MrpProductionProductLine(models.Model):
     incoming_qty = fields.Float('Incoming quantity',
                                 related='product_id.incoming_qty')
     incoming_date = fields.Date('Incoming date', compute='_get_incoming_date')
+
+
+class stock_move_consume(models.TransientModel):
+    _inherit = 'stock.move.consume'
+
+    @api.model
+    def default_get(self, fields):
+        res = super(stock_move_consume, self).default_get(fields)
+        move = self.env['stock.move'].browse(self.env.context['active_id'])
+        if 'restrict_lot_id' in fields:
+            res.update({'restrict_lot_id': move.restrict_lot_id.id})
+        return res

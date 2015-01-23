@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="mrp_consume_quarantine_form" model="ir.ui.view">
+            <field name="name">mrp.production.consume.quarantine.form</field>
+            <field name="model">mrp.production.consume.quarantine</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Use lot in quarantine">
+                    <group>
+                        <field name="product_id" invisible="1"/>
+                        <field name="lot_id" domain="[('product_id', '=', product_id), ('state', '=', 'in_rev')]"/>
+                    </group>
+                    <button string="Continue" name="consume" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="consume quarantine"
+            res_model="mrp.production.consume.quarantine"
+            view_id="mrp_consume_quarantine_form"
+            view_mode="form"
+            target="new"
+            id="mrp_consume_quarantine_action"/>
+
+    </data>
+</openerp>

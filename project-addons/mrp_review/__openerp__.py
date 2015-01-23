@@ -27,7 +27,8 @@
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
     "depends": ['mrp'],
-    "data": ['mrp_workflow.xml',
+    "data": ['security/mrp_review_security.xml',
+             'mrp_workflow.xml',
              'mrp_view.xml'],
     "installable": True
 }

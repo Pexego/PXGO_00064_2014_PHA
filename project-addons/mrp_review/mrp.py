@@ -41,8 +41,21 @@ class MrpProduction(models.Model):
                 If any exceptions are there, the status is set to 'Picking Exception'.\n\
                 If the stock is available then the status is set to 'Ready to Produce'.\n\
                 When the production gets started then the status is set to 'In Production'.\n\
-                When the production is over, the status is set to 'Done'.")
-
+                When the production is over, the status is set to 'Done'."),
+        'production_protocol_agreed': fields.boolean('Production protocol'),
+        'production_ratio_agreed': fields.boolean('dosage and manufacturing ratios'),
+        'production_isssue': fields.boolean('Production issue'),
+        'production_review_by': fields.char('Revised by'),
+        'production_review_notes': fields.text('Notes'),
+        'production_review_date': fields.date('Revision Date'),
+        'quality_material_agreed': fields.boolean('Starting material control'),
+        'quality_process_agreed': fields.boolean('Process control'),
+        'quality_analytical_agreed': fields.boolean('final product analytical control'),
+        'quality_analytical_issue': fields.boolean('Analytical issue'),
+        'quality_review_by': fields.char('Revised by'),
+        'quality_review_notes': fields.text('Notes'),
+        'quality_review_date': fields.date('Revision Date'),
+        'tech_notes': fields.text('Notes'),
     }
 
     @api.one

@@ -29,6 +29,7 @@
     "depends": ['base',
                 'mrp',
                 'mrp_operations',
+                'lot_states',
                 'stock'],
     "data": ['stock_view.xml',
              'mrp_view.xml'],

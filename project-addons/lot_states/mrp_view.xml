@@ -3,6 +3,19 @@
 <openerp>
     <data>
 
+        <record id="mrp_production_add_quarantine_lot" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='state']" position="after">
+                    <button name="%(lot_states.mrp_consume_quarantine_action)d" string="consume quarantine" type="action"
+                        states="waiting,confirmed"
+                        icon="terp-gtk-jump-to-ltr"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="mrp_production_product_tree_add_qty" model="ir.ui.view">
             <field name="name">mrp.production.product.line.tree</field>
             <field name="model">mrp.production.product.line</field>

@@ -60,12 +60,13 @@
             <field name="inherit_id" ref="stock.view_production_lot_form"/>
             <field name="arch" type="xml">
                 <header position="inside">
+                    <field name="is_revised" invisible="1"/>
                     <button name="in_revision" states="draft" string="In revision" groups="base.group_user"/>
-                    <button name="revised" states="in_rev" string="Revised" groups="base.group_user"/>
+                    <button name="revised" string="Revised" groups="base.group_user"
+                     attrs="{'invisible': ['|', ('is_revised', '=', False), ('state', 'not in', 'in_rev')]}"/>
                     <button name="approved" states="revised" string="Approve" groups="base.group_user"/>
                     <button name="rejected" states="revised" string="Reject" groups="base.group_user"/>
-
-                        <field name="state" widget="statusbar" statusbar_visible="draft,in_rev,revised,approved"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_rev,revised,approved"/>
                 </header>
             </field>
         </record>

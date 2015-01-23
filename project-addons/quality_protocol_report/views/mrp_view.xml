@@ -554,7 +554,7 @@
                     <t t-call-assets="web.assets_common"/>
                     <t t-call-assets="web.assets_backend"/>
             </t>
-            <div class="openerp ">
+            <div class="openerp">
                 <div class="container oe_form">
                     <!--Para no modificar las vistas de cada tipo de pregunta, si la encuesta ya fue respondida
                         se añade un div id=exist y desde static/src/js/survey.js se rellenan las respuestas por ajax. -->

@@ -27,6 +27,7 @@
     'author': 'Pexego',
     'website': 'www.pexego.es',
     "depends": ['base', 'stock', 'product_expiry', 'mrp'],
-    "data": ['lot_view.xml', 'lot_workflow.xml', 'mrp_view.xml'],
+    "data": ['lot_view.xml', 'lot_workflow.xml',
+             'wizard/mrp_consume_quarantine.xml', 'mrp_view.xml'],
     "installable": True
 }

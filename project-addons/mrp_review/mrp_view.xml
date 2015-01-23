@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <button name="button_confirm" position="after">
                     <button name="button_produce_review" string="review" states="ready" class="oe_highlight"/>
-                    <button name="end_review"  string="Finish review" states="review" class="oe_highlight"/>
+                    <button name="end_review"  string="Finish review" states="review" class="oe_highlight" groups="mrp_review.technical_dir"/>
                 </button>
                 <button name="%(mrp.act_mrp_product_produce)d" position="replace">
                     <button name="%(mrp.act_mrp_product_produce)d" states="end_review,in_production" string="Produce" type="action" class="oe_highlight"/>
@@ -19,6 +19,32 @@
                 <button name="button_cancel" position="replace">
                     <button name="button_cancel" states="draft,ready,end_review,in_production" string="Cancel Production"/>
                 </button>
+                <notebook position="inside">
+                    <page string="Revision" states="review">
+                        <group>
+                            <group string="production review">
+                                <field name="production_protocol_agreed"/>
+                                <field name="production_ratio_agreed"/>
+                                <field name="production_isssue"/>
+                                <field name="production_review_by"/>
+                                <field name="production_review_date"/>
+                                <field name="production_review_notes"/>
+                            </group>
+                            <group string="quality control review">
+                                <field name="quality_material_agreed"/>
+                                <field name="quality_process_agreed"/>
+                                <field name="quality_analytical_agreed"/>
+                                <field name="quality_analytical_issue"/>
+                                <field name="quality_review_by"/>
+                                <field name="quality_review_date"/>
+                                <field name="quality_review_notes"/>
+                            </group>
+                            <group colspan="4" string="technical direction review" groups="mrp_review.technical_dir">
+                                <field name="tech_notes"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
             </field>
         </record>
     </data>

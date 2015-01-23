@@ -21,3 +21,5 @@
 
 from . import lot
 from . import mrp
+from . import stock
+from . import wizard

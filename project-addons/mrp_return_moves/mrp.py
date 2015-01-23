@@ -101,7 +101,8 @@ class mrp_product_produce(models.TransientModel):
         for line in production.move_lines:
             new_consume_lines.append((0, 0, {
                 'product_id': line.product_id.id,
-                'product_qty': line.product_uom_qty
+                'product_qty': line.product_uom_qty,
+                'lot_id': line.restrict_lot_id
             }))
 
         return {'value': {'consume_lines': new_consume_lines}}
