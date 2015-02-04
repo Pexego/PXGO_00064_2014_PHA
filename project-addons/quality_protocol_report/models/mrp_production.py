@@ -32,30 +32,41 @@ class MrpProduction(models.Model):
     goods_return_date = fields.Date('Return date')
     picking_notes = fields.Text('Picking notes')
 
-    def _create_previous_move(self, cr, uid, move_id, product, source_location_id, dest_location_id, context=None):
+    def _create_previous_move(self, cr, uid, move_id, product,
+                              source_location_id, dest_location_id,
+                              context=None):
         if not context:
             context = {}
         proc_obj = self.pool.get('procurement.group')
-        move = super(MrpProduction, self)._create_previous_move(cr, uid, move_id, product, source_location_id, dest_location_id, context)
+        move = super(MrpProduction, self)._create_previous_move(
+            cr, uid, move_id, product, source_location_id, dest_location_id,
+            context)
         prod_name = context.get('production', False)
         move_dict = {
             'workcenter_id': context.get('workcenter_id', False)
         }
         if prod_name:
-            procurement = proc_obj.search(cr, uid, [('name', '=', prod_name)], context=context)
+            procurement = proc_obj.search(cr, uid, [('name', '=', prod_name)],
+                                          context=context)
             if not procurement:
-                procurement = proc_obj.create(cr, uid, {'name': prod_name}, context)
+                procurement = proc_obj.create(cr, uid, {'name': prod_name},
+                                              context)
             else:
                 procurement = procurement[0]
             move_dict['group_id'] = procurement
-        self.pool.get('stock.move').write(cr, uid, move, move_dict, context=context)
+        self.pool.get('stock.move').write(cr, uid, move, move_dict,
+                                          context=context)
         return move
 
     @api.model
-    def _make_consume_line_from_data(self, production, product, uom_id, qty, uos_id, uos_qty):
+    def _make_consume_line_from_data(self, production, product, uom_id,
+                                     qty, uos_id, uos_qty):
         my_context = dict(self.env.context)
         my_context['production'] = production.name
-        return super(MrpProduction, self.with_context(my_context))._make_consume_line_from_data(production, product, uom_id, qty, uos_id, uos_qty)
+        return super(MrpProduction, self.with_context(
+            my_context))._make_consume_line_from_data(production, product,
+                                                      uom_id, qty, uos_id,
+                                                      uos_qty)
 
     def action_assign(self, cr, uid, ids, context=None):
         """
@@ -116,10 +127,12 @@ move quantity %s and served quantity %s don't match""") %
                     'served_qty': 0,
                     'returned_qty': 0,
                     'qty_scrapped': 0,
-                    'location_dest_id': move.raw_material_production_id.location_src_id.id,
+                    'location_dest_id':
+                        move.raw_material_production_id.location_src_id.id,
                 }
                 if move.original_move:
-                    default_val['location_dest_id'] = move.original_move.location_id.id
+                    default_val['location_dest_id'] = \
+                        move.original_move.location_id.id
                     move.original_move.do_unreserve()
                     move.original_move.product_uom_qty += move.returned_qty
                     originals += move.original_move
