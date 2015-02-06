@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
+        <delete model="ir.ui.view" id="mrp_operations.mrp_production_form_inherit_view"/>
+        <delete model="ir.ui.view" id="mrp_operations.mrp_production_form_inherit_view2"/>
         <record id="mrp_production_form_view_add_adjustments" model="ir.ui.view">
             <field name="name">mrp.production.form.add_adjustments</field>
             <field name="model">mrp.production</field>
@@ -23,10 +24,9 @@
                     <field name="served_qty" readonly="0"/>
                     <field name="orig_acceptance_date"/>
                 </xpath>
-                <!--xpath expr="//field[@name='move_lines']/tree/field[@name='state']" position="after">
-                    <field name="acceptance_date"/>
-                    <field name="initials"/>
-                </xpath-->
+                <field name="workcenter_lines" position="replace">
+                    <field name="workcenter_lines"/>
+                </field>
             </field>
         </record>
 

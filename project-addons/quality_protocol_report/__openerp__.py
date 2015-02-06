@@ -31,6 +31,7 @@
                 'stock',
                 'web',
                 'mrp',
+                'mrp_operations',
                 'lot_states',
                 'mrp_automatic_lot',
                 'product_container',

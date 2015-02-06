@@ -136,29 +136,53 @@
             <div class="quality_view">
                 <h2>Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):</h2>
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
-                    <div class="unique_field">
-                        <label for="fab_issue">Incidencias de fabricación:</label>
-                        <input class="form-control" name="acond_issue" id="acond_issue" t-att-value='wkcenter_line.acond_issue' type="checkbox"/>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="fab_issue">Incidencias de fabricación:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="acond_issue" id="acond_issue" t-att-value='wkcenter_line.acond_issue' type="checkbox"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="acond_issue_ref">Incidencia número:</label>
-                        <input class="form-control" name="acond_issue_ref" id="acond_issue_ref" t-att-value='wkcenter_line.acond_issue_ref' type="text"/>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="acond_issue_ref">Incidencia número:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="acond_issue_ref" id="acond_issue_ref" t-att-value='wkcenter_line.acond_issue_ref' type="text"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="accond_total_produced">Número total de envases fabricados(EF):</label>
-                        <input class="form-control" name="accond_total_produced" id="accond_total_produced" t-att-value='wkcenter_line.accond_total_produced' type="number"/>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="accond_total_produced">Número total de envases fabricados(EF):</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="accond_total_produced" id="accond_total_produced" t-att-value='wkcenter_line.accond_total_produced' type="number"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="accond_theorical_produced">Envases teóricos(ET):</label>
-                        <input class="form-control" name="accond_theorical_produced" id="accond_theorical_produced" t-att-value='wkcenter_line.accond_theorical_produced' type="number"/>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="accond_theorical_produced">Envases teóricos(ET):</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="accond_theorical_produced" id="accond_theorical_produced" t-att-value='wkcenter_line.accond_theorical_produced' type="number"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="prod_ratio">Ratio de fabricación (EF/ET)X100:</label>
-                        <input class="form-control" name="prod_ratio" id="prod_ratio" t-att-value='wkcenter_line.prod_ratio' type="number"/>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="prod_ratio">Ratio de fabricación (EF/ET)X100:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="prod_ratio" id="prod_ratio" t-att-value='wkcenter_line.prod_ratio' type="number"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="acond_observations">Observaciones:</label>
-                        <input class="form-control" name="acond_observations" id="acond_observations" t-att-value='wkcenter_line.acond_observations' type="text"/>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="acond_observations">Observaciones:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="acond_observations" id="acond_observations" t-att-value='wkcenter_line.acond_observations' type="text"/>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -237,48 +261,59 @@
             <div class="quality_view">
                 <h2>3.-OPERACIONES PARA FABRICACIÓN</h2>
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
-                    <div class="unique_field">
-                        <label for="goods_return_date">3.1.-Hora de encendido de la máquina:</label>
-                        <input class="form-control" name="on_time_machine" id="on_time_machine" t-att-value='wkcenter_line.on_time_machine' type="datetime-local"/>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="goods_return_date">3.1.-Hora de encendido de la máquina:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="on_time_machine" id="on_time_machine" t-att-value='wkcenter_line.on_time_machine' type="datetime-local"/>
+                        </div>
                     </div>
+                    <div class="row">
                     <h4>3.2.-Anotar las temperaturas de los soldadores y los parámetros para la dosificación:</h4>
-                    <table class="quality_field" id="tblAppendGridOprations" t-att-qfield="'wender_temp_ids'"
-                          t-att-columns="'sequence,temperature,id'"
-                          t-att-columns-widths="'50%,50%,0%'"
-                          t-att-nodelete="'true'" t-att-initrows="9"
-                          style="float: left;">
-                    </table>
-
-                    <table style="float: left;">
-                        <thead>
-                            <tr>
-                                <td>Nº SOLDADOR</td>
-                                <td>VALOR</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Velocidad de fabricación</td>
-                                <td><input class="form-control" name="mrp_speed" id="mrp_speed" t-att-value='wkcenter_line.mrp_speed' type="text"/></td>
-                            </tr>
-                            <tr>
-                                <td>Palanca ajuste</td>
-                                <td><input class="form-control" name="adjustement_lever" id="adjustement_lever" t-att-value='wkcenter_line.adjustement_lever' type="number"/></td>
-                            </tr>
-                            <tr>
-                                <td>Escala caida producto</td>
-                                <td><input class="form-control" name="fallen_scale" id="fallen_scale" t-att-value='wkcenter_line.fallen_scale' type="number"/></td>
-                            </tr>
-                            <tr>
-                                <td>velocidad lenta embudo</td>
-                                <td><input class="form-control" name="slow_funnel" id="slow_funnel" t-att-value='wkcenter_line.slow_funnel' type="number"/></td>
-                            </tr>
-                            <tr>
-                                <td>Velocidad rápida embudo</td>
-                                <td><input class="form-control" name="fast_funnel" id="fast_funnel" t-att-value='wkcenter_line.fast_funnel' type="number"/></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table class="quality_field" id="tblAppendGridOprations" t-att-qfield="'wender_temp_ids'"
+                                  t-att-columns="'sequence,temperature,id'"
+                                  t-att-columns-widths="'50%,50%,0%'"
+                                  t-att-nodelete="'true'" t-att-initrows="9"
+                                  style="float: left;">
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <table style="float: left;">
+                                <thead>
+                                    <tr>
+                                        <td>Nº SOLDADOR</td>
+                                        <td>VALOR</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Velocidad de fabricación</td>
+                                        <td><input class="form-control" name="mrp_speed" id="mrp_speed" t-att-value='wkcenter_line.mrp_speed' type="text"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Palanca ajuste</td>
+                                        <td><input class="form-control" name="adjustement_lever" id="adjustement_lever" t-att-value='wkcenter_line.adjustement_lever' type="number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Escala caida producto</td>
+                                        <td><input class="form-control" name="fallen_scale" id="fallen_scale" t-att-value='wkcenter_line.fallen_scale' type="number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>velocidad lenta embudo</td>
+                                        <td><input class="form-control" name="slow_funnel" id="slow_funnel" t-att-value='wkcenter_line.slow_funnel' type="number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Velocidad rápida embudo</td>
+                                        <td><input class="form-control" name="fast_funnel" id="fast_funnel" t-att-value='wkcenter_line.fast_funnel' type="number"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div style="clear: both;"/>
                     <div class="unique_field">
                         <br/>
@@ -305,9 +340,13 @@
                           t-att-nodelete="'true'">
                     </table>
                     <br/>
-                    <div class="unique_field">
-                        <label for="mrp_start_date">3.5.-Hora de inicio de fabricación:</label>
-                        <input class="form-control" name="mrp_start_date" id="mrp_start_date" t-att-value='wkcenter_line.mrp_start_date' type="datetime-local"/>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label for="mrp_start_date">3.5.-Hora de inicio de fabricación:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="mrp_start_date" id="mrp_start_date" t-att-value='wkcenter_line.mrp_start_date' type="datetime-local"/>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -366,13 +405,22 @@
             <div class="quality_view">
                 <h2>6.-FINAL OPERACIÓN</h2>
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
-                    <div class="unique_field">
-                        <label for="final_count">6.1 Anotar el Nº del contador de infusiones:</label>
-                        <input class="form-control" name="final_count" id="final_count" t-att-value='wkcenter_line.final_count' type="number"/>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <span><strong>6.1 Anotar el Nº del contador de infusiones:</strong></span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="final_count" id="final_count" t-att-value='wkcenter_line.final_count' type="number"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="continue_next_day">6.2 Debe continuar la fabricación del lote al día siguiente:</label>
-                        <input class="form-control" name="continue_next_day" id="continue_next_day" t-att-value='wkcenter_line.continue_next_day' type="checkbox"/>
+                    <div class="row">
+                        <div class="col-xs-3">
+
+                            <span><strong>6.2 Debe continuar la fabricación del lote al día siguiente:</strong></span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="continue_next_day" id="continue_next_day" t-att-value='wkcenter_line.continue_next_day' type="checkbox"/>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -407,21 +455,37 @@
             <div class="quality_view">
                 <h2>Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):</h2>
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
-                    <div class="unique_field">
-                        <label for="fab_issue">Incidencias de fabricación:</label>
-                        <input class="form-control" name="fab_issue" id="fab_issue" t-att-value='wkcenter_line.fab_issue' type="checkbox"/>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Incidencias de fabricación:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="fab_issue" id="fab_issue" t-att-value='wkcenter_line.fab_issue' type="checkbox"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="issue_ref">Incidencia número:</label>
-                        <input class="form-control" name="issue_ref" id="issue_ref" t-att-value='wkcenter_line.issue_ref' type="text"/>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Incidencia número:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="issue_ref" id="issue_ref" t-att-value='wkcenter_line.issue_ref' type="text"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="total_produced">Número total de envases fabricados:</label>
-                        <input class="form-control" name="total_produced" id="total_produced" t-att-value='wkcenter_line.total_produced' type="number"/>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Número total de envases fabricados:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="total_produced" id="total_produced" t-att-value='wkcenter_line.total_produced' type="number"/>
+                        </div>
                     </div>
-                    <div class="unique_field">
-                        <label for="observations">Observaciones:</label>
-                        <input class="form-control" name="observations" id="observations" t-att-value='wkcenter_line.observations' type="text"/>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Observaciones:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="observations" id="observations" t-att-value='wkcenter_line.observations' type="text"/>
+                        </div>
                     </div>
                 </form>
             </div>
