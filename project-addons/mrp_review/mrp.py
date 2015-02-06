@@ -21,7 +21,7 @@
 
 from openerp import models, api, _, exceptions
 from openerp.osv import fields
-
+from datetime import date
 
 class MrpProduction(models.Model):
 
@@ -31,8 +31,8 @@ class MrpProduction(models.Model):
         'state': fields.selection(
             [('draft', 'New'), ('cancel', 'Cancelled'),
              ('confirmed', 'Awaiting Raw Materials'),
-             ('ready', 'Ready to Produce'),
-             ('in_production', 'Production Started'), ('review', 'Review'), ('end_review', 'Review finished'),
+             ('ready', 'Review'),
+             ('in_production', 'Production Started'),
              ('done', 'Done')],
             string='Status', readonly=True,
             track_visibility='onchange', copy=False,
@@ -56,15 +56,25 @@ class MrpProduction(models.Model):
         'quality_review_notes': fields.text('Notes'),
         'quality_review_date': fields.date('Revision Date'),
         'tech_notes': fields.text('Notes'),
+        'prod_review_ok': fields.boolean('production reviewed'),
+        'qual_review_ok': fields.boolean('production reviewed'),
     }
 
-    @api.one
-    def action_production_review(self):
-        self.state = 'review'
+    @api.multi
+    def action_finish_review(self):
+        self.signal_workflow('button_produce')
 
     @api.one
-    def action_finish_review(self):
-        self.state = 'end_review'
+    def production_review(self):
+        self.write({'production_review_by': self.env.user.partner_id.name,
+                    'production_review_date': date.today(),
+                    'prod_review_ok': True})
+
+    @api.one
+    def quality_review(self):
+        self.write({'quality_review_by': self.env.user.partner_id.name,
+                    'quality_review_date': date.today(),
+                    'qual_review_ok': True})
 
 
 class MrpProductionWorkcenterLine(models.Model):
@@ -82,7 +92,7 @@ class MrpProductionWorkcenterLine(models.Model):
             if prod_obj.state == 'confirmed':
                 prod_obj.force_production()
                 prod_obj.signal_workflow('button_produce')
-            elif prod_obj.state == 'end_review':
+            elif prod_obj.state == 'ready':
                 prod_obj.signal_workflow('button_produce')
             elif prod_obj.state == 'in_production':
                 return

@@ -24,6 +24,15 @@ from openerp import models, fields, _, exceptions, api, tools
 from openerp.addons.product import _common
 
 
+class MrpProductProduce(models.TransientModel):
+
+    _inherit = 'mrp.product.produce'
+
+    _defaults = {
+        'mode': lambda *x: 'consume',
+    }
+
+
 class MrpProduction(models.Model):
 
     _inherit = "mrp.production"
@@ -67,6 +76,18 @@ class MrpProduction(models.Model):
             my_context))._make_consume_line_from_data(production, product,
                                                       uom_id, qty, uos_id,
                                                       uos_qty)
+
+    @api.multi
+    def release_all(self):
+        for prod in self:
+            for move in prod.move_created_ids:
+                new_moves = move.action_consume(
+                    move.product_uom_qty, location_id=move.location_id.id,
+                    restrict_lot_id=prod.final_lot_id.id)
+                new_moves = self.env['stock.move'].browse(new_moves)
+                new_moves.write({'production_id': self.id})
+            prod.signal_workflow('button_produce_done')
+        return True
 
     def action_assign(self, cr, uid, ids, context=None):
         """

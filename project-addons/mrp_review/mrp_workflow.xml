@@ -16,7 +16,7 @@
             <field name="name">End review</field>
         </record>
 
-        <record id="prod_trans_in_ready_review" model="workflow.transition">
+        <!--record id="prod_trans_in_ready_review" model="workflow.transition">
             <field name="act_from" ref="mrp.prod_act_ready"/>
             <field name="act_to" ref="prod_act_review"/>
             <field name="signal">button_produce_review</field>
@@ -29,9 +29,9 @@
         </record>
 
         <record id="mrp.prod_trans_ready_in_production" model="workflow.transition">
-            <field name="act_from" ref="prod_act_end_review"/>
+            <field name="act_from" ref="prod_act_review"/>
             <field name="act_to" ref="mrp.prod_act_in_production"/>
             <field name="signal">button_produce</field>
-        </record>
+        </record-->
     </data>
 </openerp>

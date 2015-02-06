@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function(){
     'use strict';
     $("#send_form").click(send_form_server);
     // Si el div #exist existe se rellenan las preguntas por ajax.
@@ -116,6 +116,9 @@ function datetimeToISOStr(date) {
 };
 
 $(function () {
+    if($("#done").length) {
+        $(":input").prop('disabled', true);
+    }
     $("#bodyaccord").hide();
     $("#headeraccord").click(function(){
        if($("#bodyaccord").is(":visible")){
@@ -143,6 +146,7 @@ $(function () {
             var init_rows = $(this).attr("initrows")  ? $(this).attr("initrows") : 5;
             var self = $(this);
             var obj = new openerp.web.Model(model, context);
+            /* Se rellena la tabla con las propiedades de cada columna*/
             obj.call("fields_get", [field_to_represent], {context: context}).then(function(field_data) {
                 var view_model = new openerp.web.Model(field_data[field_to_represent].relation, context);
                 var table_columns = [];
@@ -164,7 +168,7 @@ $(function () {
                                 if (fields[key].required) {
                                     ctrlProp['required'] = true;
                                 }
-                                if (columns_options && columns_options[key] == "disabled") {
+                                if (columns_options && columns_options[key] == "disabled" || $("#done").length) {
                                     ctrlProp['disabled'] = true;
                                 }
                                 if (columns_widths.length > 0) {
@@ -181,11 +185,11 @@ $(function () {
 
                         }
                     }
+                /*Se rellena la tabla con los datos de los registros*/
                 obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
                     if (response[field_to_represent].length > 0) {
                         var initData = [];
                         var read_filter = filter.concat([['id', 'in', response[field_to_represent]]]);
-                        //var asd = view_model.call('search_read', [read_filter, columns], {context: context})
                         view_model.call('search_read', [read_filter, columns], {context: context}).then(function(rows_data) {
                             for (var j = 0; j<rows_data.length;j++) {
 
@@ -256,6 +260,7 @@ $(function () {
 
         });
     });
+
 });
 
 //Falta pepararlo para multiples tablas
@@ -365,6 +370,7 @@ function send_form_server() {
                     var row_index = def.pop();
                     var elem_id = def[0];
                     var field_name = def.join("_").replace(elem_id + "_", "");
+                    //Se busca el campo para comparar valores.
                     if (row_index in records) {
                         records[row_index][field_name] = vals[1];
                     }
