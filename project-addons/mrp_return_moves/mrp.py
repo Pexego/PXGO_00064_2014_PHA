@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class MrpProduction(models.Model):
@@ -41,46 +41,19 @@ class MrpProduction(models.Model):
         }, context=context)
         return move
 
-    def _make_consume_line_from_data(self, cr, uid, production, product, uom_id, qty, uos_id, uos_qty, context=None):
-        stock_move = self.pool.get('stock.move')
-        loc_obj = self.pool.get('stock.location')
-        # Internal shipment is created for Stockable and Consumer Products
-        if product.type not in ('product', 'consu'):
-            return False
-        # Take routing location as a Source Location.
-        source_location_id = production.location_src_id.id
-        prod_location_id = source_location_id
-        prev_move= False
-        if production.bom_id.routing_id and production.bom_id.routing_id.location_id and production.bom_id.routing_id.location_id.id != source_location_id:
-            source_location_id = production.bom_id.routing_id.location_id.id
-            prev_move = True
-
-        destination_location_id = production.product_id.property_stock_production.id
-        move_id = stock_move.create(cr, uid, {
-            'name': production.name,
-            'date': production.date_planned,
-            'product_id': product.id,
-            'product_uom_qty': qty,
-            'product_uom': uom_id,
-            'product_uos_qty': uos_id and uos_qty or False,
-            'product_uos': uos_id or False,
-            'location_id': source_location_id,
-            'location_dest_id': destination_location_id,
-            'company_id': production.company_id.id,
-            'procure_method': prev_move and 'make_to_stock' or self._get_raw_material_procure_method(cr, uid, product, context=context), #Make_to_stock avoids creating procurement
-            'raw_material_production_id': production.id,
-            #this saves us a browse in create()
-            'price_unit': product.standard_price,
-            'origin': production.name,
-            'warehouse_id': loc_obj.get_warehouse(cr, uid, production.location_src_id, context=context),
-        }, context=context)
-
-        if prev_move:
-            context = dict(context)
-            context['production_id'] = production.id
-            prev_move = self._create_previous_move(cr, uid, move_id, product, prod_location_id, source_location_id, context=context)
-            stock_move.action_confirm(cr, uid, [prev_move], context=context)
-        return move_id
+    @api.model
+    def _make_consume_line_from_data(self, production, product, uom_id, qty,
+                                     uos_id, uos_qty):
+        """
+            inherit: Se hereda unicamente para modificar el contexto
+                     Ver funcion _create_previous_move
+        """
+        my_context = dict(self.env.context)
+        if production:
+            my_context['production_id'] = production.id
+        return super(MrpProduction, self.with_context(my_context))._make_consume_line_from_data(production, product,
+                                                     uom_id, qty, uos_id,
+                                                     uos_qty)
 
 
 class mrp_product_produce(models.TransientModel):

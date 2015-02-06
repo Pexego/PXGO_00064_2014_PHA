@@ -32,6 +32,42 @@ class MrpProduction(models.Model):
     goods_return_date = fields.Date('Return date')
     picking_notes = fields.Text('Picking notes')
 
+    def _create_previous_move(self, cr, uid, move_id, product,
+                              source_location_id, dest_location_id,
+                              context=None):
+        if not context:
+            context = {}
+        proc_obj = self.pool.get('procurement.group')
+        move = super(MrpProduction, self)._create_previous_move(
+            cr, uid, move_id, product, source_location_id, dest_location_id,
+            context)
+        prod_name = context.get('production', False)
+        move_dict = {
+            'workcenter_id': context.get('workcenter_id', False)
+        }
+        if prod_name:
+            procurement = proc_obj.search(cr, uid, [('name', '=', prod_name)],
+                                          context=context)
+            if not procurement:
+                procurement = proc_obj.create(cr, uid, {'name': prod_name},
+                                              context)
+            else:
+                procurement = procurement[0]
+            move_dict['group_id'] = procurement
+        self.pool.get('stock.move').write(cr, uid, move, move_dict,
+                                          context=context)
+        return move
+
+    @api.model
+    def _make_consume_line_from_data(self, production, product, uom_id,
+                                     qty, uos_id, uos_qty):
+        my_context = dict(self.env.context)
+        my_context['production'] = production.name
+        return super(MrpProduction, self.with_context(
+            my_context))._make_consume_line_from_data(production, product,
+                                                      uom_id, qty, uos_id,
+                                                      uos_qty)
+
     def action_assign(self, cr, uid, ids, context=None):
         """
         Checks the availability on the consume lines of the production order
@@ -63,17 +99,6 @@ class MrpProduction(models.Model):
                                               line.workcenter_id.id}, context)
         return move_id
 
-    def _create_previous_move(self, cr, uid, move_id, product,
-                              source_location_id, dest_location_id,
-                              context=None):
-        move = super(MrpProduction, self)._create_previous_move(
-            cr, uid, move_id, product, source_location_id, dest_location_id,
-            context)
-        self.pool.get('stock.move').write(cr, uid, move, {
-            'workcenter_id': context.get('workcenter_id', False)
-        }, context=context)
-        return move
-
     @api.one
     def action_finish_review(self):
         res = self.env['stock.move']
@@ -102,11 +127,15 @@ move quantity %s and served quantity %s don't match""") %
                     'served_qty': 0,
                     'returned_qty': 0,
                     'qty_scrapped': 0,
-                    'location_dest_id': move.original_move.location_id.id,
+                    'location_dest_id':
+                        move.raw_material_production_id.location_src_id.id,
                 }
-                move.original_move.do_unreserve()
-                move.original_move.product_uom_qty += move.returned_qty
-                originals += move.original_move
+                if move.original_move:
+                    default_val['location_dest_id'] = \
+                        move.original_move.location_id.id
+                    move.original_move.do_unreserve()
+                    move.original_move.product_uom_qty += move.returned_qty
+                    originals += move.original_move
                 res += move.copy(default_val)
             if move.qty_scrapped != 0:
                 move.changed_qty_return = True
