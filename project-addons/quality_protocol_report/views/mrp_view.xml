@@ -5,6 +5,7 @@
             t-att-filter: se filtran los resultados de la talba, el campo por el que se filtra tiene que estar en las columnas de la tabla.
                           Si el campo es relacional solo se comprueba con id.
             t-att-context: se añade el diccionario al contexto a la hora de hacer write, debe de ir con comillas simples y la clave y valor con comillas dobles.
+            compare: campos a comparar separados por coma(solo 2 campos).
         -->
         <template id="document_header" name="Document header">
             <div class="header">
