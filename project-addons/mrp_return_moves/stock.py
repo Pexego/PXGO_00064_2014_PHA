@@ -48,11 +48,11 @@ class stockPicking(models.Model):
         changed = False
         for move in self.move_lines:
             if (move.q_production_id or move.raw_material_production_id) and not move.changed_qty_return:
-                if move.product_uom_qty != move.served_qty:
-                    raise exceptions.Warning(_("""Cannot produce because
-move quantity %s and served quantity %s don't match""") %
-                                             (str(move.product_uom_qty),
-                                              str(move.served_qty)))
+#                 if move.product_uom_qty != move.served_qty:
+#                     raise exceptions.Warning(_("""Cannot produce because
+# move quantity %s and served quantity %s don't match""") %
+#                                              (str(move.product_uom_qty),
+#                                               str(move.served_qty)))
                 if move.returned_qty > 0:
                     changed = True
                     move.changed_qty_return = True
