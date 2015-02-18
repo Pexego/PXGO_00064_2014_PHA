@@ -354,7 +354,10 @@ function send_form_server() {
             $(this).find("form").find(".quality_field").each(function() {
                 var form_field = $(this).attr("qfield");
                 var table_context = $(this).attr("context") ? $.extend({}, $.parseJSON($(this).attr("context").split("'").join('"')), context) : context;
-                var compare = $(this).attr("compare").split(",");
+                var compare = $(this).attr("compare");
+                if(compare){
+                    compare = compare.split(",");
+                }
                 var table_id = $(this).attr("id");
                 var records = {};
                 var elements = dat.split('&');
@@ -371,7 +374,7 @@ function send_form_server() {
                     var row_index = def.pop();
                     var elem_id = def[0];
                     var field_name = def.join("_").replace(elem_id + "_", "");
-                    if(compare.length && field_name == compare[0]){
+                    if(compare && compare.length && field_name == compare[0]){
                         var compare_name = table_id + '_' + compare[1] + '_' + row_index;
                         if($("input[name='" + compare_name + "']").length){
                             var to_compare_val = $("input[name='" + compare_name + "']").val();

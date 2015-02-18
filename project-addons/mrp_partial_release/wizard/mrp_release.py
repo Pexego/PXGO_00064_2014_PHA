@@ -53,7 +53,7 @@ class release(models.TransientModel):
 
     @api.multi
     def release(self):
-        produce_wiz = self.env['mrp.product.produce'].create({})
+        produce_wiz = self.env['mrp.product.produce'].create({'mode': 'consume_produce'})
         produce_wiz.product_qty = self.release_qty
         produce_wiz.consume_lines = False
         produce_wiz.do_produce()

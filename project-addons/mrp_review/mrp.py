@@ -60,6 +60,24 @@ class MrpProduction(models.Model):
         'qual_review_ok': fields.boolean('production reviewed'),
     }
 
+    def copy(self, cr, uid, id, default={}, context=None):
+        default['prod_review_ok'] = False
+        default['qual_review_ok'] = False
+        default['tech_notes'] = False
+        default['quality_review_date'] = False
+        default['quality_review_notes'] = False
+        default['quality_review_by'] = False
+        default['quality_analytical_issue'] = False
+        default['quality_analytical_agreed'] = False
+        default['quality_material_agreed'] = False
+        default['production_review_date'] = False
+        default['production_review_notes'] = False
+        default['production_review_by'] = False
+        default['production_isssue'] = False
+        default['production_ratio_agreed'] = False
+        default['production_protocol_agreed'] = False
+        return super(MrpProduction, self).copy(cr, uid, id, default, context)
+
     @api.multi
     def action_finish_review(self):
         self.signal_workflow('button_produce')

@@ -40,6 +40,21 @@ class MrpProduction(models.Model):
     goods_request_date = fields.Date('Request date')
     goods_return_date = fields.Date('Return date')
     picking_notes = fields.Text('Picking notes')
+    hoard_ids = fields.One2many('stock.picking', string='hoards', compute='_get_hoard_picking')
+    hoard_len = fields.Integer('hoard len', compute = '_get_hoard_len')
+
+    @api.one
+    @api.depends('hoard_ids')
+    def _get_hoard_len(self):
+        self.hoard_len = len(self.hoard_ids)
+
+    @api.one
+    @api.depends('move_lines.move_orig_ids','move_lines2.move_orig_ids')
+    def _get_hoard_picking(self):
+        pickings = self.env['stock.picking']
+        pickings += self.mapped('move_lines.move_orig_ids.picking_id').sorted()
+        pickings += self.mapped('move_lines2.move_orig_ids.picking_id').sorted()
+        self.hoard_ids = pickings
 
     def _create_previous_move(self, cr, uid, move_id, product,
                               source_location_id, dest_location_id,
@@ -66,6 +81,16 @@ class MrpProduction(models.Model):
         self.pool.get('stock.move').write(cr, uid, move, move_dict,
                                           context=context)
         return move
+
+    @api.multi
+    def get_hoard(self):
+        action = self.env.ref('stock.action_picking_tree')
+        if not action:
+            return
+        action = action.read()[0]
+        action['domain'] = str([('id', 'in', [x.id for x in self.hoard_ids])])
+        action['context'] = False
+        return action
 
     @api.model
     def _make_consume_line_from_data(self, production, product, uom_id,

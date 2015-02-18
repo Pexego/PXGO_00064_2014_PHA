@@ -46,17 +46,20 @@ class StockMove(models.Model):
                                    store=True)
 
     @api.one
-    @api.depends('state', 'lot_ids')
+    @api.depends('state', 'lot_ids', 'move_orig_ids.state', 'move_orig_ids.lot_ids')
     def _get_lot_assigned(self):
         lot_str = ''
         if self.lot_ids:
-            print "por lote"
             for lot in self.lot_ids:
                 lot_str += lot.name + ','
         else:
-            print "por origen"
-            origin = self.search([('consumed_for', '=', self.id)])
-            self.lot_assigned_str = origin.lot_assigned_str
+            original_lots = ''
+            for origin in self.move_orig_ids:
+                if origin.lot_assigned_str:
+                    original_lots += origin.lot_assigned_str + ','
+            if original_lots:
+                original_lots = original_lots[:-1]
+            self.lot_assigned_str = original_lots
         if lot_str:
             lot_str = lot_str[:-1]
             self.lot_assigned_str = lot_str
