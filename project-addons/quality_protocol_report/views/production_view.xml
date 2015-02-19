@@ -10,7 +10,7 @@
             <field name="arch" type="xml">
                 <field name="state" position="before">
                     <button string="Print protocol" name="%(quality_protocol_report.action_print_protocol)d" type="action"/>
-                    <button string="Release all" name="release_all" type="object" states="in_production"/>
+                    <button string="Release all" name="release_all" type="object" states="wait_release"/>
                 </field>
                 <page string="Extra Information" position="inside">
                     <separator string="Picking notes" colspan="4"/>

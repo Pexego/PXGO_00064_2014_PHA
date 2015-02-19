@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
                 <header position="inside">
-                    <button name="%(mrp_partial_release.act_wiz_release)d" type="action" string="Partial release" groups="mrp_partial_release.mrp_partial_releases" states="ready,in_production"/>
+                    <button name="%(mrp_partial_release.act_wiz_release)d" type="action" string="Partial release" groups="mrp_partial_release.mrp_partial_releases" states="ready,in_production,wait_release"/>
                 </header>
             </field>
         </record>

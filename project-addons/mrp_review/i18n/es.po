@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-23 08:47+0000\n"
-"PO-Revision-Date: 2015-01-23 08:47+0000\n"
+"POT-Creation-Date: 2015-02-19 10:49+0000\n"
+"PO-Revision-Date: 2015-02-19 10:49+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgid "Cannot consume a move with negative or zero quantity."
 msgstr "No se puede consumir un movimiento con cantidad menor o igual a 0."
 
 #. module: mrp_review
-#: code:addons/mrp_review/mrp.py:91
+#: code:addons/mrp_review/mrp.py:124
 #: code:addons/mrp_review/stock.py:59
 #, python-format
 msgid "Error!"
@@ -49,15 +49,10 @@ msgid "Manufacturing Order"
 msgstr "Órden de producción"
 
 #. module: mrp_review
-#: code:addons/mrp_review/mrp.py:92
+#: code:addons/mrp_review/mrp.py:125
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de fabricación no puede ser iniciada en el estado \"%s\"!"
-
-#. module: mrp_review
-#: view:mrp.production:mrp_review.mrp_production_add_review
-msgid "Mark as Started"
-msgstr "Marcar como iniciado"
 
 #. module: mrp_review
 #: field:mrp.production,production_review_notes:0
@@ -78,9 +73,9 @@ msgid "Process control"
 msgstr "Controles en proceso"
 
 #. module: mrp_review
-#: view:mrp.production:mrp_review.mrp_production_add_review
-msgid "Produce"
-msgstr "Fabricar"
+#: model:ir.model,name:mrp_review.model_mrp_product_produce
+msgid "Product Produce"
+msgstr "Fabricar producto"
 
 #. module: mrp_review
 #: field:mrp.production,production_isssue:0
@@ -91,6 +86,16 @@ msgstr "Incidencia de fabricación"
 #: field:mrp.production,production_protocol_agreed:0
 msgid "Production protocol"
 msgstr "Protocolo de fabricación"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "Production review"
+msgstr "Producción revisada"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "Quality review"
+msgstr "Calidad revisada"
 
 #. module: mrp_review
 #: field:mrp.production,production_review_by:0
@@ -108,6 +113,11 @@ msgstr "Revision"
 #: field:mrp.production,quality_review_date:0
 msgid "Revision Date"
 msgstr "Fecha de revisión"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "Start production"
+msgstr "Iniciar producción"
 
 #. module: mrp_review
 #: field:mrp.production,quality_material_agreed:0
@@ -151,14 +161,15 @@ msgid "production review"
 msgstr "Revisión de producción"
 
 #. module: mrp_review
-#: view:mrp.production:mrp_review.mrp_production_add_review
-msgid "quality control review"
-msgstr "Revisión control calidad"
+#: field:mrp.production,prod_review_ok:0
+#: field:mrp.production,qual_review_ok:0
+msgid "production reviewed"
+msgstr "production reviewed"
 
 #. module: mrp_review
 #: view:mrp.production:mrp_review.mrp_production_add_review
-msgid "review"
-msgstr "Revisión"
+msgid "quality control review"
+msgstr "Revisión control calidad"
 
 #. module: mrp_review
 #: view:mrp.production:mrp_review.mrp_production_add_review

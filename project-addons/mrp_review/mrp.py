@@ -31,8 +31,9 @@ class MrpProduction(models.Model):
         'state': fields.selection(
             [('draft', 'New'), ('cancel', 'Cancelled'),
              ('confirmed', 'Awaiting Raw Materials'),
-             ('ready', 'Review'),
-             ('in_production', 'Production Started'),
+             ('ready', 'Ready'),
+             ('in_production', 'Review'),
+             ('wait_release', 'Waiting release'),
              ('done', 'Done')],
             string='Status', readonly=True,
             track_visibility='onchange', copy=False,
@@ -79,8 +80,12 @@ class MrpProduction(models.Model):
         return super(MrpProduction, self).copy(cr, uid, id, default, context)
 
     @api.multi
-    def action_finish_review(self):
+    def start_production(self):
         self.signal_workflow('button_produce')
+
+    @api.multi
+    def action_finish_review(self):
+        self.write({'state': 'wait_release'})
 
     @api.one
     def production_review(self):
@@ -112,7 +117,7 @@ class MrpProductionWorkcenterLine(models.Model):
                 prod_obj.signal_workflow('button_produce')
             elif prod_obj.state == 'ready':
                 prod_obj.signal_workflow('button_produce')
-            elif prod_obj.state == 'in_production':
+            elif prod_obj.state == 'wait_release':
                 return
             else:
                 raise exceptions.Warning(
@@ -129,3 +134,14 @@ class MrpProductionWorkcenterLine(models.Model):
                                             'consume_produce')
                 prod_obj.signal_workflow('button_produce_done')
         return
+
+
+class mrp_product_produce(models.TransientModel):
+    _inherit = 'mrp.product.produce'
+
+    @api.multi
+    def do_produce(self):
+        production_id = self.env.context.get('active_id', False)
+        assert production_id, "Production Id should be specified in context as a Active ID."
+        self.env['mrp.production'].browse(production_id).signal_workflow('end_review')
+        return super(mrp_product_produce,self).do_produce()
