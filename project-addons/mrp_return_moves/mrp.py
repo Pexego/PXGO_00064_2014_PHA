@@ -56,7 +56,7 @@ class MrpProduction(models.Model):
                                                      uos_qty)
 
 
-class mrp_product_produce(models.TransientModel):
+'''class mrp_product_produce(models.TransientModel):
     _inherit = "mrp.product.produce"
 
     def on_change_qty(self, cr, uid, ids, product_qty, consume_lines, context=None):
@@ -78,4 +78,4 @@ class mrp_product_produce(models.TransientModel):
                 'lot_id': line.restrict_lot_id
             }))
 
-        return {'value': {'consume_lines': new_consume_lines}}
+        return {'value': {'consume_lines': new_consume_lines}}'''
