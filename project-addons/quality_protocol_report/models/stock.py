@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 
 
 class StockProductionLot(models.Model):
@@ -63,3 +63,21 @@ class StockMove(models.Model):
         if lot_str:
             lot_str = lot_str[:-1]
             self.lot_assigned_str = lot_str
+
+class stockPicking(models.Model):
+
+    _inherit = 'stock.picking'
+
+    @api.multi
+    def do_enter_transfer_details(self):
+        """Se hereda la función sobreescrita en mrp_return_moves"""
+        docs_no_submited = []
+        for move in self.move_lines:
+            if move.move_dest_id and move.move_dest_id.raw_material_production_id:
+                for wkcenter_line in move.move_dest_id.raw_material_production_id.workcenter_lines:
+                    if not wkcenter_line.doc_submited:
+                        if wkcenter_line.workcenter_id.name not in docs_no_submited:
+                            docs_no_submited.append(wkcenter_line.workcenter_id.name)
+        if docs_no_submited:
+            raise exceptions.Warning(_('Document error'), _('Documents not submited: \n %s') % (','.join(docs_no_submited)))
+        return super(stockPicking, self).do_enter_transfer_details()

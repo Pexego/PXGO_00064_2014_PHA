@@ -393,6 +393,7 @@ class MrpProductionWorkcenterLine(models.Model):
     print_comprobations = fields.One2many('mrp.print.comprobations',
                                           'wkcenter_line_id',
                                           'Print comprobations')
+    doc_submited = fields.Boolean('Document submited')
     mrp_start_date = fields.Datetime('Start production')
     final_count = fields.Integer('Final counter')
     continue_next_day = fields.Boolean('Continue production next day')

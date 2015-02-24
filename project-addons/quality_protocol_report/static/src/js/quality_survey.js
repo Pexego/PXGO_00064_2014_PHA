@@ -493,6 +493,9 @@ function send_form_server() {
     //Se recorre el diccionario, y se llama a write con los cambios.
     var keys = []
     for (var key in write_vals) {
+        if(key.split(',')[0] == 'mrp.production.workcenter.line'){
+            write_vals[key]['doc_submited'] = true;
+        }
         keys.push(key)
     }
     write_server(write_vals, keys);
