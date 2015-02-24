@@ -267,7 +267,7 @@
                             <label for="goods_return_date">3.1.-Hora de encendido de la máquina:</label>
                         </div>
                         <div class="col-xs-2">
-                            <input class="form-control" name="on_time_machine" id="on_time_machine" t-att-value='wkcenter_line.on_time_machine' type="datetime-local"/>
+                            <input class="form-control" name="on_time_machine" id="on_time_machine" t-att-value='wkcenter_line.on_time_machine and wkcenter_line.on_time_machine.replace(" ", "T")' type="datetime-local"/>
                         </div>
                     </div>
                     <div class="row">
@@ -333,7 +333,7 @@
                         <input class="form-control" name="printed_lot" id="printed_lot" t-att-value='wkcenter_line.printed_lot' type="text"/>
 
                         <label for="printed_date">Fecha de caducidad impresa:</label>
-                        <input class="form-control" name="printed_date" id="printed_date" t-att-value='wkcenter_line.printed_date' type="text"/>
+                        <input class="form-control" name="printed_date" id="printed_date" t-att-value='wkcenter_line.printed_date and wkcenter_line.printed_date.replace(" ", "T")' type="datetime-local"/>
                     </div>
                     <table class="quality_field" id="tblAppendGridprint" t-att-qfield="'print_comprobations'"
                           t-att-columns="'date,correct,initials,id'"
@@ -346,7 +346,8 @@
                             <label for="mrp_start_date">3.5.-Hora de inicio de fabricación:</label>
                         </div>
                         <div class="col-xs-2">
-                            <input class="form-control" name="mrp_start_date" id="mrp_start_date" t-att-value='wkcenter_line.mrp_start_date' type="datetime-local"/>
+                            <input class="form-control" name="mrp_start_date" id="mrp_start_date" t-att-value='wkcenter_line.mrp_start_date and wkcenter_line.mrp_start_date.replace(" ", "T")' type="datetime-local">
+                            </input>
                         </div>
                     </div>
                 </form>

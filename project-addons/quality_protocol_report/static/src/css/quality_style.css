@@ -59,3 +59,8 @@
     padding-top:8px;
     padding-bottom:8px;
 }
+
+.quality_view .row input[type="checkbox"] {
+    height: 17px;
+    width: 17px;
+}

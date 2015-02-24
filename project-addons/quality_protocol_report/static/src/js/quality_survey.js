@@ -294,6 +294,18 @@ function fill_data() {
     });
 }
 
+function write_server(write_vals, keys){
+    var key = keys.pop()
+    var record = key.split(",");
+    var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
+    var obj = new openerp.web.Model(record[0], context);
+    obj.call("write", [Number(record[1]), write_vals[key]], {context: context}).then(function(result){
+        if(keys.length > 0){
+            write_server(write_vals, keys);
+        }
+    });
+}
+
 /*se envia los datos de las diferentes encuestas al servidor(funcion en controller de survey).
   Se hace una llamada por encuesta y página.
   Luego se llama a una función del modulo para que relacione el numero de serie con las respuestas.
@@ -343,17 +355,30 @@ function send_form_server() {
             });
 
         });
-    };
+    }
+    /*
+     * Se recorren todos los formularios añadiendo los datos a un diccionario
+     * para hacer una única llamada para escribir los valores.
+     * {'modelo,id': {'campo1': valor1, 'campo2o2m':[(1,id,{}),...]}}
+     */
+    var write_vals = {};
     $('#all_data').find('.view').each(function() {
-        var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
         if ($(this).find("form").length) {
             var base_model = $(this).find("form").attr("model");
             var base_record = Number($(this).find("form").attr("record"));
-            var obj = new openerp.web.Model(base_model, context);
             var dat = decodeURIComponent($(this).find("form").serialize());
+            index = base_model + ',' + base_record
+            if (!(index in write_vals)) {
+                write_vals[index] = {};
+            }
+            //Se recorren las tablas con los datos de campos one2many
             $(this).find("form").find(".quality_field").each(function() {
                 var form_field = $(this).attr("qfield");
-                var table_context = $(this).attr("context") ? $.extend({}, $.parseJSON($(this).attr("context").split("'").join('"')), context) : context;
+                if(!(form_field in write_vals[index])){
+                    write_vals[index][form_field] = []
+                }
+                /////
+
                 var compare = $(this).attr("compare");
                 if(compare){
                     compare = compare.split(",");
@@ -415,8 +440,7 @@ function send_form_server() {
                 if (to_remove_rows.length != 0) {
                     var fields = {};
                     for (var i=0;i<to_remove_rows.length;i++) {
-                        fields[form_field] = [[2, to_remove_rows[i]]];
-                        obj.call("write", [base_record, fields], {context: table_context});
+                        write_vals[index][form_field].push([2, to_remove_rows[i]]);
                     }
                     to_remove_rows = [];
                 }
@@ -435,24 +459,42 @@ function send_form_server() {
                     if (records[row].id) {
                         var update_id = records[row].id;
                         delete records[row].id;
-                        fields[form_field] = [[1, Number(update_id), records[row]]];
-                        obj.call("write", [base_record, fields], {context: table_context});
+                        var finded = false;
+                        for(var arr_index = 0; arr_index < write_vals[index][form_field].length; arr_index++){
+                            if(write_vals[index][form_field][arr_index][0] == 1 && write_vals[index][form_field][arr_index][1] == Number(update_id)){
+                                write_vals[index][form_field][arr_index][2] = $.extend(write_vals[index][form_field][arr_index][2],records[row]);
+                                finded = true;
+                            }
+                        }
+                        if(!finded){
+                            write_vals[index][form_field].push([1, Number(update_id), records[row]]);
+                        }
                     }
                     else {
                         delete records[row].id;
-                        fields[form_field] = [[0, 0, records[row]]];
-                        obj.call("write", [base_record, fields], {context: table_context});
+                        write_vals[index][form_field].push([0, 0, records[row]]);
                     }
                 }
-        });
-        $(this).find("form").find(".form-control").each(function() {
-            var input_value = $(this).attr("value");
-            var name = $(this).attr("name");
-            var fields = {};
-            fields[name] = input_value;
-            obj.call("write", [base_record, fields], {context: context});
-        });
-    }
+
+            });
+            $(this).find("form").find(".form-control").each(function() {
+                var input_value = $(this).attr("value");
+                var name = $(this).attr("name");
+                if(input_value==""){
+                    input_value = null;
+                }
+                if(name in write_vals[index]){
+                    alert("se sobreescribe el valor del input " + name);
+                }
+                write_vals[index][name] = input_value;
+            });
+        }
     });
+    //Se recorre el diccionario, y se llama a write con los cambios.
+    var keys = []
+    for (var key in write_vals) {
+        keys.push(key)
+    }
+    write_server(write_vals, keys);
 history.go(-1);
 }

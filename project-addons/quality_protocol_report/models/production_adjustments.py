@@ -27,7 +27,7 @@ class MrpProductionAdjustments(models.Model):
     _name = "mrp.production.adjustments"
 
     name = fields.Char("Description", required=True)
-    production_id = fields.Many2one("mrp.production", "Production")
+    production_id = fields.Many2one("mrp.production.workcenter.line", "Production")
     start_date = fields.Datetime("Start date")
     reanudation_date = fields.Datetime("Reanudation date")
     initials = fields.Char("Initials")

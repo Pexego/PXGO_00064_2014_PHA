@@ -93,6 +93,7 @@
                 <notebook position="inside">
                     <page string="Extra information">
                         <group>
+                            <field name="on_time_machine"/>
                             <separator string="Stops and adjustments needed" colspan="4"/>
                             <field name="adjustsments_ids" nolabel="1" colspan="4">
                                 <tree editable="top">
