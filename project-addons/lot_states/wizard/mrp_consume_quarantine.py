@@ -55,6 +55,7 @@ class MrpConsumeQuarantine(models.TransientModel):
                        ('lot_id', '=', self.lot_id.id)]
         q_quants = self.env['stock.quant'].read_group(
             read_domain, ['reservation_id', 'qty'], ['reservation_id'])
+        q_move = False
         for quant in q_quants:
             if quant['qty'] > move.product_uom_qty:
                 move_id = quant['reservation_id'][0]
