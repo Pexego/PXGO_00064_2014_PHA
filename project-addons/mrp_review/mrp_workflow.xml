@@ -23,8 +23,14 @@
             <field name="name">Wait release</field>
         </record>
 
-        <record id="trans_end_review" model="workflow.transition">
+        <record id="trans_end_production" model="workflow.transition">
             <field name="act_from" ref="mrp.prod_act_in_production"/>
+            <field name="act_to" ref="prod_act_review"/>
+            <field name="signal">end_production</field>
+        </record>
+
+        <record id="trans_end_review" model="workflow.transition">
+            <field name="act_from" ref="prod_act_review"/>
             <field name="act_to" ref="prod_act_unrelease"/>
             <field name="signal">end_review</field>
         </record>

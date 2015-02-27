@@ -21,3 +21,4 @@
 
 from . import print_protocol_test
 from . import duplicate_protocol_wizard
+from . import mrp_release_all

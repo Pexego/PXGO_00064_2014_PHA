@@ -75,6 +75,8 @@ class stockPicking(models.Model):
         for move in self.move_lines:
             if move.move_dest_id and move.move_dest_id.raw_material_production_id:
                 for wkcenter_line in move.move_dest_id.raw_material_production_id.workcenter_lines:
+                    if not wkcenter_line.workcenter_id.protocol_type_id.is_hoard:
+                        continue
                     if not wkcenter_line.doc_submited:
                         if wkcenter_line.workcenter_id.name not in docs_no_submited:
                             docs_no_submited.append(wkcenter_line.workcenter_id.name)

@@ -32,6 +32,19 @@ class MrpProductProduce(models.TransientModel):
         'mode': lambda *x: 'consume',
     }
 
+    @api.multi
+    def do_produce(self):
+        production_id = self.env.context.get('active_id', False)
+        production = self.env['mrp.production'].browse(production_id)
+        docs_no_submited = []
+        for wkcenter_line in production.workcenter_lines:
+            if not wkcenter_line.doc_submited:
+                if wkcenter_line.workcenter_id.name not in docs_no_submited:
+                    docs_no_submited.append(wkcenter_line.workcenter_id.name)
+        if docs_no_submited:
+            raise exceptions.Warning(_('Document error'), _('Documents not submited: \n %s') % (','.join(docs_no_submited)))
+        return super(MrpProductProduce, self).do_produce()
+
 
 class MrpProduction(models.Model):
 
@@ -49,7 +62,7 @@ class MrpProduction(models.Model):
         self.hoard_len = len(self.hoard_ids)
 
     @api.one
-    @api.depends('move_lines.move_orig_ids','move_lines2.move_orig_ids')
+    @api.depends('move_lines.move_orig_ids', 'move_lines2.move_orig_ids')
     def _get_hoard_picking(self):
         pickings = self.env['stock.picking']
         pickings += self.mapped('move_lines.move_orig_ids.picking_id').sorted()
@@ -88,7 +101,9 @@ class MrpProduction(models.Model):
         if not action:
             return
         action = action.read()[0]
-        action['domain'] = str([('id', 'in', [x.id for x in self.hoard_ids])])
+        res = self.env.ref('stock.view_picking_form')
+        action['views'] = [(res.id, 'form')]
+        action['res_id'] = self.hoard_ids and self.hoard_ids[0].id or False
         action['context'] = False
         return action
 
@@ -101,18 +116,6 @@ class MrpProduction(models.Model):
             my_context))._make_consume_line_from_data(production, product,
                                                       uom_id, qty, uos_id,
                                                       uos_qty)
-
-    @api.multi
-    def release_all(self):
-        for prod in self:
-            for move in prod.move_created_ids:
-                new_moves = move.action_consume(
-                    move.product_uom_qty, location_id=move.location_id.id,
-                    restrict_lot_id=prod.final_lot_id.id)
-                new_moves = self.env['stock.move'].browse(new_moves)
-                new_moves.write({'production_id': self.id})
-            prod.signal_workflow('button_produce_done')
-        return True
 
     def action_assign(self, cr, uid, ids, context=None):
         """
@@ -346,7 +349,6 @@ class MrpBom(models.Model):
                       "%s" does not have any BoM defined.') %
                     (master_bom.name,
                      bom_line_id.product_id.name_get()[0][1]))
-
         return result, result2
 
 

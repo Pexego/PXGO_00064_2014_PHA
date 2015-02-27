@@ -32,7 +32,8 @@ class MrpProduction(models.Model):
             [('draft', 'New'), ('cancel', 'Cancelled'),
              ('confirmed', 'Awaiting Raw Materials'),
              ('ready', 'Ready'),
-             ('in_production', 'Review'),
+             ('in_production', 'In production'),
+             ('in_review', 'Review'),
              ('wait_release', 'Waiting release'),
              ('done', 'Done')],
             string='Status', readonly=True,
@@ -80,12 +81,16 @@ class MrpProduction(models.Model):
         return super(MrpProduction, self).copy(cr, uid, id, default, context)
 
     @api.multi
-    def start_production(self):
-        self.signal_workflow('button_produce')
-
-    @api.multi
     def action_finish_review(self):
         self.write({'state': 'wait_release'})
+
+    @api.multi
+    def action_production_review(self):
+        self.write({'state': 'in_review'})
+
+    @api.multi
+    def action_produce(self):
+        self.signal_workflow('button_produce')
 
     @api.one
     def production_review(self):
@@ -143,5 +148,5 @@ class mrp_product_produce(models.TransientModel):
     def do_produce(self):
         production_id = self.env.context.get('active_id', False)
         assert production_id, "Production Id should be specified in context as a Active ID."
-        self.env['mrp.production'].browse(production_id).signal_workflow('end_review')
+        self.env['mrp.production'].browse(production_id).signal_workflow('end_production')
         return super(mrp_product_produce,self).do_produce()

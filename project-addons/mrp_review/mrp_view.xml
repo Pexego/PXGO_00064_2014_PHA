@@ -9,14 +9,15 @@
                 <button name="button_confirm" position="after">
                     <field name="prod_review_ok" invisible="1"/>
                     <field name="qual_review_ok" invisible="1"/>
-                    <button name="production_review" string="Production review" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('in_production')), ('prod_review_ok', '=', True)]}"/>
-                    <button name="quality_review" string="Quality review" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('in_production')), ('qual_review_ok', '=', True)]}"/>
+                    <button name="production_review" string="Production review" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('in_review')), ('prod_review_ok', '=', True)]}"/>
+                    <button name="quality_review" string="Quality review" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('in_review')), ('qual_review_ok', '=', True)]}"/>
+                    <button name="end_review" string="finish review" attrs="{'invisible': ['|', ('state', 'not in', 'in_review'), '|', ('prod_review_ok', '=', False), ('qual_review_ok', '=', False)]}"/>
                     <!--button name="button_produce_review" string="review" states="ready" class="oe_highlight"/>
                     <button name="end_review"  string="Finish review" states="review" class="oe_highlight" groups="mrp_review.technical_dir"/-->
                 </button>
                 <button name="%(mrp.act_mrp_product_produce)d" position="replace">
-                    <button name="%(mrp.act_mrp_product_produce)d" string="Finish review" type="action" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'not in', 'in_production'), '|', ('prod_review_ok', '=', False), ('qual_review_ok', '=', False)]}"/>
-                    <button name="start_production" string="Start production" type="object" class="oe_highlight" states="ready"/>
+                    <button name="%(mrp.act_mrp_product_produce)d" string="Finish production" type="action" class="oe_highlight" states="in_production"/>
+                    <button name="action_produce" type="object" string="Start production" class="oe_highlight" states="ready"/>
                 </button>
                 <button name="button_produce" position="replace">
                     <!--button name="button_produce" states="ready" string="Mark as Started"/-->

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="mrp_release_all_form" model="ir.ui.view">
+            <field name="name">mrp.release.all.wizard.form</field>
+            <field name="model">mrp.release.all.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Release">
+                    <group>
+                        <field name="final_qty"/>
+                    </group>
+                    <button string="Release" name="release" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Release"
+            res_model="mrp.release.all.wizard"
+            view_id="mrp_release_all_form"
+            view_mode="form"
+            target="new"
+            id="mrp_release_all"/>
+
+    </data>
+</openerp>
+

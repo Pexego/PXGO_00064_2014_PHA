@@ -679,6 +679,7 @@
                         </t>
                         <div class="row">
                             <div id="all_data">
+                                <input id="production_id" t-att-value="production.id" type="hidden"/>
                                 <t t-set="parts" t-value="parts"/>
                                 <div t-foreach="parts" t-as="part">
                                     <t t-if="part[0] == 's'">
@@ -712,7 +713,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" name="button_submit" value="finish" id="send_form">Submit</button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" name="button_submit" value="finish" id="send_form">Submit</button>
+                            </div>
                             <div class="js_errzone alert" id="general_info" style="display:none;"></div>
                         </div>
                     </div>

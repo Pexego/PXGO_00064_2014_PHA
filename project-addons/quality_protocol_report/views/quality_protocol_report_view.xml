@@ -159,6 +159,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="is_hoard"/>
                         <field name="workcenter_ids"/>
                     </group>
                 </sheet>

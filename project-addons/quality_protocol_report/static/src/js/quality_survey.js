@@ -303,6 +303,10 @@ function write_server(write_vals, keys){
         if(keys.length > 0){
             write_server(write_vals, keys);
         }
+        else{
+            var prod_id = $("#production_id").val();
+            window.location.assign("/web#id=" + prod_id + "&view_type=form&model=mrp.production");
+        }
     });
 }
 
@@ -377,7 +381,6 @@ function send_form_server() {
                 if(!(form_field in write_vals[index])){
                     write_vals[index][form_field] = []
                 }
-                /////
 
                 var compare = $(this).attr("compare");
                 if(compare){
@@ -404,7 +407,8 @@ function send_form_server() {
                         if($("input[name='" + compare_name + "']").length){
                             var to_compare_val = $("input[name='" + compare_name + "']").val();
                             if(vals[1] != to_compare_val){
-                                alert("campos diferentes");
+                                alert(field_name + ', ' + compare[1]);
+                                throw new Error("Something went badly wrong!");
                             }
                         }
                     }
@@ -485,6 +489,7 @@ function send_form_server() {
                 }
                 if(name in write_vals[index]){
                     alert("se sobreescribe el valor del input " + name);
+                    throw new Error("Something went badly wrong!");
                 }
                 write_vals[index][name] = input_value;
             });
@@ -499,5 +504,4 @@ function send_form_server() {
         keys.push(key)
     }
     write_server(write_vals, keys);
-history.go(-1);
 }
