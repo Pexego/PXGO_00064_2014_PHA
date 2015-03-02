@@ -17,7 +17,7 @@
                 </button>
                 <button name="%(mrp.act_mrp_product_produce)d" position="replace">
                     <button name="%(mrp.act_mrp_product_produce)d" string="Finish production" type="action" class="oe_highlight" states="in_production"/>
-                    <button name="action_produce" type="object" string="Start production" class="oe_highlight" states="ready"/>
+                    <button name="action_produce_start" type="object" string="Start production" class="oe_highlight" states="ready"/>
                 </button>
                 <button name="button_produce" position="replace">
                     <!--button name="button_produce" states="ready" string="Mark as Started"/-->

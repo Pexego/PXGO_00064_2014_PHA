@@ -89,7 +89,7 @@ class MrpProduction(models.Model):
         self.write({'state': 'in_review'})
 
     @api.multi
-    def action_produce(self):
+    def action_produce_start(self):
         self.signal_workflow('button_produce')
 
     @api.one
