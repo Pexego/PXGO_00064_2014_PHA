@@ -4,7 +4,6 @@
         <!--
             t-att-filter: se filtran los resultados de la talba, el campo por el que se filtra tiene que estar en las columnas de la tabla.
                           Si el campo es relacional solo se comprueba con id.
-            t-att-context: se añade el diccionario al contexto a la hora de hacer write, debe de ir con comillas simples y la clave y valor con comillas dobles.
             compare: campos a comparar separados por coma(solo 2 campos).
         -->
         <template id="document_header" name="Document header">
@@ -202,7 +201,7 @@
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
                     <table class="quality_field" id="tblAppendGridboxcontrol" t-att-qfield="'wrap_comprobations'"
                           t-att-filter = "'type,=,box'"
-                          t-att-context = "{'type': 'box'}"
+                          t-att-columns-default = "{'type': 'box'}"
                           t-att-columns="'date,correct,quality_sample,initials,id,type'"
                           t-att-columns-widths="'40%,4%,10%,10%,0%,0%'"
                           t-att-nodelete="'true'" t-att-columns-options="{'type': 'hidden'}">
@@ -222,7 +221,7 @@
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
                     <table class="quality_field" id="tblAppendGridwrapcontrol" t-att-qfield="'wrap_comprobations'"
                           t-att-filter = "'type,=,wrap'"
-                          t-att-context = "{'type': 'wrap'}"
+                          t-att-columns-default = "{'type': 'wrap'}"
                           t-att-columns="'date,correct,quality_sample,initials,id,type'"
                           t-att-columns-widths="'40%,4%,10%,10%,0%,0%'"
                           t-att-nodelete="'true'" t-att-columns-options="{'type': 'hidden'}">

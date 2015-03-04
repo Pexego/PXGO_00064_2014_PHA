@@ -159,7 +159,7 @@ $(function () {
                         }
                         else {
                             if (columns_options && columns_options[key] == "hidden") {
-                                //table_columns.push({name: key, type: 'hidden', ctrlProp:{'disabled': true}});
+                                table_columns.push({name: key, type: 'hidden', ctrlProp:{'disabled': true}});
                             }
                             else{
                                 var ctrlProp = {};
@@ -378,6 +378,7 @@ function send_form_server() {
             //Se recorren las tablas con los datos de campos one2many
             $(this).find("form").find(".quality_field").each(function() {
                 var form_field = $(this).attr("qfield");
+                var columns_default = $(this).attr("columns-default") ? eval('(' + $(this).attr("columns-default") + ')') : {};
                 if(!(form_field in write_vals[index])){
                     write_vals[index][form_field] = []
                 }
@@ -402,6 +403,20 @@ function send_form_server() {
                     var row_index = def.pop();
                     var elem_id = def[0];
                     var field_name = def.join("_").replace(elem_id + "_", "");
+                    //Se busca el campo para comparar valores.
+                    if (row_index in records) {
+                        records[row_index][field_name] = vals[1];
+                    }
+                    else {
+                        records[row_index] = {};
+                        records[row_index][field_name] = vals[1];
+                    }
+                    if(columns_default){
+                        console.log('');
+                    }
+                    if(columns_default.hasOwnProperty(field_name)){
+                        records[row_index][field_name] = columns_default[field_name];
+                    }
                     if(compare && compare.length && field_name == compare[0]){
                         var compare_name = table_id + '_' + compare[1] + '_' + row_index;
                         if($("input[name='" + compare_name + "']").length){
@@ -411,14 +426,6 @@ function send_form_server() {
                                 throw new Error("Something went badly wrong!");
                             }
                         }
-                    }
-                    //Se busca el campo para comparar valores.
-                    if (row_index in records) {
-                        records[row_index][field_name] = vals[1];
-                    }
-                    else {
-                        records[row_index] = {};
-                        records[row_index][field_name] = vals[1];
                     }
                 };
                 var to_delete_rows = []
