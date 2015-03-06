@@ -107,6 +107,29 @@ class MrpProduction(models.Model):
         action['context'] = False
         return action
 
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Cancels the production order and related stock moves.
+        @return: True
+        """
+        if context is None:
+            context = {}
+        move_obj = self.pool.get('stock.move')
+        proc_obj = self.pool.get('procurement.order')
+        for production in self.browse(cr, uid, ids, context=context):
+            if production.move_created_ids:
+                move_obj.action_cancel(cr, uid, [x.id for x in production.move_created_ids])
+            moves = move_obj.search(cr, uid, [('move_dest_id', 'in', [x.id for x in production.move_lines])], context=context)
+            if moves:
+                move_obj.action_cancel(cr, uid, moves, context=context)
+            move_obj.action_cancel(cr, uid, [x.id for x in production.move_lines])
+        self.write(cr, uid, ids, {'state': 'cancel'})
+        # Put related procurements in exception
+        proc_obj = self.pool.get("procurement.order")
+        procs = proc_obj.search(cr, uid, [('production_id', 'in', ids)], context=context)
+        if procs:
+            proc_obj.write(cr, uid, procs, {'state': 'exception'}, context=context)
+        return True
+
     @api.model
     def _make_consume_line_from_data(self, production, product, uom_id,
                                      qty, uos_id, uos_qty):

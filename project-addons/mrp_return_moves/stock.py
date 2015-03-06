@@ -57,14 +57,19 @@ class stockPicking(models.Model):
                     changed = True
                     move.changed_qty_return = True
                     move.do_unreserve()
-                    move.product_uom_qty = move.served_qty - move.returned_qty
+                    if move.product_uom_qty == move.returned_qty:
+                        move.action_cancel()
+                        continue
                     if not move.original_move:
                         continue
+                    move.product_uom_qty = move.served_qty - move.returned_qty
                     move.original_move.do_unreserve()
                     move.original_move.product_uom_qty += move.returned_qty
                     move.original_move.action_assign()
                     move.action_assign()
         if changed:
+            if self.state == 'cancel':
+                return
             self.do_unreserve()
             self.action_assign()
         created = self.env['stock.transfer_details'].with_context(
