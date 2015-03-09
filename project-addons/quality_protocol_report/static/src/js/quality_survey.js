@@ -304,8 +304,7 @@ function write_server(write_vals, keys){
             write_server(write_vals, keys);
         }
         else{
-            var prod_id = $("#production_id").val();
-            window.location.assign("/web#id=" + prod_id + "&view_type=form&model=mrp.production");
+            window.location.replace($("#all_data").attr("url-submit"));
         }
     });
 }

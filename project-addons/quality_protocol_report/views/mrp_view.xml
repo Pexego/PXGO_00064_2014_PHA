@@ -677,7 +677,7 @@
                             <div id="done"></div>
                         </t>
                         <div class="row">
-                            <div id="all_data">
+                            <div id="all_data" t-att-url-submit="'/quality_protocol/logout/%s' % (slug(production))">
                                 <input id="production_id" t-att-value="production.id" type="hidden"/>
                                 <t t-set="parts" t-value="parts"/>
                                 <div t-foreach="parts" t-as="part">

@@ -77,6 +77,17 @@ class WebsiteProtocol(http.Controller):
         return request.website.render('quality_protocol_report.protocol_print',
                                       context)
 
+    # return to form_view
+    @http.route(['/quality_protocol/logout/<model("mrp.production"):production>'],
+                type='http', methods=['GET'], auth='user')
+    def logout(self, production, **get):
+        cr, uid, context, session = request.cr, request.uid, request.context, request.session
+        dataobj = request.registry['ir.model.data']
+        menu_data_id = dataobj._get_id (cr, uid, 'mrp', 'menu_mrp_production_action')
+        menu = dataobj.browse(cr, uid, menu_data_id, context).res_id
+        action_data_id = dataobj._get_id (cr, uid, 'mrp', 'mrp_production_action')
+        action = dataobj.browse(cr, uid, action_data_id, context).res_id
+        return  werkzeug.utils.redirect('/web#id=%s&view_type=form&model=mrp.production&menu_id=%s&action=%s' % (production.id, menu, action))
 
     # AJAX submission of a survey
     @http.route(['/protocol/submit/<model("survey.survey"):survey>'],
