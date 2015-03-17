@@ -24,11 +24,9 @@
                     <field name="goods_return_date"/>
                 </field>
                 <xpath expr="//field[@name='move_lines']/tree/field[@name='product_uom_qty']" position="after">
-                    <field name="served_qty" readonly="0"/>
                     <field name="orig_acceptance_date"/>
                 </xpath>
                 <xpath expr="//field[@name='move_lines2']/tree/field[@name='product_uom_qty']" position="after">
-                    <field name="served_qty"/>
                     <field name="orig_acceptance_date"/>
                 </xpath>
                 <field name="workcenter_lines" position="replace">

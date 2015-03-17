@@ -41,10 +41,10 @@
              'wizard/print_protocol_test_view.xml',
              'views/quality_protocol_report_view.xml',
              'views/quality_procedure_view.xml',
-             'views/mrp_view.xml',
              'views/product_view.xml',
              'views/production_view.xml',
              'views/stock_view.xml',
+             'views/mrp_view.xml',
              'security/ir.model.access.csv'],
     "installable": True
 }

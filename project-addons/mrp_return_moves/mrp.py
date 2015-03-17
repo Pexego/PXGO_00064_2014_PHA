@@ -33,6 +33,8 @@ class MrpProduction(models.Model):
                                  states={'draft': [('readonly', False)],
                                          'confirmed': [('readonly', False)]})
     orig_move_ids = fields.One2many('stock.move', 'q_production_id', 'original moves')
+    return_operation_ids = fields.One2many('stock.move.return.operations', 'production_id', 'Return operations')
+    hoard_picking_id = fields.Many2one(string='hoard picking', related='orig_move_ids.picking_id')
 
     def _create_previous_move(self, cr, uid, move_id, product, source_location_id, dest_location_id, context=None):
         move = super(MrpProduction, self)._create_previous_move(cr, uid, move_id, product, source_location_id, dest_location_id, context)

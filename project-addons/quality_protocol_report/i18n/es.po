@@ -749,12 +749,6 @@ msgid "Log realization"
 msgstr "Log de realización"
 
 #. module: quality_protocol_report
-#: field:stock.move,lot_assigned_str:0
-#: field:survey.user_input,lot_id:0
-msgid "Lot"
-msgstr "Lote"
-
-#. module: quality_protocol_report
 #: field:mrp.print.comprobations.sec,lot_correct:0
 msgid "Lot correct"
 msgstr "Lot correct"

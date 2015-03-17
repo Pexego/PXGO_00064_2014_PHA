@@ -24,14 +24,3 @@ msgstr "Órden de producción"
 #: model:ir.model,name:mrp_return_moves.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
-
-#. module: mrp_return_moves
-#: field:stock.move,returned_qty:0
-msgid "Returned qty."
-msgstr "Cant. devuelta"
-
-#. module: mrp_return_moves
-#: help:stock.move,returned_qty:0
-msgid "Qty. of move that will be returned on produce"
-msgstr "Cant. del movimiento que será devuelta al producir."
-

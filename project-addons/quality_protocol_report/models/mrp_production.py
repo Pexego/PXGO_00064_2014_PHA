@@ -144,7 +144,7 @@ class MrpProduction(models.Model):
         """
         Checks the availability on the consume lines of the production order
         """
-        for production in self.browse(cr, uid, ids, context=context):
+        '''for production in self.browse(cr, uid, ids, context=context):
             for move in production.move_lines:
                 if move.restrict_lot_id.name != move.used_lot:
                     raise exceptions.Warning(
@@ -157,7 +157,7 @@ class MrpProduction(models.Model):
                         raise exceptions.Warning(_("""Cannot produce because
  move quantity %s and served quantity %s don't match""") %
                                                  (str(move.product_uom_qty),
-                                                  str(move.served_qty)))
+                                                  str(move.served_qty)))'''
         return super(MrpProduction, self).action_assign(cr, uid, ids,
                                                         context=context)
 
@@ -171,7 +171,7 @@ class MrpProduction(models.Model):
                                               line.workcenter_id.id}, context)
         return move_id
 
-    @api.one
+    '''@api.one
     def action_finish_review(self):
         res = self.env['stock.move']
         originals = self.env['stock.move']
@@ -232,7 +232,7 @@ move quantity %s and served quantity %s don't match""") %
                 res += move.copy(default_val)
         res.action_done()
         originals.action_assign()
-        return super(MrpProduction, self).action_finish_review()
+        return super(MrpProduction, self).action_finish_review()'''
 
 
 class MrpBom(models.Model):

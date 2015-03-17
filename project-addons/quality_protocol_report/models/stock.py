@@ -42,27 +42,6 @@ class StockMove(models.Model):
     checked_disp = fields.Boolean('Checked availability')
     qty_used = fields.Float('Qty used')
     qty_scrapped = fields.Float('Qty scrapped')
-    lot_assigned_str = fields.Char('Lot', compute='_get_lot_assigned',
-                                   store=True)
-
-    @api.one
-    @api.depends('state', 'lot_ids', 'move_orig_ids.state', 'move_orig_ids.lot_ids')
-    def _get_lot_assigned(self):
-        lot_str = ''
-        if self.lot_ids:
-            for lot in self.lot_ids:
-                lot_str += lot.name + ','
-        else:
-            original_lots = ''
-            for origin in self.move_orig_ids:
-                if origin.lot_assigned_str:
-                    original_lots += origin.lot_assigned_str + ','
-            if original_lots:
-                original_lots = original_lots[:-1]
-            self.lot_assigned_str = original_lots
-        if lot_str:
-            lot_str = lot_str[:-1]
-            self.lot_assigned_str = lot_str
 
 class stockPicking(models.Model):
 
