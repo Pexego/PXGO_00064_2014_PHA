@@ -55,6 +55,7 @@ class MrpProduction(models.Model):
     picking_notes = fields.Text('Picking notes')
     hoard_ids = fields.One2many('stock.picking', string='hoards', compute='_get_hoard_picking')
     hoard_len = fields.Integer('hoard len', compute = '_get_hoard_len')
+    workcenter_lines = fields.One2many(readonly=False)
 
     @api.one
     @api.depends('hoard_ids')
