@@ -32,6 +32,18 @@ class MrpProductProduce(models.TransientModel):
         'mode': lambda *x: 'consume',
     }
 
+    @api.model
+    def get_operations(self, move):
+        stop = False
+        move_aux = move
+        while not stop:
+            if move_aux.split_from:
+                move_aux = move_aux.split_from
+            else:
+                stop = True
+        return move_aux.return_operation_ids
+
+
     @api.multi
     def do_produce(self):
         production_id = self.env.context.get('active_id', False)
@@ -47,7 +59,7 @@ class MrpProductProduce(models.TransientModel):
         originals = self.env['stock.move']
         production = self.env['mrp.production'].browse(self.env.context.get('active_id', False))
         for move in production.move_lines:
-            operations = move.split_from and move.split_from.return_operation_ids or move.return_operation_ids
+            operations = self.get_operations(move)
             for op in operations:
                 if op.qty_scrapped > 0:
                     scrap_location_id = self.env['stock.location'].search(
@@ -87,13 +99,10 @@ class MrpProductProduce(models.TransientModel):
                 move.do_unreserve()
                 move.product_uom_qty = operations[0].returned_qty
                 for op in operations:
-                    if op.id == operations[0]:
+                    if op.id == operations[0].id:
                         continue
                     default_val = {
                             'product_uom_qty': op.returned_qty,
-                            'served_qty': 0,
-                            'returned_qty': 0,
-                            'qty_scrapped': 0,
                             'restrict_lot_id': op.lot_id.id,
                             'location_dest_id': dest_location,
                     }
