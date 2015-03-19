@@ -31,6 +31,6 @@
                 'mrp_operations',
                 'lot_states',
                 'stock'],
-    "data": ['mrp_view.xml'],
+    "data": ['mrp_view.xml', 'security/ir.model.access.csv'],
     "installable": True
 }

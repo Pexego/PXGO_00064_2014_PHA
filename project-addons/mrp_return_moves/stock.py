@@ -65,19 +65,23 @@ class StockMove(models.Model):
         super(StockMove, self).action_assign()
         if self.env.context.get('no_return_operations', False):
             return
+        q_lot_ids = []
         for move in self:
             quants = self.env['stock.quant'].read_group(
                 [('reservation_id', '=', move.id)], ['lot_id', 'qty'],
                 ['lot_id'])
             for quant in quants:
-                operation = self.env['stock.move.return.operations'].search([('move_id', '=', move.id), ('lot_id', '=', quant['lot_id'][0])])
+                lot = quant['lot_id']
+                if lot:
+                    q_lot_ids.append(lot[0])
+                operation = self.env['stock.move.return.operations'].search([('move_id', '=', move.id), ('lot_id', '=', lot and lot[0] or False)])
                 if operation:
                     if operation.qty != quant['qty']:
                         operation.qty = quant['qty']
                     continue
                 operation_dict = {
                     'product_id': move.product_id.id,
-                    'lot_id': quant['lot_id'][0],
+                    'lot_id': lot and lot[0] or False,
                     'qty': quant['qty'],
                     'product_uom': move.product_uom.id,
                     'move_id': move.id,
@@ -85,7 +89,9 @@ class StockMove(models.Model):
                     'production_id': move.raw_material_production_id.id
                 }
                 self.env['stock.move.return.operations'].create(operation_dict)
-
+            for operation in move.return_operation_ids:
+                if operation.lot_id.id not in q_lot_ids:
+                    operation.unlink()
 
 
 class stockPicking(models.Model):

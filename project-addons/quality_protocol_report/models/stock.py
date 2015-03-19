@@ -32,9 +32,6 @@ class StockMove(models.Model):
 
     _inherit = "stock.move"
 
-    acceptance_date = fields.Date('Acceptance date')
-    orig_acceptance_date = fields.Date(
-        'Acceptance date', related='move_orig_ids.acceptance_date')
     workcenter_id = fields.Many2one('mrp.workcenter', 'Workcenter')
     checked_disp = fields.Boolean('Checked availability')
 

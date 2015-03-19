@@ -87,7 +87,7 @@ class MrpProductProduce(models.TransientModel):
                 if move.original_move.state != 'done':
                     dest_location =  move.original_move.location_id.id
                     move.original_move.do_unreserve()
-                    move.original_move.product_uom_qty += move.returned_qty
+                    move.original_move.product_uom_qty += operations[0].returned_qty
                     originals += move.original_move
                 else:
                     dest_location =  move.original_move.location_dest_id.id
@@ -127,6 +127,7 @@ class MrpProduction(models.Model):
     picking_notes = fields.Text('Picking notes')
     hoard_ids = fields.One2many('stock.picking', string='hoards', compute='_get_hoard_picking')
     hoard_len = fields.Integer('hoard len', compute = '_get_hoard_len')
+    hoard_need_assignment = fields.Boolean('Hoard needs assignement', compute='_get_hoard_assigned')
     workcenter_lines = fields.One2many(readonly=False)
 
     @api.one
@@ -135,12 +136,25 @@ class MrpProduction(models.Model):
         self.hoard_len = len(self.hoard_ids)
 
     @api.one
+    @api.depends('hoard_ids')
+    def _get_hoard_assigned(self):
+        need_assignement = False
+        for hoard in self.hoard_ids:
+            if hoard.state in ('confirmed', 'partially_available'):
+                need_assignement = True
+        self.hoard_need_assignment = need_assignement
+
+    @api.one
     @api.depends('move_lines.move_orig_ids', 'move_lines2.move_orig_ids')
     def _get_hoard_picking(self):
         pickings = self.env['stock.picking']
-        pickings += self.mapped('move_lines.move_orig_ids.picking_id').sorted()
-        pickings += self.mapped('move_lines2.move_orig_ids.picking_id').sorted()
+        pickings += self.mapped('move_lines.move_orig_ids.picking_id').sorted() | self.mapped('move_lines2.move_orig_ids.picking_id').sorted()
         self.hoard_ids = pickings
+
+    @api.multi
+    def action_assign_hoard(self):
+        for prod in self:
+            prod.hoard_ids.action_assign()
 
     def _create_previous_move(self, cr, uid, move_id, product,
                               source_location_id, dest_location_id,

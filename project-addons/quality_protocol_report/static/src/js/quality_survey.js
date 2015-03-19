@@ -340,7 +340,6 @@ function send_form_server() {
                                 $("#" + key + '>.js_errzone').append('<p>' + response.errors[key] + '</p>').show();
                             });
                         } else if (_.has(response, 'redirect')) {
-                            history.go(-1);
                             //No se tienen en cuenta los mensajes de redireccion.
                         } else { // server sends bad data
                             console.error("Incorrect answer sent by server");

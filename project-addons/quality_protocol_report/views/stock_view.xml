@@ -16,17 +16,5 @@
             </field>
         </record>
 
-        <!--record id="view_move_form_add_quality_fields" model="ir.ui.view">
-            <field name="name">stock.move.form.add_quality_fields</field>
-            <field name="model">stock.move</field>
-            <field name="inherit_id" ref="mrp_return_moves.view_move_form_add_return_qty"/>
-            <field name="arch" type="xml">
-                <field name="date" position="after">
-                    <field name="acceptance_date"/>
-                    <field name="initials"/>
-                </field>
-            </field>
-        </record-->
-
     </data>
 </openerp>

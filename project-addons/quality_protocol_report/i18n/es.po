@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-18 18:55+0000\n"
-"PO-Revision-Date: 2015-02-18 18:55+0000\n"
+"POT-Creation-Date: 2015-03-19 18:21+0000\n"
+"PO-Revision-Date: 2015-03-19 18:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -110,8 +110,8 @@ msgstr "2.1.-Material de empaquetado: comprobar disponibilidad firmando con inic
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_lot_label
-msgid "2.2Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
-msgstr "2.2Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
+msgid "2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
+msgstr "2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_lot_label
@@ -223,11 +223,6 @@ msgid "7.-DEVOLUCIÓN DE MATERIALES SOBRANTES"
 msgstr "7.-DEVOLUCIÓN DE MATERIALES SOBRANTES"
 
 #. module: quality_protocol_report
-#: field:stock.move,acceptance_date:0
-msgid "Acceptance date"
-msgstr "Fecha aceptado"
-
-#. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,adjustsments_ids:0
 msgid "Adjustments"
 msgstr "Ajustes"
@@ -246,6 +241,11 @@ msgid "Anotar la cantidad del material que se entrega a fabricación:"
 msgstr "Anotar la cantidad del material que se entrega a fabricación:"
 
 #. module: quality_protocol_report
+#: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
+msgid "Assign hoard"
+msgstr "Comprobar disponibilidad de acopio"
+
+#. module: quality_protocol_report
 #: field:mrp.workcenter,protocol_type_id:0
 msgid "Associated protocol"
 msgstr "Protocolo asociado"
@@ -261,13 +261,13 @@ msgid "Bill of Material"
 msgstr "Lista de material"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:295
+#: code:addons/quality_protocol_report/models/mrp_production.py:324
 #, python-format
 msgid "BoM \"%s\" contains a BoM line with a product                       recursion: \"%s\"."
 msgstr "BoM \"%s\" contains a BoM line with a product                       recursion: \"%s\"."
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:345
+#: code:addons/quality_protocol_report/models/mrp_production.py:374
 #, python-format
 msgid "BoM \"%s\" contains a phantom BoM line but the product                       \"%s\" does not have any BoM defined."
 msgstr "BoM \"%s\" contains a phantom BoM line but the product                       \"%s\" does not have any BoM defined."
@@ -293,26 +293,11 @@ msgid "CANTIDAD FABRICADA"
 msgstr "CANTIDAD FABRICADA"
 
 #. module: quality_protocol_report
+#: view:mrp.release.all.wizard:quality_protocol_report.mrp_release_all_form
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
 #: view:quality.duplicate.protocol:quality_protocol_report.quality_duplicate_protocol_form
 msgid "Cancel"
 msgstr "Cancelar"
-
-#. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:131
-#, python-format
-msgid "Cannot produce because\n"
-" move quantity %s and served quantity %s don't match"
-msgstr "Cannot produce because\n"
-" move quantity %s and served quantity %s don't match"
-
-#. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:157
-#, python-format
-msgid "Cannot produce because\n"
-"move quantity %s and served quantity %s don't match"
-msgstr "Cannot produce because\n"
-"move quantity %s and served quantity %s don't match"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -405,6 +390,7 @@ msgstr "Controles"
 #: field:mrp.production.adjustments,create_uid:0
 #: field:mrp.production.control,create_uid:0
 #: field:mrp.qty.produced,create_uid:0
+#: field:mrp.release.all.wizard,create_uid:0
 #: field:mrp.wender.temp,create_uid:0
 #: field:mrp.wrap.comprobations,create_uid:0
 #: field:print.protocol.test,create_uid:0
@@ -424,6 +410,7 @@ msgstr "Created by"
 #: field:mrp.production.adjustments,create_date:0
 #: field:mrp.production.control,create_date:0
 #: field:mrp.qty.produced,create_date:0
+#: field:mrp.release.all.wizard,create_date:0
 #: field:mrp.wender.temp,create_date:0
 #: field:mrp.wrap.comprobations,create_date:0
 #: field:print.protocol.test,create_date:0
@@ -454,6 +441,27 @@ msgstr "Date correct"
 #: field:mrp.production.adjustments,name:0
 msgid "Description"
 msgstr "Descripción"
+
+#. module: quality_protocol_report
+#: code:addons/quality_protocol_report/models/mrp_production.py:57
+#: code:addons/quality_protocol_report/models/stock.py:70
+#, python-format
+msgid "Document error"
+msgstr "Document error"
+
+#. module: quality_protocol_report
+#: field:mrp.production.workcenter.line,doc_submited:0
+msgid "Document submited"
+msgstr "Document submited"
+
+#. module: quality_protocol_report
+#: code:addons/quality_protocol_report/models/mrp_production.py:57
+#: code:addons/quality_protocol_report/models/stock.py:70
+#, python-format
+msgid "Documents not submited: \n"
+" %s"
+msgstr "Documents not submited: \n"
+" %s"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_form
@@ -571,6 +579,11 @@ msgid "Final production"
 msgstr "Producción final"
 
 #. module: quality_protocol_report
+#: field:mrp.release.all.wizard,final_qty:0
+msgid "Final quantity"
+msgstr "Final quantity"
+
+#. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
 msgid "Firma"
 msgstr "Firma"
@@ -615,6 +628,7 @@ msgstr "Group By"
 
 #. module: quality_protocol_report
 #: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
+#: field:protocol.type,is_hoard:0
 msgid "Hoard"
 msgstr "Acopio"
 
@@ -630,6 +644,7 @@ msgstr "Hora"
 #: field:mrp.production.adjustments,id:0
 #: field:mrp.production.control,id:0
 #: field:mrp.qty.produced,id:0
+#: field:mrp.release.all.wizard,id:0
 #: field:mrp.wender.temp,id:0
 #: field:mrp.wrap.comprobations,id:0
 #: field:print.protocol.test,id:0
@@ -682,14 +697,13 @@ msgstr "Init date"
 #: field:mrp.production.control,initials:0
 #: field:mrp.qty.produced,initials:0
 #: field:mrp.wrap.comprobations,initials:0
-#: field:stock.move,initials:0
-#: field:stock.move,initials_acond:0
+#: field:stock.move.return.operations,initials_acond:0
 msgid "Initials"
 msgstr "Iniciales"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:294
-#: code:addons/quality_protocol_report/models/mrp_production.py:344
+#: code:addons/quality_protocol_report/models/mrp_production.py:323
+#: code:addons/quality_protocol_report/models/mrp_production.py:373
 #, python-format
 msgid "Invalid Action!"
 msgstr "Acción inválida!"
@@ -712,6 +726,7 @@ msgstr "LOTE:"
 #: field:mrp.production.adjustments,write_uid:0
 #: field:mrp.production.control,write_uid:0
 #: field:mrp.qty.produced,write_uid:0
+#: field:mrp.release.all.wizard,write_uid:0
 #: field:mrp.wender.temp,write_uid:0
 #: field:mrp.wrap.comprobations,write_uid:0
 #: field:print.protocol.test,write_uid:0
@@ -731,6 +746,7 @@ msgstr "Last Updated by"
 #: field:mrp.production.adjustments,write_date:0
 #: field:mrp.production.control,write_date:0
 #: field:mrp.qty.produced,write_date:0
+#: field:mrp.release.all.wizard,write_date:0
 #: field:mrp.wender.temp,write_date:0
 #: field:mrp.wrap.comprobations,write_date:0
 #: field:print.protocol.test,write_date:0
@@ -744,20 +760,25 @@ msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: quality_protocol_report
+#: code:addons/quality_protocol_report/models/mrp_production.py:68
+#, python-format
+msgid "Location not found"
+msgstr "Location not found"
+
+#. module: quality_protocol_report
 #: field:quality.protocol.report.line,log_realization:0
 msgid "Log realization"
 msgstr "Log de realización"
 
 #. module: quality_protocol_report
+#: field:survey.user_input,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: quality_protocol_report
 #: field:mrp.print.comprobations.sec,lot_correct:0
 msgid "Lot correct"
 msgstr "Lot correct"
-
-#. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:125
-#, python-format
-msgid "Lot error"
-msgstr "Lot error"
 
 #. module: quality_protocol_report
 #: field:product.product,lot_label:0
@@ -884,6 +905,11 @@ msgstr "Palanca ajuste"
 #: view:website:quality_protocol_report.mrp_controls
 msgid "Peso bolsita"
 msgstr "Peso bolsita"
+
+#. module: quality_protocol_report
+#: model:ir.model,name:quality_protocol_report.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
 
 #. module: quality_protocol_report
 #: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
@@ -1029,12 +1055,12 @@ msgid "Qty produced"
 msgstr "Qty produced"
 
 #. module: quality_protocol_report
-#: field:stock.move,qty_scrapped:0
+#: field:stock.move.return.operations,qty_scrapped:0
 msgid "Qty scrapped"
 msgstr "Qty scrapped"
 
 #. module: quality_protocol_report
-#: field:stock.move,qty_used:0
+#: field:stock.move.return.operations,qty_used:0
 msgid "Qty used"
 msgstr "Qty used"
 
@@ -1087,11 +1113,6 @@ msgid "Quality sample"
 msgstr "Quality sample"
 
 #. module: quality_protocol_report
-#: help:stock.move,served_qty:0
-msgid "Quality system field, no data"
-msgstr "Quality system field, no data"
-
-#. module: quality_protocol_report
 #: field:quality.protocol.report.line,view_id:0
 msgid "Qweb View"
 msgstr "Vista Qweb"
@@ -1132,6 +1153,12 @@ msgstr "Fecha de reanudación"
 #: view:website:quality_protocol_report.stock_move_mrp_return_bolsitas
 msgid "Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:"
 msgstr "Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:"
+
+#. module: quality_protocol_report
+#: model:ir.actions.act_window,name:quality_protocol_report.mrp_release_all
+#: view:mrp.release.all.wizard:quality_protocol_report.mrp_release_all_form
+msgid "Release"
+msgstr "Liberar"
 
 #. module: quality_protocol_report
 #: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
@@ -1177,6 +1204,12 @@ msgid "Revisión protocolo"
 msgstr "Revisión protocolo"
 
 #. module: quality_protocol_report
+#: code:addons/quality_protocol_report/models/mrp_production.py:68
+#, python-format
+msgid "Scrap location not found."
+msgstr "Scrap location not found."
+
+#. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_box_control
 #: view:website:quality_protocol_report.mrp_wrap_control
 msgid "Se tomarán para control de calidad 3 muestras."
@@ -1207,11 +1240,6 @@ msgstr "Según procedimiento:"
 #: field:quality.protocol.report.line,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
-
-#. module: quality_protocol_report
-#: field:stock.move,served_qty:0
-msgid "Served qty"
-msgstr "Cantidad servida"
 
 #. module: quality_protocol_report
 #: field:mrp.production.adjustments,start_date:0
@@ -1271,12 +1299,6 @@ msgid "The product %s has another protocol with the same type"
 msgstr "The product %s has another protocol with the same type"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:126
-#, python-format
-msgid "The required lot %s and the received lot %s                             not mismatch"
-msgstr "The required lot %s and the received lot %s                             not mismatch"
-
-#. module: quality_protocol_report
 #: field:product.product,weight_action_full_to:0
 #: field:product.product,weight_action_unit_to:0
 #: field:product.product,weight_alert_full_to:0
@@ -1310,11 +1332,6 @@ msgstr "Alerta unidad"
 #: field:product.product,unit_weight:0
 msgid "Unit weight"
 msgstr "Peso unitario"
-
-#. module: quality_protocol_report
-#: field:stock.move,used_lot:0
-msgid "Used lot"
-msgstr "Lote usado"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -1366,6 +1383,7 @@ msgstr "Orden de trabajo"
 #: field:mrp.production.product.line,workcenter_id:0
 #: field:protocol.type,workcenter_ids:0
 #: field:stock.move,workcenter_id:0
+#: field:stock.move.return.operations,workcenter_id:0
 msgid "Workcenter"
 msgstr "Workcenter"
 
