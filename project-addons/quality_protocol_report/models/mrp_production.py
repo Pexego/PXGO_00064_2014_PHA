@@ -43,7 +43,70 @@ class MrpProductProduce(models.TransientModel):
                     docs_no_submited.append(wkcenter_line.workcenter_id.name)
         if docs_no_submited:
             raise exceptions.Warning(_('Document error'), _('Documents not submited: \n %s') % (','.join(docs_no_submited)))
-        return super(MrpProductProduce, self).do_produce()
+        res = super(MrpProductProduce, self.with_context(no_return_operations=True)).do_produce()
+        originals = self.env['stock.move']
+        production = self.env['mrp.production'].browse(self.env.context.get('active_id', False))
+        for move in production.move_lines:
+            operations = move.split_from and move.split_from.return_operation_ids or move.return_operation_ids
+            for op in operations:
+                if op.qty_scrapped > 0:
+                    scrap_location_id = self.env['stock.location'].search(
+                            [('scrap_location', '=', True)])
+                    if not scrap_location_id:
+                        raise exceptions.Warning(_('Location not found'), _('Scrap location not found.'))
+                    default_val = {
+                            'product_uom_qty': op.qty_scrapped,
+                            'served_qty': 0,
+                            'returned_qty': 0,
+                            'qty_scrapped': 0,
+                            'restrict_lot_id': op.lot_id.id,
+                            'scrapped': True,
+                            'location_dest_id': scrap_location_id[0].id,
+                    }
+                    move.do_unreserve()
+                    move.product_uom_qty -= op.qty_scrapped
+                    move.with_context(no_return_operations=True).action_assign()
+                    new_move = move.copy(default_val)
+                    new_move.action_confirm()
+                    new_move.with_context(no_return_operations=True).action_assign()
+                    new_move.action_done()
+            dest_location = move.raw_material_production_id.location_src_id.id
+            if move.original_move:
+                if move.original_move.state != 'done':
+                    dest_location =  move.original_move.location_id.id
+                    move.original_move.do_unreserve()
+                    move.original_move.product_uom_qty += move.returned_qty
+                    originals += move.original_move
+                else:
+                    dest_location =  move.original_move.location_dest_id.id
+            move.location_dest_id = dest_location
+            if len(operations) == 1:
+                move.restrict_lot_id = operations[0].lot_id.id
+            elif len(operations) > 1:
+                move.restrict_lot_id = operations[0].lot_id.id
+                move.do_unreserve()
+                move.product_uom_qty = operations[0].returned_qty
+                for op in operations:
+                    if op.id == operations[0]:
+                        continue
+                    default_val = {
+                            'product_uom_qty': op.returned_qty,
+                            'served_qty': 0,
+                            'returned_qty': 0,
+                            'qty_scrapped': 0,
+                            'restrict_lot_id': op.lot_id.id,
+                            'location_dest_id': dest_location,
+                    }
+                    new_move = move.copy(default_val)
+                    new_move.action_confirm()
+                    new_move.with_context(no_return_operations=True).action_assign()
+                    new_move.action_done()
+                move.with_context(no_return_operations=True).action_assign()
+            move.action_done()
+
+
+        originals.action_assign()
+        return res
 
 
 class MrpProduction(models.Model):
@@ -141,27 +204,6 @@ class MrpProduction(models.Model):
                                                       uom_id, qty, uos_id,
                                                       uos_qty)
 
-    def action_assign(self, cr, uid, ids, context=None):
-        """
-        Checks the availability on the consume lines of the production order
-        """
-        '''for production in self.browse(cr, uid, ids, context=context):
-            for move in production.move_lines:
-                if move.restrict_lot_id.name != move.used_lot:
-                    raise exceptions.Warning(
-                        _('Lot error'),
-                        _('The required lot %s and the received lot %s \
-                            not mismatch') %
-                        (move.restrict_lot_id.name, move.used_lot))
-                if move.raw_material_production_id and move.served_qty:
-                    if move.served_qty != move.product_uom_qty:
-                        raise exceptions.Warning(_("""Cannot produce because
- move quantity %s and served quantity %s don't match""") %
-                                                 (str(move.product_uom_qty),
-                                                  str(move.served_qty)))'''
-        return super(MrpProduction, self).action_assign(cr, uid, ids,
-                                                        context=context)
-
     def _make_production_consume_line(self, cr, uid, line, context=None):
         context = dict(context)
         context['workcenter_id'] = line.workcenter_id.id
@@ -171,69 +213,6 @@ class MrpProduction(models.Model):
                                           {'workcenter_id':
                                               line.workcenter_id.id}, context)
         return move_id
-
-    '''@api.one
-    def action_finish_review(self):
-        res = self.env['stock.move']
-        originals = self.env['stock.move']
-        for move in self.move_lines:
-            if move.changed_qty_return:
-                continue
-            if move.served_qty != 0 and move.served_qty != \
-                    move.product_uom_qty:
-                raise exceptions.Warning(_("""Cannot produce because
-move quantity %s and served quantity %s don't match""") %
-                                         (str(move.product_uom_qty),
-                                         str(move.served_qty)))
-            if move.returned_qty > 0:
-                move.changed_qty_return = True
-                move.product_uom_qty = move.served_qty - move.returned_qty
-                move.do_unreserve()
-                move.action_assign()
-                source_location = move.location_id.id
-                if move.state == 'done':
-                    source_location = move.location_dest_id.id
-                default_val = {
-                    'location_id': source_location,
-                    'product_uom_qty': move.returned_qty,
-                    'state': move.state,
-                    'served_qty': 0,
-                    'returned_qty': 0,
-                    'qty_scrapped': 0,
-                    'location_dest_id':
-                        move.raw_material_production_id.location_src_id.id,
-                }
-                if move.original_move:
-                    default_val['location_dest_id'] = \
-                        move.original_move.location_id.id
-                    move.original_move.do_unreserve()
-                    move.original_move.product_uom_qty += move.returned_qty
-                    originals += move.original_move
-                res += move.copy(default_val)
-            if move.qty_scrapped != 0:
-                move.changed_qty_return = True
-                move.product_uom_qty = move.served_qty - move.qty_scrapped
-                move.do_unreserve()
-                move.action_assign()
-                source_location = move.location_id.id
-                if move.state == 'done':
-                    source_location = move.location_dest_id.id
-                scrap_location_id = self.env['stock.location'].search(
-                    [('scrap_location', '=', True)])
-                default_val = {
-                    'location_id': source_location,
-                    'product_uom_qty': move.qty_scrapped,
-                    'state': move.state,
-                    'served_qty': 0,
-                    'returned_qty': 0,
-                    'qty_scrapped': 0,
-                    'scrapped': True,
-                    'location_dest_id': scrap_location_id[0].id,
-                }
-                res += move.copy(default_val)
-        res.action_done()
-        originals.action_assign()
-        return super(MrpProduction, self).action_finish_review()'''
 
 
 class MrpBom(models.Model):

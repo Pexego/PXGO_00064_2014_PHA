@@ -34,10 +34,6 @@ class StockMoveReturnOperations(models.Model):
     returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
                                 be returned on produce""")
     product_uom = fields.Many2one('product.uom', 'UoM')
-    acceptance_date = fields.Date('Acceptance date')
-    initials = fields.Char('Initials')
-    initials_return = fields.Char('Initials')
-
     served_qty = fields.Float('Served qty',
                               help="Quality system field, no data")
 
@@ -67,21 +63,26 @@ class StockMove(models.Model):
     @api.multi
     def action_assign(self):
         super(StockMove, self).action_assign()
+        if self.env.context.get('no_return_operations', False):
+            return
         for move in self:
-            if move.return_operation_ids and not self.env.context.get('recompute_return_operations', False):
-                continue
-            move.return_operation_ids.unlink()
             quants = self.env['stock.quant'].read_group(
                 [('reservation_id', '=', move.id)], ['lot_id', 'qty'],
                 ['lot_id'])
             for quant in quants:
+                operation = self.env['stock.move.return.operations'].search([('move_id', '=', move.id), ('lot_id', '=', quant['lot_id'][0])])
+                if operation:
+                    if operation.qty != quant['qty']:
+                        operation.qty = quant['qty']
+                    continue
                 operation_dict = {
                     'product_id': move.product_id.id,
                     'lot_id': quant['lot_id'][0],
                     'qty': quant['qty'],
                     'product_uom': move.product_uom.id,
                     'move_id': move.id,
-                    'picking_id': move.picking_id.id
+                    'picking_id': move.picking_id.id,
+                    'production_id': move.raw_material_production_id.id
                 }
                 self.env['stock.move.return.operations'].create(operation_dict)
 
@@ -107,7 +108,7 @@ class stockPicking(models.Model):
                 move.do_unreserve()
                 for operation in move.return_operation_ids:
                     if operation.returned_qty > operation.served_qty:
-                        raise exceptions.Warning(_(''), _(''))
+                        raise exceptions.Warning(_('Qty error'), _('Returned qty is higher than served qty'))
                     elif operation.returned_qty == operation.served_qty:
                         continue
                     total_return += operation.returned_qty
@@ -116,7 +117,7 @@ class stockPicking(models.Model):
                      'product_uom_qty': operation.served_qty - operation.returned_qty,
                      'move_dest_id': move.move_dest_id.id})
                     new_move.action_confirm()
-                    new_move.with_context(recompute_return_operations=False).action_assign()
+                    new_move.with_context(no_return_operations=True).action_assign()
                     operation.move_id = new_move.id
                 move.move_dest_id = False
                 move.action_cancel()

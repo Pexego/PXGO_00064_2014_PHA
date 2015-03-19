@@ -58,7 +58,7 @@ class MrpProduction(models.Model):
                                                      uos_qty)
 
 
-'''class mrp_product_produce(models.TransientModel):
+class mrp_product_produce(models.TransientModel):
     _inherit = "mrp.product.produce"
 
     def on_change_qty(self, cr, uid, ids, product_qty, consume_lines, context=None):
@@ -73,11 +73,12 @@ class MrpProduction(models.Model):
         uom_obj = self.pool.get("product.uom")
         production = prod_obj.browse(cr, uid, context['active_id'], context=context)
         new_consume_lines = []
-        for line in production.move_lines:
-            new_consume_lines.append((0, 0, {
-                'product_id': line.product_id.id,
-                'product_qty': line.product_uom_qty,
-                'lot_id': line.restrict_lot_id
-            }))
+        for move in production.move_lines:
+            for line in move.return_operation_ids:
+                new_consume_lines.append((0, 0, {
+                    'product_id': line.product_id.id,
+                    'product_qty': line.qty - line.returned_qty - line.qty_scrapped,
+                    'lot_id': line.lot_id
+                }))
 
-        return {'value': {'consume_lines': new_consume_lines}}'''
+        return {'value': {'consume_lines': new_consume_lines}}

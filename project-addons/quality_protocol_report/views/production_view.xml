@@ -34,7 +34,7 @@
                 </field>
                 <xpath expr="//div[@class='oe_title']" position="after">
                     <div class="oe_right">
-                        <button class="oe_inline oe_stat_button" name="get_hoard" type="object" icon="fa-exclamation-triangle" attrs="{'invisible': [('final_lot_id', '=', False)]}">
+                        <button class="oe_inline oe_stat_button" name="get_hoard" type="object" icon="fa-shopping-cart" attrs="{'invisible': [('final_lot_id', '=', False)]}">
                             <field string="Hoard" name="hoard_len" widget="statinfo" />
                         </button>
                     </div>

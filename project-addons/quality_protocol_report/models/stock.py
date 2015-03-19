@@ -35,13 +35,23 @@ class StockMove(models.Model):
     acceptance_date = fields.Date('Acceptance date')
     orig_acceptance_date = fields.Date(
         'Acceptance date', related='move_orig_ids.acceptance_date')
-    initials = fields.Char('Initials')
-    initials_acond = fields.Char('Initials')
     workcenter_id = fields.Many2one('mrp.workcenter', 'Workcenter')
-    used_lot = fields.Char('Used lot')
     checked_disp = fields.Boolean('Checked availability')
+
+
+class StockMoveReturnOperations(models.Model):
+
+    _inherit = 'stock.move.return.operations'
+
+    workcenter_id = fields.Many2one(string='Workcenter', related='move_id.workcenter_id', store=True)
     qty_used = fields.Float('Qty used')
     qty_scrapped = fields.Float('Qty scrapped')
+    acceptance_date = fields.Date('Acceptance date')
+    initials = fields.Char('Initials')
+    initials_return = fields.Char('Initials')
+    initials_acond = fields.Char('Initials')
+    used_lot = fields.Char('Use lot')
+
 
 class stockPicking(models.Model):
 
