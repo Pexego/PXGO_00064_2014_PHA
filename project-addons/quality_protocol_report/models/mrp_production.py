@@ -19,6 +19,7 @@
 #
 ##############################################################################
 import time
+from datetime import date
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp import models, fields, _, exceptions, api, tools
 from openerp.addons.product import _common
@@ -237,6 +238,21 @@ class MrpProduction(models.Model):
                                               line.workcenter_id.id}, context)
         return move_id
 
+    @api.multi
+    def create_continuation(self):
+        protocol_type = self.env['protocol.type'].search([('is_continuation', '=', True)])
+        if not protocol_type:
+            raise exceptions.Warning(_('Protocol error'), _('continuation protocol type not found'))
+        assert len(protocol_type.workcenter_ids) == 1
+        workcenter_line_dict = {
+            'name': protocol_type.name + ' ' + date.today().strftime('%d-%m-%Y') + ' - ' + self.product_id.name,
+            'production_id': self.id,
+            'workcenter_id': protocol_type.workcenter_ids[0].id,
+            'date_planned': date.today(),
+            'continuation': True
+        }
+        self.env['mrp.production.workcenter.line'].create(workcenter_line_dict)
+
 
 class MrpBom(models.Model):
 
@@ -400,6 +416,7 @@ class MrpProductionWorkcenterLine(models.Model):
 
     _inherit = 'mrp.production.workcenter.line'
 
+    continuation = fields.Boolean('Is continuation')
     adjustsments_ids = fields.One2many('mrp.production.adjustments',
                                        'production_id', 'Adjustments')
     control_ids = fields.One2many('mrp.production.control',

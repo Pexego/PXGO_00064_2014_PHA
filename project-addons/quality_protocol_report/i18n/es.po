@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 08:53+0000\n"
-"PO-Revision-Date: 2015-03-25 08:53+0000\n"
+"POT-Creation-Date: 2015-03-25 17:09+0000\n"
+"PO-Revision-Date: 2015-03-25 17:09+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -261,13 +261,13 @@ msgid "Bill of Material"
 msgstr "Lista de material"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:324
+#: code:addons/quality_protocol_report/models/mrp_production.py:340
 #, python-format
 msgid "BoM \"%s\" contains a BoM line with a product                       recursion: \"%s\"."
 msgstr "BoM \"%s\" contains a BoM line with a product                       recursion: \"%s\"."
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:374
+#: code:addons/quality_protocol_report/models/mrp_production.py:390
 #, python-format
 msgid "BoM \"%s\" contains a phantom BoM line but the product                       \"%s\" does not have any BoM defined."
 msgstr "BoM \"%s\" contains a phantom BoM line but the product                       \"%s\" does not have any BoM defined."
@@ -374,6 +374,12 @@ msgid "Container"
 msgstr "Envasado"
 
 #. module: quality_protocol_report
+#: field:print.protocol.test,use_continuation:0
+#: field:protocol.type,is_continuation:0
+msgid "Continuation"
+msgstr "Continuación"
+
+#. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,continue_next_day:0
 msgid "Continue production next day"
 msgstr "La producción continua el dia siguiente"
@@ -383,6 +389,11 @@ msgstr "La producción continua el dia siguiente"
 #: field:mrp.production.workcenter.line,control_ids:0
 msgid "Controls"
 msgstr "Controles"
+
+#. module: quality_protocol_report
+#: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
+msgid "Create continuation"
+msgstr "Crear continuación"
 
 #. module: quality_protocol_report
 #: field:mrp.coffin.works,create_uid:0
@@ -446,7 +457,7 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:57
+#: code:addons/quality_protocol_report/models/mrp_production.py:58
 #: code:addons/quality_protocol_report/models/stock.py:70
 #, python-format
 msgid "Document error"
@@ -458,7 +469,7 @@ msgid "Document submited"
 msgstr "Document submited"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:57
+#: code:addons/quality_protocol_report/models/mrp_production.py:58
 #: code:addons/quality_protocol_report/models/stock.py:70
 #, python-format
 msgid "Documents not submited: \n"
@@ -706,11 +717,17 @@ msgid "Initials"
 msgstr "Iniciales"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:323
-#: code:addons/quality_protocol_report/models/mrp_production.py:373
+#: code:addons/quality_protocol_report/models/mrp_production.py:339
+#: code:addons/quality_protocol_report/models/mrp_production.py:389
 #, python-format
 msgid "Invalid Action!"
 msgstr "Acción inválida!"
+
+#. module: quality_protocol_report
+#: field:mrp.production.workcenter.line,continuation:0
+#: field:print.protocol.test,is_continuation:0
+msgid "Is continuation"
+msgstr "Es continuación"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,acond_issue_ref:0
@@ -766,7 +783,7 @@ msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:68
+#: code:addons/quality_protocol_report/models/mrp_production.py:69
 #, python-format
 msgid "Location not found"
 msgstr "Location not found"
@@ -794,7 +811,7 @@ msgstr "Lot label"
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_stock_production_lot
 msgid "Lot/Serial"
-msgstr "Lot/Serial"
+msgstr "Lote/Nº de serie"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -858,8 +875,8 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:56
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:61
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:78
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:83
 #: code:addons/quality_protocol_report/wizard/quality_print_all_protocols.py:55
 #, python-format
 msgid "Not found"
@@ -960,11 +977,6 @@ msgid "Print correct"
 msgstr "Impresión correcta"
 
 #. module: quality_protocol_report
-#: field:print.protocol.test,print_url:0
-msgid "Print link"
-msgstr "Print link"
-
-#. module: quality_protocol_report
 #: model:ir.actions.act_window,name:quality_protocol_report.action_print_protocol
 #: model:ir.actions.act_window,name:quality_protocol_report.action_print_protocol_lot
 #: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
@@ -1040,21 +1052,22 @@ msgid "Protocol Types"
 msgstr "Tipos de protocolo"
 
 #. module: quality_protocol_report
+#: code:addons/quality_protocol_report/models/mrp_production.py:245
 #: code:addons/quality_protocol_report/models/product.py:53
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:103
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:120
 #, python-format
 msgid "Protocol error"
 msgstr "Error de protocolo"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:61
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:83
 #: code:addons/quality_protocol_report/wizard/quality_print_all_protocols.py:55
 #, python-format
 msgid "Protocol not found for the product %s."
 msgstr "Protocolo no encontrado para el producto %s."
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:56
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:78
 #, python-format
 msgid "Protocol not found for the route %s."
 msgstr "Protocolo no encontrado para la ruta %s."
@@ -1228,7 +1241,7 @@ msgid "Revisión protocolo"
 msgstr "Revisión protocolo"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:68
+#: code:addons/quality_protocol_report/models/mrp_production.py:69
 #, python-format
 msgid "Scrap location not found."
 msgstr "Scrap location not found."
@@ -1311,7 +1324,7 @@ msgid "Test"
 msgstr "Test"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:103
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:120
 #, python-format
 msgid "The lot not have a production"
 msgstr "El lote no tiene producciones"
@@ -1438,6 +1451,12 @@ msgstr "Wrap comprobations"
 #: field:mrp.production.workcenter.line,adjustement_lever:0
 msgid "adjustment lever"
 msgstr "adjustment lever"
+
+#. module: quality_protocol_report
+#: code:addons/quality_protocol_report/models/mrp_production.py:245
+#, python-format
+msgid "continuation protocol type not found"
+msgstr "continuation protocol type not found"
 
 #. module: quality_protocol_report
 #: view:product.product:quality_protocol_report.product_view_add_protocol

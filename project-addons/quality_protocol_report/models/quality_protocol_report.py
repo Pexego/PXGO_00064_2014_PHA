@@ -59,6 +59,7 @@ class protocol_type(models.Model):
     workcenter_ids = fields.One2many('mrp.workcenter', 'protocol_type_id',
                                      'Workcenter')
     is_hoard = fields.Boolean('Hoard')
+    is_continuation = fields.Boolean('Continuation')
 
 
 class QualityProtocolReportLine(models.Model):

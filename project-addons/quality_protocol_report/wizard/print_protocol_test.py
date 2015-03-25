@@ -18,96 +18,111 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, exceptions, _
-from openerp.osv import fields
+from openerp import models, fields, api, exceptions, _
 from openerp.addons.website.models.website import slug
 from urlparse import urljoin
 
 
-class PrintProtocolTest(models.TransientModel):
-    """Wizard de prueba, que se lanza desde producciones y lotes,
-    fuera del prototipo este wizard no debería existir, la funcionalidad de impresión debería de hacerse desde la producción en alguno de los cambios de estado,
-    """
+class PrintProtocol(models.TransientModel):
+
     _name = "print.protocol.test"
 
-    def _get_print_url(self, cr, uid, ids, name, arg, context=None):
-        """Genera la url de impresión, el controller la espera en este formato, pasa como parámetros la producción y el protocolo"""
-        res = {}
-        if context.get('relative_url'):
-            base_url = '/'
+    @api.model
+    def _get_type_ids(self):
+        active_model = self.env.context.get('active_model', False)
+        active_id = self.env.context.get('active_id', False)
+        if active_model == u'stock.production.lot':
+            production = self.env['mrp.production'].search([('final_lot_id', '=', active_id)])
         else:
-            base_url = self.pool['ir.config_parameter'].\
-                get_param(cr, uid, 'web.base.url')
-        if context['active_model'] == u'stock.production.lot':
-            obj_id = self.pool['mrp.production'].search(cr, uid, [('final_lot_id', '=', context['active_id'])])
-            if not obj_id:
-                return ""
-            obj = self.pool['mrp.production'].browse(cr, uid, obj_id[0])
-        else:
-            obj = self.pool[context['active_model']].browse(cr, uid,
-                                                            context['active_id'])
-        for wzd in self.browse(cr, uid, ids):
-            use_protocol = False
-            wkcenter_line = False
-            for workcenter_line in obj.workcenter_lines:
-                if workcenter_line.workcenter_id.protocol_type_id.id == wzd.protocol_type_id.id:
-                    wkcenter_line = workcenter_line
-            if not wkcenter_line:
-                raise exceptions.except_orm(_('Not found'), _('Protocol not found for the route %s.') % obj.routing_id.name)
-            for protocol in obj.product_id.protocol_ids:
-                if protocol.type_id.id == wzd.protocol_type_id.id:
-                    use_protocol = protocol
-            if not use_protocol:
-                raise exceptions.except_orm(_('Not found'), _('Protocol not found for the product %s.') % obj.product_id.name)
-            if not wkcenter_line.realized_ids:
-                for line in use_protocol.report_line_ids:
-                    if line.log_realization:
-                        self.pool.get('quality.realization').create(
-                            cr, uid, {
-                                'name': line.name,
-                                'workcenter_line_id': wkcenter_line.id
-                            }, context)
-
-            res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s/%s" % (slug(obj), slug(use_protocol), slug(wkcenter_line)))
-        return res
-
-    def _get_type_ids(self, cr, uid, context=None):
-        production = self.pool.get('mrp.production').browse(cr, uid, context.get('active_id', False), context)
+            production = self.env[active_model].browse(active_id)
         res = []
         for workcenter in production.workcenter_lines:
-            res.append(workcenter.workcenter_id.protocol_type_id.id)
+            if workcenter.workcenter_id.protocol_type_id.id not in res:
+                res.append(workcenter.workcenter_id.protocol_type_id.id)
         return res
 
-    _columns = {
-        'print_url': fields.function(_get_print_url, string="Print link",
-                                     readonly=True, type="char"),
-        'protocol_type_id': fields.many2one('protocol.type', 'Protocol type', required=True),
-        'type_ids': fields.many2many(
-            'protocol.type',
-            'protocol_type_wizard_rel',
-            'wizard_id',
-            'protocol_id',
-            'Type')
-    }
+    print_url = fields.Char('Print link', readonly=True, compute='_get_print_url')
+    protocol_type_id = fields.Many2one('protocol.type', 'Protocol type', required=True)
+    type_ids = fields.Many2many('protocol.type', 'protocol_type_wizard_rel',
+                                'wizard_id', 'protocol_id', 'Type', default=_get_type_ids)
+    use_continuation = fields.Many2one('mrp.production.workcenter.line',
+                                       'Continuation')
+    is_continuation = fields.Boolean('Is continuation')
 
-    _defaults = {
-        'type_ids': _get_type_ids,
-    }
-
-    def print_protocol(self, cr, uid, ids, context=None):
-        obj = self.browse(cr, uid, ids, context=context)
-        # Abre vista web
-        if context['active_model'] == u'stock.production.lot':
-            obj_id = self.pool['mrp.production'].search(cr, uid, [('final_lot_id', '=', context['active_id'])])
-            if not obj_id:
-                raise exceptions.except_orm(_('Protocol error'), _('The lot not have a production'))
-            obj2 = self.pool['mrp.production'].browse(cr, uid, obj_id[0])
+    @api.one
+    def _get_print_url(self):
+        """Genera la url de impresión,  el controller la espera en este
+           formato, pasa como parámetros la producción y el protocolo"""
+        active_model = self.env.context.get('active_model', False)
+        active_id = self.env.context.get('active_id', False)
+        if self.env.context.get('relative_url'):
+            base_url = '/'
         else:
-            obj2 = self.pool[context['active_model']].browse(cr, uid,
-                                                            context['active_id'])
+            base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        if active_model == u'stock.production.lot':
+            obj = self.env['mrp.production'].search([('final_lot_id', '=', active_id)])
+            if not obj:
+                return ""
+        else:
+            obj = self.env[active_model].browse(active_id)
+
+        use_protocol = False
+        wkcenter_line = False
+        if self.protocol_type_id.is_continuation:
+            wkcenter_line = self.use_continuation
+        else:
+            for workcenter_line in obj.workcenter_lines:
+                if workcenter_line.workcenter_id.protocol_type_id.id == self.protocol_type_id.id:
+                    wkcenter_line = workcenter_line
+            if not wkcenter_line:
+                raise exceptions.Warning(_('Not found'), _('Protocol not found for the route %s.') % obj.routing_id.name)
+        for protocol in obj.product_id.protocol_ids:
+            if protocol.type_id.id == self.protocol_type_id.id:
+                use_protocol = protocol
+        if not use_protocol:
+            raise exceptions.Warning(_('Not found'), _('Protocol not found for the product %s.') % obj.product_id.name)
+        if not wkcenter_line.realized_ids:
+            for line in use_protocol.report_line_ids:
+                if line.log_realization:
+                    self.env['quality.realization'].create(
+                        {
+                            'name': line.name,
+                            'workcenter_line_id': wkcenter_line.id
+                        })
+
+        self.print_url = urljoin(base_url, "protocol/print/%s/%s/%s" % (slug(obj), slug(use_protocol), slug(wkcenter_line)))
+
+    @api.onchange('protocol_type_id')
+    def onchange_protocol_type_id(self):
+        wkcenter_line_obj = self.env['mrp.production.workcenter.line']
+        self.is_continuation = self.protocol_type_id.is_continuation
+        if not self.protocol_type_id.is_continuation:
+            return {'domain': {'use_continuation': []}}
+        active_model = self.env.context.get('active_model', False)
+        active_id = self.env.context.get('active_id', False)
+        if active_model == u'stock.production.lot':
+            production_id = self.env['mrp.production'].search([('final_lot_id', '=', active_id)]).id
+        else:
+            production_id = active_id
+        continuation_work_ids = wkcenter_line_obj.search(
+            [('workcenter_id', 'in', [x.id for x in
+                                      self.protocol_type_id.workcenter_ids]),
+             ('production_id', '=', production_id)])
+        return {'domain': {'use_continuation': [('id', 'in', [x.id for x in continuation_work_ids])]}}
+
+
+    @api.multi
+    def print_protocol(self):
+        # Abre vista web
+        if self.env.context['active_model'] == u'stock.production.lot':
+            obj = self.env['mrp.production'].search([('final_lot_id', '=', context['active_id'])])
+            if not obj:
+                raise exceptions.Warning(_('Protocol error'), _('The lot not have a production'))
+        else:
+            obj = self.env[self.env.context['active_model']].browse(self.env.context['active_id'])
         return {
             'type': 'ir.actions.act_url',
             'name': "Print Protocol",
             'target': 'self',
-            'url': obj.print_url,
+            'url': self.print_url,
         }

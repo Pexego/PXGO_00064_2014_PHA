@@ -9,7 +9,9 @@
                 <form string="Test">
                     <group>
                         <field name="type_ids" invisible="1"/>
-                        <field name="protocol_type_id" domain="[('id', 'in', type_ids[0][2])]"/>
+                        <field name="protocol_type_id" widget="selection" domain="[('id', 'in', type_ids[0][2])]"/>
+                        <field name="is_continuation" invisible="1"/>
+                        <field name="use_continuation" widget="selection" attrs="{'invisible': [('is_continuation', '=', False)], 'required': [('is_continuation', '=', True)]}"/>
                     </group>
                     <footer>
                         <button name="print_protocol" string="Print" type="object" class="oe_highlight"/>
