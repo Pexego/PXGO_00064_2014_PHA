@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* lot_states
+#   * lot_states
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 11:25+0000\n"
-"PO-Revision-Date: 2014-11-25 11:25+0000\n"
+"POT-Creation-Date: 2015-03-25 10:35+0000\n"
+"PO-Revision-Date: 2015-03-25 10:35+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,9 +26,65 @@ msgid "Approved"
 msgstr "Aprobado"
 
 #. module: lot_states
+#: view:mrp.production.consume.quarantine:lot_states.mrp_consume_quarantine_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: lot_states
+#: model:ir.model,name:lot_states.model_stock_move_consume
+msgid "Consume Products"
+msgstr "Consumir productos"
+
+#. module: lot_states
+#: view:mrp.production.consume.quarantine:lot_states.mrp_consume_quarantine_form
+msgid "Continue"
+msgstr "Continuar"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine,create_uid:0
+#: field:mrp.production.consume.quarantine.line,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine,create_date:0
+#: field:mrp.production.consume.quarantine.line,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: lot_states
+#: field:stock.production.lot,state_depends:0
+msgid "Dependencies"
+msgstr "Dependencias"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine,id:0
+#: field:mrp.production.consume.quarantine.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
 msgid "In revision"
 msgstr "En revisión"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine,write_uid:0
+#: field:mrp.production.consume.quarantine.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine,write_date:0
+#: field:mrp.production.consume.quarantine.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine,lot_id:0
+#: field:mrp.production.consume.quarantine.line,lot_id:0
+msgid "Lot"
+msgstr "Lote"
 
 #. module: lot_states
 #: model:ir.model,name:lot_states.model_stock_production_lot
@@ -36,11 +92,28 @@ msgid "Lot/Serial"
 msgstr "Lote/Nº de serie"
 
 #. module: lot_states
+#: field:mrp.production.consume.quarantine,line_ids:0
+msgid "Lots"
+msgstr "Lotes"
+
+#. module: lot_states
 #: selection:stock.production.lot,state:0
 msgid "New"
 msgstr "Nuevo"
 
 #. module: lot_states
+#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:82
+#, python-format
+msgid "Not found the move from quarantine"
+msgstr "No se ha encontrado ningún movimiento de cuarentena"
+
+#. module: lot_states
+#: field:stock.move,original_move:0
+msgid "Original move"
+msgstr "Movimiento original"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine,product_id:0
 #: view:stock.production.lot:lot_states.search_lot_state_filter
 msgid "Product"
 msgstr "Producto"
@@ -49,6 +122,11 @@ msgstr "Producto"
 #: model:ir.model,name:lot_states.model_mrp_production_product_line
 msgid "Production Scheduled Product"
 msgstr "Fabricación planificada producto"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine.line,qty:0
+msgid "Quantity"
+msgstr "Cantidad"
 
 #. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
@@ -76,4 +154,31 @@ msgstr "En revisión(Q)"
 #: field:stock.production.lot,state:0
 msgid "State"
 msgstr "Estado"
+
+#. module: lot_states
+#: model:ir.model,name:lot_states.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: lot_states
+#: view:mrp.production.consume.quarantine:lot_states.mrp_consume_quarantine_form
+msgid "Use lot in quarantine"
+msgstr "Usar lote en cuarentena"
+
+#. module: lot_states
+#: model:ir.actions.act_window,name:lot_states.mrp_consume_quarantine_action
+#: view:mrp.production:lot_states.mrp_production_add_quarantine_lot
+msgid "consume quarantine"
+msgstr "Consumir cuarentena"
+
+#. module: lot_states
+#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:81
+#, python-format
+msgid "quarantine error"
+msgstr "quarantine error"
+
+#. module: lot_states
+#: field:mrp.production.consume.quarantine.line,wizard_id:0
+msgid "wizard"
+msgstr "wizard"
 

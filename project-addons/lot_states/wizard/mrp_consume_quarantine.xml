@@ -12,6 +12,12 @@
                     <group>
                         <field name="product_id" invisible="1"/>
                         <field name="lot_id" domain="[('product_id', '=', product_id), ('state', '=', 'in_rev')]"/>
+                        <field name="line_ids" readonly="1">
+                            <tree editable="bottom">
+                                <field name="lot_id"/>
+                                <field name="qty"/>
+                            </tree>
+                        </field>
                     </group>
                     <button string="Continue" name="consume" type="object" icon="gtk-ok"/>
                     <button string="Cancel" special="cancel" icon="gtk-cancel"/>
