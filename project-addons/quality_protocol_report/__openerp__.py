@@ -23,7 +23,9 @@
     'name': "Quality protocols reports",
     'version': '1.0',
     'category': 'quality',
-    'description': """Allow to print quality protocols reports""",
+    'description': """Allow to print quality protocols reports
+                      -This module requires the installation of PhantomJS http://phantomjs.org/download.html
+                      -After installation must add a parameter with key=addons_path and the absolute path of project_addons folder""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
     "depends": ['base',
