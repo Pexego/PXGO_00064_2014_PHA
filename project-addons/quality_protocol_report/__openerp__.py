@@ -39,6 +39,7 @@
     "data": ['wizard/mrp_release_all.xml',
              'wizard/duplicate_protocol_wizard.xml',
              'wizard/print_protocol_test_view.xml',
+             'wizard/quality_print_all_protocols_view.xml',
              'views/quality_protocol_report_view.xml',
              'views/quality_procedure_view.xml',
              'views/product_view.xml',

@@ -262,7 +262,6 @@ $(function () {
     });
 
 });
-
 //Falta pepararlo para multiples tablas
 function deleteRow(evtObj, uniqueIndex, rowData) {
     if (rowData.id) {

@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import models, exceptions, _
 from openerp.osv import fields
 from openerp.addons.website.models.website import slug
@@ -72,10 +71,27 @@ class PrintProtocolTest(models.TransientModel):
             res[wzd.id] = urljoin(base_url, "protocol/print/%s/%s/%s" % (slug(obj), slug(use_protocol), slug(wkcenter_line)))
         return res
 
+    def _get_type_ids(self, cr, uid, context=None):
+        production = self.pool.get('mrp.production').browse(cr, uid, context.get('active_id', False), context)
+        res = []
+        for workcenter in production.workcenter_lines:
+            res.append(workcenter.workcenter_id.protocol_type_id.id)
+        return res
+
     _columns = {
         'print_url': fields.function(_get_print_url, string="Print link",
                                      readonly=True, type="char"),
         'protocol_type_id': fields.many2one('protocol.type', 'Protocol type', required=True),
+        'type_ids': fields.many2many(
+            'protocol.type',
+            'protocol_type_wizard_rel',
+            'wizard_id',
+            'protocol_id',
+            'Type')
+    }
+
+    _defaults = {
+        'type_ids': _get_type_ids,
     }
 
     def print_protocol(self, cr, uid, ids, context=None):

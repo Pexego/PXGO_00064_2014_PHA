@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-19 18:21+0000\n"
-"PO-Revision-Date: 2015-03-19 18:21+0000\n"
+"POT-Creation-Date: 2015-03-25 08:53+0000\n"
+"PO-Revision-Date: 2015-03-25 08:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -296,6 +296,7 @@ msgstr "CANTIDAD FABRICADA"
 #: view:mrp.release.all.wizard:quality_protocol_report.mrp_release_all_form
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
 #: view:quality.duplicate.protocol:quality_protocol_report.quality_duplicate_protocol_form
+#: view:quality.report.all:quality_protocol_report.quality_report_all_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -400,6 +401,7 @@ msgstr "Controles"
 #: field:quality.protocol.report,create_uid:0
 #: field:quality.protocol.report.line,create_uid:0
 #: field:quality.realization,create_uid:0
+#: field:quality.report.all,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
@@ -420,6 +422,7 @@ msgstr "Created by"
 #: field:quality.protocol.report,create_date:0
 #: field:quality.protocol.report.line,create_date:0
 #: field:quality.realization,create_date:0
+#: field:quality.report.all,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -654,6 +657,7 @@ msgstr "Hora"
 #: field:quality.protocol.report,id:0
 #: field:quality.protocol.report.line,id:0
 #: field:quality.realization,id:0
+#: field:quality.report.all,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -736,6 +740,7 @@ msgstr "LOTE:"
 #: field:quality.protocol.report,write_uid:0
 #: field:quality.protocol.report.line,write_uid:0
 #: field:quality.realization,write_uid:0
+#: field:quality.report.all,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
@@ -756,6 +761,7 @@ msgstr "Last Updated by"
 #: field:quality.protocol.report,write_date:0
 #: field:quality.protocol.report.line,write_date:0
 #: field:quality.realization,write_date:0
+#: field:quality.report.all,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
@@ -852,8 +858,9 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:57
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:62
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:56
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:61
+#: code:addons/quality_protocol_report/wizard/quality_print_all_protocols.py:55
 #, python-format
 msgid "Not found"
 msgstr "Not found"
@@ -924,8 +931,19 @@ msgstr "Procedimiento primario"
 
 #. module: quality_protocol_report
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
+#: view:quality.report.all:quality_protocol_report.quality_report_all_form
 msgid "Print"
 msgstr "Imprimir"
+
+#. module: quality_protocol_report
+#: view:quality.report.all:quality_protocol_report.quality_report_all_form
+msgid "Print all"
+msgstr "Print all"
+
+#. module: quality_protocol_report
+#: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
+msgid "Print all protocols"
+msgstr "Imprimir todos los protocolos"
 
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
@@ -953,6 +971,11 @@ msgstr "Print link"
 #: view:stock.production.lot:quality_protocol_report.stock_production_lot_add_survey_responses
 msgid "Print protocol"
 msgstr "Imprimir protocolo"
+
+#. module: quality_protocol_report
+#: model:ir.actions.act_window,name:quality_protocol_report.quality_report_all_act
+msgid "Print protocols"
+msgstr "Print protocols"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,printed_date:0
@@ -1018,19 +1041,20 @@ msgstr "Tipos de protocolo"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/product.py:53
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:87
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:103
 #, python-format
 msgid "Protocol error"
 msgstr "Error de protocolo"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:62
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:61
+#: code:addons/quality_protocol_report/wizard/quality_print_all_protocols.py:55
 #, python-format
 msgid "Protocol not found for the product %s."
 msgstr "Protocolo no encontrado para el producto %s."
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:57
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:56
 #, python-format
 msgid "Protocol not found for the route %s."
 msgstr "Protocolo no encontrado para la ruta %s."
@@ -1287,7 +1311,7 @@ msgid "Test"
 msgstr "Test"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:87
+#: code:addons/quality_protocol_report/wizard/print_protocol_test.py:103
 #, python-format
 msgid "The lot not have a production"
 msgstr "El lote no tiene producciones"
@@ -1314,6 +1338,7 @@ msgstr "Total producido"
 
 #. module: quality_protocol_report
 #: field:mrp.wrap.comprobations,type:0
+#: field:print.protocol.test,type_ids:0
 #: field:quality.protocol.report,type_id:0
 msgid "Type"
 msgstr "Tipo"

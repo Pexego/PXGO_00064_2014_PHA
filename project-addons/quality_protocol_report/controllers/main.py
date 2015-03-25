@@ -64,16 +64,8 @@ class WebsiteProtocol(http.Controller):
 
             elif line.view_id:
                 parts.append(('v',line.view_id.xml_id))
-            # elif line.odoo_field_id:
-            #     parts.append(('f'))
-            #     tree_view = view_obj.search(cr, uid, [('type', '=', 'tree'),('model', '=', line.odoo_field_id.model_id.model)])
-            #     field_model_obj = request.registry[line.odoo_field_id.model_id.model]
-            #     field_model_obj.fields_view_get(cr, uid, view_id=tree_view[0], view_type='tree', toolbar=False, submenu=False)
         context.update({'parts': parts})
         # renderiza la vista qweb con id protocol_print, de este módulo, pasándole en contexto production y tantos surveyX como surveys en el protocolo
-        #return request.registry.get('ir.ui.view').render(cr, uid,
-        #                            'quality_protocol_report.protocol_print',
-        #                            context)
         return request.website.render('quality_protocol_report.protocol_print',
                                       context)
 

@@ -621,8 +621,8 @@
 
         <template id="assets_backend" inherit_id="web.assets_backend" name="Survey assets">
             <xpath expr="." position="inside">
-                <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
                 <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.js" />
+                <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
             </xpath>
         </template>
 
