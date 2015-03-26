@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+            t-att-filter: se filtran los resultados de la talba, el campo por el que se filtra tiene que estar en las columnas de la tabla.
+                          Si el campo es relacional solo se comprueba con id.
+            compare: campos a comparar separados por coma(solo 2 campos).
+        -->
+        <template id="document_header" name="Document header">
+            <div class="header">
+                <div style="display: table-row">
+                    <t t-if='production.company_id.logo'>
+                        <img t-att-src="'data:image/png;base64,%s' % production.company_id.logo" style="max-height: 150px;"/>
+                    </t>
+                    <h1 t-field='protocol.name'></h1>
+                </div>
+            </div>
+        </template>
+
+        <template id="stock_check_availability" name="check availability">
+            <div class="quality_view">
+                <h2>2.- CONTROL DE MATERIALES</h2>
+                <h4>2.1.-Material de empaquetado: comprobar disponibilidad firmando con iniciales.</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <t t-if="production.move_lines">
+                        <table class="quality_field" id="tblAppendGridCheck_avail" t-att-qfield="'move_lines'"
+                              t-att-filter = "'workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                              t-att-columns="'product_id,checked_disp,id,workcenter_id'"
+                              t-att-columns-widths="'90%,10%,0%,0%'"
+                              t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled','workcenter_id': 'hidden'}">
+                        </table>
+                    </t>
+                    <t t-if="production.move_lines2">
+                        <table class="quality_field" id="tblAppendGridCheck_avail" t-att-qfield="'move_lines2'"
+                              t-att-filter = "'workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                              t-att-columns="'product_id,checked_disp,id,workcenter_id'"
+                              t-att-columns-widths="'90%,10%,0%,0%'"
+                              t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled','workcenter_id': 'hidden'}">
+                        </table>
+                    </t>
+                </form>
+            </div>
+        </template>
+
+
+        <template id="coffin_works" name="Coffin works">
+            <div class="quality_view">
+                <h2>INTRODUCIR EN CAJONES/SELLADO</h2>
+                <h4>1.-Materiales necesarios: comprobar disponibilidad firmando con iniciales.</h4>
+                <!-- Falta tabla de materiales-->
+                <h4>2.-Preparar los cajones montándolos previamente para facilitar su llenado al rtimo de preparación de las cajas a envasar</h4>
+                <h4>3.-Preparar un pallet para colocar los cajones una vez finalizados.</h4>
+                <h4>4.-Introducir las cajas preparadas en los cajones, cerrarlos en la máquina selladora y colocarlos sobre el pallet.</h4>
+                <h4>Colocar una etiqueta de identificación de lote en cada cajón.</h4>
+                <h4>Realizado por: (iniciales de las personas que han intervenido, señalando las horas)</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                        <table class="quality_field" id="tblAppendGridPcoffin" t-att-qfield="'coffin_works'"
+                              t-att-columns="'initials,init_date,end_date,id'"
+                              t-att-columns-widths="'5%,20%,20%,0%'"
+                              t-att-nodelete="'true'">
+                        </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="produced_qties" name="produced quantities">
+            <div class="quality_view">
+                <h2>CANTIDAD FABRICADA</h2>
+                <h4>1.-Anotar el total de cajones completos, las cajas extra, que no llegan a ser un cajón y los estuches que no completan una caja. no considerar los estuches tomados como muestras para control de calidad.</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                        <table class="quality_field" id="tblAppendGridPcoffin" t-att-qfield="'qty_produced'"
+                              t-att-columns="'date,coffins,boxes,case,initials,id'"
+                              t-att-columns-widths="'10%,20%,20%,20%,5%,0%'"
+                              t-att-nodelete="'true'">
+                        </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="lot_check_print_sec" name="sec check print">
+            <div class="quality_view">
+                <h2>IMPRESIÓN DE LOTE Y CADUCIDAD EN ESTUCHE</h2>
+                <h4>1.-Pasar los estuches por la cinta de la impresora. Impresuón en impresora láser:</h4>
+                <h4>*Comprobar que el primer estuche que sale de la impresora láser tiene la impresión correcta:</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <div class="unique_field">
+                        <p>Lote: <span t-field="production.final_lot_id.name"/></p>
+                    </div>
+                    <div class="unique_field">
+                        <p>Cons. Pref.: <span t-field="production.final_lot_id.use_date"/></p>
+                    </div>
+                    <table class="quality_field" id="tblAppendGridPrintestuche" t-att-qfield="'print_comprobations_sec'"
+                          t-att-columns="'date,lot_correct,date_correct,initials,id'"
+                          t-att-columns-widths="'20%,5%,5%,4%,0%'"
+                          t-att-nodelete="'true'">
+                    </table>
+                </form>
+                <h4>*En caso contrario, avisar al maquinista y desechar todos los estuches mal impresos. No iniciar el acondicionamiento hasta que la impresión sea correcta</h4>
+                <br/>
+                <h2>ENVOLVER EN CELOFÁN</h2>
+                <h4>1.-Asegurar que el tamaño del papel de celofán es el correcto.</h4>
+                <h4>2.- Encelofanado en Sollas.</h4>
+            </div>
+        </template>
+
+        <template id="stock_lot_label" name="Lot labels">
+            <div class="quality_view">
+                <h4>2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja.</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <table class="quality_field" id="tblAppendGridLotLabel" t-att-qfield="'return_operation_ids'"
+                          t-att-filter = "'product_id.lot_label,=,True'"
+                          t-att-columns="'product_id,served_qty,qty_used,qty_scrapped,returned_qty,initials_acond,id'"
+                          t-att-columns-widths="'25%,15%,15%,15%,10%,0%,0%'"
+                          t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled'}">
+                    </table>
+                </form>
+                    <h4>Comprobar que los nºs de lote indicados en las etiquetas coinciden con el número de lote de protocolo</h4>
+                    <div class="unique_field" >
+                        <p style="display:inline;">Conforme: </p><input class="form-control" name="lot_tag_ok" id="lot_tag_ok" t-att-value='wkcenter_line.lot_tag_ok' type="checkbox" style="display:inline;"/>
+                    </div>
+                <h4>2.3.-Identificar con etiquetas de Nº de lote, los pallets y cajones de plástico que se utilicen para depositar los productos en proceso.</h4>
+            </div>
+        </template>
+
+        <template id="rev_acond" name="revision acond">
+            <div class="quality_view">
+                <h2>Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):</h2>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="fab_issue">Incidencias de fabricación:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="acond_issue" id="acond_issue" t-att-value='wkcenter_line.acond_issue' type="checkbox"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="acond_issue_ref">Incidencia número:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="acond_issue_ref" id="acond_issue_ref" t-att-value='wkcenter_line.acond_issue_ref' type="text"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="accond_total_produced">Número total de envases fabricados(EF):</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="accond_total_produced" id="accond_total_produced" t-att-value='wkcenter_line.accond_total_produced' type="number"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="accond_theorical_produced">Envases teóricos(ET):</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="accond_theorical_produced" id="accond_theorical_produced" t-att-value='wkcenter_line.accond_theorical_produced' type="number"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="prod_ratio">Ratio de fabricación (EF/ET)X100:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="prod_ratio" id="prod_ratio" t-att-value='wkcenter_line.prod_ratio' type="number"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="acond_observations">Observaciones:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="acond_observations" id="acond_observations" t-att-value='wkcenter_line.acond_observations' type="text"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </template>
+
+        <template id="mrp_box_control" name="box control">
+            <div class="quality_view">
+                <h2>INTRODUCIR ESTUCHES EN CAJAS EXPOSITORAS / CONTROL DE PROCESO / MUESTREO</h2>
+                <h4>1.-Desechar los estuches mal conformados o defectuosos.</h4>
+                <h4>2.-Verificar periodicamente la correcta impresión de la impresora laser.</h4>
+                <h4>3.-Introducir 6 estuches en cada caja expositora, colocando en la caja las etiquetas de identificación o códigos de barras indicadas en materiales(ver PNT).</h4>
+                <h4>4.-Depositar las cajas expositoras en un pallet identificado con una etiqueta con el Nº de lote, para pasarlo a la máquina Astudillo.</h4>
+                <h4>5.-Tomar muestras de estuches al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace.</h4>
+                <h4>Se tomarán para control de calidad 3 muestras.</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <table class="quality_field" id="tblAppendGridboxcontrol" t-att-qfield="'wrap_comprobations'"
+                          t-att-filter = "'type,=,box'"
+                          t-att-columns-default = "{'type': 'box'}"
+                          t-att-columns="'date,correct,quality_sample,initials,id,type'"
+                          t-att-columns-widths="'40%,4%,10%,10%,0%,0%'"
+                          t-att-nodelete="'true'" t-att-columns-options="{'type': 'hidden'}">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="mrp_wrap_control" name="wrap control">
+            <div class="quality_view">
+                <h2>ENVOLVER EN CELOFÁN EN ENVOLVEDORA/CONTROLES EN PROCESO/MUESTREO</h2>
+                <h4>1.-Poner en funcionamiento la máquina Astudillo, asegurando que tiene celofán de tamaño adecuado.</h4>
+                <h4>2.-Encelofanar en envolvedora Astudillo. Asegurar que el cierre del celofán es corecto.</h4>
+                <h4>3.-Verificar periodicamente la correcta impresión de la impresora láser y retirar de muestras para calidad</h4>
+                <h4>4.-Tomar muestras al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace.</h4>
+                <h4>Se tomarán para control de calidad 3 muestras.</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <table class="quality_field" id="tblAppendGridwrapcontrol" t-att-qfield="'wrap_comprobations'"
+                          t-att-filter = "'type,=,wrap'"
+                          t-att-columns-default = "{'type': 'wrap'}"
+                          t-att-columns="'date,correct,quality_sample,initials,id,type'"
+                          t-att-columns-widths="'40%,4%,10%,10%,0%,0%'"
+                          t-att-nodelete="'true'" t-att-columns-options="{'type': 'hidden'}">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="stock_move_mrp_check" name="material_checking">
+            <div class="quality_view">
+                <h2>2.- COMPROBACIÓN DE MATERIALES</h2>
+                <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'return_operation_ids'"
+                          t-att-filter = "'workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                          t-att-columns="'product_id,lot_id,qty,product_uom,used_lot,served_qty,id'"
+                          t-att-columns-widths="'35%,10%,12%,8%,10,15%,0%'"
+                          compare="used_lot,lot_id"
+                          t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'lot_id': 'disabled', 'qty': 'disabled', 'product_uom': 'disabled'}">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+
+        <template id="mrp_operations" name="MRP operations">
+            <div class="quality_view">
+                <h2>3.-OPERACIONES PARA FABRICACIÓN</h2>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label for="goods_return_date">3.1.-Hora de encendido de la máquina:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="on_time_machine" id="on_time_machine" t-att-value='wkcenter_line.on_time_machine and wkcenter_line.on_time_machine.replace(" ", "T")' type="datetime-local"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <h4>3.2.-Anotar las temperaturas de los soldadores y los parámetros para la dosificación:</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table class="quality_field" id="tblAppendGridOprations" t-att-qfield="'wender_temp_ids'"
+                                  t-att-columns="'sequence,temperature,id'"
+                                  t-att-columns-widths="'50%,50%,0%'"
+                                  t-att-nodelete="'true'" t-att-initrows="9"
+                                  style="float: left;">
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <table style="float: left;">
+                                <thead>
+                                    <tr>
+                                        <td>Nº SOLDADOR</td>
+                                        <td>VALOR</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Velocidad de fabricación</td>
+                                        <td><input class="form-control" name="mrp_speed" id="mrp_speed" t-att-value='wkcenter_line.mrp_speed' type="text"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Palanca ajuste</td>
+                                        <td><input class="form-control" name="adjustement_lever" id="adjustement_lever" t-att-value='wkcenter_line.adjustement_lever' type="number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Escala caida producto</td>
+                                        <td><input class="form-control" name="fallen_scale" id="fallen_scale" t-att-value='wkcenter_line.fallen_scale' type="number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>velocidad lenta embudo</td>
+                                        <td><input class="form-control" name="slow_funnel" id="slow_funnel" t-att-value='wkcenter_line.slow_funnel' type="number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Velocidad rápida embudo</td>
+                                        <td><input class="form-control" name="fast_funnel" id="fast_funnel" t-att-value='wkcenter_line.fast_funnel' type="number"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="clear: both;"/>
+                    <div class="unique_field">
+                        <br/>
+                        <h4>3.3.-Programar la impresora láser introduciendo los datos de:</h4>
+                        <p>Lote: <span t-field='production.final_lot_id.name'/></p>
+                        <p>Cons. Pref.: <span t-field='production.final_lot_id.use_date'/></p>
+                        <label for="printed_configured_by">Realizado por:</label>
+                        <input class="form-control" name="printed_configured_by" id="printed_configured_by" t-att-value='wkcenter_line.printed_configured_by' type="text"/>
+
+                        <label for="confirmed_printer">Confirmado correcto por operario de acondicionamiento secundario</label>
+                        <input class="form-control input-group-sm" name="confirmed_printer" id="confirmed_printer" t-att-value='wkcenter_line.confirmed_printer' type="checkbox"/>
+                        <br/>
+                        <h4>3.4.-En caso de tratarse de estuches internos para formatos de 50, 100 o 150 filtros, programar la impresión por la máquina IMA
+                            con los datos de lote y caducidad. Comprobar periodicamente la corrección del dato y la calidad de la impresión</h4>
+                        <label for="printed_lot">Lote impreso:</label>
+                        <input class="form-control" name="printed_lot" id="printed_lot" t-att-value='wkcenter_line.printed_lot' type="text"/>
+
+                        <label for="printed_date">Fecha de caducidad impresa:</label>
+                        <input class="form-control" name="printed_date" id="printed_date" t-att-value='wkcenter_line.printed_date and wkcenter_line.printed_date.replace(" ", "T")' type="datetime-local"/>
+                    </div>
+                    <table class="quality_field" id="tblAppendGridprint" t-att-qfield="'print_comprobations'"
+                          t-att-columns="'date,correct,initials,id'"
+                          t-att-columns-widths="'50%,25%,25%,0%'"
+                          t-att-nodelete="'true'">
+                    </table>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label for="mrp_start_date">3.5.-Hora de inicio de fabricación:</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="mrp_start_date" id="mrp_start_date" t-att-value='wkcenter_line.mrp_start_date and wkcenter_line.mrp_start_date.replace(" ", "T")' type="datetime-local">
+                            </input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="mrp_stops_adjustements" name="Stops and adjustsments">
+            <div class="quality_view">
+                <h2>4. - PARADAS Y AJUSTES NECESARIOS</h2>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <table class="quality_field" id="tblAppendGridStop" t-att-qfield="'adjustsments_ids'"
+                          t-att-columns="'start_date,name,reanudation_date,initials,id'"
+                          t-att-columns-widths="'15%,65%,15%,5%,0%'"
+                          t-att-nodelete="'true'">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="mrp_controls" name="Process control">
+            <div class="quality_view">
+                <h2>5.-CONTROLES EN PROCESO</h2>
+                <h4>5.1-Realizar los controles de proceso periodicamente y siempre que se sospechen problemas de dosificación.
+                    Al finalizar el lote, al menos se habrán realizado 20 controles.</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="ui-widget-header"> </td>
+                            <td class="ui-widget-header" style="text-align: center; padding:5px;">Estuches llenos</td>
+                            <td class="ui-widget-header" style="text-align: center; padding:5px;">Peso bolsita <span t-field="production.product_id.unit_weight"/></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ui-widget-header">Límite alerta</td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_alert_full_from"/> - <span t-field="production.product_id.weight_alert_full_to"/></td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_alert_unit_from"/> - <span t-field="production.product_id.weight_alert_unit_to"/></td>
+                        </tr>
+                        <tr>
+                            <td class="ui-widget-header">Límite acción</td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_action_full_from"/> - <span t-field="production.product_id.weight_action_full_to"/></td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_action_unit_from"/> - <span t-field="production.product_id.weight_action_unit_to"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <table class="quality_field" id="tblAppendGridControls" t-att-qfield="'control_ids'"
+                          t-att-columns="'date,bag_maked,label,wrapped,full_weight,empty_weight,first,middle,last,initials,id'"
+                          t-att-columns-widths="'13%,2.5%,2.5%,2.5%,4%,4%,6%,6%,6%,3%,0%'"
+                          t-att-nodelete="'true'" style="table-layout: fixed; width: 100%;" t-att-initrows="20">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="mrp_end_operation" name="End operation">
+            <div class="quality_view">
+                <h2>6.-FINAL OPERACIÓN</h2>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <span><strong>6.1 Anotar el Nº del contador de infusiones:</strong></span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="final_count" id="final_count" t-att-value='wkcenter_line.final_count' type="number"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+
+                            <span><strong>6.2 Debe continuar la fabricación del lote al día siguiente:</strong></span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="continue_next_day" id="continue_next_day" t-att-value='wkcenter_line.continue_next_day' type="checkbox"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="stock_move_mrp_return_bolsitas" name="return moves bolsitas">
+            <div class="quality_view">
+                <h2>7.-DEVOLUCIÓN DE MATERIALES SOBRANTES</h2>
+                <h4>Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <table class="quality_field" id="tblAppendGridreturn" t-att-qfield="'return_operation_ids'"
+                          t-att-filter = "'workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                          t-att-columns="'product_id,lot_id,returned_qty,id'"
+                          t-att-columns-widths="'35%,10%,12%,0%'"
+                          t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'lot_id': 'disabled'}">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="mrp_final_rev" name="Final revision">
+            <div class="quality_view">
+                <h2>Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):</h2>
+                <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Incidencias de fabricación:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="fab_issue" id="fab_issue" t-att-value='wkcenter_line.fab_issue' type="checkbox"/>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Incidencia número:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="issue_ref" id="issue_ref" t-att-value='wkcenter_line.issue_ref' type="text"/>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Número total de envases fabricados:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="total_produced" id="total_produced" t-att-value='wkcenter_line.total_produced' type="number"/>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-xs-2">
+                            <span>Observaciones:</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="observations" id="observations" t-att-value='wkcenter_line.observations' type="text"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="stock_move_mrp_consume" name="Moves to consume">
+            <div class="quality_view">
+                <h2>1.-PETICIÓN DE MATERIALES A ENTREGAR</h2>
+                <h4>Anotar la cantidad del material que se entrega a fabricación:</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <div class="unique_field">
+                        <label for="goods_request_date">Fecha:</label>
+                        <input class="form-control" name="goods_request_date" id="goods_request_date" t-att-value='production.goods_request_date' type="date"/>
+                    </div>
+                </form>
+                <form role="form" method="post" class="quality_form" t-att-model="'stock.picking'" t-att-record="production.hoard_picking_id.id">
+                    <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'return_operation_ids'"
+                          t-att-columns="'product_id,lot_id,acceptance_date,qty,product_uom,served_qty,initials,id'"
+                          t-att-columns-widths="'35%,10%,15%,12%,8%,15%,5%,0%'"
+                          t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'lot_id': 'disabled', 'qty': 'disabled', 'product_uom': 'disabled'}">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="stock_move_mrp_return" name="Moves to return">
+            <div class="quality_view">
+                <h2>2.- DEVOLUCIÓN DE MATERIALES AL ALMACÉN</h2>
+                <h4>Anotar la cantidad del material que se devuelve:</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <div class="unique_field">
+                        <label for="goods_return_date">Fecha:</label>
+                        <input class="form-control" name="goods_return_date" id="goods_return_date" t-att-value='production.goods_return_date' type="date"/>
+                    </div>
+                </form>
+                <form role="form" method="post" class="quality_form" t-att-model="'stock.picking'" t-att-record="production.hoard_picking_id.id">
+                    <table class="quality_field" id="tblAppendGridReturn" t-att-qfield="'return_operation_ids'"
+                          t-att-columns="'product_id,lot_id,qty,product_uom,returned_qty,initials_return,id'"
+                          t-att-columns-widths="'45%,15%,12%,8%,15%,5%,0%'"
+                          t-att-noinsert="'true'" t-att-nodelete="'true'"
+                          t-att-columns-options="{'product_id': 'disabled', 'lot_id': 'disabled', 'qty': 'disabled', 'product_uom': 'disabled'}">
+                    </table>
+                </form>
+            </div>
+        </template>
+
+        <template id="mrp_picking_notes" name="Picking notes">
+            <div class="quality_view">
+                <h3><ins>Revisión protocolo</ins></h3>
+                <h4>Observaciones:</h4>
+                <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <textarea class="form-control" name="picking_notes" id="picking_notes" rows="3"><t t-esc="production.picking_notes or ''"/></textarea>
+                </form>
+                <div class="textCenter">
+                    <h4>Responsable de Almacén:</h4>
+                    <h4>(Firma y fecha)</h4>
+                </div>
+            </div>
+        </template>
+
+        <template id="production_protocol_header" name="Production protocol header">
+           <div class="quality_view">
+               <div class="quality_row">
+                   <ul>
+                       <li>
+                            <h4>Según procedimiento:</h4>
+                            <table>
+                                <tr>
+                                    <td><span t-field='protocol.first_procedure_id.code'/></td>
+                                    <td>Edición: <span t-field='protocol.first_procedure_id.edition'/></td>
+                                </tr>
+                                <tr>
+                                    <td><span t-field='protocol.second_procedure_id.code'/></td>
+                                    <td>Edición: <span t-field='protocol.second_procedure_id.edition'/></td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            <table>
+                                <tr>
+                                    <td>PRODUCTO: <b><span t-field='production.product_id.name'/></b></td>
+                                </tr>
+                                <tr>
+                                    <td>LOTE: <t t-if="production.final_lot_id"><b><span t-field='production.final_lot_id.name'/></b></t></td>
+                                </tr>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+                <div class="quality_row">
+                    <ul>
+                       <li>
+                            <table>
+                                <tr>
+                                    <td>Lote Pirámide:</td>
+                                </tr>
+                                <tr>
+                                    <td>Fabricación: <b><span t-field='production.name'/></b></td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha de fabricación: <b><span t-field='production.date_planned'/></b></td>
+                                    <td>Cantidad a Fabricar: <b><span t-field='production.product_qty'/></b></td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            <table>
+                                <tr>
+                                    <td>Emisión de protocolo:</td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha</td>
+                                </tr>
+                                <tr>
+                                    <td>Firma</td>
+                                </tr>
+                            </table>
+                         </li>
+                    </ul>
+                </div>
+            </div>
+        </template>
+
+        <!-- Vista generica de impresion de surveys -->
+        <template id="generic_survey" name="Generic survey template">
+            <div class="wrap">
+                <div class="container">
+                    <div t-field='survey.title' class="oe_no_empty" style="text-align:center"/>
+                    <t t-foreach="survey.page_ids" t-as="page">
+                        <div class="survey_page">
+                                <input type="hidden" name="survey_id" t-att-value="survey.id" />
+                                <!--Campo añadido para evitar errores en el servidor -->
+                                <input type="hidden" name="button_submit" value=""/>
+                                <input type="hidden" name="token" t-att-value="token" />
+                                <div class="page-header">
+                                    <h1 t-field='page.title' />
+                                    <t t-if="page.description"><div t-field='page.description' class="oe_no_empty"/></t>
+                                </div>
+                                <t t-foreach='page.question_ids' t-as='question'>
+                                    <t t-set="prefix" t-value="'%s_%s_%s' % (survey.id, page.id, question.id)" />
+                                    <div class="js_question-wrapper" t-att-id="prefix">
+                                        <h2>
+                                            <span t-field='question.question' />
+                                            <span t-if="question.constr_mandatory" class="text-danger">*</span>
+                                            <span t-if="quizz_correction" class="badge" t-att-data-score-question="question.id"></span>
+                                        </h2>
+                                        <t t-if="question.description"><div class="text-muted oe_no_empty" t-field='question.description'/></t>
+                                        <t t-if="question.type == 'free_text'"><t t-call="survey.free_text"/></t>
+                                        <t t-if="question.type == 'textbox'"><t t-call="survey.textbox"/></t>
+                                        <t t-if="question.type == 'numerical_box'"><t t-call="survey.numerical_box"/></t>
+                                        <t t-if="question.type == 'datetime'"><t t-call="survey.datetime"/></t>
+                                        <t t-if="question.type == 'simple_choice'"><t t-call="survey.simple_choice"/></t>
+                                        <t t-if="question.type == 'multiple_choice'"><t t-call="survey.multiple_choice"/></t>
+                                        <t t-if="question.type == 'matrix'"><t t-call="survey.matrix"/></t>
+                                        <div class="js_errzone alert alert-danger" style="display:none;"></div>
+                                    </div>
+                                </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="assets_backend" inherit_id="web.assets_backend" name="Survey assets">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.js" />
+                <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
+            </xpath>
+        </template>
+
+        <!-- Vista contenedora para el prototipo, se debe mirar como se puede generar al vuelo, desde el controller -->
+        <template id="protocol_print" name="Protocol">
+            <style>
+                body{
+                    overflow: scroll !important;
+                }
+            </style>
+            <t t-call="web.layout">
+                <t t-set="head">
+                    <link rel="stylesheet" href="/quality_protocol_report/static/src/css/jquery.appendGrid-1.4.2.css"/>
+                    <link rel="stylesheet" href="/quality_protocol_report/static/src/css/quality_style.css"/>
+                        <t t-call-assets="web.assets_common"/>
+                        <t t-call-assets="web.assets_backend"/>
+                </t>
+                <div class="openerp">
+                    <div class="container oe_form">
+                        <!--Para no modificar las vistas de cada tipo de pregunta, si la encuesta ya fue respondida
+                            se añade un div id=exist y desde static/src/js/survey.js se rellenan las respuestas por ajax. -->
+                        <t t-if="exist != False">
+                            <div id="exist"></div>
+                        </t>
+                        <t t-if="production.state == 'done'">
+                            <div id="done"></div>
+                        </t>
+                        <div class="row">
+                            <div id="all_data" t-att-url-submit="'/quality_protocol/logout/%s' % (slug(production))">
+                                <input id="production_id" t-att-value="production.id" type="hidden"/>
+                                <t t-set="parts" t-value="parts"/>
+                                <div t-foreach="parts" t-as="part">
+                                    <t t-if="part[0] == 's'">
+                                        <div class="survey" t-att-fill="'/protocol/fill/%s/%s' % (slug(part[1]), part[2])" t-att-url-submit="'/protocol/submit/%s' % (slug(part[1]))">
+                                            <form role="form" method="post" class="js_surveyform" t-att-data-submit="'/protocol/submit/%s' % (slug(part[1]))">
+                                                <t t-call="quality_protocol_report.generic_survey">
+                                                    <t t-set="survey" t-value="part[1]"/>
+                                                    <t t-set="token" t-value="part[2]"/>
+                                                </t>
+                                            </form>
+                                        </div>
+                                    </t>
+                                    <t t-if="part[0] == 'v'">
+                                        <div class="view">
+                                            <t t-call="#{part[1]}"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div id="realized_by" class="view">
+                                    <div id="headeraccord">
+                                        <h3>Realized by</h3>
+                                    </div>
+                                    <div id="bodyaccord">
+                                        <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
+                                            <table class="quality_field" id="tblAppendGridrealizations" t-att-qfield="'realized_ids'"
+                                                  t-att-columns="'name,realized,realization_date,id'"
+                                                  t-att-columns-widths="'35%,50%,12%,0%'"
+                                                  t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'name': 'disabled'}">
+                                            </table>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" name="button_submit" value="finish" id="send_form">Submit</button>
+                            </div>
+                            <div class="js_errzone alert" id="general_info" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</openerp>

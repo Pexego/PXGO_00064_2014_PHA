@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="reset_lot_wizard_form_view" model="ir.ui.view">
+            <field name="name">reset.lot.wizard.form</field>
+            <field name="model">reset.lot.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reset lot sequences">
+                    <p>This wizard restarts sequences of lots for each product.
+                       Only sequences that include the year in the prefix or suffix is reset</p>
+                    <button string="Reset" name="reset" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Reset lot sequences"
+            res_model="reset.lot.wizard"
+            view_id="reset_lot_wizard_form_view"
+            view_mode="form"
+            target="new"
+            id="reset_lot_wizard_action"/>
+
+    </data>
+</openerp>
+

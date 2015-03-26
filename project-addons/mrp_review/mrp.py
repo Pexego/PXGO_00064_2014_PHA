@@ -19,9 +19,9 @@
 #
 ##############################################################################
 
-from openerp import models, api, _
+from openerp import models, api, _, exceptions
 from openerp.osv import fields
-
+from datetime import date
 
 class MrpProduction(models.Model):
 
@@ -29,8 +29,13 @@ class MrpProduction(models.Model):
 
     _columns = {
         'state': fields.selection(
-            [('draft', 'New'), ('cancel', 'Cancelled'), ('confirmed', 'Awaiting Raw Materials'),
-                ('ready', 'Ready to Produce'), ('in_production', 'Production Started'), ('review', 'Review'), ('done', 'Done')],
+            [('draft', 'New'), ('cancel', 'Cancelled'),
+             ('confirmed', 'Awaiting Raw Materials'),
+             ('ready', 'Ready'),
+             ('in_production', 'In production'),
+             ('in_review', 'Review'),
+             ('wait_release', 'Waiting release'),
+             ('done', 'Done')],
             string='Status', readonly=True,
             track_visibility='onchange', copy=False,
             help="When the production order is created the status is set to 'Draft'.\n\
@@ -38,90 +43,110 @@ class MrpProduction(models.Model):
                 If any exceptions are there, the status is set to 'Picking Exception'.\n\
                 If the stock is available then the status is set to 'Ready to Produce'.\n\
                 When the production gets started then the status is set to 'In Production'.\n\
-                When the production is over, the status is set to 'Done'.")
-
+                When the production is over, the status is set to 'Done'."),
+        'production_protocol_agreed': fields.boolean('Production protocol'),
+        'production_ratio_agreed': fields.boolean('dosage and manufacturing ratios'),
+        'production_isssue': fields.boolean('Production issue'),
+        'production_review_by': fields.char('Revised by'),
+        'production_review_notes': fields.text('Notes'),
+        'production_review_date': fields.date('Revision Date'),
+        'quality_material_agreed': fields.boolean('Starting material control'),
+        'quality_process_agreed': fields.boolean('Process control'),
+        'quality_analytical_agreed': fields.boolean('final product analytical control'),
+        'quality_analytical_issue': fields.boolean('Analytical issue'),
+        'quality_review_by': fields.char('Revised by'),
+        'quality_review_notes': fields.text('Notes'),
+        'quality_review_date': fields.date('Revision Date'),
+        'tech_notes': fields.text('Notes'),
+        'prod_review_ok': fields.boolean('production reviewed'),
+        'qual_review_ok': fields.boolean('production reviewed'),
     }
 
+    def copy(self, cr, uid, id, default={}, context=None):
+        default['prod_review_ok'] = False
+        default['qual_review_ok'] = False
+        default['tech_notes'] = False
+        default['quality_review_date'] = False
+        default['quality_review_notes'] = False
+        default['quality_review_by'] = False
+        default['quality_analytical_issue'] = False
+        default['quality_analytical_agreed'] = False
+        default['quality_material_agreed'] = False
+        default['production_review_date'] = False
+        default['production_review_notes'] = False
+        default['production_review_by'] = False
+        default['production_isssue'] = False
+        default['production_ratio_agreed'] = False
+        default['production_protocol_agreed'] = False
+        return super(MrpProduction, self).copy(cr, uid, id, default, context)
 
-    def action_production_review(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state': 'review'}, context)
+    @api.multi
+    def action_finish_review(self):
+        self.write({'state': 'wait_release'})
 
-    def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
-        """
-            @Overrides: Se sobreescribe toda la función para no finalizar el movimiento del pproducto final.
-        To produce final product based on production mode (consume/consume&produce).
-        If Production mode is consume, all stock move lines of raw materials will be done/consumed.
-        If Production mode is consume & produce, all stock move lines of raw materials will be done/consumed
-        and stock move lines of final product will be also done/produced.
-        @param production_id: the ID of mrp.production object
-        @param production_qty: specify qty to produce
-        @param production_mode: specify production mode (consume/consume&produce).
-        @param wiz: the mrp produce product wizard, which will tell the amount of consumed products needed
-        @return: True
-        """
-        stock_mov_obj = self.pool.get('stock.move')
-        production = self.browse(cr, uid, production_id, context=context)
-        if not production.move_lines and production.state == 'ready':
-            # trigger workflow if not products to consume (eg: services)
-            self.signal_workflow(cr, uid, [production_id], 'button_produce')
+    @api.multi
+    def action_production_review(self):
+        self.write({'state': 'in_review'})
 
-        produced_qty = self._get_produced_qty(cr, uid, production, context=context)
-
-        main_production_move = False
-        if production_mode == 'consume_produce':
-            # To produce remaining qty of final product
-            produced_products = {}
-            for produced_product in production.move_created_ids2:
-                if produced_product.scrapped:
-                    continue
-                if not produced_products.get(produced_product.product_id.id, False):
-                    produced_products[produced_product.product_id.id] = 0
-                produced_products[produced_product.product_id.id] += produced_product.product_qty
-
-            for produce_product in production.move_created_ids:
-                produced_qty = produced_products.get(produce_product.product_id.id, 0)
-                subproduct_factor = self._get_subproduct_factor(cr, uid, production.id, produce_product.id, context=context)
-                rest_qty = (subproduct_factor * production.product_qty) - produced_qty
-                lot_id = False
-                if wiz:
-                    lot_id = wiz.lot_id.id
-                context['final'] = True
-                new_moves = stock_mov_obj.action_consume(cr, uid, [produce_product.id], (subproduct_factor * production_qty), location_id=produce_product.location_id.id, restrict_lot_id=lot_id, context=context)
-                context['final'] = False
-                stock_mov_obj.write(cr, uid, new_moves, {'production_id': production_id}, context=context)
-                if produce_product.product_id.id == production.product_id.id and new_moves:
-                    main_production_move = new_moves[0]
-
-        if production_mode in ['consume', 'consume_produce']:
-            if wiz:
-                consume_lines = []
-                for cons in wiz.consume_lines:
-                    consume_lines.append({'product_id': cons.product_id.id, 'lot_id': cons.lot_id.id, 'product_qty': cons.product_qty})
-            else:
-                consume_lines = self._calculate_qty(cr, uid, production, production_qty, context=context)
-            for consume in consume_lines:
-                remaining_qty = consume['product_qty']
-                for raw_material_line in production.move_lines:
-                    if remaining_qty <= 0:
-                        break
-                    if consume['product_id'] != raw_material_line.product_id.id:
-                        continue
-                    consumed_qty = min(remaining_qty, raw_material_line.product_qty)
-                    stock_mov_obj.action_consume(cr, uid, [raw_material_line.id], consumed_qty, raw_material_line.location_id.id, restrict_lot_id=consume['lot_id'], consumed_for=main_production_move, context=context)
-                    remaining_qty -= consumed_qty
-                if remaining_qty:
-                    #consumed more in wizard than previously planned
-                    product = self.pool.get('product.product').browse(cr, uid, consume['product_id'], context=context)
-                    extra_move_id = self._make_consume_line_from_data(cr, uid, production, product, product.uom_id.id, remaining_qty, False, 0, context=context)
-                    if extra_move_id:
-                        stock_mov_obj.action_done(cr, uid, [extra_move_id], context=context)
-
-        self.message_post(cr, uid, production_id, body=_("%s produced") % self._description, context=context)
-        self.signal_workflow(cr, uid, [production_id], 'button_produce_review')
-        return True
+    @api.multi
+    def action_produce_start(self):
+        self.signal_workflow('button_produce')
 
     @api.one
-    def action_done_review(self):
-        for move in self.move_created_ids:
-            move.action_done()
-        self.signal_workflow('button_produce_done')
+    def production_review(self):
+        self.write({'production_review_by': self.env.user.partner_id.name,
+                    'production_review_date': date.today(),
+                    'prod_review_ok': True})
+
+    @api.one
+    def quality_review(self):
+        self.write({'quality_review_by': self.env.user.partner_id.name,
+                    'quality_review_date': date.today(),
+                    'qual_review_ok': True})
+
+
+class MrpProductionWorkcenterLine(models.Model):
+
+    _inherit = 'mrp.production.workcenter.line'
+
+    @api.one
+    def modify_production_order_state(self, action):
+        """ Modifies production order state if work order state is changed.
+        @param action: Action to perform.
+        @return: Nothing
+        """
+        prod_obj = self.production_id
+        if action == 'start':
+            if prod_obj.state == 'confirmed':
+                prod_obj.force_production()
+                prod_obj.signal_workflow('button_produce')
+            elif prod_obj.state == 'ready':
+                prod_obj.signal_workflow('button_produce')
+            elif prod_obj.state == 'wait_release':
+                return
+            else:
+                raise exceptions.Warning(
+                    _('Error!'),
+                    _('Manufacturing order cannot be started in state "%s"!') %
+                    (prod_obj.state,))
+        else:
+            open_count = self.search_count(
+                [('production_id', '=', prod_obj.id), ('state', '!=', 'done')])
+            flag = not bool(open_count)
+            if flag:
+                if prod_obj.move_lines or prod_obj.move_created_ids:
+                    prod_obj.action_produce(prod_obj.product_qty,
+                                            'consume_produce')
+                prod_obj.signal_workflow('button_produce_done')
+        return
+
+
+class mrp_product_produce(models.TransientModel):
+    _inherit = 'mrp.product.produce'
+
+    @api.multi
+    def do_produce(self):
+        production_id = self.env.context.get('active_id', False)
+        assert production_id, "Production Id should be specified in context as a Active ID."
+        self.env['mrp.production'].browse(production_id).signal_workflow('end_production')
+        return super(mrp_product_produce,self).do_produce()

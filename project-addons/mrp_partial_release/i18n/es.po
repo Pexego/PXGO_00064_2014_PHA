@@ -1,0 +1,88 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * mrp_partial_release
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-17 13:25+0000\n"
+"PO-Revision-Date: 2014-12-17 13:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mrp_partial_release
+#: view:mrp.partial.release:mrp_partial_release.mrp_release_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: mrp_partial_release
+#: model:res.groups,name:mrp_partial_release.mrp_partial_releases
+msgid "MRP partial releases"
+msgstr "Libreación parcial"
+
+#. module: mrp_partial_release
+#: view:mrp.partial.release:mrp_partial_release.mrp_release_form
+#: view:mrp.production:mrp_partial_release.mrp_add_release
+msgid "Partial release"
+msgstr "Liberación parcial"
+
+#. module: mrp_partial_release
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:41
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:52
+#, python-format
+msgid "Production alredery completed"
+msgstr "La produccion ya ha sido completada."
+
+#. module: mrp_partial_release
+#: model:ir.actions.act_window,name:mrp_partial_release.act_wiz_release
+#: view:mrp.partial.release:mrp_partial_release.mrp_release_form
+msgid "Release"
+msgstr "Liberar"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,release_qty:0
+msgid "Release Quantity"
+msgstr "Cantidad a liberar"
+
+#. module: mrp_partial_release
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:41
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:52
+#, python-format
+msgid "Release error"
+msgstr "Error en la liberación"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,release_percent:0
+msgid "Release percentage"
+msgstr "Porcentaje a liberar"
+

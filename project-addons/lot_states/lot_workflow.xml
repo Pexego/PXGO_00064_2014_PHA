@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wkf_lot" model="workflow">
+            <field name="name">stock.production.lot.basic</field>
+            <field name="osv">stock.production.lot</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <record id="act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_lot"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+        </record>
+
+        <record id="act_in_rev" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_lot"/>
+            <field name="name">revision(Q)</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'in_rev'})</field>
+        </record>
+
+        <record id="act_revised" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_lot"/>
+            <field name="name">revised</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'revised'})</field>
+        </record>
+
+        <record id="act_approved" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_lot"/>
+            <field name="name">approved</field>
+            <field name="flow_stop">True</field>
+            <field name="kind">stopall</field>
+            <field name="action">write({'state':'approved'})</field>
+        </record>
+
+        <record id="act_rejected" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_lot"/>
+            <field name="name">rejected</field>
+            <field name="flow_stop">True</field>
+            <field name="kind">stopall</field>
+            <field name="action">write({'state':'rejected'})</field>
+        </record>
+
+        <record id="trans_draft_rev" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_in_rev"/>
+            <field name="signal">in_revision</field>
+        </record>
+
+        <record id="trans_in_rev_revised" model="workflow.transition">
+            <field name="act_from" ref="act_in_rev"/>
+            <field name="act_to" ref="act_revised"/>
+            <field name="signal">revised</field>
+        </record>
+
+        <record id="trans_rev_approved" model="workflow.transition">
+            <field name="act_from" ref="act_revised"/>
+            <field name="act_to" ref="act_approved"/>
+            <field name="signal">approved</field>
+        </record>
+
+        <record id="trans_draft_approved" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_approved"/>
+            <field name="signal">direct_approved</field>
+        </record>
+
+        <record id="trans_rev_rejected" model="workflow.transition">
+            <field name="act_from" ref="act_revised"/>
+            <field name="act_to" ref="act_rejected"/>
+            <field name="signal">rejected</field>
+        </record>
+    </data>
+</openerp>

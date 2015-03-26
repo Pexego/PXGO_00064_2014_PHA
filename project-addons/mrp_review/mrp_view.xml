@@ -1,15 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-    <record id="mrp_production_add_review" model="ir.ui.view">
-        <field name="name">mrp.production.review.form</field>
-        <field name="model">mrp.production</field>
-        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
-        <field name="arch" type="xml">
-            <button name="button_confirm" position="after">
-                <button name="action_done_review"  type="object" string="Done" states="review" class="oe_highlight"/>
-            </button>
-        </field>
-    </record>
-</data>
+    <data>
+        <record id="mrp_production_add_review" model="ir.ui.view">
+            <field name="name">mrp.production.review.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <button name="button_confirm" position="after">
+                    <field name="prod_review_ok" invisible="1"/>
+                    <field name="qual_review_ok" invisible="1"/>
+                    <button name="production_review" string="Production review" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('in_review')), ('prod_review_ok', '=', True)]}"/>
+                    <button name="quality_review" string="Quality review" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('in_review')), ('qual_review_ok', '=', True)]}"/>
+                    <button name="end_review" string="finish review" attrs="{'invisible': ['|', ('state', 'not in', 'in_review'), '|', ('prod_review_ok', '=', False), ('qual_review_ok', '=', False)]}"/>
+                    <!--button name="button_produce_review" string="review" states="ready" class="oe_highlight"/>
+                    <button name="end_review"  string="Finish review" states="review" class="oe_highlight" groups="mrp_review.technical_dir"/-->
+                </button>
+                <button name="%(mrp.act_mrp_product_produce)d" position="replace">
+                    <button name="%(mrp.act_mrp_product_produce)d" string="Finish production" type="action" class="oe_highlight" states="in_production"/>
+                    <button name="action_produce_start" type="object" string="Start production" class="oe_highlight" states="ready"/>
+                </button>
+                <button name="button_produce" position="replace">
+                    <!--button name="button_produce" states="ready" string="Mark as Started"/-->
+                </button>
+                <button name="button_cancel" position="replace">
+                    <button name="button_cancel" states="draft,ready,in_production,wait_release" string="Cancel Production"/>
+                </button>
+                <notebook position="inside">
+                    <page string="Revision" states="ready,confirmed,in_production,done">
+                        <group>
+                            <group string="production review" attrs="{'readonly': [('prod_review_ok', '=', True)]}">
+                                <field name="production_protocol_agreed"/>
+                                <field name="production_ratio_agreed"/>
+                                <field name="production_isssue"/>
+                                <field name="production_review_by"/>
+                                <field name="production_review_date"/>
+                                <field name="production_review_notes"/>
+                            </group>
+                            <group string="quality control review" attrs="{'readonly': [('qual_review_ok', '=', True)]}">
+                                <field name="quality_material_agreed"/>
+                                <field name="quality_process_agreed"/>
+                                <field name="quality_analytical_agreed"/>
+                                <field name="quality_analytical_issue"/>
+                                <field name="quality_review_by"/>
+                                <field name="quality_review_date"/>
+                                <field name="quality_review_notes"/>
+                            </group>
+                            <group colspan="4" string="technical direction review" groups="mrp_review.technical_dir">
+                                <field name="tech_notes"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
 </openerp>

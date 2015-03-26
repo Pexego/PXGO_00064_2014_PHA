@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="quality_report_all_form" model="ir.ui.view">
+            <field name="name">quality.report.all.form</field>
+            <field name="model">quality.report.all</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Print all">
+                    <button string="Print" name="print_all" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Print protocols"
+            res_model="quality.report.all"
+            view_id="quality_report_all_form"
+            view_mode="form"
+            target="new"
+            id="quality_report_all_act"/>
+
+    </data>
+</openerp>
+
