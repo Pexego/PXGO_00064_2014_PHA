@@ -46,6 +46,7 @@ class StockProductionLot(models.Model):
     acceptance_date = fields.Date('Acceptance date')
     partner_id = fields.Many2one('res.partner', 'Supplier')
     is_returned = fields.Boolean('is Returned')
+    active = fields.Boolean('Active', default=True)
 
     @api.one
     def _is_revised(self):
@@ -151,6 +152,18 @@ class StockProductionLot(models.Model):
                     raise exceptions.Warning(_('material lot error'), _('Material lot %s not approved') % depends_lot.name)
         self.move_lot(self.env.ref('stock.stock_location_stock').id,
                       [self.env.ref('stock.location_production').id])
+        self.write({'state': 'approved', 'acceptance_date': date.today()})
+
+    @api.multi
+    def act_approved_without_new_moves(self):
+        '''
+            Se impide aprobar un lote cuando aun tiene dependencias sin
+            aprobar.
+        '''
+        for lot in self:
+            for depends_lot in lot.state_depends:
+                if depends_lot.state != 'approved':
+                    raise exceptions.Warning(_('material lot error'), _('Material lot %s not approved') % depends_lot.name)
         self.write({'state': 'approved', 'acceptance_date': date.today()})
 
     @api.multi
