@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
+#    Copyright (C) 2015 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,16 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    'name': "mrp partial release",
-    'version': '1.0',
-    'category': 'mrp',
-    'description': """""",
-    'author': 'Pexego',
-    'website': 'www.pexego.es',
-    "depends": ['mrp', 'mrp_review'],
-    "data": ['security/mrp_release_security.xml', 'wizard/mrp_release.xml',
-             'views/mrp_view.xml', 'views/mrp_partial_release_log_view.xml'],
-    "installable": True
-}
+from . import mrp_partial_release_log
+from . import mrp

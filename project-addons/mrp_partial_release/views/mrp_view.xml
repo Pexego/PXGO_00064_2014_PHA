@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_add_release" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="%(mrp_partial_release.act_wiz_release)d" type="action" string="Partial release" groups="mrp_partial_release.mrp_partial_releases" states="in_review,wait_release"/>
+                </header>
+                <notebook position="inside">
+                    <page string="Partial release log">
+                        <field name="release_log_ids" nolabel="1">
+                            <tree>
+                                <field name="quantity"/>
+                                <field name="user_id"/>
+                                <field name="date"/>
+                                <field name="reason"/>
+                            </tree>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="user_id"/>
+                                            <field name="reason"/>
+                                        </group>
+                                        <group>
+                                            <field name="date"/>
+                                            <field name="quantity"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

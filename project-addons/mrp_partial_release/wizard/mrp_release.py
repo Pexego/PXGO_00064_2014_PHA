@@ -28,33 +28,42 @@ class release(models.TransientModel):
     _name = "mrp.partial.release"
     release_percent = fields.Float('Release percentage')
     release_qty = fields.Float('Release Quantity')
+    reason = fields.Char('Reason', required=True)
 
     @api.onchange('release_percent')
     def onchange_release_percentage(self):
         if self.release_percent > 100:
             self.release_percent = 100
-        production = self.env['mrp.production'].browse(self.env.context.get('active_id', False))
+        production = self.env['mrp.production'].browse(
+            self.env.context.get('active_id', False))
         total = sum([x.product_uom_qty for x in production.move_created_ids])
         if total:
             self.release_qty = total * (self.release_percent / 100)
         else:
-            raise exceptions.Warning(_('Release error'), _('Production alredery completed'))
+            raise exceptions.Warning(_('Release error'),
+                                     _('Production alredery completed'))
 
     @api.onchange('release_qty')
     def onchange_release_qty(self):
-        production = self.env['mrp.production'].browse(self.env.context.get('active_id', False))
+        production = self.env['mrp.production'].browse(
+            self.env.context.get('active_id', False))
         total = sum([x.product_uom_qty for x in production.move_created_ids])
         if total:
             if self.release_qty > total:
                 self.release_qty = total
             self.release_percent = (self.release_qty / total) * 100
         else:
-            raise exceptions.Warning(_('Release error'), _('Production alredery completed'))
+            raise exceptions.Warning(_('Release error'),
+                                     _('Production alredery completed'))
 
     @api.multi
     def release(self):
-        produce_wiz = self.env['mrp.product.produce'].create({'mode': 'consume_produce'})
+        produce_wiz = self.env['mrp.product.produce'].create(
+            {'mode': 'consume_produce'})
         produce_wiz.product_qty = self.release_qty
         produce_wiz.consume_lines = False
         produce_wiz.do_produce()
+        production = self.env['mrp.production'].browse(
+            self.env.context.get('active_id', False))
+        self.env['mrp.partial.release.log'].create_release_log(production, self)
         return True
