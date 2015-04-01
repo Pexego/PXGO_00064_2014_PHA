@@ -45,6 +45,7 @@ class StockProductionLot(models.Model):
     date_in = fields.Date('Entry date')
     acceptance_date = fields.Date('Acceptance date')
     partner_id = fields.Many2one('res.partner', 'Supplier')
+    is_returned = fields.Boolean('is Returned')
 
     @api.one
     def _is_revised(self):
@@ -147,7 +148,7 @@ class StockProductionLot(models.Model):
         for lot in self:
             for depends_lot in lot.state_depends:
                 if depends_lot.state != 'approved':
-                    raise exceptions.Warning(_(''), _(''))
+                    raise exceptions.Warning(_('material lot error'), _('Material lot %s not approved') % depends_lot.name)
         self.move_lot(self.env.ref('stock.stock_location_stock').id,
                       [self.env.ref('stock.location_production').id])
         self.write({'state': 'approved', 'acceptance_date': date.today()})
@@ -172,3 +173,4 @@ class StockProductionLot(models.Model):
         self.with_context(context).move_lot(
             self.env.ref('stock.stock_location_suppliers').id,
             [self.env.ref('stock.location_production').id], 'outgoing')
+        self.is_returned = True
