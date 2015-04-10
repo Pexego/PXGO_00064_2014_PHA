@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="ir_sequence_add_year_last_digit" model="ir.ui.view">
+            <field name="name">ir.sequence.form</field>
+            <field name="model">ir.sequence</field>
+            <field name="inherit_id" ref="base.sequence_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]/group[2]/group[1]/label[2]" position="after">
+                    <label colspan="2" string="Last digit of current year: %%(year_last)s"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
