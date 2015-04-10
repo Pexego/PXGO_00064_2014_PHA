@@ -69,3 +69,9 @@ state') % (lot_id.name, lot_id.state))
                         move.location_dest_id.id == stock_loc.id:
                     lot_id.signal_workflow('direct_approved')
         return super(StockMove, self).action_done()
+
+
+class stock_transfer_details_items(models.TransientModel):
+    _inherit = 'stock.transfer_details_items'
+
+    acceptance_date = fields.Date('Acceptance date', readonly=True, related='lot_id.acceptance_date')
