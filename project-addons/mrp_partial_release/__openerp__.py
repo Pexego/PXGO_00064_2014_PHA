@@ -26,8 +26,9 @@
     'description': """""",
     'author': 'Pexego',
     'website': 'www.pexego.es',
-    "depends": ['mrp', 'mrp_review'],
+    "depends": ['mrp', 'mrp_review', 'quality_protocol_report'],
     "data": ['security/mrp_release_security.xml', 'wizard/mrp_release.xml',
-             'views/mrp_view.xml', 'views/mrp_partial_release_log_view.xml'],
+             'views/mrp_view.xml', 'views/mrp_partial_release_log_view.xml',
+             'security/ir.model.access.csv'],
     "installable": True
 }
