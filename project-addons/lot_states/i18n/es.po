@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 12:10+0000\n"
-"PO-Revision-Date: 2015-04-01 12:10+0000\n"
+"POT-Creation-Date: 2015-04-10 09:57+0000\n"
+"PO-Revision-Date: 2015-04-10 09:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,11 @@ msgstr ""
 #: field:stock.production.lot,acceptance_date:0
 msgid "Acceptance date"
 msgstr "Fecha de aceptación"
+
+#. module: lot_states
+#: field:stock.production.lot,active:0
+msgid "Active"
+msgstr "Activo"
 
 #. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
@@ -38,7 +43,7 @@ msgstr "Auxiliar picking for control lot states"
 #. module: lot_states
 #: view:mrp.production.consume.quarantine:lot_states.mrp_consume_quarantine_form
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 #. module: lot_states
 #: code:addons/lot_states/stock.py:59
@@ -112,7 +117,7 @@ msgstr "Last Updated on"
 #: field:mrp.production.consume.quarantine,lot_id:0
 #: field:mrp.production.consume.quarantine.line,lot_id:0
 msgid "Lot"
-msgstr "Lote"
+msgstr "Lot"
 
 #. module: lot_states
 #: code:addons/lot_states/stock.py:58
@@ -129,7 +134,7 @@ msgstr "Lote/Nº de serie"
 #. module: lot_states
 #: field:mrp.production.consume.quarantine,line_ids:0
 msgid "Lots"
-msgstr "Lotes"
+msgstr "Lots"
 
 #. module: lot_states
 #: model:res.groups,name:lot_states.mrp_use_quarantine
@@ -137,7 +142,8 @@ msgid "MRP use quarantine"
 msgstr "Usar cuarentena en producción"
 
 #. module: lot_states
-#: code:addons/lot_states/lot.py:151
+#: code:addons/lot_states/lot.py:152
+#: code:addons/lot_states/lot.py:166
 #, python-format
 msgid "Material lot %s not approved"
 msgstr "Lote de material %s no aprobado"
@@ -148,10 +154,16 @@ msgid "New"
 msgstr "Nuevo"
 
 #. module: lot_states
-#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:82
+#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:54
+#, python-format
+msgid "No permission to consume quarantine"
+msgstr "No tiene permiso para consumir cuarentena"
+
+#. module: lot_states
+#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:85
 #, python-format
 msgid "Not found the move from quarantine"
-msgstr "No se ha encontrado el movimiento de cuarentena"
+msgstr "Not found the move from quarantine"
 
 #. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
@@ -162,12 +174,23 @@ msgstr "Notas"
 #. module: lot_states
 #: field:stock.move,original_move:0
 msgid "Original move"
-msgstr "Movimiento original"
+msgstr "Original move"
+
+#. module: lot_states
+#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:54
+#, python-format
+msgid "Permission error"
+msgstr "Error de permisos"
 
 #. module: lot_states
 #: model:ir.model,name:lot_states.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
+
+#. module: lot_states
+#: model:ir.model,name:lot_states.model_stock_transfer_details_items
+msgid "Picking wizard items"
+msgstr "Elementos del asistente de albarán"
 
 #. module: lot_states
 #: field:mrp.production.consume.quarantine,product_id:0
@@ -183,7 +206,7 @@ msgstr "Fabricación planificada producto"
 #. module: lot_states
 #: field:mrp.production.consume.quarantine.line,qty:0
 msgid "Quantity"
-msgstr "Cantidad"
+msgstr "Quantity"
 
 #. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
@@ -231,13 +254,13 @@ msgstr "Lote de proveedor"
 #. module: lot_states
 #: view:mrp.production.consume.quarantine:lot_states.mrp_consume_quarantine_form
 msgid "Use lot in quarantine"
-msgstr "Usar lote en cuarentena"
+msgstr "Use lot in quarantine"
 
 #. module: lot_states
 #: model:ir.actions.act_window,name:lot_states.mrp_consume_quarantine_action
 #: view:mrp.production:lot_states.mrp_production_add_quarantine_lot
 msgid "consume quarantine"
-msgstr "Consumir cuarentena"
+msgstr "consume quarantine"
 
 #. module: lot_states
 #: field:stock.production.lot,is_returned:0
@@ -245,13 +268,14 @@ msgid "is Returned"
 msgstr "is Returned"
 
 #. module: lot_states
-#: code:addons/lot_states/lot.py:151
+#: code:addons/lot_states/lot.py:152
+#: code:addons/lot_states/lot.py:166
 #, python-format
 msgid "material lot error"
 msgstr "material lot error"
 
 #. module: lot_states
-#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:81
+#: code:addons/lot_states/wizard/mrp_consume_quarantine.py:84
 #, python-format
 msgid "quarantine error"
 msgstr "quarantine error"
