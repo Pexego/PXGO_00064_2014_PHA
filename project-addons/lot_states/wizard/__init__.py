@@ -19,3 +19,4 @@
 #
 ##############################################################################
 from . import mrp_consume_quarantine
+from . import lot_reject_partial

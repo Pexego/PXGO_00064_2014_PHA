@@ -46,7 +46,18 @@ class StockProductionLot(models.Model):
     acceptance_date = fields.Date('Acceptance date')
     partner_id = fields.Many2one('res.partner', 'Supplier')
     is_returned = fields.Boolean('is Returned')
+    is_returnable = fields.Boolean('Is returnable',
+                                   compute='_get_is_returnable')
     active = fields.Boolean('Active', default=True)
+
+    @api.one
+    @api.depends('quant_ids')
+    def _get_is_returnable(self):
+        quants = self.env['stock.quant'].search(
+            [('lot_id', '=', self.id),
+             ('location_id', '=',
+              self.env.ref('lot_states.stock_location_rejected').id)])
+        self.is_returnable = bool(quants)
 
     @api.one
     def _is_revised(self):
@@ -56,16 +67,20 @@ class StockProductionLot(models.Model):
                 self.is_revised = False
 
     @api.multi
-    def move_lot(self, dest_id, ignore_location_ids, pick_type='internal'):
-        '''
+    def move_lot(self, dest_id, ignore_location_ids, pick_type='internal',
+                 from_location=False):
+        """
             Se recorren todos los quants, si tienen un movimiento asignado se
             cambia la localizacion de destino, si no se crea un movimiento a
             la localizacion de destino.
-        '''
+        """
         for lot in self:
-            locations = sorted(set([x.location_id.id for x in lot.quant_ids
-                                    if x.location_id.id not in
-                                    ignore_location_ids]))
+            if not from_location:
+                locations = sorted(set([x.location_id.id for x in lot.quant_ids
+                                        if x.location_id.id not in
+                                        ignore_location_ids]))
+            else:
+                locations = [from_location]
             search_domain = [('lot_id', '=', lot.id), ('location_id', 'in',
                                                        locations)]
             not_assigned_quant_ids = []
@@ -74,22 +89,38 @@ class StockProductionLot(models.Model):
                     if quant.reservation_id.state != 'done' and \
                             quant.reservation_id.picking_id.pack_operation_ids:
                         quant.reservation_id.picking_id.pack_operation_ids.unlink()
-                    orig_picking = quant.reservation_id.picking_id
+                    quant.reservation_id.cancel_chain()
+                    move = quant.reservation_id
+                    dest_picking = self.env['stock.picking'].search(
+                        [('group_id', '=', move.group_id.id),
+                         ('location_id', '=', move.location_id.id),
+                         ('location_dest_id', '=', dest_id)])
+                    if dest_picking:
+                        if len(move.picking_id.move_lines) > 1:
+                            move.picking_id = dest_picking
+                    else:
+                        if len(move.picking_id.move_lines) > 1:
+                            new_picking = move.picking_id.copy({'move_lines':
+                                                               False})
+                            move.picking_id = new_picking
+                    move.write({'location_dest_id': dest_id})
+
+                    '''orig_picking = quant.reservation_id.picking_id
                     new_picking = quant.reservation_id.picking_id.pick_aux
                     if len(quant.reservation_id.picking_id.move_lines) > 1:
                         if not new_picking:
                             new_picking = orig_picking.copy({'move_lines':
                                                              False})
                             orig_picking.pick_aux = new_picking.id
-                    if new_picking:
-                        quant.reservation_id.picking_id = new_picking.id
-                    if len(orig_picking.move_lines) == 0:
-                        orig_picking.action_cancel()
+                        if new_picking:
+                            quant.reservation_id.picking_id = new_picking.id
+                        if len(orig_picking.move_lines) == 0:
+                            orig_picking.action_cancel()
                     # se cambia el destino y se buscan movimientos encadenados
                     # para cancelar.
                     if quant.reservation_id.location_dest_id.id != dest_id:
                         quant.reservation_id.location_dest_id = dest_id
-                    quant.reservation_id.cancel_chain()
+                    quant.reservation_id.cancel_chain()'''
                 else:
                     not_assigned_quant_ids.append(quant.id)
             search_domain.append(('id', 'in', not_assigned_quant_ids))
@@ -141,29 +172,34 @@ class StockProductionLot(models.Model):
 
     @api.multi
     def action_approve(self):
-        '''
+        """
             Se impide aprobar un lote cuando aun tiene dependencias sin
             aprobar. En caso de venir de una producción se crea un movimiento
             de Q a stock
-        '''
+        """
         for lot in self:
             for depends_lot in lot.state_depends:
                 if depends_lot.state != 'approved':
-                    raise exceptions.Warning(_('material lot error'), _('Material lot %s not approved') % depends_lot.name)
+                    raise exceptions.Warning(
+                        _('material lot error'),
+                        _('Material lot %s not approved') % depends_lot.name)
         self.move_lot(self.env.ref('stock.stock_location_stock').id,
-                      [self.env.ref('stock.location_production').id])
+                      [self.env.ref('stock.location_production').id,
+                       self.env.ref('lot_states.stock_location_rejected').id])
         self.write({'state': 'approved', 'acceptance_date': date.today()})
 
     @api.multi
     def act_approved_without_new_moves(self):
-        '''
+        """
             Se impide aprobar un lote cuando aun tiene dependencias sin
             aprobar.
-        '''
+        """
         for lot in self:
             for depends_lot in lot.state_depends:
                 if depends_lot.state != 'approved':
-                    raise exceptions.Warning(_('material lot error'), _('Material lot %s not approved') % depends_lot.name)
+                    raise exceptions.Warning(
+                        _('material lot error'),
+                        _('Material lot %s not approved') % depends_lot.name)
         self.write({'state': 'approved', 'acceptance_date': date.today()})
 
     @api.multi
@@ -177,13 +213,14 @@ class StockProductionLot(models.Model):
 
     @api.multi
     def return_to_supplier(self):
-        '''
+        """
             Se crea un movimiento para toda la parte del lote rechazada hacia
             proveedores.
-        '''
+        """
         context = dict(self.env.context)
         context['partner_id'] = self.partner_id.id
         self.with_context(context).move_lot(
             self.env.ref('stock.stock_location_suppliers').id,
-            [self.env.ref('stock.location_production').id], 'outgoing')
+            [self.env.ref('stock.location_production').id], 'outgoing',
+            self.env.ref('lot_states.stock_location_rejected').id)
         self.is_returned = True
