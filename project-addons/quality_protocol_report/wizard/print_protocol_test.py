@@ -115,7 +115,7 @@ class PrintProtocol(models.TransientModel):
     def print_protocol(self):
         # Abre vista web
         if self.env.context['active_model'] == u'stock.production.lot':
-            obj = self.env['mrp.production'].search([('final_lot_id', '=', context['active_id'])])
+            obj = self.env['mrp.production'].search([('final_lot_id', '=', self.env.context['active_id'])])
             if not obj:
                 raise exceptions.Warning(_('Protocol error'), _('The lot not have a production'))
         else:
