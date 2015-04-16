@@ -27,7 +27,8 @@
     'author': 'Pexego',
     'website': 'www.pexego.es',
     "depends": ['base', 'stock', 'product_expiry', 'mrp'],
-    "data": ['security/mrp_quarantine_security.xml', 'lot_view.xml', 'lot_workflow.xml',
-             'wizard/mrp_consume_quarantine.xml', 'mrp_view.xml', 'data/stock_location_data.xml', 'stock_view.xml'],
+    "data": ['security/mrp_quarantine_security.xml', 'wizard/lot_reject_partial.xml',
+             'lot_view.xml', 'lot_workflow.xml', 'wizard/mrp_consume_quarantine.xml',
+             'mrp_view.xml', 'data/stock_location_data.xml', 'stock_view.xml'],
     "installable": True
 }

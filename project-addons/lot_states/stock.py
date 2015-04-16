@@ -43,6 +43,14 @@ class StockMove(models.Model):
             self.move_dest_id.action_cancel()
             self.move_dest_id.cancel_chain()
 
+    def change_qty_chain(self, new_qty):
+        '''
+            Se modifica la cantidad en todos los movimientos encadenados.
+        '''
+        if self.move_dest_id:
+            self.move_dest_id.product_uom_qty = new_qty
+            self.move_dest_id.change_qty_chain(new_qty)
+
     @api.multi
     def action_done(self):
         for move in self:
