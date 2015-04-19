@@ -26,7 +26,7 @@ class MrpConsumeQuarantine(models.TransientModel):
     _name = 'mrp.production.consume.quarantine'
 
     product_id = fields.Many2one('product.product', 'Product')
-    lot_id = fields.Many2one('stock.production.lot', 'Lot')
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)
     line_ids = fields.One2many('mrp.production.consume.quarantine.line', 'wizard_id', 'Lots')
 
     @api.model
@@ -49,6 +49,9 @@ class MrpConsumeQuarantine(models.TransientModel):
 
     @api.multi
     def consume(self):
+        group = self.env.ref('lot_states.mrp_use_quarantine')
+        if group not in self.env.user.groups_id:
+            raise exceptions.Warning(_('Permission error'), _('No permission to consume quarantine'))
         move_id = self.env.context.get('active_id', [])
         move = self.env['stock.move'].browse(move_id)
         quality_location = move.warehouse_id.wh_qc_stock_loc_id

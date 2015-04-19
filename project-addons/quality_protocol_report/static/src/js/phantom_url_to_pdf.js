@@ -13,11 +13,6 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
     var getFilename, next, page, retrieve, urlIndex, webpage;
     urlIndex = 0;
     webpage = require("webpage");
-    phantom.addCookie({
-      'name': 'session_id',
-      'value': session_id,
-      'domain': 'localhost'
-    });
     page = null;
     getFilename = function() {
         return "rendermulti-" + urlIndex + ".pdf";
@@ -31,6 +26,13 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
         if (urls.length > 0) {
             url = urls.shift();
             urlIndex++;
+            var parser = document.createElement('a');
+            parser.href = url;
+            phantom.addCookie({
+              'name': 'session_id',
+              'value': session_id,
+              'domain': parser.hostname
+            });
             page = webpage.create();
             page.paperSize = {
               format: 'A4',

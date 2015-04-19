@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <!-- Debido a que tanto signal_workflow como trg_validate eliminan el contexto se llama a 2 funciones diferentes para validar-->
         <record id="wkf_lot" model="workflow">
             <field name="name">stock.production.lot.basic</field>
             <field name="osv">stock.production.lot</field>
@@ -17,7 +18,7 @@
             <field name="wkf_id" ref="wkf_lot"/>
             <field name="name">revision(Q)</field>
             <field name="kind">function</field>
-            <field name="action">write({'state':'in_rev'})</field>
+            <field name="action">action_in_rev()</field>
         </record>
 
         <record id="act_revised" model="workflow.activity">
@@ -32,7 +33,15 @@
             <field name="name">approved</field>
             <field name="flow_stop">True</field>
             <field name="kind">stopall</field>
-            <field name="action">write({'state':'approved'})</field>
+            <field name="action">action_approve()</field>
+        </record>
+
+        <record id="act_approved_without_new_moves" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_lot"/>
+            <field name="name">approved_without_new_moves</field>
+            <field name="flow_stop">True</field>
+            <field name="kind">stopall</field>
+            <field name="action">act_approved_without_new_moves()</field>
         </record>
 
         <record id="act_rejected" model="workflow.activity">
@@ -40,7 +49,7 @@
             <field name="name">rejected</field>
             <field name="flow_stop">True</field>
             <field name="kind">stopall</field>
-            <field name="action">write({'state':'rejected'})</field>
+            <field name="action">action_reject()</field>
         </record>
 
         <record id="trans_draft_rev" model="workflow.transition">
@@ -63,12 +72,18 @@
 
         <record id="trans_draft_approved" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
-            <field name="act_to" ref="act_approved"/>
+            <field name="act_to" ref="act_approved_without_new_moves"/>
             <field name="signal">direct_approved</field>
         </record>
 
         <record id="trans_rev_rejected" model="workflow.transition">
             <field name="act_from" ref="act_revised"/>
+            <field name="act_to" ref="act_rejected"/>
+            <field name="signal">rejected</field>
+        </record>
+
+        <record id="trans_draft_rejected" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_rejected"/>
             <field name="signal">rejected</field>
         </record>

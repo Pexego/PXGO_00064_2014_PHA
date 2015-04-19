@@ -13,6 +13,9 @@
                         <field name="release_percent"/>
                         <field name="release_qty"/>
                     </group>
+                    <group>
+                        <field name="reason"/>
+                    </group>
                     <button string="Release" name="release" type="object" icon="gtk-ok"/>
                     <button string="Cancel" special="cancel" icon="gtk-cancel"/>
                 </form>

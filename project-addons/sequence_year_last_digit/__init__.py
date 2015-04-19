@@ -18,5 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import mrp_consume_quarantine
-from . import lot_reject_partial
+from . import ir_sequence

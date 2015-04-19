@@ -355,19 +355,19 @@
                         <tr>
                             <td class="ui-widget-header"> </td>
                             <td class="ui-widget-header" style="text-align: center; padding:5px;">Estuches llenos</td>
-                            <td class="ui-widget-header" style="text-align: center; padding:5px;">Peso bolsita <span t-field="production.product_id.unit_weight"/></td>
+                            <td class="ui-widget-header" style="text-align: center; padding:5px;">Peso bolsita <span t-field="production.product_id.quality_limits.unit_weight"/></td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="ui-widget-header">Límite alerta</td>
-                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_alert_full_from"/> - <span t-field="production.product_id.weight_alert_full_to"/></td>
-                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_alert_unit_from"/> - <span t-field="production.product_id.weight_alert_unit_to"/></td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.quality_limits.weight_alert_full_from"/> - <span t-field="production.product_id.quality_limits.weight_alert_full_to"/></td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.quality_limits.weight_alert_unit_from"/> - <span t-field="production.product_id.quality_limits.weight_alert_unit_to"/></td>
                         </tr>
                         <tr>
                             <td class="ui-widget-header">Límite acción</td>
-                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_action_full_from"/> - <span t-field="production.product_id.weight_action_full_to"/></td>
-                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.weight_action_unit_from"/> - <span t-field="production.product_id.weight_action_unit_to"/></td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.quality_limits.weight_action_full_from"/> - <span t-field="production.product_id.quality_limits.weight_action_full_to"/></td>
+                            <td class="ui-widget-content" style="text-align: center;"><span t-field="production.product_id.quality_limits.weight_action_unit_from"/> - <span t-field="production.product_id.quality_limits.weight_action_unit_to"/></td>
                         </tr>
                     </tbody>
                 </table>

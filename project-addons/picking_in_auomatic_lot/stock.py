@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, api
 
 
 class stock_transfer_details(models.TransientModel):
@@ -27,12 +27,16 @@ class stock_transfer_details(models.TransientModel):
     @api.model
     def default_get(self, fields):
         res = super(stock_transfer_details, self).default_get(fields)
-        picking = self.env['stock.picking'].browse(self.env.context.get('active_id', False))
+        picking = self.env['stock.picking'].browse(
+            self.env.context.get('active_id', False))
         if picking.picking_type_code == 'incoming':
             for item in res.get('item_ids', []):
                 if not item['product_id']:
                     continue
-                prodlot_id = self.env['stock.production.lot'].with_context({'product_id': item['product_id']}).create({'product_id': item['product_id']})
-                prodlot_id.signal_workflow('in_revision')
+                prodlot_id = self.env['stock.production.lot'].with_context(
+                    {'product_id': item['product_id'],
+                     'partner_id': picking.partner_id.id}).create(
+                    {'product_id': item['product_id'],
+                     'partner_id': picking.partner_id.id})
                 item['lot_id'] = prodlot_id.id
         return res
