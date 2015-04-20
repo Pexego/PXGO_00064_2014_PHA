@@ -48,7 +48,6 @@ class product_product(models.Model):
     protocol_count = fields.Integer('Protocols count',
                                     compute='_get_protocol_count')
     lot_label = fields.Boolean('Lot label')
-    quality_limits = fields.Many2one('product.quality.limits', 'Quality limits')
 
     @api.one
     @api.depends('protocol_ids')
@@ -99,6 +98,7 @@ class ProductTemplate(models.Model):
 
     protocol_count = fields.Integer('Protocols count',
                                     compute='_get_protocol_count')
+    quality_limits = fields.Many2one('product.quality.limits', 'Quality limits')
 
     @api.one
     @api.depends('product_variant_ids.protocol_ids')
