@@ -46,6 +46,7 @@ class StockProductionLot(models.Model):
     is_returnable = fields.Boolean('Is returnable',
                                    compute='_get_is_returnable')
     active = fields.Boolean('Active', default=True)
+    entry_quarantine = fields.Date('Entry quarantine')
 
     @api.one
     @api.depends('quant_ids')
@@ -165,7 +166,7 @@ class StockProductionLot(models.Model):
 
     @api.multi
     def action_in_rev(self):
-        self.write({'state': 'in_rev'})
+        self.write({'state': 'in_rev', 'entry_quarantine': date.today()})
 
     @api.multi
     def action_approve(self):
