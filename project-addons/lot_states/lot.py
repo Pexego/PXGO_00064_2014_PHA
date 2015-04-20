@@ -40,9 +40,6 @@ class StockProductionLot(models.Model):
                                       'Dependencies')
     is_revised = fields.Boolean('Is material lots revised',
                                 compute='_is_revised')
-    supplier_lot = fields.Char('Supplier lot')
-    notes = fields.Text('Notes')
-    date_in = fields.Date('Entry date')
     acceptance_date = fields.Date('Acceptance date')
     partner_id = fields.Many2one('res.partner', 'Supplier')
     is_returned = fields.Boolean('is Returned')
