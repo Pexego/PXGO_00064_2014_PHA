@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_coche,access_coche_user,model_coche,base.group_user,1,1,1,0
-access_tipo_gasto,access_tipo_gasto,model_tipo_gasto,base.group_user,1,0,0,0
-access_tipo_gasto_user,access_tipo_gasto_user,model_tipo_gasto,base.group_hr_user,1,1,1,1
-access_gasto_flota,access_gasto_flota,model_gasto_flota,base.group_user,1,1,1,1
-access_marca,access_marca,model_marca,base.group_user,1,0,0,10
-access_marca_user,access_marca_user,model_marca,base.group_hr_user,1,1,1,1
