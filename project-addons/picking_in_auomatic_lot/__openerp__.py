@@ -26,7 +26,7 @@
     'description': """""",
     'author': 'Pexego',
     'website': '',
-    "depends": ['stock'],
+    "depends": ['stock', 'lot_states'],
     "data": [],
     "installable": True
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="stock_lot_reject_partial_wiz_form" model="ir.ui.view">
+            <field name="name">stock.lot.reject.partial.form</field>
+            <field name="model">stock.lot.reject.partial</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reject">
+                    <group>
+                        <field name="quantity"/>
+                    </group>
+                    <button string="Reject" name="reject" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Reject partial"
+            res_model="stock.lot.reject.partial"
+            view_id="stock_lot_reject_partial_wiz_form"
+            view_mode="form"
+            target="new"
+            id="stock_lot_reject_partial_action"/>
+
+    </data>
+</openerp>
+

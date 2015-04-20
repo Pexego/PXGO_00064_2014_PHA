@@ -18,5 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import mrp_consume_quarantine
-from . import lot_reject_partial
+from openerp import models
+import time
+
+
+class ir_sequence(models.Model):
+
+    _inherit = 'ir.sequence'
+
+    def _interpolation_dict(self):
+        res = super(ir_sequence, self)._interpolation_dict()
+        t = time.localtime()  # Actually, the server is always in UTC.
+        res['year_last'] = time.strftime('%y', t)[1]
+        return res

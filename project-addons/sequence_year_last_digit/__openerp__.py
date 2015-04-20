@@ -18,5 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import mrp_consume_quarantine
-from . import lot_reject_partial
+
+{
+    'name': 'Sequence with last digit of the year',
+    'version': '1.0',
+    'category': '',
+    'description': """""",
+    'author': 'Pexego',
+    'website': '',
+    "depends": ['base'],
+    "data": ['ir_sequence_view.xml'],
+    "installable": True
+}

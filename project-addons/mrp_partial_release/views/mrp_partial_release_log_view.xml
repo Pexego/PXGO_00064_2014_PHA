@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_partial_release_log_tree" model="ir.ui.view">
+            <field name="name">mrp.partial.release.log.tree</field>
+            <field name="model">mrp.partial.release.log</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Partial release log" >
+                    <field name="production_id"/>
+                    <field name="product_id"/>
+                    <field name="lot_id"/>
+                    <field name="quantity"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mrp_partial_release_log_form" model="ir.ui.view">
+            <field name="name">mrp.partial.release.log.form</field>
+            <field name="model">mrp.partial.release.log</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Partial release log">
+                    <header/>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="production_id"/>
+                                <field name="product_id"/>
+                                <field name="lot_id"/>
+                                <field name="quantity"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="date"/>
+                                <field name="reason"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="mrp_partial_release_log_filter" model="ir.ui.view">
+            <field name="name">mrp.partial.release.log.search</field>
+            <field name="model">mrp.partial.release.log</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Partial release log">
+                    <field name="user_id"/>
+                    <field name="production_id"/>
+                    <field name="product_id"/>
+                    <field name="lot_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Production" domain="[]" context="{'group_by':'production_id'}"/>
+                        <filter string="user" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Lot" domain="[]" context="{'group_by':'lot_id'}"/>
+                   </group>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_mrp_partial_release_log">
+            <field name="name">Partial release log</field>
+            <field name="res_model">mrp.partial.release.log</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="mrp_partial_release_log_tree"/>
+            <field name="search_view_id" ref="mrp_partial_release_log_filter"/>
+        </record>
+
+        <menuitem name="Partial release" parent="quality_protocol_report.menu_quality_management" id="partial_release_log"/>
+        <menuitem name="Partial release log" parent="partial_release_log" action="action_mrp_partial_release_log" id="partial_release_log_menu"/>
+
+    </data>
+</openerp>

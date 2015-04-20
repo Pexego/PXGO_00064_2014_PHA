@@ -65,9 +65,22 @@
                     <button name="revised" string="Revised" groups="base.group_user"
                      attrs="{'invisible': ['|', ('is_revised', '=', False), ('state', 'not in', 'in_rev')]}"/>
                     <button name="approved" states="revised" string="Approve" groups="base.group_user"/>
-                    <button name="rejected" states="revised" string="Reject" groups="base.group_user"/>
+                    <button name="rejected" states="draft,revised" string="Reject" groups="base.group_user"/>
+                    <button name="%(stock_lot_reject_partial_action)d" type="action" states="draft,in_rev" string="Reject partial" groups="base.group_user"/>
+                    <field name="is_returned" invisible="1"/>
+                    <field name="is_returnable" invisible="1"/>
+                    <button name="return_to_supplier" string="return to supplier" type="object" attrs="{'invisible': [('is_returnable', '=', False), '|', ('is_returned', '=', True), ('state', 'not in', ('rejected'))]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,in_rev,revised,approved"/>
                 </header>
+                <xpath expr="//div[@class='oe_title']/h1" position="after">
+                    <label for="supplier_lot" class="oe_edit_only"/>
+                    <h2>
+                        <field name="supplier_lot"/>
+                    </h2>
+                </xpath>
+                <notebook position="after">
+                    <field name="notes" placeholder="Notes"/>
+                </notebook>
             </field>
         </record>
 
@@ -83,6 +96,21 @@
                 <filter string="Product" position="after">
                     <filter string="State" domain="[]" context="{'group_by':'state'}"/>
                 </filter>
+            </field>
+        </record>
+
+
+        <record id="stock_lot_add_date" model="ir.ui.view">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="product_expiry.view_move_form_expiry"/>
+            <field name="arch" type="xml">
+                <field name="removal_date" position="after">
+                    <field name="date_in"/>
+                </field>
+                <field name="alert_date" position="after">
+                    <field name="acceptance_date"/>
+                </field>
             </field>
         </record>
 

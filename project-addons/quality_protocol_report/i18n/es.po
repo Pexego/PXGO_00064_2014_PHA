@@ -1,19 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * quality_protocol_report
+# 	* quality_protocol_report
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 17:09+0000\n"
-"PO-Revision-Date: 2015-03-25 17:09+0000\n"
+"POT-Creation-Date: 2015-04-15 12:21+0000\n"
+"PO-Revision-Date: 2015-04-15 14:26+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_picking_notes
@@ -22,18 +23,32 @@ msgstr "(Firma y fecha)"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.lot_check_print_sec
-msgid "*Comprobar que el primer estuche que sale de la impresora láser tiene la impresión correcta:"
-msgstr "*Comprobar que el primer estuche que sale de la impresora láser tiene la impresión correcta:"
+msgid ""
+"*Comprobar que el primer estuche que sale de la impresora láser tiene la "
+"impresión correcta:"
+msgstr ""
+"*Comprobar que el primer estuche que sale de la impresora láser tiene la "
+"impresión correcta:"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.lot_check_print_sec
-msgid "*En caso contrario, avisar al maquinista y desechar todos los estuches mal impresos. No iniciar el acondicionamiento hasta que la impresión sea correcta"
-msgstr "*En caso contrario, avisar al maquinista y desechar todos los estuches mal impresos. No iniciar el acondicionamiento hasta que la impresión sea correcta"
+msgid ""
+"*En caso contrario, avisar al maquinista y desechar todos los estuches mal "
+"impresos. No iniciar el acondicionamiento hasta que la impresión sea correcta"
+msgstr ""
+"*En caso contrario, avisar al maquinista y desechar todos los estuches mal "
+"impresos. No iniciar el acondicionamiento hasta que la impresión sea correcta"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.produced_qties
-msgid "1.-Anotar el total de cajones completos, las cajas extra, que no llegan a ser un cajón y los estuches que no completan una caja. no considerar los estuches tomados como muestras para control de calidad."
-msgstr "1.-Anotar el total de cajones completos, las cajas extra, que no llegan a ser un cajón y los estuches que no completan una caja. no considerar los estuches tomados como muestras para control de calidad."
+msgid ""
+"1.-Anotar el total de cajones completos, las cajas extra, que no llegan a "
+"ser un cajón y los estuches que no completan una caja. no considerar los "
+"estuches tomados como muestras para control de calidad."
+msgstr ""
+"1.-Anotar el total de cajones completos, las cajas extra, que no llegan a "
+"ser un cajón y los estuches que no completan una caja. no considerar los "
+"estuches tomados como muestras para control de calidad."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.lot_check_print_sec
@@ -47,8 +62,10 @@ msgstr "1.-Desechar los estuches mal conformados o defectuosos."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.coffin_works
-msgid "1.-Materiales necesarios: comprobar disponibilidad firmando con iniciales."
-msgstr "1.-Materiales necesarios: comprobar disponibilidad firmando con iniciales."
+msgid ""
+"1.-Materiales necesarios: comprobar disponibilidad firmando con iniciales."
+msgstr ""
+"1.-Materiales necesarios: comprobar disponibilidad firmando con iniciales."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.ef85ee67dd804b28b01778e4f08bed25
@@ -58,13 +75,21 @@ msgstr "1.-PETICIÓN DE MATERIALES A ENTREGAR"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.lot_check_print_sec
-msgid "1.-Pasar los estuches por la cinta de la impresora. Impresuón en impresora láser:"
-msgstr "1.-Pasar los estuches por la cinta de la impresora. Impresuón en impresora láser:"
+msgid ""
+"1.-Pasar los estuches por la cinta de la impresora. Impresuón en impresora "
+"láser:"
+msgstr ""
+"1.-Pasar los estuches por la cinta de la impresora. Impresuón en impresora "
+"láser:"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_wrap_control
-msgid "1.-Poner en funcionamiento la máquina Astudillo, asegurando que tiene celofán de tamaño adecuado."
-msgstr "1.-Poner en funcionamiento la máquina Astudillo, asegurando que tiene celofán de tamaño adecuado."
+msgid ""
+"1.-Poner en funcionamiento la máquina Astudillo, asegurando que tiene "
+"celofán de tamaño adecuado."
+msgstr ""
+"1.-Poner en funcionamiento la máquina Astudillo, asegurando que tiene "
+"celofán de tamaño adecuado."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_move_mrp_check
@@ -90,38 +115,66 @@ msgstr "2.- Encelofanado en Sollas."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_wrap_control
-msgid "2.-Encelofanar en envolvedora Astudillo. Asegurar que el cierre del celofán es corecto."
-msgstr "2.-Encelofanar en envolvedora Astudillo. Asegurar que el cierre del celofán es corecto."
+msgid ""
+"2.-Encelofanar en envolvedora Astudillo. Asegurar que el cierre del celofán "
+"es corecto."
+msgstr ""
+"2.-Encelofanar en envolvedora Astudillo. Asegurar que el cierre del celofán "
+"es corecto."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.coffin_works
-msgid "2.-Preparar los cajones montándolos previamente para facilitar su llenado al rtimo de preparación de las cajas a envasar"
-msgstr "2.-Preparar los cajones montándolos previamente para facilitar su llenado al rtimo de preparación de las cajas a envasar"
+msgid ""
+"2.-Preparar los cajones montándolos previamente para facilitar su llenado al "
+"rtimo de preparación de las cajas a envasar"
+msgstr ""
+"2.-Preparar los cajones montándolos previamente para facilitar su llenado al "
+"rtimo de preparación de las cajas a envasar"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_box_control
-msgid "2.-Verificar periodicamente la correcta impresión de la impresora laser."
-msgstr "2.-Verificar periodicamente la correcta impresión de la impresora laser."
+msgid ""
+"2.-Verificar periodicamente la correcta impresión de la impresora laser."
+msgstr ""
+"2.-Verificar periodicamente la correcta impresión de la impresora laser."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_check_availability
-msgid "2.1.-Material de empaquetado: comprobar disponibilidad firmando con iniciales."
-msgstr "2.1.-Material de empaquetado: comprobar disponibilidad firmando con iniciales."
+msgid ""
+"2.1.-Material de empaquetado: comprobar disponibilidad firmando con "
+"iniciales."
+msgstr ""
+"2.1.-Material de empaquetado: comprobar disponibilidad firmando con "
+"iniciales."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_lot_label
-msgid "2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
-msgstr "2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
+msgid ""
+"2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el "
+"revés de la hoja."
+msgstr ""
+"2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el "
+"revés de la hoja."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_lot_label
-msgid "2.3.-Identificar con etiquetas de Nº de lote, los pallets y cajones de plástico que se utilicen para depositar los productos en proceso."
-msgstr "2.3.-Identificar con etiquetas de Nº de lote, los pallets y cajones de plástico que se utilicen para depositar los productos en proceso."
+msgid ""
+"2.3.-Identificar con etiquetas de Nº de lote, los pallets y cajones de "
+"plástico que se utilicen para depositar los productos en proceso."
+msgstr ""
+"2.3.-Identificar con etiquetas de Nº de lote, los pallets y cajones de "
+"plástico que se utilicen para depositar los productos en proceso."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_box_control
-msgid "3.-Introducir 6 estuches en cada caja expositora, colocando en la caja las etiquetas de identificación o códigos de barras indicadas en materiales(ver PNT)."
-msgstr "3.-Introducir 6 estuches en cada caja expositora, colocando en la caja las etiquetas de identificación o códigos de barras indicadas en materiales(ver PNT)."
+msgid ""
+"3.-Introducir 6 estuches en cada caja expositora, colocando en la caja las "
+"etiquetas de identificación o códigos de barras indicadas en materiales(ver "
+"PNT)."
+msgstr ""
+"3.-Introducir 6 estuches en cada caja expositora, colocando en la caja las "
+"etiquetas de identificación o códigos de barras indicadas en materiales(ver "
+"PNT)."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -135,8 +188,12 @@ msgstr "3.-Preparar un pallet para colocar los cajones una vez finalizados."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_wrap_control
-msgid "3.-Verificar periodicamente la correcta impresión de la impresora láser y retirar de muestras para calidad"
-msgstr "3.-Verificar periodicamente la correcta impresión de la impresora láser y retirar de muestras para calidad"
+msgid ""
+"3.-Verificar periodicamente la correcta impresión de la impresora láser y "
+"retirar de muestras para calidad"
+msgstr ""
+"3.-Verificar periodicamente la correcta impresión de la impresora láser y "
+"retirar de muestras para calidad"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -145,8 +202,12 @@ msgstr "3.1.-Hora de encendido de la máquina:"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
-msgid "3.2.-Anotar las temperaturas de los soldadores y los parámetros para la dosificación:"
-msgstr "3.2.-Anotar las temperaturas de los soldadores y los parámetros para la dosificación:"
+msgid ""
+"3.2.-Anotar las temperaturas de los soldadores y los parámetros para la "
+"dosificación:"
+msgstr ""
+"3.2.-Anotar las temperaturas de los soldadores y los parámetros para la "
+"dosificación:"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -155,10 +216,16 @@ msgstr "3.3.-Programar la impresora láser introduciendo los datos de:"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
-msgid "3.4.-En caso de tratarse de estuches internos para formatos de 50, 100 o 150 filtros, programar la impresión por la máquina IMA\n"
-"                            con los datos de lote y caducidad. Comprobar periodicamente la corrección del dato y la calidad de la impresión"
-msgstr "3.4.-En caso de tratarse de estuches internos para formatos de 50, 100 o 150 filtros, programar la impresión por la máquina IMA\n"
-"                            con los datos de lote y caducidad. Comprobar periodicamente la corrección del dato y la calidad de la impresión"
+msgid ""
+"3.4.-En caso de tratarse de estuches internos para formatos de 50, 100 o 150 "
+"filtros, programar la impresión por la máquina IMA\n"
+"                            con los datos de lote y caducidad. Comprobar "
+"periodicamente la corrección del dato y la calidad de la impresión"
+msgstr ""
+"3.4.-En caso de tratarse de estuches internos para formatos de 50, 100 o 150 "
+"filtros, programar la impresión por la máquina IMA\n"
+"                            con los datos de lote y caducidad. Comprobar "
+"periodicamente la corrección del dato y la calidad de la impresión"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -172,18 +239,30 @@ msgstr "4. - PARADAS Y AJUSTES NECESARIOS"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_box_control
-msgid "4.-Depositar las cajas expositoras en un pallet identificado con una etiqueta con el Nº de lote, para pasarlo a la máquina Astudillo."
-msgstr "4.-Depositar las cajas expositoras en un pallet identificado con una etiqueta con el Nº de lote, para pasarlo a la máquina Astudillo."
+msgid ""
+"4.-Depositar las cajas expositoras en un pallet identificado con una "
+"etiqueta con el Nº de lote, para pasarlo a la máquina Astudillo."
+msgstr ""
+"4.-Depositar las cajas expositoras en un pallet identificado con una "
+"etiqueta con el Nº de lote, para pasarlo a la máquina Astudillo."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.coffin_works
-msgid "4.-Introducir las cajas preparadas en los cajones, cerrarlos en la máquina selladora y colocarlos sobre el pallet."
-msgstr "4.-Introducir las cajas preparadas en los cajones, cerrarlos en la máquina selladora y colocarlos sobre el pallet."
+msgid ""
+"4.-Introducir las cajas preparadas en los cajones, cerrarlos en la máquina "
+"selladora y colocarlos sobre el pallet."
+msgstr ""
+"4.-Introducir las cajas preparadas en los cajones, cerrarlos en la máquina "
+"selladora y colocarlos sobre el pallet."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_wrap_control
-msgid "4.-Tomar muestras al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
-msgstr "4.-Tomar muestras al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
+msgid ""
+"4.-Tomar muestras al inicio, mitad y final de la fabricación. Retirar el "
+"estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
+msgstr ""
+"4.-Tomar muestras al inicio, mitad y final de la fabricación. Retirar el "
+"estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_controls
@@ -192,15 +271,27 @@ msgstr "5.-CONTROLES EN PROCESO"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_box_control
-msgid "5.-Tomar muestras de estuches al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
-msgstr "5.-Tomar muestras de estuches al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
+msgid ""
+"5.-Tomar muestras de estuches al inicio, mitad y final de la fabricación. "
+"Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo "
+"hace."
+msgstr ""
+"5.-Tomar muestras de estuches al inicio, mitad y final de la fabricación. "
+"Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo "
+"hace."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_controls
-msgid "5.1-Realizar los controles de proceso periodicamente y siempre que se sospechen problemas de dosificación.\n"
-"                    Al finalizar el lote, al menos se habrán realizado 20 controles."
-msgstr "5.1-Realizar los controles de proceso periodicamente y siempre que se sospechen problemas de dosificación.\n"
-"                    Al finalizar el lote, al menos se habrán realizado 20 controles."
+msgid ""
+"5.1-Realizar los controles de proceso periodicamente y siempre que se "
+"sospechen problemas de dosificación.\n"
+"                    Al finalizar el lote, al menos se habrán realizado 20 "
+"controles."
+msgstr ""
+"5.1-Realizar los controles de proceso periodicamente y siempre que se "
+"sospechen problemas de dosificación.\n"
+"                    Al finalizar el lote, al menos se habrán realizado 20 "
+"controles."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_end_operation
@@ -221,6 +312,11 @@ msgstr "6.2 Debe continuar la fabricación del lote al día siguiente:"
 #: view:website:quality_protocol_report.stock_move_mrp_return_bolsitas
 msgid "7.-DEVOLUCIÓN DE MATERIALES SOBRANTES"
 msgstr "7.-DEVOLUCIÓN DE MATERIALES SOBRANTES"
+
+#. module: quality_protocol_report
+#: field:stock.move.return.operations,acceptance_date:0
+msgid "Acceptance date"
+msgstr "Acceptance date"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,adjustsments_ids:0
@@ -261,16 +357,24 @@ msgid "Bill of Material"
 msgstr "Lista de material"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:340
+#: code:addons/quality_protocol_report/models/mrp_production.py:344
 #, python-format
-msgid "BoM \"%s\" contains a BoM line with a product                       recursion: \"%s\"."
-msgstr "BoM \"%s\" contains a BoM line with a product                       recursion: \"%s\"."
+msgid ""
+"BoM \"%s\" contains a BoM line with a product                       "
+"recursion: \"%s\"."
+msgstr ""
+"BoM \"%s\" contains a BoM line with a product                       "
+"recursion: \"%s\"."
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:390
+#: code:addons/quality_protocol_report/models/mrp_production.py:394
 #, python-format
-msgid "BoM \"%s\" contains a phantom BoM line but the product                       \"%s\" does not have any BoM defined."
-msgstr "BoM \"%s\" contains a phantom BoM line but the product                       \"%s\" does not have any BoM defined."
+msgid ""
+"BoM \"%s\" contains a phantom BoM line but the product                       "
+"\"%s\" does not have any BoM defined."
+msgstr ""
+"BoM \"%s\" contains a phantom BoM line but the product                       "
+"\"%s\" does not have any BoM defined."
 
 #. module: quality_protocol_report
 #: field:mrp.workcenter,bom_line_ids:0
@@ -338,8 +442,12 @@ msgstr "Colocar una etiqueta de identificación de lote en cada cajón."
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_lot_label
-msgid "Comprobar que los nºs de lote indicados en las etiquetas coinciden con el número de lote de protocolo"
-msgstr "Comprobar que los nºs de lote indicados en las etiquetas coinciden con el número de lote de protocolo"
+msgid ""
+"Comprobar que los nºs de lote indicados en las etiquetas coinciden con el "
+"número de lote de protocolo"
+msgstr ""
+"Comprobar que los nºs de lote indicados en las etiquetas coinciden con el "
+"número de lote de protocolo"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,printed_configured_by:0
@@ -406,7 +514,7 @@ msgstr "Crear continuación"
 #: field:mrp.wender.temp,create_uid:0
 #: field:mrp.wrap.comprobations,create_uid:0
 #: field:print.protocol.test,create_uid:0
-#: field:protocol.type,create_uid:0
+#: field:product.quality.limits,create_uid:0 field:protocol.type,create_uid:0
 #: field:quality.duplicate.protocol,create_uid:0
 #: field:quality.procedure,create_uid:0
 #: field:quality.protocol.report,create_uid:0
@@ -427,6 +535,7 @@ msgstr "Created by"
 #: field:mrp.wender.temp,create_date:0
 #: field:mrp.wrap.comprobations,create_date:0
 #: field:print.protocol.test,create_date:0
+#: field:product.quality.limits,create_date:0
 #: field:protocol.type,create_date:0
 #: field:quality.duplicate.protocol,create_date:0
 #: field:quality.procedure,create_date:0
@@ -439,8 +548,7 @@ msgstr "Created on"
 
 #. module: quality_protocol_report
 #: field:mrp.print.comprobations,date:0
-#: field:mrp.print.comprobations.sec,date:0
-#: field:mrp.qty.produced,date:0
+#: field:mrp.print.comprobations.sec,date:0 field:mrp.qty.produced,date:0
 #: field:mrp.wrap.comprobations,date:0
 #: field:quality.realization,realization_date:0
 msgid "Date"
@@ -472,9 +580,11 @@ msgstr "Document submited"
 #: code:addons/quality_protocol_report/models/mrp_production.py:58
 #: code:addons/quality_protocol_report/models/stock.py:70
 #, python-format
-msgid "Documents not submited: \n"
+msgid ""
+"Documents not submited: \n"
 " %s"
-msgstr "Documents not submited: \n"
+msgstr ""
+"Documents not submited: \n"
 " %s"
 
 #. module: quality_protocol_report
@@ -613,12 +723,12 @@ msgid "Form"
 msgstr "Forma"
 
 #. module: quality_protocol_report
-#: field:product.product,weight_action_full_from:0
-#: field:product.product,weight_action_unit_from:0
-#: field:product.product,weight_alert_full_from:0
-#: field:product.product,weight_alert_unit_from:0
+#: field:product.quality.limits,weight_action_full_from:0
+#: field:product.quality.limits,weight_action_unit_from:0
+#: field:product.quality.limits,weight_alert_full_from:0
+#: field:product.quality.limits,weight_alert_unit_from:0
 msgid "From"
-msgstr "Desde"
+msgstr "From"
 
 #. module: quality_protocol_report
 #: field:mrp.production.control,full_weight:0
@@ -626,12 +736,12 @@ msgid "Full"
 msgstr "Lleno"
 
 #. module: quality_protocol_report
-#: view:product.product:quality_protocol_report.product_view_add_protocol
+#: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
 msgid "Full action"
 msgstr "Acción lleno"
 
 #. module: quality_protocol_report
-#: view:product.product:quality_protocol_report.product_view_add_protocol
+#: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
 msgid "Full alert"
 msgstr "Alerta lleno"
 
@@ -652,22 +762,15 @@ msgid "Hour"
 msgstr "Hora"
 
 #. module: quality_protocol_report
-#: field:mrp.coffin.works,id:0
-#: field:mrp.print.comprobations,id:0
+#: field:mrp.coffin.works,id:0 field:mrp.print.comprobations,id:0
 #: field:mrp.print.comprobations.sec,id:0
-#: field:mrp.production.adjustments,id:0
-#: field:mrp.production.control,id:0
-#: field:mrp.qty.produced,id:0
-#: field:mrp.release.all.wizard,id:0
-#: field:mrp.wender.temp,id:0
-#: field:mrp.wrap.comprobations,id:0
-#: field:print.protocol.test,id:0
-#: field:protocol.type,id:0
-#: field:quality.duplicate.protocol,id:0
-#: field:quality.procedure,id:0
-#: field:quality.protocol.report,id:0
-#: field:quality.protocol.report.line,id:0
-#: field:quality.realization,id:0
+#: field:mrp.production.adjustments,id:0 field:mrp.production.control,id:0
+#: field:mrp.qty.produced,id:0 field:mrp.release.all.wizard,id:0
+#: field:mrp.wender.temp,id:0 field:mrp.wrap.comprobations,id:0
+#: field:print.protocol.test,id:0 field:product.quality.limits,id:0
+#: field:protocol.type,id:0 field:quality.duplicate.protocol,id:0
+#: field:quality.procedure,id:0 field:quality.protocol.report,id:0
+#: field:quality.protocol.report.line,id:0 field:quality.realization,id:0
 #: field:quality.report.all,id:0
 msgid "ID"
 msgstr "ID"
@@ -684,8 +787,10 @@ msgstr "INTRODUCIR EN CAJONES/SELLADO"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_box_control
-msgid "INTRODUCIR ESTUCHES EN CAJAS EXPOSITORAS / CONTROL DE PROCESO / MUESTREO"
-msgstr "INTRODUCIR ESTUCHES EN CAJAS EXPOSITORAS / CONTROL DE PROCESO / MUESTREO"
+msgid ""
+"INTRODUCIR ESTUCHES EN CAJAS EXPOSITORAS / CONTROL DE PROCESO / MUESTREO"
+msgstr ""
+"INTRODUCIR ESTUCHES EN CAJAS EXPOSITORAS / CONTROL DE PROCESO / MUESTREO"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_final_rev
@@ -705,20 +810,20 @@ msgid "Init date"
 msgstr "Init date"
 
 #. module: quality_protocol_report
-#: field:mrp.coffin.works,initials:0
-#: field:mrp.print.comprobations,initials:0
+#: field:mrp.coffin.works,initials:0 field:mrp.print.comprobations,initials:0
 #: field:mrp.print.comprobations.sec,initials:0
 #: field:mrp.production.adjustments,initials:0
-#: field:mrp.production.control,initials:0
-#: field:mrp.qty.produced,initials:0
+#: field:mrp.production.control,initials:0 field:mrp.qty.produced,initials:0
 #: field:mrp.wrap.comprobations,initials:0
+#: field:stock.move.return.operations,initials:0
 #: field:stock.move.return.operations,initials_acond:0
+#: field:stock.move.return.operations,initials_return:0
 msgid "Initials"
 msgstr "Iniciales"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:339
-#: code:addons/quality_protocol_report/models/mrp_production.py:389
+#: code:addons/quality_protocol_report/models/mrp_production.py:343
+#: code:addons/quality_protocol_report/models/mrp_production.py:393
 #, python-format
 msgid "Invalid Action!"
 msgstr "Acción inválida!"
@@ -745,19 +850,16 @@ msgstr "LOTE:"
 #: field:mrp.print.comprobations,write_uid:0
 #: field:mrp.print.comprobations.sec,write_uid:0
 #: field:mrp.production.adjustments,write_uid:0
-#: field:mrp.production.control,write_uid:0
-#: field:mrp.qty.produced,write_uid:0
-#: field:mrp.release.all.wizard,write_uid:0
-#: field:mrp.wender.temp,write_uid:0
+#: field:mrp.production.control,write_uid:0 field:mrp.qty.produced,write_uid:0
+#: field:mrp.release.all.wizard,write_uid:0 field:mrp.wender.temp,write_uid:0
 #: field:mrp.wrap.comprobations,write_uid:0
 #: field:print.protocol.test,write_uid:0
-#: field:protocol.type,write_uid:0
+#: field:product.quality.limits,write_uid:0 field:protocol.type,write_uid:0
 #: field:quality.duplicate.protocol,write_uid:0
 #: field:quality.procedure,write_uid:0
 #: field:quality.protocol.report,write_uid:0
 #: field:quality.protocol.report.line,write_uid:0
-#: field:quality.realization,write_uid:0
-#: field:quality.report.all,write_uid:0
+#: field:quality.realization,write_uid:0 field:quality.report.all,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
@@ -772,7 +874,7 @@ msgstr "Last Updated by"
 #: field:mrp.wender.temp,write_date:0
 #: field:mrp.wrap.comprobations,write_date:0
 #: field:print.protocol.test,write_date:0
-#: field:protocol.type,write_date:0
+#: field:product.quality.limits,write_date:0 field:protocol.type,write_date:0
 #: field:quality.duplicate.protocol,write_date:0
 #: field:quality.procedure,write_date:0
 #: field:quality.protocol.report,write_date:0
@@ -781,6 +883,11 @@ msgstr "Last Updated by"
 #: field:quality.report.all,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
+
+#. module: quality_protocol_report
+#: field:product.quality.limits,loc_samples:0
+msgid "Loc Samples"
+msgstr "Muestroteca"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/mrp_production.py:69
@@ -811,7 +918,7 @@ msgstr "Lot label"
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_stock_production_lot
 msgid "Lot/Serial"
-msgstr "Lote/Nº de serie"
+msgstr "Lot/Serial"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.production_protocol_header
@@ -866,11 +973,10 @@ msgid "Mrp speed"
 msgstr "Velocidad de fabricación"
 
 #. module: quality_protocol_report
-#: field:protocol.type,name:0
-#: field:quality.procedure,name:0
-#: field:quality.protocol.report,name:0
-#: field:quality.protocol.report.line,name:0
-#: field:quality.realization,name:0
+#: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
+#: field:product.quality.limits,name:0 field:protocol.type,name:0
+#: field:quality.procedure,name:0 field:quality.protocol.report,name:0
+#: field:quality.protocol.report.line,name:0 field:quality.realization,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -1015,9 +1121,20 @@ msgid "Product Produce"
 msgstr "Fabricar producto"
 
 #. module: quality_protocol_report
+#: view:product.quality.limits:quality_protocol_report.product_quality_limits_tree
+msgid "Product Quality Limits"
+msgstr "Product Quality Limits"
+
+#. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
+
+#. module: quality_protocol_report
+#: model:ir.actions.act_window,name:quality_protocol_report.action_product_quality_limits_form
+#: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
+msgid "Product quality limits"
+msgstr "Product quality limits"
 
 #. module: quality_protocol_report
 #: field:mrp.production.adjustments,production_id:0
@@ -1052,8 +1169,8 @@ msgid "Protocol Types"
 msgstr "Tipos de protocolo"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:245
-#: code:addons/quality_protocol_report/models/product.py:53
+#: code:addons/quality_protocol_report/models/mrp_production.py:249
+#: code:addons/quality_protocol_report/models/product.py:61
 #: code:addons/quality_protocol_report/wizard/print_protocol_test.py:120
 #, python-format
 msgid "Protocol error"
@@ -1105,6 +1222,12 @@ msgstr "Qty used"
 #: view:product.product:quality_protocol_report.product_view_add_protocol
 msgid "Quality"
 msgstr "Calidad"
+
+#. module: quality_protocol_report
+#: model:ir.ui.menu,name:quality_protocol_report.menu_product_quality_limits
+#: field:product.product,quality_limits:0
+msgid "Quality limits"
+msgstr "Límites calidad"
 
 #. module: quality_protocol_report
 #: model:ir.ui.menu,name:quality_protocol_report.menu_quality_management
@@ -1166,8 +1289,12 @@ msgstr "Realizado por:"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.coffin_works
-msgid "Realizado por: (iniciales de las personas que han intervenido, señalando las horas)"
-msgstr "Realizado por: (iniciales de las personas que han intervenido, señalando las horas)"
+msgid ""
+"Realizado por: (iniciales de las personas que han intervenido, señalando las "
+"horas)"
+msgstr ""
+"Realizado por: (iniciales de las personas que han intervenido, señalando las "
+"horas)"
 
 #. module: quality_protocol_report
 #: view:mrp.production.workcenter.line:quality_protocol_report.mrp_workcenter_line_add_info
@@ -1188,8 +1315,12 @@ msgstr "Fecha de reanudación"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.stock_move_mrp_return_bolsitas
-msgid "Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:"
-msgstr "Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:"
+msgid ""
+"Relación de materiales sobrantes de la fabricación del lote, dejados en el "
+"SAS para devolución a almacén:"
+msgstr ""
+"Relación de materiales sobrantes de la fabricación del lote, dejados en el "
+"SAS para devolución a almacén:"
 
 #. module: quality_protocol_report
 #: model:ir.actions.act_window,name:quality_protocol_report.mrp_release_all
@@ -1232,8 +1363,12 @@ msgstr "Return date"
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_final_rev
 #: view:website:quality_protocol_report.rev_acond
-msgid "Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):"
-msgstr "Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):"
+msgid ""
+"Revisión final del protocolo (a rellenar por el encargado de documentación "
+"una vez finalizado el lote):"
+msgstr ""
+"Revisión final del protocolo (a rellenar por el encargado de documentación "
+"una vez finalizado el lote):"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_picking_notes
@@ -1336,10 +1471,10 @@ msgid "The product %s has another protocol with the same type"
 msgstr "The product %s has another protocol with the same type"
 
 #. module: quality_protocol_report
-#: field:product.product,weight_action_full_to:0
-#: field:product.product,weight_action_unit_to:0
-#: field:product.product,weight_alert_full_to:0
-#: field:product.product,weight_alert_unit_to:0
+#: field:product.quality.limits,weight_action_full_to:0
+#: field:product.quality.limits,weight_action_unit_to:0
+#: field:product.quality.limits,weight_alert_full_to:0
+#: field:product.quality.limits,weight_alert_unit_to:0
 msgid "To"
 msgstr "To"
 
@@ -1350,26 +1485,30 @@ msgid "Total produced"
 msgstr "Total producido"
 
 #. module: quality_protocol_report
-#: field:mrp.wrap.comprobations,type:0
-#: field:print.protocol.test,type_ids:0
+#: field:mrp.wrap.comprobations,type:0 field:print.protocol.test,type_ids:0
 #: field:quality.protocol.report,type_id:0
 msgid "Type"
 msgstr "Tipo"
 
 #. module: quality_protocol_report
-#: view:product.product:quality_protocol_report.product_view_add_protocol
+#: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
 msgid "Unit action"
 msgstr "Acción unidad"
 
 #. module: quality_protocol_report
-#: view:product.product:quality_protocol_report.product_view_add_protocol
+#: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
 msgid "Unit alert"
 msgstr "Alerta unidad"
 
 #. module: quality_protocol_report
-#: field:product.product,unit_weight:0
+#: field:product.quality.limits,unit_weight:0
 msgid "Unit weight"
 msgstr "Peso unitario"
+
+#. module: quality_protocol_report
+#: field:stock.move.return.operations,used_lot:0
+msgid "Use lot"
+msgstr "Use lot"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -1419,8 +1558,7 @@ msgstr "Orden de trabajo"
 #. module: quality_protocol_report
 #: field:mrp.bom.line,workcenter_id:0
 #: field:mrp.production.product.line,workcenter_id:0
-#: field:protocol.type,workcenter_ids:0
-#: field:stock.move,workcenter_id:0
+#: field:protocol.type,workcenter_ids:0 field:stock.move,workcenter_id:0
 #: field:stock.move.return.operations,workcenter_id:0
 msgid "Workcenter"
 msgstr "Workcenter"
@@ -1453,7 +1591,7 @@ msgid "adjustment lever"
 msgstr "adjustment lever"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/mrp_production.py:245
+#: code:addons/quality_protocol_report/models/mrp_production.py:249
 #, python-format
 msgid "continuation protocol type not found"
 msgstr "continuation protocol type not found"
@@ -1509,10 +1647,16 @@ msgid "theorical produced"
 msgstr "theorical produced"
 
 #. module: quality_protocol_report
-#: code:addons/quality_protocol_report/models/product.py:54
+#: code:addons/quality_protocol_report/models/product.py:62
 #, python-format
-msgid "to assign protocols is necessary                                            to establish the base form or                                            container"
-msgstr "to assign protocols is necessary                                            to establish the base form or                                            container"
+msgid ""
+"to assign protocols is necessary                                            "
+"to establish the base form or                                            "
+"container"
+msgstr ""
+"to assign protocols is necessary                                            "
+"to establish the base form or                                            "
+"container"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_operations
@@ -1523,4 +1667,3 @@ msgstr "velocidad lenta embudo"
 #: field:mrp.production.control,wrapped:0
 msgid "wrapped"
 msgstr "Envuelta"
-

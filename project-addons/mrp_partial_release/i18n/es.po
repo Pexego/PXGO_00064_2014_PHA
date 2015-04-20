@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-17 13:25+0000\n"
-"PO-Revision-Date: 2014-12-17 13:25+0000\n"
+"POT-Creation-Date: 2015-04-01 12:00+0000\n"
+"PO-Revision-Date: 2015-04-01 12:00+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,33 +22,59 @@ msgstr "Cancelar"
 
 #. module: mrp_partial_release
 #: field:mrp.partial.release,create_uid:0
+#: field:mrp.partial.release.log,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: mrp_partial_release
 #: field:mrp.partial.release,create_date:0
+#: field:mrp.partial.release.log,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
 #. module: mrp_partial_release
+#: field:mrp.partial.release.log,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: mrp_partial_release
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_filter
+msgid "Group By..."
+msgstr "Agrupar..."
+
+#. module: mrp_partial_release
 #: field:mrp.partial.release,id:0
+#: field:mrp.partial.release.log,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: mrp_partial_release
 #: field:mrp.partial.release,write_uid:0
+#: field:mrp.partial.release.log,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: mrp_partial_release
 #: field:mrp.partial.release,write_date:0
+#: field:mrp.partial.release.log,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
+
+#. module: mrp_partial_release
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_filter
+#: field:mrp.partial.release.log,lot_id:0
+msgid "Lot"
+msgstr "Lote"
 
 #. module: mrp_partial_release
 #: model:res.groups,name:mrp_partial_release.mrp_partial_releases
 msgid "MRP partial releases"
 msgstr "Libreación parcial"
+
+#. module: mrp_partial_release
+#: model:ir.model,name:mrp_partial_release.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Órden de producción"
 
 #. module: mrp_partial_release
 #: view:mrp.partial.release:mrp_partial_release.mrp_release_form
@@ -57,11 +83,45 @@ msgid "Partial release"
 msgstr "Liberación parcial"
 
 #. module: mrp_partial_release
-#: code:addons/mrp_partial_release/wizard/mrp_release.py:41
-#: code:addons/mrp_partial_release/wizard/mrp_release.py:52
+#: model:ir.actions.act_window,name:mrp_partial_release.action_mrp_partial_release_log
+#: model:ir.ui.menu,name:mrp_partial_release.partial_release_log_menu
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_filter
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_form
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_tree
+#: view:mrp.production:mrp_partial_release.mrp_add_release
+#: field:mrp.production,release_log_ids:0
+msgid "Partial release log"
+msgstr "Liberaciones parciales"
+
+#. module: mrp_partial_release
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_filter
+#: field:mrp.partial.release.log,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: mrp_partial_release
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_filter
+#: field:mrp.partial.release.log,production_id:0
+msgid "Production"
+msgstr "Producción"
+
+#. module: mrp_partial_release
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:44
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:57
 #, python-format
 msgid "Production alredery completed"
 msgstr "La produccion ya ha sido completada."
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release.log,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release,reason:0
+#: field:mrp.partial.release.log,reason:0
+msgid "Reason"
+msgstr "Razón"
 
 #. module: mrp_partial_release
 #: model:ir.actions.act_window,name:mrp_partial_release.act_wiz_release
@@ -75,8 +135,8 @@ msgid "Release Quantity"
 msgstr "Cantidad a liberar"
 
 #. module: mrp_partial_release
-#: code:addons/mrp_partial_release/wizard/mrp_release.py:41
-#: code:addons/mrp_partial_release/wizard/mrp_release.py:52
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:43
+#: code:addons/mrp_partial_release/wizard/mrp_release.py:56
 #, python-format
 msgid "Release error"
 msgstr "Error en la liberación"
@@ -85,4 +145,14 @@ msgstr "Error en la liberación"
 #: field:mrp.partial.release,release_percent:0
 msgid "Release percentage"
 msgstr "Porcentaje a liberar"
+
+#. module: mrp_partial_release
+#: field:mrp.partial.release.log,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: mrp_partial_release
+#: view:mrp.partial.release.log:mrp_partial_release.mrp_partial_release_log_filter
+msgid "user"
+msgstr "usuario"
 

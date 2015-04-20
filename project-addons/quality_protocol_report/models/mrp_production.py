@@ -208,7 +208,11 @@ class MrpProduction(models.Model):
                 move_obj.action_cancel(cr, uid, [x.id for x in production.move_created_ids])
             moves = move_obj.search(cr, uid, [('move_dest_id', 'in', [x.id for x in production.move_lines])], context=context)
             if moves:
-                move_obj.action_cancel(cr, uid, moves, context=context)
+                move_ids = []
+                for move in move_obj.browse(cr, uid, moves, context):
+                    if move.state not in ('cancel', 'done'):
+                        move_ids.append(move.id)
+                move_obj.action_cancel(cr, uid, move_ids, context=context)
             move_obj.action_cancel(cr, uid, [x.id for x in production.move_lines])
         self.write(cr, uid, ids, {'state': 'cancel'})
         # Put related procurements in exception

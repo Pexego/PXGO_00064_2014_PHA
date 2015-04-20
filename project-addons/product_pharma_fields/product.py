@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
 #    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Marta Vázquez Rodríguez <marta@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -22,6 +23,18 @@
 from openerp import models, fields, api
 
 
+class ProductLine(models.Model):
+
+    _name = 'product.line'
+
+    name = fields.Char('Name', size=64, required=True)
+
+class ProductSubline(models.Model):
+
+    _name = "product.subline"
+
+    name = fields.Char('Name', size=64, required=True)
+
 class ProductProduct(models.Model):
 
     _inherit = "product.product"
@@ -34,6 +47,17 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     cn_code = fields.Char('CN code', related="product_variant_ids.cn_code")
+    objective = fields.Selection((('alimentation', 'Alimentation'),
+                                  ('pharmacy', 'Pharmacy')), 'Objective')
+    packing = fields.Char('Packing', size=12)
+    country = fields.Many2one('res.country', 'Country')
+    qty = fields.Float('Quantity')
+    udm = fields.Many2one('product.uom', 'UdM')
+    clothing = fields.Selection((('dressed', 'Dressed'),
+                                 ('naked', 'Naked')), 'Clothing')
+    customer = fields.Many2one('res.partner', 'Customer')
+    line = fields.Many2one('product.line', 'Line')
+    subline = fields.Many2one('product.subline', 'SubLine')
 
     @api.model
     def create(self, vals):

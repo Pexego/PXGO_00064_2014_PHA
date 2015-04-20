@@ -18,5 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import mrp_consume_quarantine
-from . import lot_reject_partial
+from openerp import models, fields, api, exceptions, _
+
+
+class mrp_production(models.Model):
+
+    _inherit = 'mrp.production'
+
+    release_log_ids = fields.One2many('mrp.partial.release.log',
+                                      'production_id', 'Partial release log')
