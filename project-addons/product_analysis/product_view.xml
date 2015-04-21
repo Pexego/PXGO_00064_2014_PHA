@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record id="product_template_add_analysis" model="ir.ui.view">
+           <field name="name">product.template.form</field>
+           <field name="model">product.template</field>
+           <field name="inherit_id" ref="quality_protocol_report.product_template_add_limits"/>
+           <field name="arch" type="xml">
+               <page string="Quality" position="inside">
+                   <group>
+                        <field name="analytic_certificate"/>
+                   </group>
+                    <group string="Analysis" attrs="{'invisible': [('analytic_certificate', '=', False)]}">
+                        <field name="analysis_ids" nolabel="1"/>
+                    </group>
+               </page>
+           </field>
+       </record>
+
+       <record id="product_analysis_tree" model="ir.ui.view">
+            <field name="name">product.analysis.tree</field>
+            <field name="model">product.analysis</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Analysis">
+                    <field name="name"/>
+                    <field name="method"/>
+                    <field name="show_in_certificate"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_analysis_form" model="ir.ui.view">
+            <field name="name">product.analysis.form</field>
+            <field name="model">product.analysis</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Analysis">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="method"/>
+                            </group>
+                            <group>
+                                <field name="show_in_certificate"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

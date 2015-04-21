@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="report_lot_analysis_sheet"
+            string="Analysis sheet"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.report_stock_lot_analysis_sheet"
+            name="product_analysis.report_stock_lot_analysis_sheet"
+        />
+
+        <report
+            id="report_lot_analysis_certificate"
+            string="Analysis certificate"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.report_stock_lot_analysis_certificate"
+            name="product_analysis.report_stock_lot_analysis_certificate"
+        />
+    </data>
+</openerp>

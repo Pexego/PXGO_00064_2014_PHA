@@ -1,0 +1,393 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * product_analysis
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-21 16:59+0000\n"
+"PO-Revision-Date: 2015-04-21 16:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_analysis
+#: view:product.analysis:product_analysis.product_analysis_form
+#: view:product.analysis:product_analysis.product_analysis_tree
+#: view:product.template:product_analysis.product_template_add_analysis
+#: field:product.template,analysis_ids:0
+#: field:stock.lot.analysis,analysis_id:0
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+#: field:stock.production.lot,analysis_ids:0
+msgid "Analysis"
+msgstr "Análisis"
+
+#. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_lot_analysis_certificate
+msgid "Analysis certificate"
+msgstr "Certificado de análisis"
+
+#. module: product_analysis
+#: code:addons/product_analysis/stock.py:86
+#, python-format
+msgid "Analysis error"
+msgstr "Analysis error"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+#: field:stock.production.lot,analysis_notes:0
+msgid "Analysis notes"
+msgstr "Observaciones de análisis"
+
+#. module: product_analysis
+#: field:stock.production.lot,analysis_passed:0
+msgid "Analysis passed"
+msgstr "Análisis pasado"
+
+#. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_lot_analysis_sheet
+msgid "Analysis sheet"
+msgstr "Hoja de análisis"
+
+#. module: product_analysis
+#: field:product.template,analytic_certificate:0
+msgid "Analytic certificate"
+msgstr "Certificado de análisis"
+
+#. module: product_analysis
+#: model:ir.actions.act_window,name:product_analysis.action_analytic_control_pend
+#: model:ir.ui.menu,name:product_analysis.quality_analytic_pend_menu
+msgid "Analytic control pending"
+msgstr "Pendiente control analítico"
+
+#. module: product_analysis
+#: model:ir.actions.act_window,name:product_analysis.action_analytic_control_realized
+#: model:ir.ui.menu,name:product_analysis.quality_analytic_realized_menu
+msgid "Analytic control realized"
+msgstr "Control analítico realizado"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Analytic control:"
+msgstr "Control analítico:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+msgid "CERTIFICATE ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL"
+msgstr "CERTIFICADO DE ANÁLISIS DE MATERIA PRIMA / MATERIA DE ACONDICIONAMIENTO"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Container type:"
+msgstr "Tipo de envase:"
+
+#. module: product_analysis
+#: field:product.analysis,create_uid:0
+#: field:product.analysis.method,create_uid:0
+#: field:stock.lot.analysis,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: product_analysis
+#: field:product.analysis,create_date:0
+#: field:product.analysis.method,create_date:0
+#: field:stock.lot.analysis,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Date:"
+msgstr "Fecha:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "F-01-DT-001-00"
+msgstr "F-01-DT-001-00"
+
+#. module: product_analysis
+#: field:product.analysis,id:0
+#: field:product.analysis.method,id:0
+#: field:stock.lot.analysis,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "LEAF ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL"
+msgstr "HOJA DE ANÁLISIS DE MATERIA PRIMA / MATERIA DE ACONDICIONAMIENTO"
+
+#. module: product_analysis
+#: field:product.analysis,write_uid:0
+#: field:product.analysis.method,write_uid:0
+#: field:stock.lot.analysis,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: product_analysis
+#: field:product.analysis,write_date:0
+#: field:product.analysis.method,write_date:0
+#: field:stock.lot.analysis,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: product_analysis
+#: field:stock.lot.analysis,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: product_analysis
+#: model:ir.ui.menu,name:product_analysis.quality_lot_menus
+msgid "Lot control"
+msgstr "Control de lote"
+
+#. module: product_analysis
+#: model:ir.model,name:product_analysis.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lot/Serial"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Lot:"
+msgstr "Lote:"
+
+#. module: product_analysis
+#: field:product.analysis,method:0
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Method"
+msgstr "Método"
+
+#. module: product_analysis
+#: field:product.analysis.method,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Notes:"
+msgstr "Notas:"
+
+#. module: product_analysis
+#: field:stock.production.lot,num_container_sample_realized:0
+msgid "Number of containers sampled"
+msgstr "Número de envases muestreados"
+
+#. module: product_analysis
+#: field:stock.production.lot,num_container_sample_to_do:0
+msgid "Number of containers to sample"
+msgstr "Número de envases a muestrear"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Number of containers:"
+msgstr "Número de envases:"
+
+#. module: product_analysis
+#: field:stock.production.lot,num_sampling_to_do:0
+msgid "Number of samples"
+msgstr "Numero de muestras"
+
+#. module: product_analysis
+#: field:stock.production.lot,num_sampling_realized:0
+msgid "Number of samples taked"
+msgstr "Numero de muestras tomadas"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Nº of containers sampled:"
+msgstr "Nº envases muestreados:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Nº of containers to sample:"
+msgstr "Nº envases a muestrear:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Nº of pallets:"
+msgstr "Nº de pallets:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Nº of samples taked:"
+msgstr "Nº muestras tomadas:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Nº of samples to take:"
+msgstr "Nº muestras a tomar:"
+
+#. module: product_analysis
+#: field:product.analysis,name:0
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Paramenter"
+msgstr "Parámetro"
+
+#. module: product_analysis
+#: model:ir.model,name:product_analysis.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Product:"
+msgstr "Producto:"
+
+#. module: product_analysis
+#: field:stock.lot.analysis,proposed:0
+msgid "Proposed"
+msgstr "Propuesto"
+
+#. module: product_analysis
+#: field:stock.production.lot,num_container_sample_proposed:0
+msgid "Proposed number of containers to sample"
+msgstr "Número de envases a muestrear propuesto"
+
+#. module: product_analysis
+#: field:stock.production.lot,num_sampling_proposed:0
+msgid "Proposed number of samples"
+msgstr "Número de muestras a tomar propuestas"
+
+#. module: product_analysis
+#: view:product.template:product_analysis.product_template_add_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Quality"
+msgstr "Calidad"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Quantity:"
+msgstr "Cantidad:"
+
+#. module: product_analysis
+#: field:stock.lot.analysis,realized:0
+#: field:stock.lot.analysis,realized_by:0
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Realized"
+msgstr "Realizado"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Realized by:"
+msgstr "Realizado por:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Realized:"
+msgstr "Realizado:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Receipt date:"
+msgstr "Fecha de entrada:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Receive data:"
+msgstr "Fecha de entrada:"
+
+#. module: product_analysis
+#: field:stock.lot.analysis,result:0
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Result"
+msgstr "Resultado"
+
+#. module: product_analysis
+#: field:stock.production.lot,revised_by:0
+msgid "Revised by"
+msgstr "Revisado por"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Revised by:"
+msgstr "Revisado por:"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Sampling"
+msgstr "Muestreo"
+
+#. module: product_analysis
+#: field:stock.production.lot,sampling_date:0
+msgid "Sampling date"
+msgstr "Fecha de muestreo"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+#: field:stock.production.lot,sampling_notes:0
+msgid "Sampling notes"
+msgstr "Notas de muestreo"
+
+#. module: product_analysis
+#: field:stock.production.lot,sampling_realized:0
+msgid "Sampling realized by"
+msgstr "Muestreo realizado por"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Sampling:"
+msgstr "Toma de muestras:"
+
+#. module: product_analysis
+#: field:product.analysis,show_in_certificate:0
+msgid "Show in certificate"
+msgstr "Mostrar en certificado"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Supplier lot:"
+msgstr "Lote de proveedor:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Supplier:"
+msgstr "Proveedor:"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "person who enters the data into Odoo"
+msgstr "Persona que introduce los datos"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "signature and date"
+msgstr "Firma y fecha"
+
+#. module: product_analysis
+#: code:addons/product_analysis/stock.py:87
+#, python-format
+msgid "the consignment has not passed all analysis"
+msgstr "El lote no ha pasado todos los análisis"
+
