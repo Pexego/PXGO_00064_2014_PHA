@@ -1,0 +1,665 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* product_indexbook
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-13 17:25+0000\n"
+"PO-Revision-Date: 2015-03-13 17:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "ASPECTO"
+msgstr "ASPECTO"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_pis_aspects
+#: field:qc.aspects,name:0
+#: view:qc.pis:product_indexbook.view_qc_pis_form
+#: field:qc.pis,aspect_chars:0
+#: view:qc.pis.aspects:product_indexbook.view_qc_pis_aspects_form
+msgid "Aspect"
+msgstr "Aspecto"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_aspects
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_pis_aspects
+#: field:product.template,qc_aspects:0
+msgid "Aspects"
+msgstr "Aspectos"
+
+#. module: product_indexbook
+#: view:product.template:product_indexbook.product_template_form_view_product_indexbook
+msgid "Aspects observed in the product"
+msgstr "Aspectos observados en el producto"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "CARACTERES MACROSCÓPICOS"
+msgstr "CARACTERES MACROSCÓPICOS"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "CARACTERES MICROSCÓPICOS"
+msgstr "CARACTERES MICROSCÓPICOS"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "CARACTERES OBSERVADOS"
+msgstr "CARACTERES OBSERVADOS"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "CARÁCTER OBSERVADO"
+msgstr "CARÁCTER OBSERVADO"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "COMENTARIO"
+msgstr "COMENTARIO"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "CONF."
+msgstr "CONF."
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "CONFORME"
+msgstr "CONFORME"
+
+#. module: product_indexbook
+#: field:qc.micro.chars,name:0
+msgid "Character"
+msgstr "Carácter"
+
+#. module: product_indexbook
+#: field:qc.pis.micro.chars.details,checked:0
+msgid "Checked"
+msgstr "Comprobado"
+
+#. module: product_indexbook
+#: field:qc.pis.micro.chars,children:0
+msgid "Children"
+msgstr "Hijos"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_search
+msgid "Completed"
+msgstr "Completado"
+
+#. module: product_indexbook
+#: field:qc.pis,completed:0
+msgid "Completed analysis?"
+msgstr "¿Análisis completado?"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_search
+msgid "Completed lots"
+msgstr "Lotes completados"
+
+#. module: product_indexbook
+#: field:qc.pis.aspects,compliant:0
+#: field:qc.pis.macro.chars,compliant:0
+#: field:qc.pis.micro.chars,compliant:0
+msgid "Compliant"
+msgstr "Conforme"
+
+#. module: product_indexbook
+#: field:qc.aspects,create_uid:0
+#: field:qc.micro.chars,create_uid:0
+#: field:qc.pis,create_uid:0
+#: field:qc.pis.aspects,create_uid:0
+#: field:qc.pis.macro.chars,create_uid:0
+#: field:qc.pis.micro.chars,create_uid:0
+#: field:qc.pis.micro.chars.details,create_uid:0
+#: field:qc.species,create_uid:0
+#: field:qc.species.product.template.rel,create_uid:0
+#: field:qc.varieties,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: product_indexbook
+#: field:qc.aspects,create_date:0
+#: field:qc.micro.chars,create_date:0
+#: field:qc.pis,create_date:0
+#: field:qc.pis.aspects,create_date:0
+#: field:qc.pis.macro.chars,create_date:0
+#: field:qc.pis.micro.chars,create_date:0
+#: field:qc.pis.micro.chars.details,create_date:0
+#: field:qc.species,create_date:0
+#: field:qc.species.product.template.rel,create_date:0
+#: field:qc.varieties,create_date:0
+msgid "Created on"
+msgstr "Fecha de alta"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "CÓD. IDM"
+msgstr "CÓD. IDM"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "ESPECIE"
+msgstr "ESPECIE"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_form
+msgid "Edit PIS"
+msgstr "Editar F.I.P."
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "FICHA DE IDENTIFICACIÓN DE PRODUCTO"
+msgstr "FICHA DE IDENTIFICACIÓN DE PRODUCTO"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "Fdo. Responsable de Control de Calidad"
+msgstr "Fdo. Responsable de Control de Calidad"
+
+#. module: product_indexbook
+#: field:product.template,qc_has_pis:0
+msgid "Has P.I.S.?"
+msgstr "¿Tiene F.I.P.?"
+
+#. module: product_indexbook
+#: view:product.template:product_indexbook.product_template_search_view_product_indexbook
+msgid "Has PIS"
+msgstr "Tiene F.I.P."
+
+#. module: product_indexbook
+#: field:qc.species.product.template.rel,micro:0
+msgid "Has micro char?"
+msgstr "Carácter micro"
+
+#. module: product_indexbook
+#: help:product.template,qc_has_pis:0
+msgid "Has product identification sheet?"
+msgstr "¿Tiene ficha de identificación de producto?"
+
+#. module: product_indexbook
+#: field:qc.aspects,id:0
+#: field:qc.micro.chars,id:0
+#: field:qc.pis,id:0
+#: field:qc.pis.aspects,id:0
+#: field:qc.pis.macro.chars,id:0
+#: field:qc.pis.micro.chars,id:0
+#: field:qc.pis.micro.chars.details,id:0
+#: field:qc.species,id:0
+#: field:qc.species.product.template.rel,id:0
+#: field:qc.varieties,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: product_indexbook
+#: field:qc.species,idm_code:0
+msgid "IDM code"
+msgstr "Cód. IDM"
+
+#. module: product_indexbook
+#: field:qc.species,idm_code_rev:0
+msgid "IDM code & rev."
+msgstr "Cód. IDM y rev."
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_stock_location
+msgid "Inventory Locations"
+msgstr "Ubicaciones de inventario"
+
+#. module: product_indexbook
+#: field:stock.location,qc_location:0
+msgid "Is a quarantine location?"
+msgstr "¿Es una localización de cuarentena?"
+
+#. module: product_indexbook
+#: field:qc.aspects,write_uid:0
+#: field:qc.micro.chars,write_uid:0
+#: field:qc.pis,write_uid:0
+#: field:qc.pis.aspects,write_uid:0
+#: field:qc.pis.macro.chars,write_uid:0
+#: field:qc.pis.micro.chars,write_uid:0
+#: field:qc.pis.micro.chars.details,write_uid:0
+#: field:qc.species,write_uid:0
+#: field:qc.species.product.template.rel,write_uid:0
+#: field:qc.varieties,write_uid:0
+msgid "Last Updated by"
+msgstr "Últ. actualización por"
+
+#. module: product_indexbook
+#: field:qc.aspects,write_date:0
+#: field:qc.micro.chars,write_date:0
+#: field:qc.pis,write_date:0
+#: field:qc.pis.aspects,write_date:0
+#: field:qc.pis.macro.chars,write_date:0
+#: field:qc.pis.micro.chars,write_date:0
+#: field:qc.pis.micro.chars.details,write_date:0
+#: field:qc.species,write_date:0
+#: field:qc.species.product.template.rel,write_date:0
+#: field:qc.varieties,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "Lote:"
+msgstr "Lote:"
+
+#. module: product_indexbook
+#: field:qc.species.product.template.rel,macro:0
+msgid "Macroscopic character"
+msgstr "Carácter macroscópico"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_pis_macro_chars
+#: view:qc.pis:product_indexbook.view_qc_pis_form
+#: field:qc.pis,macro_chars:0
+#: view:qc.pis.macro.chars:product_indexbook.view_qc_pis_macro_chars_form
+msgid "Macroscopic characters"
+msgstr "Caracteres macroscópicos"
+
+#. module: product_indexbook
+#: field:qc.pis.micro.chars.details,name:0
+msgid "Micro character"
+msgstr "Carácter micro"
+
+#. module: product_indexbook
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_pis_micro_chars
+msgid "Micro characters"
+msgstr "Caracteres micro"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_micro_chars
+#: model:ir.model,name:product_indexbook.model_qc_pis_micro_chars
+#: view:qc.pis:product_indexbook.view_qc_pis_form
+#: field:qc.pis,micro_chars:0
+#: view:qc.pis.micro.chars:product_indexbook.view_qc_pis_micro_chars_form
+#: view:qc.species:product_indexbook.view_qc_species_form
+#: field:qc.species,micro_characters:0
+msgid "Microscopic characters"
+msgstr "Caracteres microscópicos"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "NO CONF."
+msgstr "NO CONF."
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "NO CONFORME"
+msgstr "NO CONFORME"
+
+#. module: product_indexbook
+#: view:qc.species:product_indexbook.view_qc_species_form
+msgid "New revision"
+msgstr "Nueva revisión"
+
+#. module: product_indexbook
+#: field:qc.pis.aspects,non_compliant:0
+#: field:qc.pis.macro.chars,non_compliant:0
+#: field:qc.pis.micro.chars,non_compliant:0
+msgid "Non compliant"
+msgstr "No conforme"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "Observaciones:"
+msgstr "Observaciones:"
+
+#. module: product_indexbook
+#: field:qc.pis,aspect_observations:0
+#: field:qc.pis,macro_observations:0
+#: field:qc.pis,micro_observations:0
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: product_indexbook
+#: field:qc.pis.micro.chars,micro_chars:0
+msgid "Observed character"
+msgstr "Carácter observado"
+
+#. module: product_indexbook
+#: view:product.template:product_indexbook.product_template_form_view_product_indexbook
+msgid "P.I.S."
+msgstr "F.I.P."
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "PARÁMETRO"
+msgstr "PARÁMETRO"
+
+#. module: product_indexbook
+#: field:qc.pis,name:0
+msgid "PIS code"
+msgstr "Cód. F.I.P."
+
+#. module: product_indexbook
+#: field:qc.pis.aspects,name:0
+msgid "Parameter"
+msgstr "Parámetro"
+
+#. module: product_indexbook
+#: field:qc.pis.micro.chars.details,parent:0
+msgid "Parent"
+msgstr "Padre"
+
+#. module: product_indexbook
+#: field:qc.species,parent_revision_id:0
+msgid "Parent revision id"
+msgstr "ID de revisión padre"
+
+#. module: product_indexbook
+#: field:qc.pis,lot:0
+msgid "Parent stock lot"
+msgstr "Lote de stock origen"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_search
+msgid "Pending"
+msgstr "Pendientes"
+
+#. module: product_indexbook
+#: model:ir.actions.act_window,name:product_indexbook.action_qc_pis_pending
+#: model:ir.ui.menu,name:product_indexbook.menu_quality_control_pis_pending
+#: view:qc.pis:product_indexbook.view_qc_pis_search
+msgid "Pending lots"
+msgstr "Lotes pendientes"
+
+#. module: product_indexbook
+#: view:product.template:product_indexbook.product_template_form_view_product_indexbook
+msgid "Preview product identification sheet specimen"
+msgstr "Muestra de ficha de identificación de producto"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_form
+msgid "Print sheet"
+msgstr "Imprimir ficha"
+
+#. module: product_indexbook
+#: model:ir.actions.act_window,name:product_indexbook.action_qc_pis_completed
+#: model:ir.ui.menu,name:product_indexbook.menu_quality_control_pis_completed
+msgid "Processed lots"
+msgstr "Lotes procesados"
+
+#. module: product_indexbook
+#: field:qc.species.product.template.rel,product:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_indexbook
+#: field:qc.pis.macro.chars,product_specie:0
+#: field:qc.pis.micro.chars,product_specie:0
+msgid "Product & specie relation"
+msgstr "Relación entre especies y productos"
+
+#. module: product_indexbook
+#: model:ir.actions.report.xml,name:product_indexbook.action_report_qc_pis
+msgid "Product Identification Sheet"
+msgstr "Ficha de Identificación de Producto"
+
+#. module: product_indexbook
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_pis
+msgid "Product Identification Sheets"
+msgstr "Fichas de Identificación de Producto"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_pis
+#: view:qc.pis:product_indexbook.view_qc_pis_form
+#: field:qc.pis.aspects,pis:0
+#: field:qc.pis.macro.chars,pis:0
+#: field:qc.pis.micro.chars,pis:0
+msgid "Product identification sheet"
+msgstr "Ficha de Identificación de Producto"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_tree
+msgid "Product identification sheets"
+msgstr "Fichas de Identificación de Producto"
+
+#. module: product_indexbook
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_products
+#: field:qc.species,products:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: product_indexbook
+#: view:qc.species:product_indexbook.view_qc_species_form
+msgid "Products associated"
+msgstr "Productos asociados"
+
+#. module: product_indexbook
+#: model:ir.actions.act_window,name:product_indexbook.action_qc_products_purchasable
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_products_purchasable
+msgid "Purchasable products"
+msgstr "Productos comprables"
+
+#. module: product_indexbook
+#: view:product.template:product_indexbook.product_template_form_view_product_indexbook
+msgid "Quality control"
+msgstr "Control de Calidad"
+
+#. module: product_indexbook
+#: view:qc.aspects:product_indexbook.view_qc_aspects_form
+msgid "Quality control aspect"
+msgstr "Aspecto de control de calidad"
+
+#. module: product_indexbook
+#: model:ir.actions.act_window,name:product_indexbook.action_qc_aspects
+#: view:qc.aspects:product_indexbook.view_qc_aspects_tree
+msgid "Quality control aspects"
+msgstr "Aspectos de control de calidad"
+
+#. module: product_indexbook
+#: view:qc.micro.chars:product_indexbook.view_qc_micro_chars_form
+msgid "Quality control microscopic character"
+msgstr "Carácter microscópico de control de calidad"
+
+#. module: product_indexbook
+#: model:ir.actions.act_window,name:product_indexbook.action_qc_micro_chars
+#: view:qc.micro.chars:product_indexbook.view_qc_micro_chars_tree
+msgid "Quality control microscopic characters"
+msgstr "Caracteres microscópicos de control de calidad"
+
+#. module: product_indexbook
+#: view:qc.varieties:product_indexbook.view_qc_varieties_tree
+msgid "Quality control specie varieties"
+msgstr "Variedades de especie de control de calidad"
+
+#. module: product_indexbook
+#: view:qc.varieties:product_indexbook.view_qc_varieties_form
+msgid "Quality control specie variety"
+msgstr "Variedad de especie de control de calidad"
+
+#. module: product_indexbook
+#: model:ir.actions.act_window,name:product_indexbook.action_qc_species
+#: view:qc.species:product_indexbook.view_qc_species_form
+#: view:qc.species:product_indexbook.view_qc_species_tree
+#: view:qc.species.product.template.rel:product_indexbook.view_qc_species_product_template_rel_form
+#: view:qc.species.product.template.rel:product_indexbook.view_qc_species_product_template_rel_specie_tree
+#: view:qc.species.product.template.rel:product_indexbook.view_qc_species_product_template_rel_tree
+msgid "Quality control species"
+msgstr "Especies de control de calidad"
+
+#. module: product_indexbook
+#: model:ir.ui.menu,name:product_indexbook.menu_quality_management
+msgid "Quality management"
+msgstr "Gestión de calidad"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
+
+#. module: product_indexbook
+#: field:qc.species,name:0
+#: field:qc.species.product.template.rel,name:0
+msgid "Raw material"
+msgstr "Materia prima"
+
+#. module: product_indexbook
+#: field:qc.pis,reference:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "Referencia:"
+msgstr "Referencia:"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_species_product_template_rel
+msgid "Relation between species & products"
+msgstr "Relación entre especies y productos"
+
+#. module: product_indexbook
+#: field:qc.pis.aspects,remark:0
+msgid "Remark"
+msgstr "Comentario"
+
+#. module: product_indexbook
+#: field:qc.species,revision:0
+msgid "Revision"
+msgstr "Revisión"
+
+#. module: product_indexbook
+#: model:ir.actions.act_window,name:product_indexbook.action_qc_products_saleable
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_products_saleable
+msgid "Saleable products"
+msgstr "Productos vendibles"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_form
+msgid "Save PIS"
+msgstr "Guardar F.I.P."
+
+#. module: product_indexbook
+#: view:qc.species:product_indexbook.view_qc_species_form
+msgid "Save revision"
+msgstr "Guardar revisión"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "Se identifican macroscópicamente en la muestra los siguientes elementos:"
+msgstr "Se identifican macroscópicamente en la muestra los siguientes elementos:"
+
+#. module: product_indexbook
+#: view:website:product_indexbook.report_pis
+msgid "Se identifican microscópicamente en la muestra los siguientes elementos:"
+msgstr "Se identifican microscópicamente en la muestra los siguientes elementos:"
+
+#. module: product_indexbook
+#: view:qc.aspects:product_indexbook.view_qc_aspects_search
+msgid "Search aspects"
+msgstr "Búsqueda de aspectos"
+
+#. module: product_indexbook
+#: view:qc.micro.chars:product_indexbook.view_qc_micro_chars_search
+msgid "Search microscopic characters"
+msgstr "Búsqueda de caracteres microscópicos"
+
+#. module: product_indexbook
+#: view:qc.pis:product_indexbook.view_qc_pis_search
+msgid "Search product identification sheet"
+msgstr "Búsqueda de ficha de identificación de producto"
+
+#. module: product_indexbook
+#: view:qc.species:product_indexbook.view_qc_species_search
+#: view:qc.species.product.template.rel:product_indexbook.view_qc_species_product_template_rel_search
+msgid "Search species"
+msgstr "Búsqueda de especies"
+
+#. module: product_indexbook
+#: field:qc.varieties,code:0
+msgid "Short code"
+msgstr "Cód. abreviado"
+
+#. module: product_indexbook
+#: view:qc.aspects:product_indexbook.view_qc_aspects_search
+#: view:qc.micro.chars:product_indexbook.view_qc_micro_chars_search
+#: view:qc.species:product_indexbook.view_qc_species_search
+msgid "Show only visible items"
+msgstr "Mostrar sólo elementos visibles"
+
+#. module: product_indexbook
+#: field:qc.species,specie:0
+#: field:qc.varieties,specie:0
+msgid "Specie"
+msgstr "Especie"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_varieties
+#: field:qc.species,varieties:0
+msgid "Specie varieties"
+msgstr "Variedades de especie"
+
+#. module: product_indexbook
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_pis_species
+#: field:product.template,qc_species:0
+msgid "Species"
+msgstr "Especies"
+
+#. module: product_indexbook
+#: model:ir.model,name:product_indexbook.model_qc_species
+msgid "Species for quality control"
+msgstr "Especies de control de calidad"
+
+#. module: product_indexbook
+#: view:product.template:product_indexbook.product_template_form_view_product_indexbook
+msgid "Species that compose the product"
+msgstr "Especies que conforman el producto"
+
+#. module: product_indexbook
+#: model:ir.ui.menu,name:product_indexbook.menu_qc_pis_tables
+msgid "Tables"
+msgstr "Tablas"
+
+#. module: product_indexbook
+#: sql_constraint:qc.aspects:0
+msgid "This aspect already exists!"
+msgstr "¡Este aspecto ya existe!"
+
+#. module: product_indexbook
+#: sql_constraint:qc.micro.chars:0
+msgid "This microscopic character already exists!"
+msgstr "¡Este carácter microscópico ya existe!"
+
+#. module: product_indexbook
+#: field:qc.species,used_part:0
+msgid "Used part"
+msgstr "Parte utilizada"
+
+#. module: product_indexbook
+#: view:qc.species:product_indexbook.view_qc_species_form
+msgid "Varieties"
+msgstr "Variedades"
+
+#. module: product_indexbook
+#: field:qc.species.product.template.rel,variety:0
+#: field:qc.varieties,name:0
+msgid "Variety"
+msgstr "Variedad"
+
+#. module: product_indexbook
+#: view:qc.aspects:product_indexbook.view_qc_aspects_search
+#: field:qc.aspects,visible:0
+#: view:qc.micro.chars:product_indexbook.view_qc_micro_chars_search
+#: field:qc.micro.chars,visible:0
+#: view:qc.species:product_indexbook.view_qc_species_search
+#: field:qc.species,visible:0
+#: field:qc.varieties,visible:0
+msgid "Visible"
+msgstr "Visible"
+
