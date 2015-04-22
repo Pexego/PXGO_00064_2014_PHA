@@ -168,8 +168,8 @@ msgstr "Fdo. Responsable de Control de Calidad"
 
 #. module: product_indexbook
 #: field:product.template,qc_has_pis:0
-msgid "Has P.I.S.?"
-msgstr "¿Tiene F.I.P.?"
+msgid "P.I.S."
+msgstr "F.I.P."
 
 #. module: product_indexbook
 #: view:product.template:product_indexbook.product_template_search_view_product_indexbook
@@ -448,8 +448,8 @@ msgstr "Productos comprables"
 
 #. module: product_indexbook
 #: view:product.template:product_indexbook.product_template_form_view_product_indexbook
-msgid "Quality control"
-msgstr "Control de Calidad"
+msgid "Quality controls"
+msgstr "Controles de Calidad"
 
 #. module: product_indexbook
 #: view:qc.aspects:product_indexbook.view_qc_aspects_form

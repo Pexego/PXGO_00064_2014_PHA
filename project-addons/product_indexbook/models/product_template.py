@@ -25,7 +25,7 @@ from openerp import models, fields, api
 class product_template(models.Model):
     _inherit = 'product.template'
 
-    qc_has_pis = fields.Boolean(string='Has P.I.S.?', default=False, help="Has product identification sheet?")
+    qc_has_pis = fields.Boolean(string='P.I.S.', default=False, help="Has product identification sheet?")
     qc_species = fields.One2many(string='Species', comodel_name='qc.species.product.template.rel', inverse_name='product')
     qc_aspects = fields.Many2many(string='Aspects', comodel_name='qc.aspects')
 

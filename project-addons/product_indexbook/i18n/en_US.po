@@ -168,8 +168,8 @@ msgstr "Signed by Quality Control Manager"
 
 #. module: product_indexbook
 #: field:product.template,qc_has_pis:0
-msgid "Has P.I.S.?"
-msgstr "Has P.I.S.?"
+msgid "P.I.S."
+msgstr "P.I.S."
 
 #. module: product_indexbook
 #: view:product.template:product_indexbook.product_template_search_view_product_indexbook
@@ -448,8 +448,8 @@ msgstr "Purchasable products"
 
 #. module: product_indexbook
 #: view:product.template:product_indexbook.product_template_form_view_product_indexbook
-msgid "Quality control"
-msgstr "Quality control"
+msgid "Quality controls"
+msgstr "Quality controls"
 
 #. module: product_indexbook
 #: view:qc.aspects:product_indexbook.view_qc_aspects_form
