@@ -43,7 +43,7 @@ class MrpConsumeQuarantine(models.TransientModel):
             my_context['lot_id'] = lot.id
             qty = lot.product_id.with_context(my_context)._product_available()
             qty = qty[lot.product_id.id]['qty_available']
-            lines.append((0,0, {'lot_id': lot.id, 'qty': qty}))
+            lines.append((0,0, {'lot_id': lot.id, 'qty': qty, 'entry_date': lot.entry_quarantine}))
         res['line_ids'] = lines
         return res
 
@@ -94,3 +94,4 @@ class MrpConsumeQuarantineLine(models.TransientModel):
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
     wizard_id = fields.Many2one('mrp.production.consume.quarantine', 'wizard')
     qty = fields.Float('Quantity')
+    entry_date = fields.Date('Entry quarantine')

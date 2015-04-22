@@ -16,6 +16,7 @@
                             <tree editable="bottom">
                                 <field name="lot_id"/>
                                 <field name="qty"/>
+                                <field name="entry_date"/>
                             </tree>
                         </field>
                     </group>

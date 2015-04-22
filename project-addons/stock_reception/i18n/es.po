@@ -1,0 +1,109 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * stock_reception
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-21 16:58+0000\n"
+"PO-Revision-Date: 2015-04-21 16:58+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_reception
+#: model:ir.ui.menu,name:stock_reception.stock_container_type_menu
+#: view:stock.container.type:stock_reception.stock_container_type_form
+#: field:stock.production.lot,container_type:0
+msgid "Container type"
+msgstr "Tipo de envase"
+
+#. module: stock_reception
+#: view:stock.container.type:stock_reception.stock_container_type_tree
+msgid "Container types"
+msgstr "Tipos de envase"
+
+#. module: stock_reception
+#: field:stock.container.type,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: stock_reception
+#: field:stock.container.type,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: stock_reception
+#: field:stock.production.lot,date_in_system:0
+msgid "Entry date in system"
+msgstr "Fecha de entrada en el sistema"
+
+#. module: stock_reception
+#: field:stock.container.type,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_reception
+#: field:stock.container.type,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: stock_reception
+#: field:stock.container.type,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: stock_reception
+#: model:ir.model,name:stock_reception.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lot/Serial"
+
+#. module: stock_reception
+#: field:stock.container.type,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: stock_reception
+#: view:stock.production.lot:stock_reception.stock_lot_add_date_in
+msgid "Notes"
+msgstr "Notas"
+
+#. module: stock_reception
+#: field:stock.production.lot,container_number:0
+msgid "Number of containers"
+msgstr "Número de envases"
+
+#. module: stock_reception
+#: field:stock.production.lot,pallets:0
+msgid "Pallets"
+msgstr "Pallets"
+
+#. module: stock_reception
+#: field:stock.production.lot,picking_exist:0
+msgid "Picking exists"
+msgstr "Existe albarán"
+
+#. module: stock_reception
+#: field:stock.production.lot,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: stock_reception
+#: field:stock.production.lot,reception_realized_by:0
+msgid "Reception realized by"
+msgstr "Recepción realizada por"
+
+#. module: stock_reception
+#: field:stock.production.lot,uom_id:0
+msgid "UoM"
+msgstr "UoM"
+
+#. module: stock_reception
+#: model:ir.actions.act_window,name:stock_reception.action_stock_container_type
+msgid "action.stock.container.type"
+msgstr "action.stock.container.type"
+

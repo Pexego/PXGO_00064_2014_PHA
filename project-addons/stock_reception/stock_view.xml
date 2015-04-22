@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_lot_add_date_in" model="ir.ui.view">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="product_expiry.view_move_form_expiry"/>
+            <field name="arch" type="xml">
+                <field name="removal_date" position="after">
+                    <field name="date_in"/>
+                    <field name="date_in_system"/>
+                </field>
+                <group name="main_group" position="after">
+                    <group>
+                        <group>
+                            <field name="container_type" widget="selection"/>
+                            <label for="quantity"/>
+                            <div>
+                                <field name="quantity" class="oe_inline"/>
+                                <field name="uom_id" class="oe_inline oe_no_button" groups="product.group_uom"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="container_number"/>
+                            <field name="pallets"/>
+                            <field name="picking_exist"/>
+                            <field name="reception_realized_by"/>
+                        </group>
+                    </group>
+                </group>
+                <xpath expr="//div[@class='oe_title']/h1" position="after">
+                    <label for="supplier_lot" class="oe_edit_only"/>
+                    <h2>
+                        <field name="supplier_lot"/>
+                    </h2>
+                </xpath>
+
+                <notebook position="after">
+                    <field name="notes" placeholder="Notes"/>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="stock_container_type_tree" model="ir.ui.view">
+            <field name="name">stock.container.type.tree</field>
+            <field name="model">stock.container.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Container types">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_container_type_form" model="ir.ui.view">
+            <field name="name">stock.container.type.form</field>
+            <field name="model">stock.container.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Container type">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_container_type_filter" model="ir.ui.view">
+            <field name="name">stock.container.type.search</field>
+            <field name="model">stock.container.type</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                   <field name="name"/>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_stock_container_type">
+            <field name="name">action.stock.container.type</field>
+            <field name="res_model">stock.container.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="stock_container_type_tree"/>
+            <field name="search_view_id" ref="stock_container_type_filter"/>
+        </record>
+
+        <menuitem name="Container type" parent="stock.menu_stock_configuration" action="action_stock_container_type" id="stock_container_type_menu"/>
+
+    </data>
+</openerp>

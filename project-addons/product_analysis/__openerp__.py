@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
+#    Copyright (C) 2015 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,15 +20,17 @@
 ##############################################################################
 
 {
-    'name': "mrp partial release",
+    'name': 'Product analysis',
     'version': '1.0',
-    'category': 'mrp',
+    'category': 'product',
     'description': """""",
     'author': 'Pexego',
-    'website': 'www.pexego.es',
-    "depends": ['mrp', 'mrp_review', 'quality_protocol_report', 'quality_management_menu'],
-    "data": ['security/mrp_release_security.xml', 'wizard/mrp_release.xml',
-             'views/mrp_view.xml', 'views/mrp_partial_release_log_view.xml',
+    'website': '',
+    "depends": ['product', 'lot_states', 'quality_protocol_report', 'stock_reception'],
+    "data": ['product_view.xml', 'stock_view.xml',
+             'views/lot_analysis_sheet_report.xml',
+             'views/lot_analysis_certificate_report.xml',
+             'stock_lot_analysis_report.xml',
              'security/ir.model.access.csv'],
     "installable": True
 }

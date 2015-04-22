@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
+#    Copyright (C) 2015 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,15 +20,13 @@
 ##############################################################################
 
 {
-    'name': "mrp partial release",
+    'name': 'Quality management menu',
     'version': '1.0',
-    'category': 'mrp',
+    'category': '',
     'description': """""",
     'author': 'Pexego',
-    'website': 'www.pexego.es',
-    "depends": ['mrp', 'mrp_review', 'quality_protocol_report', 'quality_management_menu'],
-    "data": ['security/mrp_release_security.xml', 'wizard/mrp_release.xml',
-             'views/mrp_view.xml', 'views/mrp_partial_release_log_view.xml',
-             'security/ir.model.access.csv'],
+    'website': '',
+    "depends": ['base'],
+    "data": ['quality_view.xml'],
     "installable": True
 }

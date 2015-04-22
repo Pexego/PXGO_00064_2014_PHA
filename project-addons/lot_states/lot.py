@@ -40,15 +40,13 @@ class StockProductionLot(models.Model):
                                       'Dependencies')
     is_revised = fields.Boolean('Is material lots revised',
                                 compute='_is_revised')
-    supplier_lot = fields.Char('Supplier lot')
-    notes = fields.Text('Notes')
-    date_in = fields.Date('Entry date')
     acceptance_date = fields.Date('Acceptance date')
     partner_id = fields.Many2one('res.partner', 'Supplier')
     is_returned = fields.Boolean('is Returned')
     is_returnable = fields.Boolean('Is returnable',
                                    compute='_get_is_returnable')
     active = fields.Boolean('Active', default=True)
+    entry_quarantine = fields.Date('Entry quarantine')
 
     @api.one
     @api.depends('quant_ids')
@@ -168,7 +166,7 @@ class StockProductionLot(models.Model):
 
     @api.multi
     def action_in_rev(self):
-        self.write({'state': 'in_rev'})
+        self.write({'state': 'in_rev', 'entry_quarantine': date.today()})
 
     @api.multi
     def action_approve(self):

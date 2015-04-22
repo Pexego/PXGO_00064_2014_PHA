@@ -73,7 +73,7 @@
             <field name="search_view_id" ref="mrp_partial_release_log_filter"/>
         </record>
 
-        <menuitem name="Partial release" parent="quality_protocol_report.menu_quality_management" id="partial_release_log"/>
+        <menuitem name="Partial release" parent="quality_management_menu.menu_quality_management" id="partial_release_log"/>
         <menuitem name="Partial release log" parent="partial_release_log" action="action_mrp_partial_release_log" id="partial_release_log_menu"/>
 
     </data>

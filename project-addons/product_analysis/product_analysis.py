@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
+#    Copyright (C) 2015 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,17 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-{
-    'name': "mrp partial release",
-    'version': '1.0',
-    'category': 'mrp',
-    'description': """""",
-    'author': 'Pexego',
-    'website': 'www.pexego.es',
-    "depends": ['mrp', 'mrp_review', 'quality_protocol_report', 'quality_management_menu'],
-    "data": ['security/mrp_release_security.xml', 'wizard/mrp_release.xml',
-             'views/mrp_view.xml', 'views/mrp_partial_release_log_view.xml',
-             'security/ir.model.access.csv'],
-    "installable": True
-}
+
+class product_analysis(models.Model):
+
+    _name = 'product.analysis'
+
+    name = fields.Char('Paramenter', translate=True, required=True)
+    show_in_certificate = fields.Boolean('Show in certificate')
+    method = fields.Many2one('product.analysis.method', 'Method')
+
+
+class product_analysis_method(models.Model):
+
+    _name = 'product.analysis.method'
+
+    name = fields.Char('Name', required=True)
