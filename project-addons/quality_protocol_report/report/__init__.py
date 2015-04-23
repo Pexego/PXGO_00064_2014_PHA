@@ -19,7 +19,4 @@
 #
 ##############################################################################
 
-from . import wizard
-from . import controllers
-from . import models
-from . import report
+from . import mrp_indicators_base_report

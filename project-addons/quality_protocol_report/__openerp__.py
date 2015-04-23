@@ -49,6 +49,8 @@
              'views/production_view.xml',
              'views/stock_view.xml',
              'views/mrp_view.xml',
-             'security/ir.model.access.csv'],
+             'views/mrp_indicators_base_report_view.xml',
+             'security/ir.model.access.csv',
+             'security/quality_protocol_report_security.xml'],
     "installable": True
 }

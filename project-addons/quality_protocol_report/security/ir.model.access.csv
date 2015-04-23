@@ -14,3 +14,4 @@ access_mrp_wrap_comprobations,access_mrp_wrap_comprobations,model_mrp_wrap_compr
 access_mrp_print_comprobations_sec,access_mrp_print_comprobations_sec,model_mrp_print_comprobations_sec,,1,1,1,1
 access_mrp_coffin_works,access_mrp_coffin_works,model_mrp_coffin_works,,1,1,1,1
 access_mrp_qty_produced,access_mrp_qty_produced,model_mrp_qty_produced,,1,1,1,1
+access_mrp_indicators_base_report,mrp_indicators_base_report,model_mrp_indicators_base_report,mrp.group_mrp_manager,1,1,1,1

@@ -465,8 +465,8 @@ class MrpProductionWorkcenterLine(models.Model):
     acond_issue = fields.Boolean('issue')
     acond_issue_ref = fields.Char('Issue ref', size=64)
     accond_total_produced = fields.Float('Total produced')
-    accond_theorical_produced = fields.Float('theorical produced')
-    prod_ratio = fields.Float('production ratio')
+    accond_theorical_produced = fields.Float('Theorical produced')
+    prod_ratio = fields.Float('Production ratio')
     acond_observations = fields.Text('Observations')
 
 

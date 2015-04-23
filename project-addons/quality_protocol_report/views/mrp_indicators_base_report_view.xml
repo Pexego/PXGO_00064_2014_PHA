@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_mrp_indicators_base_report_tree" model="ir.ui.view">
+            <field name="name">mrp.indicators.base.report.tree</field>
+            <field name="model">mrp.indicators.base.report</field>
+            <field name="arch" type="xml">
+                <tree string="Production indicators base">
+                    <field name="date"/>
+                    <field name="final_lot_id"/>
+                    <field name="qty"/>
+                    <field name="prod_ratio"/>
+                    <field name="container_id"/>
+                    <field name="year" invisible="1"/>
+                    <field name="month" invisible="1"/>
+                    <field name="day" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_report_mrp_indicators_base" model="ir.actions.act_window">
+            <field name="name">Production indicators base report</field>
+            <field name="res_model">mrp.indicators.base.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="help">Base model used for google spreadsheet integration as mrp analysis</field>
+        </record>
+
+        <menuitem id="menu_report_mrp_indicators_base" name="Production indicators base report"
+            parent="mrp.next_id_77" sequence="20" action="action_report_mrp_indicators_base"/>
+
+    </data>
+</openerp>
