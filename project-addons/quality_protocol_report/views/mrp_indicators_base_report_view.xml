@@ -12,6 +12,7 @@
                     <field name="qty"/>
                     <field name="prod_ratio"/>
                     <field name="container_id"/>
+                    <field name="workcenter_id"/>
                     <field name="year" invisible="1"/>
                     <field name="month" invisible="1"/>
                     <field name="day" invisible="1"/>
