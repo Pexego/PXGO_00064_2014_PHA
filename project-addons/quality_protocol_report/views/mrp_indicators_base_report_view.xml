@@ -13,11 +13,31 @@
                     <field name="prod_ratio"/>
                     <field name="container_id"/>
                     <field name="workcenter_id"/>
+                    <field name="routing_id"/>
                     <field name="year" invisible="1"/>
                     <field name="month" invisible="1"/>
                     <field name="day" invisible="1"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="view_mrp_indicators_base_report_filter" model="ir.ui.view">
+            <field name="name">mrp.indicators.base.report.filter</field>
+            <field name="model">mrp.indicators.base.report</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="final_lot_id"/>
+                    <field name="container_id"/>
+                    <field name="workcenter_id"/>
+                    <field name="routing_id"/>
+                    <group expand="0" string="Group By">
+                            <filter string="Year" context="{'group_by':'year'}"/>
+                            <filter string="Month" context="{'group_by':'month'}"/>
+                            <filter string="Day" context="{'group_by':'day'}"/>
+                    </group>
+               </search>
             </field>
         </record>
 

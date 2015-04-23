@@ -48,6 +48,7 @@ class MrpIndicatorsBaseReport(models.Model):
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
     workcenter_id = fields.Many2one("mrp.workcenter", "Workcenter",
                                     readonly=True)
+    routing_id = fields.Many2one("mrp.routing", "Routing", readonly=True)
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'mrp_indicators_base_report')
@@ -58,11 +59,11 @@ wl.total_produced as qty, wl.prod_ratio, pt.container_id,
 to_char(mp.date_planned, 'YYYY') as year,
 to_char(mp.date_planned, 'MM') as month,
 to_char(mp.date_planned, 'YYYY-MM-DD') as day, mp.company_id,
-wl.workcenter_id from
+wl.workcenter_id, mp.routing_id from
 mrp_production mp left join
 (select distinct on (production_id) * from mrp_production_workcenter_line
 order by production_id,sequence desc) wl
 on mp.id =  wl.production_id
 inner join product_product pp on pp.id = mp.product_id
 inner join product_template pt on pp.product_tmpl_id = pt.id
-where mp.final_lot_id is not null)""")
+where mp.final_lot_id is not null and mp.routing_id is not null)""")
