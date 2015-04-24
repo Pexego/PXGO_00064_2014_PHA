@@ -4,6 +4,7 @@
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
 #    $Omar Castiñeira Saavedra <omar@pexego.es>$
 #    $Marta Vázquez Rodríguez <marta@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,37 +20,53 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import models, fields, api
 
 
 class ProductLine(models.Model):
-
     _name = 'product.line'
 
     name = fields.Char('Name', size=64, required=True)
 
-class ProductSubline(models.Model):
 
-    _name = "product.subline"
+class ProductSubline(models.Model):
+    _name = 'product.subline'
 
     name = fields.Char('Name', size=64, required=True)
 
-class ProductProduct(models.Model):
 
-    _inherit = "product.product"
+class ProductPacking(models.Model):
+    _name = 'product.packing'
+
+    name = fields.Char('Name', required=True)
+
+
+class product_form(models.Model):
+    _name = 'product.form'
+
+    name = fields.Char('Name', size=64)
+
+
+class product_container(models.Model):
+    _name = 'product.container'
+
+    name = fields.Char('Name', size=64)
+
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
 
     cn_code = fields.Char('CN code', size=12)
 
 
 class ProductTemplate(models.Model):
+    _inherit = 'product.template'
 
-    _inherit = "product.template"
+    cn_code = fields.Char('CN code', related='product_variant_ids.cn_code')
 
-    cn_code = fields.Char('CN code', related="product_variant_ids.cn_code")
     objective = fields.Selection((('alimentation', 'Alimentation'),
                                   ('pharmacy', 'Pharmacy')), 'Objective')
-    packing = fields.Char('Packing', size=12)
+    packing = fields.Many2one('product.packing', 'Packing')
     country = fields.Many2one('res.country', 'Country')
     qty = fields.Float('Quantity')
     udm = fields.Many2one('product.uom', 'UdM')
@@ -58,11 +75,12 @@ class ProductTemplate(models.Model):
     customer = fields.Many2one('res.partner', 'Customer')
     line = fields.Many2one('product.line', 'Line')
     subline = fields.Many2one('product.subline', 'SubLine')
+    base_form_id = fields.Many2one('product.form', 'Base form')
+    container_id = fields.Many2one('product.container', 'Container')
 
     @api.model
     def create(self, vals):
         tmpl = super(ProductTemplate, self).create(vals)
         if vals.get('cn_code'):
             tmpl.cn_code = vals['cn_code']
-
         return tmpl

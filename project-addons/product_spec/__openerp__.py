@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
+#    Copyright (C) 2015 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,3 +18,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+{
+    'name': 'Product spec',
+    'version': '1.0',
+    'category': 'Product',
+    'description': """
+        The following fields are added to products:
+            -line
+            -subline
+            -customer
+            -clothing
+            -country
+            -packing
+            -objective
+            -container
+            -base form
+
+
+    """,
+    'author': 'Pexego',
+    'website': '',
+    "depends": ['product'],
+    "data": ['product_view.xml', 'security/ir.model.access.csv'],
+    "installable": True
+}

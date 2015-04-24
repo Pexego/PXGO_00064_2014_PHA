@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_template_form_view_add_cn" model="ir.ui.view">
+            <field name="name">product.template.common.form.add_cn</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="after">
+                    <field name="cn_code"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="product_add_spec_field" model="ir.ui.view">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <page string="Information" position="after">
+                    <page string="Specs">
+                        <group colspan="4">
+                            <group>
+                                <label for="qty"/>
+                               <div style="width: 80px;">
+                                 <field name="qty" class="oe_inline"/><field name="udm" class="oe_inline"/>
+                                </div>
+                                <field name="line"/>
+                                <field name="subline"/>
+                                <field name="container_id"/>
+                                <field name="base_form_id"/>
+                             </group>
+                            <group>
+                                <field name="clothing"/>
+                                <field name="country"/>
+                                <field name="customer"/>
+                                <field name="packing"/>
+                                 <field name="objective"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="product_search_form_view_add_cn" model="ir.ui.view">
+            <field name="name">product.product.search.add_cn</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                   <field name="name" string="Product" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('cn_code', 'ilike', self)]"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="product_line_tree">
+            <field name="name">product.line.tree</field>
+            <field name="model">product.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product Lines">
+                    <field name="name"  select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_line_form">
+            <field name="name">Product Line</field>
+            <field name="model">product.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product Lines">
+                    <sheet>
+                        <group>
+                            <separator string="General info." colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_product_line_form">
+            <field name="name">Product Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_line_tree"/>
+
+        </record>
+        <menuitem action="action_product_line_form"
+            id="menu_product_product_lines"
+            parent="product.prod_config_main"/>
+
+        <record model="ir.ui.view" id="product_subline_tree">
+            <field name="name">product.subline.tree</field>
+            <field name="model">product.subline</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product sublines">
+                    <field name="name"  select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_subline_form">
+            <field name="name">Product subline</field>
+            <field name="model">product.subline</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product sublines">
+                    <sheet>
+                        <group>
+                            <separator string="General info." colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_product_subline_form">
+            <field name="name">Product SubLines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.subline</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_subline_tree"/>
+
+        </record>
+
+<menuitem action="action_product_subline_form"
+            id="menu_product_product_sublines"
+            parent="product.prod_config_main"/>
+
+
+    <record model="ir.ui.view" id="product_packing_tree">
+            <field name="name">product.packing.tree</field>
+            <field name="model">product.packing</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product packings">
+                    <field name="name"  select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_packing_form">
+            <field name="name">Product packing</field>
+            <field name="model">product.packing</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product packings">
+                    <sheet>
+                        <group>
+                            <separator string="General info." colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_product_packing_form">
+            <field name="name">Product packings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.packing</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_packing_tree"/>
+
+        </record>
+
+<menuitem action="action_product_packing_form"
+            id="menu_product_product_packings"
+            parent="product.prod_config_main"/>
+
+
+    <!-- product.form views -->
+        <record id="product_form_view" model="ir.ui.view">
+            <field name="name">product.form.form</field>
+            <field name="model">product.form</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product form">
+                    <header></header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_form_tree_view" model="ir.ui.view">
+            <field name="name">product.form.tree</field>
+            <field name="model">product.form</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product forms">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_form_action" model="ir.actions.act_window">
+            <field name="name">Product form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.form</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_form_tree_view"/>
+        </record>
+
+        <menuitem
+            id="product_form"
+            name="Product form"
+            action="product_form_action"
+            parent="product.prod_config_main"/>
+
+
+        <!-- product.container views -->
+        <record id="product_container_view" model="ir.ui.view">
+            <field name="name">product.container.form</field>
+            <field name="model">product.container</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product container">
+                    <header></header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_container_tree_view" model="ir.ui.view">
+            <field name="name">product.container.tree</field>
+            <field name="model">product.container</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product forms">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_container_action" model="ir.actions.act_window">
+            <field name="name">Product container</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.container</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_container_tree_view"/>
+        </record>
+
+        <menuitem
+            id="product_container"
+            name="Product container"
+            action="product_container_action"
+            parent="product.prod_config_main"/>
+
+    </data>
+</openerp>

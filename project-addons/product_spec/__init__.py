@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
+#    Copyright (C) 2015 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,28 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields
-
-
-class product_template(models.Model):
-
-    _inherit = 'product.template'
-
-    base_form_id = fields.Many2one('product.form', 'Base form')
-
-    container_id = fields.Many2one('product.container', 'Container')
-
-
-class product_form(models.Model):
-
-    _name = 'product.form'
-
-    name = fields.Char('Name', size=64)
-
-
-class product_container(models.Model):
-
-    _name = 'product.container'
-
-    name = fields.Char('Name', size=64)
+from . import product
