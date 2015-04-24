@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pexego All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -16,19 +16,20 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 ##############################################################################
+#
 
-{
-    'name': 'Quality management menu',
-    'version': '1.0',
-    'category': '',
-    'description': """""",
-    'author': 'Pexego',
-    'website': '',
-    "depends": ['base',
-		'product'],
-    "data": ['views/quality_view.xml',
-	     'views/product_template.xml'],
-    "installable": True
-}
+from openerp import models, fields, api
+
+
+class product_template(models.Model):
+    _inherit = 'product.template'
+
+    qc_has_pis = fields.Boolean(string='P.I.S.', default=False, help="Has product identification sheet?")
+    qc_species = fields.One2many(string='Species', comodel_name='qc.species.product.template.rel', inverse_name='product')
+    qc_aspects = fields.Many2many(string='Aspects', comodel_name='qc.aspects')
+
+    @api.multi
+    def new_qc_pis_specimen(self):
+        res = self.env['qc.pis'].new_specimen(self)
+        return res

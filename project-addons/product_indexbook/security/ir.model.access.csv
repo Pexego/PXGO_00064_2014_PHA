@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_qc_species,access_qc_species,model_qc_species,,1,1,1,1
+access_qc_varieties,access_qc_varieties,model_qc_varieties,,1,1,1,1
+access_qc_micro_chars,access_qc_micro_chars,model_qc_micro_chars,,1,1,1,1
+access_qc_aspects,access_qc_aspects,model_qc_aspects,,1,1,1,1
+access_qc_species_product_template_rel,access_qc_species_product_template_rel,model_qc_species_product_template_rel,,1,1,1,1
+access_qc_pis,access_qc_pis,model_qc_pis,,1,1,1,1
+access_qc_pis_aspects,access_qc_pis_aspects,model_qc_pis_aspects,,1,1,1,1
+access_qc_pis_micro_chars,access_qc_pis_micro_chars,model_qc_pis_micro_chars,,1,1,1,1
+access_qc_pis_micro_chars_details,access_qc_pis_micro_chars_details,model_qc_pis_micro_chars_details,,1,1,1,1
+access_qc_pis_macro_chars,access_qc_pis_macro_chars,model_qc_pis_macro_chars,,1,1,1,1

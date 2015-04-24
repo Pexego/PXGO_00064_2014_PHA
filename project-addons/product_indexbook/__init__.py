@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pexego All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    $Oscar Salvador<oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,16 +19,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'Quality management menu',
-    'version': '1.0',
-    'category': '',
-    'description': """""",
-    'author': 'Pexego',
-    'website': '',
-    "depends": ['base',
-		'product'],
-    "data": ['views/quality_view.xml',
-	     'views/product_template.xml'],
-    "installable": True
-}
+from . import models

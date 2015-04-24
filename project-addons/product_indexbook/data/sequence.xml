@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.sequence.type" id="seq_type_qc_species">
+            <field name="name">IDM code</field>
+            <field name="code">qc.species.idm.code</field>
+        </record>
+        <record model="ir.sequence" id="seq_qc_species">
+            <field name="name">IDM code</field>
+            <field name="code">qc.species.idm.code</field>
+            <field name="prefix">IDM-</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record model="ir.sequence.type" id="seq_type_qc_pis">
+            <field name="name">PIS code</field>
+            <field name="code">qc.pis.pis.code</field>
+        </record>
+        <record model="ir.sequence" id="seq_qc_pis">
+            <field name="name">PIS code</field>
+            <field name="code">qc.pis.pis.code</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</openerp>

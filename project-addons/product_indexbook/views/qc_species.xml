@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_qc_species_form" model="ir.ui.view">
+            <field name="name">qc.species.form</field>
+            <field name="model">qc.species</field>
+            <field name="arch" type="xml">
+                <form string="Quality control species">
+                    <header>
+                        <button name="new_revision"
+                                string="New revision"
+                                type="object"
+                                class="oe_read_only"
+                                icon="gtk-copy"
+                                attrs="{'invisible':[('visible', '=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <button name="save_revision"
+                                string="Save revision"
+                                type="object"
+                                class="oe_highlight oe_edit_only"
+                                invisible="not context.get('new_revision', False)"/>
+                        <group colspan="4">
+                            <group>
+                                <h2>
+                                    <label for="name"/>
+                                    <field name="name"/>
+                                </h2>
+                            </group>
+                            <group>
+                                <field name="idm_code"/>
+                                <field name="revision"/>
+                                <field name="visible"/>
+                            </group>
+                        </group>
+                        <label for="specie"/>
+                        <field name="specie"/>
+                        <label for="used_part"/>
+                        <field name="used_part"/>
+                        <separator string="Varieties"/>
+                        <field name="varieties"/>
+                        <separator string="Microscopic characters"/>
+                        <field name="micro_characters"
+                               domain="[('visible', '=', True)]"/>
+                        <separator string="Products associated"
+                                   class="oe_read_only"/>
+                        <field name="products"
+                               class="oe_read_only"
+                               context="{'tree_view_ref': 'product_indexbook.view_qc_species_product_template_rel_specie_tree'}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_species_tree" model="ir.ui.view">
+            <field name="name">qc.species.tree</field>
+            <field name="model">qc.species</field>
+            <field name="arch" type="xml">
+                <tree string="Quality control species">
+                    <field name="idm_code_rev"/>
+                    <field name="name"/>
+                    <field name="specie"/>
+                    <field name="used_part"/>
+                    <field name="visible"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_qc_species_search" model="ir.ui.view">
+            <field name="name">qc.species.search</field>
+            <field name="model">qc.species</field>
+            <field name="arch" type="xml">
+                <search string="Search species">
+                    <filter name="visible"
+                            string="Visible"
+                            domain="[('visible','=',True)]"
+                            help="Show only visible items"/>
+                    <field name="idm_code_rev"/>
+                    <field name="name"/>
+                    <field name="specie"/>
+                    <field name="used_part"/>
+                    <field name="visible"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_qc_varieties_form" model="ir.ui.view">
+            <field name="name">qc.varieties.form</field>
+            <field name="model">qc.varieties</field>
+            <field name="arch" type="xml">
+                <form string="Quality control specie variety">
+                    <sheet>
+                        <group colspan="2" rowspan="2">
+                            <field name="name"
+                                   style="font-size: 1.3em; font-weight: bold; margin-top: -0.3em"/>
+                            <field name="code"/>
+                            <field name="visible"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_varieties_tree" model="ir.ui.view">
+            <field name="name">qc.varieties.tree</field>
+            <field name="model">qc.varieties</field>
+            <field name="arch" type="xml">
+                <tree string="Quality control specie varieties">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="visible"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_qc_micro_chars_form" model="ir.ui.view">
+            <field name="name">qc.micro.chars.form</field>
+            <field name="model">qc.micro.chars</field>
+            <field name="arch" type="xml">
+                <form string="Quality control microscopic character">
+                    <sheet>
+                        <group colspan="2" rowspan="2">
+                            <field name="name"
+                                   style="font-size: 1.3em; font-weight: bold; margin-top: -0.3em"/>
+                            <field name="visible"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_micro_chars_tree" model="ir.ui.view">
+            <field name="name">qc.micro.chars.tree</field>
+            <field name="model">qc.micro.chars</field>
+            <field name="arch" type="xml">
+                <tree string="Quality control microscopic characters">
+                    <field name="name"/>
+                    <field name="visible"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_qc_micro_chars_search" model="ir.ui.view">
+            <field name="name">qc.micro.chars.search</field>
+            <field name="model">qc.micro.chars</field>
+            <field name="arch" type="xml">
+                <search string="Search microscopic characters">
+                    <filter name="visible"
+                            string="Visible"
+                            domain="[('visible','=',True)]"
+                            help="Show only visible items"/>
+                    <field name="name"/>
+                    <field name="visible"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_qc_aspects_form" model="ir.ui.view">
+            <field name="name">qc.aspects.form</field>
+            <field name="model">qc.aspects</field>
+            <field name="arch" type="xml">
+                <form string="Quality control aspect">
+                    <sheet>
+                        <group colspan="2" rowspan="2">
+                            <field name="name"
+                                   style="font-size: 1.3em; font-weight: bold; margin-top: -0.3em"/>
+                            <field name="visible"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_aspects_tree" model="ir.ui.view">
+            <field name="name">qc.aspects.tree</field>
+            <field name="model">qc.aspects</field>
+            <field name="arch" type="xml">
+                <tree string="Quality control aspects">
+                    <field name="name"/>
+                    <field name="visible"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_qc_aspects_search" model="ir.ui.view">
+            <field name="name">qc.aspects.search</field>
+            <field name="model">qc.aspects</field>
+            <field name="arch" type="xml">
+                <search string="Search aspects">
+                    <filter name="visible"
+                            string="Visible"
+                            domain="[('visible','=',True)]"
+                            help="Show only visible items"/>
+                    <field name="name"/>
+                    <field name="visible"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_qc_species_product_template_rel_form" model="ir.ui.view">
+            <field name="name">qc.species.product.template.rel.form</field>
+            <field name="model">qc.species.product.template.rel</field>
+            <field name="arch" type="xml">
+                <form string="Quality control species">
+                    <sheet>
+                        <group colspan="2" rowspan="2">
+                            <field name="name"
+                                   style="font-size: 1.3em; font-weight: bold; margin-top: -0.3em"
+                                   domain="[('visible', '=', True)]"/>
+                            <field name="specie"/>
+                            <field name="variety"/>
+                            <field name="used_part"/>
+                            <field name="macro"/>
+                            <field name="micro"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_species_product_template_rel_tree" model="ir.ui.view">
+            <field name="name">qc.species.product.template.rel.tree</field>
+            <field name="model">qc.species.product.template.rel</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Quality control species">
+                    <field name="name"/>
+                    <field name="idm_code_rev_var"/>
+                    <field name="specie"/>
+                    <field name="variety"/>
+                    <field name="used_part"/>
+                    <field name="macro"/>
+                    <field name="micro"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_qc_species_product_template_rel_search" model="ir.ui.view">
+            <field name="name">qc.species.product.template.rel.search</field>
+            <field name="model">qc.species.product.template.rel</field>
+            <field name="arch" type="xml">
+                <search string="Search species">
+                    <field name="name"/>
+                    <field name="idm_code_rev_var"/>
+                    <field name="specie"/>
+                    <field name="variety"/>
+                    <field name="used_part"/>
+                    <field name="macro"/>
+                    <field name="micro"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_qc_species_product_template_rel_specie_tree" model="ir.ui.view">
+            <field name="name">qc.species.product.template.rel.specie.tree</field>
+            <field name="model">qc.species.product.template.rel</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Quality control species">
+                    <field name="product"/>
+                    <field name="idm_code_rev_var"/>
+                    <field name="macro"/>
+                    <field name="micro"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- MENUS & ACTIONS -->
+
+        <record id="action_qc_species" model="ir.actions.act_window">
+            <field name="name">Quality control species</field>
+            <field name="res_model">qc.species</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_qc_species_tree"/>
+            <field name="search_view_id" ref="view_qc_species_search"/>
+            <field name="context" eval="{'search_default_visible': 1}"/>
+        </record>
+
+        <record id="action_qc_aspects" model="ir.actions.act_window">
+            <field name="name">Quality control aspects</field>
+            <field name="res_model">qc.aspects</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_qc_aspects_tree"/>
+            <field name="context" eval="{'search_default_visible': 1}"/>
+        </record>
+
+        <record id="action_qc_micro_chars" model="ir.actions.act_window">
+            <field name="name">Quality control microscopic characters</field>
+            <field name="res_model">qc.micro.chars</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_qc_micro_chars_tree"/>
+            <field name="context" eval="{'search_default_visible': 1}"/>
+        </record>
+
+        <record id="action_qc_products_saleable" model="ir.actions.act_window">
+            <field name="name">Saleable products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_kanban_view"/>
+            <field name="context">{"search_default_filter_to_sell": 1, "search_default_filter_to_purchase": 0}</field>
+        </record>
+
+        <record id="action_qc_products_purchasable" model="ir.actions.act_window">
+            <field name="name">Purchasable products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_kanban_view"/>
+            <field name="context">{"search_default_filter_to_sell": 0, "search_default_filter_to_purchase": 1}</field>
+        </record>
+
+        <menuitem
+            name="Product Identification Sheets"
+            id="menu_qc_pis"
+            parent="quality_management_menu.menu_quality_management"
+            sequence="1"
+        />
+
+        <menuitem
+            name="Tables"
+            id="menu_qc_pis_tables"
+            parent="menu_qc_pis"
+            sequence="3"
+        />
+
+        <menuitem
+            name="Aspects"
+            action="action_qc_aspects"
+            id="menu_qc_pis_aspects"
+            parent="menu_qc_pis_tables"
+            sequence="1"
+        />
+
+        <menuitem
+            name="Species"
+            action="action_qc_species"
+            id="menu_qc_pis_species"
+            parent="menu_qc_pis_tables"
+            sequence="2"
+        />
+
+        <menuitem
+            name="Micro characters"
+            action="action_qc_micro_chars"
+            id="menu_qc_pis_micro_chars"
+            parent="menu_qc_pis_species"
+            sequence="1"
+        />
+
+        <menuitem
+            name="Products"
+            id="menu_qc_products"
+            parent="quality_management_menu.menu_quality_management"
+            sequence="2"
+        />
+
+        <menuitem
+            action="action_qc_products_saleable"
+            id="menu_qc_products_saleable"
+            parent="menu_qc_products"
+            sequence="1"
+        />
+
+        <menuitem
+            action="action_qc_products_purchasable"
+            id="menu_qc_products_purchasable"
+            parent="menu_qc_products"
+            sequence="2"
+        />
+    </data>
+</openerp>
