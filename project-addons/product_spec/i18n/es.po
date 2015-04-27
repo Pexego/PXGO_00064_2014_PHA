@@ -1,19 +1,54 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * product_spec
+#	* product_spec
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 11:30+0000\n"
-"PO-Revision-Date: 2015-04-24 11:30+0000\n"
+"POT-Creation-Date: 2015-04-27 12:18+0000\n"
+"PO-Revision-Date: 2015-04-27 12:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Action"
+msgstr "Acción"
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Alert"
+msgstr "Alerta"
+
+#. module: product_spec
+#: field:product.quality.limits,analysis:0
+msgid "Analysis"
+msgstr "Análisis"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_max_action_weight:0
+msgid "Average filter weight max action"
+msgstr "Average filter weight max action"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_max_alert_weight:0
+msgid "Average filter weight max alert"
+msgstr "Average filter weight max alert"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_min_action_weight:0
+msgid "Average filter weight min action"
+msgstr "Average filter weight min action"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_min_alert_weight:0
+msgid "Average filter weight min alert"
+msgstr "Average filter weight min alert"
 
 #. module: product_spec
 #: field:product.template,base_form_id:0
@@ -29,6 +64,61 @@ msgstr "Código CN"
 #: field:product.template,container_id:0
 msgid "Container"
 msgstr "Envasado"
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Filter Average weight"
+msgstr "Peso medio del filtro"
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Filter weight"
+msgstr "Peso del filtro"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_max_action_weight:0
+msgid "Filter weight max action"
+msgstr "Filter weight max action"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_max_alert_weight:0
+msgid "Filter weight max alert"
+msgstr "Filter weight max alert"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_min_action_weight:0
+msgid "Filter weight min action"
+msgstr "Filter weight min action"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_min_alert_weight:0
+msgid "Filter weight min alert"
+msgstr "Filter weight min alert"
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_max_action_weight:0
+msgid "Full case action max"
+msgstr "Full case action max"
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_min_action_weight:0
+msgid "Full case action min"
+msgstr "Full case action min"
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_max_alert_weight:0
+msgid "Full case alert max"
+msgstr "Full case alert max"
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_min_alert_weight:0
+msgid "Full case alert min"
+msgstr "Full case alert min"
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Full case weight"
+msgstr "Peso estuche lleno"
 
 #. module: product_spec
 #: view:product.line:product_spec.product_line_form
@@ -47,9 +137,16 @@ msgstr "Información"
 #: field:product.form,name:0
 #: field:product.line,name:0
 #: field:product.packing,name:0
+#: view:product.quality.limits:product_spec.product_quality_limits_form
 #: field:product.subline,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: product_spec
+#: view:product.template:product_spec.product_template_add_limits
+#: field:product.template,process_control:0
+msgid "Process control"
+msgstr "Control en proceso"
 
 #. module: product_spec
 #: model:ir.model,name:product_spec.model_product_product
@@ -64,6 +161,11 @@ msgstr "Producto"
 #: view:product.line:product_spec.product_line_tree
 msgid "Product Lines"
 msgstr "Lineas"
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_tree
+msgid "Product Quality Limits"
+msgstr "Product Quality Limits"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_subline_form
@@ -105,10 +207,26 @@ msgid "Product packings"
 msgstr "Product packings"
 
 #. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_quality_limits_form
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Product quality limits"
+msgstr "Product quality limits"
+
+#. module: product_spec
 #: view:product.subline:product_spec.product_subline_form
 #: view:product.subline:product_spec.product_subline_tree
 msgid "Product sublines"
 msgstr "Sublineas"
+
+#. module: product_spec
+#: model:ir.ui.menu,name:product_spec.menu_product_quality_limits
+msgid "Quality limits"
+msgstr "Límites calidad"
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Samples"
+msgstr "Muestras"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_add_spec_field

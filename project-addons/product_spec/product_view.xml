@@ -12,6 +12,24 @@
                 </field>
             </field>
         </record>
+        <record model="ir.ui.view" id="product_template_add_limits">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="quality_management_menu.product_template_form_view_quality_management_menu"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='Quality controls']" position="inside">
+                    <field name="process_control"/>
+                </xpath>
+                <notebook position="inside">
+                    <page string="Process control" attrs="{'invisible': [('process_control', '=', False)]}">
+                        <group>
+                            <field name="quality_limits"/>
+                        </group>
+                    </page>
+
+                </notebook>
+            </field>
+        </record>
 
         <record id="product_add_spec_field" model="ir.ui.view">
             <field name="name">product.template.form</field>
@@ -269,6 +287,93 @@
             name="Product container"
             action="product_container_action"
             parent="product.prod_config_main"/>
+
+
+        <record model="ir.ui.view" id="product_quality_limits_tree">
+            <field name="name">product.quality.limits.tree</field>
+            <field name="model">product.quality.limits</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product Quality Limits">
+                    <field name="name"  select="1"/>
+                    <field name="loc_samples"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_quality_limits_form">
+            <field name="name">Product quality limits</field>
+            <field name="model">product.quality.limits</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product quality limits">
+                    <sheet>
+                        <label class="oe_edit_only" for="name" string="Name"/>
+                        <div>
+                            <h1><field name="name" class="oe_inline"/></h1>
+                        </div>
+                        <group>
+                            <field name="unit_weight"/>
+                            <group string="Full case weight">
+                                <label for="full_case_min_action_weight" string="Action"/>
+                                <div>
+                                    <field name="full_case_min_action_weight" nolabel="1" class="oe_inline"/>-
+                                    <field name="full_case_max_action_weight" nolabel="1" class="oe_inline"/>
+                                </div>
+
+                                <label for="full_case_min_alert_weight" string="Alert"/>
+                                <div>
+                                    <field name="full_case_min_alert_weight" nolabel="1" class="oe_inline"/>-
+                                    <field name="full_case_max_alert_weight" nolabel="1" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <group string="Filter Average weight">
+                                <label for="filter_av_min_action_weight" string="Action"/>
+                                <div>
+                                    <field name="filter_av_min_action_weight" nolabel="1" class="oe_inline"/>-
+                                    <field name="filter_av_max_action_weight" nolabel="1" class="oe_inline"/>
+                                </div>
+
+                                <label for="filter_av_min_alert_weight" string="Alert"/>
+                                <div>
+                                    <field name="filter_av_min_alert_weight" nolabel="1" class="oe_inline"/>-
+                                    <field name="filter_av_max_alert_weight" nolabel="1" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <group string="Filter weight">
+                                <label for="filter_min_action_weight" string="Action"/>
+                                <div>
+                                    <field name="filter_min_action_weight" nolabel="1" class="oe_inline"/>-
+                                    <field name="filter_max_action_weight" nolabel="1" class="oe_inline"/>
+                                </div>
+
+                                <label for="filter_min_alert_weight" string="Alert"/>
+                                <div>
+                                    <field name="filter_min_alert_weight" nolabel="1" class="oe_inline"/>-
+                                    <field name="filter_max_alert_weight" nolabel="1" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <group string="Samples">
+                                <field name="loc_samples"/>
+                                <field name="analysis"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_product_quality_limits_form">
+            <field name="name">Product quality limits</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.quality.limits</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_quality_limits_tree"/>
+
+        </record>
+        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="base.menu_base_config" action="action_product_quality_limits_form"/>
 
     </data>
 </openerp>

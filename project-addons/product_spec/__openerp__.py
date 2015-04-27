@@ -39,7 +39,7 @@
     """,
     'author': 'Pexego',
     'website': '',
-    "depends": ['product'],
+    "depends": ['product', 'quality_management_menu'],
     "data": ['product_view.xml', 'security/ir.model.access.csv'],
     "installable": True
 }
