@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="product_template_form_view_product_indexbook" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="priority">60</field>
+            <field name="inherit_id" ref="quality_management_menu.product_template_form_view_quality_management_menu"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='Quality controls']" position="inside">
+                    <field name="qc_has_pis"/>
+                </xpath>
+                <xpath expr="//page[@string='Sales']" position="after">
+                    <page string="P.I.S." attrs="{'invisible': [('qc_has_pis', '=', False)]}">
+                        <field name="id" invisible="1" />
+                        <button name="new_qc_pis_specimen"
+                                string="Preview product identification sheet specimen"
+                                type="object"
+                                class="oe_read_only"/>
+                        <separator string="Aspects observed in the product"/>
+                        <field name="qc_aspects" domain="[('visible', '=', True)]"/>
+                        <separator string="Species that compose the product"/>
+                        <field name="qc_species"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_template_search_view_product_indexbook" model="ir.ui.view">
+            <field name="name">product.template.search.inherit</field>
+            <field name="model">product.template</field>
+            <field name="priority">3</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <filter name="filter_to_sell" position="after">
+                    <filter name="filter_qc_has_pis" string="Has PIS" domain="[('qc_has_pis', '=', 1)]"/>
+                </filter>
+            </field>
+        </record>
+    </data>
+</openerp>

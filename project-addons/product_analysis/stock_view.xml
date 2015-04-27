@@ -9,6 +9,9 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Quality">
+                        <group>
+                            <field name="analysis_passed"/>
+                        </group>
                         <group string="Sampling">
                             <group>
                                 <field name="num_container_sample_proposed"/>
@@ -32,8 +35,9 @@
                         </group>
                         <group string="Analysis">
                             <field name="analysis_ids" nolabel="1">
-                                <tree>
+                                <tree editable="bottom">
                                     <field name="analysis_id"/>
+                                    <field name="show_in_certificate"/>
                                     <field name="proposed"/>
                                     <field name="realized"/>
                                     <field name="result"/>
@@ -73,7 +77,7 @@
             <field name="domain">[('product_id.analytic_certificate', '=', True), ('analysis_passed', '=', False)]</field>
         </record>
 
-        <menuitem name="Lot control" parent="quality_management_menu.menu_quality_management" id="quality_lot_menus"/>
+        <menuitem name="Analysis certificate" parent="quality_management_menu.menu_quality_management" id="quality_lot_menus"/>
 
         <menuitem name="Analytic control pending" parent="quality_lot_menus" action="action_analytic_control_pend" id="quality_analytic_pend_menu"/>
 

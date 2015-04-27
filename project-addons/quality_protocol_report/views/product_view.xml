@@ -1,78 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record model="ir.ui.view" id="product_quality_limits_tree">
-            <field name="name">product.quality.limits.tree</field>
-            <field name="model">product.quality.limits</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="Product Quality Limits">
-                    <field name="name"  select="1"/>
-                    <field name="loc_samples"/>
-                </tree>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="product_quality_limits_form">
-            <field name="name">Product quality limits</field>
-            <field name="model">product.quality.limits</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Product quality limits">
-                    <sheet>
-                        <label class="oe_edit_only" for="name" string="Name"/>
-                        <div>
-                            <h1><field name="name" class="oe_inline"/></h1>
-                        </div>
-
-                        <group>
-                            <group>
-                                <field name="loc_samples"/>
-                                <label for="weight_alert_full_from" string="Full alert"/>
-                                <div>
-                                    <field name="weight_alert_full_from" class="oe_inline"/> -
-                                    <field name="weight_alert_full_to" class="oe_inline"/>
-                                </div>
-                                <label for="weight_action_full_from" string="Full action"/>
-                                <div>
-                                    <field name="weight_action_full_from"  class="oe_inline"/> -
-                                    <field name="weight_action_full_to" class="oe_inline"/>
-                                </div>
-                            </group>
-
-                            <group>
-                                <field name="unit_weight"/>
-                                <label for="weight_alert_unit_from" string="Unit alert"/>
-                                <div>
-                                    <field name="weight_alert_unit_from" class="oe_inline"/> -
-                                    <field name="weight_alert_unit_to" class="oe_inline"/>
-                                </div>
-
-                                <label for="weight_action_unit_from" string="Unit action"/>
-                                <div>
-                                    <field name="weight_action_unit_from"  class="oe_inline"/> -
-                                    <field name="weight_action_unit_to" class="oe_inline"/>
-                                </div>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-
-        <record model="ir.actions.act_window" id="action_product_quality_limits_form">
-            <field name="name">Product quality limits</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.quality.limits</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="product_quality_limits_tree"/>
-
-        </record>
-        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="base.menu_base_config" action="action_product_quality_limits_form"/>
-
-
         <record id="product_view_add_protocol" model="ir.ui.view">
             <field name="name">product.view.form</field>
             <field name="model">product.product</field>
@@ -95,23 +23,6 @@
                     <field name="lot_label"/>
                     <field name="raw_material"/>
                 </field>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="product_template_add_limits">
-            <field name="name">product.template.form</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_form_view"/>
-            <field name="arch" type="xml">
-                <notebook position="inside">
-                    <page string="Quality">
-                        <group colspan="4">
-                            <group>
-                                <field name="quality_limits"/>
-                            </group>
-                        </group>
-                    </page>
-                </notebook>
             </field>
         </record>
 

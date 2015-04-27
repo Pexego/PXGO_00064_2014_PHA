@@ -31,7 +31,7 @@
                 'sale_commission',
                 'base_location',
                 'sale_replacement',
-                'product_pharma_fields'],
+                'product_spec'],
     "data": ['better_zip_view.xml',
              'wizard/assign_zip_agent_wizard_view.xml',
              'sale_agent_view.xml',

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- REPORTS -->
+        <record id="paperformat_qc_pis" model="report.paperformat">
+            <field name="name">Q.C. Product Identification Sheet</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">3</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="action_report_qc_pis"
+            model="qc.pis"
+            string="Product Identification Sheet"
+            report_type="qweb-pdf"
+            name="product_indexbook.report_pis"
+            attachment_use="False"
+        />
+
+        <record id="action_report_qc_pis" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_qc_pis"/>
+        </record>
+
+        <!-- VIEWS -->
+        <record id="view_qc_pis_form" model="ir.ui.view">
+            <field name="name">qc.pis.form</field>
+            <field name="model">qc.pis</field>
+            <field name="arch" type="xml">
+                <form string="Product identification sheet" create="false" delete="false" edit="false">
+                    <header>
+                        <button name="print_pis" string="Print sheet" type="object" class="oe_read_only oe_highlight" icon="gtk-print"/>
+                        <button name="edit_pis"
+                                string="Edit PIS"
+                                type="object"
+                                class="oe_read_only"
+                                icon="gtk-copy"
+                                attrs="{'invisible':[('completed', '=', True)]}"/>
+                    </header>
+                    <sheet>
+                        <button name="save_pis"
+                                string="Save PIS"
+                                type="object"
+                                class="oe_highlight oe_edit_only"/>
+                        <group colspan="2" rowspan="4">
+                            <field name="reference" style="font-size: 1.3em; font-weight: bold; margin-top: -0.3em;"/>
+                            <field name="lot"/>
+                            <field name="name"/>
+                            <field name="completed"/>
+                        </group>
+                        <separator string="Aspect"/>
+                        <field name="aspect_chars"/>
+                        <label for="aspect_observations"/>
+                        <field name="aspect_observations"/>
+                        <separator string="Macroscopic characters"/>
+                        <field name="macro_chars"/>
+                        <label for="macro_observations"/>
+                        <field name="macro_observations"/>
+                        <separator string="Microscopic characters"/>
+                        <field name="micro_chars"/>
+                        <label for="micro_observations"/>
+                        <field name="micro_observations"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_pis_tree" model="ir.ui.view">
+            <field name="name">qc.pis.tree</field>
+            <field name="model">qc.pis</field>
+            <field name="arch" type="xml">
+                <tree string="Product identification sheets" create="false" delete="false">
+                    <field name="reference"/>
+                    <field name="lot"/>
+                    <field name="name"/>
+                    <field name="completed"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_qc_pis_search" model="ir.ui.view">
+            <field name="name">qc.pis.search</field>
+            <field name="model">qc.pis</field>
+            <field name="arch" type="xml">
+                <search string="Search product identification sheet">
+                    <filter name="pending" string="Pending" domain="[('completed','=',False)]" help="Pending lots"/>
+                    <filter name="completed" string="Completed" domain="[('completed','=',True)]" help="Completed lots"/>
+                    <field name="reference"/>
+                    <field name="lot"/>
+                    <field name="name"/>
+                    <field name="completed"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_qc_pis_aspects_form" model="ir.ui.view">
+            <field name="name">qc.pis.aspects.form</field>
+            <field name="model">qc.pis.aspects</field>
+            <field name="arch" type="xml">
+                <form string="Aspect">
+                    <sheet>
+                        <h1>
+                            <label for="name"/>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <label for="remark"/>
+                        <field name="remark"/>
+                        <group>
+                            <group>
+                                <field name="compliant"/>
+                                <field name="non_compliant"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_pis_aspects_tree" model="ir.ui.view">
+            <field name="name">qc.pis.aspects.tree</field>
+            <field name="model">qc.pis.aspects</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="name"/>
+                    <field name="remark"/>
+                    <field name="compliant"/>
+                    <field name="non_compliant"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_qc_pis_macro_chars_form" model="ir.ui.view">
+            <field name="name">qc.pis.macro.chars.form</field>
+            <field name="model">qc.pis.macro.chars</field>
+            <field name="arch" type="xml">
+                <form string="Macroscopic characters">
+                    <sheet>
+                        <h1>
+                            <label for="name"/>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <field name="macro_char"/>
+                        <group colspan="2">
+                            <group>
+                                <field name="compliant"/>
+                                <field name="non_compliant"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_pis_macro_chars_tree" model="ir.ui.view">
+            <field name="name">qc.pis.macro.chars.tree</field>
+            <field name="model">qc.pis.macro.chars</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="name"/>
+                    <field name="macro_char"/>
+                    <field name="compliant"/>
+                    <field name="non_compliant"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_qc_pis_micro_chars_form" model="ir.ui.view">
+            <field name="name">qc.pis.micro.chars.form</field>
+            <field name="model">qc.pis.micro.chars</field>
+            <field name="arch" type="xml">
+                <form string="Microscopic characters">
+                    <sheet>
+                        <group colspan="2">
+                            <group>
+                                <h1>
+                                    <label for="name"/>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                                <h2>
+                                    <label for="idm_code_rev_var"/>
+                                    <field name="idm_code_rev_var" readonly="1"/>
+                                </h2>
+                            </group>
+                        </group>
+                        <group colspan="2">
+                            <group>
+                                <field name="compliant"/>
+                                <field name="non_compliant"/>
+                            </group>
+                        </group>
+                        <group colspan="2">
+                            <group>
+                                <field name="micro_chars" domain="[('parent', '=', id)]" widget="many2many_checkboxes"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_qc_pis_micro_chars_tree" model="ir.ui.view">
+            <field name="name">qc.pis.micro.chars.tree</field>
+            <field name="model">qc.pis.micro.chars</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="name"/>
+                    <field name="idm_code_rev_var"/>
+                    <field name="micro_chars" domain="[('parent', '=', id)]" widget="many2many_checkboxes"/>
+                    <field name="compliant"/>
+                    <field name="non_compliant"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- MENUS & ACTIONS -->
+        <record id="action_qc_pis_pending" model="ir.actions.act_window">
+            <field name="name">Pending lots</field>
+            <field name="res_model">qc.pis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_qc_pis_tree"/>
+            <field name="domain">[('name','!=','FIP-XX-XXXX')]</field>
+            <field name="context" eval="{'search_default_pending': 1}"/>
+        </record>
+        <menuitem
+            name="Pending lots"
+            action="action_qc_pis_pending"
+            id="menu_quality_control_pis_pending"
+            parent="menu_qc_pis"
+            sequence="1"
+        />
+
+        <record id="action_qc_pis_completed" model="ir.actions.act_window">
+            <field name="name">Processed lots</field>
+            <field name="res_model">qc.pis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_qc_pis_tree"/>
+            <field name="domain">[('name','!=','FIP-XX-XXXX')]</field>
+            <field name="context" eval="{'search_default_completed': 1}"/>
+        </record>
+        <menuitem
+            name="Processed lots"
+            action="action_qc_pis_completed"
+            id="menu_quality_control_pis_completed"
+            parent="menu_qc_pis"
+            sequence="2"
+        />
+    </data>
+</openerp>

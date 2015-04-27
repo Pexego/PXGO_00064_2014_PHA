@@ -25,11 +25,6 @@ class ProductTemplate(models.Model):
 
     _inherit = 'product.template'
 
-    analysis_ids = fields.Many2many(
-        'product.analysis',
-        'product_template_analysis_rel',
-        'product_id',
-        'analysis_id',
-        'Analysis')
-
+    analysis_ids = fields.One2many('product.analysis.rel', 'product_id',
+                                   'Analysis')
     analytic_certificate = fields.Boolean('Analytic certificate')

@@ -26,7 +26,9 @@
     'description': """""",
     'author': 'Pexego',
     'website': '',
-    "depends": ['base'],
-    "data": ['quality_view.xml'],
+    "depends": ['base',
+		'product'],
+    "data": ['views/quality_view.xml',
+	     'views/product_template.xml'],
     "installable": True
 }

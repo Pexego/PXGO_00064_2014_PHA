@@ -102,6 +102,7 @@ class ProductTemplate(models.Model):
     quality_limits = fields.Many2one('product.quality.limits', 'Quality limits')
     raw_material = fields.Boolean('Raw material')
 
+
     @api.one
     @api.depends('product_variant_ids.protocol_ids')
     def _get_protocol_count(self):

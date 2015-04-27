@@ -36,7 +36,7 @@
                 'mrp_operations',
                 'lot_states',
                 'mrp_automatic_lot',
-                'product_container',
+                'product_spec',
                 'mrp_return_moves',
                 'quality_management_menu'],
     "data": ['wizard/mrp_release_all.xml',

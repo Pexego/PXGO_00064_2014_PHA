@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,3 +18,30 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+{
+    'name': 'Product index book',
+    'version': '2.0',
+    'author': 'Pharmadus I+D+i',
+    'description': 'Product index book',
+    'category': 'Quality',
+    'website': 'www.pharmadus.com',
+    'depends' : [
+        'base',
+        'product',
+        'stock',
+        'purchase',
+        'quality_management_menu',
+    ],
+    'data' : [
+        'data/sequence.xml',
+        'data/initialization.xml',
+        'views/qc_species.xml',
+        'views/qc_pis.xml',
+        'views/product_template.xml',
+        'views/stock_location.xml',
+        'views/report_pis.xml',
+        'security/ir.model.access.csv',
+    ],
+    'installable': True
+}
