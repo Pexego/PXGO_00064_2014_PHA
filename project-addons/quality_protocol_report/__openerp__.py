@@ -36,7 +36,7 @@
                 'mrp_operations',
                 'lot_states',
                 'mrp_automatic_lot',
-                'product_container',
+                'product_spec',
                 'mrp_return_moves',
                 'quality_management_menu'],
     "data": ['wizard/mrp_release_all.xml',
@@ -49,6 +49,8 @@
              'views/production_view.xml',
              'views/stock_view.xml',
              'views/mrp_view.xml',
-             'security/ir.model.access.csv'],
+             'views/mrp_indicators_base_report_view.xml',
+             'security/ir.model.access.csv',
+             'security/quality_protocol_report_security.xml'],
     "installable": True
 }

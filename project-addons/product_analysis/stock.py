@@ -32,6 +32,7 @@ class stock_lot_analysis(models.Model):
     realized_by = fields.Char('Realized')
     proposed = fields.Boolean('Proposed')
     realized = fields.Boolean('Realized')
+    show_in_certificate = fields.Boolean('Show in certificate')
 
 
 class stock_production_lot(models.Model):
@@ -53,20 +54,8 @@ class stock_production_lot(models.Model):
     sampling_notes = fields.Text('Sampling notes')
     sampling_date = fields.Date('Sampling date')
     sampling_realized = fields.Char('Sampling realized by')
-    analysis_passed = fields.Boolean('Analysis passed',
-                                     compute='_get_analysis_passed',
-                                     store=True)
+    analysis_passed = fields.Boolean('Analysis passed')
     revised_by = fields.Char('Revised by')
-
-    @api.depends('analysis_ids.realized', 'analysis_ids.result')
-    @api.multi
-    def _get_analysis_passed(self):
-        for lot in self:
-            passed = True
-            for analysis in lot.analysis_ids:
-                if analysis.realized and not analysis.result:
-                    passed = False
-            lot.analysis_passed = passed
 
     @api.model
     def create(self, vals):
@@ -74,8 +63,9 @@ class stock_production_lot(models.Model):
         if lot.product_id.analytic_certificate:
             for line in lot.product_id.analysis_ids:
                 self.env['stock.lot.analysis'].create({'lot_id': lot.id,
-                                                       'analysis_id': line.id,
-                                                       'proposed': True})
+                                                       'analysis_id': line.analysis_id.id,
+                                                       'proposed': True,
+                                                       'show_in_certificate': line.show_in_certificate})
         return lot
 
     @api.multi

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    Copyright (C) 2015 Pexego All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,7 +19,27 @@
 #
 ##############################################################################
 
-from . import wizard
-from . import controllers
-from . import models
-from . import report
+{
+    'name': 'Product spec',
+    'version': '1.0',
+    'category': 'Product',
+    'description': """
+        The following fields are added to products:
+            -line
+            -subline
+            -customer
+            -clothing
+            -country
+            -packing
+            -objective
+            -container
+            -base form
+
+
+    """,
+    'author': 'Pexego',
+    'website': '',
+    "depends": ['product', 'quality_management_menu'],
+    "data": ['product_view.xml', 'security/ir.model.access.csv'],
+    "installable": True
+}

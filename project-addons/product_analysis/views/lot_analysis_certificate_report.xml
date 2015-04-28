@@ -165,7 +165,7 @@
                                        </thead>
                                        <tbody>
                                             <t t-foreach="o.analysis_ids" t-as="analysis">
-                                                <tr t-if="analysis.analysis_id.show_in_certificate and analysis.realized">
+                                                <tr t-if="analysis.show_in_certificate and analysis.realized">
                                                     <td> <span t-field="analysis.analysis_id.name"/></td>
                                                     <td class="text-center"> <span t-field="analysis.analysis_id.method"/></td>
                                                     <td class="text-center">
@@ -198,7 +198,7 @@
                     <div class="footer">
                         <div class="row">
                             <div class="col-xs-4 col-xs-offset-4 col-xs-height col-bottom">
-                                <span>person who enters the data into Odoo</span>
+                                <span>person who enters the data</span>
                             </div>
                         </div>
                         <div class="row">

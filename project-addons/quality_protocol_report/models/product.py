@@ -38,6 +38,7 @@ class product_quality_limits(models.Model):
     weight_alert_unit_to = fields.Float('To')
     weight_action_unit_to = fields.Float('To')
 
+
 class product_product(models.Model):
 
     _inherit = 'product.product'
@@ -99,6 +100,8 @@ class ProductTemplate(models.Model):
     protocol_count = fields.Integer('Protocols count',
                                     compute='_get_protocol_count')
     quality_limits = fields.Many2one('product.quality.limits', 'Quality limits')
+    raw_material = fields.Boolean('Raw material')
+
 
     @api.one
     @api.depends('product_variant_ids.protocol_ids')

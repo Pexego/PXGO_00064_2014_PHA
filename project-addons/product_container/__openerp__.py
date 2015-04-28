@@ -26,7 +26,7 @@
     'description': """""",
     'author': 'Pexego',
     'website': 'www.pexego.es',
-    "depends": ['base', 'product'],
-    "data": ['product_view.xml', 'security/ir.model.access.csv', 'data/product_data.xml'],
+    "depends": ['product_spec'],
+    "data": [],
     "installable": True
 }

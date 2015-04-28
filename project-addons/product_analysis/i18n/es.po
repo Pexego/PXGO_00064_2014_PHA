@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-21 16:59+0000\n"
-"PO-Revision-Date: 2015-04-21 16:59+0000\n"
+"POT-Creation-Date: 2015-04-27 08:45+0000\n"
+"PO-Revision-Date: 2015-04-27 08:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,7 @@ msgstr ""
 #. module: product_analysis
 #: view:product.analysis:product_analysis.product_analysis_form
 #: view:product.analysis:product_analysis.product_analysis_tree
+#: field:product.analysis.rel,analysis_id:0
 #: view:product.template:product_analysis.product_template_add_analysis
 #: field:product.template,analysis_ids:0
 #: field:stock.lot.analysis,analysis_id:0
@@ -28,11 +29,12 @@ msgstr "Análisis"
 
 #. module: product_analysis
 #: model:ir.actions.report.xml,name:product_analysis.report_lot_analysis_certificate
+#: model:ir.ui.menu,name:product_analysis.quality_lot_menus
 msgid "Analysis certificate"
 msgstr "Certificado de análisis"
 
 #. module: product_analysis
-#: code:addons/product_analysis/stock.py:86
+#: code:addons/product_analysis/stock.py:76
 #, python-format
 msgid "Analysis error"
 msgstr "Analysis error"
@@ -90,6 +92,7 @@ msgstr "Tipo de envase:"
 #. module: product_analysis
 #: field:product.analysis,create_uid:0
 #: field:product.analysis.method,create_uid:0
+#: field:product.analysis.rel,create_uid:0
 #: field:stock.lot.analysis,create_uid:0
 msgid "Created by"
 msgstr "Created by"
@@ -97,6 +100,7 @@ msgstr "Created by"
 #. module: product_analysis
 #: field:product.analysis,create_date:0
 #: field:product.analysis.method,create_date:0
+#: field:product.analysis.rel,create_date:0
 #: field:stock.lot.analysis,create_date:0
 msgid "Created on"
 msgstr "Created on"
@@ -116,6 +120,7 @@ msgstr "F-01-DT-001-00"
 #. module: product_analysis
 #: field:product.analysis,id:0
 #: field:product.analysis.method,id:0
+#: field:product.analysis.rel,id:0
 #: field:stock.lot.analysis,id:0
 msgid "ID"
 msgstr "ID"
@@ -128,6 +133,7 @@ msgstr "HOJA DE ANÁLISIS DE MATERIA PRIMA / MATERIA DE ACONDICIONAMIENTO"
 #. module: product_analysis
 #: field:product.analysis,write_uid:0
 #: field:product.analysis.method,write_uid:0
+#: field:product.analysis.rel,write_uid:0
 #: field:stock.lot.analysis,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
@@ -135,6 +141,7 @@ msgstr "Last Updated by"
 #. module: product_analysis
 #: field:product.analysis,write_date:0
 #: field:product.analysis.method,write_date:0
+#: field:product.analysis.rel,write_date:0
 #: field:stock.lot.analysis,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
@@ -143,11 +150,6 @@ msgstr "Last Updated on"
 #: field:stock.lot.analysis,lot_id:0
 msgid "Lot"
 msgstr "Lote"
-
-#. module: product_analysis
-#: model:ir.ui.menu,name:product_analysis.quality_lot_menus
-msgid "Lot control"
-msgstr "Control de lote"
 
 #. module: product_analysis
 #: model:ir.model,name:product_analysis.model_stock_production_lot
@@ -242,6 +244,11 @@ msgid "Paramenter"
 msgstr "Parámetro"
 
 #. module: product_analysis
+#: field:product.analysis.rel,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_analysis
 #: model:ir.model,name:product_analysis.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
@@ -268,7 +275,6 @@ msgid "Proposed number of samples"
 msgstr "Número de muestras a tomar propuestas"
 
 #. module: product_analysis
-#: view:product.template:product_analysis.product_template_add_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Quality"
 msgstr "Calidad"
@@ -357,7 +363,8 @@ msgid "Sampling:"
 msgstr "Toma de muestras:"
 
 #. module: product_analysis
-#: field:product.analysis,show_in_certificate:0
+#: field:product.analysis.rel,show_in_certificate:0
+#: field:stock.lot.analysis,show_in_certificate:0
 msgid "Show in certificate"
 msgstr "Mostrar en certificado"
 
@@ -376,7 +383,7 @@ msgstr "Proveedor:"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
-msgid "person who enters the data into Odoo"
+msgid "person who enters the data"
 msgstr "Persona que introduce los datos"
 
 #. module: product_analysis
@@ -386,7 +393,7 @@ msgid "signature and date"
 msgstr "Firma y fecha"
 
 #. module: product_analysis
-#: code:addons/product_analysis/stock.py:87
+#: code:addons/product_analysis/stock.py:77
 #, python-format
 msgid "the consignment has not passed all analysis"
 msgstr "El lote no ha pasado todos los análisis"

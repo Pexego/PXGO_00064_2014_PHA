@@ -26,7 +26,7 @@
     'description': """Adds fields to products for pharma industries""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
-    "depends": ['product'],
-    "data": ['product_view.xml', 'security/ir.model.access.csv'],
+    "depends": ['product_spec'],
+    "data": [],
     "installable": True
 }

@@ -26,8 +26,16 @@ class product_analysis(models.Model):
     _name = 'product.analysis'
 
     name = fields.Char('Paramenter', translate=True, required=True)
-    show_in_certificate = fields.Boolean('Show in certificate')
     method = fields.Many2one('product.analysis.method', 'Method')
+
+
+class product_analysis_rel(models.Model):
+
+    _name = 'product.analysis.rel'
+
+    product_id = fields.Many2one('product.template', 'Product')
+    analysis_id = fields.Many2one('product.analysis', 'Analysis')
+    show_in_certificate = fields.Boolean('Show in certificate')
 
 
 class product_analysis_method(models.Model):

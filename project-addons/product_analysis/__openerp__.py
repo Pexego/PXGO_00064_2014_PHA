@@ -26,7 +26,7 @@
     'description': """""",
     'author': 'Pexego',
     'website': '',
-    "depends": ['product', 'lot_states', 'quality_protocol_report', 'stock_reception'],
+    "depends": ['product', 'lot_states', 'quality_protocol_report', 'stock_reception', 'product_spec'],
     "data": ['product_view.xml', 'stock_view.xml',
              'views/lot_analysis_sheet_report.xml',
              'views/lot_analysis_certificate_report.xml',
