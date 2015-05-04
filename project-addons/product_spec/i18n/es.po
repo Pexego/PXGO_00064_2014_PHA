@@ -51,9 +51,19 @@ msgid "Average filter weight min alert"
 msgstr "Average filter weight min alert"
 
 #. module: product_spec
+#: field:product.template,base_form_id:0
+msgid "Base form"
+msgstr "Forma base"
+
+#. module: product_spec
 #: field:product.product,cn_code:0
 msgid "CN code"
 msgstr "Código CN"
+
+#. module: product_spec
+#: field:product.template,container_id:0
+msgid "Container"
+msgstr "Envasado"
 
 #. module: product_spec
 #: field:product.packing,create_uid:0
