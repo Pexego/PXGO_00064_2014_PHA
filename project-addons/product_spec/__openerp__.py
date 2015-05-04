@@ -30,7 +30,8 @@
             -customer
             -clothing
             -country
-            -packing
+            -packing internal
+            -packing external
             -objective
             -container
             -base form

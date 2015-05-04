@@ -41,6 +41,12 @@ class ProductPacking(models.Model):
     name = fields.Char('Name', required=True)
 
 
+class ProductPackingInternal(models.Model):
+    _name = 'product.packing.internal'
+
+    name = fields.Char('Name', required=True)
+
+
 class product_form(models.Model):
     _name = 'product.form'
 
@@ -95,6 +101,7 @@ class ProductTemplate(models.Model):
     objective = fields.Selection((('alimentation', 'Alimentation'),
                                   ('pharmacy', 'Pharmacy')), 'Objective')
     packing = fields.Many2one('product.packing', 'Packing')
+    packing_internal = fields.Many2one('product.packing.internal', 'Packing Internal')
     country = fields.Many2one('res.country', 'Country')
     qty = fields.Float('Quantity')
     udm = fields.Many2one('product.uom', 'UdM')
