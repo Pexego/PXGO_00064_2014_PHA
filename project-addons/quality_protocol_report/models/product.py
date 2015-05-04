@@ -22,23 +22,6 @@
 from openerp import models, fields, api, exceptions, _
 
 
-class product_quality_limits(models.Model):
-
-    _name = "product.quality.limits"
-
-    name = fields.Char('Name', size=64, required=True)
-    loc_samples = fields.Integer('Loc Samples')
-    weight_alert_full_from = fields.Float('From')
-    weight_action_full_from = fields.Float('From')
-    unit_weight = fields.Float('Unit weight')
-    weight_alert_unit_from = fields.Float('From')
-    weight_action_unit_from = fields.Float('From')
-    weight_alert_full_to = fields.Float('To')
-    weight_action_full_to = fields.Float('To')
-    weight_alert_unit_to = fields.Float('To')
-    weight_action_unit_to = fields.Float('To')
-
-
 class product_product(models.Model):
 
     _inherit = 'product.product'
@@ -99,7 +82,6 @@ class ProductTemplate(models.Model):
 
     protocol_count = fields.Integer('Protocols count',
                                     compute='_get_protocol_count')
-    quality_limits = fields.Many2one('product.quality.limits', 'Quality limits')
     raw_material = fields.Boolean('Raw material')
 
 
