@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-27 12:18+0000\n"
-"PO-Revision-Date: 2015-04-27 12:18+0000\n"
+"POT-Creation-Date: 2015-05-04 10:41+0000\n"
+"PO-Revision-Date: 2015-05-04 10:41+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -64,6 +64,18 @@ msgstr "Código CN"
 #: field:product.template,container_id:0
 msgid "Container"
 msgstr "Envasado"
+
+#. module: product_spec
+#: field:product.packing,create_uid:0
+#: field:product.packing.internal,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: product_spec
+#: field:product.packing,create_date:0
+#: field:product.packing.internal,create_date:0
+msgid "Created on"
+msgstr "Created on"
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
@@ -123,9 +135,16 @@ msgstr "Peso estuche lleno"
 #. module: product_spec
 #: view:product.line:product_spec.product_line_form
 #: view:product.packing:product_spec.product_packing_form
+#: view:product.packing.internal:product_spec.product_packing_internal_form
 #: view:product.subline:product_spec.product_subline_form
 msgid "General info."
 msgstr "Información General"
+
+#. module: product_spec
+#: field:product.packing,id:0
+#: field:product.packing.internal,id:0
+msgid "ID"
+msgstr "ID"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_add_spec_field
@@ -133,14 +152,37 @@ msgid "Information"
 msgstr "Información"
 
 #. module: product_spec
+#: field:product.packing,write_uid:0
+#: field:product.packing.internal,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: product_spec
+#: field:product.packing,write_date:0
+#: field:product.packing.internal,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: product_spec
 #: field:product.container,name:0
 #: field:product.form,name:0
 #: field:product.line,name:0
 #: field:product.packing,name:0
+#: field:product.packing.internal,name:0
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 #: field:product.subline,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: product_spec
+#: field:product.template,packing_internal:0
+msgid "Packing Internal"
+msgstr "Packing Interno"
+
+#. module: product_spec
+#: field:product.template,packing:0
+msgid "Packing"
+msgstr "Packing Externo"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_template_add_limits
@@ -199,10 +241,18 @@ msgid "Product forms"
 msgstr "Formas de producto"
 
 #. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_packing_internal_form
+#: model:ir.ui.menu,name:product_spec.menu_product_product_packing_internals
+#: view:product.packing.internal:product_spec.product_packing_internal_tree
+msgid "Product packing internals"
+msgstr "Product packing internals"
+
+#. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_packing_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_packings
 #: view:product.packing:product_spec.product_packing_form
 #: view:product.packing:product_spec.product_packing_tree
+#: view:product.packing.internal:product_spec.product_packing_internal_form
 msgid "Product packings"
 msgstr "Product packings"
 
