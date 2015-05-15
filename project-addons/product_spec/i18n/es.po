@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* product_spec
+# 	* product_spec
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-04 10:41+0000\n"
-"PO-Revision-Date: 2015-05-04 10:41+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2015-05-14 22:28+0000\n"
+"PO-Revision-Date: 2015-05-15 10:08+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.7.1\n"
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
@@ -26,34 +28,9 @@ msgid "Alert"
 msgstr "Alerta"
 
 #. module: product_spec
-#: field:product.quality.limits,analysis:0
-msgid "Analysis"
-msgstr "Análisis"
-
-#. module: product_spec
-#: field:product.quality.limits,filter_av_max_action_weight:0
-msgid "Average filter weight max action"
-msgstr "Average filter weight max action"
-
-#. module: product_spec
-#: field:product.quality.limits,filter_av_max_alert_weight:0
-msgid "Average filter weight max alert"
-msgstr "Average filter weight max alert"
-
-#. module: product_spec
-#: field:product.quality.limits,filter_av_min_action_weight:0
-msgid "Average filter weight min action"
-msgstr "Average filter weight min action"
-
-#. module: product_spec
-#: field:product.quality.limits,filter_av_min_alert_weight:0
-msgid "Average filter weight min alert"
-msgstr "Average filter weight min alert"
-
-#. module: product_spec
-#: field:product.template,base_form_id:0
-msgid "Base form"
-msgstr "Forma base"
+#: view:product.packing.base:product_spec.product_packing_base_form
+msgid "Base packing format"
+msgstr "Formato de packing base"
 
 #. module: product_spec
 #: field:product.product,cn_code:0
@@ -61,19 +38,17 @@ msgid "CN code"
 msgstr "Código CN"
 
 #. module: product_spec
-#: field:product.template,container_id:0
-msgid "Container"
-msgstr "Envasado"
-
-#. module: product_spec
-#: field:product.packing,create_uid:0
+#: field:product.packing,create_uid:0 field:product.packing.base,create_uid:0
 #: field:product.packing.internal,create_uid:0
+#: field:product.packing.production,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: product_spec
 #: field:product.packing,create_date:0
+#: field:product.packing.base,create_date:0
 #: field:product.packing.internal,create_date:0
+#: field:product.packing.production,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -88,61 +63,13 @@ msgid "Filter weight"
 msgstr "Peso del filtro"
 
 #. module: product_spec
-#: field:product.quality.limits,filter_max_action_weight:0
-msgid "Filter weight max action"
-msgstr "Filter weight max action"
-
-#. module: product_spec
-#: field:product.quality.limits,filter_max_alert_weight:0
-msgid "Filter weight max alert"
-msgstr "Filter weight max alert"
-
-#. module: product_spec
-#: field:product.quality.limits,filter_min_action_weight:0
-msgid "Filter weight min action"
-msgstr "Filter weight min action"
-
-#. module: product_spec
-#: field:product.quality.limits,filter_min_alert_weight:0
-msgid "Filter weight min alert"
-msgstr "Filter weight min alert"
-
-#. module: product_spec
-#: field:product.quality.limits,full_case_max_action_weight:0
-msgid "Full case action max"
-msgstr "Full case action max"
-
-#. module: product_spec
-#: field:product.quality.limits,full_case_min_action_weight:0
-msgid "Full case action min"
-msgstr "Full case action min"
-
-#. module: product_spec
-#: field:product.quality.limits,full_case_max_alert_weight:0
-msgid "Full case alert max"
-msgstr "Full case alert max"
-
-#. module: product_spec
-#: field:product.quality.limits,full_case_min_alert_weight:0
-msgid "Full case alert min"
-msgstr "Full case alert min"
-
-#. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Full case weight"
 msgstr "Peso estuche lleno"
 
 #. module: product_spec
-#: view:product.line:product_spec.product_line_form
-#: view:product.packing:product_spec.product_packing_form
-#: view:product.packing.internal:product_spec.product_packing_internal_form
-#: view:product.subline:product_spec.product_subline_form
-msgid "General info."
-msgstr "Información General"
-
-#. module: product_spec
-#: field:product.packing,id:0
-#: field:product.packing.internal,id:0
+#: field:product.packing,id:0 field:product.packing.base,id:0
+#: field:product.packing.internal,id:0 field:product.packing.production,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -152,27 +79,43 @@ msgid "Information"
 msgstr "Información"
 
 #. module: product_spec
-#: field:product.packing,write_uid:0
+#: view:product.packing.internal:product_spec.product_packing_internal_form
+msgid "Internal packing format"
+msgstr "Formato de packing interno"
+
+#. module: product_spec
+#: field:product.packing,write_uid:0 field:product.packing.base,write_uid:0
 #: field:product.packing.internal,write_uid:0
+#: field:product.packing.production,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: product_spec
-#: field:product.packing,write_date:0
+#: field:product.packing,write_date:0 field:product.packing.base,write_date:0
 #: field:product.packing.internal,write_date:0
+#: field:product.packing.production,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: product_spec
-#: field:product.container,name:0
-#: field:product.form,name:0
-#: field:product.line,name:0
-#: field:product.packing,name:0
-#: field:product.packing.internal,name:0
+#: field:product.container,name:0 field:product.form,name:0
+#: field:product.line,name:0 field:product.packing,name:0
+#: field:product.packing.base,name:0 field:product.packing.internal,name:0
+#: field:product.packing.production,name:0
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 #: field:product.subline,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: product_spec
+#: field:product.template,packing:0
+msgid "Packing"
+msgstr "Packing Externo"
+
+#. module: product_spec
+#: field:product.template,packing_base:0
+msgid "Packing Base"
+msgstr "Packing Base"
 
 #. module: product_spec
 #: field:product.template,packing_internal:0
@@ -180,9 +123,14 @@ msgid "Packing Internal"
 msgstr "Packing Interno"
 
 #. module: product_spec
-#: field:product.template,packing:0
-msgid "Packing"
-msgstr "Packing Externo"
+#: field:product.template,packing_production:0
+msgid "Packing Production"
+msgstr "Packing Producción"
+
+#. module: product_spec
+#: view:product.packing:product_spec.product_packing_form
+msgid "Packing format"
+msgstr "Formato de packing externo"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_template_add_limits
@@ -202,18 +150,18 @@ msgstr "Producto"
 #: view:product.line:product_spec.product_line_form
 #: view:product.line:product_spec.product_line_tree
 msgid "Product Lines"
-msgstr "Lineas"
+msgstr "Líneas de producto"
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_tree
 msgid "Product Quality Limits"
-msgstr "Product Quality Limits"
+msgstr "Límites de calidad de producto"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_subline_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_sublines
 msgid "Product SubLines"
-msgstr "SubLineas"
+msgstr "SubLineas de producto"
 
 #. module: product_spec
 #: model:ir.model,name:product_spec.model_product_template
@@ -241,11 +189,30 @@ msgid "Product forms"
 msgstr "Formas de producto"
 
 #. module: product_spec
+#: view:product.line:product_spec.product_line_form
+msgid "Product line"
+msgstr "Línea de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_packing_base_form
+#: model:ir.ui.menu,name:product_spec.menu_product_product_packing_base
+#: view:product.packing.base:product_spec.product_packing_base_tree
+msgid "Product packing base"
+msgstr "Packing base de producto"
+
+#. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_packing_internal_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_packing_internals
 #: view:product.packing.internal:product_spec.product_packing_internal_tree
 msgid "Product packing internals"
-msgstr "Product packing internals"
+msgstr "Packing interno de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_packing_production_form
+#: model:ir.ui.menu,name:product_spec.menu_product_product_packing_production
+#: view:product.packing.production:product_spec.product_packing_production_tree
+msgid "Product packing production"
+msgstr "Packing producción de producto"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_packing_form
@@ -253,20 +220,36 @@ msgstr "Product packing internals"
 #: view:product.packing:product_spec.product_packing_form
 #: view:product.packing:product_spec.product_packing_tree
 #: view:product.packing.internal:product_spec.product_packing_internal_form
+#: view:product.packing.production:product_spec.product_packing_production_form
 msgid "Product packings"
-msgstr "Product packings"
+msgstr "Packing externo de producto"
+
+#. module: product_spec
+#: view:product.packing.base:product_spec.product_packing_base_form
+msgid "Product packings base"
+msgstr "Packing base de producto"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_quality_limits_form
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Product quality limits"
-msgstr "Product quality limits"
+msgstr "Límites de calidad de producto"
+
+#. module: product_spec
+#: view:product.subline:product_spec.product_subline_form
+msgid "Product subline"
+msgstr "Sublínea de producto"
 
 #. module: product_spec
 #: view:product.subline:product_spec.product_subline_form
 #: view:product.subline:product_spec.product_subline_tree
 msgid "Product sublines"
-msgstr "Sublineas"
+msgstr "Sublíneas de producto"
+
+#. module: product_spec
+#: view:product.packing.production:product_spec.product_packing_production_form
+msgid "Production packing format"
+msgstr "Formato packing producción"
 
 #. module: product_spec
 #: model:ir.ui.menu,name:product_spec.menu_product_quality_limits
@@ -282,4 +265,3 @@ msgstr "Muestras"
 #: view:product.template:product_spec.product_add_spec_field
 msgid "Specs"
 msgstr "Especificaciones"
-

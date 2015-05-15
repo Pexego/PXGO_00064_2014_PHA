@@ -41,20 +41,22 @@
                         <group colspan="4">
                             <group>
                                 <label for="qty"/>
-                               <div style="width: 80px;">
-                                 <field name="qty" class="oe_inline"/><field name="udm" class="oe_inline"/>
+                                <div style="width: 120px;">
+                                    <field name="qty" class="oe_inline"/><field name="udm" class="oe_inline"/>
                                 </div>
                                 <field name="line"/>
                                 <field name="subline"/>
                                 <field name="container_id"/>
                                 <field name="base_form_id"/>
+                                <field name="clothing"/>
                              </group>
                             <group>
-                                <field name="clothing"/>
                                 <field name="country"/>
                                 <field name="customer"/>
-                                <field name="packing"/>
+                                <field name="packing_base"/>
+                                <field name="packing_production"/>
                                 <field name="packing_internal"/>
+                                <field name="packing"/>
                                 <field name="objective"/>
                             </group>
                         </group>
@@ -94,7 +96,7 @@
                 <form string="Product Lines">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Product line" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -135,7 +137,7 @@
                 <form string="Product sublines">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Product subline" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -154,13 +156,13 @@
 
         </record>
 
-<menuitem action="action_product_subline_form"
+        <menuitem action="action_product_subline_form"
             id="menu_product_product_sublines"
             parent="product.prod_config_main"/>
 
 
         <!-- product.packing views -->
-    <record model="ir.ui.view" id="product_packing_tree">
+        <record model="ir.ui.view" id="product_packing_tree">
             <field name="name">product.packing.tree</field>
             <field name="model">product.packing</field>
             <field name="type">tree</field>
@@ -179,7 +181,7 @@
                 <form string="Product packings">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Packing format" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -198,13 +200,13 @@
 
         </record>
 
-<menuitem action="action_product_packing_form"
+        <menuitem action="action_product_packing_form"
             id="menu_product_product_packings"
             parent="product.prod_config_main"/>
 
 
         <!-- product.packing.internal views -->
-    <record model="ir.ui.view" id="product_packing_internal_tree">
+        <record model="ir.ui.view" id="product_packing_internal_tree">
             <field name="name">product.packing.internal.tree</field>
             <field name="model">product.packing.internal</field>
             <field name="type">tree</field>
@@ -223,7 +225,7 @@
                 <form string="Product packings">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Internal packing format" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -242,12 +244,94 @@
 
         </record>
 
-<menuitem action="action_product_packing_internal_form"
+        <menuitem action="action_product_packing_internal_form"
             id="menu_product_product_packing_internals"
             parent="product.prod_config_main"/>
+        
+        <!-- product.packing.production views -->
+        <record model="ir.ui.view" id="product_packing_production_tree">
+            <field name="name">product.packing.production.tree</field>
+            <field name="model">product.packing.production</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product packing production">
+                    <field name="name"  select="1"/>
+                </tree>
+            </field>
+        </record>
 
+        <record model="ir.ui.view" id="product_packing_production_form">
+            <field name="name">Product packing.production</field>
+            <field name="model">product.packing.production</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product packings">
+                    <sheet>
+                        <group>
+                            <separator string="Production packing format" colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <!-- product.form views -->
+        <record model="ir.actions.act_window" id="action_product_packing_production_form">
+            <field name="name">Product packing production</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.packing.production</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_packing_production_tree"/>
+
+        </record>
+
+        <menuitem action="action_product_packing_production_form"
+            id="menu_product_product_packing_production"
+            parent="product.prod_config_main"/>
+
+        <!-- product.packing.base views -->
+        <record model="ir.ui.view" id="product_packing_base_tree">
+            <field name="name">product.packing.base.tree</field>
+            <field name="model">product.packing.base</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product packing base">
+                    <field name="name" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_packing_base_form">
+            <field name="name">Product packing.base</field>
+            <field name="model">product.packing.base</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product packings base">
+                    <sheet>
+                        <group>
+                            <separator string="Base packing format" colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_product_packing_base_form">
+            <field name="name">Product packing base</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.packing.base</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_packing_base_tree"/>
+        </record>
+
+        <menuitem action="action_product_packing_base_form"
+            id="menu_product_product_packing_base"
+            parent="product.prod_config_main"/>
+
+        <!-- product.form views -->
         <record id="product_form_view" model="ir.ui.view">
             <field name="name">product.form.form</field>
             <field name="model">product.form</field>
