@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-14 22:28+0000\n"
-"PO-Revision-Date: 2015-05-15 10:08+0100\n"
+"PO-Revision-Date: 2015-05-19 16:05+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,36 @@ msgid "Alert"
 msgstr "Alerta"
 
 #. module: product_spec
+#: field:product.quality.limits,analysis:0
+msgid "Analysis"
+msgstr "Análisis"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_max_action_weight:0
+msgid "Average filter weight max action"
+msgstr "Peso filtro promedio acción máx."
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_max_alert_weight:0
+msgid "Average filter weight max alert"
+msgstr "Peso filtro promedio alerta máx."
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_min_action_weight:0
+msgid "Average filter weight min action"
+msgstr "Peso filtro promedio acción mín."
+
+#. module: product_spec
+#: field:product.quality.limits,filter_av_min_alert_weight:0
+msgid "Average filter weight min alert"
+msgstr "Peso filtro promedio alerta mín."
+
+#. module: product_spec
+#: field:product.template,base_form_id:0
+msgid "Base form"
+msgstr "Forma base"
+
+#. module: product_spec
 #: view:product.packing.base:product_spec.product_packing_base_form
 msgid "Base packing format"
 msgstr "Formato de packing base"
@@ -36,6 +66,11 @@ msgstr "Formato de packing base"
 #: field:product.product,cn_code:0
 msgid "CN code"
 msgstr "Código CN"
+
+#. module: product_spec
+#: field:product.template,container_id:0
+msgid "Container"
+msgstr "Envasado"
 
 #. module: product_spec
 #: field:product.packing,create_uid:0 field:product.packing.base,create_uid:0
@@ -61,6 +96,46 @@ msgstr "Peso medio del filtro"
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Filter weight"
 msgstr "Peso del filtro"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_max_action_weight:0
+msgid "Filter weight max action"
+msgstr "Peso filtro acción máx."
+
+#. module: product_spec
+#: field:product.quality.limits,filter_max_alert_weight:0
+msgid "Filter weight max alert"
+msgstr "Peso filtro alerta máx."
+
+#. module: product_spec
+#: field:product.quality.limits,filter_min_action_weight:0
+msgid "Filter weight min action"
+msgstr "Peso filtro acción mín."
+
+#. module: product_spec
+#: field:product.quality.limits,filter_min_alert_weight:0
+msgid "Filter weight min alert"
+msgstr "Peso filtro alerta mín."
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_max_action_weight:0
+msgid "Full case action max"
+msgstr "Estuche lleno acción máx."
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_min_action_weight:0
+msgid "Full case action min"
+msgstr "Estuche lleno acción mín."
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_max_alert_weight:0
+msgid "Full case alert max"
+msgstr "Estuche lleno alerta máx."
+
+#. module: product_spec
+#: field:product.quality.limits,full_case_min_alert_weight:0
+msgid "Full case alert min"
+msgstr "Estuche lleno alerta mín."
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
@@ -161,7 +236,7 @@ msgstr "Límites de calidad de producto"
 #: model:ir.actions.act_window,name:product_spec.action_product_subline_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_sublines
 msgid "Product SubLines"
-msgstr "SubLineas de producto"
+msgstr "Sublíneas de producto"
 
 #. module: product_spec
 #: model:ir.model,name:product_spec.model_product_template
