@@ -69,6 +69,7 @@ msgstr "Código CN"
 
 #. module: product_spec
 #: field:product.template,container_id:0
+#: view:product.template:product_spec.product_search_form_view_extended_search
 msgid "Container"
 msgstr "Envasado"
 
@@ -173,6 +174,11 @@ msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Line"
+msgstr "Línea"
+
+#. module: product_spec
 #: field:product.container,name:0 field:product.form,name:0
 #: field:product.line,name:0 field:product.packing,name:0
 #: field:product.packing.base,name:0 field:product.packing.internal,name:0
@@ -181,6 +187,11 @@ msgstr "Last Updated on"
 #: field:product.subline,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Objective"
+msgstr "Objetivo"
 
 #. module: product_spec
 #: field:product.template,packing:0
@@ -340,3 +351,8 @@ msgstr "Muestras"
 #: view:product.template:product_spec.product_add_spec_field
 msgid "Specs"
 msgstr "Especificaciones"
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Type"
+msgstr "Tipo"
