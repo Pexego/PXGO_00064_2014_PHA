@@ -94,8 +94,12 @@
                     <field name="ean13"/>
                     <field name="cn_code"/>
                 </separator>
+                <filter string='Category' position="replace">
+                    <filter string='Account category' domain="[]" context="{'group_by' : 'categ_id'}"/>
+                </filter>
                 <filter string='Type' position="after">
                     <filter string='Line' domain="[]" context="{'group_by' : 'line'}"/>
+                    <filter string='Subline' domain="[]" context="{'group_by' : 'subline'}"/>
                     <filter string='Container' domain="[]" context="{'group_by' : 'container_id'}"/>
                     <filter string='Base form' domain="[]" context="{'group_by' : 'base_form_id'}"/>
                     <filter string='Objective' domain="[]" context="{'group_by' : 'objective'}"/>
