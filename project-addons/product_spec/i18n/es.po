@@ -18,6 +18,11 @@ msgstr ""
 "X-Generator: Poedit 1.7.1\n"
 
 #. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Account category"
+msgstr "Categoría contable"
+
+#. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Action"
 msgstr "Acción"
@@ -51,6 +56,11 @@ msgstr "Peso filtro promedio acción mín."
 #: field:product.quality.limits,filter_av_min_alert_weight:0
 msgid "Average filter weight min alert"
 msgstr "Peso filtro promedio alerta mín."
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Base form"
+msgstr "Forma base"
 
 #. module: product_spec
 #: field:product.template,base_form_id:0
@@ -351,6 +361,11 @@ msgstr "Muestras"
 #: view:product.template:product_spec.product_add_spec_field
 msgid "Specs"
 msgstr "Especificaciones"
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Subline"
+msgstr "Sublínea"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_search_form_view_extended_search
