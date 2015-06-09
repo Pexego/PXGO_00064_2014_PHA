@@ -132,3 +132,9 @@ class ProductTemplate(models.Model):
         if vals.get('cn_code'):
             tmpl.cn_code = vals['cn_code']
         return tmpl
+
+class product_extra_category(models.Model):
+    _name = 'product.extra.category'
+    _description = "Product Category"
+    _inherit = 'product.category'
+    _table = 'product_category'
