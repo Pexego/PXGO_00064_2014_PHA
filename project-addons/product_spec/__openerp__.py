@@ -38,9 +38,9 @@
 
 
     """,
-    'author': 'Pexego',
+    'author': 'Pexego & Pharmadus',
     'website': '',
-    "depends": ['product', 'quality_management_menu'],
+    "depends": ['product', 'quality_management_menu', 'purchase', 'stock', 'mrp'],
     "data": ['product_view.xml', 'security/ir.model.access.csv'],
     "installable": True
 }

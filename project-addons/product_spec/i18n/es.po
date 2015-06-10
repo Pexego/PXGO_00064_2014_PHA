@@ -359,7 +359,14 @@ msgid "Product Extra Categories"
 msgstr "Categorías extra de producto"
 
 #. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.product_category_action_extra_filtered
+msgid "Products by Category"
+msgstr "Productos por categoría"
+
+#. module: product_spec
 #: model:ir.ui.menu,name:product.menu_products_extra_category
+#: model:ir.ui.menu,name:purchase.menu_product_by_extra_category
+#: model:ir.ui.menu,name:stock.menu_product_by_extra_category
 #: model:ir.actions.act_window,name:product_spec.product_category_action_extra_categories
 #: model:ir.actions.act_window,name:product_spec.product_tree_extra_categ_action
 msgid "Products by Extra Category"
