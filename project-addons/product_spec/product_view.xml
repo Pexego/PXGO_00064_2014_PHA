@@ -640,10 +640,24 @@
               </p>
             </field>
         </record>
+        <!-- Sales menu -->
         <menuitem action="product_category_action_extra_filtered"
                   id="product.menu_products_category"
                   parent="base.menu_product"
                   sequence="30"
+                  groups="base.group_no_one"
+        />
+        <!-- Purchases menu -->
+        <menuitem action="product_category_action_extra_filtered"
+                  id="purchase.menu_product_by_category_purchase_form"
+                  parent="purchase.menu_procurement_management_product"
+                  sequence="11"
+        />
+        <!-- Warehouse menu -->
+        <menuitem action="product_category_action_extra_filtered"
+                  id="stock.menu_product_by_category_stock_form"
+                  parent="stock.menu_stock_product"
+                  sequence="11"
                   groups="base.group_no_one"
         />
 
@@ -673,13 +687,27 @@
               </p>
             </field>
         </record>
+        <!-- Sales menu -->
         <menuitem action="product_category_action_extra_categories"
                   id="product.menu_products_extra_category"
                   parent="base.menu_product"
                   sequence="31"
                   groups="base.group_no_one"
         />
-       <record id="product_tree_extra_categ_action" model="ir.actions.act_window">
+        <!-- Purchases menu -->
+        <menuitem action="product_category_action_extra_categories"
+                  id="purchase.menu_product_by_extra_category"
+                  parent="purchase.menu_procurement_management_product"
+                  sequence="12"
+        />
+        <!-- Warehouse menu -->
+        <menuitem action="product_category_action_extra_categories"
+                  id="stock.menu_product_by_extra_category"
+                  parent="stock.menu_stock_product"
+                  sequence="12"
+                  groups="base.group_no_one"
+        />
+        <record id="product_tree_extra_categ_action" model="ir.actions.act_window">
             <field name="name">Products by Extra Category</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.product</field>
