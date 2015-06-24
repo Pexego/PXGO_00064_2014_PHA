@@ -8,4 +8,4 @@ access_product_packing_internal,access_product_packing_internal,model_product_pa
 access_product_packing_production,access_product_packing_production,model_product_packing_production,base.group_user,1,1,1,1
 access_product_packing_base,access_product_packing_base,model_product_packing_base,base.group_user,1,1,1,1
 access_product_quality_limits,access_product_quality_limits,model_product_quality_limits,base.group_user,1,1,1,1
-
+access_product_extra_category,access_product_extra_category,model_product_extra_category,base.group_user,1,1,1,1
