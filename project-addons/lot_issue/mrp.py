@@ -44,5 +44,6 @@ class MrpProduction(models.Model):
         context = ast.literal_eval(context)
         context['search_default_lot_id'] = self.final_lot_id.id
         context['default_lot_id'] = self.final_lot_id.id
+        context['default_user_id'] = self.env.user.id
         action['context'] = str(context)
         return action
