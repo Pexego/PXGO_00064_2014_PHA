@@ -37,7 +37,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_sale_channel" parent="base.menu_sales" name="Canales de venta" sequence="16" action="action_view_menuitem" />
-
+    <menuitem id="menu_sale_channel" parent="base.menu_base_config" name="Canales de venta" sequence="1" action="action_view_menuitem" />
 </data>
 </openerp>
