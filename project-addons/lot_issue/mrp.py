@@ -40,7 +40,7 @@ class MrpProduction(models.Model):
         if not action:
             return
         action = action.read()[0]
-        context =  action['context'].replace("active_id", "'active_id'")
+        context = action['context'].replace("active_id", "'active_id'")
         context = ast.literal_eval(context)
         context['search_default_lot_id'] = self.final_lot_id.id
         context['default_lot_id'] = self.final_lot_id.id

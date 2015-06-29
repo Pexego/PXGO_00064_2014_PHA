@@ -32,7 +32,8 @@ class LotIssue(models.Model):
 
     name = fields.Char('Name', size=64, required=True)
     description = fields.Text('Description')
-    date = fields.Date('Date', required=True, default=fields.Date.context_today)
+    date = fields.Date('Date', required=True,
+                       default=fields.Date.context_today)
     user_id = fields.Many2one('res.users', 'User', default=_get_user,
                               required=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)

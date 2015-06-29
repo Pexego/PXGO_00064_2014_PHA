@@ -18,8 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 from openerp import models, fields, api, _, exceptions
 
 
@@ -65,5 +63,6 @@ class release(models.TransientModel):
         produce_wiz.do_produce()
         production = self.env['mrp.production'].browse(
             self.env.context.get('active_id', False))
-        self.env['mrp.partial.release.log'].create_release_log(production, self)
+        self.env['mrp.partial.release.log'].create_release_log(production,
+                                                               self)
         return True

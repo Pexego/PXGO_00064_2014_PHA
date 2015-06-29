@@ -11,7 +11,7 @@
                 <xpath expr="//field[@name='move_lines']/tree/field[@name='state']" position="after">
                     <button name="%(lot_states.mrp_consume_quarantine_action)d" string="consume quarantine" type="action"
                         states="waiting,confirmed"
-                        icon="terp-gtk-jump-to-ltr"/>
+                        icon="STOCK_ADD"/>
                 </xpath>
             </field>
         </record>

@@ -21,6 +21,7 @@
 
 from openerp import models, api
 
+
 class StockProductionLot(models.Model):
 
     _inherit = 'stock.production.lot'
@@ -29,8 +30,9 @@ class StockProductionLot(models.Model):
     def reset_product_sequences(self):
         for product in self.env['product.product'].search([('sequence_id',
                                                             '!=', False)]):
-            pre_suffix = str(product.sequence_id.prefix) + str(product.sequence_id.suffix)
-            if '%(year)s' in pre_suffix or \
-                    '%(y)s' in pre_suffix:
+            pre_suffix = str(product.sequence_id.prefix) + \
+                str(product.sequence_id.suffix)
+            year_keys = ['%(year)s', '%(y)s', '%(year_last)s']
+            if filter(lambda x: x in pre_suffix, year_keys):
                 product.sequence_id.number_next_actual = 1
         return True

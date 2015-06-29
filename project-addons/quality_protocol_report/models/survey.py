@@ -26,5 +26,4 @@ class survey_user_input(models.Model):
 
     _inherit = 'survey.user_input'
 
-
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
