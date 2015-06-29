@@ -31,7 +31,7 @@ class QualityProtocolReport(models.Model):
     name = fields.Char("Name", required=True)
     type_id = fields.Many2one('protocol.type', 'Type', required=True)
     product_ids = fields.Many2many('product.product', 'product__protocol_rel',
-                                    'protocol_id', 'product_id', 'Products')
+                                   'protocol_id', 'product_id', 'Products')
     model_id = fields.Many2one("ir.model", "Model")
     report_line_ids = fields.Many2many('quality.protocol.report.line',
                                        'quality_protocols_lines_rel',
@@ -47,9 +47,11 @@ class QualityProtocolReport(models.Model):
     @api.constrains('name', 'product_ids')
     def unique_name_product(self):
         for product in self.product_ids:
-            if self.type_id.id in [x.type_id.id for x in product.protocol_ids if x.id != self.id]:
-                raise exceptions.ValidationError(_("The product %s has another protocol with the same type") % product.name)
-
+            if self.type_id.id in [x.type_id.id for x in product.protocol_ids
+                                   if x.id != self.id]:
+                raise exceptions.ValidationError(
+                    _("The product %s has another protocol with the same type")
+                    % product.name)
 
 
 class protocol_type(models.Model):
@@ -92,8 +94,10 @@ class QualityProtocolReportLine(models.Model):
             [('model', '=', 'ir.ui.view'),
              ('res_id', '=', self.view_id.id)])
         new_model = model_data.copy({'res_id': new_line.view_id.id,
-                         'module': 'quality_protocol_report',
-                         'name': str(uuid.uuid4()).replace('-',''),
-                         'noupdate': True})
-        new_line.view_id.arch = new_line.view_id.arch.replace(self.view_id.xml_id, new_model.complete_name)
+                                     'module': 'quality_protocol_report',
+                                     'name':
+                                     str(uuid.uuid4()).replace('-', ''),
+                                     'noupdate': True})
+        new_line.view_id.arch = new_line.view_id.arch.replace(
+            self.view_id.xml_id, new_model.complete_name)
         return True

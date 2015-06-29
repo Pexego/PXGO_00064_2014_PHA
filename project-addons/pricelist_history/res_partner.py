@@ -34,12 +34,14 @@ class res_partner(models.Model):
         pricelist_pur = vals.get('property_product_pricelist_purchase', False)
         pricelist_sale = vals.get('property_product_pricelist', False)
         if pricelist_pur:
-            vals_history = {'date': _today, 'pricelist_id': self.property_product_pricelist_purchase.id,
+            vals_history = {'date': _today, 'pricelist_id':
+                            self.property_product_pricelist_purchase.id,
                             'partner_id': self.id}
             vals_history['type'] = 'purchase'
             pricelist_history_obj.create(vals_history)
         if pricelist_sale:
-            vals_history = {'date': _today, 'pricelist_id': self.property_product_pricelist.id,
+            vals_history = {'date': _today, 'pricelist_id':
+                            self.property_product_pricelist.id,
                             'partner_id': self.id}
             vals_history['type'] = 'sale'
             pricelist_history_obj.create(vals_history)
@@ -51,17 +53,3 @@ class res_partner(models.Model):
         result = act.read()[0]
         result['domain'] = "[('partner_id','='," + str(self.id) + ")]"
         return result
-
-    """
-    def view_pricelist_history(self, cr, uid, ids, context=None):
-        mod_obj = self.pool.get('ir.model.data')
-        act_obj = self.pool.get('ir.actions.act_window')
-        if context is None:
-            context = {}
-        result = mod_obj.get_object_reference(cr, uid, 'pricelist_history', 'action_pricelist_history')
-        id = result and result[1] or False
-        result = act_obj.read(cr, uid, [id], context=context)[0]
-        result['domain'] = "[('partner_id','='," + str(ids[0]) + ")]"
-        return result"""
-
-

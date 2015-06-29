@@ -23,7 +23,7 @@
     'name': 'Sequence with last digit of the year',
     'version': '1.0',
     'category': '',
-    'description': """""",
+    'description': """Adds the last digit of the year in sequences with %%(year_last)s""",
     'author': 'Pexego',
     'website': '',
     "depends": ['base'],

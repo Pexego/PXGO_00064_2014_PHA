@@ -84,7 +84,6 @@ class ProductTemplate(models.Model):
                                     compute='_get_protocol_count')
     raw_material = fields.Boolean('Raw material')
 
-
     @api.one
     @api.depends('product_variant_ids.protocol_ids')
     def _get_protocol_count(self):

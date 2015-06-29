@@ -23,7 +23,21 @@
     'name': 'Stock reception',
     'version': '1.0',
     'category': 'stock',
-    'description': """""",
+    'description': """
+        Adds fields related to the stock reception in lot
+        Fields:
+        -Container type
+        -Supplier lot
+        -Notes
+        -Entry date
+        -Entry date in system
+        -Reception realized by
+        -Quantity
+        -UoM
+        -Number of containers
+        -Pallets
+        -Picking exists
+        """,
     'author': 'Pexego',
     'website': '',
     "depends": ['stock', 'purchase'],

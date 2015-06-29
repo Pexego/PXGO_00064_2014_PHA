@@ -23,7 +23,7 @@
     'name': "Lot issues",
     'version': '1.0',
     'category': 'stock',
-    'description': """""",
+    'description': """Adds issues in lots, and show it in production""",
     'author': 'Pexego',
     'website': 'www.pexego.es',
     "depends": ['base', 'stock', 'mrp', 'stock_traceability_tree'],

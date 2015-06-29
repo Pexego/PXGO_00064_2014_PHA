@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Omar Castiñeira Saavedra <omar@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,11 +19,15 @@
 #
 ##############################################################################
 
-from openerp import models, fields
-
-
-class survey_user_input(models.Model):
-
-    _inherit = 'survey.user_input'
-
-    lot_id = fields.Many2one('stock.production.lot', 'Lot')
+{
+    'name': "Hide product variants",
+    'version': '1.0',
+    'category': 'Products',
+    'description': """Hide by default product variants menu""",
+    'author': 'Comunitea',
+    'website': 'www.comunitea.com',
+    "depends": ['stock', 'product', 'purchase'],
+    "data": ['security/hide_variants_groups.xml',
+             'product_view.xml'],
+    "installable": True
+}

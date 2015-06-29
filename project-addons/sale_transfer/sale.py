@@ -81,6 +81,7 @@ class sale(models.Model):
             'context': ctx,
         }
 
+
 class sale_order_line(models.Model):
 
     _inherit = 'sale.order.line'

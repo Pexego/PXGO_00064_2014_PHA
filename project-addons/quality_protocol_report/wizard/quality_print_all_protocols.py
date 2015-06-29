@@ -104,7 +104,6 @@ class QualityReportAll(models.TransientModel):
         filenames = []
         for url in self._get_print_urls():
             filenames.append('/tmp/' + url.replace('/', '').replace(':', '') + '.pdf')
-
         filepath = self._merge_pdf(filenames)
         fildecode=open(filepath,"r")
         encode_data = fildecode.read()
