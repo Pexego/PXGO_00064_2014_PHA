@@ -34,7 +34,6 @@ class StockMove(models.Model):
 
     original_move = fields.Many2one('stock.move', 'Original move')
 
-
     def cancel_chain(self):
         '''
             Se cancelan los movimientos encadenados.
@@ -82,4 +81,5 @@ state') % (lot_id.name, lot_id.state))
 class stock_transfer_details_items(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
 
-    acceptance_date = fields.Date('Acceptance date', readonly=True, related='lot_id.acceptance_date')
+    acceptance_date = fields.Date('Acceptance date', readonly=True,
+                                  related='lot_id.acceptance_date')

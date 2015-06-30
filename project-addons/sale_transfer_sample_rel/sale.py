@@ -50,4 +50,5 @@ class sale_order_line(models.Model):
     """
     _inherit = 'sale.order.line'
 
-    virtual_available = fields.Float('Virtual Available', related='product_id.virtual_available')
+    virtual_available = fields.Float('Virtual Available',
+                                     related='product_id.virtual_available')

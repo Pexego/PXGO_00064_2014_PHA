@@ -27,6 +27,7 @@ class StockContainerType(models.Model):
 
     name = fields.Char('Name')
 
+
 class StockProductionLot(models.Model):
 
     _inherit = 'stock.production.lot'
