@@ -79,7 +79,7 @@ class QualityReportAll(models.TransientModel):
             for page in range(0, reader.getNumPages()):
                 writer.addPage(reader.getPage(page))
 
-        merged_file_fd, merged_file_path = tempfile.mkstemp(suffix='.html', prefix='report.merged.tmp.')
+        merged_file_fd, merged_file_path = tempfile.mkstemp(suffix='.pdf', prefix='report.merged.tmp.')
         with closing(os.fdopen(merged_file_fd, 'w')) as merged_file:
             writer.write(merged_file)
 

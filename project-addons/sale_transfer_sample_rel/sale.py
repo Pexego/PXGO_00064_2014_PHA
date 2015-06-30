@@ -19,19 +19,10 @@
 #
 ##############################################################################
 
-from openerp import fields, models
+from openerp import fields, models, api
 
 
 class sale_order(models.Model):
-
-    def _get_type(self):
-        if self.transfer:
-            return 'transfer'
-        if self.sample:
-            return 'sample'
-        if self.replacement:
-            return 'replacement'
-        return 'normal'
 
     _inherit = 'sale.order'
 
@@ -41,7 +32,20 @@ class sale_order(models.Model):
                                             ('sample', 'Sample'),
                                             ('transfer', 'Transfer'),
                                             ('replacement', 'Replacement')],
-                                 string="Type", default=_get_type)
+                                 string="Type", compute='_get_type',
+                                 store=True)
+
+    @api.one
+    @api.depends('transfer', 'sample', 'replacement')
+    def _get_type(self):
+        if self.transfer:
+            self.sale_type = 'transfer'
+        elif self.sample:
+            self.sale_type = 'sample'
+        elif self.replacement:
+            self.sale_type = 'replacement'
+        else:
+            self.sale_type = 'normal'
 
 
 class sale_order_line(models.Model):
