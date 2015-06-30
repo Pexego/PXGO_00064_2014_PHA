@@ -507,5 +507,10 @@ function send_form_server() {
         }
         keys.push(key)
     }
-    write_server(write_vals, keys);
+    if(keys.length > 0){
+        write_server(write_vals, keys);
+    }
+    else{
+        window.location.replace($("#all_data").attr("url-submit"));
+    }
 }
