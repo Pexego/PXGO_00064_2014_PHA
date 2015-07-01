@@ -45,6 +45,11 @@ class release(models.TransientModel):
     def onchange_release_qty(self):
         production = self.env['mrp.production'].browse(
             self.env.context.get('active_id', False))
+        for depends_lot in production.final_lot_id.state_depends:
+            if depends_lot.state != 'approved':
+                raise exceptions.Warning(
+                    _('material lot error'),
+                    _('Material lot %s not approved') % depends_lot.name)
         total = sum([x.product_uom_qty for x in production.move_created_ids])
         if total:
             if self.release_qty > total:
