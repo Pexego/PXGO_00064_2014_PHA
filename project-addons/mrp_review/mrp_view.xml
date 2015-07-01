@@ -26,7 +26,7 @@
                     <button name="button_cancel" states="draft,ready,in_production,wait_release" string="Cancel Production"/>
                 </button>
                 <notebook position="inside">
-                    <page string="Revision" states="ready,confirmed,in_production,done">
+                    <page string="Revision" states="in_review,wait_release,done">
                         <group>
                             <group string="production review" attrs="{'readonly': [('prod_review_ok', '=', True)]}">
                                 <field name="production_protocol_agreed"/>
