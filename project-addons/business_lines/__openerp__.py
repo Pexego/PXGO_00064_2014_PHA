@@ -35,5 +35,5 @@
     "data" : ['account_view.xml',
               'sale_view.xml',
               'account_invoice_report_view.xml'],
-    "installable": True
+    "installable": False
 }
