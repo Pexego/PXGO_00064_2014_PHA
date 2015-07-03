@@ -25,7 +25,7 @@ from urlparse import urljoin
 
 class PrintProtocol(models.TransientModel):
 
-    _name = "print.protocol.test"
+    _name = "print.protocol"
 
     @api.model
     def _get_type_ids(self):

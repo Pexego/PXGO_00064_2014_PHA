@@ -25,14 +25,13 @@ class StockPicking(models.Model):
 
     _inherit = 'stock.picking'
 
-    pick_aux = fields.Many2one('stock.picking', 'Auxiliar picking for control lot states')
+    pick_aux = fields.Many2one('stock.picking',
+                               'Auxiliar picking for control lot states')
 
 
 class StockMove(models.Model):
 
     _inherit = 'stock.move'
-
-    original_move = fields.Many2one('stock.move', 'Original move')
 
     def cancel_chain(self):
         '''
