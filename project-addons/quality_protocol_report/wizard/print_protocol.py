@@ -43,7 +43,7 @@ class PrintProtocol(models.TransientModel):
 
     print_url = fields.Char('Print link', readonly=True, compute='_get_print_url')
     protocol_type_id = fields.Many2one('protocol.type', 'Protocol type', required=True)
-    type_ids = fields.Many2many('protocol.type', 'protocol_type_wizard_rel',
+    type_ids = fields.Many2many('protocol.type', 'protocol_type_wizard_rel_',
                                 'wizard_id', 'protocol_id', 'Type', default=_get_type_ids)
     use_continuation = fields.Many2one('mrp.production.workcenter.line',
                                        'Continuation')

@@ -35,7 +35,13 @@ class StockMoveReturnOperations(models.Model):
                               help="Quality system field, no data")
     returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
                                 be returned on produce""")
-    qty_scrapped = fields.Float('Scrapped Qty')
+    qty_used = fields.Float('Qty used')
+    qty_scrapped = fields.Float('Qty scrapped')
+    acceptance_date = fields.Date('Acceptance date')
+    initials = fields.Char('Initials')
+    initials_return = fields.Char('Initials')
+    initials_acond = fields.Char('Initials')
+    used_lot = fields.Char('Use lot')
 
 
 class StockMove(models.Model):
