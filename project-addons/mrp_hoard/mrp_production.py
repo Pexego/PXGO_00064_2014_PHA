@@ -53,7 +53,7 @@ class MrpProduction(models.Model):
         action = action.read()[0]
         res = self.env.ref('stock.view_picking_form')
         action['views'] = [(res.id, 'form')]
-        action['res_id'] = self.hoard_id
+        action['res_id'] = self.hoard_id.id
         action['context'] = False
         return action
 
