@@ -471,7 +471,7 @@
                         <input class="form-control" name="goods_request_date" id="goods_request_date" t-att-value='production.goods_request_date' type="date"/>
                     </div>
                 </form>
-                <form role="form" method="post" class="quality_form" t-att-model="'stock.picking'" t-att-record="production.hoard_ids[0].id">
+                <form role="form" method="post" class="quality_form" t-att-model="'stock.picking'" t-att-record="production.hoard_id.id">
                     <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'pack_operation_ids'"
                           t-att-columns="'product_id,lot_id,acceptance_date,product_qty,product_uom_id,served_qty,initials,id'"
                           t-att-columns-widths="'35%,10%,15%,12%,8%,15%,5%,0%'"
@@ -491,7 +491,7 @@
                         <input class="form-control" name="goods_return_date" id="goods_return_date" t-att-value='production.goods_return_date' type="date"/>
                     </div>
                 </form>
-                <form role="form" method="post" class="quality_form" t-att-model="'stock.picking'" t-att-record="production.hoard_ids[0].id">
+                <form role="form" method="post" class="quality_form" t-att-model="'stock.picking'" t-att-record="production.hoard_id.id">
                     <table class="quality_field" id="tblAppendGridReturn" t-att-qfield="'pack_operation_ids'"
                           t-att-columns="'product_id,lot_id,product_qty,product_uom_id,returned_qty,initials_return,id'"
                           t-att-columns-widths="'45%,15%,12%,8%,15%,5%,0%'"
