@@ -15,7 +15,6 @@
                 </field>
 
                 <field name="client_order_ref" position="after">
-                    <field name="shipping_responsible_id" attrs="{'invisible': [('transfer', '!=', True)], 'required': [('transfer', '=', True)]}"/>
                     <field name="notified_partner_id" attrs="{'invisible': [('transfer', '!=', True)], 'required': [('transfer', '=', True)]}"/>
                 </field>
 
