@@ -31,6 +31,7 @@ class StockMoveReturnOperations(models.Model):
     move_id = fields.Many2one('stock.move', 'Move')
     production_id = fields.Many2one('mrp.production', 'Production')
     product_uom = fields.Many2one('product.uom', 'UoM')
+    """Informative fields"""
     served_qty = fields.Float('Served qty',
                               help="Quality system field, no data")
     returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
@@ -43,16 +44,26 @@ class StockMoveReturnOperations(models.Model):
     initials_acond = fields.Char('Initials')
     used_lot = fields.Char('Use lot')
 
+    """Fields of hoard used for return excess material"""
+    hoard_served_qty = fields.Float('Served qty',
+                              help="Quality system field, no data")
+    hoard_returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
+                                be returned on produce""")
+    hoard_initials = fields.Char('Initials')
+    hoard_initials_return = fields.Char('Initials')
+    acceptance_date = fields.Date('Acceptance date', readonly=True,
+                                  related='lot_id.acceptance_date')
+
 
 class StockMove(models.Model):
 
     _inherit = 'stock.move'
 
-    return_operation_ids = fields.One2many('stock.move.return.operations',
-                                           'move_id', 'Return operations')
     is_hoard_move = fields.Boolean('Is hoard move',
                                    compute='_get_is_hoard_move')
     original_move = fields.Many2one('stock.move', 'Original move')
+    return_operation_ids = fields.One2many('stock.move.return.operations',
+                                           'move_id', 'Return operations')
 
     @api.one
     @api.depends('raw_material_production_id')
@@ -64,7 +75,7 @@ class StockMove(models.Model):
     def action_assign(self):
         """
             Se actualizan los registros de return operations unicamente si
-            los movimientos corresponden a una produccion
+            los movimientos corresponden a una produccion.
         """
 
         super(StockMove, self).action_assign()

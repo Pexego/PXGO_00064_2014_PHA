@@ -101,7 +101,7 @@ class MrpProductProduce(models.TransientModel):
             for line in move.return_operation_ids:
                 new_consume_lines.append((0, 0, {
                     'product_id': line.product_id.id,
-                    'product_qty': line.qty - line.returned_qty -
+                    'product_qty': line.qty - line.hoard_returned_qty -
                     line.qty_scrapped,
                     'lot_id': line.lot_id
                 }))
@@ -126,6 +126,11 @@ class MrpProductProduce(models.TransientModel):
         production = self.env['mrp.production'].browse(self.env.context.get('active_id', False))
         for move in production.move_lines:
             operations = self.get_operations(move)
+            """
+                Se envía a chatarra la cantidad establecida en
+                acondicionamiento secundario. Los campos de cantidad servida y
+                devuelta son informativos, se usan los del acopio
+            """
             for op in operations:
                 if op.qty_scrapped > 0:
                     scrap_location_id = self.env['stock.location'].search(
@@ -150,6 +155,11 @@ class MrpProductProduce(models.TransientModel):
                     new_move.action_confirm()
                     new_move.with_context(no_return_operations=True).action_assign()
                     new_move.action_done()
+            """
+                Para las devoluciones de materiales se usan los datos
+                del mismo modelo introducidos en acopio.
+            """
+            # first_pack_operation = operations[0].move_id.move_orig_ids[0].
             dest_location = move.raw_material_production_id.location_src_id.id
             if move.original_move:
                 # Si se ha consumido cuarentena, la cantidad no consumida se
@@ -157,7 +167,7 @@ class MrpProductProduce(models.TransientModel):
                 if move.original_move.state != 'done':
                     dest_location = move.original_move.location_id.id
                     move.original_move.do_unreserve()
-                    move.original_move.product_uom_qty += operations[0].returned_qty
+                    move.original_move.product_uom_qty += operations[0].hoard_returned_qty
                     originals += move.original_move
                 else:
                     dest_location = move.original_move.location_dest_id.id
@@ -167,12 +177,12 @@ class MrpProductProduce(models.TransientModel):
             elif len(operations) > 1:
                 move.restrict_lot_id = operations[0].lot_id.id
                 move.do_unreserve()
-                move.product_uom_qty = operations[0].returned_qty
+                move.product_uom_qty = operations[0].hoard_returned_qty
                 for op in operations:
                     if op.id == operations[0].id:
                         continue
                     default_val = {
-                        'product_uom_qty': op.returned_qty,
+                        'product_uom_qty': op.hoard_returned_qty,
                         'restrict_lot_id': op.lot_id.id,
                         'location_dest_id': dest_location,
                     }
@@ -182,6 +192,5 @@ class MrpProductProduce(models.TransientModel):
                     new_move.action_done()
                 move.with_context(no_return_operations=True).action_assign()
             move.action_done()
-
         originals.action_assign()
         return res

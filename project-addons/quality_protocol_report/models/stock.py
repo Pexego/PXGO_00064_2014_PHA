@@ -34,17 +34,3 @@ class StockMove(models.Model):
 
     workcenter_id = fields.Many2one('mrp.workcenter', 'Workcenter')
     checked_disp = fields.Boolean('Checked availability')
-
-
-class StockPackOperation(models.Model):
-
-    _inherit = 'stock.pack.operation'
-
-    served_qty = fields.Float('Served qty',
-                              help="Quality system field, no data")
-    returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
-                                be returned on produce""")
-    initials = fields.Char('Initials')
-    initials_return = fields.Char('Initials')
-    acceptance_date = fields.Date('Acceptance date', readonly=True,
-                                  related='lot_id.acceptance_date')
