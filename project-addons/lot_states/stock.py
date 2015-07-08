@@ -51,29 +51,33 @@ class StockMove(models.Model):
 
     @api.multi
     def action_done(self):
+        errors = ''
         for move in self:
-            input_loc = move.picking_type_id.warehouse_id.wh_input_stock_loc_id
-            quality_loc = move.picking_type_id.warehouse_id.wh_qc_stock_loc_id
-            stock_loc = move.picking_type_id.warehouse_id.lot_stock_id
+            if not move.picking_type_id:
+                continue
+            warehouse = move.picking_type_id.warehouse_id
+            input_locs = warehouse.wh_input_stock_loc_id._get_child_locations()
+            quality_locs = warehouse.wh_qc_stock_loc_id._get_child_locations()
+            stock_locs = warehouse.lot_stock_id._get_child_locations()
+            source_location = move.location_id
+            dest_location = move.location_dest_id
             for operation in move.linked_move_operation_ids:
                 lot_id = operation.operation_id.lot_id
-                if move.location_id.id == input_loc.id and \
-                        move.location_dest_id.id == quality_loc.id:
+                if source_location in input_locs and \
+                        dest_location in quality_locs:
                     if lot_id.state != 'in_rev':
-                        raise exceptions.Warning(
-                            _('Lot error'),
-                            _('Cannot move to quality control, the lot %s is \
-in %s state') % (lot_id.name, lot_id.state))
-                elif move.location_id.id == quality_loc.id and \
-                        move.location_dest_id.id == stock_loc.id:
+                        errors += '\n' + _('Cannot move to quality control, \
+the lot %s is in %s state') % (lot_id.name, lot_id.state)
+                elif source_location in quality_locs and \
+                        dest_location in stock_locs:
                     if lot_id.state != 'approved':
-                        raise exceptions.Warning(
-                            _('Lot error'),
-                            _('Cannot move to stock, the lot %s is in %s \
-state') % (lot_id.name, lot_id.state))
-                elif move.location_id.id == input_loc.id and \
-                        move.location_dest_id.id == stock_loc.id:
+                        errors += '\n' + _('Cannot move to stock, \
+the lot %s is in %s state') % (lot_id.name, lot_id.state)
+                elif source_location in input_locs and \
+                        dest_location in stock_locs:
                     lot_id.signal_workflow('direct_approved')
+        if errors:
+            raise exceptions.Warning(_('Lot error'), errors)
         return super(StockMove, self).action_done()
 
 
@@ -82,3 +86,13 @@ class stock_transfer_details_items(models.TransientModel):
 
     acceptance_date = fields.Date('Acceptance date', readonly=True,
                                   related='lot_id.acceptance_date')
+
+
+class stock_location(models.Model):
+
+    _inherit = 'stock.location'
+
+    @api.multi
+    def _get_child_locations(self):
+        self.ensure_one()
+        return self.search([('id', 'child_of', self.id)])
