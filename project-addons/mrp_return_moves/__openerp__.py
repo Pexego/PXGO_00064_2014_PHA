@@ -26,11 +26,7 @@
     'description': """Allow to return quantity from production""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
-    "depends": ['base',
-                'mrp',
-                'mrp_operations',
-                'lot_states',
-                'stock'],
-    "data": ['mrp_view.xml', 'security/ir.model.access.csv'],
+    "depends": [],
+    "data": [],
     "installable": True
 }

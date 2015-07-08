@@ -103,22 +103,6 @@ class StockProductionLot(models.Model):
                             move.picking_id = new_picking
                     move.write({'location_dest_id': dest_id})
 
-                    '''orig_picking = quant.reservation_id.picking_id
-                    new_picking = quant.reservation_id.picking_id.pick_aux
-                    if len(quant.reservation_id.picking_id.move_lines) > 1:
-                        if not new_picking:
-                            new_picking = orig_picking.copy({'move_lines':
-                                                             False})
-                            orig_picking.pick_aux = new_picking.id
-                        if new_picking:
-                            quant.reservation_id.picking_id = new_picking.id
-                        if len(orig_picking.move_lines) == 0:
-                            orig_picking.action_cancel()
-                    # se cambia el destino y se buscan movimientos encadenados
-                    # para cancelar.
-                    if quant.reservation_id.location_dest_id.id != dest_id:
-                        quant.reservation_id.location_dest_id = dest_id
-                    quant.reservation_id.cancel_chain()'''
                 else:
                     not_assigned_quant_ids.append(quant.id)
             search_domain.append(('id', 'in', not_assigned_quant_ids))
@@ -172,8 +156,7 @@ class StockProductionLot(models.Model):
     def action_approve(self):
         """
             Se impide aprobar un lote cuando aun tiene dependencias sin
-            aprobar. En caso de venir de una producción se crea un movimiento
-            de Q a stock
+            aprobar.
         """
         for lot in self:
             for depends_lot in lot.state_depends:
@@ -181,16 +164,17 @@ class StockProductionLot(models.Model):
                     raise exceptions.Warning(
                         _('material lot error'),
                         _('Material lot %s not approved') % depends_lot.name)
+        ''''Comprobar por que se hacia
         self.move_lot(self.env.ref('stock.stock_location_stock').id,
                       [self.env.ref('stock.location_production').id,
-                       self.env.ref('lot_states.stock_location_rejected').id])
+                       self.env.ref('lot_states.stock_location_rejected').id])'''
         self.write({'state': 'approved', 'acceptance_date': date.today()})
 
     @api.multi
     def act_approved_without_new_moves(self):
         """
             Se impide aprobar un lote cuando aun tiene dependencias sin
-            aprobar.
+            aprobar. Innecesario si no se llama a move_lot desde action_approve
         """
         for lot in self:
             for depends_lot in lot.state_depends:
