@@ -60,15 +60,12 @@ class MrpConsumeQuarantine(models.TransientModel):
         move_id = self.env.context.get('active_id', [])
         move = self.env['stock.move'].browse(move_id)
         quality_location = move.warehouse_id.wh_qc_stock_loc_id
+
+        dest_move = move.move_dest_id
+        dest_move.restrict_lot_id = self.lot_id.id
         move.restrict_lot_id = self.lot_id.id
-
-        previous_move = self.env['stock.move'].search([('move_dest_id', '=',
-                                                        move.id)])
-        previous_move.restrict_lot_id = self.lot_id.id
-        previous_move.location_id = move.warehouse_id.wh_qc_stock_loc_id.id
-        previous_move.write({'restrict_lot_id': self.lot_id.id,
-                             'location_id': quality_location.id})
-
+        move.location_id = move.warehouse_id.wh_qc_stock_loc_id.id
+        # TODO
         read_domain = [('location_id', '=', quality_location.id),
                        ('product_id', '=', move.product_id.id),
                        ('lot_id', '=', self.lot_id.id)]
@@ -82,9 +79,9 @@ class MrpConsumeQuarantine(models.TransientModel):
                 break
         if q_move:
             q_move.do_unreserve()
-            q_move.product_uom_qty -= previous_move.product_uom_qty
+            q_move.product_uom_qty -= move.product_uom_qty
             q_move.action_assign()
-            previous_move.original_move = move.original_move = q_move
+            dest_move.original_move = move.original_move = q_move
         else:
             raise exceptions.Warning(_('quarantine error'),
                                      _('Not found the move from quarantine'))

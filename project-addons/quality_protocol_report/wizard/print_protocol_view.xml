@@ -2,11 +2,11 @@
 <openerp>
     <data>
 
-        <record id="print_protocol_test_wzd_form" model="ir.ui.view">
-            <field name="name">print.protocol.test.wzd.form</field>
-            <field name="model">print.protocol.test</field>
+        <record id="print_protocol_wzd_form" model="ir.ui.view">
+            <field name="name">print.protocol.wzd.form</field>
+            <field name="model">print.protocol</field>
             <field name="arch" type="xml">
-                <form string="Test">
+                <form string="Print protocol">
                     <group>
                         <field name="type_ids" invisible="1"/>
                         <field name="protocol_type_id" widget="selection" domain="[('id', 'in', type_ids[0][2])]"/>
@@ -23,7 +23,7 @@
         </record>
 
         <act_window name="Print protocol"
-            res_model="print.protocol.test"
+            res_model="print.protocol"
             src_model="mrp.production"
             key2="client_action_multi"
             multi="True"
@@ -33,7 +33,7 @@
             id="action_print_protocol"/>
 
         <act_window name="Print protocol"
-            res_model="print.protocol.test"
+            res_model="print.protocol"
             src_model="stock.production.lot"
             view_mode="form"
             view_type="form"

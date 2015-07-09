@@ -36,13 +36,13 @@
             <field name="action">action_approve()</field>
         </record>
 
-        <record id="act_approved_without_new_moves" model="workflow.activity">
+        <!--record id="act_approved_without_new_moves" model="workflow.activity">
             <field name="wkf_id" ref="wkf_lot"/>
             <field name="name">approved_without_new_moves</field>
             <field name="flow_stop">True</field>
             <field name="kind">stopall</field>
             <field name="action">act_approved_without_new_moves()</field>
-        </record>
+        </record-->
 
         <record id="act_rejected" model="workflow.activity">
             <field name="wkf_id" ref="wkf_lot"/>
@@ -72,7 +72,7 @@
 
         <record id="trans_draft_approved" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
-            <field name="act_to" ref="act_approved_without_new_moves"/>
+            <field name="act_to" ref="act_approved"/>
             <field name="signal">direct_approved</field>
         </record>
 

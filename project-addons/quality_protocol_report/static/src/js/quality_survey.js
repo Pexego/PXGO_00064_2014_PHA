@@ -365,137 +365,139 @@ function send_form_server() {
     var write_vals = {};
     $('#all_data').find('.view').each(function() {
         if ($(this).find("form").length) {
-            var base_model = $(this).find("form").attr("model");
-            var base_record = Number($(this).find("form").attr("record"));
-            var dat = decodeURIComponent($(this).find("form").serialize());
-            index = base_model + ',' + base_record
-            if (!(index in write_vals)) {
-                write_vals[index] = {};
-            }
-            //Se recorren las tablas con los datos de campos one2many
-            $(this).find("form").find(".quality_field").each(function() {
-                var form_field = $(this).attr("qfield");
-                var columns_default = $(this).attr("columns-default") ? eval('(' + $(this).attr("columns-default") + ')') : {};
-                if(!(form_field in write_vals[index])){
-                    write_vals[index][form_field] = []
+            $(this).find("form").each(function(){
+                var base_model = $(this).attr("model");
+                var base_record = Number($(this).attr("record"));
+                var dat = decodeURIComponent($(this).serialize());
+                index = base_model + ',' + base_record
+                if (!(index in write_vals)) {
+                    write_vals[index] = {};
                 }
+                //Se recorren las tablas con los datos de campos one2many
+                $(this).find(".quality_field").each(function() {
+                    var form_field = $(this).attr("qfield");
+                    var columns_default = $(this).attr("columns-default") ? eval('(' + $(this).attr("columns-default") + ')') : {};
+                    if(!(form_field in write_vals[index])){
+                        write_vals[index][form_field] = []
+                    }
 
-                var compare = $(this).attr("compare");
-                if(compare){
-                    compare = compare.split(",");
-                }
-                var table_id = $(this).attr("id");
-                var records = {};
-                var elements = dat.split('&');
-                for (var i = 0; i< elements.length; i++) {
-                    elements[i] = elements[i].replace('+', ' ')
-                    if (!elements[i].startsWith(table_id)){
-                        continue;
+                    var compare = $(this).attr("compare");
+                    if(compare){
+                        compare = compare.split(",");
                     }
-                    if (elements[i].contains("rowOrder")) {
-                        continue;
-                    }
-                    var vals = elements[i].split('=');
-                    var def = vals[0].split("_");
-                    var row_index = def.pop();
-                    var elem_id = def[0];
-                    var field_name = def.join("_").replace(elem_id + "_", "");
-                    //Se busca el campo para comparar valores.
-                    if (row_index in records) {
-                        records[row_index][field_name] = vals[1];
-                    }
-                    else {
-                        records[row_index] = {};
-                        records[row_index][field_name] = vals[1];
-                    }
-                    if(columns_default){
-                        console.log('');
-                    }
-                    if(columns_default.hasOwnProperty(field_name)){
-                        records[row_index][field_name] = columns_default[field_name];
-                    }
-                    if(compare && compare.length && field_name == compare[0]){
-                        var compare_name = table_id + '_' + compare[1] + '_' + row_index;
-                        if($("input[name='" + compare_name + "']").length){
-                            var to_compare_val = $("input[name='" + compare_name + "']").val();
-                            if(vals[1] != to_compare_val){
-                                alert(field_name + ', ' + compare[1]);
-                                throw new Error("Something went badly wrong!");
-                            }
+                    var table_id = $(this).attr("id");
+                    var records = {};
+                    var elements = dat.split('&');
+                    for (var i = 0; i< elements.length; i++) {
+                        elements[i] = elements[i].replace('+', ' ')
+                        if (!elements[i].startsWith(table_id)){
+                            continue;
                         }
-                    }
-                };
-                var to_delete_rows = []
-                for (var row in records) {
-                    var empty = true;
-                    for (var column in records[row]) {
-                        if (records[row][column] != "") {
-                            empty = false;
+                        if (elements[i].contains("rowOrder")) {
+                            continue;
+                        }
+                        var vals = elements[i].split('=');
+                        var def = vals[0].split("_");
+                        var row_index = def.pop();
+                        var elem_id = def[0];
+                        var field_name = def.join("_").replace(elem_id + "_", "");
+                        //Se busca el campo para comparar valores.
+                        if (row_index in records) {
+                            records[row_index][field_name] = vals[1];
                         }
                         else {
-                            records[row][column] = null;
+                            records[row_index] = {};
+                            records[row_index][field_name] = vals[1];
                         }
-                    }
-                    if (empty) {
-                        to_delete_rows.push(row);
-                    }
-                }
-
-                for (var i = 0; i <  to_delete_rows.length; i++) {
-                    delete records[to_delete_rows[i]];
-                }
-
-                if (to_remove_rows.length != 0) {
-                    var fields = {};
-                    for (var i=0;i<to_remove_rows.length;i++) {
-                        write_vals[index][form_field].push([2, to_remove_rows[i]]);
-                    }
-                    to_remove_rows = [];
-                }
-
-                for (var row in records) {
-                    for (var column in records[row]) {
-                        if (isDateTime(records[row][column]) === true) {
-                            records[row][column] = openerp.web.datetime_to_str(Date.parse(records[row][column]));
+                        if(columns_default){
+                            console.log('');
                         }
-                        else if (isDate(records[row][column]) === true) {
-                            records[row][column] = openerp.web.date_to_str(Date.parseExact(records[row][column], "d/M/yyyy"));
+                        if(columns_default.hasOwnProperty(field_name)){
+                            records[row_index][field_name] = columns_default[field_name];
                         }
-                    }
-
-                    var fields = {};
-                    if (records[row].id) {
-                        var update_id = records[row].id;
-                        delete records[row].id;
-                        var finded = false;
-                        for(var arr_index = 0; arr_index < write_vals[index][form_field].length; arr_index++){
-                            if(write_vals[index][form_field][arr_index][0] == 1 && write_vals[index][form_field][arr_index][1] == Number(update_id)){
-                                write_vals[index][form_field][arr_index][2] = $.extend(write_vals[index][form_field][arr_index][2],records[row]);
-                                finded = true;
+                        if(compare && compare.length && field_name == compare[0]){
+                            var compare_name = table_id + '_' + compare[1] + '_' + row_index;
+                            if($("input[name='" + compare_name + "']").length){
+                                var to_compare_val = $("input[name='" + compare_name + "']").val();
+                                if(vals[1] != to_compare_val){
+                                    alert(field_name + ', ' + compare[1]);
+                                    throw new Error("Something went badly wrong!");
+                                }
                             }
                         }
-                        if(!finded){
-                            write_vals[index][form_field].push([1, Number(update_id), records[row]]);
+                    };
+                    var to_delete_rows = []
+                    for (var row in records) {
+                        var empty = true;
+                        for (var column in records[row]) {
+                            if (records[row][column] != "") {
+                                empty = false;
+                            }
+                            else {
+                                records[row][column] = null;
+                            }
+                        }
+                        if (empty) {
+                            to_delete_rows.push(row);
                         }
                     }
-                    else {
-                        delete records[row].id;
-                        write_vals[index][form_field].push([0, 0, records[row]]);
-                    }
-                }
 
-            });
-            $(this).find("form").find(".form-control").each(function() {
-                var input_value = $(this).attr("value");
-                var name = $(this).attr("name");
-                if(input_value==""){
-                    input_value = null;
-                }
-                if(name in write_vals[index]){
-                    alert("se sobreescribe el valor del input " + name);
-                    throw new Error("Something went badly wrong!");
-                }
-                write_vals[index][name] = input_value;
+                    for (var i = 0; i <  to_delete_rows.length; i++) {
+                        delete records[to_delete_rows[i]];
+                    }
+
+                    if (to_remove_rows.length != 0) {
+                        var fields = {};
+                        for (var i=0;i<to_remove_rows.length;i++) {
+                            write_vals[index][form_field].push([2, to_remove_rows[i]]);
+                        }
+                        to_remove_rows = [];
+                    }
+
+                    for (var row in records) {
+                        for (var column in records[row]) {
+                            if (isDateTime(records[row][column]) === true) {
+                                records[row][column] = openerp.web.datetime_to_str(Date.parse(records[row][column]));
+                            }
+                            else if (isDate(records[row][column]) === true) {
+                                records[row][column] = openerp.web.date_to_str(Date.parseExact(records[row][column], "d/M/yyyy"));
+                            }
+                        }
+
+                        var fields = {};
+                        if (records[row].id) {
+                            var update_id = records[row].id;
+                            delete records[row].id;
+                            var finded = false;
+                            for(var arr_index = 0; arr_index < write_vals[index][form_field].length; arr_index++){
+                                if(write_vals[index][form_field][arr_index][0] == 1 && write_vals[index][form_field][arr_index][1] == Number(update_id)){
+                                    write_vals[index][form_field][arr_index][2] = $.extend(write_vals[index][form_field][arr_index][2],records[row]);
+                                    finded = true;
+                                }
+                            }
+                            if(!finded){
+                                write_vals[index][form_field].push([1, Number(update_id), records[row]]);
+                            }
+                        }
+                        else {
+                            delete records[row].id;
+                            write_vals[index][form_field].push([0, 0, records[row]]);
+                        }
+                    }
+
+                });
+                $(this).find(".form-control").each(function() {
+                    var input_value = $(this).attr("value");
+                    var name = $(this).attr("name");
+                    if(input_value==""){
+                        input_value = null;
+                    }
+                    if(name in write_vals[index]){
+                        alert("se sobreescribe el valor del input " + name);
+                        throw new Error("Something went badly wrong!");
+                    }
+                    write_vals[index][name] = input_value;
+                });
             });
         }
     });
