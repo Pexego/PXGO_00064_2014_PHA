@@ -32,7 +32,7 @@
                     <field name="orig_sale" attrs="{'required': [('replacement', '=', True)], 'readonly': [('replacement', '=', False)], 'invisible': ['|', ('replacement', '=', False), ('is_sale_replacement', '=', True)]}" domain="[('replacement', '=', True), ('state', 'not in', ['draft', 'sent', 'cancel'])]" />
                 </xpath>
 
-               <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="before">
+               <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="after">
                    <field name="is_sale_replacement" invisible="True"/>
                     <field name="replacement" attrs="{'invisible':[('is_sale_replacement', '=', True)]}"/>
                     <field name="orig_sale" attrs="{'required': [('replacement', '=', True)], 'readonly': [('replacement', '=', False)], 'invisible': ['|', ('replacement', '=', False), ('is_sale_replacement', '=', True)]}" domain="[('replacement', '=', True), ('state', 'not in', ['draft', 'sent', 'cancel'])]" />
