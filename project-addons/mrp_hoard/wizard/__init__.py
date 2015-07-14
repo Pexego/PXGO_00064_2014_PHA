@@ -19,3 +19,5 @@
 #
 ##############################################################################
 from . import mrp_consume_quarantine
+from. import mrp_product_produce
+from . import mrp_regularize_hoard_location

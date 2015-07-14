@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api
-
+from datetime import date, datetime
 
 class StockMoveReturnOperations(models.Model):
 
@@ -46,8 +46,9 @@ class StockMoveReturnOperations(models.Model):
 
     """Fields of hoard used for return excess material"""
     hoard_served_qty = fields.Float('Served qty',
-                              help="Quality system field, no data")
-    hoard_returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
+                                    help="Quality system field, no data")
+    hoard_returned_qty = fields.Float('Returned qty',
+                                      help="""Qty. of move that will
                                 be returned on produce""")
     hoard_initials = fields.Char('Initials')
     hoard_initials_return = fields.Char('Initials')
@@ -111,3 +112,57 @@ class StockMove(models.Model):
             for operation in move.return_operation_ids:
                 if operation.lot_id.id not in q_lot_ids:
                     operation.unlink()
+
+
+class StockLocation(models.Model):
+
+    _inherit = 'stock.location'
+
+    mrp_route_ids = fields.One2many('mrp.routing', 'location_id', 'Route ids')
+
+    @api.model
+    def regularize_hoard_locations(self):
+        """Funcion para llamar desde un cron"""
+        self.env['stock.location'].search(
+            [('mrp_route_ids', '!=', False)]).regularize_location()
+
+    @api.one
+    def regularize_location(self):
+        self.ensure_one()
+        quants = self.env['stock.quant'].search([('location_id', '=', self.id), ('qty', '<', 0)])
+        if not quants:
+            return
+        wh = self.get_warehouse(self)
+        type_search_dict = [('code', '=', 'internal')]
+        if wh:
+            type_search_dict.append(('warehouse_id', '=', wh))
+        picking_type = self.env['stock.picking.type'].search(
+            type_search_dict)
+        picking_vals = {
+            'picking_type_id': picking_type.id,
+            'date': datetime.now(),
+            'origin': 'Hoard regularization'
+        }
+        picking = self.env['stock.picking'].create(picking_vals)
+        for quant in quants:
+            move_dict = {
+                'name': quant.product_id.name or '',
+                'product_id': quant.product_id.id,
+                'product_uom': quant.product_id.uom_id.id,
+                'product_uos': quant.product_id.uom_id.id,
+                'restrict_lot_id': quant.lot_id.id,
+                'product_uom_qty': abs(quant.qty),
+                'date': datetime.now(),
+                'date_expected': datetime.now(),
+                'location_id': self.env.ref('stock.stock_location_stock').id,
+                'location_dest_id': self.id,
+                'picking_type_id': picking_type.id,
+                'invoice_state': 'none',
+                'picking_id': picking.id
+            }
+            self.env['stock.move'].create(move_dict)
+        picking.action_confirm()
+        picking.action_assign()
+        picking.do_prepare_partial()
+        picking.do_transfer()
+

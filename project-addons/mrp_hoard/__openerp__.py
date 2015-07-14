@@ -25,8 +25,11 @@
     'category': 'production',
     'description': """""",
     'author': 'Comunitea',
-    'website': '',
+    'website': 'www.comunitea.com',
     "depends": ['base', 'stock', 'mrp', 'lot_states'],
-    "data": ['wizard/mrp_consume_quarantine.xml', 'mrp_view.xml', 'stock_view.xml'],
+    "data": ['wizard/mrp_consume_quarantine.xml',
+             'wizard/mrp_regularize_hoard_location_view.xml',
+             'wizard/mrp_product_produce_view.xml', 'mrp_view.xml',
+             'stock_view.xml', 'data/ir_cron.xml', 'security/ir.model.access.csv'],
     "installable": True
 }

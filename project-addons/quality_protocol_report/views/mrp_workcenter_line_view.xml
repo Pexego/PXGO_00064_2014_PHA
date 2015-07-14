@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_workcenter_line_add_submited" model="ir.ui.view">
+            <field name="name">mrp.workcenter.line</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Extra information">
+                        <group>
+                            <field name="doc_submited"/>
+                            <separator string="Realization" colspan="4"/>
+                            <field name="realized_ids" nolabel="1" colspan="4">
+                                <tree editable="top">
+                                    <field name="name"/>
+                                    <field name="realized"/>
+                                    <field name="realization_date"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

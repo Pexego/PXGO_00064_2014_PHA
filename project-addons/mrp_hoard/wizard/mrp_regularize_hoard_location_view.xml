@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="mrp_regularize_hoard_wizard" model="ir.ui.view">
+            <field name="name">mrp.regularize.hoard.location.form</field>
+            <field name="model">mrp.regularize.hoard.location</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Regularize hoard location">
+                    <field name="location_id" domain="[('mrp_route_ids', '!=', False)]"/>
+                    <button string="regularize" name="regularize" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Regularize hoard location"
+            res_model="mrp.regularize.hoard.location"
+            view_id="mrp_regularize_hoard_wizard"
+            view_mode="form"
+            target="new"
+            id="regularize_hoard_location_action"/>
+
+        <menuitem
+            id="regularize_hoard_location_menu"
+            name="Regularize hoard location"
+            string="Regularize hoard location"
+            action="regularize_hoard_location_action"
+            parent="mrp.menu_mrp_configuration"/>
+
+    </data>
+</openerp>
+
