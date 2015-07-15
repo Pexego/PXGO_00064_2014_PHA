@@ -29,6 +29,9 @@
     "depends" : ['base',
                  'sale'],
     "data" : ['views/sheet.xml',
-              'views/sale_view.xml'],
+              'views/sale_view.xml',
+              'views/purchase_view.xml',
+              'views/production_view.xml',
+              'views/invoice_view.xml'],
     "installable": True
 }
