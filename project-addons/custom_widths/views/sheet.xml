@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <template id="assets_backend" name="form_sheet_custom_width_screen assets" inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+        <link rel="stylesheet" href="/custom_widths/static/src/css/sheet.css"/>
+      </xpath>
+    </template>
+
+  </data>
+</openerp>

@@ -62,6 +62,17 @@ class partner_review(orm.Model):
         if context is None:
             context = {}
         #If partner is added by a Manager or is a supplier... data is always confirmed
-        if ((self._check_permissions(cr, uid, context)) or (vals['supplier']==True)):
+        #If us user, or if is a client from prestashop
+        creatorid=52  ##user assign as creator of the partner
+
+        obj_user = self.pool.get('res.users')
+        list_user = obj_user.search(cr, uid, [('id', '=', creatorid)] )
+        size_list_user = len(list_user)
+
+        if (self._check_permissions(cr, uid, context) or vals.get('supplier')==True or
+                    context.get('alias_model_name')=='res.users' or context.get('connector_no_export')==True):
             vals['confirmed']=True
+            if (context.get('connector_no_export') and (size_list_user==1)): ##It is assigned to a custom user
+                vals['user_id']=creatorid
+                return super(partner_review, self).create(cr, creatorid, vals, context=context)
         return super(partner_review, self).create(cr, uid, vals, context=context)
