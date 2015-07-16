@@ -457,11 +457,19 @@
                     </div>
                 </form>
                 <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
+                    <!-- Se establecen varias opciones solo necesarias para este modelo:
+                            tt-att-no-insert-options: Cuando se insertan nuevas filas con el boton insert no se aplican ciertas opciones
+                                En este caso se permite escribir el lote en las nuevas.
+                            field_class: Se establece el modelo con el que esta relacionado un campo many2one
+                    -->
                     <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'return_operation_ids'"
                           columns="product_id,lot_id,acceptance_date,qty,product_uom,hoard_served_qty,hoard_initials,id"
                           columns-widths="35%,10%,15%,12%,8%,15%,5%,0%"
                           nodelete="true"
-                          t-att-columns-options="{'product_id': 'disabled', 'acceptance_date': 'disabled', 'lot_id': 'disabled', 'qty': 'disabled', 'product_uom': 'disabled'}">
+                          t-att-columns-options="{'product_id': 'disabled', 'acceptance_date': 'disabled', 'lot_id': 'disabled', 'qty': 'disabled', 'product_uom': 'disabled'}"
+                          t-att-no-insert-options="{'lot_id': 'disabled'}"
+                          extra_attrs="{'lot_id': {'model': 'stock.production.lot', 'onfocusout': 'check_name(event, &quot;product_id&quot;)'}}"
+                          insert_to_table="tblAppendGridReturn">
                     </table>
                 </form>
             </div>
@@ -481,7 +489,7 @@
                     <table class="quality_field" id="tblAppendGridReturn" t-att-qfield="'return_operation_ids'"
                           t-att-columns="'product_id,lot_id,qty,product_uom,hoard_returned_qty,hoard_initials_return,id'"
                           t-att-columns-widths="'45%,15%,12%,8%,15%,5%,0%'"
-                          t-att-noinsert="'true'" t-att-nodelete="'true'"
+                          t-att-noinsert="'true'"  t-att-nodelete="'true'"
                           t-att-columns-options="{'product_id': 'disabled', 'lot_id': 'disabled', 'qty': 'disabled', 'product_uom': 'disabled'}">
                     </table>
                 </form>

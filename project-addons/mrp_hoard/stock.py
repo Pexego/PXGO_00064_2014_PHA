@@ -26,7 +26,7 @@ class StockMoveReturnOperations(models.Model):
     _name = 'stock.move.return.operations'
 
     product_id = fields.Many2one('product.product', 'Product')
-    lot_id = fields.Many2one('stock.production.lot', 'Lot')
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)
     qty = fields.Float('Quantity')
     move_id = fields.Many2one('stock.move', 'Move')
     production_id = fields.Many2one('mrp.production', 'Production')
@@ -38,7 +38,6 @@ class StockMoveReturnOperations(models.Model):
                                 be returned on produce""")
     qty_used = fields.Float('Qty used')
     qty_scrapped = fields.Float('Qty scrapped')
-    acceptance_date = fields.Date('Acceptance date')
     initials = fields.Char('Initials')
     initials_return = fields.Char('Initials')
     initials_acond = fields.Char('Initials')
@@ -54,6 +53,20 @@ class StockMoveReturnOperations(models.Model):
     hoard_initials_return = fields.Char('Initials')
     acceptance_date = fields.Date('Acceptance date', readonly=True,
                                   related='lot_id.acceptance_date')
+
+    @api.model
+    def create(self, vals):
+        """
+            Se rellenan los campos que faltan con el lote
+        """
+        lot_id = int(vals.get('lot_id', False))
+        lot = self.env['stock.production.lot'].browse(lot_id)
+        if not vals.get('product_id', False):
+            vals['product_id'] = lot.product_id.id
+        if not vals.get('product_uom', False):
+            vals['product_uom'] = lot.product_id.uom_id.id
+        vals['lot_id'] = lot_id
+        return super(StockMoveReturnOperations, self).create(vals)
 
 
 class StockMove(models.Model):

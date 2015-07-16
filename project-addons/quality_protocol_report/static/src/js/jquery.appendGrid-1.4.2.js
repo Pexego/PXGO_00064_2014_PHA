@@ -257,6 +257,12 @@
                             } else if (!isEmpty(settings.columns[z].display)) {
                                 $(tbCell).text(settings.columns[z].display);
                             }
+                            //Se establecen a la celda atributos extra.
+                            if(settings.columns[z].extraAttrs){
+                                for(attrKey in settings.columns[z].extraAttrs){
+                                    $(tbCell).attr(attrKey, settings.columns[z].extraAttrs[attrKey])
+                                }
+                            }
                         } else {
                             pendingSkipCol--;
                         }
@@ -333,7 +339,7 @@
                         createGridButton(settings.customGridButtons.append, 'ui-icon-plusthick')
                         .attr({ title: settings._i18n.append }).addClass('append', settings._buttonClasses.append)
                         .click(function (evt) {
-                            insertRow(tbWhole, 1, null, null);
+                            insertRow(tbWhole, 1, null, null, true);
                             if (evt && evt.preventDefault) evt.preventDefault();
                             return false;
                         }).appendTo(tbCell);
@@ -782,7 +788,8 @@
         }
         return settings;
     }
-    function insertRow(tbWhole, numOfRowOrRowArray, rowIndex, callerUniqueIndex) {
+    function insertRow(tbWhole, numOfRowOrRowArray, rowIndex, callerUniqueIndex, newRow) {
+        if (typeof newRow === 'undefined') { newRow = false; }
         // Define variables
         var settings = $(tbWhole).data('appendGrid');
         var addedRows = [], parentIndex = null, uniqueIndex, ctrl, hidden = [];
@@ -986,7 +993,23 @@
                     // Add control attributes as needed
                     if (settings.columns[y].ctrlAttr != null) $(ctrl).attr(settings.columns[y].ctrlAttr);
                     // Add control properties as needed
-                    if (settings.columns[y].ctrlProp != null) $(ctrl).prop(settings.columns[y].ctrlProp);
+                    if (settings.columns[y].ctrlProp != null){
+                        for (var propKey in settings.columns[y].ctrlProp){
+                            if(propKey.indexOf('insert_no') === -1){
+                                if(!newRow){
+                                    $(ctrl).prop(propKey, settings.columns[y].ctrlProp[propKey]);
+                                }
+                                else if(!settings.columns[y].ctrlProp.hasOwnProperty('insert_no_'.concat(propKey))){
+                                    $(ctrl).prop(propKey, settings.columns[y].ctrlProp[propKey]);
+                                }
+                            }
+                        }
+                    }
+                    if(settings.columns[y].extraAttrs){
+                        for(attrKey in settings.columns[y].extraAttrs){
+                            $(ctrl).attr(attrKey, settings.columns[y].extraAttrs[attrKey])
+                        }
+                    }
                     // Add control CSS as needed
                     if (settings.columns[y].ctrlCss != null) $(ctrl).css(settings.columns[y].ctrlCss);
                     // Add control class as needed
@@ -1031,7 +1054,7 @@
                         .addClass('insert', settings._buttonClasses.insert).data('appendGrid', { uniqueIndex: uniqueIndex })
                         .click(function (evt) {
                             var rowUniqueIndex = $(this).data('appendGrid').uniqueIndex;
-                            $(tbWhole).appendGrid('insertRow', 1, null, rowUniqueIndex);
+                            $(tbWhole).appendGrid('insertRow', 1, null, rowUniqueIndex, true);
                             if (evt && evt.preventDefault) evt.preventDefault();
                             return false;
                         }).appendTo(tbCell);
@@ -1081,6 +1104,9 @@
                     ctrl.id = settings.idPrefix + '_' + settings.columns[hidden[y]].name + '_' + uniqueIndex;
                     ctrl.name = ctrl.id;
                     ctrl.type = 'hidden';
+                    if(settings.columns[hidden[y]].name == 'id' && newRow){
+                        $(ctrl).val('NEW_'.concat(String(uniqueIndex)));
+                    }
 
                     if (loadData) {
                         // Load data if needed
