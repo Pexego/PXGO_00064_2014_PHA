@@ -35,12 +35,11 @@ class stock_quant(models.Model):
         # Check if destination location are affected by quality control, product has P.I.S. and move has lot assigned
         # If true, create new product identification sheet entry
         location = self.env['stock.location'].browse([vals['location_id']])
-        product = self.env['product.template'].browse([vals['product_id']])
+        product = self.env['product.product'].browse([vals['product_id']])
         if location.qc_location and product.qc_has_pis and vals['lot_id']:
             self.env['qc.pis'].create({'lot': vals['lot_id'], 'reference': vals['product_id']})
 
-
-    @api.model
-    def create(self, vals):
+    @api.multi
+    def write(self, vals):
         self.qc_check_if_need_pis(vals)
-        return super(stock_quant, self).create(vals)
+        return super(stock_quant, self).write(vals)
