@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record model="ir.module.category" id="module_quality_management_category">
+            <field name="name">Quality Management</field>
+            <field name="description">It allow to management specific permissions for quality area.</field>
+            <field name="sequence">16</field>
+        </record>
+        <record id="group_quality_user" model="res.groups">
+             <field name="name">User</field>
+             <field name="category_id" ref="module_quality_management_category"/>
+        </record>
+        <record id="group_quality_manager" model="res.groups">
+             <field name="name">Manager</field>
+             <field name="category_id" ref="module_quality_management_category"/>
+             <field name="implied_ids" eval="[(4, ref('group_quality_user'))]"/>
+             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="quality_management_menu.menu_quality_management" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('group_quality_user'))]"/>
+        </record>
+    </data>
+</openerp>
