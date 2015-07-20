@@ -534,7 +534,7 @@
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="product_quality_limits_tree"/>
         </record>
-        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="base.menu_base_config" action="action_product_quality_limits_form"/>
+        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="quality_management_menu.menu_quality_management_config" action="action_product_quality_limits_form"/>
 
         <!-- Sales: Products default to tree view -->
         <record id="product_template_action_tree_view" model="ir.actions.act_window">
