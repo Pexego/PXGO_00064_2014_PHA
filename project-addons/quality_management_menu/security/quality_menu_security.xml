@@ -14,6 +14,11 @@
              <field name="name">Manager</field>
              <field name="category_id" ref="module_quality_management_category"/>
              <field name="implied_ids" eval="[(4, ref('group_quality_user'))]"/>
+        </record>
+        <record id="group_quality_technical" model="res.groups">
+             <field name="name">Technical</field>
+             <field name="category_id" ref="module_quality_management_category"/>
+             <field name="implied_ids" eval="[(4, ref('group_quality_manager'))]"/>
              <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <record id="quality_management_menu.menu_quality_management" model="ir.ui.menu">
