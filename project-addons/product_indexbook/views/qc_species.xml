@@ -319,7 +319,7 @@
         <menuitem
             name="Tables"
             id="menu_qc_pis_tables"
-            parent="menu_qc_pis"
+            parent="quality_management_menu.menu_quality_management_config"
             sequence="3"
         />
 
