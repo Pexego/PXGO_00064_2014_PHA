@@ -32,7 +32,7 @@ class MrpIndicatorsBaseReport(models.Model):
     date = fields.Date('Date', readonly=True)
     final_lot_id = fields.Many2one('stock.production.lot', 'Lot',
                                    readonly=True)
-    qty = fields.Float('Qty.', readonly=True, digits_compute=dp.
+    qty = fields.Float('Qty.', readonly=True, digits=dp.
                        get_precision('Product Unit of Measure'))
     prod_ratio = fields.Float('Production ratio', readonly=True)
     container_id = fields.Many2one('product.container', 'Container',

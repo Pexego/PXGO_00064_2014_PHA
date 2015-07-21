@@ -13,6 +13,9 @@
                 <field name="product_qty" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
+                <xpath expr="//field[@name='consume_lines']/tree" position="inside">
+                    <field name="operation_id" invisible="1"/>
+                </xpath>
                 <group string="To Consume" position="after">
                     <group string="To return">
                         <field name="return_lines" nolabel="1">
@@ -20,7 +23,8 @@
                                 <field name="product_id"/>
                                 <field name="product_qty"/>
                                 <field name="lot_id"/>
-                                <field name="location_id"/>
+                                <field name="location_id" attrs="{'required': [('product_qty', '>', 0)]}"/>
+                                <field name="operation_id" invisible="1"/>
                             </tree>
                         </field>
                     </group>

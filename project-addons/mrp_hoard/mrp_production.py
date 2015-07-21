@@ -33,9 +33,12 @@ class MrpProduction(models.Model):
                                            'Return operations')
 
     @api.one
-    @api.depends('hoard_id')
+    @api.depends('move_lines.move_orig_ids', 'move_lines2.move_orig_ids')
     def _get_hoard_len(self):
-        self.hoard_len = len(self.hoard_id)
+        pickings = self.env['stock.picking']
+        pickings += self.mapped('move_lines.move_orig_ids.picking_id').sorted() \
+            | self.mapped('move_lines2.move_orig_ids.picking_id').sorted()
+        self.hoard_len = len(pickings)
 
     @api.one
     @api.depends('move_lines.move_orig_ids', 'move_lines2.move_orig_ids')

@@ -38,7 +38,7 @@ class PharmaGroupSale(models.Model):
     product_qty = fields.Float('Qty.', digits=(16, 2), required=True)
     agent_id = fields.Many2one('sale.agent', 'Agent', required=True)
     price_unit = fields.Float('Price unit', required=True,
-                              digits_compute=dp.get_precision('Product Price'))
+                              digits=dp.get_precision('Product Price'))
     price_subtotal = \
         fields.Float('Subtotal', required=True, digits=(16, 2))
     settled = fields.Boolean('Settled', readonly=True)

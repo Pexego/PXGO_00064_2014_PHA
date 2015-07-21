@@ -4,6 +4,7 @@
         <delete model="ir.ui.view" id="mrp_operations.mrp_production_form_inherit_view"/>
         <delete model="ir.ui.view" id="mrp_operations.mrp_production_form_inherit_view2"/>
     </data>
+
     <data>
         <record id="mrp_production_form_view_add_adjustments" model="ir.ui.view">
             <field name="name">mrp.production.form.add_adjustments</field>
@@ -12,8 +13,8 @@
             <field name="arch" type="xml">
                 <button name="force_production" position="replace"></button>
                 <field name="state" position="before">
-                    <button string="Print protocol" name="%(quality_protocol_report.action_print_protocol)d" type="action" attrs="{'invisible': [('state', 'in', 'confirmed')]}"/>
-                    <button string="Print all protocols" name="%(quality_protocol_report.quality_report_all_act)d" type="action" attrs="{'invisible': [('state', 'in', 'confirmed')]}"/>
+                    <button string="Print protocol" name="%(quality_protocol_report.action_print_protocol)d" type="action" attrs="{'invisible': [('state', 'in', ('draft', 'confirmed'))]}"/>
+                    <button string="Print all protocols" name="%(quality_protocol_report.quality_report_all_act)d" type="action" attrs="{'invisible': [('state', 'in', ('draft', 'confirmed'))]}"/>
                     <button string="Create continuation" name="create_continuation" type="object" states="in_production"/>
                     <button string="Release all" name="%(mrp_release_all)d" type="action" states="wait_release"/>
                 </field>
