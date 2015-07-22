@@ -119,6 +119,7 @@ class MrpProductProduce(models.TransientModel):
                 'product_id': consume_line.product_id,
                 'lot_id': consume_line.lot_id,
                 'operation_id': consume_line.operation_id,
+                'returned_qty': 0.0,
             }
             if consume_line.operation_id:
                 line_dict.update({
@@ -129,7 +130,7 @@ class MrpProductProduce(models.TransientModel):
                     consume_line.product_qty and consume_line.product_qty -
                     consume_line.operation_id.qty or 0.0,
                     'make_return': consume_line.operation_id.qty >=
-                    consume_line.product_qty
+                    consume_line.product_qty,
                 })
             else:
                 line_dict.update({
@@ -140,12 +141,30 @@ class MrpProductProduce(models.TransientModel):
             lines.append(line_dict)
         for return_line in self.return_lines:
             for line in lines:
-                if line['lot_id'] == return_line.lot_id and \
-                        line.get('make_return', False):
+                if line['lot_id'] == return_line.lot_id:
                     line['returned_qty'] = return_line.product_qty
-                    line['return_location_id'] = return_line.location_id
+                    if line.get('make_return', False):
+                        line['return_location_id'] = return_line.location_id
 
         for line in lines:
+            if not line['operation_id']:
+                self.env['stock.move.return.operations'].create(
+                    {'production_id': production.id,
+                     'lot_id': line['lot_id'].id,
+                     'hoard_served_qty': line['consumed_qty'] +
+                     line['over_consumed'] + line['returned_qty'],
+                     'hoardreturned_qty': line['returned_qty']})
+            else:
+                if line['operation_id'].hoard_served_qty != \
+                        line['consumed_qty'] + line['over_consumed'] + \
+                        line['returned_qty']:
+                    line['operation_id'].hoard_served_qty = \
+                        line['consumed_qty'] + line['over_consumed'] + \
+                        line['returned_qty']
+                if line['operation_id'].hoard_returned_qty != \
+                        line['returned_qty']:
+                    line['operation_id'].hoard_returned_qty = \
+                        line['returned_qty']
             if line['operation_id'].move_id:
                 move = line['operation_id'].move_id
                 if move.state != 'done':
@@ -179,15 +198,27 @@ class MrpProductProduce(models.TransientModel):
                 over_move.action_assign()
                 over_move.action_done()
             if line['make_return'] and line['returned_qty'] > 0:
-                return_move = move.copy({
+                return_dict = {
                     'product_uom_qty': line['returned_qty'],
                     'restrict_lot_id': line['lot_id'].id,
-                    'location_dest_id': line['return_location_id'].id,
                     'return_production_move': True
-                    })
+                }
+                if move.original_move:
+                    if move.original_move.state != 'done':
+                        move.original_move.do_unreserve()
+                        move.original_move.product_uom_qty += line['returned_qty']
+                        return_dict['location_dest_id'] = move.original_move.location_id.id
+                        return_dict['move_dest_id'] = move.original_move.id
+                    else:
+                        return_dict['location_dest_id'] = move.original_move.location_dest_id.id
+                else:
+                    return_dict['location_dest_id'] = line['return_location_id'].id
+                return_move = move.copy(return_dict)
                 return_move.action_confirm()
                 return_move.action_assign()
                 return_move.action_done()
+                if move.original_move:
+                    move.original_move.action_assign()
             if line['operation_id'].qty_scrapped > 0:
                 scrap_move = move.copy({
                     'product_uom_qty': line['operation_id'].qty_scrapped,
