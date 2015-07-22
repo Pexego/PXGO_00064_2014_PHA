@@ -4,11 +4,11 @@
         <record id="product_template_form_view_product_indexbook" model="ir.ui.view">
             <field name="name">product.template.form.inherit</field>
             <field name="model">product.template</field>
-            <field name="priority">60</field>
+            <field name="priority">6</field>
             <field name="inherit_id" ref="quality_management_menu.product_template_form_view_quality_management_menu"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@string='Quality controls']" position="inside">
-                    <field name="qc_has_pis"/>
+                        <field name="qc_has_pis"  groups="quality_management_menu.group_quality_user"/>
                 </xpath>
                 <xpath expr="//page[@string='Sales']" position="after">
                     <page string="P.I.S." attrs="{'invisible': [('qc_has_pis', '=', False)]}">

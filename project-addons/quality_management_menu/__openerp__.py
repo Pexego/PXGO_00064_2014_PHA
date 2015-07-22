@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2015 Pexego All Rights Reserved
 #    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -23,12 +24,13 @@
     'name': 'Quality management menu',
     'version': '1.0',
     'category': '',
-    'description': """""",
-    'author': 'Pexego',
+    'description': " Menu and quality management groups",
+    'author': 'Pexego & Pharmadus I+D+i',
     'website': '',
     "depends": ['base',
 		'product'],
-    "data": ['views/quality_view.xml',
+    "data": ['security/quality_menu_security.xml',
+             'views/quality_view.xml',
 	     'views/product_template.xml'],
     "installable": True
 }
