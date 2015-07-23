@@ -5,17 +5,9 @@
         <record id="act_done_transfer" model="workflow.activity">
             <field name="wkf_id" ref="sale.wkf_sale"/>
             <field name="name">done_transfer</field>
-            <field name="flow_stop">False</field>
+            <field name="flow_stop" eval="0"/>
             <field name="kind">function</field>
             <field name="action">action_done()</field>
-        </record>
-
-        <record id="act_cancel_transfer" model="workflow.activity">
-            <field name="wkf_id" ref="sale.wkf_sale"/>
-            <field name="name">cancel_transfer</field>
-            <field name="flow_stop">True</field>
-            <field name="kind">function</field>
-            <field name="action">action_cancel()</field>
         </record>
 
         <record id="sale.trans_router_wait_ship" model="workflow.transition">
@@ -38,7 +30,7 @@
 
         <record id="trans_router_cancel_transfer" model="workflow.transition">
             <field name="act_from" ref="act_done_transfer"/>
-            <field name="act_to" ref="act_cancel_transfer"/>
+            <field name="act_to" ref="sale.act_cancel"/>
             <field name="signal">transfer_cancel</field>
         </record>
 
