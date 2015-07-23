@@ -53,7 +53,7 @@ class MrpConsumeQuarantine(models.TransientModel):
 
     @api.multi
     def consume(self):
-        group = self.env.ref('lot_states.mrp_use_quarantine')
+        group = self.env.ref('quality_management_menu.group_quality_manager')
         if group not in self.env.user.groups_id:
             raise exceptions.Warning(_('Permission error'),
                                      _('No permission to consume quarantine'))

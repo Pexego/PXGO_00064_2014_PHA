@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
                 <header position="inside">
-                    <button name="%(mrp_partial_release.act_wiz_release)d" type="action" string="Partial release" groups="mrp_partial_release.mrp_partial_releases" states="in_review,wait_release"/>
+                    <button name="%(mrp_partial_release.act_wiz_release)d" type="action" string="Partial release" groups="quality_management_menu.group_quality_manager" states="in_review,wait_release"/>
                 </header>
                 <notebook position="inside">
                     <page string="Partial release log" attrs="{'invisible': [('release_log_ids', '=', [])]}">

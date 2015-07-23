@@ -26,7 +26,7 @@
     'description': """""",
     'author': 'Comunitea',
     'website': 'www.comunitea.com',
-    "depends": ['base', 'stock', 'mrp', 'lot_states'],
+    "depends": ['base', 'stock', 'mrp', 'lot_states', 'quality_management_menu'],
     "data": ['wizard/mrp_consume_quarantine.xml',
              'wizard/mrp_product_produce_view.xml', 'mrp_view.xml',
              'stock_view.xml', 'security/ir.model.access.csv'],

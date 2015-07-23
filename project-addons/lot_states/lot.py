@@ -40,6 +40,7 @@ class StockProductionLot(models.Model):
                                       'Dependencies')
     is_revised = fields.Boolean('Is material lots revised',
                                 compute='_is_revised')
+    rejected_from = fields.Char('Rejected from')
     acceptance_date = fields.Date('Acceptance date')
     partner_id = fields.Many2one('res.partner', 'Supplier')
     is_returned = fields.Boolean('is Returned')
@@ -164,10 +165,6 @@ class StockProductionLot(models.Model):
                     raise exceptions.Warning(
                         _('material lot error'),
                         _('Material lot %s not approved') % depends_lot.name)
-        ''''Comprobar por que se hacia
-        self.move_lot(self.env.ref('stock.stock_location_stock').id,
-                      [self.env.ref('stock.location_production').id,
-                       self.env.ref('lot_states.stock_location_rejected').id])'''
         self.write({'state': 'approved', 'acceptance_date': date.today()})
 
     @api.multi
@@ -187,11 +184,38 @@ class StockProductionLot(models.Model):
     @api.multi
     def action_reject(self):
         for lot in self:
+            lot.rejected_from = lot.state
             if lot.dependent_lots:
                 lot.dependent_lots.signal_workflow('act_rejected')
         self.move_lot(self.env.ref('lot_states.stock_location_rejected').id,
                       [self.env.ref('stock.location_production').id])
         self.write({'state': 'rejected'})
+
+    @api.multi
+    def button_return_from_rejected(self):
+        for lot in self:
+            signal = ''
+            loc_name = ''
+            dest_location = False
+            possible_to_location = self.env['stock.location']
+            if lot.rejected_from == 'draft':
+                loc_name = 'wh_input_stock_loc_id'
+                lot.write({'state': 'draft'})
+                signal = 'rejected_draft'
+            else:
+                loc_name = 'wh_qc_stock_loc_id'
+                signal = 'rejected_rev'
+            for wh in self.env['stock.warehouse'].search([]):
+                possible_to_location += self.env['stock.location'].search(
+                    [('id', 'child_of', wh[loc_name].id)])
+            for quant in lot.quant_ids:
+                for move in quant.history_ids:
+                    if move.location_dest_id in possible_to_location:
+                        dest_location = move.location_dest_id.id
+            if dest_location:
+                lot.move_lot(dest_location,
+                             [self.env.ref('stock.location_production').id])
+                lot.signal_workflow(signal)
 
     @api.multi
     def return_to_supplier(self):
