@@ -108,6 +108,10 @@ class MrpProductProduce(models.TransientModel):
         originals = self.env['stock.move']
         production = self.env['mrp.production'].browse(
             self.env.context.get('active_id', False))
+        main_production_move = False
+        for produce_product in production.move_created_ids:
+                if produce_product.product_id.id == production.product_id.id:
+                    main_production_move = produce_product.id
         for move in production.move_lines:
             move.do_unreserve()
         lines = []
@@ -171,6 +175,7 @@ class MrpProductProduce(models.TransientModel):
                     move.do_unreserve()
                     move.product_uom_qty = line['consumed_qty']
                     move.restrict_lot_id = line['lot_id'].id
+                    move.consumed_for = main_production_move
                     move.action_assign()
                     move.action_done()
                 else:
@@ -178,6 +183,7 @@ class MrpProductProduce(models.TransientModel):
                         'product_uom_qty': line['consumed_qty'],
                         'restrict_lot_id': line['lot_id'].id,
                         'return_production_move': True,
+                        'consumed_for': main_production_move,
                         })
                     new_move.action_confirm()
                     new_move.action_assign()
@@ -193,6 +199,7 @@ class MrpProductProduce(models.TransientModel):
                     'restrict_lot_id': line['lot_id'].id,
                     'location_id': production.location_src_id.id,
                     'return_production_move': True,
+                        'consumed_for': main_production_move,
                     })
                 over_move.action_confirm()
                 over_move.action_assign()
@@ -201,7 +208,8 @@ class MrpProductProduce(models.TransientModel):
                 return_dict = {
                     'product_uom_qty': line['returned_qty'],
                     'restrict_lot_id': line['lot_id'].id,
-                    'return_production_move': True
+                    'return_production_move': True,
+                    'consumed_for': main_production_move,
                 }
                 if move.original_move:
                     if move.original_move.state != 'done':
@@ -224,7 +232,8 @@ class MrpProductProduce(models.TransientModel):
                     'product_uom_qty': line['operation_id'].qty_scrapped,
                     'restrict_lot_id': line['lot_id'].id,
                     'location_dest_id': scrap_location.id,
-                    'return_production_move': True
+                    'return_production_move': True,
+                    'consumed_for': main_production_move,
                     })
                 scrap_move.action_confirm()
                 scrap_move.action_assign()
