@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -20,28 +20,14 @@
 ##############################################################################
 
 {
-    'name': "Sale pharma groups",
+    'name': 'Custom sale commission',
     'version': '1.0',
     'category': 'sale',
-    'description': """Customization to manage pharma groups commissions""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends": ['base',
-                'sale',
-                'sale_commission',
-                'base_location',
-                'sale_replacement',
-                'product_spec'],
-    "data": ['better_zip_view.xml',
-             'wizard/assign_zip_agent_wizard_view.xml',
-             'sale_agent_view.xml',
-             'res_partner_view.xml',
-             'pharma_group_sale_view.xml',
-             'wizard/import_pharma_group_sales_view.xml',
-             'wizard/assign_agent_wizard_view.xml',
-             'settlement_line_view.xml',
-             'settlement_view.xml',
-             'wizard/wizard_invoice_view.xml',
+    'description': """""",
+    'author': 'Comunitea',
+    'website': '',
+    "depends": ['sale', 'sale_commission', 'stock_account', 'product_m2mcategories'],
+    "data": ['saleagent_view.xml', 'product_category_view.xml',
              'security/ir.model.access.csv'],
     "installable": True
 }

@@ -71,13 +71,11 @@ class settlement_agent(models.Model):
                         # liquidando
                         analytic = line.order_id.project_id
                         commission_applied = commission_obj.search(
-                            cr, uid, [('bussiness_line_id', '=', analytic.id),
-                                      ('commission_id', '=',
+                            cr, uid, [('commission_id', '=',
                                        commission.commission_id.id)])
                         if not commission_applied:
                             commission_applied = commission_obj.search(
-                                cr, uid, [('bussiness_line_id', '=', False),
-                                          ('commission_id', '=',
+                                cr, uid, [('commission_id', '=',
                                            commission.commission_id.id)])
                         if not commission_applied:
                             raise exceptions.except_orm(

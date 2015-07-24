@@ -633,6 +633,6 @@ function send_form_server() {
             return;
         }
         else{
-            jqVal.call(this, value);
+            return jqVal.call(this, value);
         }
     }
