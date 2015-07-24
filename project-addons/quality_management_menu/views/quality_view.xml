@@ -9,6 +9,6 @@
         <menuitem name="Configuration"
                   parent="quality_management_menu.menu_quality_management"
                   id="menu_quality_management_config"
-                  groups="quality_management_menu.group_quality_manager"/>
+                  groups="quality_management_menu.group_quality_manager" sequence="10000"/>
     </data>
 </openerp>

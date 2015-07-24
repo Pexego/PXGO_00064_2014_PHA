@@ -280,7 +280,7 @@
         <menuitem action="action_product_packing_internal_form"
             id="menu_product_product_packing_internals"
             parent="product.prod_config_main"/>
-        
+
         <!-- product.packing.production views -->
         <record model="ir.ui.view" id="product_packing_production_tree">
             <field name="name">product.packing.production.tree</field>
@@ -537,7 +537,7 @@
         <menuitem name="Quality limits" id="menu_product_quality_limits" parent="quality_management_menu.menu_quality_management_config" action="action_product_quality_limits_form"/>
 
         <!-- Sales: Products default to tree view -->
-        <record id="product_template_action_tree_view" model="ir.actions.act_window">
+        <!--record id="product_template_action_tree_view" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="inherit_id" ref="product.product_template_action"/>
             <field name="type">ir.actions.act_window</field>
@@ -546,14 +546,14 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="product.product_template_tree_view"/>
             <field name="context">{"search_default_filter_to_sell":1}</field>
-        </record>
-        <!-- Sales: Overwrite menuitem to point to the new action -->
+        </record-->
+        <!-- Sales: Overwrite menuitem to point to the new action >
         <menuitem action="product_template_action_tree_view" id="product.menu_product_template_action"
                   name="Products list"
                   parent="base.menu_product" sequence="1"
-        />
+        /-->
 
-        <!-- Purchases: Products default to tree view -->
+        <!-- Purchases: Products default to tree view >
         <record id="product_normal_action_puchased_tree_view" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="inherit_id" ref="purchase.product_normal_action_puchased"/>
@@ -576,14 +576,14 @@
                     available suppliers, etc.
                 </p>
             </field>
-        </record>
-        <!-- Purchases: Overwrite menuitem to point to the new action -->
+        </record-->
+        <!-- Purchases: Overwrite menuitem to point to the new action >
         <menuitem name="Products" id="purchase.menu_procurement_partner_contact_form"
                   action="product_normal_action_puchased_tree_view"
                   parent="purchase.menu_procurement_management_product"
-        />
+        /-->
 
-        <!-- Warehouse: Products default to tree view and show all products -->
+        <!-- Warehouse: Products default to tree view and show all products >
         <record id="product_template_action_warehouse" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="inherit_id" ref="product.product_template_action"/>
@@ -592,9 +592,9 @@
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="product.product_template_tree_view"/>
-            <field name="context">{}</field> <!-- Clear filters -->
-        </record>
-        <!-- Warehouse: Overwrite menuitems to point to the new action -->
+            <field name="context">{}</field>
+        </record -->
+        <!-- Warehouse: Overwrite menuitems to point to the new action >
         <menuitem action="product_template_action_warehouse"
                   id="stock.menu_stock_products_menu"
                   parent="stock.menu_stock_product"
@@ -604,9 +604,9 @@
                   id="stock.menu_product_template_config_stock"
                   parent="stock.menu_product_in_config_stock"
                   sequence="1"
-        />
+        /-->
 
-        <!-- MRP: Products default to tree view -->
+        <!-- MRP: Products default to tree view >
         <record id="product_template_action_mrp" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="inherit_id" ref="mrp.product_template_action"/>
@@ -615,13 +615,13 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="product.product_template_tree_view"/>
             <field name="context">{}</field>
-        </record>
-        <!-- MRP: Overwrite menuitem to point to the new action -->
+        </record-->
+        <!-- MRP: Overwrite menuitem to point to the new action >
         <menuitem action="product_template_action_mrp"
                   name="Products"
                   id="mrp.menu_mrp_product_form"
                   parent="mrp.menu_mrp_bom"
-        />
+        /-->
 
         <!-- Separate normal categories from extra categories -->
         <record id="product_category_action_extra_filtered" model="ir.actions.act_window">

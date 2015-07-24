@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_product_produce_add_return" model="ir.ui.view">
+            <field name="name">MRP Product Produce</field>
+            <field name="model">mrp.product.produce</field>
+            <field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard"/>
+            <field name="arch" type="xml">
+                <field name="mode" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="product_qty" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//field[@name='consume_lines']/tree" position="inside">
+                    <field name="operation_id" invisible="1"/>
+                </xpath>
+                <group string="To Consume" position="after">
+                    <group string="To return">
+                        <field name="return_lines" nolabel="1">
+                            <tree editable="top">
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="lot_id" domain="[('product_id', '=', product_id)]"/>
+                                <field name="location_id" attrs="{'required': [('product_qty', '>', 0)]}"/>
+                                <field name="operation_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</openerp>

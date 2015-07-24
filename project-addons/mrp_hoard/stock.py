@@ -19,6 +19,8 @@
 #
 ##############################################################################
 from openerp import models, fields, api
+from datetime import date, datetime
+import openerp.addons.decimal_precision as dp
 
 
 class StockMoveReturnOperations(models.Model):
@@ -26,19 +28,24 @@ class StockMoveReturnOperations(models.Model):
     _name = 'stock.move.return.operations'
 
     product_id = fields.Many2one('product.product', 'Product')
-    lot_id = fields.Many2one('stock.production.lot', 'Lot')
-    qty = fields.Float('Quantity')
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)
+    qty = fields.Float('Quantity',
+                       digits=dp.get_precision('Product Unit of Measure'))
     move_id = fields.Many2one('stock.move', 'Move')
     production_id = fields.Many2one('mrp.production', 'Production')
     product_uom = fields.Many2one('product.uom', 'UoM')
     """Informative fields"""
     served_qty = fields.Float('Served qty',
-                              help="Quality system field, no data")
+                              help="Quality system field, no data",
+                              digits=dp.get_precision(
+                                   'Product Unit of Measure'))
     returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
-                                be returned on produce""")
-    qty_used = fields.Float('Qty used')
-    qty_scrapped = fields.Float('Qty scrapped')
-    acceptance_date = fields.Date('Acceptance date')
+be returned on produce""", digits=dp.get_precision('Product Unit of Measure'))
+    qty_used = fields.Float('Qty used',
+                            digits=dp.get_precision('Product Unit of Measure'))
+    qty_scrapped = fields.Float('Qty scrapped',
+                                digits=dp.get_precision(
+                                    'Product Unit of Measure'))
     initials = fields.Char('Initials')
     initials_return = fields.Char('Initials')
     initials_acond = fields.Char('Initials')
@@ -46,13 +53,30 @@ class StockMoveReturnOperations(models.Model):
 
     """Fields of hoard used for return excess material"""
     hoard_served_qty = fields.Float('Served qty',
-                              help="Quality system field, no data")
-    hoard_returned_qty = fields.Float('Returned qty', help="""Qty. of move that will
-                                be returned on produce""")
+                                    help="Quality system field, no data",
+                                    digits=dp.get_precision(
+                                        'Product Unit of Measure'))
+    hoard_returned_qty = fields.Float('Returned qty',
+                                      help="""Qty. of move that will
+be returned on produce""", digits=dp.get_precision('Product Unit of Measure'))
     hoard_initials = fields.Char('Initials')
     hoard_initials_return = fields.Char('Initials')
     acceptance_date = fields.Date('Acceptance date', readonly=True,
                                   related='lot_id.acceptance_date')
+
+    @api.model
+    def create(self, vals):
+        """
+            Se rellenan los campos que faltan con el lote
+        """
+        lot_id = int(vals.get('lot_id', False))
+        lot = self.env['stock.production.lot'].browse(lot_id)
+        if not vals.get('product_id', False):
+            vals['product_id'] = lot.product_id.id
+        if not vals.get('product_uom', False):
+            vals['product_uom'] = lot.product_id.uom_id.id
+        vals['lot_id'] = lot_id
+        return super(StockMoveReturnOperations, self).create(vals)
 
 
 class StockMove(models.Model):
@@ -64,6 +88,8 @@ class StockMove(models.Model):
     original_move = fields.Many2one('stock.move', 'Original move')
     return_operation_ids = fields.One2many('stock.move.return.operations',
                                            'move_id', 'Return operations')
+    return_production_move = fields.Boolean('return production move',
+                                            copy=False)
 
     @api.one
     @api.depends('raw_material_production_id')

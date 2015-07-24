@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,3 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+{
+    'name': 'Quality documents',
+    'version': '1.0',
+    'category': '',
+    'description': """""",
+    'author': 'Comunitea',
+    'website': 'www.comunitea.com',
+    "depends": ['base', 'quality_protocol_report'],
+    "data": ['mrp_view.xml', 'mrp_production_view.xml', 'security/ir.model.access.csv'],
+    "installable": True
+}

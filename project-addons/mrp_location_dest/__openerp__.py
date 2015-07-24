@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,22 +19,14 @@
 #
 ##############################################################################
 
-from openerp import models, fields
-
-
-class MrpProductionControl(models.Model):
-
-    _name = 'mrp.production.control'
-
-    date = fields.Datetime('Hour')
-    bag_maked = fields.Boolean('Maked')
-    label = fields.Boolean('label')
-    wrapped = fields.Boolean('wrapped')
-    full_weight = fields.Float('Full')
-    empty_weight = fields.Float('Empty')
-    first = fields.Float('First production')
-    middle = fields.Float('Middle production')
-    last = fields.Float('Final production')
-    initials = fields.Char("Initials")
-    Workcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
-                                         'Workcenter line')
+{
+    'name': 'MRP location dest',
+    'version': '1.0',
+    'category': 'Manufacturing',
+    'description': """Set the finished products location based on the route""",
+    'author': 'Comunitea',
+    'website': '',
+    "depends": ['mrp'],
+    "data": ['mrp_view.xml'],
+    "installable": True
+}

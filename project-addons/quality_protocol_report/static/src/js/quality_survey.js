@@ -30,6 +30,70 @@ var JQUERY_UI_TYPES = {
 
 var to_remove_rows = [];
 
+function check_name(event, fill_field){
+    var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
+    var element_id = event.target.id;
+    var table = $('#'.concat(element_id)).closest('table');
+    var row = $('#'.concat(element_id)).closest('tr');
+    var insert_to_table = false;
+    if(typeof table.attr('insert_to_table') !== typeof undefined && table.attr('insert_to_table') !== false){
+        insert_to_table = table.attr('insert_to_table');
+    }
+    var text = event.target.value;
+    var tablename = element_id.substring(0, element_id.indexOf('_'))
+    var element_index = element_id.substring(element_id.lastIndexOf('_'))
+    var fill_id = tablename.concat('_').concat(fill_field).concat(element_index)
+    var field_name = event.target.getAttribute('name');
+    field_name = field_name.substring(field_name.indexOf('_')+1, field_name.lastIndexOf('_'))
+    var fill_value = ''
+    if (text.length !== 0){
+        var model = event.target.getAttribute('model');
+        if (typeof model !== typeof undefined && model !== false){
+            var obj = new openerp.web.Model(model, context);
+            obj.call('search', [[['name', '=', text]]]).then(function(result) {
+                if(result.length === 0){
+                    event.target.style.backgroundColor = "red";
+                    $('input#'.concat(fill_id)).val('');
+                }
+                else{
+                    event.target.setAttribute('quality_protocol_value', result);
+                    event.target.style.backgroundColor = "transparent";
+                    if(fill_field != ''){
+                        obj.query([fill_field]).filter([['id', 'in', result]]).context(context).all().then(function(result){
+                            fill_value = result[0][fill_field][1];
+                            $('input#'.concat(fill_id)).val(fill_value);
+                            //Se hace dentro de la funcion para esperar por el resultado
+                            if(insert_to_table !== false){
+                                var row_id = row.find('input[id^='.concat(tablename).concat('_id]')).val();
+                                var same_id = $('input[id^='.concat(insert_to_table).concat('_id][value='.concat(row_id).concat(']')))
+                                //Si no existe en la otra tabla una fila con el mismo id se crea
+                                if(!same_id.length){
+                                    var row_dict = {id: row_id}
+                                    row_dict[field_name] = text;
+                                    row_dict[fill_field] = fill_value;
+                                    $('table[id=' + insert_to_table + ']').appendGrid('appendRow', [row_dict]);
+                                }
+                                else{
+                                    //Se actualizan los datos de la otra fila
+                                    var same_tr = same_id.closest('tr');
+                                    same_tr.find('input[id^=' + insert_to_table + '_' + field_name + ']').val(text)
+                                    if(fill_field != ''){
+                                        same_tr.find('input[id^=' + insert_to_table + '_' + fill_field + ']').val(fill_value)
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                }
+            });
+        }
+    }
+    else{
+        event.target.style.backgroundColor = "transparent";
+    }
+}
+
 function isDateTime(date) {
     try
     {
@@ -140,6 +204,9 @@ $(function () {
             var filter_model = $(this).attr("filter-model")
             var columns = $(this).attr("columns").split(",");
             var columns_options = $(this).attr("columns-options") ? eval('(' + $(this).attr("columns-options") + ')') : {};
+            //Se establece que en ciertas columnas al insertar nuevas mediante el boton no se aplique alguna opcion.
+            var columns_no_insert_options = $(this).attr("no-insert-options") ? eval('(' + $(this).attr("no-insert-options") + ')') : {};
+            var extra_attrs = $(this).attr("extra_attrs") ? eval('(' + $(this).attr("extra_attrs") + ')') : {};
             var columns_widths = $(this).attr("columns-widths") ? $(this).attr("columns-widths").split(',') : [];
             var no_delete_option = $(this).attr("nodelete") ? $(this).attr("nodelete") : false;
             var no_insert_option = $(this).attr("noinsert")  ? $(this).attr("noinsert") : false;
@@ -165,8 +232,18 @@ $(function () {
                                 var ctrlProp = {};
                                 var displayCss = {};
                                 var uiOption = {};
+                                var extraAttrs = {};
                                 if (fields[key].required) {
                                     ctrlProp['required'] = true;
+                                }
+                                if (columns_no_insert_options && columns_no_insert_options[key] == "disabled") {
+                                    ctrlProp['insert_no_disabled'] = true;
+                                }
+
+                                if (extra_attrs && extra_attrs[key]) {
+                                    for(Exkey in extra_attrs[key]){
+                                        extraAttrs[Exkey] = extra_attrs[key][Exkey]
+                                    }
                                 }
                                 if (columns_options && columns_options[key] == "disabled" || $("#done").length) {
                                     ctrlProp['disabled'] = true;
@@ -180,7 +257,7 @@ $(function () {
                                     uiOption['dateFormat'] = 'dd/mm/yy'
                                 }
 
-                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp, displayCss: displayCss, uiOption: uiOption});
+                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp, displayCss: displayCss, uiOption: uiOption, extraAttrs: extraAttrs});
                             }
 
                         }
@@ -409,9 +486,6 @@ function send_form_server() {
                             records[row_index] = {};
                             records[row_index][field_name] = vals[1];
                         }
-                        if(columns_default){
-                            console.log('');
-                        }
                         if(columns_default.hasOwnProperty(field_name)){
                             records[row_index][field_name] = columns_default[field_name];
                         }
@@ -470,13 +544,13 @@ function send_form_server() {
                             delete records[row].id;
                             var finded = false;
                             for(var arr_index = 0; arr_index < write_vals[index][form_field].length; arr_index++){
-                                if(write_vals[index][form_field][arr_index][0] == 1 && write_vals[index][form_field][arr_index][1] == Number(update_id)){
+                                if(write_vals[index][form_field][arr_index][0] == 1 && write_vals[index][form_field][arr_index][1] == update_id){
                                     write_vals[index][form_field][arr_index][2] = $.extend(write_vals[index][form_field][arr_index][2],records[row]);
                                     finded = true;
                                 }
                             }
                             if(!finded){
-                                write_vals[index][form_field].push([1, Number(update_id), records[row]]);
+                                write_vals[index][form_field].push([1, update_id, records[row]]);
                             }
                         }
                         else {
@@ -484,7 +558,6 @@ function send_form_server() {
                             write_vals[index][form_field].push([0, 0, records[row]]);
                         }
                     }
-
                 });
                 $(this).find(".form-control").each(function() {
                     var input_value = $(this).attr("value");
@@ -504,6 +577,20 @@ function send_form_server() {
     //Se recorre el diccionario, y se llama a write con los cambios.
     var keys = []
     for (var key in write_vals) {
+        $.each(write_vals[key], function(index, value) {
+            if (value instanceof Array) {
+                value.forEach(function(entry){
+                    if(entry[0] == 1 && String(entry[1]).search('NEW') != -1){
+                        entry[0] = 0;
+                        entry[1] = 0;
+                    }
+                    else if(entry[0] == 1){
+                        entry[1] = Number(entry[1])
+                    }
+                });
+            }
+        });
+
         if(key.split(',')[0] == 'mrp.production.workcenter.line'){
             write_vals[key]['doc_submited'] = true;
         }
@@ -516,3 +603,36 @@ function send_form_server() {
         window.location.replace($("#all_data").attr("url-submit"));
     }
 }
+
+    var jqVal = $.fn.val;
+    var rreturn = /\r/g;
+    $.fn.val = function( value ) {
+        var hooks, ret, isFunction,
+            elem = this[0];
+        if ( !arguments.length ) {
+            if ( elem ) {
+                hooks = jQuery.valHooks[ elem.type ] || jQuery.valHooks[ elem.nodeName.toLowerCase() ];
+
+                if ( hooks && "get" in hooks && (ret = hooks.get( elem, "value" )) !== undefined ) {
+                    return ret;
+                }
+                var quality_protocol_value = this.attr('quality_protocol_value');
+                if (typeof quality_protocol_value !== typeof undefined && quality_protocol_value !== false) {
+                    ret = quality_protocol_value;
+                }
+                else{
+                    ret = elem.value;
+                }
+
+                return typeof ret === "string" ?
+                    // handle most common string cases
+                    ret.replace(rreturn, "") :
+                    // handle cases where value is null/undef or number
+                    ret == null ? "" : ret;
+            }
+            return;
+        }
+        else{
+            jqVal.call(this, value);
+        }
+    }

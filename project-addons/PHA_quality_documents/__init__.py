@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,15 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    'name': "Product pharma fields",
-    'version': '1.0',
-    'category': 'Product',
-    'description': """Adds fields to products for pharma industries""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
-    "depends": ['product_spec'],
-    "data": [],
-    "installable": True
-}
+from . import mrp_production

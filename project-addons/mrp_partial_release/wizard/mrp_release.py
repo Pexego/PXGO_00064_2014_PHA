@@ -65,7 +65,7 @@ class release(models.TransientModel):
             {'mode': 'consume_produce'})
         produce_wiz.product_qty = self.release_qty
         produce_wiz.consume_lines = False
-        produce_wiz.do_produce()
+        produce_wiz.with_context(ignore_child=True).do_produce()
         production = self.env['mrp.production'].browse(
             self.env.context.get('active_id', False))
         self.env['mrp.partial.release.log'].create_release_log(production,

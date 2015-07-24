@@ -36,18 +36,10 @@
             <field name="action">action_approve()</field>
         </record>
 
-        <!--record id="act_approved_without_new_moves" model="workflow.activity">
-            <field name="wkf_id" ref="wkf_lot"/>
-            <field name="name">approved_without_new_moves</field>
-            <field name="flow_stop">True</field>
-            <field name="kind">stopall</field>
-            <field name="action">act_approved_without_new_moves()</field>
-        </record-->
-
         <record id="act_rejected" model="workflow.activity">
             <field name="wkf_id" ref="wkf_lot"/>
             <field name="name">rejected</field>
-            <field name="flow_stop">True</field>
+            <field name="flow_stop" eval="False"/>
             <field name="kind">stopall</field>
             <field name="action">action_reject()</field>
         </record>
@@ -86,6 +78,18 @@
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_rejected"/>
             <field name="signal">rejected</field>
+        </record>
+
+        <record id="trans_rejected_draft" model="workflow.transition">
+            <field name="act_from" ref="act_rejected"/>
+            <field name="act_to" ref="act_draft"/>
+            <field name="signal">rejected_draft</field>
+        </record>
+
+        <record id="trans_rejected_in_rev" model="workflow.transition">
+            <field name="act_from" ref="act_rejected"/>
+            <field name="act_to" ref="act_in_rev"/>
+            <field name="signal">rejected_rev</field>
         </record>
     </data>
 </openerp>

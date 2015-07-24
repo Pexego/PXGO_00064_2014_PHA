@@ -1,0 +1,540 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* PHA_quality_documents
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-22 15:59+0000\n"
+"PO-Revision-Date: 2015-07-22 15:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_picking_notes
+msgid "(Firma y fecha)"
+msgstr "(Firma y fecha)"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+msgid "*Comprobar que el primer estuche que sale de la impresora láser tiene la impresión correcta:"
+msgstr "*Comprobar que el primer estuche que sale de la impresora láser tiene la impresión correcta:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+msgid "*En caso contrario, avisar al maquinista y desechar todos los estuches mal impresos. No iniciar el acondicionamiento hasta que la impresión sea correcta"
+msgstr "*En caso contrario, avisar al maquinista y desechar todos los estuches mal impresos. No iniciar el acondicionamiento hasta que la impresión sea correcta"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.produced_qties
+msgid "1.-Anotar el total de cajones completos, las cajas extra, que no llegan a ser un cajón y los estuches que no completan una caja. no considerar los estuches tomados como muestras para control de calidad."
+msgstr "1.-Anotar el total de cajones completos, las cajas extra, que no llegan a ser un cajón y los estuches que no completan una caja. no considerar los estuches tomados como muestras para control de calidad."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+msgid "1.-Asegurar que el tamaño del papel de celofán es el correcto."
+msgstr "1.-Asegurar que el tamaño del papel de celofán es el correcto."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_box_control
+msgid "1.-Desechar los estuches mal conformados o defectuosos."
+msgstr "1.-Desechar los estuches mal conformados o defectuosos."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.coffin_works
+msgid "1.-Materiales necesarios: comprobar disponibilidad firmando con iniciales."
+msgstr "1.-Materiales necesarios: comprobar disponibilidad firmando con iniciales."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_consume
+msgid "1.-PETICIÓN DE MATERIALES A ENTREGAR"
+msgstr "1.-PETICIÓN DE MATERIALES A ENTREGAR"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+msgid "1.-Pasar los estuches por la cinta de la impresora. Impresuón en impresora láser:"
+msgstr "1.-Pasar los estuches por la cinta de la impresora. Impresuón en impresora láser:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_wrap_control
+msgid "1.-Poner en funcionamiento la máquina Astudillo, asegurando que tiene celofán de tamaño adecuado."
+msgstr "1.-Poner en funcionamiento la máquina Astudillo, asegurando que tiene celofán de tamaño adecuado."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_check
+msgid "2.- COMPROBACIÓN DE MATERIALES"
+msgstr "2.- COMPROBACIÓN DE MATERIALES"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_check_availability
+msgid "2.- CONTROL DE MATERIALES"
+msgstr "2.- CONTROL DE MATERIALES"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_return
+msgid "2.- DEVOLUCIÓN DE MATERIALES AL ALMACÉN"
+msgstr "2.- DEVOLUCIÓN DE MATERIALES AL ALMACÉN"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+msgid "2.- Encelofanado en Sollas."
+msgstr "2.- Encelofanado en Sollas."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_wrap_control
+msgid "2.-Encelofanar en envolvedora Astudillo. Asegurar que el cierre del celofán es corecto."
+msgstr "2.-Encelofanar en envolvedora Astudillo. Asegurar que el cierre del celofán es corecto."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.coffin_works
+msgid "2.-Preparar los cajones montándolos previamente para facilitar su llenado al rtimo de preparación de las cajas a envasar"
+msgstr "2.-Preparar los cajones montándolos previamente para facilitar su llenado al rtimo de preparación de las cajas a envasar"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_box_control
+msgid "2.-Verificar periodicamente la correcta impresión de la impresora laser."
+msgstr "2.-Verificar periodicamente la correcta impresión de la impresora laser."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_check_availability
+msgid "2.1.-Material de empaquetado: comprobar disponibilidad firmando con iniciales."
+msgstr "2.1.-Material de empaquetado: comprobar disponibilidad firmando con iniciales."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_lot_label
+msgid "2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
+msgstr "2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_lot_label
+msgid "2.3.-Identificar con etiquetas de Nº de lote, los pallets y cajones de plástico que se utilicen para depositar los productos en proceso."
+msgstr "2.3.-Identificar con etiquetas de Nº de lote, los pallets y cajones de plástico que se utilicen para depositar los productos en proceso."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_box_control
+msgid "3.-Introducir 6 estuches en cada caja expositora, colocando en la caja las etiquetas de identificación o códigos de barras indicadas en materiales(ver PNT)."
+msgstr "3.-Introducir 6 estuches en cada caja expositora, colocando en la caja las etiquetas de identificación o códigos de barras indicadas en materiales(ver PNT)."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "3.-OPERACIONES PARA FABRICACIÓN"
+msgstr "3.-OPERACIONES PARA FABRICACIÓN"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.coffin_works
+msgid "3.-Preparar un pallet para colocar los cajones una vez finalizados."
+msgstr "3.-Preparar un pallet para colocar los cajones una vez finalizados."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_wrap_control
+msgid "3.-Verificar periodicamente la correcta impresión de la impresora láser y retirar de muestras para calidad"
+msgstr "3.-Verificar periodicamente la correcta impresión de la impresora láser y retirar de muestras para calidad"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "3.1.-Hora de encendido de la máquina:"
+msgstr "3.1.-Hora de encendido de la máquina:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "3.2.-Anotar las temperaturas de los soldadores y los parámetros para la dosificación:"
+msgstr "3.2.-Anotar las temperaturas de los soldadores y los parámetros para la dosificación:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "3.3.-Programar la impresora láser introduciendo los datos de:"
+msgstr "3.3.-Programar la impresora láser introduciendo los datos de:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "3.4.-En caso de tratarse de estuches internos para formatos de 50, 100 o 150 filtros, programar la impresión por la máquina IMA\n"
+"                            con los datos de lote y caducidad. Comprobar periodicamente la corrección del dato y la calidad de la impresión"
+msgstr "3.4.-En caso de tratarse de estuches internos para formatos de 50, 100 o 150 filtros, programar la impresión por la máquina IMA\n"
+"                            con los datos de lote y caducidad. Comprobar periodicamente la corrección del dato y la calidad de la impresión"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "3.5.-Hora de inicio de fabricación:"
+msgstr "3.5.-Hora de inicio de fabricación:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_stops_adjustements
+msgid "4. - PARADAS Y AJUSTES NECESARIOS"
+msgstr "4. - PARADAS Y AJUSTES NECESARIOS"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_box_control
+msgid "4.-Depositar las cajas expositoras en un pallet identificado con una etiqueta con el Nº de lote, para pasarlo a la máquina Astudillo."
+msgstr "4.-Depositar las cajas expositoras en un pallet identificado con una etiqueta con el Nº de lote, para pasarlo a la máquina Astudillo."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.coffin_works
+msgid "4.-Introducir las cajas preparadas en los cajones, cerrarlos en la máquina selladora y colocarlos sobre el pallet."
+msgstr "4.-Introducir las cajas preparadas en los cajones, cerrarlos en la máquina selladora y colocarlos sobre el pallet."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_wrap_control
+msgid "4.-Tomar muestras al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
+msgstr "4.-Tomar muestras al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_controls
+msgid "5.-CONTROLES EN PROCESO"
+msgstr "5.-CONTROLES EN PROCESO"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_box_control
+msgid "5.-Tomar muestras de estuches al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
+msgstr "5.-Tomar muestras de estuches al inicio, mitad y final de la fabricación. Retirar el estuche, anotando fecha, hora de recogida e iniciales de quien lo hace."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_controls
+msgid "5.1-Realizar los controles de proceso periodicamente y siempre que se sospechen problemas de dosificación.\n"
+"                    Al finalizar el lote, al menos se habrán realizado 20 controles."
+msgstr "5.1-Realizar los controles de proceso periodicamente y siempre que se sospechen problemas de dosificación.\n"
+"                    Al finalizar el lote, al menos se habrán realizado 20 controles."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_end_operation
+msgid "6.-FINAL OPERACIÓN"
+msgstr "6.-FINAL OPERACIÓN"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_end_operation
+msgid "6.1 Anotar el Nº del contador de infusiones:"
+msgstr "6.1 Anotar el Nº del contador de infusiones:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_end_operation
+msgid "6.2 Debe continuar la fabricación del lote al día siguiente:"
+msgstr "6.2 Debe continuar la fabricación del lote al día siguiente:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_return_bolsitas
+msgid "7.-DEVOLUCIÓN DE MATERIALES SOBRANTES"
+msgstr "7.-DEVOLUCIÓN DE MATERIALES SOBRANTES"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_return
+msgid "Anotar la cantidad del material que se devuelve:"
+msgstr "Anotar la cantidad del material que se devuelve:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_consume
+msgid "Anotar la cantidad del material que se entrega a fabricación:"
+msgstr "Anotar la cantidad del material que se entrega a fabricación:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.produced_qties
+msgid "CANTIDAD FABRICADA"
+msgstr "CANTIDAD FABRICADA"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Cantidad a Fabricar:"
+msgstr "Cantidad a Fabricar:"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Coffin works"
+msgstr "Coffin works"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.coffin_works
+msgid "Colocar una etiqueta de identificación de lote en cada cajón."
+msgstr "Colocar una etiqueta de identificación de lote en cada cajón."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_lot_label
+msgid "Comprobar que los nºs de lote indicados en las etiquetas coinciden con el número de lote de protocolo"
+msgstr "Comprobar que los nºs de lote indicados en las etiquetas coinciden con el número de lote de protocolo"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Confirmado correcto por operario de acondicionamiento secundario"
+msgstr "Confirmado correcto por operario de acondicionamiento secundario"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_lot_label
+msgid "Conforme:"
+msgstr "Conforme:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Cons. Pref.:"
+msgstr "Cons. Pref.:"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Controls"
+msgstr "Controles"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+msgid "ENVOLVER EN CELOFÁN"
+msgstr "ENVOLVER EN CELOFÁN"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_wrap_control
+msgid "ENVOLVER EN CELOFÁN EN ENVOLVEDORA/CONTROLES EN PROCESO/MUESTREO"
+msgstr "ENVOLVER EN CELOFÁN EN ENVOLVEDORA/CONTROLES EN PROCESO/MUESTREO"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Edición:"
+msgstr "Edición:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Emisión de protocolo:"
+msgstr "Emisión de protocolo:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.rev_acond
+msgid "Envases teóricos(ET):"
+msgstr "Envases teóricos(ET):"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Escala caida producto"
+msgstr "Escala caida producto"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_controls
+msgid "Estuches llenos"
+msgstr "Estuches llenos"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Fabricación:"
+msgstr "Fabricación:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Fecha"
+msgstr "Fecha"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Fecha de caducidad impresa:"
+msgstr "Fecha de caducidad impresa:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Fecha de fabricación:"
+msgstr "Fecha de fabricación:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_consume
+#: view:website:PHA_quality_documents.stock_move_mrp_return
+msgid "Fecha:"
+msgstr "Fecha:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Firma"
+msgstr "Firma"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+msgid "IMPRESIÓN DE LOTE Y CADUCIDAD EN ESTUCHE"
+msgstr "IMPRESIÓN DE LOTE Y CADUCIDAD EN ESTUCHE"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.coffin_works
+msgid "INTRODUCIR EN CAJONES/SELLADO"
+msgstr "INTRODUCIR EN CAJONES/SELLADO"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_box_control
+msgid "INTRODUCIR ESTUCHES EN CAJAS EXPOSITORAS / CONTROL DE PROCESO / MUESTREO"
+msgstr "INTRODUCIR ESTUCHES EN CAJAS EXPOSITORAS / CONTROL DE PROCESO / MUESTREO"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_final_rev
+#: view:website:PHA_quality_documents.rev_acond
+msgid "Incidencia número:"
+msgstr "Incidencia número:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_final_rev
+#: view:website:PHA_quality_documents.rev_acond
+msgid "Incidencias de fabricación:"
+msgstr "Incidencias de fabricación:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "LOTE:"
+msgstr "LOTE:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Lote Pirámide:"
+msgstr "Lote Pirámide:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Lote impreso:"
+msgstr "Lote impreso:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.lot_check_print_sec
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Lote:"
+msgstr "Lote:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_controls
+msgid "Límite acción"
+msgstr "Límite acción"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_controls
+msgid "Límite alerta"
+msgstr "Límite alerta"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Nº SOLDADOR"
+msgstr "Nº SOLDADOR"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.rev_acond
+msgid "Número total de envases fabricados(EF):"
+msgstr "Número total de envases fabricados(EF):"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_final_rev
+msgid "Número total de envases fabricados:"
+msgstr "Número total de envases fabricados:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_final_rev
+#: view:website:PHA_quality_documents.mrp_picking_notes
+#: view:website:PHA_quality_documents.rev_acond
+msgid "Observaciones:"
+msgstr "Observaciones:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "PRODUCTO:"
+msgstr "PRODUCTO:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Palanca ajuste"
+msgstr "Palanca ajuste"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_controls
+msgid "Peso bolsita"
+msgstr "Peso bolsita"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Print comprobations"
+msgstr "Comprobaciones de impresión"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Printer configuration"
+msgstr "Configuración de impresora"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Qty produced"
+msgstr "Qty produced"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.rev_acond
+msgid "Ratio de fabricación (EF/ET)X100:"
+msgstr "Ratio de fabricación (EF/ET)X100:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Realizado por:"
+msgstr "Realizado por:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.coffin_works
+msgid "Realizado por: (iniciales de las personas que han intervenido, señalando las horas)"
+msgstr "Realizado por: (iniciales de las personas que han intervenido, señalando las horas)"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.stock_move_mrp_return_bolsitas
+msgid "Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:"
+msgstr "Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_picking_notes
+msgid "Responsable de Almacén:"
+msgstr "Responsable de Almacén:"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_final_rev
+#: view:website:PHA_quality_documents.rev_acond
+msgid "Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):"
+msgstr "Revisión final del protocolo (a rellenar por el encargado de documentación una vez finalizado el lote):"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_picking_notes
+msgid "Revisión protocolo"
+msgstr "Revisión protocolo"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_box_control
+#: view:website:PHA_quality_documents.mrp_wrap_control
+msgid "Se tomarán para control de calidad 3 muestras."
+msgstr "Se tomarán para control de calidad 3 muestras."
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.production_protocol_header
+msgid "Según procedimiento:"
+msgstr "Según procedimiento:"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Stops and adjustments needed"
+msgstr "Paradas y ajustes necesarios"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "VALOR"
+msgstr "VALOR"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Velocidad de fabricación"
+msgstr "Velocidad de fabricación"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "Velocidad rápida embudo"
+msgstr "Velocidad rápida embudo"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Wender temperatures"
+msgstr "Temperaturas de soldador"
+
+#. module: PHA_quality_documents
+#: model:ir.model,name:PHA_quality_documents.model_mrp_production_workcenter_line
+msgid "Work Order"
+msgstr "Orden de trabajo"
+
+#. module: PHA_quality_documents
+#: view:mrp.production.workcenter.line:PHA_quality_documents.mrp_workcenter_line_add_info
+msgid "Wrap comprobations"
+msgstr "Wrap comprobations"
+
+#. module: PHA_quality_documents
+#: view:website:PHA_quality_documents.mrp_operations
+msgid "velocidad lenta embudo"
+msgstr "velocidad lenta embudo"
+

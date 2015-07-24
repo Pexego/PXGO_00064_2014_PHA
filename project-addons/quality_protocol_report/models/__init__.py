@@ -24,6 +24,4 @@ import quality_protocol_report
 import product
 import stock
 import survey
-import production_adjustments
 import mrp_production
-import mrp_production_control
