@@ -1,0 +1,184 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sales_abroad
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-18 12:19+0000\n"
+"PO-Revision-Date: 2014-12-18 13:23+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.7.1\n"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,attachments:0
+msgid "Attachments"
+msgstr "Documentos adjuntos"
+
+#. module: sales_abroad
+#: view:stock.move:sales_abroad.view_move_form
+#: view:stock.move:sales_abroad.view_move_tree
+#: view:stock.picking:sales_abroad.view_picking_form
+#: view:stock.picking.wave:sales_abroad.view_picking_wave_form
+msgid "Check documents"
+msgstr "Comprobar documentos"
+
+#. module: sales_abroad
+#: view:sales.abroad.confirm.docs:sales_abroad.view_sales_abroad_confirm_docs
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: sales_abroad
+#: view:stock.picking.wave:sales_abroad.view_picking_wave_form
+msgid "Confirm documents"
+msgstr "Confirmar documentos"
+
+#. module: sales_abroad
+#: model:ir.model,name:sales_abroad.model_res_country
+#: field:sales.abroad.confirm.docs,country_id:0
+msgid "Country"
+msgstr "País"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,country_id:0
+msgid "Country id"
+msgstr "País de destino"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,create_uid:0
+#: field:sales.abroad.confirm.docs,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,create_date:0
+#: field:sales.abroad.confirm.docs,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: sales_abroad
+#: field:stock.move,docs_confirmed:0 field:stock.picking,docs_confirmed:0
+#: field:stock.picking.wave,docs_confirmed:0
+msgid "Docs confirmed"
+msgstr "Documentos confirmados"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,documents:0
+msgid "Documents"
+msgstr "Descripción de documentos"
+
+#. module: sales_abroad
+#: view:sales.abroad.confirm.docs:sales_abroad.view_sales_abroad_confirm_docs
+msgid "Documents required"
+msgstr "Documentos necesarios"
+
+#. module: sales_abroad
+#: view:stock.move:sales_abroad.view_move_tree
+#: view:stock.picking.wave:sales_abroad.view_picking_wave_form
+msgid "Done"
+msgstr "Realizado"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,id:0 field:sales.abroad.confirm.docs,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,write_uid:0
+#: field:sales.abroad.confirm.docs,write_uid:0
+msgid "Last Updated by"
+msgstr "Últ. actualización por"
+
+#. module: sales_abroad
+#: field:res.sales.abroad,write_date:0
+#: field:sales.abroad.confirm.docs,write_date:0
+msgid "Last Updated on"
+msgstr "Últ. actualización el"
+
+#. module: sales_abroad
+#: model:ir.model,name:sales_abroad.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: sales_abroad
+#: code:addons/sales_abroad/sales_abroad.py:188
+#, python-format
+msgid "Please, check the documents of all picking lines."
+msgstr "Por favor, compruebe los documentos de todas las líneas de picking."
+
+#. module: sales_abroad
+#: view:stock.move:sales_abroad.view_move_tree
+msgid "Process"
+msgstr "Procesar"
+
+#. module: sales_abroad
+#: view:stock.move:sales_abroad.view_move_form
+msgid "Process Entirely"
+msgstr "Procesar completamente"
+
+#. module: sales_abroad
+#: field:sales.abroad.confirm.docs,reference:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: sales_abroad
+#: view:sales.abroad.confirm.docs:sales_abroad.view_sales_abroad_confirm_docs
+msgid "Return"
+msgstr "Volver"
+
+#. module: sales_abroad
+#: view:sales.abroad.confirm.docs:sales_abroad.view_sales_abroad_confirm_docs
+msgid "Review of documents for sales abroad"
+msgstr "Revisión de documentos para ventas al extranjero"
+
+#. module: sales_abroad
+#: model:ir.actions.act_window,name:sales_abroad.action_sales_abroad
+#: model:ir.ui.menu,name:sales_abroad.menu_sales_abroad
+msgid "Sales abroad"
+msgstr "Ventas al extranjero"
+
+#. module: sales_abroad
+#: code:addons/sales_abroad/wizard/sales_abroad_confirm_docs.py:38
+#: view:res.sales.abroad:sales_abroad.view_sales_abroad_form
+#: view:res.sales.abroad:sales_abroad.view_sales_abroad_tree
+#, python-format
+msgid "Sales abroad documents"
+msgstr "Documentos de ventas al extranjero"
+
+#. module: sales_abroad
+#: field:ir.attachment,sales_abroad_id:0 field:res.country,sales_abroad_id:0
+msgid "Sales abroad id"
+msgstr "ID de ventas al extranjero"
+
+#. module: sales_abroad
+#: view:res.sales.abroad:sales_abroad.view_sales_abroad_search
+msgid "Search sales abroad documents"
+msgstr "Buscar documentos de ventas al extranjero"
+
+#. module: sales_abroad
+#: view:sales.abroad.confirm.docs:sales_abroad.view_sales_abroad_confirm_docs
+msgid "Shipments to this country require the following documents:"
+msgstr "Los envíos a este país requieren los siguientes documentos:"
+
+#. module: sales_abroad
+#: model:ir.model,name:sales_abroad.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: sales_abroad
+#: view:stock.picking:sales_abroad.view_picking_form
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: sales_abroad
+#: code:addons/sales_abroad/sales_abroad.py:107
+#, python-format
+msgid "country"
+msgstr "país"

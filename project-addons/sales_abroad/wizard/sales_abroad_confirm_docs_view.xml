@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_sales_abroad_confirm_docs" model="ir.ui.view">
+            <field name="name">sales.abroad.confirm.docs.form</field>
+            <field name="model">sales.abroad.confirm.docs</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Review of documents for sales abroad" version="7.0">
+                    <h1>
+                        <field name="reference" readonly="1"/>
+                    </h1>
+                    <h2>
+                        <field name="name" readonly="1"/>
+                    </h2>
+                    <separator colspan="4" string="Documents required" />
+                    <label string="Shipments to this country require the following documents:"/>
+                    <field name="sales_abroad_id" readonly="1"/>
+                    <footer>
+                        <button name="action_confirmed" string="Confirm" type="object" class="oe_highlight"/>
+                        <button string="Return" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

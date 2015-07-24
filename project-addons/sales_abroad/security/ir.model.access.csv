@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_sales_abroad,access_res_sales_abroad,model_res_sales_abroad,base.group_user,1,1,1,0
+access_res_country,access_res_country,model_res_country,base.group_user,1,1,0,0
+access_stock_picking,access_stock_picking,model_stock_picking,base.group_user,1,1,0,0
+access_stock_move,access_stock_move,model_stock_move,base.group_user,1,1,0,0
+access_stock_picking_wave,access_stock_picking_wave,model_stock_picking_wave,base.group_user,1,1,0,0
+access_ir_attachment,access_ir_attachment,model_ir_attachment,base.group_user,1,1,0,0
