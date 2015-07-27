@@ -9,7 +9,7 @@
                 <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
                     <t t-if="production.move_lines">
                         <table class="quality_field" id="tblAppendGridCheck_avail" t-att-qfield="'move_lines'"
-                              t-att-filter = "'workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                              t-att-filter = "'[[&quot;workcenter_id.id&quot;,&quot;=&quot;,' + str(wkcenter_line.workcenter_id.id) + '], [&quot;return_production_move&quot;, &quot;=&quot;, 0]]'"
                               t-att-columns="'product_id,checked_disp,id,workcenter_id'"
                               t-att-columns-widths="'90%,10%,0%,0%'"
                               t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled','workcenter_id': 'hidden'}">
@@ -17,7 +17,7 @@
                     </t>
                     <t t-if="production.move_lines2">
                         <table class="quality_field" id="tblAppendGridCheck_avail" t-att-qfield="'move_lines2'"
-                              t-att-filter = "'workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                              t-att-filter = "'[[&quot;workcenter_id.id&quot;,&quot;=&quot;,' + str(wkcenter_line.workcenter_id.id) + '], [&quot;return_production_move&quot;, &quot;=&quot;, 0]]'"
                               t-att-columns="'product_id,checked_disp,id,workcenter_id'"
                               t-att-columns-widths="'90%,10%,0%,0%'"
                               t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled','workcenter_id': 'hidden'}">
@@ -93,7 +93,7 @@
                 <h4>2.2 Control de etiquetas del lote, Colocar un modelo de las etiquetas en el revés de la hoja.</h4>
                 <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
                     <table class="quality_field" id="tblAppendGridLotLabel" t-att-qfield="'return_operation_ids'"
-                          t-att-filter = "'product_id.lot_label,=,True'"
+                          t-att-filter = "'[[&quot;product_id.lot_label&quot;,&quot;=&quot;,1]]'"
                           t-att-columns="'product_id,served_qty,qty_used,qty_scrapped,returned_qty,initials_acond,id'"
                           t-att-columns-widths="'25%,15%,15%,15%,10%,0%,0%'"
                           t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled'}">
@@ -175,7 +175,7 @@
                 <h4>Se tomarán para control de calidad 3 muestras.</h4>
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
                     <table class="quality_field" id="tblAppendGridboxcontrol" t-att-qfield="'wrap_comprobations'"
-                          t-att-filter = "'type,=,box'"
+                          t-att-filter = "'[[&quot;type&quot;,&quot;=&quot;,&quot;box&quot;]]'"
                           t-att-columns-default = "{'type': 'box'}"
                           t-att-columns="'date,correct,quality_sample,initials,id,type'"
                           t-att-columns-widths="'40%,4%,10%,10%,0%,0%'"
@@ -195,7 +195,7 @@
                 <h4>Se tomarán para control de calidad 3 muestras.</h4>
                 <form role="form" method="post" class="quality_form" t-att-model="wkcenter_line._name" t-att-record="wkcenter_line.id">
                     <table class="quality_field" id="tblAppendGridwrapcontrol" t-att-qfield="'wrap_comprobations'"
-                          t-att-filter = "'type,=,wrap'"
+                          t-att-filter = "'[[&quot;type&quot;,&quot;=&quot;,&quot;wrap&quot;]]'"
                           t-att-columns-default = "{'type': 'wrap'}"
                           t-att-columns="'date,correct,quality_sample,initials,id,type'"
                           t-att-columns-widths="'40%,4%,10%,10%,0%,0%'"
@@ -210,7 +210,7 @@
                 <h2>2.- COMPROBACIÓN DE MATERIALES</h2>
                 <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
                     <table class="quality_field" id="tblAppendGridConsume" t-att-qfield="'return_operation_ids'"
-                          t-att-filter = "'move_id.workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                          t-att-filter = "'[[&quot;move_id.workcenter_id.id&quot;,&quot;=&quot;,' + str(wkcenter_line.workcenter_id.id) + ']]'"
                           t-att-columns="'product_id,lot_id,qty,product_uom,used_lot,served_qty,id'"
                           t-att-columns-widths="'35%,10%,12%,8%,10,15%,0%'"
                           compare="used_lot,lot_id"
@@ -397,7 +397,7 @@
                 <h4>Relación de materiales sobrantes de la fabricación del lote, dejados en el SAS para devolución a almacén:</h4>
                 <form role="form" method="post" class="quality_form" t-att-model="production._name" t-att-record="production.id">
                     <table class="quality_field" id="tblAppendGridreturn" t-att-qfield="'return_operation_ids'"
-                          t-att-filter = "'move_id.workcenter_id.id,=,' + str(wkcenter_line.workcenter_id.id)"
+                          t-att-filter = "'[[&quot;move_id.workcenter_id.id&quot;,&quot;=&quot;,' + str(wkcenter_line.workcenter_id.id) + ']]'"
                           t-att-columns="'product_id,lot_id,returned_qty,id'"
                           t-att-columns-widths="'35%,10%,12%,0%'"
                           t-att-noinsert="'true'" t-att-nodelete="'true'" t-att-columns-options="{'product_id': 'disabled', 'lot_id': 'disabled'}">
