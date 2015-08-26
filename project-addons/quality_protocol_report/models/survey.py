@@ -53,6 +53,7 @@ class SurveyPage(models.Model):
     def create(self, vals):
         res = super(SurveyPage, self).create(vals)
         res.quality_survey = res.survey_id.quality_survey
+        return res
 
 
 class SurveyQuestion(models.Model):
@@ -64,6 +65,7 @@ class SurveyQuestion(models.Model):
     def create(self, vals):
         res = super(SurveyQuestion, self).create(vals)
         res.quality_survey = res.survey_id.quality_survey
+        return res
 
 
 class SurveyLabel(models.Model):
@@ -75,6 +77,7 @@ class SurveyLabel(models.Model):
     def create(self, vals):
         res = super(SurveyQuestion, self).create(vals)
         res.quality_survey = res.question_id.quality_survey
+        return res
 
 
 class survey_user_input(models.Model):
@@ -87,6 +90,7 @@ class survey_user_input(models.Model):
     def create(self, vals):
         res = super(survey_user_input, self).create(vals)
         res.quality_survey = res.survey_id.quality_survey
+        return res
 
 
 class SurveyUserInputLine(models.Model):
@@ -99,3 +103,4 @@ class SurveyUserInputLine(models.Model):
     def create(self, vals):
         res = super(SurveyUserInputLine, self).create(vals)
         res.quality_survey = res.survey_id.quality_survey
+        return res

@@ -199,8 +199,7 @@ $(function () {
         var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
         $(this).find('.quality_field').each(function() {
             var field_to_represent = $(this).attr("qfield");
-            var filter = $(this).attr("filter") ? $(this).attr("filter").split(",") : false;
-            filter = filter ? [[filter[0], filter[1], filter[2]]] : [];
+            var filter = $(this).attr("filter") ? JSON.parse($(this).attr("filter")) : [];
             var filter_model = $(this).attr("filter-model")
             var columns = $(this).attr("columns").split(",");
             var columns_options = $(this).attr("columns-options") ? eval('(' + $(this).attr("columns-options") + ')') : {};
@@ -633,6 +632,6 @@ function send_form_server() {
             return;
         }
         else{
-            jqVal.call(this, value);
+            return jqVal.call(this, value);
         }
     }

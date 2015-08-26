@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api, exceptions, _
 
-from . import better_zip
-from . import sale_agent
-from . import pharma_group_sale
-from . import wizard
-from . import settlement
-from . import settlement_agent
-from . import settlement_line
-from . import res_partner
+
+class ui(models.Model):
+
+    _inherit = 'sale.agent'
+
+    user_id = fields.Many2one('res.users', 'User')
+
