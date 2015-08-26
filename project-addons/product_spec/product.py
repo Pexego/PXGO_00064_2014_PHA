@@ -126,6 +126,10 @@ class ProductTemplate(models.Model):
     quality_limits = fields.Many2one('product.quality.limits', 'Process control')
     process_control = fields.Boolean('Process control')
 
+    # For column search and sorting in views
+    ean13 = fields.Char(string='EAN13 Barcode', store=True, related='product_variant_ids.ean13')
+    default_code = fields.Char(string='Internal Reference', store=True, related='product_variant_ids.default_code')
+
     @api.model
     def create(self, vals):
         tmpl = super(ProductTemplate, self).create(vals)
