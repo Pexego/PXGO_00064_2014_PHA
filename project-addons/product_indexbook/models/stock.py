@@ -32,14 +32,24 @@ class stock_quant(models.Model):
 
     @api.model
     def qc_check_if_need_pis(self, vals):
-        # Check if destination location are affected by quality control, product has P.I.S. and move has lot assigned
-        # If true, create new product identification sheet entry
-        location = self.env['stock.location'].browse([vals['location_id']])
-        product = self.env['product.product'].browse([vals['product_id']])
-        if location.qc_location and product.qc_has_pis and vals['lot_id']:
-            self.env['qc.pis'].create({'lot': vals['lot_id'], 'reference': vals['product_id']})
+        # Check if destination location are affected by quality control, product has P.I.S. and quant has lot assigned
+        # If true and is not already created, create new product identification sheet entry
+        location = self.env['stock.location'].browse([vals['location_id']]) if vals.get('location_id') else self.location_id
+        product = self.env['product.template'].browse([vals['product_id']]) if vals.get('product_id') else self.product_id
+        lot = vals['lot_id'] if vals.get('lot_id') else self.lot_id.id
+        qc_pis = self.env['qc.pis']
+        if location.qc_location and product.qc_has_pis and lot:
+            if (qc_pis.search_count([('lot', '=', lot)]) == 0): # One P.I.S. for each lot
+                qc_pis.create({'lot': lot, 'reference': product.id})
 
-    @api.multi
+
+    @api.model
+    def create(self, vals):
+        self.qc_check_if_need_pis(vals)
+        return super(stock_quant, self).create(vals)
+
+
+    @api.one
     def write(self, vals):
         self.qc_check_if_need_pis(vals)
         return super(stock_quant, self).write(vals)
