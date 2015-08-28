@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Modifications to hide Sale Confirm Button to comercials -->
+        <record model="ir.ui.view" id="view_order_form">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <button name="action_button_confirm" states="draft" position="replace">
+                    <button name="action_button_confirm" states="draft" string="Confirm Sale" type="object" groups="base.group_sale_manager"/>
+                </button>
+                <button name="action_button_confirm" states="sent" position="replace">
+                    <button name="action_button_confirm" states="sent" string="Confirm Sale" class="oe_highlight" type="object" groups="base.group_sale_manager"/>
+                </button>
+            </field>
+        </record>
+    </data>
+</openerp>
