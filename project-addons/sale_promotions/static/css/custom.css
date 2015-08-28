@@ -1,0 +1,13 @@
+body {
+    background-color: lightblue;
+
+}
+.title_descript {
+    color: navy;
+    text-align: center;
+}
+
+.text_descript {
+    text-align: center;
+    margin: 40px;
+}
