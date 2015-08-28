@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="sale.config.settings" id="sale_config_settings_intermediary">
+            <field name="group_sale_delivery_address" eval="1"/>
+        </record>
+
+        <function model="sale.config.settings" name="execute">
+            <value eval="[ref('sale_config_settings_intermediary')]"/>
+            <value eval="{}"/>
+        </function>
+    </data>
+</openerp>
+
