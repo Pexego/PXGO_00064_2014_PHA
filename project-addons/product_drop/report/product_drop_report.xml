@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="view_product_drop_report_tree" model="ir.ui.view">
+      <field name="name">product.drop.report.tree</field>
+      <field name="model">product.drop.report</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="product_qty"/>
+          <field name="lot_id"/>
+          <field name="drop_id" string="Drop by"/>
+          <field name="drop_date"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_product_drop_report_form" model="ir.ui.view">
+      <field name="name">product.drop.report.form</field>
+      <field name="model">product.drop.report</field>
+      <field name="arch" type="xml">
+        <form string="Product for internal cosumption" edit="false" create="false" delete="false">
+          <group>
+            <field name="name" style="width: 50%;"/>
+            <field name="product_qty"/>
+            <field name="lot_id" style="width: 20%;"/>
+            <field name="drop_id" string="Drop by"/>
+            <field name="drop_date"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_drop_report_search">
+      <field name="name">product.drop.report.search</field>
+      <field name="model">product.drop.report</field>
+      <field name="arch" type="xml">
+        <search string="Stock moves for internal consumption">
+          <field name="name"/>
+          <field name="drop_user"/>
+          <field name="drop_date"/>
+          <group expand="1" string="Group By">
+            <filter string="Product" context="{'group_by':'name'}"/>
+            <filter string="Drop by" context="{'group_by':'drop_user'}"/>
+            <filter string="Date" context="{'group_by':'drop_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_product_drop_report">
+      <field name="name">Internal consumption</field>
+      <field name="res_model">product.drop.report</field>
+      <field name="view_type">form</field>
+      <!--field name="context">{'search_default_stockable':1}</field-->
+      <field name="view_mode">tree,form</field>
+      <field name="help">Show stock moves for internal consumption</field>
+    </record>
+
+    <menuitem parent="stock.next_id_61" action="action_product_drop_report" id="menu_product_drop_report" sequence="3"/>
+  </data>
+</openerp>

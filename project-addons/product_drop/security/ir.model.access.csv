@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_drop,access_product_drop,model_product_drop,base.group_user,1,1,1,1
+access_product_drop_details,access_product_drop_details,model_product_drop_details,base.group_user,1,1,1,1
+access_product_drop_report,access_product_drop_report,model_product_drop_report,base.group_user,1,1,1,1

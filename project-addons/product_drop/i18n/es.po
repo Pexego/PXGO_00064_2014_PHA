@@ -1,0 +1,165 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_drop
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-06 07:25+0000\n"
+"PO-Revision-Date: 2015-07-06 09:30+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. module: product_drop
+#: view:product.drop:product_drop.view_product_drop_form
+msgid "Confirm drop"
+msgstr "Confirmar baja"
+
+#. module: product_drop
+#: model:ir.model,name:product_drop.model_product_drop_details
+#: model:ir.model,name:product_drop.model_product_drop_report
+#: field:product.drop,details_ids:0
+msgid "Consumed products"
+msgstr "Productos consumidos"
+
+#. module: product_drop
+#: model:stock.location,name:product_drop.consumption_for_internal_use_location
+msgid "Consumption for internal use"
+msgstr "Consumo para uso interno"
+
+#. module: product_drop
+#: field:product.drop,create_uid:0 field:product.drop.details,create_uid:0
+#: field:product.drop.report,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: product_drop
+#: field:product.drop,create_date:0 field:product.drop.details,create_date:0
+#: field:product.drop.report,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: product_drop
+#: field:product.drop,date:0
+#: view:product.drop.report:product_drop.product_drop_report_search
+#: field:product.drop.report,drop_date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: product_drop
+#: selection:product.drop,state:0
+msgid "Done"
+msgstr "Realizado"
+
+#. module: product_drop
+#: selection:product.drop,state:0
+msgid "Draft"
+msgstr "Nuevo"
+
+#. module: product_drop
+#: view:product.drop.report:product_drop.product_drop_report_search
+#: view:product.drop.report:product_drop.view_product_drop_report_form
+#: view:product.drop.report:product_drop.view_product_drop_report_tree
+#: field:product.drop.report,drop_user:0
+msgid "Drop by"
+msgstr "Baja por"
+
+#. module: product_drop
+#: view:product.drop.report:product_drop.product_drop_report_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: product_drop
+#: field:product.drop,id:0 field:product.drop.details,id:0
+#: field:product.drop.report,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: product_drop
+#: model:ir.actions.act_window,name:product_drop.action_product_drop_report
+#: model:ir.ui.menu,name:product_drop.menu_product_drop_report
+msgid "Internal consumption"
+msgstr "Consumo interno"
+
+#. module: product_drop
+#: model:ir.actions.act_window,name:product_drop.action_product_drop
+#: model:ir.model,name:product_drop.model_product_drop
+#: model:ir.ui.menu,name:product_drop.menu_product_drop
+#: view:product.drop:product_drop.view_product_drop_form
+#: view:product.drop:product_drop.view_product_drop_tree
+msgid "Internal use consumption"
+msgstr "Consumo para uso interno"
+
+#. module: product_drop
+#: field:product.drop,write_uid:0 field:product.drop.details,write_uid:0
+#: field:product.drop.report,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: product_drop
+#: field:product.drop,write_date:0 field:product.drop.details,write_date:0
+#: field:product.drop.report,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización"
+
+#. module: product_drop
+#: field:product.drop.details,lot_id:0 field:product.drop.report,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: product_drop
+#: field:product.drop.details,name:0
+#: view:product.drop.report:product_drop.product_drop_report_search
+#: field:product.drop.report,name:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_drop
+#: field:product.drop.details,drop_id:0 field:product.drop.report,drop_id:0
+msgid "Product drop"
+msgstr "Baja de producto"
+
+#. module: product_drop
+#: view:product.drop.details:product_drop.view_product_drop_details_form
+#: view:product.drop.report:product_drop.view_product_drop_report_form
+msgid "Product for internal cosumption"
+msgstr "Producto para consumo interno"
+
+#. module: product_drop
+#: view:product.drop:product_drop.view_product_drop_form
+msgid "Products for internal consumption"
+msgstr "Productos para consumo interno"
+
+#. module: product_drop
+#: field:product.drop.details,product_qty:0
+#: field:product.drop.report,product_qty:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: product_drop
+#: model:ir.actions.act_window,help:product_drop.action_product_drop_report
+msgid "Show stock moves for internal consumption"
+msgstr "Muestra movimientos de almacén para consumo interno"
+
+#. module: product_drop
+#: field:product.drop,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: product_drop
+#: view:product.drop.report:product_drop.product_drop_report_search
+msgid "Stock moves for internal consumption"
+msgstr "Movimientos de almacén para consumo interno"
+
+#. module: product_drop
+#: field:product.drop,name:0
+msgid "User"
+msgstr "Usuario"

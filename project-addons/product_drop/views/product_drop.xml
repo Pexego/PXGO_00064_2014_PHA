@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!-- VIEWS -->
+    <record id="view_product_drop_tree" model="ir.ui.view">
+      <field name="name">product.drop.tree</field>
+      <field name="model">product.drop</field>
+      <field name="arch" type="xml">
+        <tree string="Internal use consumption">
+          <field name="date"/>
+          <field name="name" context="{'product_drop_id': id}"/>
+          <field name="state"/>
+          <field name="details_ids"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_product_drop_form" model="ir.ui.view">
+      <field name="name">product.drop.form</field>
+      <field name="model">product.drop</field>
+      <field name="arch" type="xml">
+        <form string="Internal use consumption">
+          <header>
+            <button name="confirm_drop"
+                    string="Confirm drop"
+                    type="object"
+                    class="oe_read_only oe_highlight"
+                    icon="gtk-apply"
+                    attrs="{'invisible':[('state', '=', 'done')]}"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+          </header>
+          <sheet>
+            <group string="Products for internal consumption">
+              <field name="name" style="width: 30%;"/>
+              <field name="id" invisible="1"/>
+              <field name="date" attrs="{'readonly':[('id','>', 0)]}"/>
+            </group>
+            <field name="details_ids"/>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_product_drop_details_tree" model="ir.ui.view">
+      <field name="name">product.drop.details.tree</field>
+      <field name="model">product.drop.details</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="product_qty"/>
+          <field name="lot_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_product_drop_details_form" model="ir.ui.view">
+      <field name="name">product.drop.details.form</field>
+      <field name="model">product.drop.details</field>
+      <field name="arch" type="xml">
+        <form string="Product for internal cosumption">
+          <group>
+            <field name="name" style="width: 50%;" context="{'product_id':name,'product_qty':product_qty}"/>
+            <field name="product_qty" context="{'product_id':name,'product_qty':product_qty}"/>
+            <field name="lot_id" style="width: 20%;" context="{'product_id':name,'product_qty':product_qty}"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <!-- MENUS & ACTIONS -->
+    <record id="action_product_drop" model="ir.actions.act_window">
+        <field name="name">Internal use consumption</field>
+        <field name="res_model">product.drop</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_product_drop_tree"/>
+    </record>
+
+    <menuitem
+        name="Internal use consumption"
+        action="action_product_drop"
+        id="menu_product_drop"
+        parent="stock.menu_stock_warehouse_mgmt"
+    />
+  </data>
+</openerp>
