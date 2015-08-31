@@ -35,7 +35,8 @@
     "depends": ['sale',
                 'sale_transfer',
                 'sale_samples',
-                'sale_replacement'],
+                'sale_replacement',
+                'sale_intermediary'],
 
     "data": ['sale_view.xml',
              'report/sale_report_view.xml'],

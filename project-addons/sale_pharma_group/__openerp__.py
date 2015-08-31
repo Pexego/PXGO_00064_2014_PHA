@@ -35,7 +35,6 @@
     "data": ['better_zip_view.xml',
              'wizard/assign_zip_agent_wizard_view.xml',
              'sale_agent_view.xml',
-             'sale_order_view.xml',
              'res_partner_view.xml',
              'pharma_group_sale_view.xml',
              'wizard/import_pharma_group_sales_view.xml',

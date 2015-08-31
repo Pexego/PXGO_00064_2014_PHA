@@ -66,6 +66,7 @@
                      attrs="{'invisible': ['|', ('is_revised', '=', False), ('state', 'not in', 'in_rev')]}"/>
                     <button name="approved" states="revised" string="Approve" groups="base.group_user"/>
                     <button name="rejected" states="draft,revised" string="Reject" groups="base.group_user"/>
+                    <button name="button_return_from_rejected" string="Return to stock" states="rejected" type="object" groups="base.group_user"/>
                     <button name="%(stock_lot_reject_partial_action)d" type="action" states="draft,in_rev" string="Reject partial" groups="base.group_user"/>
                     <field name="is_returned" invisible="1"/>
                     <field name="is_returnable" invisible="1"/>

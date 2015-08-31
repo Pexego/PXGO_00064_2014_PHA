@@ -15,7 +15,6 @@
                 </field>
 
                 <field name="client_order_ref" position="after">
-                    <field name="shipping_responsible_id" attrs="{'invisible': [('transfer', '!=', True)], 'required': [('transfer', '=', True)]}"/>
                     <field name="notified_partner_id" attrs="{'invisible': [('transfer', '!=', True)], 'required': [('transfer', '=', True)]}"/>
                 </field>
 
@@ -33,6 +32,8 @@
 
                 <xpath expr="//header/button[@name='action_quotation_send'][2]" position="replace">
                     <button name="action_quotation_send" string="Send by Email" type="object" states="sent,progress,manual,waiting_date,done" groups="base.group_user"/>
+                    <field name="transfer" invisible="1"/>
+                    <button name="transfer_cancel" string="Cancel Order" groups="base.group_user" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('transfer', '=', False)]}"/>
                 </xpath>
             </field>
         </record>

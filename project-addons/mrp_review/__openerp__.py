@@ -26,7 +26,7 @@
     'description': """Adds the state review on mrp.production.""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
-    "depends": ['mrp'],
+    "depends": ['mrp', 'mrp_hoard'],
     "data": ['security/mrp_review_security.xml',
              'mrp_workflow.xml',
              'mrp_view.xml'],

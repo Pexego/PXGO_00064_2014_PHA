@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_production_form_view_add_hoard" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <!--field name="state" position="before">
+                    <button name="get_hoard" string="Make hoard" type="object" states='confirmed'/>
+                </field-->
+                <xpath expr="//div[@class='oe_title']" position="after">
+                    <div class="oe_right">
+                        <button class="oe_inline oe_stat_button" name="get_hoard" type="object"
+                                icon="fa-shopping-cart" attrs="{'invisible': [('final_lot_id', '=', False)]}">
+                            <field string="Hoard" name="hoard_len" widget="statinfo" />
+                        </button>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

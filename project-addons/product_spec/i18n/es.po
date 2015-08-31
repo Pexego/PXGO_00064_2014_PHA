@@ -1,19 +1,72 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* product_spec
+# 	* product_spec
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-04 10:41+0000\n"
-"PO-Revision-Date: 2015-05-04 10:41+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2015-05-14 22:28+0000\n"
+"PO-Revision-Date: 2015-05-19 16:05+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.7.1\n"
+
+#. module: product_spec
+#: model:ir.actions.act_window,help:product_spec.product_normal_action_puchased_tree_view
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click to define a new product.\n"
+"                </p><p>\n"
+"                    You must define a product for everything you purchase, whether\n"
+"                    it's a physical product, a consumable or services you buy to\n"
+"                    subcontractants.\n"
+"                </p><p>\n"
+"                    The product form contains detailed information to improve the\n"
+"                    purchase process: prices, procurement logistics, accounting data,\n"
+"                    available suppliers, etc.\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                    Haga click para definir un nuevo producto.\n"
+"                </p><p>\n"
+"                    Tiene que especificar un producto para todo lo que compre, ya sea\n"
+"                    un producto físico, consumible o servicios que pueda comprar a\n"
+"                    otras empresas.\n"
+"                </p><p>\n"
+"                    El formulario de producto contiene información detallada para mejorar\n"
+"                    el proceso de compra: precios, logística de aprovisionamiento,\n"
+"                    información contable, proveedores disponibles, etc.\n"
+"                </p>\n"
+"            "
+
+#. module: product_spec
+#: model:ir.actions.act_window,help:product_spec.product_category_action_extra_categories
+#: model:ir.actions.act_window,help:product_spec.product_category_action_extra_filtered
+msgid "<p>\n"
+"                Here is a list of all your products classified by category. You\n"
+"                can click a category to get the list of all products linked to\n"
+"                this category or to a child of this category.\n"
+"              </p>\n"
+"            "
+msgstr "<p>\n"
+"Ésta es una lista de todos los productos clasificados por categoría. Puede pulsar una categoría para obtener la lista de todos los productos asociados con esta categoría o con sus categorías hijas.\n"
+"</p>\n"
+"            "
+
+#. module: product_spec
+#: help:product.extra.category,type:0
+msgid "A category of the view type is a virtual category that can be used as the parent of another category to create a hierarchical structure."
+msgstr "Una categoría de tipo vista es una categoría virtual que puede ser usada como padre de otra categoría para crear una estructura jerárquica."
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Account category"
+msgstr "Categoría contable"
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
@@ -33,22 +86,27 @@ msgstr "Análisis"
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_action_weight:0
 msgid "Average filter weight max action"
-msgstr "Average filter weight max action"
+msgstr "Peso filtro promedio acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_alert_weight:0
 msgid "Average filter weight max alert"
-msgstr "Average filter weight max alert"
+msgstr "Peso filtro promedio alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_action_weight:0
 msgid "Average filter weight min action"
-msgstr "Average filter weight min action"
+msgstr "Peso filtro promedio acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_alert_weight:0
 msgid "Average filter weight min alert"
-msgstr "Average filter weight min alert"
+msgstr "Peso filtro promedio alerta mín."
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Base form"
+msgstr "Forma base"
 
 #. module: product_spec
 #: field:product.template,base_form_id:0
@@ -56,26 +114,57 @@ msgid "Base form"
 msgstr "Forma base"
 
 #. module: product_spec
+#: view:product.packing.base:product_spec.product_packing_base_form
+msgid "Base packing format"
+msgstr "Formato de packing base"
+
+#. module: product_spec
 #: field:product.product,cn_code:0
 msgid "CN code"
 msgstr "Código CN"
 
 #. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Category"
+msgstr "Categoría"
+
+#. module: product_spec
+#: field:product.extra.category,type:0
+msgid "Category Type"
+msgstr "Tipo de categoría"
+
+#. module: product_spec
+#: field:product.extra.category,child_id:0
+msgid "Child Categories"
+msgstr "Categorías hijas"
+
+#. module: product_spec
 #: field:product.template,container_id:0
+#: view:product.template:product_spec.product_search_form_view_extended_search
 msgid "Container"
 msgstr "Envasado"
 
 #. module: product_spec
-#: field:product.packing,create_uid:0
+#: field:product.extra.category,create_uid:0
+#: field:product.packing,create_uid:0 field:product.packing.base,create_uid:0
 #: field:product.packing.internal,create_uid:0
+#: field:product.packing.production,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Creado por"
 
 #. module: product_spec
+#: field:product.extra.category,create_date:0
 #: field:product.packing,create_date:0
+#: field:product.packing.base,create_date:0
 #: field:product.packing.internal,create_date:0
+#: field:product.packing.production,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Creado el"
+
+#. module: product_spec
+#: field:product.extra.category,property_account_expense_categ:0
+msgid "Expense Account"
+msgstr "Cuenta de gastos"
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
@@ -90,42 +179,42 @@ msgstr "Peso del filtro"
 #. module: product_spec
 #: field:product.quality.limits,filter_max_action_weight:0
 msgid "Filter weight max action"
-msgstr "Filter weight max action"
+msgstr "Peso filtro acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_max_alert_weight:0
 msgid "Filter weight max alert"
-msgstr "Filter weight max alert"
+msgstr "Peso filtro alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_action_weight:0
 msgid "Filter weight min action"
-msgstr "Filter weight min action"
+msgstr "Peso filtro acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_alert_weight:0
 msgid "Filter weight min alert"
-msgstr "Filter weight min alert"
+msgstr "Peso filtro alerta mín."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_action_weight:0
 msgid "Full case action max"
-msgstr "Full case action max"
+msgstr "Estuche lleno acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_action_weight:0
 msgid "Full case action min"
-msgstr "Full case action min"
+msgstr "Estuche lleno acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_alert_weight:0
 msgid "Full case alert max"
-msgstr "Full case alert max"
+msgstr "Estuche lleno alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_alert_weight:0
 msgid "Full case alert min"
-msgstr "Full case alert min"
+msgstr "Estuche lleno alerta mín."
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
@@ -133,18 +222,25 @@ msgid "Full case weight"
 msgstr "Peso estuche lleno"
 
 #. module: product_spec
-#: view:product.line:product_spec.product_line_form
-#: view:product.packing:product_spec.product_packing_form
-#: view:product.packing.internal:product_spec.product_packing_internal_form
-#: view:product.subline:product_spec.product_subline_form
-msgid "General info."
-msgstr "Información General"
+#: help:product.extra.category,sequence:0
+msgid "Gives the sequence order when displaying a list of product categories."
+msgstr "Muestra el orden de secuencia cuando se muestran las categorías de producto."
 
 #. module: product_spec
+#: field:product.extra.category,id:0
 #: field:product.packing,id:0
+#: field:product.packing.base,id:0
 #: field:product.packing.internal,id:0
+#: field:product.packing.production,id:0
+#: field:product.packing,id:0 field:product.packing.base,id:0
+#: field:product.packing.internal,id:0 field:product.packing.production,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: product_spec
+#: field:product.extra.category,property_account_income_categ:0
+msgid "Income Account"
+msgstr "Cuenta de ingresos"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_add_spec_field
@@ -152,27 +248,73 @@ msgid "Information"
 msgstr "Información"
 
 #. module: product_spec
-#: field:product.packing,write_uid:0
-#: field:product.packing.internal,write_uid:0
-msgid "Last Updated by"
-msgstr "Last Updated by"
+#: view:product.packing.internal:product_spec.product_packing_internal_form
+msgid "Internal packing format"
+msgstr "Formato de packing interno"
 
 #. module: product_spec
-#: field:product.packing,write_date:0
+#: field:product.extra.category,write_uid:0
+#: field:product.packing,write_uid:0 field:product.packing.base,write_uid:0
+#: field:product.packing.internal,write_uid:0
+#: field:product.packing.production,write_uid:0
+msgid "Last Updated by"
+msgstr "Últ. act. por"
+
+#. module: product_spec
+#: field:product.extra.category,write_date:0
+#: field:product.packing,write_date:0 field:product.packing.base,write_date:0
 #: field:product.packing.internal,write_date:0
+#: field:product.packing.production,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Última actualización"
+
+#. module: product_spec
+#: field:product.extra.category,parent_left:0
+msgid "Left Parent"
+msgstr "Padre a la izquierda"
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Line"
+msgstr "Línea"
 
 #. module: product_spec
 #: field:product.container,name:0
+#: field:product.extra.category,complete_name:0
+#: field:product.extra.category,name:0
 #: field:product.form,name:0
 #: field:product.line,name:0
 #: field:product.packing,name:0
+#: field:product.packing.base,name:0
 #: field:product.packing.internal,name:0
+#: field:product.container,name:0 field:product.form,name:0
+#: field:product.line,name:0 field:product.packing,name:0
+#: field:product.packing.base,name:0 field:product.packing.internal,name:0
+#: field:product.packing.production,name:0
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 #: field:product.subline,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: product_spec
+#: selection:product.extra.category,type:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Objective"
+msgstr "Objetivo"
+
+#. module: product_spec
+#: field:product.template,packing:0
+msgid "Packing"
+msgstr "Packing Externo"
+
+#. module: product_spec
+#: field:product.template,packing_base:0
+msgid "Packing Base"
+msgstr "Packing Base"
 
 #. module: product_spec
 #: field:product.template,packing_internal:0
@@ -180,9 +322,19 @@ msgid "Packing Internal"
 msgstr "Packing Interno"
 
 #. module: product_spec
-#: field:product.template,packing:0
-msgid "Packing"
-msgstr "Packing Externo"
+#: field:product.template,packing_production:0
+msgid "Packing Production"
+msgstr "Packing Producción"
+
+#. module: product_spec
+#: view:product.packing:product_spec.product_packing_form
+msgid "Packing format"
+msgstr "Formato de packing externo"
+
+#. module: product_spec
+#: field:product.extra.category,parent_id:0
+msgid "Parent Category"
+msgstr "Categoría padre"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_template_add_limits
@@ -197,23 +349,47 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: product_spec
+#: model:ir.model,name:product_spec.model_product_extra_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: product_spec
+#: view:product.extra.category:product_spec.product_category_tree_view_extra_category
+msgid "Product Extra Categories"
+msgstr "Categorías extra de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.product_category_action_extra_filtered
+msgid "Products by Category"
+msgstr "Productos por categoría"
+
+#. module: product_spec
+#: model:ir.ui.menu,name:product.menu_products_extra_category
+#: model:ir.ui.menu,name:purchase.menu_product_by_extra_category
+#: model:ir.ui.menu,name:stock.menu_product_by_extra_category
+#: model:ir.actions.act_window,name:product_spec.product_category_action_extra_categories
+#: model:ir.actions.act_window,name:product_spec.product_tree_extra_categ_action
+msgid "Products by Extra Category"
+msgstr "Prod. por categ. extra"
+
+#. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_line_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_lines
 #: view:product.line:product_spec.product_line_form
 #: view:product.line:product_spec.product_line_tree
 msgid "Product Lines"
-msgstr "Lineas"
+msgstr "Líneas de producto"
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_tree
 msgid "Product Quality Limits"
-msgstr "Product Quality Limits"
+msgstr "Límites de calidad de producto"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_subline_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_sublines
 msgid "Product SubLines"
-msgstr "SubLineas"
+msgstr "Sublíneas de producto"
 
 #. module: product_spec
 #: model:ir.model,name:product_spec.model_product_template
@@ -241,11 +417,30 @@ msgid "Product forms"
 msgstr "Formas de producto"
 
 #. module: product_spec
+#: view:product.line:product_spec.product_line_form
+msgid "Product line"
+msgstr "Línea de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_packing_base_form
+#: model:ir.ui.menu,name:product_spec.menu_product_product_packing_base
+#: view:product.packing.base:product_spec.product_packing_base_tree
+msgid "Product packing base"
+msgstr "Packing base de producto"
+
+#. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_packing_internal_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_packing_internals
 #: view:product.packing.internal:product_spec.product_packing_internal_tree
 msgid "Product packing internals"
-msgstr "Product packing internals"
+msgstr "Packing interno de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_packing_production_form
+#: model:ir.ui.menu,name:product_spec.menu_product_product_packing_production
+#: view:product.packing.production:product_spec.product_packing_production_tree
+msgid "Product packing production"
+msgstr "Packing producción de producto"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_packing_form
@@ -253,20 +448,36 @@ msgstr "Product packing internals"
 #: view:product.packing:product_spec.product_packing_form
 #: view:product.packing:product_spec.product_packing_tree
 #: view:product.packing.internal:product_spec.product_packing_internal_form
+#: view:product.packing.production:product_spec.product_packing_production_form
 msgid "Product packings"
-msgstr "Product packings"
+msgstr "Packing externo de producto"
+
+#. module: product_spec
+#: view:product.packing.base:product_spec.product_packing_base_form
+msgid "Product packings base"
+msgstr "Packing base de producto"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_quality_limits_form
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Product quality limits"
-msgstr "Product quality limits"
+msgstr "Límites de calidad de producto"
+
+#. module: product_spec
+#: view:product.subline:product_spec.product_subline_form
+msgid "Product subline"
+msgstr "Sublínea de producto"
 
 #. module: product_spec
 #: view:product.subline:product_spec.product_subline_form
 #: view:product.subline:product_spec.product_subline_tree
 msgid "Product sublines"
-msgstr "Sublineas"
+msgstr "Sublíneas de producto"
+
+#. module: product_spec
+#: view:product.packing.production:product_spec.product_packing_production_form
+msgid "Production packing format"
+msgstr "Formato packing producción"
 
 #. module: product_spec
 #: model:ir.ui.menu,name:product_spec.menu_product_quality_limits
@@ -274,12 +485,46 @@ msgid "Quality limits"
 msgstr "Límites calidad"
 
 #. module: product_spec
+#: field:product.extra.category,parent_right:0
+msgid "Right Parent"
+msgstr "Padre a la derecha"
+
+#. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Samples"
 msgstr "Muestras"
+
+#. module: product_spec
+#: field:product.extra.category,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_add_spec_field
 msgid "Specs"
 msgstr "Especificaciones"
 
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Subline"
+msgstr "Sublínea"
+
+#. module: product_spec
+#: help:product.extra.category,property_account_expense_categ:0
+msgid "This account will be used for invoices to value expenses."
+msgstr "Esta cuenta será usada para facturas de compras."
+
+#. module: product_spec
+#: help:product.extra.category,property_account_income_categ:0
+msgid "This account will be used for invoices to value sales."
+msgstr "Esta cuenta será usada para facturas de ventas."
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Type"
+msgstr "Tipo"
+
+#. module: product_spec
+#: selection:product.extra.category,type:0
+msgid "View"
+msgstr "Vista"

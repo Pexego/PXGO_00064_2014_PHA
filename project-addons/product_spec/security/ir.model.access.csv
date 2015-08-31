@@ -4,4 +4,8 @@ access_product_container,access_product_container,model_product_container,base.g
 access_product_line,access_product_line,model_product_line,base.group_user,1,1,1,1
 access_product_subline,access_product_subline,model_product_subline,base.group_user,1,1,1,1
 access_product_packing,access_product_packing,model_product_packing,base.group_user,1,1,1,1
+access_product_packing_internal,access_product_packing_internal,model_product_packing_internal,base.group_user,1,1,1,1
+access_product_packing_production,access_product_packing_production,model_product_packing_production,base.group_user,1,1,1,1
+access_product_packing_base,access_product_packing_base,model_product_packing_base,base.group_user,1,1,1,1
 access_product_quality_limits,access_product_quality_limits,model_product_quality_limits,base.group_user,1,1,1,1
+access_product_extra_category,access_product_extra_category,model_product_extra_category,base.group_user,1,1,1,1

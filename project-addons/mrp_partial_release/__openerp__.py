@@ -23,11 +23,11 @@
     'name': "mrp partial release",
     'version': '1.0',
     'category': 'mrp',
-    'description': """""",
+    'description': """Permite liberar parte de la producción antes de finalizar""",
     'author': 'Pexego',
     'website': 'www.pexego.es',
     "depends": ['mrp', 'mrp_review', 'quality_protocol_report', 'quality_management_menu'],
-    "data": ['security/mrp_release_security.xml', 'wizard/mrp_release.xml',
+    "data": ['wizard/mrp_release.xml',
              'views/mrp_view.xml', 'views/mrp_partial_release_log_view.xml',
              'security/ir.model.access.csv'],
     "installable": True

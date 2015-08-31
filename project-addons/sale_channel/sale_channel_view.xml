@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_sale_channel_form" model="ir.ui.view">
+        <field name="name">sale_channel.form</field>
+        <field name="model">sale_channel</field>
+        <field name="arch" type="xml">
+            <form string="Canal de venta">      
+                <label for="name">Nombre</label>              
+                <field name="name" />
+            </form>
+        </field>
+    </record>  
+    <record id="view_sale_channel_tree" model="ir.ui.view">
+        <field name="name">sale_channel.tree</field>
+        <field name="model">sale_channel</field>
+        <field name="arch" type="xml">
+            <tree string="Canales de venta">                
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_sale_channel_search" model="ir.ui.view">
+        <field name="name">sale_channel.search</field>
+        <field name="model">sale_channel</field>
+        <field name="arch" type="xml">
+            <search string="Buscar canales de venta">
+                <field name="name"/>                
+            </search>
+        </field>
+    </record>
+    
+    <record id="action_view_menuitem" model="ir.actions.act_window">
+        <field name="name">Canales de venta</field>
+        <field name="res_model">sale_channel</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_sale_channel" parent="base.menu_base_config" name="Canales de venta" sequence="1" action="action_view_menuitem" />
+</data>
+</openerp>

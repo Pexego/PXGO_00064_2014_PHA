@@ -18,8 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 from openerp import models, fields, api, _, exceptions
 
 
@@ -47,6 +45,11 @@ class release(models.TransientModel):
     def onchange_release_qty(self):
         production = self.env['mrp.production'].browse(
             self.env.context.get('active_id', False))
+        for depends_lot in production.final_lot_id.state_depends:
+            if depends_lot.state != 'approved':
+                raise exceptions.Warning(
+                    _('material lot error'),
+                    _('Material lot %s not approved') % depends_lot.name)
         total = sum([x.product_uom_qty for x in production.move_created_ids])
         if total:
             if self.release_qty > total:
@@ -62,8 +65,9 @@ class release(models.TransientModel):
             {'mode': 'consume_produce'})
         produce_wiz.product_qty = self.release_qty
         produce_wiz.consume_lines = False
-        produce_wiz.do_produce()
+        produce_wiz.with_context(ignore_child=True).do_produce()
         production = self.env['mrp.production'].browse(
             self.env.context.get('active_id', False))
-        self.env['mrp.partial.release.log'].create_release_log(production, self)
+        self.env['mrp.partial.release.log'].create_release_log(production,
+                                                               self)
         return True

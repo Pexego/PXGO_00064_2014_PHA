@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_production_control,access_mrp_production_control,model_mrp_production_control,base.group_user,1,1,1,1
+access_mrp_wender_temp,access_mrp_wender_temp,model_mrp_wender_temp,base.group_user,1,1,1,1
+access_mrp_print_comprobations,access_mrp_print_comprobations,model_mrp_print_comprobations,base.group_user,1,1,1,1
+access_mrp_wrap_comprobations,access_mrp_wrap_comprobations,model_mrp_wrap_comprobations,base.group_user,1,1,1,1
+access_mrp_print_comprobations_sec,access_mrp_print_comprobations_sec,model_mrp_print_comprobations_sec,base.group_user,1,1,1,1
+access_mrp_coffin_works,access_mrp_coffin_works,model_mrp_coffin_works,base.group_user,1,1,1,1
+access_mrp_qty_produced,access_mrp_qty_produced,model_mrp_qty_produced,base.group_user,1,1,1,1

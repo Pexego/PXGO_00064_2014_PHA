@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_sales_abroad_form" model="ir.ui.view">
+            <field name="name">sales.abroad.form</field>
+            <field name="model">res.sales.abroad</field>
+            <field name="arch" type="xml">
+                <form string="Sales abroad documents" version="7.0">
+                    <div class="oe_title oe_left">
+                        <h3>
+                            <label for="documents"/>
+                            <field name="documents"/>
+                        </h3>
+                        <label for="country_id"/>
+                        <field name="country_id"/>
+                    </div>
+                    <separator/>
+                    <label for="attachments"/>
+                    <field name="attachments"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_sales_abroad_tree" model="ir.ui.view">
+            <field name="name">sales.abroad.tree</field>
+            <field name="model">res.sales.abroad</field>
+            <field name="arch" type="xml">
+                <tree string="Sales abroad documents">
+                    <field name="documents"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_sales_abroad_search" model="ir.ui.view">
+            <field name="name">sales.abroad.search</field>
+            <field name="model">res.sales.abroad</field>
+            <field name="arch" type="xml">
+                <search string="Search sales abroad documents">
+                    <field name="documents"/>
+                    <field name="country_id"/>
+                </search>
+            </field>
+        </record>
+        <record id="action_sales_abroad" model="ir.actions.act_window">
+            <field name="name">Sales abroad</field>
+            <field name="res_model">res.sales.abroad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_sales_abroad_search"/>
+        </record>
+
+        <menuitem id="menu_sales_abroad" action="action_sales_abroad" parent="base.menu_base_config" sequence="80" groups="base.group_no_one"/>
+
+        <!-- INHERITED VIEWS -->
+
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.sales.abroad.form</field>
+            <field name="model">stock.picking</field>
+            <field eval="12" name="priority"/>
+            <field name="inherit_id" ref="stock.view_picking_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='do_enter_transfer_details']" position="before">
+                    <field name="docs_confirmed_check" invisible="1"/>
+                    <button name="pre_transfer_checks" string="Check documents" states="assigned,partially_available" groups="stock.group_stock_user" type="object" class="oe_highlight" attrs="{'invisible': ['|',('docs_confirmed_check', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//button[@name='do_enter_transfer_details']" position="replace">
+                    <button name="do_enter_transfer_details" string="Transfer" states="assigned,partially_available" groups="stock.group_stock_user" type="object" class="oe_highlight" attrs="{'invisible': ['|',('docs_confirmed_check', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_tree" model="ir.ui.view">
+            <field name="name">stock.move.sales.abroad.tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"></field>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/button[@name='action_done']" position="before">
+                    <field name="docs_confirmed_check" invisible="1"/>
+                    <button name="pre_move_checks" states="confirmed,assigned" string="Check documents" type="object" groups="stock.group_stock_user" icon="gtk-paste-v" help="Done" attrs="{'invisible': ['|',('docs_confirmed_check', '=', True)]}"/>
+                </xpath>
+                <xpath expr="/tree/button[@name='action_done']" position="replace">
+                    <button name="action_done" states="confirmed,assigned" string="Process" type="object" groups="stock.group_stock_user" icon="gtk-go-forward" help="Done" attrs="{'invisible': ['|',('docs_confirmed_check', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">stock.move.sales.abroad.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_done']" position="before">
+                    <field name="docs_confirmed_check" invisible="1"/>
+                    <button name="pre_move_checks" states="draft,assigned,confirmed" string="Check documents" type="object" class="oe_highlight" attrs="{'invisible': ['|',('docs_confirmed_check', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//button[@name='action_done']" position="replace">
+                    <button name="action_done" states="draft,assigned,confirmed" string="Process Entirely" type="object" class="oe_highlight" attrs="{'invisible': ['|',('docs_confirmed_check', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_wave_form" model="ir.ui.view">
+            <field name="name">stock.picking.wave.sales.abroad.form</field>
+            <field name="model">stock.picking.wave</field>
+            <field name="inherit_id" ref="stock_picking_wave.view_picking_wave_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='done']" position="before">
+                    <field name="docs_confirmed_check" invisible="1"/>
+                    <button name="pre_wave_checks" states="in_progress" string="Check documents" type="object" class="oe_highlight" attrs="{'invisible': ['|',('docs_confirmed_check', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//button[@name='done']" position="replace">
+                    <button name="done" states="in_progress" string="Done" type="object" class="oe_highlight" attrs="{'invisible': ['|',('docs_confirmed_check', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//button[@name='action_assign']" position="before">
+                    <field name="docs_confirmed_check" invisible="1"/>
+                    <button name="pre_transfer_checks" string="Confirm documents" type="object" icon="gtk-paste-v" attrs="{'invisible': [('docs_confirmed_check', '=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

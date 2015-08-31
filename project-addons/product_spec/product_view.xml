@@ -26,7 +26,6 @@
                             <field name="quality_limits"/>
                         </group>
                     </page>
-
                 </notebook>
             </field>
         </record>
@@ -41,20 +40,22 @@
                         <group colspan="4">
                             <group>
                                 <label for="qty"/>
-                               <div style="width: 80px;">
-                                 <field name="qty" class="oe_inline"/><field name="udm" class="oe_inline"/>
+                                <div style="width: 120px;">
+                                    <field name="qty" class="oe_inline"/><field name="udm" class="oe_inline"/>
                                 </div>
                                 <field name="line"/>
                                 <field name="subline"/>
                                 <field name="container_id"/>
                                 <field name="base_form_id"/>
+                                <field name="clothing"/>
                              </group>
                             <group>
-                                <field name="clothing"/>
                                 <field name="country"/>
                                 <field name="customer"/>
-                                <field name="packing"/>
+                                <field name="packing_base"/>
+                                <field name="packing_production"/>
                                 <field name="packing_internal"/>
+                                <field name="packing"/>
                                 <field name="objective"/>
                             </group>
                         </group>
@@ -63,17 +64,51 @@
             </field>
         </record>
 
-        <record id="product_search_form_view_add_cn" model="ir.ui.view">
-            <field name="name">product.product.search.add_cn</field>
-            <field name="model">product.product</field>
-            <field name="inherit_id" ref="product.product_template_search_view"/>
+        <record id="product_template_tree_view_extended" model="ir.ui.view">
+            <field name="name">product.template.tree.view.extended</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
             <field name="arch" type="xml">
-                <field name="name" position="replace">
-                   <field name="name" string="Product" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('cn_code', 'ilike', self)]"/>
+                <field name="name" position="after">
+                    <field name="default_code"/>
+                    <field name="ean13"/>
                 </field>
             </field>
         </record>
 
+        <record id="product_search_form_view_extended_search" model="ir.ui.view">
+            <field name="name">product.template.search.extended_search</field>
+            <field name="model">product.template</field>
+            <field name="priority" eval="10"/>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field
+                        name="name"
+                        string="Product"
+                        filter_domain="['|','|','|',('default_code','ilike',self),('ean13','ilike',self),('cn_code','ilike',self),('name','ilike',self)]"
+                    />
+                </field>
+                <field name="categ_id" position="after">
+                    <field name="categ_ids"/>
+                </field>
+                <separator position="after">
+                    <field name="default_code"/>
+                    <field name="ean13"/>
+                    <field name="cn_code"/>
+                </separator>
+                <filter string='Category' position="replace">
+                    <filter string='Account category' domain="[]" context="{'group_by' : 'categ_id'}"/>
+                </filter>
+                <filter string='Type' position="after">
+                    <filter string='Line' domain="[]" context="{'group_by' : 'line'}"/>
+                    <filter string='Subline' domain="[]" context="{'group_by' : 'subline'}"/>
+                    <filter string='Container' domain="[]" context="{'group_by' : 'container_id'}"/>
+                    <filter string='Base form' domain="[]" context="{'group_by' : 'base_form_id'}"/>
+                    <filter string='Objective' domain="[]" context="{'group_by' : 'objective'}"/>
+                </filter>
+            </field>
+        </record>
 
         <record model="ir.ui.view" id="product_line_tree">
             <field name="name">product.line.tree</field>
@@ -94,7 +129,7 @@
                 <form string="Product Lines">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Product line" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -135,7 +170,7 @@
                 <form string="Product sublines">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Product subline" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -154,13 +189,13 @@
 
         </record>
 
-<menuitem action="action_product_subline_form"
+        <menuitem action="action_product_subline_form"
             id="menu_product_product_sublines"
             parent="product.prod_config_main"/>
 
 
         <!-- product.packing views -->
-    <record model="ir.ui.view" id="product_packing_tree">
+        <record model="ir.ui.view" id="product_packing_tree">
             <field name="name">product.packing.tree</field>
             <field name="model">product.packing</field>
             <field name="type">tree</field>
@@ -179,7 +214,7 @@
                 <form string="Product packings">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Packing format" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -198,13 +233,13 @@
 
         </record>
 
-<menuitem action="action_product_packing_form"
+        <menuitem action="action_product_packing_form"
             id="menu_product_product_packings"
             parent="product.prod_config_main"/>
 
 
         <!-- product.packing.internal views -->
-    <record model="ir.ui.view" id="product_packing_internal_tree">
+        <record model="ir.ui.view" id="product_packing_internal_tree">
             <field name="name">product.packing.internal.tree</field>
             <field name="model">product.packing.internal</field>
             <field name="type">tree</field>
@@ -223,7 +258,7 @@
                 <form string="Product packings">
                     <sheet>
                         <group>
-                            <separator string="General info." colspan="4"/>
+                            <separator string="Internal packing format" colspan="4"/>
                             <field name="name" select="1"/>
                         </group>
                     </sheet>
@@ -242,12 +277,94 @@
 
         </record>
 
-<menuitem action="action_product_packing_internal_form"
+        <menuitem action="action_product_packing_internal_form"
             id="menu_product_product_packing_internals"
             parent="product.prod_config_main"/>
 
+        <!-- product.packing.production views -->
+        <record model="ir.ui.view" id="product_packing_production_tree">
+            <field name="name">product.packing.production.tree</field>
+            <field name="model">product.packing.production</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product packing production">
+                    <field name="name"  select="1"/>
+                </tree>
+            </field>
+        </record>
 
-    <!-- product.form views -->
+        <record model="ir.ui.view" id="product_packing_production_form">
+            <field name="name">Product packing.production</field>
+            <field name="model">product.packing.production</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product packings">
+                    <sheet>
+                        <group>
+                            <separator string="Production packing format" colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_product_packing_production_form">
+            <field name="name">Product packing production</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.packing.production</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_packing_production_tree"/>
+
+        </record>
+
+        <menuitem action="action_product_packing_production_form"
+            id="menu_product_product_packing_production"
+            parent="product.prod_config_main"/>
+
+        <!-- product.packing.base views -->
+        <record model="ir.ui.view" id="product_packing_base_tree">
+            <field name="name">product.packing.base.tree</field>
+            <field name="model">product.packing.base</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product packing base">
+                    <field name="name" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_packing_base_form">
+            <field name="name">Product packing.base</field>
+            <field name="model">product.packing.base</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product packings base">
+                    <sheet>
+                        <group>
+                            <separator string="Base packing format" colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_product_packing_base_form">
+            <field name="name">Product packing base</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.packing.base</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_packing_base_tree"/>
+        </record>
+
+        <menuitem action="action_product_packing_base_form"
+            id="menu_product_product_packing_base"
+            parent="product.prod_config_main"/>
+
+        <!-- product.form views -->
         <record id="product_form_view" model="ir.ui.view">
             <field name="name">product.form.form</field>
             <field name="model">product.form</field>
@@ -409,7 +526,6 @@
             </field>
         </record>
 
-
         <record model="ir.actions.act_window" id="action_product_quality_limits_form">
             <field name="name">Product quality limits</field>
             <field name="type">ir.actions.act_window</field>
@@ -417,9 +533,193 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="product_quality_limits_tree"/>
-
         </record>
-        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="base.menu_base_config" action="action_product_quality_limits_form"/>
+        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="quality_management_menu.menu_quality_management_config" action="action_product_quality_limits_form"/>
 
+        <!-- Sales: Products default to tree view -->
+        <!--record id="product_template_action_tree_view" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="inherit_id" ref="product.product_template_action"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="context">{"search_default_filter_to_sell":1}</field>
+        </record-->
+        <!-- Sales: Overwrite menuitem to point to the new action >
+        <menuitem action="product_template_action_tree_view" id="product.menu_product_template_action"
+                  name="Products list"
+                  parent="base.menu_product" sequence="1"
+        /-->
+
+        <!-- Purchases: Products default to tree view >
+        <record id="product_normal_action_puchased_tree_view" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="inherit_id" ref="purchase.product_normal_action_puchased"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_filter_to_purchase":1}</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new product.
+                </p><p>
+                    You must define a product for everything you purchase, whether
+                    it's a physical product, a consumable or services you buy to
+                    subcontractants.
+                </p><p>
+                    The product form contains detailed information to improve the
+                    purchase process: prices, procurement logistics, accounting data,
+                    available suppliers, etc.
+                </p>
+            </field>
+        </record-->
+        <!-- Purchases: Overwrite menuitem to point to the new action >
+        <menuitem name="Products" id="purchase.menu_procurement_partner_contact_form"
+                  action="product_normal_action_puchased_tree_view"
+                  parent="purchase.menu_procurement_management_product"
+        /-->
+
+        <!-- Warehouse: Products default to tree view and show all products >
+        <record id="product_template_action_warehouse" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="inherit_id" ref="product.product_template_action"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="context">{}</field>
+        </record -->
+        <!-- Warehouse: Overwrite menuitems to point to the new action >
+        <menuitem action="product_template_action_warehouse"
+                  id="stock.menu_stock_products_menu"
+                  parent="stock.menu_stock_product"
+                  sequence="1"
+        />
+        <menuitem action="product_template_action_warehouse"
+                  id="stock.menu_product_template_config_stock"
+                  parent="stock.menu_product_in_config_stock"
+                  sequence="1"
+        /-->
+
+        <!-- MRP: Products default to tree view >
+        <record id="product_template_action_mrp" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="inherit_id" ref="mrp.product_template_action"/>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="context">{}</field>
+        </record-->
+        <!-- MRP: Overwrite menuitem to point to the new action >
+        <menuitem action="product_template_action_mrp"
+                  name="Products"
+                  id="mrp.menu_mrp_product_form"
+                  parent="mrp.menu_mrp_bom"
+        /-->
+
+        <!-- Separate normal categories from extra categories -->
+        <record id="product_category_action_extra_filtered" model="ir.actions.act_window">
+            <field name="name">Products by Category</field>
+            <field name="inherit_id" ref="product.product_category_action"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.category</field>
+            <field name="domain">[('parent_id','=',False),('name','=','Todos')]</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="product.product_category_tree_view"/>
+            <field name="help" type="html">
+              <p>
+                Here is a list of all your products classified by category. You
+                can click a category to get the list of all products linked to
+                this category or to a child of this category.
+              </p>
+            </field>
+        </record>
+        <!-- Sales menu -->
+        <menuitem action="product_category_action_extra_filtered"
+                  id="product.menu_products_category"
+                  parent="base.menu_product"
+                  sequence="30"
+                  groups="base.group_no_one"
+        />
+        <!-- Purchases menu -->
+        <menuitem action="product_category_action_extra_filtered"
+                  id="purchase.menu_product_by_category_purchase_form"
+                  parent="purchase.menu_procurement_management_product"
+                  sequence="11"
+        />
+        <!-- Warehouse menu -->
+        <menuitem action="product_category_action_extra_filtered"
+                  id="stock.menu_product_by_category_stock_form"
+                  parent="stock.menu_stock_product"
+                  sequence="11"
+                  groups="base.group_no_one"
+        />
+
+        <!-- Extra categories -->
+        <record id="product_category_tree_view_extra_category" model="ir.ui.view">
+            <field name="name">product.extra.category.tree</field>
+            <field name="model">product.extra.category</field>
+            <field name="field_parent">child_id</field>
+            <field name="arch" type="xml">
+                <tree toolbar="True" string="Product Extra Categories">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_category_action_extra_categories" model="ir.actions.act_window">
+            <field name="name">Products by Extra Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.extra.category</field>
+            <field name="domain">[('parent_id','=',False),('name','=','NoContable')]</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="product_category_tree_view_extra_category"/>
+            <field name="help" type="html">
+              <p>
+                Here is a list of all your products classified by category. You
+                can click a category to get the list of all products linked to
+                this category or to a child of this category.
+              </p>
+            </field>
+        </record>
+        <!-- Sales menu -->
+        <menuitem action="product_category_action_extra_categories"
+                  id="product.menu_products_extra_category"
+                  parent="base.menu_product"
+                  sequence="31"
+                  groups="base.group_no_one"
+        />
+        <!-- Purchases menu -->
+        <menuitem action="product_category_action_extra_categories"
+                  id="purchase.menu_product_by_extra_category"
+                  parent="purchase.menu_procurement_management_product"
+                  sequence="12"
+        />
+        <!-- Warehouse menu -->
+        <menuitem action="product_category_action_extra_categories"
+                  id="stock.menu_product_by_extra_category"
+                  parent="stock.menu_stock_product"
+                  sequence="12"
+                  groups="base.group_no_one"
+        />
+        <record id="product_tree_extra_categ_action" model="ir.actions.act_window">
+            <field name="name">Products by Extra Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{'categ_ids':active_id, 'search_default_categ_ids':active_id}</field>
+        </record>
+        <record id="ir_product_extra_category_open" model="ir.values">
+            <field name="key2" eval="'tree_but_open'"/>
+            <field name="model" eval="'product.extra.category'"/>
+            <field name="name">Products by Extra Category</field>
+            <field eval="'ir.actions.act_window,%d'%product_tree_extra_categ_action" name="value"/>
+        </record>
     </data>
 </openerp>

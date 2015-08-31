@@ -30,6 +30,70 @@ var JQUERY_UI_TYPES = {
 
 var to_remove_rows = [];
 
+function check_name(event, fill_field){
+    var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
+    var element_id = event.target.id;
+    var table = $('#'.concat(element_id)).closest('table');
+    var row = $('#'.concat(element_id)).closest('tr');
+    var insert_to_table = false;
+    if(typeof table.attr('insert_to_table') !== typeof undefined && table.attr('insert_to_table') !== false){
+        insert_to_table = table.attr('insert_to_table');
+    }
+    var text = event.target.value;
+    var tablename = element_id.substring(0, element_id.indexOf('_'))
+    var element_index = element_id.substring(element_id.lastIndexOf('_'))
+    var fill_id = tablename.concat('_').concat(fill_field).concat(element_index)
+    var field_name = event.target.getAttribute('name');
+    field_name = field_name.substring(field_name.indexOf('_')+1, field_name.lastIndexOf('_'))
+    var fill_value = ''
+    if (text.length !== 0){
+        var model = event.target.getAttribute('model');
+        if (typeof model !== typeof undefined && model !== false){
+            var obj = new openerp.web.Model(model, context);
+            obj.call('search', [[['name', '=', text]]]).then(function(result) {
+                if(result.length === 0){
+                    event.target.style.backgroundColor = "red";
+                    $('input#'.concat(fill_id)).val('');
+                }
+                else{
+                    event.target.setAttribute('quality_protocol_value', result);
+                    event.target.style.backgroundColor = "transparent";
+                    if(fill_field != ''){
+                        obj.query([fill_field]).filter([['id', 'in', result]]).context(context).all().then(function(result){
+                            fill_value = result[0][fill_field][1];
+                            $('input#'.concat(fill_id)).val(fill_value);
+                            //Se hace dentro de la funcion para esperar por el resultado
+                            if(insert_to_table !== false){
+                                var row_id = row.find('input[id^='.concat(tablename).concat('_id]')).val();
+                                var same_id = $('input[id^='.concat(insert_to_table).concat('_id][value='.concat(row_id).concat(']')))
+                                //Si no existe en la otra tabla una fila con el mismo id se crea
+                                if(!same_id.length){
+                                    var row_dict = {id: row_id}
+                                    row_dict[field_name] = text;
+                                    row_dict[fill_field] = fill_value;
+                                    $('table[id=' + insert_to_table + ']').appendGrid('appendRow', [row_dict]);
+                                }
+                                else{
+                                    //Se actualizan los datos de la otra fila
+                                    var same_tr = same_id.closest('tr');
+                                    same_tr.find('input[id^=' + insert_to_table + '_' + field_name + ']').val(text)
+                                    if(fill_field != ''){
+                                        same_tr.find('input[id^=' + insert_to_table + '_' + fill_field + ']').val(fill_value)
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                }
+            });
+        }
+    }
+    else{
+        event.target.style.backgroundColor = "transparent";
+    }
+}
+
 function isDateTime(date) {
     try
     {
@@ -135,11 +199,13 @@ $(function () {
         var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
         $(this).find('.quality_field').each(function() {
             var field_to_represent = $(this).attr("qfield");
-            var filter = $(this).attr("filter") ? $(this).attr("filter").split(",") : false;
-            filter = filter ? [[filter[0], filter[1], filter[2]]] : [];
+            var filter = $(this).attr("filter") ? JSON.parse($(this).attr("filter")) : [];
             var filter_model = $(this).attr("filter-model")
             var columns = $(this).attr("columns").split(",");
             var columns_options = $(this).attr("columns-options") ? eval('(' + $(this).attr("columns-options") + ')') : {};
+            //Se establece que en ciertas columnas al insertar nuevas mediante el boton no se aplique alguna opcion.
+            var columns_no_insert_options = $(this).attr("no-insert-options") ? eval('(' + $(this).attr("no-insert-options") + ')') : {};
+            var extra_attrs = $(this).attr("extra_attrs") ? eval('(' + $(this).attr("extra_attrs") + ')') : {};
             var columns_widths = $(this).attr("columns-widths") ? $(this).attr("columns-widths").split(',') : [];
             var no_delete_option = $(this).attr("nodelete") ? $(this).attr("nodelete") : false;
             var no_insert_option = $(this).attr("noinsert")  ? $(this).attr("noinsert") : false;
@@ -165,8 +231,18 @@ $(function () {
                                 var ctrlProp = {};
                                 var displayCss = {};
                                 var uiOption = {};
+                                var extraAttrs = {};
                                 if (fields[key].required) {
                                     ctrlProp['required'] = true;
+                                }
+                                if (columns_no_insert_options && columns_no_insert_options[key] == "disabled") {
+                                    ctrlProp['insert_no_disabled'] = true;
+                                }
+
+                                if (extra_attrs && extra_attrs[key]) {
+                                    for(Exkey in extra_attrs[key]){
+                                        extraAttrs[Exkey] = extra_attrs[key][Exkey]
+                                    }
                                 }
                                 if (columns_options && columns_options[key] == "disabled" || $("#done").length) {
                                     ctrlProp['disabled'] = true;
@@ -180,7 +256,7 @@ $(function () {
                                     uiOption['dateFormat'] = 'dd/mm/yy'
                                 }
 
-                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp, displayCss: displayCss, uiOption: uiOption});
+                                table_columns.push({name: key, display: fields[key].string, type: JQUERY_UI_TYPES[fields[key].type], ctrlProp: ctrlProp, displayCss: displayCss, uiOption: uiOption, extraAttrs: extraAttrs});
                             }
 
                         }
@@ -365,147 +441,197 @@ function send_form_server() {
     var write_vals = {};
     $('#all_data').find('.view').each(function() {
         if ($(this).find("form").length) {
-            var base_model = $(this).find("form").attr("model");
-            var base_record = Number($(this).find("form").attr("record"));
-            var dat = decodeURIComponent($(this).find("form").serialize());
-            index = base_model + ',' + base_record
-            if (!(index in write_vals)) {
-                write_vals[index] = {};
-            }
-            //Se recorren las tablas con los datos de campos one2many
-            $(this).find("form").find(".quality_field").each(function() {
-                var form_field = $(this).attr("qfield");
-                var columns_default = $(this).attr("columns-default") ? eval('(' + $(this).attr("columns-default") + ')') : {};
-                if(!(form_field in write_vals[index])){
-                    write_vals[index][form_field] = []
+            $(this).find("form").each(function(){
+                var base_model = $(this).attr("model");
+                var base_record = Number($(this).attr("record"));
+                var dat = decodeURIComponent($(this).serialize());
+                index = base_model + ',' + base_record
+                if (!(index in write_vals)) {
+                    write_vals[index] = {};
                 }
+                //Se recorren las tablas con los datos de campos one2many
+                $(this).find(".quality_field").each(function() {
+                    var form_field = $(this).attr("qfield");
+                    var columns_default = $(this).attr("columns-default") ? eval('(' + $(this).attr("columns-default") + ')') : {};
+                    if(!(form_field in write_vals[index])){
+                        write_vals[index][form_field] = []
+                    }
 
-                var compare = $(this).attr("compare");
-                if(compare){
-                    compare = compare.split(",");
-                }
-                var table_id = $(this).attr("id");
-                var records = {};
-                var elements = dat.split('&');
-                for (var i = 0; i< elements.length; i++) {
-                    elements[i] = elements[i].replace('+', ' ')
-                    if (!elements[i].startsWith(table_id)){
-                        continue;
+                    var compare = $(this).attr("compare");
+                    if(compare){
+                        compare = compare.split(",");
                     }
-                    if (elements[i].contains("rowOrder")) {
-                        continue;
-                    }
-                    var vals = elements[i].split('=');
-                    var def = vals[0].split("_");
-                    var row_index = def.pop();
-                    var elem_id = def[0];
-                    var field_name = def.join("_").replace(elem_id + "_", "");
-                    //Se busca el campo para comparar valores.
-                    if (row_index in records) {
-                        records[row_index][field_name] = vals[1];
-                    }
-                    else {
-                        records[row_index] = {};
-                        records[row_index][field_name] = vals[1];
-                    }
-                    if(columns_default){
-                        console.log('');
-                    }
-                    if(columns_default.hasOwnProperty(field_name)){
-                        records[row_index][field_name] = columns_default[field_name];
-                    }
-                    if(compare && compare.length && field_name == compare[0]){
-                        var compare_name = table_id + '_' + compare[1] + '_' + row_index;
-                        if($("input[name='" + compare_name + "']").length){
-                            var to_compare_val = $("input[name='" + compare_name + "']").val();
-                            if(vals[1] != to_compare_val){
-                                alert(field_name + ', ' + compare[1]);
-                                throw new Error("Something went badly wrong!");
-                            }
+                    var table_id = $(this).attr("id");
+                    var records = {};
+                    var elements = dat.split('&');
+                    for (var i = 0; i< elements.length; i++) {
+                        elements[i] = elements[i].replace('+', ' ')
+                        if (!elements[i].startsWith(table_id)){
+                            continue;
                         }
-                    }
-                };
-                var to_delete_rows = []
-                for (var row in records) {
-                    var empty = true;
-                    for (var column in records[row]) {
-                        if (records[row][column] != "") {
-                            empty = false;
+                        if (elements[i].contains("rowOrder")) {
+                            continue;
+                        }
+                        var vals = elements[i].split('=');
+                        var def = vals[0].split("_");
+                        var row_index = def.pop();
+                        var elem_id = def[0];
+                        var field_name = def.join("_").replace(elem_id + "_", "");
+                        //Se busca el campo para comparar valores.
+                        if (row_index in records) {
+                            records[row_index][field_name] = vals[1];
                         }
                         else {
-                            records[row][column] = null;
+                            records[row_index] = {};
+                            records[row_index][field_name] = vals[1];
                         }
-                    }
-                    if (empty) {
-                        to_delete_rows.push(row);
-                    }
-                }
-
-                for (var i = 0; i <  to_delete_rows.length; i++) {
-                    delete records[to_delete_rows[i]];
-                }
-
-                if (to_remove_rows.length != 0) {
-                    var fields = {};
-                    for (var i=0;i<to_remove_rows.length;i++) {
-                        write_vals[index][form_field].push([2, to_remove_rows[i]]);
-                    }
-                    to_remove_rows = [];
-                }
-
-                for (var row in records) {
-                    for (var column in records[row]) {
-                        if (isDateTime(records[row][column]) === true) {
-                            records[row][column] = openerp.web.datetime_to_str(Date.parse(records[row][column]));
+                        if(columns_default.hasOwnProperty(field_name)){
+                            records[row_index][field_name] = columns_default[field_name];
                         }
-                        else if (isDate(records[row][column]) === true) {
-                            records[row][column] = openerp.web.date_to_str(Date.parseExact(records[row][column], "d/M/yyyy"));
-                        }
-                    }
-
-                    var fields = {};
-                    if (records[row].id) {
-                        var update_id = records[row].id;
-                        delete records[row].id;
-                        var finded = false;
-                        for(var arr_index = 0; arr_index < write_vals[index][form_field].length; arr_index++){
-                            if(write_vals[index][form_field][arr_index][0] == 1 && write_vals[index][form_field][arr_index][1] == Number(update_id)){
-                                write_vals[index][form_field][arr_index][2] = $.extend(write_vals[index][form_field][arr_index][2],records[row]);
-                                finded = true;
+                        if(compare && compare.length && field_name == compare[0]){
+                            var compare_name = table_id + '_' + compare[1] + '_' + row_index;
+                            if($("input[name='" + compare_name + "']").length){
+                                var to_compare_val = $("input[name='" + compare_name + "']").val();
+                                if(vals[1] != to_compare_val){
+                                    alert(field_name + ', ' + compare[1]);
+                                    throw new Error("Something went badly wrong!");
+                                }
                             }
                         }
-                        if(!finded){
-                            write_vals[index][form_field].push([1, Number(update_id), records[row]]);
+                    };
+                    var to_delete_rows = []
+                    for (var row in records) {
+                        var empty = true;
+                        for (var column in records[row]) {
+                            if (records[row][column] != "") {
+                                empty = false;
+                            }
+                            else {
+                                records[row][column] = null;
+                            }
+                        }
+                        if (empty) {
+                            to_delete_rows.push(row);
                         }
                     }
-                    else {
-                        delete records[row].id;
-                        write_vals[index][form_field].push([0, 0, records[row]]);
-                    }
-                }
 
-            });
-            $(this).find("form").find(".form-control").each(function() {
-                var input_value = $(this).attr("value");
-                var name = $(this).attr("name");
-                if(input_value==""){
-                    input_value = null;
-                }
-                if(name in write_vals[index]){
-                    alert("se sobreescribe el valor del input " + name);
-                    throw new Error("Something went badly wrong!");
-                }
-                write_vals[index][name] = input_value;
+                    for (var i = 0; i <  to_delete_rows.length; i++) {
+                        delete records[to_delete_rows[i]];
+                    }
+
+                    if (to_remove_rows.length != 0) {
+                        var fields = {};
+                        for (var i=0;i<to_remove_rows.length;i++) {
+                            write_vals[index][form_field].push([2, to_remove_rows[i]]);
+                        }
+                        to_remove_rows = [];
+                    }
+
+                    for (var row in records) {
+                        for (var column in records[row]) {
+                            if (isDateTime(records[row][column]) === true) {
+                                records[row][column] = openerp.web.datetime_to_str(Date.parse(records[row][column]));
+                            }
+                            else if (isDate(records[row][column]) === true) {
+                                records[row][column] = openerp.web.date_to_str(Date.parseExact(records[row][column], "d/M/yyyy"));
+                            }
+                        }
+
+                        var fields = {};
+                        if (records[row].id) {
+                            var update_id = records[row].id;
+                            delete records[row].id;
+                            var finded = false;
+                            for(var arr_index = 0; arr_index < write_vals[index][form_field].length; arr_index++){
+                                if(write_vals[index][form_field][arr_index][0] == 1 && write_vals[index][form_field][arr_index][1] == update_id){
+                                    write_vals[index][form_field][arr_index][2] = $.extend(write_vals[index][form_field][arr_index][2],records[row]);
+                                    finded = true;
+                                }
+                            }
+                            if(!finded){
+                                write_vals[index][form_field].push([1, update_id, records[row]]);
+                            }
+                        }
+                        else {
+                            delete records[row].id;
+                            write_vals[index][form_field].push([0, 0, records[row]]);
+                        }
+                    }
+                });
+                $(this).find(".form-control").each(function() {
+                    var input_value = $(this).attr("value");
+                    var name = $(this).attr("name");
+                    if(input_value==""){
+                        input_value = null;
+                    }
+                    if(name in write_vals[index]){
+                        alert("se sobreescribe el valor del input " + name);
+                        throw new Error("Something went badly wrong!");
+                    }
+                    write_vals[index][name] = input_value;
+                });
             });
         }
     });
     //Se recorre el diccionario, y se llama a write con los cambios.
     var keys = []
     for (var key in write_vals) {
+        $.each(write_vals[key], function(index, value) {
+            if (value instanceof Array) {
+                value.forEach(function(entry){
+                    if(entry[0] == 1 && String(entry[1]).search('NEW') != -1){
+                        entry[0] = 0;
+                        entry[1] = 0;
+                    }
+                    else if(entry[0] == 1){
+                        entry[1] = Number(entry[1])
+                    }
+                });
+            }
+        });
+
         if(key.split(',')[0] == 'mrp.production.workcenter.line'){
             write_vals[key]['doc_submited'] = true;
         }
         keys.push(key)
     }
-    write_server(write_vals, keys);
+    if(keys.length > 0){
+        write_server(write_vals, keys);
+    }
+    else{
+        window.location.replace($("#all_data").attr("url-submit"));
+    }
 }
+
+    var jqVal = $.fn.val;
+    var rreturn = /\r/g;
+    $.fn.val = function( value ) {
+        var hooks, ret, isFunction,
+            elem = this[0];
+        if ( !arguments.length ) {
+            if ( elem ) {
+                hooks = jQuery.valHooks[ elem.type ] || jQuery.valHooks[ elem.nodeName.toLowerCase() ];
+
+                if ( hooks && "get" in hooks && (ret = hooks.get( elem, "value" )) !== undefined ) {
+                    return ret;
+                }
+                var quality_protocol_value = this.attr('quality_protocol_value');
+                if (typeof quality_protocol_value !== typeof undefined && quality_protocol_value !== false) {
+                    ret = quality_protocol_value;
+                }
+                else{
+                    ret = elem.value;
+                }
+
+                return typeof ret === "string" ?
+                    // handle most common string cases
+                    ret.replace(rreturn, "") :
+                    // handle cases where value is null/undef or number
+                    ret == null ? "" : ret;
+            }
+            return;
+        }
+        else{
+            return jqVal.call(this, value);
+        }
+    }

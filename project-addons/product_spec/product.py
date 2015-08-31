@@ -46,6 +46,15 @@ class ProductPackingInternal(models.Model):
 
     name = fields.Char('Name', required=True)
 
+class ProductPackingProduction(models.Model):
+    _name = 'product.packing.production'
+
+    name = fields.Char('Name', required=True)
+
+class ProductPackingBase(models.Model):
+    _name = 'product.packing.base'
+
+    name = fields.Char('Name', required=True)
 
 class product_form(models.Model):
     _name = 'product.form'
@@ -102,6 +111,8 @@ class ProductTemplate(models.Model):
                                   ('pharmacy', 'Pharmacy')), 'Objective')
     packing = fields.Many2one('product.packing', 'Packing')
     packing_internal = fields.Many2one('product.packing.internal', 'Packing Internal')
+    packing_production = fields.Many2one('product.packing.production', 'Packing Production')
+    packing_base = fields.Many2one('product.packing.base', 'Packing Base')
     country = fields.Many2one('res.country', 'Country')
     qty = fields.Float('Quantity')
     udm = fields.Many2one('product.uom', 'UdM')
@@ -115,9 +126,19 @@ class ProductTemplate(models.Model):
     quality_limits = fields.Many2one('product.quality.limits', 'Process control')
     process_control = fields.Boolean('Process control')
 
+    # For column search and sorting in views
+    ean13 = fields.Char(string='EAN13 Barcode', store=True, related='product_variant_ids.ean13')
+    default_code = fields.Char(string='Internal Reference', store=True, related='product_variant_ids.default_code')
+
     @api.model
     def create(self, vals):
         tmpl = super(ProductTemplate, self).create(vals)
         if vals.get('cn_code'):
             tmpl.cn_code = vals['cn_code']
         return tmpl
+
+class product_extra_category(models.Model):
+    _name = 'product.extra.category'
+    _description = "Product Category"
+    _inherit = 'product.category'
+    _table = 'product_category'

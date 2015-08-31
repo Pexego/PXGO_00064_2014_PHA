@@ -23,7 +23,7 @@
     'name': "picking automatic lot",
     'version': '1.0',
     'category': 'stock',
-    'description': """""",
+    'description': """Se asigna automaticamente un nuevo lote a los productos que entran en almacén""",
     'author': 'Pexego',
     'website': '',
     "depends": ['stock', 'lot_states'],

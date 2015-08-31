@@ -24,15 +24,9 @@ from openerp import fields, models
 
 class sale(models.Model):
 
-    def _get_active_user(self):
-        return self.env.user.partner_id.id
-
     _inherit = 'sale.order'
 
     transfer = fields.Boolean('Transfer')
-    shipping_responsible_id = fields.Many2one('res.partner',
-                                              'Responsible for shipping',
-                                              default=_get_active_user)
     notified_partner_id = fields.Many2one('res.partner', 'Cooperative')
     settled = fields.Boolean('Settled', readonly=True, default=False)
 
@@ -80,6 +74,7 @@ class sale(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
 
 class sale_order_line(models.Model):
 

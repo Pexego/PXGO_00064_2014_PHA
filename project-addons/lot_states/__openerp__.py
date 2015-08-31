@@ -23,12 +23,20 @@
     'name': 'Lot states',
     'version': '1.0',
     'category': 'stock',
-    'description': """Adds states to lot""",
+    'description': """
+        Se añaden los siguientes estados a los lotes: nuevo, en revision, revisado, aprobado, rechazado
+        Se impide realizar un movimiento hasta que el lote no se encuentre en el estado apropiado
+
+        Al rechazar el lote se crea un movimiento de la localizacion actual
+        a rechazados. Desde rechazados existe la posibilidad de devolver el material al proveedor
+        Se añade la posibilidad de consumir cuarentena en las producciones.
+
+        """,
     'author': 'Pexego',
     'website': 'www.pexego.es',
     "depends": ['base', 'stock', 'product_expiry', 'mrp'],
-    "data": ['security/mrp_quarantine_security.xml', 'wizard/lot_reject_partial.xml',
-             'lot_view.xml', 'lot_workflow.xml', 'wizard/mrp_consume_quarantine.xml',
+    "data": ['wizard/lot_reject_partial.xml',
+             'lot_view.xml', 'lot_workflow.xml',
              'mrp_view.xml', 'data/stock_location_data.xml', 'stock_view.xml'],
     "installable": True
 }

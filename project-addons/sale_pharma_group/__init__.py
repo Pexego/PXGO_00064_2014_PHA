@@ -26,6 +26,4 @@ from . import wizard
 from . import settlement
 from . import settlement_agent
 from . import settlement_line
-from . import sale_order
-from . import invoice_line_agent
 from . import res_partner

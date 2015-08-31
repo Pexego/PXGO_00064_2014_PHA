@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_category_add_commission" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="stock_account.view_category_property_form"/>
+            <field name="arch" type="xml">
+                <group name="account_stock_property" position="after">
+                    <group name="commissions" string="Commissions" colspan="2">
+                        <field name="category_commission_ids" nolabel="1" colspan="4">
+                            <tree string="Agents and Categories">
+                                <field name="agent_ids"/>
+                                <field name="commission_id"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="commission_id"/>
+                                    <field name="agent_ids"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</openerp>

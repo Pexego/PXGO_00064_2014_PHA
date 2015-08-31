@@ -32,19 +32,21 @@ class stock_lot_reject_partial(models.TransientModel):
         """
             Solo se hacen rechazos parciales para productos que no se consumen
                 en producción mientras están en cuarentena.
-            Por lo que el lote tendrá unicamente 1 quant y este estará
-                asignado a un movimiento encadenado.
-            Se contempla que haya más de 1 quant en el lote, pero todos los
-                quants deben de estar asignados al mismo movimiento.
         """
+        location_rejected = self.env.ref('lot_states.stock_location_rejected')
         lot = self.env['stock.production.lot'].browse(
             self.env.context.get('active_id', False))
         if not lot:
             raise exceptions.Warning(_('Lot error'), _('Lot not found.'))
         moves = self.env['stock.move']
+        rejected_picking = False
         for quant in lot.quant_ids:
-            if quant.reservation_id not in moves:
+            if quant.reservation_id.location_dest_id != location_rejected and \
+                    quant.reservation_id not in moves:
                 moves += quant.reservation_id
+            elif quant.reservation_id.location_dest_id == location_rejected \
+                    and not rejected_picking:
+                rejected_picking = quant.reservation_id.picking_id
         if len(moves) == 1:
             if moves.product_uom_qty <= self.quantity:
                 raise exceptions.Warning(
@@ -54,10 +56,12 @@ class stock_lot_reject_partial(models.TransientModel):
             moves.do_unreserve()
             moves.product_uom_qty = new_qty
             moves.change_qty_chain(new_qty)
-            new_picking = moves.picking_id.copy({'move_lines': False})
+            if rejected_picking:
+                new_picking = rejected_picking
+            else:
+                new_picking = moves.picking_id.copy({'move_lines': False})
             new_move = moves.copy(
-                {'location_dest_id':
-                    self.env.ref('lot_states.stock_location_rejected').id,
+                {'location_dest_id': location_rejected.id,
                  'restrict_lot_id': lot.id, 'move_dest_id': False,
                  'picking_id': new_picking.id,
                  'product_uom_qty': self.quantity})
@@ -65,6 +69,7 @@ class stock_lot_reject_partial(models.TransientModel):
             new_move.action_assign()
             moves.action_assign()
         elif len(moves) > 1:
-            raise exceptions.Warning(_('Wizard error'), _('TODO'))
-
+            raise exceptions.Warning(_('Reject error'),
+                                     _('You can not partially reject a lot \
+used in production'))
         return {'type': 'ir.actions.act_window_close'}

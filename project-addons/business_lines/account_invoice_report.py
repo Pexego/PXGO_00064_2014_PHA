@@ -26,7 +26,8 @@ class account_invoice_report(models.Model):
 
     _inherit = "account.invoice.report"
 
-    account_analytic_id = fields.Many2one('account.analytic.account', 'Business line', readonly=True)
+    account_analytic_id = fields.Many2one('account.analytic.account',
+                                          'Business line', readonly=True)
 
     def _select(self):
         select_str = """, sub.account_analytic_id as account_analytic_id"""

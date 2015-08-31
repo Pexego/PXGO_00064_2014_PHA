@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mrp_partial_release_log,access_mrp_partial_release_log,model_mrp_partial_release_log,base.group_user,1,1,1,1
+access_mrp_partial_release_log,access_mrp_partial_release_log,model_mrp_partial_release_log,base.group_user,1,0,0,0
+access_mrp_partial_release_log,access_mrp_partial_release_log,model_mrp_partial_release_log,quality_management_menu.group_quality_manager,1,1,1,1

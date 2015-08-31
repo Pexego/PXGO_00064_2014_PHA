@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_workcenter_line_add_info" model="ir.ui.view">
+            <field name="name">mrp.workcenter.line</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="quality_protocol_report.mrp_workcenter_line_add_submited"/>
+            <field name="arch" type="xml">
+                <field name="doc_submited" position="after">
+                    <field name="on_time_machine"/>
+
+                    <separator string="Stops and adjustments needed" colspan="4"/>
+                    <field name="adjustsments_ids" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="start_date"/>
+                            <field name="name"/>
+                            <field name="reanudation_date"/>
+                            <field name="initials"/>
+                        </tree>
+                    </field>
+                    <separator string="Controls" colspan="4"/>
+                    <field name="control_ids" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="date"/>
+                            <field name="bag_maked"/>
+                            <field name="label"/>
+                            <field name="wrapped"/>
+                            <field name="full_weight"/>
+                            <field name="empty_weight"/>
+                            <field name="first"/>
+                            <field name="middle"/>
+                            <field name="last"/>
+                            <field name="initials"/>
+                        </tree>
+                    </field>
+                    <separator string="Wender temperatures" colspan="4"/>
+                    <field name="wender_temp_ids" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="sequence"/>
+                            <field name="temperature"/>
+                        </tree>
+                    </field>
+                    <field name="mrp_speed"/>
+                    <field name="adjustement_lever"/>
+                    <field name="fallen_scale"/>
+                    <field name="slow_funnel"/>
+                    <field name="fast_funnel"/>
+                    <separator string="Printer configuration" colspan="4"/>
+                    <field name="printed_configured_by"/>
+                    <field name="confirmed_printer"/>
+                    <field name="printed_lot"/>
+                    <field name="printed_date"/>
+                    <separator string="Print comprobations" colspan="4"/>
+                    <field name="print_comprobations" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="date"/>
+                            <field name="correct"/>
+                            <field name="initials"/>
+                        </tree>
+                    </field>
+                    <field name="mrp_start_date"/>
+                    <field name="final_count"/>
+                    <field name="continue_next_day"/>
+                    <field name="fab_issue"/>
+                    <field name="total_produced"/>
+                    <field name="observations"/>
+                    <separator string="Wrap comprobations" colspan="4"/>
+                    <field name="wrap_comprobations" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="date"/>
+                            <field name="correct"/>
+                            <field name="quality_sample"/>
+                            <field name="initials"/>
+                            <field name="type"/>
+                        </tree>
+                    </field>
+                    <separator string="" colspan="4"/>
+                    <field name="print_comprobations_sec" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="date"/>
+                            <field name="lot_correct"/>
+                            <field name="date_correct"/>
+                            <field name="initials"/>
+                        </tree>
+                    </field>
+                    <separator string="Coffin works" colspan="4"/>
+                    <field name="coffin_works" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="init_date"/>
+                            <field name="end_date"/>
+                            <field name="initials"/>
+                        </tree>
+                    </field>
+                    <separator string="Qty produced" colspan="4"/>
+                    <field name="qty_produced" nolabel="1" colspan="4">
+                        <tree editable="top">
+                            <field name="date"/>
+                            <field name="coffins"/>
+                            <field name="boxes"/>
+                            <field name="case"/>
+                            <field name="initials"/>
+                        </tree>
+                    </field>
+                    <field name="lot_tag_ok"/>
+                    <field name="acond_issue"/>
+                    <field name="acond_issue_ref"/>
+                    <field name="accond_total_produced"/>
+                    <field name="accond_theorical_produced"/>
+                    <field name="prod_ratio"/>
+                    <field name="acond_observations"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

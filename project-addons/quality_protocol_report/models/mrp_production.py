@@ -29,22 +29,6 @@ class MrpProductProduce(models.TransientModel):
 
     _inherit = 'mrp.product.produce'
 
-    _defaults = {
-        'mode': lambda *x: 'consume',
-    }
-
-    @api.model
-    def get_operations(self, move):
-        stop = False
-        move_aux = move
-        while not stop:
-            if move_aux.split_from:
-                move_aux = move_aux.split_from
-            else:
-                stop = True
-        return move_aux.return_operation_ids
-
-
     @api.multi
     def do_produce(self):
         production_id = self.env.context.get('active_id', False)
@@ -56,68 +40,7 @@ class MrpProductProduce(models.TransientModel):
                     docs_no_submited.append(wkcenter_line.workcenter_id.name)
         if docs_no_submited:
             raise exceptions.Warning(_('Document error'), _('Documents not submited: \n %s') % (','.join(docs_no_submited)))
-        res = super(MrpProductProduce, self.with_context(no_return_operations=True)).do_produce()
-        originals = self.env['stock.move']
-        production = self.env['mrp.production'].browse(self.env.context.get('active_id', False))
-        for move in production.move_lines:
-            operations = self.get_operations(move)
-            for op in operations:
-                if op.qty_scrapped > 0:
-                    scrap_location_id = self.env['stock.location'].search(
-                            [('scrap_location', '=', True)])
-                    if not scrap_location_id:
-                        raise exceptions.Warning(_('Location not found'), _('Scrap location not found.'))
-                    default_val = {
-                            'product_uom_qty': op.qty_scrapped,
-                            'served_qty': 0,
-                            'returned_qty': 0,
-                            'qty_scrapped': 0,
-                            'restrict_lot_id': op.lot_id.id,
-                            'scrapped': True,
-                            'location_dest_id': scrap_location_id[0].id,
-                    }
-                    move.do_unreserve()
-                    move.product_uom_qty -= op.qty_scrapped
-                    move.with_context(no_return_operations=True).action_assign()
-                    new_move = move.copy(default_val)
-                    new_move.action_confirm()
-                    new_move.with_context(no_return_operations=True).action_assign()
-                    new_move.action_done()
-            dest_location = move.raw_material_production_id.location_src_id.id
-            if move.original_move:
-                if move.original_move.state != 'done':
-                    dest_location =  move.original_move.location_id.id
-                    move.original_move.do_unreserve()
-                    move.original_move.product_uom_qty += operations[0].returned_qty
-                    originals += move.original_move
-                else:
-                    dest_location =  move.original_move.location_dest_id.id
-            move.location_dest_id = dest_location
-            if len(operations) == 1:
-                move.restrict_lot_id = operations[0].lot_id.id
-            elif len(operations) > 1:
-                move.restrict_lot_id = operations[0].lot_id.id
-                move.do_unreserve()
-                move.product_uom_qty = operations[0].returned_qty
-                for op in operations:
-                    if op.id == operations[0].id:
-                        continue
-                    default_val = {
-                            'product_uom_qty': op.returned_qty,
-                            'restrict_lot_id': op.lot_id.id,
-                            'location_dest_id': dest_location,
-                    }
-                    new_move = move.copy(default_val)
-                    new_move.action_confirm()
-                    new_move.with_context(no_return_operations=True).action_assign()
-                    new_move.action_done()
-                move.with_context(no_return_operations=True).action_assign()
-            move.action_done()
-
-
-        originals.action_assign()
-        return res
-
+        return super(MrpProductProduce, self.with_context(no_return_operations=True)).do_produce()
 
 class MrpProduction(models.Model):
 
@@ -126,36 +49,7 @@ class MrpProduction(models.Model):
     goods_request_date = fields.Date('Request date')
     goods_return_date = fields.Date('Return date')
     picking_notes = fields.Text('Picking notes')
-    hoard_ids = fields.One2many('stock.picking', string='hoards', compute='_get_hoard_picking')
-    hoard_len = fields.Integer('hoard len', compute = '_get_hoard_len')
-    hoard_need_assignment = fields.Boolean('Hoard needs assignement', compute='_get_hoard_assigned')
     workcenter_lines = fields.One2many(readonly=False)
-
-    @api.one
-    @api.depends('hoard_ids')
-    def _get_hoard_len(self):
-        self.hoard_len = len(self.hoard_ids)
-
-    @api.one
-    @api.depends('hoard_ids')
-    def _get_hoard_assigned(self):
-        need_assignement = False
-        for hoard in self.hoard_ids:
-            if hoard.state in ('confirmed', 'partially_available'):
-                need_assignement = True
-        self.hoard_need_assignment = need_assignement
-
-    @api.one
-    @api.depends('move_lines.move_orig_ids', 'move_lines2.move_orig_ids')
-    def _get_hoard_picking(self):
-        pickings = self.env['stock.picking']
-        pickings += self.mapped('move_lines.move_orig_ids.picking_id').sorted() | self.mapped('move_lines2.move_orig_ids.picking_id').sorted()
-        self.hoard_ids = pickings
-
-    @api.multi
-    def action_assign_hoard(self):
-        for prod in self:
-            prod.hoard_ids.action_assign()
 
     def _create_previous_move(self, cr, uid, move_id, product,
                               source_location_id, dest_location_id,
@@ -183,45 +77,6 @@ class MrpProduction(models.Model):
                                           context=context)
         return move
 
-    @api.multi
-    def get_hoard(self):
-        action = self.env.ref('stock.action_picking_tree')
-        if not action:
-            return
-        action = action.read()[0]
-        res = self.env.ref('stock.view_picking_form')
-        action['views'] = [(res.id, 'form')]
-        action['res_id'] = self.hoard_ids and self.hoard_ids[0].id or False
-        action['context'] = False
-        return action
-
-    def action_cancel(self, cr, uid, ids, context=None):
-        """ Cancels the production order and related stock moves.
-        @return: True
-        """
-        if context is None:
-            context = {}
-        move_obj = self.pool.get('stock.move')
-        proc_obj = self.pool.get('procurement.order')
-        for production in self.browse(cr, uid, ids, context=context):
-            if production.move_created_ids:
-                move_obj.action_cancel(cr, uid, [x.id for x in production.move_created_ids])
-            moves = move_obj.search(cr, uid, [('move_dest_id', 'in', [x.id for x in production.move_lines])], context=context)
-            if moves:
-                move_ids = []
-                for move in move_obj.browse(cr, uid, moves, context):
-                    if move.state not in ('cancel', 'done'):
-                        move_ids.append(move.id)
-                move_obj.action_cancel(cr, uid, move_ids, context=context)
-            move_obj.action_cancel(cr, uid, [x.id for x in production.move_lines])
-        self.write(cr, uid, ids, {'state': 'cancel'})
-        # Put related procurements in exception
-        proc_obj = self.pool.get("procurement.order")
-        procs = proc_obj.search(cr, uid, [('production_id', 'in', ids)], context=context)
-        if procs:
-            proc_obj.write(cr, uid, procs, {'state': 'exception'}, context=context)
-        return True
-
     @api.model
     def _make_consume_line_from_data(self, production, product, uom_id,
                                      qty, uos_id, uos_qty):
@@ -244,9 +99,11 @@ class MrpProduction(models.Model):
 
     @api.multi
     def create_continuation(self):
-        protocol_type = self.env['protocol.type'].search([('is_continuation', '=', True)])
+        protocol_type = self.env['protocol.type'].search([('is_continuation',
+                                                           '=', True)])
         if not protocol_type:
-            raise exceptions.Warning(_('Protocol error'), _('continuation protocol type not found'))
+            raise exceptions.Warning(_('Protocol error'),
+                                     _('continuation protocol type not found'))
         assert len(protocol_type.workcenter_ids) == 1
         workcenter_line_dict = {
             'name': protocol_type.name + ' ' + date.today().strftime('%d-%m-%Y') + ' - ' + self.product_id.name,
@@ -368,9 +225,8 @@ class MrpBom(models.Model):
                         _factor(bom_line_id.product_uos_qty * factor,
                                 bom_line_id.product_efficiency,
                                 bom_line_id.product_rounding) or False,
-                    'product_uos':
-                        bom_line_id.product_uos and
-                        bom_line_id.product_uos.id or False,
+                    'product_uos': bom_line_id.product_uos and
+                    bom_line_id.product_uos.id or False,
                     'workcenter_id': bom_line_id.workcenter_id.id,
                 })
             elif bom_id:
@@ -421,132 +277,9 @@ class MrpProductionWorkcenterLine(models.Model):
     _inherit = 'mrp.production.workcenter.line'
 
     continuation = fields.Boolean('Is continuation')
-    adjustsments_ids = fields.One2many('mrp.production.adjustments',
-                                       'production_id', 'Adjustments')
-    control_ids = fields.One2many('mrp.production.control',
-                                  'Workcenter_line_id', 'Controls')
+    doc_submited = fields.Boolean('Document submited')
     realized_ids = fields.One2many('quality.realization', 'workcenter_line_id',
                                    'Realization')
-    on_time_machine = fields.Datetime('On time machine')
-    wender_temp_ids = fields.One2many('mrp.wender.temp', 'workcenter_line_id',
-                                      'Wender temps')
-    mrp_speed = fields.Float('Mrp speed')
-    adjustement_lever = fields.Float('adjustment lever')
-    fallen_scale = fields.Float('Fallen scale')
-    slow_funnel = fields.Float('slow funnel')
-    fast_funnel = fields.Float('fast funnel')
-    printed_configured_by = fields.Char('Configured printer by', size=64)
-    confirmed_printer = fields.Char('Confirmed printer', size=64)
-    printed_lot = fields.Char('Printed lot', size=64)
-    printed_date = fields.Datetime('Printed date')
-    print_comprobations = fields.One2many('mrp.print.comprobations',
-                                          'wkcenter_line_id',
-                                          'Print comprobations')
-    doc_submited = fields.Boolean('Document submited')
-    mrp_start_date = fields.Datetime('Start production')
-    final_count = fields.Integer('Final counter')
-    continue_next_day = fields.Boolean('Continue production next day')
-    fab_issue = fields.Boolean('Production issue')
-    issue_ref = fields.Char('Issue ref', size=64)
-    total_produced = fields.Float('Total produced')
-    observations = fields.Text('Observations')
-    wrap_comprobations = fields.One2many('mrp.wrap.comprobations',
-                                         'wkcenter_line_id',
-                                         'Print comprobations')
-    print_comprobations_sec = fields.One2many('mrp.print.comprobations.sec',
-                                              'wkcenter_line_id',
-                                              'Print comprobations')
-
-    coffin_works = fields.One2many('mrp.coffin.works', 'wkcenter_line_id',
-                                   'Coffin works')
-    qty_produced = fields.One2many('mrp.qty.produced', 'wkcenter_line_id',
-                                   'Qty produced')
-    lot_tag_ok = fields.Boolean('Validated lot number of tags')
-    acond_issue = fields.Boolean('issue')
-    acond_issue_ref = fields.Char('Issue ref', size=64)
-    accond_total_produced = fields.Float('Total produced')
-    accond_theorical_produced = fields.Float('Theorical produced')
-    prod_ratio = fields.Float('Production ratio')
-    acond_observations = fields.Text('Observations')
-
-
-class mrpQtyProduced(models.Model):
-
-    _name = 'mrp.qty.produced'
-
-    date = fields.Date('Date')
-    coffins = fields.Integer('Coffins')
-    boxes = fields.Integer('Boxes')
-    case = fields.Integer('Case')
-    initials = fields.Char('Initials')
-    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
-                                       'Workcenter line')
-
-
-class MrpWrapComprobations(models.Model):
-
-    _name = 'mrp.wrap.comprobations'
-
-    date = fields.Datetime('Date')
-    correct = fields.Boolean('Print correct')
-    quality_sample = fields.Char('Quality sample', size=64)
-    initials = fields.Char('Initials', size=12)
-    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
-                                       'Workcenter line')
-    type = fields.Selection(
-        (('wrap', 'Wrap'), ('box', 'Box')),
-        'Type')
-
-    @api.model
-    def create(self, vals):
-        type = self.env.context.get('type', False)
-        if 'type' not in vals.keys() and type:
-            vals['type'] = type
-        return super(MrpWrapComprobations, self).create(vals)
-
-
-class MrpPrintComprobationsCoffin(models.Model):
-
-    _name = 'mrp.coffin.works'
-
-    init_date = fields.Datetime('Init date')
-    end_date = fields.Datetime('End date')
-    initials = fields.Char('Initials', size=12)
-    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
-                                       'Workcenter line')
-
-
-class MrpPrintComprobations(models.Model):
-
-    _name = 'mrp.print.comprobations'
-
-    date = fields.Datetime('Date')
-    correct = fields.Boolean('Print correct')
-    initials = fields.Char('Initials', size=12)
-    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
-                                       'Workcenter line')
-
-
-class MrpPrintComprobationsSec(models.Model):
-
-    _name = 'mrp.print.comprobations.sec'
-
-    date = fields.Date('Date')
-    lot_correct = fields.Boolean('Lot correct')
-    date_correct = fields.Boolean('Date correct')
-    initials = fields.Char('Initials', size=12)
-    wkcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
-                                       'Workcenter line')
-
-
-class MrpWenderTemp(models.Model):
-
-    _name = 'mrp.wender.temp'
-
-    sequence = fields.Integer('Wender nº')
-    temperature = fields.Float('Temperature')
-    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line',
-                                         'Workcenter line')
 
 
 class MrpWorkcenter(models.Model):

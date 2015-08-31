@@ -161,6 +161,9 @@
                 action="action_show_all_sales" parent="base.menu_sales"
                 sequence="1"/>
 
+        <menuitem name="Leads" id="crm.menu_crm_leads" parent="base.menu_sales" sequence="5"
+            action="crm.crm_case_category_act_leads_all"/>
+
     </data>
 </openerp>
 

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data noupdate="1">
-        <record id="mrp_use_quarantine" model="res.groups">
-            <field name="name">MRP use quarantine</field>
-            <field name="category_id" ref="base.module_category_hidden"/>
-        </record>
-    </data>
-</openerp>

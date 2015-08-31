@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_location_form_view_add_map_image" model="ir.ui.view">
+            <field name="name">stock.location.form.add_map_image</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <field name="loc_barcode" position="after">
+                    <field name="map_image" widget='image' options='{"size": [500, 375]}'/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
