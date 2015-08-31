@@ -106,7 +106,7 @@ class qc_pis(models.Model):
     _order = 'name desc'
 
     name = fields.Char(string='PIS code', size=11, readonly=True, index=True)
-    lot = fields.Many2one(string='Parent stock lot', comodel_name='stock.production.lot', required=False, readonly=True)
+    lot = fields.Many2one(string='Parent stock lot', comodel_name='stock.production.lot', required=False, readonly=True, index=True)
     reference = fields.Many2one(string='Reference', comodel_name='product.template', required=True, ondelete='restrict', readonly=True)
     aspect_chars = fields.One2many(string='Aspect', comodel_name='qc.pis.aspects', inverse_name='pis')
     aspect_observations = fields.Text(string='Observations')

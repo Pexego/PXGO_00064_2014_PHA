@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+        <record model="stock.location" id="consumption_for_internal_use_location">
+            <field name="complete_name">Consumption for internal use</field>
+            <field name="name">Consumption for internal use</field>
+            <field name="usage">internal</field>
+            <field name="scrap_location">false</field>
+            <field name="company_id/id" ref="base.main_company"></field>
+            <field name="location_id/id" ref="stock.stock_location_locations_virtual"></field>
+        </record>
+    </data>
+</openerp>
