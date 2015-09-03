@@ -29,7 +29,6 @@
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
     "depends": ['mrp'],
-    "data": ['views/stock_on_hand.xml', 
-		'views/stock.xml'],
+    "data": ['views/stock.xml'],
     "installable": True
 }
