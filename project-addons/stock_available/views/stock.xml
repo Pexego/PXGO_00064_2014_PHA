@@ -1,56 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
         <record id="view_stock_available_form" model="ir.ui.view">
             <field name="name">stock.available.form</field>
             <field name="model">stock.available</field>
             <field name="arch" type="xml">
                 <form string="Estimated quantity">
-                    <label for="product_id">Product</label>
-                    <field name="product_id" />
-                    <label for="bom_id">BOM</label>
-                    <field name="bom_id" />
-                    <label for="product_qty">Product Qty.</label>
-                    <field name="product_qty" />
-                    <field name="state" invisible="1"/>
-
-                    <button name="action_compute" states="draft"
-                            string="Compute Data" type="object"
-                            icon="terp-stock_format-scientific"/>
-
-                    <group colspan="4">
-
-                        <sheet>
-                            <div class="oe_title">
-                                <h1>Estimation</h1>
-                            </div>
-                            <notebook>
-                                <page string="Products to Consume">
-                                    <field name="product_lines"/>
-                                </page>
-                            </notebook>
-                        </sheet>
-
-                    </group>
-
+                    <sheet>
+                        <group col="4">
+                            <field name="product_id" style="width:40%;"/>
+                            <newline/>
+                            <field name="bom_id" style="width:40%;"/>
+                            <newline/>
+                            <field name="product_qty"/>
+                            <newline/>
+                            <button name="action_compute"
+                                    string="Compute data"
+                                    type="object"
+                                    icon="terp-stock_format-scientific"/>
+                        </group>
+                        <div class="oe_title">
+                            <h1>Estimation</h1>
+                        </div>
+                        <field name="bom_lines" readonly="1"/>
+                    </sheet>
                 </form>
-
             </field>
-
         </record>
 
+        <record id="view_stock_available_details_tree" model="ir.ui.view">
+            <field name="name">stock.available.details.tree</field>
+            <field name="model">stock.available.details</field>
+            <field name="arch" type="xml">
+                <tree string="Estimated consumption" create="false" delete="false">
+                    <field name="product"/>
+                    <field name="qty_required"/>
+                    <field name="qty_available"/>
+                    <field name="uom"/>
+                </tree>
+            </field>
+        </record>
 
-        <record id="action_view_menuitem" model="ir.actions.act_window">
+        <record id="action_view_bom_stock" model="ir.actions.act_window">
             <field name="name">Stock / LDM</field>
             <field name="res_model">stock.available</field>
             <field name="view_type">form</field>
-            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_stock_available_form"/>
         </record>
 
-
         <menuitem id="menu_view_stock_available_form" parent="mrp.menu_mrp_planning"
-                  action="action_view_menuitem" sequence="140"/>
-
+                  action="action_view_bom_stock" sequence="140"/>
      </data>
 </openerp>

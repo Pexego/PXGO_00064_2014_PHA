@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2015 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,103 +19,73 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp.osv import fields, orm, osv
-from openerp import models, api
-from openerp import tools, SUPERUSER_ID
-from openerp.tools.translate import _
+from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
-from openerp.addons.product import _common
+from lxml import etree
 
 
-class my_stock_available(osv.osv):
-
+class StockAvailable(models.TransientModel):
     _name = 'stock.available'
+    _description = 'Available stock for bill of materials'
+    _rec_name = 'product_id'
 
-    _inherit = 'mrp.production'
+    product_id = fields.Many2one(string='Product',
+                                 comodel_name='product.template')
+    bom_id = fields.Many2one(string='Bills of materials',
+                             comodel_name='mrp.bom',
+                             domain="[('product_tmpl_id', '=', product_id)]")
+    product_qty = fields.Integer(string='Quantity to calculate')
 
-    _columns = {
-        'product_qty': fields.float('Product Quantity', digits_compute=dp.get_precision('Product Unit of Measure'),
-                                    required=True, readonly=True, states={'draft': [('readonly', False)]}),
-        'product_lines': fields.one2many('stock.available.product.line', 'production_id', 'Scheduled goods',
-                                         readonly=True),
-    }
+    @api.onchange('product_id')
+    def update_bom(self):
+        bom_ids = self.env['mrp.bom'].search([('product_tmpl_id', '=', self.product_id.id)])
+        self.bom_id = bom_ids[0] if bom_ids else False
 
-    _defaults = {
-        'state': lambda *a: 'draft',
-        'product_qty': lambda *a: 1.0,
-    }
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        context = self._context
+        res = super(models.TransientModel, self).fields_view_get(view_id=view_id,
+                                                                 view_type=view_type,
+                                                                 toolbar=toolbar,
+                                                                 submenu=submenu)
+        if view_type == 'form' and context.get('active_model') == 'stock.available':
+            categSaleablePH = self.env.ref('.prodcat084')  # Imported external ids lacks of associated module
+            if categSaleablePH:
+                doc = etree.XML(res['arch'])
+                for node in doc.xpath("//field[@name='product_id']"):
+                    node.set('domain', "[('categ_ids', '=', " + str(categSaleablePH[0].id) + ")]")
+                res['arch'] = etree.tostring(doc)
 
-    def action_compute(self, cr, uid, ids, properties=None, context=None):
-        """ Computes bills of material of a product.
-        @param properties: List containing dictionaries of properties.
-        @return: No. of products.
-        """
-        return len(self._action_compute_lines(cr, uid, ids, properties=properties, context=context))
-
-    def _action_compute_lines(self, cr, uid, ids, properties=None, context=None):
-        """ Compute product_lines and workcenter_lines from BoM structure
-        @return: product_lines
-        """
-        if properties is None:
-            properties = []
-        results = []
-        bom_obj = self.pool.get('mrp.bom')
-        uom_obj = self.pool.get('product.uom')
-        #prod_line_obj = self.pool.get('mrp.production.product.line')
-        prod_line_obj = self.pool.get('stock.available.product.line')
-        #workcenter_line_obj = self.pool.get('mrp.production.workcenter.line')
-        for production in self.browse(cr, uid, ids, context=context):
-            #unlink product_lines
-            prod_line_obj.unlink(cr, SUPERUSER_ID, [line.id for line in production.product_lines], context=context)
-            #unlink workcenter_lines
-            #workcenter_line_obj.unlink(cr, SUPERUSER_ID, [line.id for line in production.workcenter_lines], context=context)
-            # search BoM structure and route
-            bom_point = production.bom_id
-            bom_id = production.bom_id.id
-            if not bom_point:
-                bom_id = bom_obj._bom_find(cr, uid, production.product_uom.id, product_id=production.product_id.id, properties=properties, context=context)
-                if bom_id:
-                    bom_point = bom_obj.browse(cr, uid, bom_id)
-                    routing_id = bom_point.routing_id.id or False
-                    self.write(cr, uid, [production.id], {'bom_id': bom_id, 'routing_id': routing_id})
-
-            if not bom_id:
-                raise osv.except_osv(_('Error!'), _("Cannot find a bill of material for this product."))
-
-            # get components and workcenter_lines from BoM structure
-            factor = uom_obj._compute_qty(cr, uid, production.product_uom.id, production.product_qty, bom_point.product_uom.id)
-            # product_lines, workcenter_lines
-            results, results2 = bom_obj._bom_explode(cr, uid, bom_point, production.product_id, factor / bom_point.product_qty, properties, routing_id=production.routing_id.id, context=context)
-            # reset product_lines in production order
-            for line in results:
-                line['production_id'] = production.id
-                prod_line_obj.create(cr, uid, line)
-
-            #reset workcenter_lines in production order
-            for line in results2:
-                line['production_id'] = production.id
-                #workcenter_line_obj.create(cr, uid, line)
-        return results
-
-my_stock_available()
+        return res
 
 
-class my_stock_available_production_product_line(osv.osv):
+class StockAvailableDetails(models.TransientModel):
+    _name = 'stock.available.details'
+    _description = 'Available stock for bill of materials lines'
+    _rec_name = 'product'
 
-    _name = 'stock.available.product.line'
-    _inherit = 'mrp.production.product.line'
-    _description = 'Production Scheduled Product'
-    _columns = {
-        'name': fields.char('Name', required=True),
-        'product_id': fields.many2one('product.product', 'Product', required=True),
-        'product_qty': fields.float('Product Quantity', digits_compute=dp.get_precision('Product Unit of Measure'), required=True),
-        'product_uom': fields.many2one('product.uom', 'Product Unit of Measure', required=True),
-        'product_uos_qty': fields.float('Product UOS Quantity'),
-        'product_uos': fields.many2one('product.uom', 'Product UOS'),
-        'production_id': fields.many2one('stock.available', 'Production Order', select=True),
-        'product_qty_available': fields.related('product_id', 'qty_available', type='float', string='Quantity On Hand',
-                                                readonly=True),
-    }
+    product = fields.Char(string='Product')
+    qty_required = fields.Float(string='Quantity required', digits=dp.get_precision('Product Unit of Measure'))
+    qty_available = fields.Float(string='Quantity On Hand', digits=dp.get_precision('Product Unit of Measure'))
+    uom = fields.Char(string='Unit of measure')
+    bom_stock = fields.Many2one(comodel_name='stock.available', readonly=True)
 
-my_stock_available_production_product_line()
+
+class StockAvailable(models.TransientModel):
+    _inherit = 'stock.available'
+
+    bom_lines = fields.One2many(string='Bill of materials details', comodel_name='stock.available.details',
+                                inverse_name='bom_stock')
+
+    @api.one
+    def action_compute(self):
+        self.bom_lines.unlink()
+        for line in self.bom_id.bom_line_ids:
+            self.bom_lines.create({
+                'product': line.product_id.name_template,
+                'qty_required': line.product_qty * self.product_qty,
+                'qty_available': line.product_id.qty_available,
+                'uom': line.product_uom.name,
+                'bom_stock': self.id
+            })
+        return self
