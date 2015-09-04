@@ -27,6 +27,8 @@
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
     'depends' : ['sale'],
-    'data' : ['views/sale_view.xml'],
+    'data' : ['views/sale_view.xml',
+              'security/groups.xml',
+              'security/menus.xml'],
     'installable': True
 }
