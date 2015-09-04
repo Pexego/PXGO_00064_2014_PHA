@@ -6,12 +6,12 @@ var tablaProductos = null;
 var panelUsuarios = null;
 var idCategoriaProductosVendiblesPH = 0;
 var odooObj = new OdooXmlRpc(
-    'odoo_user',
-    'odoo_pass',
-    'odoo_db_name',
+    'xmlrpc_admin',
+    'nomires73?',
+    'odoo_pharmadus',
     'http://',
-    'odoo_ip',
-    'odoo_port'
+    '10.10.1.46',
+    '9169'
 );
 
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="group_salesman_ph" model="res.groups">
+             <field name="name">Salesman PH</field>
+        </record>
+        <record id="group_show_menu_messaging" model="res.groups">
+             <field name="name">Show Menu-messaging</field>
+        </record>
+        <record id="group_show_menu_hr" model="res.groups">
+             <field name="name">Show Menu-HR</field>
+        </record>
+        <record id="group_show_menu_reporting" model="res.groups">
+             <field name="name">Show Menu-Reporting</field>
+        </record>
+        <record id="group_show_menu_website" model="res.groups">
+             <field name="name">Show Menu-WebSite</field>
+        </record>
+        <record id="group_show_submenu_purchase_rfq" model="res.groups">
+             <field name="name">Show SubMenu-RQ</field>
+        </record>
+    </data>
+</openerp>
