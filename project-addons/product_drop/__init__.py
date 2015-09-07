@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-from . import models, report
+from . import models, report, controllers
