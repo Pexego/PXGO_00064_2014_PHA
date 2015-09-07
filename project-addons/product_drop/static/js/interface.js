@@ -5,14 +5,6 @@
 var tablaProductos = null;
 var panelUsuarios = null;
 var idCategoriaProductosVendiblesPH = 0;
-var odooObj = new OdooXmlRpc(
-    'xmlrpc_admin',
-    'nomires73?',
-    'odoo_pharmadus',
-    'http://',
-    '10.10.1.46',
-    '9169'
-);
 
 
 function tabla(objetivo) {
