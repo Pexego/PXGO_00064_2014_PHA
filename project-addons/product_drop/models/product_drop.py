@@ -81,7 +81,8 @@ class product_drop_details(models.Model):
 #        location = self.env['stock.warehouse'].search(
 #                [('company_id', '=', self.env.user.company_id.id)]
 #            ).lot_stock_id.id
-        location = 22 # Physical Locations / CY01 / Existencias / Producto terminado
+        # Physical Locations / CY01 / Existencias / Producto terminado
+        location = self.env.ref('__export__.stock_location_22')
 
         # Search for lots of this product in main company stock.
         # Discards those that does not met minimum quantity needed and

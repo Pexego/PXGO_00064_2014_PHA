@@ -187,7 +187,7 @@ $(document).ready(function () {
     // Iniciamos sesión en Odoo y mostramos lista de usuarios
     odooObj.login(function() {
         seleccionarUsuario();
-        buscarIdCategVendibles();
+//        buscarIdCategVendibles();
     });
 });
 
@@ -235,7 +235,8 @@ function mostrarMensaje(titulo, mensaje, callback, preguntar) {
 function buscarEAN() {
     var ean = $('#inputEAN').val().trim();
     if (ean.length > 10) {
-        odooObj.search_read('product.product', [['ean13', 'like', ean]], {fields: ['name_template', 'ean13']},
+        odooObj.search_read('product.product', [['ean13', 'like', ean]],
+            {fields: ['name_template', 'ean13']},
             function(productos) {
                 var lista = $('div#producto span.lista');
                 lista.empty();
@@ -259,8 +260,8 @@ function buscarProducto(autoSeleccionar) {
     if (txt.length > 2) {
         odooObj.search_read('product.product',
             [
-                ['product_tmpl_id.categ_ids', '=', idCategoriaProductosVendiblesPH],
-                ['active', '=', true],
+//                ['product_tmpl_id.categ_ids', '=', idCategoriaProductosVendiblesPH],
+                ['product_tmpl_id.sale_ok', '=', true],
                 ['name_template', 'ilike', txt]
             ],
             {fields: ['name_template', 'ean13']},
@@ -282,8 +283,8 @@ function buscarProducto(autoSeleccionar) {
 function mostrarProductosVendibles() {
     odooObj.search_read('product.product',
         [
-            ['product_tmpl_id.categ_ids', '=', idCategoriaProductosVendiblesPH],
-            ['active', '=', true]
+//            ['product_tmpl_id.categ_ids', '=', idCategoriaProductosVendiblesPH]
+            ['product_tmpl_id.sale_ok', '=', true]
         ],
         {fields: ['name_template', 'ean13'], order: 'name_template'},
         function(productos) {
@@ -505,7 +506,7 @@ function activarUsuario(partner_id, uid, company_id, nombre, imagen) {
 }
 
 function seleccionarUsuario() {
-    odooObj.search_read('res.users', [['active', '=', 'true']], {fields: ['partner_id', 'company_id']},
+    odooObj.search_read('res.users', [], {fields: ['partner_id', 'company_id']},
         function(usuarios) {
             var ids = [];
             $.each(usuarios, function(idx, obj) {
