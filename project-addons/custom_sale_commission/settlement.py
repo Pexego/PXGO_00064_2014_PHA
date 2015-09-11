@@ -34,3 +34,9 @@ established in the invoice')
             vals['invoice_concept'] = self.env['sale.agent'].browse(
                 vals.get('agent_id')).invoice_concept
         return super(SettlementAgent,self).create(vals)
+
+    @api.multi
+    def _invoice_hook(self, invoice_id):
+        invoice = self.env['account.invoice'].browse(invoice_id)
+        invoice.name = self.invoice_concept
+        return super(SettlementAgent, self)._invoice_hook(invoice_id)
