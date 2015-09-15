@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_order_add_stock_form" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/form/header/field[@name='state']" position="before">
+                    <field name="stock_url" widget='url' string="View stock" nolabel="1" url_value="View stock"
+                        attrs="{'invisible': [('product_id', '=', False)]}"/>
+                    <newline/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
