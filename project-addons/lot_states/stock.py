@@ -50,30 +50,33 @@ class StockMove(models.Model):
             self.move_dest_id.change_qty_chain(new_qty)
 
     @api.multi
+    def _get_receipt_locations(self):
+        self.ensure_one()
+        warehouse = self.picking_type_id.warehouse_id
+        input_locs = warehouse.wh_input_stock_loc_id._get_child_locations()
+        quality_locs = warehouse.wh_qc_stock_loc_id._get_child_locations()
+        stock_locs = warehouse.lot_stock_id._get_child_locations()
+        source_location = self.location_id
+        dest_location = self.location_dest_id
+        return input_locs, quality_locs, stock_locs, source_location, \
+            dest_location
+
+    @api.multi
     def action_done(self):
         errors = ''
         for move in self:
             if not move.picking_type_id:
                 continue
-            warehouse = move.picking_type_id.warehouse_id
-            input_locs = warehouse.wh_input_stock_loc_id._get_child_locations()
-            quality_locs = warehouse.wh_qc_stock_loc_id._get_child_locations()
-            stock_locs = warehouse.lot_stock_id._get_child_locations()
-            source_location = move.location_id
-            dest_location = move.location_dest_id
+            input_locs, quality_locs, stock_locs, source_location, \
+                dest_location = move._get_receipt_locations()
             for operation in move.linked_move_operation_ids:
                 lot_id = operation.operation_id.lot_id
-                if source_location in input_locs and \
-                        dest_location in quality_locs:
-                    if lot_id.state != 'in_rev':
-                        errors += '\n' + _('Cannot move to quality control, \
-the lot %s is in %s state') % (lot_id.name, lot_id.state)
-                elif source_location in quality_locs and \
+                if source_location in quality_locs and \
                         dest_location in stock_locs:
                     if lot_id.state != 'approved':
                         errors += '\n' + _('Cannot move to stock, \
 the lot %s is in %s state') % (lot_id.name, lot_id.state)
-                elif source_location in input_locs and \
+                elif source_location in input_locs and  \
                         dest_location in stock_locs:
                     lot_id.signal_workflow('direct_approved')
         if errors:
