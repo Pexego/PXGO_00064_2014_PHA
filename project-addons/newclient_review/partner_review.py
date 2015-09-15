@@ -63,7 +63,7 @@ class partner_review(orm.Model):
             context = {}
         #If partner is added by a Manager or is a supplier... data is always confirmed
         #If us user, or if is a client from prestashop
-        creatorid=52  ##user assign as creator of the partner
+        creatorid=52  ##user assign as creator of the partner TO-DO
 
         obj_user = self.pool.get('res.users')
         list_user = obj_user.search(cr, uid, [('id', '=', creatorid)] )
