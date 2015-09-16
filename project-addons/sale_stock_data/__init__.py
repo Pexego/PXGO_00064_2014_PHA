@@ -18,7 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import saleagent
-from . import settlement
-from . import product_category
-from . import sale
+from . import sale_order

@@ -27,7 +27,7 @@
     'author': 'Comunitea',
     'website': '',
     "depends": ['sale', 'sale_commission', 'stock_account', 'product_m2mcategories'],
-    "data": ['saleagent_view.xml', 'product_category_view.xml',
+    "data": ['saleagent_view.xml', 'settlement_view.xml', 'product_category_view.xml',
              'security/ir.model.access.csv'],
     "installable": True
 }

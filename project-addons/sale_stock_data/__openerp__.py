@@ -18,7 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import saleagent
-from . import settlement
-from . import product_category
-from . import sale
+
+{
+    'name': 'Sale Stock Data',
+    'version': '1.0',
+    'category': 'sale',
+    'description': """Show stock data for the product in the sale order line""",
+    'author': 'Comunitea',
+    'website': '',
+    "depends": ['web', 'sale_stock'],
+    "data": ['assets.xml', 'sale_order.xml'],
+    "installable": True,
+}

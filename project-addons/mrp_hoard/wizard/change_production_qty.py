@@ -18,7 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import saleagent
-from . import settlement
-from . import product_category
-from . import sale
+from openerp import models, fields, api, exceptions, _
+
+class ChangeProductionQty(models.TransientModel):
+
+    _inherit = 'change.production.qty'
+
+    @api.multi
+    def change_prod_qty(self):
+        res = super(ChangeProductionQty, self).change_prod_qty()
+        production_id = self.env.context.get('active_id', False)
+        production = self.env['mrp.production'].browse(production_id)
+        for line in production.move_lines:
+            if len(line.move_orig_ids) != 1:
+                raise exceptions.Warning(
+                    _('Not implemented error'),
+                    _('Qty change not implemented for moves with several \
+origins'))
+            for orig_move in line.move_orig_ids:
+                orig_move.do_unreserve()
+                orig_move.product_uom_qty = line.product_uom_qty
+        return res

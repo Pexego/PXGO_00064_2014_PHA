@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="settlement_agent_add_invoice_concept" model="ir.ui.view">
+            <field name="name">settlement.agent.form</field>
+            <field name="model">settlement.agent</field>
+            <field name="inherit_id" ref="sale_commission.view_settlement_agent_form"/>
+            <field name="arch" type="xml">
+                <field name="agent_id" position="after">
+                    <field name="invoice_concept"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

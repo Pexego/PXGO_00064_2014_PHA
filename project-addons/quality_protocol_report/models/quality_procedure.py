@@ -29,6 +29,7 @@ class QualityProcedure(models.Model):
     name = fields.Char('Name', size=256, required=True)
     code = fields.Char('Code', size=36, required=True)
     edition = fields.Char('Edition', size=12, required=True)
+    original_file = fields.Char('Original file')
 
     def name_get(self, cr, uid, ids, context=None):
         res = []

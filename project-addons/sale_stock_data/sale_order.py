@@ -18,7 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import saleagent
-from . import settlement
-from . import product_category
-from . import sale
+from openerp import models, fields, api
+
+
+class SaleOrderLine(models.Model):
+
+    _inherit = 'sale.order.line'
+
+    stock_url = fields.Char('Stock url', compute='_get_stock_url')
+
+    @api.one
+    @api.depends('product_id')
+    def _get_stock_url(self):
+        if self.product_id:
+            action_id = self.env.ref('stock.product_open_quants').id
+            self.stock_url = '/web#page=0&limit=&view_type=list&model=stock.quant&action=%s&active_id=%s' % \
+                (action_id, self.product_id.id)
