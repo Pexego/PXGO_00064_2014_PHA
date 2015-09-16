@@ -21,5 +21,3 @@
 
 from . import import_pharma_group_sales
 from . import wizard_invoice
-from . import assign_agent_wizard
-from . import assign_zip_agent_wizard

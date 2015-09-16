@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <field name="agent_id" position="after">
                     <field name="invoice_concept"/>
+                    <field name="base_qty"/>
                 </field>
             </field>
         </record>

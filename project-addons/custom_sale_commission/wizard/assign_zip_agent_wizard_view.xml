@@ -15,6 +15,8 @@
                     </group>
                     <button string="Assign" name="assign" type="object" icon="gtk-ok"/>
                     <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                    <button string="remove all zip assigned" name="delete_all" type="object"
+                        confirm="This action will remove all zip assigned to the agent. Are you sure?"/>
                 </form>
             </field>
         </record>
