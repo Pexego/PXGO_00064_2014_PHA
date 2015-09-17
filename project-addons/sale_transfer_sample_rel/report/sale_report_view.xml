@@ -17,9 +17,9 @@
             </filter>
 
             <filter name="Sales" position="replace">
-                <filter name="Samples" string="Samples" domain="[('sale_type', '=', 'sample')]"/>
-                <filter name="Transfers" string="Transfers" domain="[('sale_type', '=', 'transfer')]"/>
-                <filter name="Replacements" string="Replacements" domain="[('sale_type', '=', 'replacement')]"/>
+                <filter name="Samples" string="Samples" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'sample')]"/>
+                <filter name="Transfers" string="Transfers" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'transfer')]"/>
+                <filter name="Replacements" string="Replacements" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'replacement')]"/>
                 <filter name="Sales" string="Sales" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'normal')]"/>
             </filter>
         </field>

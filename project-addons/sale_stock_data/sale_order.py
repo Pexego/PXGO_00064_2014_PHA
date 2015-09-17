@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,18 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': "Custom permissions",
-    'version': '1.0',
-    'category': '',
-    'summary' : ' Various modifications for show just what is needed ',
-    'description': " //static/description/index.html//",
-    'author': 'Pharmadus I+D+i',
-    'website': 'www.pharmadus.com',
-    'depends' : ['sale'],
-    'data' : ['views/sale_view.xml',
-              'views/partner_view.xml',
-              'security/groups.xml',
-              'security/menus.xml'],
-    'installable': True
-}
+from openerp import models, fields, api
+
+
+class SaleOrderLine(models.Model):
+
+    _inherit = 'sale.order.line'
+
+    stock_url = fields.Char('Stock url', compute='_get_stock_url')
+
+    @api.one
+    @api.depends('product_id')
+    def _get_stock_url(self):
+        if self.product_id:
+            action_id = self.env.ref('stock.product_open_quants').id
+            self.stock_url = '/web#page=0&limit=&view_type=list&model=stock.quant&action=%s&active_id=%s' % \
+                (action_id, self.product_id.id)

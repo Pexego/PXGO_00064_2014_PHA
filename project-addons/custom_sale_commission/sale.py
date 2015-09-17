@@ -54,6 +54,7 @@ class SaleOrderLine(models.Model):
             pricelist, product, qty, uom, qty_uos, uos, name, partner_id, lang,
             update_tax, date_order, packaging, fiscal_position, flag,
             warehouse_id, sale_agent_ids)
+        order_agent_obj = self.env['sale.order.agent']
 
         if product and not res['value']['line_agent_ids']:
             list_agent_ids = []

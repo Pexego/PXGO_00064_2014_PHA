@@ -26,4 +26,6 @@ class ui(models.Model):
     _inherit = 'sale.agent'
 
     user_id = fields.Many2one('res.users', 'User')
+    invoice_concept = fields.Char('Invoice concept', help='Concept to be \
+established in settlement')
 

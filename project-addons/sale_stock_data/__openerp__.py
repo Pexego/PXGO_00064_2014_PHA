@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,18 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name': "Custom permissions",
+    'name': 'Sale Stock Data',
     'version': '1.0',
-    'category': '',
-    'summary' : ' Various modifications for show just what is needed ',
-    'description': " //static/description/index.html//",
-    'author': 'Pharmadus I+D+i',
-    'website': 'www.pharmadus.com',
-    'depends' : ['sale'],
-    'data' : ['views/sale_view.xml',
-              'views/partner_view.xml',
-              'security/groups.xml',
-              'security/menus.xml'],
-    'installable': True
+    'category': 'sale',
+    'description': """Show stock data for the product in the sale order line""",
+    'author': 'Comunitea',
+    'website': '',
+    "depends": ['web', 'sale_stock'],
+    "data": ['assets.xml', 'sale_order.xml'],
+    "installable": True,
 }

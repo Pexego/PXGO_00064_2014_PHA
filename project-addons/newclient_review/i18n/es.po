@@ -23,7 +23,7 @@ msgstr "Ciudad"
 #. module: newclient_review
 #: view:res.partner:0
 msgid "Client data must be reviewed before confirm one order"
-msgstr "Los datos deben ser revisados antes de confirmar venta"
+msgstr "Los datos serán revisados antes de confirmar venta"
 
 #. module: newclient_review
 #: field:res.partner,confirmed:0
