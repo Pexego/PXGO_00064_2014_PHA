@@ -3,6 +3,7 @@
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
 #    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
+#    $Jesus Comunitea
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,17 +19,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields, osv
+from openerp import models, api, fields
 
-class mail_compose_message(osv.Model):
+class mail_compose_message(models.Model):
     _inherit = 'mail.compose.message'
 
-    def send_mail(self, cr, uid, ids, context=None):
-        context = context or {}
-        if context.get('default_model') == 'purchase.order' and context.get('default_res_id'):
-            context = dict(context, mail_post_autofollow=True)
-            vari = self.pool.get('purchase.order')
-            vari.signal_workflow(cr, uid, [context['default_res_id']], 'send_rfq')
-            if vari.browse(cr, uid, [context['default_res_id']]).state == 'approved':
-                vari.write(cr, uid, [context['default_res_id']], {'pc_sent': True})
-        return super(mail_compose_message, self).send_mail(cr, uid, ids, context=context)
+    @api.multi
+    def send_mail(self):
+        context = dict(self.env.context)
+        if context.get('default_model', '') == 'purchase.order' and context.get('default_res_id', False):
+            purchase = self.env['purchase.order'].browse(context.get('default_res_id'))
+            if purchase.state == 'approved':
+                purchase.write({'pc_sent': True})
+        return super(mail_compose_message, self).send_mail()

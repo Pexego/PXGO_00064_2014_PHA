@@ -18,14 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields, osv
+from openerp import models, fields
 
-class purchase_order(orm.Model):
+class purchase_order(models.Model):
     _inherit = 'purchase.order'
-    _description = "Check inf PC mail has been sent"
-    _columns = {
-        'pc_sent': fields.boolean('¿PC Sent?'),
-    }
-    _defaults = {
-        'pc_sent' : False,
-    }
+    pc_sent = fields.Boolean('¿PC Sent?',default=False )
