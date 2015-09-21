@@ -16,25 +16,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 ##############################################################################
+#
 
-{
-    'name': 'Custom reports',
-    'version': '1.0',
-    'author': 'Pharmadus I+D+i',
-    'summary' : 'Odoo reports customized',
-    'description': 'Odoo reports customized',
-    'category': 'Reports',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'purchase',
-    ],
-    'data' : [
-        'data/report_paperformat.xml',
-        'views/external_layout_header.xml',
-        'views/report_stockinventory.xml',
-        'views/report_purchaseorder.xml',
-    ],
-    'installable': True
-}
+import purchase

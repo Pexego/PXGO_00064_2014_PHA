@@ -2,7 +2,8 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
+#    $Jesus Comunitea
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,23 +19,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, api, fields
 
-{
-    'name': 'Custom reports',
-    'version': '1.0',
-    'author': 'Pharmadus I+D+i',
-    'summary' : 'Odoo reports customized',
-    'description': 'Odoo reports customized',
-    'category': 'Reports',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'purchase',
-    ],
-    'data' : [
-        'data/report_paperformat.xml',
-        'views/external_layout_header.xml',
-        'views/report_stockinventory.xml',
-        'views/report_purchaseorder.xml',
-    ],
-    'installable': True
-}
+class mail_compose_message(models.Model):
+    _inherit = 'mail.compose.message'
+
+    @api.multi
+    def send_mail(self):
+        context = dict(self.env.context)
+        if context.get('default_model', '') == 'purchase.order' and context.get('default_res_id', False):
+            purchase = self.env['purchase.order'].browse(context.get('default_res_id'))
+            if purchase.state == 'approved':
+                purchase.write({'pc_sent': True})
+        return super(mail_compose_message, self).send_mail()

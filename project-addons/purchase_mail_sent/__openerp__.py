@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,23 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    'name': 'Custom reports',
+    'name': "Purchase mail sent",
     'version': '1.0',
+    'category': '',
+    'summary' : ' This module save if PC Confirmation doc&mail has been sent to partner',
+    'description': 'This module save if PC Confirmation doc&mail has been sent to partner',
     'author': 'Pharmadus I+D+i',
-    'summary' : 'Odoo reports customized',
-    'description': 'Odoo reports customized',
-    'category': 'Reports',
     'website': 'www.pharmadus.com',
-    'depends' : [
-        'purchase',
-    ],
-    'data' : [
-        'data/report_paperformat.xml',
-        'views/external_layout_header.xml',
-        'views/report_stockinventory.xml',
-        'views/report_purchaseorder.xml',
-    ],
+    'depends' : ['purchase'],
+    'data' : ['views/purchase_order.xml'],
     'installable': True
 }

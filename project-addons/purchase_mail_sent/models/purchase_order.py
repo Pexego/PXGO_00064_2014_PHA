@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,23 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-{
-    'name': 'Custom reports',
-    'version': '1.0',
-    'author': 'Pharmadus I+D+i',
-    'summary' : 'Odoo reports customized',
-    'description': 'Odoo reports customized',
-    'category': 'Reports',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'purchase',
-    ],
-    'data' : [
-        'data/report_paperformat.xml',
-        'views/external_layout_header.xml',
-        'views/report_stockinventory.xml',
-        'views/report_purchaseorder.xml',
-    ],
-    'installable': True
-}
+class purchase_order(models.Model):
+    _inherit = 'purchase.order'
+    pc_sent = fields.Boolean('¿PC Sent?',default=False )

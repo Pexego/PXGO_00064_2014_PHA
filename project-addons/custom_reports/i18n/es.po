@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-10 13:40+0000\n"
-"PO-Revision-Date: 2015-09-10 15:42+0200\n"
+"POT-Creation-Date: 2015-09-16 12:33+0000\n"
+"PO-Revision-Date: 2015-09-16 14:39+0200\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,11 +18,152 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid ""
+",\n"
+"                            Folio"
+msgstr ""
+",\n"
+"                            Folio"
+
+#. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid ""
+",\n"
+"                            Registration"
+msgstr ""
+",\n"
+"                            Registro"
+
+#. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid ""
+",\n"
+"                            Sheet Number"
+msgstr ""
+",\n"
+"                            Hoja"
+
+#. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid ""
+",\n"
+"                            Volume"
+msgstr ""
+",\n"
+"                            Tomo"
+
+#. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid ", indicating the number of order."
+msgstr ", indicando el número de pedido."
+
+#. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid "CIF"
+msgstr "CIF"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Description"
+msgstr "Descripción"
+
+#. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid "For any doubt or explanation, be contacted in the number"
+msgstr "Para cualquier duda o aclaración, póngase en contacto en el número"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Net Price"
+msgstr "Precio neto"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Observations:"
+msgstr "Observaciones:"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Order Date:"
+msgstr "Fecha de pedido:"
+
+#. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid "Page:"
+msgstr "Página:"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Planned Date:"
+msgstr "Fecha de entrega:"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Purchase Order Confirmation N°:"
+msgstr "Confirmación de orden de compra N°:"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Qty"
+msgstr "Ctdad"
+
+#. module: custom_reports
 #: view:website:stock.report_inventory
 msgid "Real qty."
 msgstr "Cantidad real"
 
 #. module: custom_reports
+#: view:website:report.external_layout_footer
+msgid "Recorded in the Companies Registry of"
+msgstr "Inscrita en el Registro Mercantil de"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Request for Quotation N°:"
+msgstr "Solicitud de presupuesto N°:"
+
+#. module: custom_reports
+#: view:website:report.external_layout_header
+msgid "Shipping address:"
+msgstr "Dirección de envío:"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Supplier code:"
+msgstr "Código proveedor:"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: custom_reports
 #: view:website:stock.report_inventory
 msgid "Theoretical qty."
 msgstr "Cantidad teórica"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Total"
+msgstr "Total"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Total Without Taxes"
+msgstr "Total sin impuestos"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Unit Price"
+msgstr "Precio unidad"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "VAT:"
+msgstr "NIF:"
+
+#. module: custom_reports
+#: view:website:purchase.report_purchaseorder_document
+msgid "Validated By:"
+msgstr "Validado por:"
