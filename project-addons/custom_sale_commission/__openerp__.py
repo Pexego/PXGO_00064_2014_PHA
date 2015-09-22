@@ -26,8 +26,13 @@
     'description': """""",
     'author': 'Comunitea',
     'website': '',
-    "depends": ['sale', 'sale_commission', 'stock_account', 'product_m2mcategories'],
-    "data": ['saleagent_view.xml', 'settlement_view.xml', 'product_category_view.xml',
+    "depends": ['sale', 'sale_commission', 'sale_pharma_group', 'stock_account',
+                'product_m2mcategories'],
+    "data": ['wizard/assign_agent_wizard_view.xml',
+             'wizard/assign_zip_agent_wizard_view.xml',
+             'views/saleagent_view.xml', 'views/settlement_view.xml',
+             'views/product_category_view.xml', 'views/better_zip_view.xml',
+             'views/res_partner_view.xml',
              'security/ir.model.access.csv'],
     "installable": True
 }

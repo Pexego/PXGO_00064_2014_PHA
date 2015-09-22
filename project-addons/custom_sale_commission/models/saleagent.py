@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,23 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api, exceptions, _
 
 
-from openerp import models, fields, api
+class ui(models.Model):
 
+    _inherit = 'sale.agent'
 
-class assign_zip_agent_wizard(models.TransientModel):
-
-    _name = 'assign.zip.agent.wizard'
-
-    zip = fields.Char('Zip code', size=64)
-    agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
-
-    def _get_agent(self):
-        self.agent_id = self.env.context.get('active_id', False)
-
-    @api.one
-    def assign(self):
-        locations = self.env['res.better.zip'].search([('name', '=', self.zip)])
-        for location in locations:
-            location.agent_id = self.agent_id
+    user_id = fields.Many2one('res.users', 'User')
+    invoice_concept = fields.Char('Invoice concept', help='Concept to be \
+established in settlement')
+    base_qty = fields.Float('Base quantity')
+    related_zip_ids = fields.One2many('res.better.zip', 'agent_id',
+                                      string="Zips", readonly=True)

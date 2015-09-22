@@ -22,41 +22,44 @@
 from openerp import models, fields, exceptions, api, workflow
 from openerp.tools.translate import _
 
+
 class sale_order(models.Model):
 
     _inherit = "sale.order"
 
     replacement = fields.Boolean('Replacement')
+    rep_lines = fields.One2many('sale.order.line', 'orig_sale', 'Rep lines')
 
-    def _prepare_order_line_procurement(self, cr, uid, order, line,
-                                        group_id=False, context=None):
-        res = super(sale_order, self)._prepare_order_line_procurement(cr, uid,
-                                                                      order,
+    @api.model
+    def _prepare_order_line_procurement(self, order, line, group_id=False):
+        res = super(sale_order, self)._prepare_order_line_procurement(order,
                                                                       line,
-                                                                      group_id,
-                                                                      context)
+                                                                      group_id)
         if order.replacement:
             res['invoice_state'] = 'none'
         return res
 
-    def test_done_replacement(self, cr, uid, ids, *args):
+    @api.multi
+    def test_done_replacement(self, *args):
         res = False
-        for sale in self.browse(cr, uid, ids):
+        for sale in self:
             if sale.replacement:
                 for picking in sale.picking_ids:
                     if picking.state == 'done':
                         res = True
         return res
 
-    def test_no_product(self, cr, uid, order, context):
+    @api.model
+    def test_no_product(self, order):
         for line in order.order_line:
             if (line.product_id and (line.product_id.type != 'service')) \
                     and not line.replacement:
                 return False
         return True
 
-    def has_stockable_products(self, cr, uid, ids, *args):
-        for order in self.browse(cr, uid, ids):
+    @api.multi
+    def has_stockable_products(self, *args):
+        for order in self:
             for order_line in order.order_line:
                 if (order_line.product_id and
                         order_line.product_id.type in ('product', 'consu')) \
@@ -64,15 +67,13 @@ class sale_order(models.Model):
                     return True
         return False
 
-    def action_button_confirm(self, cr, uid, ids, context=None):
-        line_obj = self.pool.get('sale.order.line')
-        for order in self.browse(cr, uid, ids, context):
+    @api.multi
+    def action_button_confirm(self):
+        for order in self:
             for line in order.order_line:
                 if line.replacement:
-                    line_obj._get_orig_line(cr, uid, line, context)
-        return super(sale_order, self).action_button_confirm(cr, uid,
-                                                             ids,
-                                                             context)
+                    line._get_orig_line()
+        return super(sale_order, self).action_button_confirm()
 
 
 class sale_order_line(models.Model):
@@ -81,85 +82,110 @@ class sale_order_line(models.Model):
 
     replacement = fields.Boolean('Replacement')
 
-    qty_replacement = fields.Float('Quantity replacement')
+    qty_replaced = fields.Float('Quantity replacement',
+                                compute='_get_qty_replaced', store=True)
 
-    is_all_replacement = fields.Float('All replacement',
-                                      compute="_is_all_replacement")
+    is_all_replaced = fields.Boolean('All replaced',
+                                     compute="_get_is_all_replaced",
+                                     store=True)
 
-    is_sale_replacement = fields.Boolean('is sale replacement', related='order_id.replacement')
+    is_sale_replacement = fields.Boolean('is sale replacement',
+                                         related='order_id.replacement',
+                                         store=True)
 
     orig_sale = fields.Many2one('sale.order', 'Original order')
 
-    @api.depends('product_uom_qty', 'qty_replacement')
-    def _is_all_replacement(self):
-        self.is_all_replacement = self.product_uom_qty - \
-            self.qty_replacement == 0 or False
+    @api.one
+    @api.depends('order_id.rep_lines')
+    def _get_qty_replaced(self):
+        rep_lines = self.search_read(
+            [('orig_sale', '=', self.order_id.id),
+             ('state', 'not in', ('draft', 'sent', 'cancel'))],
+            ['product_uom_qty'])
+        self.qty_replaced = sum([x['product_uom_qty'] for x in rep_lines])
 
-    def need_procurement(self, cr, uid, ids, context=None):
+    @api.one
+    @api.depends('product_uom_qty', 'qty_replaced')
+    def _get_is_all_replaced(self):
+        self.is_all_replaced = self.product_uom_qty - self.qty_replaced == 0 \
+            and True or False
+
+    @api.multi
+    def need_procurement(self):
         # when sale is installed alone, there is no need to create
         # procurements, but with sale_stock we must create a procurement
         # for each product that is not a service.
-        for line in self.browse(cr, uid, ids, context=context):
+        for line in self:
             if not line.replacement:
-                return super(sale_order_line, self).need_procurement(
-                    cr, uid, ids, context=context)
+                return super(sale_order_line, self).need_procurement()
         return False
 
-    def _get_orig_line(self, cr, uid, line, context={}):
+    @api.multi
+    def _get_orig_line(self):
         """
-        :param cr: db cursor
-        :param uid: user_id
-        :param line: browse_record of sale.order.line
-        :param context: context
         :return: the browse record of original line for the replacement.
         """
-        sale_id = line.orig_sale.id
-        orig_line_id = self.search(cr, uid,
-                                   [('order_id', '=', sale_id),
-                                    ('product_id', '=',
-                                     line.product_id.id),
-                                    ('is_all_replacement', '=', False)],
-                                   context=context)
-        if not orig_line_id:
+        self.ensure_one()
+        sale_id = self.orig_sale.id
+        orig_line = self.search([('order_id', '=', sale_id),
+                                 ('product_id', '=',
+                                  self.product_id.id),
+                                 ('is_all_replaced', '=', False)])
+        if not orig_line:
             raise exceptions.MissingError(
                 _('Not found the original line of replacement'))
-        orig_line = self.browse(cr, uid, orig_line_id[0], context)
-        if (orig_line.product_uom_qty - orig_line.qty_replacement) < \
-                line.product_uom_qty and not context.get('no_control_qty'):
+        if (orig_line.product_uom_qty - orig_line.qty_replaced) < \
+                self.product_uom_qty and not \
+                self._context.get('no_control_qty', False):
             raise exceptions.MissingError(
                 _('Qty error in replacement.'))
 
         return orig_line
 
-    def invoice_line_create(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-
+    @api.multi
+    def invoice_line_create(self):
         create_ids = []
         sales = set()
-        for line in self.browse(cr, uid, ids, context=context):
-            vals = self._prepare_order_line_invoice_line(cr, uid, line, False,
-                                                         context)
-            ids = []
+        for line in self:
+            vals = self._prepare_order_line_invoice_line(line, False)
+            ids = self.env['sale.order.line']
             if vals:
                 if line.replacement:
-                    context['no_control_qty'] = True
-                    orig = self._get_orig_line(cr, uid, line, context)
-                    context.pop('', False)
-                    ids.append(orig.id)
+                    orig = line.with_context(no_control_qty=True)._get_orig_line()
+                    ids += orig
                 else:
-                    ids.append(line.id)
-                inv_id = self.pool.get('account.invoice.line').create(cr, uid, vals, context=context)
-                self.write(cr, uid, ids, {'invoice_lines': [(4, inv_id)]}, context=context)
+                    ids += line
+                inv = self.env['account.invoice.line'].create(vals)
+                ids.write({'invoice_lines': [(4, inv.id)]})
                 sales.add(line.order_id.id)
-                create_ids.append(inv_id)
+                create_ids.append(inv.id)
         # Trigger workflow events
         for sale_id in sales:
-            workflow.trg_write(uid, 'sale.order', sale_id, cr)
+            workflow.trg_write(self.env.user.id, 'sale.order', sale_id, self.env.cr)
         return create_ids
 
-    def _prepare_order_line_invoice_line(self, cr, uid, line, account_id=False,
-                                         context=None):
+    @api.multi
+    def _get_appropiate_account(self):
+        self.ensure_one()
+        if self.product_id:
+            account_id = self.product_id.property_account_income.id
+            if not account_id:
+                account_id = self.product_id.categ_id.property_account_income_categ.id
+            if not account_id:
+                raise exceptions.Warning(
+                    _('Error!'),
+                    _('Please define income account for this product: \
+                       "%s" (id:%d).') %
+                    (self.product_id.name, self.product_id.id,))
+        else:
+            prop = self.pool.get('ir.property').get(
+                cr, uid, 'property_account_income_categ',
+                'product.category', context=context)
+            account_id = prop and prop.id or False
+        return account_id
+
+    @api.model
+    def _prepare_order_line_invoice_line(self, line, account_id=False):
         """Prepare the dict of values to create the new invoice line for a
            sales order line. This method may be overridden to implement custom
            invoice generation (making sure to call super() to establish
@@ -176,40 +202,20 @@ class sale_order_line(models.Model):
         res = {}
         if line.replacement and not line.invoiced:
             if not account_id:
-                if line.product_id:
-                    account_id = line.product_id.property_account_income.id
-                    if not account_id:
-                        account_id = line.product_id.categ_id.property_account_income_categ.id
-                    if not account_id:
-                        raise exceptions.except_orm(
-                            _('Error!'),
-                            _('Please define income account for this product: \
-                               "%s" (id:%d).') %
-                            (line.product_id.name, line.product_id.id,))
-                else:
-                    prop = self.pool.get('ir.property').get(
-                        cr, uid, 'property_account_income_categ',
-                        'product.category', context=context)
-                    account_id = prop and prop.id or False
-            uosqty = self._get_line_qty(cr, uid, line, context=context)
-            uos_id = self._get_line_uom(cr, uid, line, context=context)
+                account_id = line._get_appropiate_account()
+            uosqty = self._get_line_qty(line)
+            uos_id = self._get_line_uom(line)
             pu = 0.0
             if uosqty:
-                orig_line = self._get_orig_line(cr, uid, line, context)
-                qty_replacement = orig_line.qty_replacement + \
-                    line.product_uom_qty
-                self.write(cr, uid, [orig_line.id],
-                           {'qty_replacement': qty_replacement}, context)
-                precision = self.pool.get('decimal.precision').precision_get(
-                    cr, uid, 'Product Price')
+                orig_line = line._get_orig_line()
+                precision = self.env['decimal.precision'].precision_get('Product Price')
                 pu = round(
                     orig_line.price_unit * line.product_uom_qty / uosqty,
                     precision)
-            fpos = line.order_id.fiscal_position or False
-            fisc_pos_obj = self.pool.get('account.fiscal.position')
-            account_id = fisc_pos_obj.map_account(cr, uid, fpos, account_id)
+            fpos = line.order_id.fiscal_position or self.env['account.fiscal.position']
+            account_id = fpos.map_account(account_id)
             if not account_id:
-                raise exceptions.except_orm(
+                raise exceptions.Warning(
                     _('Error!'),
                     _('There is no Fiscal Position defined or Income  \
                        category account defined for default properties of \
@@ -232,9 +238,8 @@ class sale_order_line(models.Model):
             return res
         else:
             return super(sale_order_line,
-                         self)._prepare_order_line_invoice_line(cr, uid, line,
-                                                                account_id,
-                                                                context)
+                         self)._prepare_order_line_invoice_line(line,
+                                                                account_id)
 
     def product_id_change(
             self, cr, uid, ids, pricelist, product, qty=0, uom=False,
@@ -256,20 +261,21 @@ class sale_order_line(models.Model):
             fiscal_position, flag, context)
         if replacement:
             warning = res.get('warning', False)
-            warning = warning != False and warning or {'title': 'Replacement error', 'message': ''}
+            warning = warning is not False and warning or \
+                {'title': 'Replacement error', 'message': ''}
             if not origin_sale:
                 warning['message'] += _('Not found the original sale.\n')
             orig_line_id = self.search(cr, uid,
-                               [('order_id', '=', origin_sale),
-                                ('product_id', '=', product),
-                                ('is_all_replacement', '=', False)],
-                               context=context)
+                                       [('order_id', '=', origin_sale),
+                                        ('product_id', '=', product),
+                                        ('is_all_replaced', '=', False)],
+                                       context=context)
             if not orig_line_id:
                 warning['message'] += _('Not found the original sale line.\n')
             line = self.browse(cr, uid, orig_line_id[0], context)
-            if (line.product_uom_qty - line.qty_replacement) < qty:
-                res['value']['product_uom_qty'] = line.product_uom_qty - line.qty_replacement
-                res['value']['product_uos_qty'] = line.product_uom_qty - line.qty_replacement
+            if (line.product_uom_qty - line.qty_replaced) < qty:
+                res['value']['product_uom_qty'] = line.product_uom_qty - line.qty_replaced
+                res['value']['product_uos_qty'] = line.product_uom_qty - line.qty_replaced
                 warning['message'] += _('The quantity is bigger than the original.\n')
             res['value']['price_unit'] = line.price_unit
             if len(warning['message']):

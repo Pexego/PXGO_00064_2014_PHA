@@ -33,9 +33,10 @@ class SaleOrder(models.Model):
         if agent_id:
             if not res['value'].get('sale_agent_ids', False):
                 res['value']['sale_agent_ids'] = []
-            res['value']['sale_agent_ids'].append(
-                (0, 0, {'agent_id': agent_id.id,
-                        'commission_id': agent_id.commission.id}))
+            new_comm = (0, 0, {'agent_id': agent_id.id,
+                               'commission_id': agent_id.commission.id})
+            if new_comm not in res['value']['sale_agent_ids']:
+                res['value']['sale_agent_ids'].append(new_comm)
         return res
 
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Comunitea All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
+#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
+#    $Omar Castiñeira Saavedra <omar@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,25 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, exceptions, _
 
-
-class SettlementAgent(models.Model):
-
-    _inherit = 'settlement.agent'
-
-    invoice_concept = fields.Char('Invoice concept', help='Concept to be \
-established in the invoice')
-
-    @api.model
-    def create(self, vals):
-        if vals.get('agent_id', False):
-            vals['invoice_concept'] = self.env['sale.agent'].browse(
-                vals.get('agent_id')).invoice_concept
-        return super(SettlementAgent,self).create(vals)
-
-    @api.multi
-    def _invoice_hook(self, invoice_id):
-        invoice = self.env['account.invoice'].browse(invoice_id)
-        invoice.name = self.invoice_concept
-        return super(SettlementAgent, self)._invoice_hook(invoice_id)
+from . import pharma_group_sale
+from . import settlement
+from . import settlement_agent
+from . import settlement_line

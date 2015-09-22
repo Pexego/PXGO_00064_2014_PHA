@@ -13,6 +13,15 @@
                 <field name="active" position="after">
                     <field name="invoice_concept"/>
                 </field>
+                <field name="settlement" position="after">
+                    <field name="base_qty"/>
+                </field>
+                <page string="Customer assigned" position="after">
+                    <page string="Related zips">
+                        <button name="%(assign_zip_agent_wizard_action)d" type="action" string="Assign ZIP"/>
+                        <field name="related_zip_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </page>
             </field>
         </record>
 
