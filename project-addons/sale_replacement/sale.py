@@ -95,6 +95,51 @@ class sale_order_line(models.Model):
 
     orig_sale = fields.Many2one('sale.order', 'Original order')
 
+    from openerp.osv import fields as fields2
+
+    def _fnct_line_invoiced(self, cr, uid, ids, field_name, args,
+                            context=None):
+        res = dict.fromkeys(ids, False)
+        for this in self.browse(cr, uid, ids, context=context):
+            res[this.id] = this.invoice_lines and \
+                all(iline.invoice_id.state != 'cancel'
+                    for iline in this.invoice_lines)
+            if this.order_id.replacement:
+                sale_lines = self.search(
+                    cr, uid, [('replacement', '=', True),
+                              ('orig_sale', '=', this.order_id.id)],
+                    context=context)
+                for sale_line in sale_lines:
+                    res[sale_line] = res[this.id]
+        return res
+
+    def _order_lines_from_invoice(self, cr, uid, ids, context=None):
+        cr.execute("""SELECT DISTINCT sol.id FROM sale_order_invoice_rel rel
+                      JOIN sale_order_line sol ON (sol.order_id = rel.order_id)
+                      WHERE rel.invoice_id = ANY(%s)""", (list(ids),))
+        line_ids = [i[0] for i in cr.fetchall()]
+        for line in self.pool.get('sale.order.line').browse(cr, uid, line_ids,
+                                                            context):
+            cr.execute("""SELECT sol.id from sale_order_line sol where
+                          sol.product_id = %s and sol.orig_sale = %s""",
+                       (line.product_id.id, line.order_id.id))
+            line_ids += [i[0] for i in cr.fetchall()]
+        return line_ids
+
+    _columns = {
+        'invoiced': fields2.function(_fnct_line_invoiced, string='Invoiced',
+                                     type='boolean',
+                                     store={
+                                         'account.invoice':
+                                         (_order_lines_from_invoice, ['state'],
+                                          10),
+                                         'sale.order.line':
+                                         (lambda self, cr, uid, ids, ctx=None:
+                                             ids,
+                                          ['invoice_lines'], 10)
+                                     })
+    }
+
     @api.one
     @api.depends('order_id.rep_lines')
     def _get_qty_replaced(self):
@@ -129,8 +174,7 @@ class sale_order_line(models.Model):
         sale_id = self.orig_sale.id
         orig_line = self.search([('order_id', '=', sale_id),
                                  ('product_id', '=',
-                                  self.product_id.id),
-                                 ('is_all_replaced', '=', False)])
+                                  self.product_id.id)])
         if not orig_line:
             raise exceptions.MissingError(
                 _('Not found the original line of replacement'))
@@ -207,7 +251,7 @@ class sale_order_line(models.Model):
             uos_id = self._get_line_uom(line)
             pu = 0.0
             if uosqty:
-                orig_line = line._get_orig_line()
+                orig_line = line.with_context(no_control_qty=True)._get_orig_line()
                 precision = self.env['decimal.precision'].precision_get('Product Price')
                 pu = round(
                     orig_line.price_unit * line.product_uom_qty / uosqty,
