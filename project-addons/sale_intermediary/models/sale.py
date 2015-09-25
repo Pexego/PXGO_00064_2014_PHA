@@ -20,10 +20,10 @@
 ##############################################################################
 
 
-from openerp.osv import fields, osv
+from openerp import fields, models
 
 
-class my_sale_order(osv.Model):
+class my_sale_order(models.Model):
 
     _inherit = 'sale.order'
 
