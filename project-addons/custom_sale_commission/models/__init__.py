@@ -18,14 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, exceptions, _
-
-
-class ui(models.Model):
-
-    _inherit = 'sale.agent'
-
-    user_id = fields.Many2one('res.users', 'User')
-    invoice_concept = fields.Char('Invoice concept', help='Concept to be \
-established in settlement')
-
+from . import saleagent
+from . import settlement
+from . import product_category
+from . import sale
+from . import better_zip
+from . import res_partner

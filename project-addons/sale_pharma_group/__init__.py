@@ -18,12 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from . import better_zip
-from . import sale_agent
-from . import pharma_group_sale
+from . import models
 from . import wizard
-from . import settlement
-from . import settlement_agent
-from . import settlement_line
-from . import res_partner

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,12 +19,32 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+
+from openerp import models, fields, api
 
 
-class SaleAgent(models.Model):
+class assign_zip_agent_wizard(models.TransientModel):
 
-    _inherit = "sale.agent"
+    _name = 'assign.zip.agent.wizard'
 
-    related_zip_ids = fields.One2many('res.better.zip', 'agent_id',
-                                      string="Zips", readonly=True)
+    zip = fields.Char('Zip code', size=64)
+    agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
+
+    @api.one
+    def _get_agent(self):
+        self.agent_id = self.env.context.get('active_id', False)
+
+    @api.multi
+    def assign(self):
+        self.ensure_one()
+        zip_list = self.zip.replace(' ', '').split(',')
+        for zip in zip_list:
+            locations = self.env['res.better.zip'].search([('name', '=', zip)])
+            for location in locations:
+                location.agent_id = self.agent_id
+
+    @api.multi
+    def delete_all(self):
+        self.ensure_one()
+        for zip in self.agent_id.related_zip_ids:
+            zip.agent_id = False

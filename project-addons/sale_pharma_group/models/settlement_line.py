@@ -42,7 +42,6 @@ class SettlementLine(models.Model):
         return line
 
     @api.one
-    @api.model
     def calcula(self):
         if self.invoice_line_id:
             return super(SettlementLine, self).calcula()
