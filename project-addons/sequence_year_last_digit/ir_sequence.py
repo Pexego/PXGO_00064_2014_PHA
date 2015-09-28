@@ -26,8 +26,8 @@ class ir_sequence(models.Model):
 
     _inherit = 'ir.sequence'
 
-    def _interpolation_dict(self):
-        res = super(ir_sequence, self)._interpolation_dict()
+    def _interpolation_dict_context(self, context=None):
+        res = super(ir_sequence, self)._interpolation_dict_context()
         t = time.localtime()  # Actually, the server is always in UTC.
         res['year_last'] = time.strftime('%y', t)[1]
         return res
