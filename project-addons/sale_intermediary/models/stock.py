@@ -28,5 +28,3 @@ class my_stock_picking(models.Model):
 
     intermediary = fields.Boolean(related='sale_id.intermediary')
     partner_id_intermediary = fields.Char(related='sale_id.partner_invoice_id.name')
-
-my_stock_picking()
