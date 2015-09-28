@@ -20,48 +20,54 @@
 ##############################################################################
 
 
-from openerp import fields, models
+from openerp.osv import fields, osv
 
 
-class my_sale_order(models.Model):
+class my_sale_order(osv.Model):
 
     _inherit = 'sale.order'
-    intermediary = fields.Boolean("Intermediary", default=False)
+
+    _columns = {
+        'intermediary': fields.boolean('Intermediary'),
+    }
+
+my_sale_order()
 
 
-    def _prepare_invoice(self, order, lines ):
-        """Prepare the dict of values to create the new invoice for a
-           sale order. This method may be overridden to implement custom
-           invoice generation (making sure to call super() to establish
-           a clean extension chain).
+class my_account_invoice(osv.Model):
 
-           :param browse_record order: sale.order record to invoice
-           :param list(int) line: list of invoice line IDs that must be
-                                  attached to the invoice
-           :return: dict of value to create() the invoice
-        """
-        invoice_vals = super(my_sale_order, self)._prepare_invoice(order,
-                                                                lines)
-
-        invoice_vals.update({
-            'partner_shipping_id': order.partner_shipping_id.id,
-        })
-
-        # Care for deprecated _inv_get() hook - FIXME: to be removed after 6.1
-        #invoice_vals.update(self._inv_get( order ))
-        return invoice_vals
-
-
-
-class my_account_invoice(models.Model):
     _inherit = 'account.invoice'
-    partner_shipping_id = fields.Many2one('res.partner' , 'Shipping to', required=False )
+
+    _columns = {
+        'partner_shipping_id': fields.many2one('res.partner', 'Shipping to', required=False),
+    }
+
+my_account_invoice()
 
 
+class my_stock_picking(osv.osv):
 
-class my_account_invoice_report(models.Model):
+    _inherit = "stock.picking"
+
+    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move, context=None):
+        inv_vals = super(my_stock_picking, self)._get_invoice_vals(cr, uid, key, inv_type, journal_id, move, context=context)
+        sale = move.picking_id.sale_id
+        if sale:
+            inv_vals.update({
+                'partner_shipping_id': sale.partner_shipping_id.id,
+            })
+        return inv_vals
+
+my_stock_picking()
+
+
+class my_account_invoice_report(osv.Model):
+
     _inherit = 'account.invoice.report'
-    partner_shipping_id = fields.Many2one('res.partner', 'Shipping to')
+
+    _columns = {
+        'partner_shipping_id': fields.many2one('res.partner', 'Shipping to'),
+    }
 
     def _select(self):
         return  super(my_account_invoice_report, self)._select() + ", sub.partner_shipping_id as partner_shipping_id"
@@ -71,3 +77,5 @@ class my_account_invoice_report(models.Model):
 
     def _group_by(self):
         return super(my_account_invoice_report, self)._group_by() + ", ai.partner_shipping_id"
+
+my_account_invoice_report()
