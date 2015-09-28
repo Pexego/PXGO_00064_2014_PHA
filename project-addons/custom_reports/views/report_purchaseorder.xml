@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <template id="report_purchaseorder_document">
+        <template id="purchase.report_purchaseorder_document" priority="15">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
             <div class="header">
                 <div class="row">
                     <div class="col-xs-3">
