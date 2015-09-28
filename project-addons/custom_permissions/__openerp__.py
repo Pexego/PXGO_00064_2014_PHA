@@ -22,7 +22,7 @@
     'name': "Custom permissions",
     'version': '1.0',
     'category': '',
-    'summary' : ' Various modifications for show just what is needed ',
+    'summary' : ' Various modifications for show just what is needed and customize views to delete or add some fields',
     'description': " //static/description/index.html//",
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
