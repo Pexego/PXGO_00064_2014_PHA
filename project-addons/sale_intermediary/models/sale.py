@@ -26,12 +26,10 @@ from openerp import fields, models
 class my_sale_order(models.Model):
 
     _inherit = 'sale.order'
+    intermediary = fields.Boolean("Intermediary", default=False)
 
-    _columns = {
-        'intermediary': fields.boolean('Intermediary'),
-    }
 
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
+    def _prepare_invoice(self, order, lines ):
         """Prepare the dict of values to create the new invoice for a
            sale order. This method may be overridden to implement custom
            invoice generation (making sure to call super() to establish
@@ -42,39 +40,28 @@ class my_sale_order(models.Model):
                                   attached to the invoice
            :return: dict of value to create() the invoice
         """
-        invoice_vals = super(my_sale_order, self)._prepare_invoice(cr, uid, order,
-                                                                lines, context)
+        invoice_vals = super(my_sale_order, self)._prepare_invoice(order,
+                                                                lines)
 
         invoice_vals.update({
             'partner_shipping_id': order.partner_shipping_id.id,
         })
 
         # Care for deprecated _inv_get() hook - FIXME: to be removed after 6.1
-        invoice_vals.update(self._inv_get(cr, uid, order, context=context))
-
+        #invoice_vals.update(self._inv_get( order ))
         return invoice_vals
 
-my_sale_order()
 
 
-class my_account_invoice(osv.Model):
-
+class my_account_invoice(models.Model):
     _inherit = 'account.invoice'
-
-    _columns = {
-        'partner_shipping_id': fields.many2one('res.partner', 'Shipping to', required=False),
-    }
-
-my_account_invoice()
+    partner_shipping_id = fields.Many2one('res.partner' , 'Shipping to', required=False )
 
 
-class my_account_invoice_report(osv.Model):
 
+class my_account_invoice_report(models.Model):
     _inherit = 'account.invoice.report'
-
-    _columns = {
-        'partner_shipping_id': fields.many2one('res.partner', 'Shipping to'),
-    }
+    partner_shipping_id = fields.Many2one('res.partner', 'Shipping to')
 
     def _select(self):
         return  super(my_account_invoice_report, self)._select() + ", sub.partner_shipping_id as partner_shipping_id"
@@ -84,5 +71,3 @@ class my_account_invoice_report(osv.Model):
 
     def _group_by(self):
         return super(my_account_invoice_report, self)._group_by() + ", ai.partner_shipping_id"
-
-my_account_invoice_report()
