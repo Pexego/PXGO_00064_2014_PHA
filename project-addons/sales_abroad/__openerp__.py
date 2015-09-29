@@ -32,6 +32,7 @@
         'security/ir.model.access.csv',
         'view/sales_abroad_view.xml',
         'wizard/sales_abroad_confirm_docs_view.xml',
+        'data/initialization.xml',
     ],
     'installable': True
 }

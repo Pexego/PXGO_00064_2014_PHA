@@ -31,3 +31,21 @@ class sale_channel_invoice(osv.Model):
     }
 
 sale_channel_invoice()
+
+
+class my_stock_picking(osv.osv):
+
+    _inherit = "stock.picking"
+
+    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move, context=None):
+        inv_vals = super(my_stock_picking, self)._get_invoice_vals(cr, uid, key, inv_type, journal_id, move, context=context)
+        sale = move.picking_id.sale_id
+        if sale:
+            inv_vals.update({
+                'sale_channel_id': sale.sale_channel_id.id,
+            })
+        return inv_vals
+
+my_stock_picking()
+
+

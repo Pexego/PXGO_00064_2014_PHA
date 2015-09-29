@@ -32,7 +32,6 @@
     ],
     'data' : [
         'data/report_paperformat.xml',
-        'views/external_layout_header.xml',
         'views/report_stockinventory.xml',
         'views/report_purchaseorder.xml',
     ],

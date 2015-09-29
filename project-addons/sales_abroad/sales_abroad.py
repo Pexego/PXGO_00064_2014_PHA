@@ -32,7 +32,7 @@ class res_sales_abroad(models.Model):
 
     def unlink(self, cr, uid, ids, context=None):
         # Delete all related attachments before
-        attachment = self.pool['ir.attachment']
+        attachment = self.env['ir.attachment']
         for sa in self.browse(cr, uid, ids, context=context):
             attachment.unlink(cr, uid, sa.attachments.ids, context=context)
 
@@ -50,13 +50,17 @@ class ir_attachment(models.Model):
     def write(self, cr, uid, ids, vals, context=None):
         # Delete file from alternate directory
         attachments = self.browse(cr, uid, ids, context=context)
-        directory = self.pool['ir.config_parameter'].get_param(cr, uid, 'sales_abroad_directory', '')
+        directory = self.pool['ir.config_parameter'].get_param(cr, uid, 'sales_abroad.directory', '')
         for attach in attachments:
             if directory and attach.sales_abroad_id:
                 file_name, file_ext = os.path.splitext(attach.datas_fname)
                 file_dir = directory + '/' + _(attach.sales_abroad_id.country_id.name)
-                os.unlink(file_dir + '/' + file_name + ' [' + str(attach.id) + ']' + file_ext)
-                if not os.listdir(file_dir):
+
+                file_full_path = file_dir + '/' + file_name + ' [' + str(attach.id) + ']' + file_ext
+                if os.path.isfile(file_full_path):
+                    os.unlink(file_full_path)
+
+                if os.path.isdir(file_dir) and not os.listdir(file_dir):
                     os.rmdir(file_dir)
 
         res = super(ir_attachment, self).write(cr, uid, ids, vals, context=context)
@@ -97,7 +101,7 @@ class ir_attachment(models.Model):
         res = super(ir_attachment, self).unlink(cr, uid, ids, context)
 
         # Alternate directory
-        directory = self.pool['ir.config_parameter'].get_param(cr, uid, 'sales_abroad_directory', '')
+        directory = self.pool['ir.config_parameter'].get_param(cr, uid, 'sales_abroad.directory', '')
         for a in attachments:
             self._file_delete(cr, uid, a['store_fname'])
 
@@ -105,8 +109,12 @@ class ir_attachment(models.Model):
             if directory and a['country']:
                 file_name, file_ext = os.path.splitext(a['datas_fname'])
                 file_dir = directory + '/' + _(a['country'])
-                os.unlink(file_dir + '/' + file_name + ' [' + str(a['id']) + ']' + file_ext)
-                if not os.listdir(file_dir):
+
+                file_full_path = file_dir + '/' + file_name + ' [' + str(a['id']) + ']' + file_ext
+                if os.path.isfile(file_full_path):
+                    os.unlink(file_full_path)
+
+                if os.path.isdir(file_dir) and not os.listdir(file_dir):
                     os.rmdir(file_dir)
 
         return res
@@ -118,7 +126,7 @@ class ir_attachment(models.Model):
         # in his corresponding country folder
         attach = self.browse(cr, uid, res, context)
         source_dir = tools.config.filestore(cr.dbname)
-        dest_dir = self.pool['ir.config_parameter'].get_param(cr, uid, 'sales_abroad_directory', '')
+        dest_dir = self.pool['ir.config_parameter'].get_param(cr, uid, 'sales_abroad.directory', '')
         if dest_dir and ('sales_abroad_id' in values):
             file_name, file_ext = os.path.splitext(attach.datas_fname)
             dest_dir = dest_dir + '/' + _(attach.sales_abroad_id.country_id.name)
