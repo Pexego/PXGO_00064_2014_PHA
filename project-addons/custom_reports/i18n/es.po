@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* custom_reports
+#       * custom_reports
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-16 12:33+0000\n"
-"PO-Revision-Date: 2015-09-16 14:39+0200\n"
+"POT-Creation-Date: 2015-09-29 09:24+0000\n"
+"PO-Revision-Date: 2015-09-29 11:24+0200\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
+#: view:website:custom_reports.report_purchaseorder_document
 msgid ""
 ",\n"
 "                            Folio"
@@ -27,7 +27,7 @@ msgstr ""
 "                            Folio"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
+#: view:website:custom_reports.report_purchaseorder_document
 msgid ""
 ",\n"
 "                            Registration"
@@ -36,7 +36,7 @@ msgstr ""
 "                            Registro"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
+#: view:website:custom_reports.report_purchaseorder_document
 msgid ""
 ",\n"
 "                            Sheet Number"
@@ -45,7 +45,7 @@ msgstr ""
 "                            Hoja"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
+#: view:website:custom_reports.report_purchaseorder_document
 msgid ""
 ",\n"
 "                            Volume"
@@ -54,57 +54,57 @@ msgstr ""
 "                            Tomo"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
-msgid ", indicating the number of order."
-msgstr ", indicando el número de pedido."
+#: view:website:custom_reports.report_purchaseorder_document
+msgid ", or by e-mail at"
+msgstr ", o en el e-mail"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "CIF"
 msgstr "CIF"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Description"
 msgstr "Descripción"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
-msgid "For any doubt or explanation, be contacted in the number"
-msgstr "Para cualquier duda o aclaración, póngase en contacto en el número"
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "For any doubt or explanation, be contacted with us in the number"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con nosotros en el número"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Net Price"
 msgstr "Precio neto"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Observations:"
 msgstr "Observaciones:"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Order Date:"
 msgstr "Fecha de pedido:"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Page:"
 msgstr "Página:"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Planned Date:"
 msgstr "Fecha de entrega:"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Purchase Order Confirmation N°:"
 msgstr "Confirmación de orden de compra N°:"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Qty"
 msgstr "Ctdad"
 
@@ -114,27 +114,27 @@ msgid "Real qty."
 msgstr "Cantidad real"
 
 #. module: custom_reports
-#: view:website:report.external_layout_footer
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Recorded in the Companies Registry of"
 msgstr "Inscrita en el Registro Mercantil de"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Request for Quotation N°:"
 msgstr "Solicitud de presupuesto N°:"
 
 #. module: custom_reports
-#: view:website:report.external_layout_header
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Shipping address:"
 msgstr "Dirección de envío:"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Supplier code:"
 msgstr "Código proveedor:"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Taxes"
 msgstr "Impuestos"
 
@@ -144,26 +144,26 @@ msgid "Theoretical qty."
 msgstr "Cantidad teórica"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Total"
 msgstr "Total"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Total Without Taxes"
 msgstr "Total sin impuestos"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Unit Price"
 msgstr "Precio unidad"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "VAT:"
 msgstr "NIF:"
 
 #. module: custom_reports
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:custom_reports.report_purchaseorder_document
 msgid "Validated By:"
 msgstr "Validado por:"
