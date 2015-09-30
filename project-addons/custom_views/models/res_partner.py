@@ -24,10 +24,11 @@ from openerp import models
 class res_partner_concatenated(models.Model):
     _inherit = 'res.partner'
 
-
     def name_get(self, cr, uid, ids, context=None):
-        res = []
-        if context.get('concatenate_name_commercial') == 1:
+        key = 'concatenate_name_commercial'
+
+        if key in context and not context.get(key): # If key is defined and form is in create mode
+            res = []
             for rec in self.browse(cr, uid, ids, context=context):
                 name = rec.name + (' (' + rec.comercial + ')' if rec.comercial else '')
                 res.append((rec.id, name))
