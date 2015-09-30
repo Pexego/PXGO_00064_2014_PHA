@@ -21,6 +21,11 @@ msgid "Confirm Sale"
 msgstr "Confirmar venta"
 
 #. module: custom_permissions
+#: view:sale.order:custom_permissions.view_order_form
+msgid "Order reference"
+msgstr "Referencia de pedido"
+
+#. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_salesman_ph
 msgid "Salesman PH"
 msgstr "Salesman PH"
