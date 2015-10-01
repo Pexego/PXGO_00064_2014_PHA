@@ -30,7 +30,7 @@ class res_partner_concatenated(models.Model):
         if key in context and not context.get(key): # If key is defined and form is in create mode
             res = []
             for rec in self.browse(cr, uid, ids, context=context):
-                name = rec.name + (' (' + rec.comercial + ')' if rec.comercial else ' [?]')
+                name = rec.name + (' (' + rec.comercial + ')' if rec.comercial else '')
                 res.append((rec.id, name))
             return res
         else:

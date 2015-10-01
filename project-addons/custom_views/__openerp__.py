@@ -29,6 +29,8 @@
     'depends' : ['sale'],
     'data' : [
         'views/sale_view.xml',
+        'views/res_partner_view.xml',
+        'views/product_view.xml',
     ],
     'installable': True
 }
