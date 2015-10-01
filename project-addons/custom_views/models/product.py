@@ -21,18 +21,9 @@
 
 from openerp import models, api
 
-class res_partner_concatenated(models.Model):
-    _inherit = 'res.partner'
+class product_product(models.Model):
+    _inherit = 'product.product'
 
     @api.multi
-    def name_get(self):
-        key = 'concatenate_name_comercial'
-
-        if key in self._context and self._context.get(key): # If key is defined and form is in create mode
-            res = []
-            for rec in self:
-                name = rec.name + (' (' + rec.comercial + ')' if rec.comercial else '')
-                res.append((rec.id, name))
-            return res
-        else:
-            return super(res_partner_concatenated, self).name_get()
+    def name_get(self): # Hide default_code by default
+        return super(product_product, self.with_context(display_default_code=False)).name_get()
