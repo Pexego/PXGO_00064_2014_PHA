@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,3 +18,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+from openerp import models, api
+
+class res_partner_concatenated(models.Model):
+    _inherit = 'res.partner'
+
+    @api.multi
+    def name_get(self):
+        key = 'concatenate_name_comercial'
+
+        if key in self._context and self._context.get(key): # If key is defined and form is in create mode
+            res = []
+            for rec in self:
+                name = rec.name + (' (' + rec.comercial + ')' if rec.comercial else '')
+                res.append((rec.id, name))
+            return res
+        else:
+            return super(res_partner_concatenated, self).name_get()

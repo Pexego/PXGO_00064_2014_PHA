@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,3 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+from openerp import models, api
+
+class product_product(models.Model):
+    _inherit = 'product.product'
+
+    @api.multi
+    def name_get(self): # Hide default_code by default
+        return super(product_product, self.with_context(display_default_code=False)).name_get()

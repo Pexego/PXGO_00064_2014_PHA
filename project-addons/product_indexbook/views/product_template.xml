@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="quality_management_menu.product_template_form_view_quality_management_menu"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@string='Quality controls']" position="inside">
-                        <field name="qc_has_pis"  groups="quality_management_menu.group_quality_user"/>
+                    <field name="qc_has_pis"  groups="quality_management_menu.group_quality_user"/>
                 </xpath>
                 <xpath expr="//page[@string='Sales']" position="after">
                     <page string="P.I.S." attrs="{'invisible': [('qc_has_pis', '=', False)]}">
