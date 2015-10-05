@@ -32,7 +32,7 @@
             <field name="name">stock.available.details.tree</field>
             <field name="model">stock.available.details</field>
             <field name="arch" type="xml">
-                <tree string="Estimated consumption" create="false" delete="false">
+                <tree string="Estimated consumption" create="false" delete="false" colors="red:qty_required > qty_available">
                     <field name="product"/>
                     <field name="qty_required"/>
                     <field name="qty_available"/>
