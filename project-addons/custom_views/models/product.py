@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
 
 class product_product(models.Model):
     _inherit = 'product.product'
@@ -27,3 +27,19 @@ class product_product(models.Model):
     @api.multi
     def name_get(self): # Hide default_code by default
         return super(product_product, self.with_context(display_default_code=False)).name_get()
+
+
+class product_template(models.Model):
+    _inherit = 'product.template'
+
+    @api.one
+    @api.depends('seller_ids')
+    def _suppliers_pricelists(self):
+        ids = []
+        for product in self:
+            for seller in product.seller_ids:
+                for pricelist in seller.pricelist_ids:
+                    ids.append(pricelist.id)
+        self.suppliers_pricelists = ids
+
+    suppliers_pricelists = fields.One2many('pricelist.partnerinfo', compute="_suppliers_pricelists")

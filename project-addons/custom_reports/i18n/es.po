@@ -121,7 +121,7 @@ msgstr "Inscrita en el Registro Mercantil de"
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
 msgid "Request for Quotation N°:"
-msgstr "Solicitud de presupuesto N°:"
+msgstr "Borrador de compra N°:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
