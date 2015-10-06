@@ -46,6 +46,8 @@ as children of the pack product.
     ],
     "data": [
         'views/report_saleorder.xml',
+        'views/sale_view.xml',
+        'views/stock_view.xml',
         'security/ir.model.access.csv',
         'pack_view.xml',
     ],
