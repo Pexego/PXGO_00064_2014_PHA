@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_partner_property_form_add_sale_discount" model="ir.ui.view">
+            <field name="name">res.partner.property.form.add_sale_discount</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <field name="property_product_pricelist" position="before">
+                    <field name="sale_discount"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

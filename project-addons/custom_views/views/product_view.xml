@@ -87,5 +87,29 @@
                   id="mrp.menu_mrp_product_form"
                   parent="mrp.menu_mrp_bom"
         />
+
+        <record id="product_supplier_pricelist_tree_view" model="ir.ui.view">
+            <field name="name">product.supplier.pricelist.tree.view</field>
+            <field name="model">pricelist.partnerinfo</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier pricelist">
+                    <field name="suppinfo_id"/>
+                    <field name="min_quantity"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="seller_ids" position="replace">
+                    <field name="seller_ids" class="oe_edit_only"/>
+                    <field name="suppliers_pricelists" class="oe_read_only"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
