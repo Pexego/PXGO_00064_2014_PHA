@@ -5,6 +5,7 @@
 #    Copyright (C) 2012 Domsense srl (<http://www.domsense.com>)
 #    Copyright (C) 2013 Agile Business Group sagl (<http://www.agilebg.com>)
 #    Copyright (C) 2014 Pexego Sistemas Informáticos
+#    Copyright (C) 2015 Óscar Salvador - Pharmadus (http://www.pharmadus.com)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -615,7 +616,7 @@ class purchase_order(orm.Model):
         return res'''
 
 
-class stock_pciking(orm.Model):
+class stock_picking(orm.Model):
 
     _inherit = 'stock.picking'
 
@@ -707,7 +708,7 @@ class stock_move(orm.Model):
 
     _columns = {
         'pack_component': fields.function(_pack_component,
-                                          string='pack component',
+                                          string='Pack component',
                                           type='boolean',
                                           store=False),
     }
