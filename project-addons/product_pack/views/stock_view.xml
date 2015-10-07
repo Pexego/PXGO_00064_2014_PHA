@@ -8,7 +8,8 @@
             <field name="priority">17</field>
             <field name="arch" type="xml">
                 <tree string="Stock Moves" position="inside">
-                    <field name="pack_component" widget="many2onebutton"/>
+                    <field name="pack_component" invisible="1"/>
+                    <field name="pack_icon" string="Pack component" widget="image"/>
                 </tree>
                 <tree string="Stock Moves" position="attributes">
                     <attribute name="colors">grey:scrapped == True; green:pack_component</attribute>

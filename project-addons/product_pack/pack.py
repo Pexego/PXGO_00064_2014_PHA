@@ -188,6 +188,13 @@ class product_product(orm.Model):
 
 class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
+
+    def _pack_icon(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context):
+            res[line.id] = 'terp-camera_test' if line.pack_parent_line_id else ''
+        return res
+
     _columns = {
         'pack_depth': fields.integer(
             'Depth', required=True,
@@ -199,6 +206,7 @@ class sale_order_line(orm.Model):
         ),
         'pack_child_line_ids': fields.one2many(
             'sale.order.line', 'pack_parent_line_id', 'Lines in pack'),
+        'pack_icon': fields.function(_pack_icon, string='Pack component', type='char', store=False),
     }
     _defaults = {
         'pack_depth': 0,
@@ -706,11 +714,18 @@ class stock_move(orm.Model):
                     res[move.id] = True
         return res
 
+    def _pack_icon(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context):
+            res[line.id] = 'terp-camera_test' if line.pack_component else ''
+        return res
+
     _columns = {
         'pack_component': fields.function(_pack_component,
                                           string='Pack component',
                                           type='boolean',
                                           store=False),
+        'pack_icon': fields.function(_pack_icon, string='Pack component', type='char', store=False),
     }
 
 
