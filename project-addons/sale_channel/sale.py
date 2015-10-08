@@ -20,7 +20,7 @@
 ##############################################################################
 
 
-from openerp.osv import fields, osv
+from openerp.osv import osv
 
 
 class sale_order(osv.Model):
@@ -29,11 +29,7 @@ class sale_order(osv.Model):
 
     def _prepare_invoice(self, cr, uid, order, context=None):
         result = super(sale_order, self)._prepare_invoice(cr, uid, order, context=context)
-        result = {
-            'sale_channel_id': order.sale_channel_id.id,
-        }
-        result.update(self._inv_get(cr, uid, order, context=context))
+        result['sale_channel_id'] =  order.sale_channel_id.id
         return result
-
 
 sale_order()
