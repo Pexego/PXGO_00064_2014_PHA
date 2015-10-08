@@ -21,7 +21,6 @@
 ##############################################################################
 from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
-from lxml import etree
 
 
 class StockAvailable(models.TransientModel):
