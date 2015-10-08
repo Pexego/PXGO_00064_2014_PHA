@@ -41,23 +41,6 @@ class StockAvailable(models.TransientModel):
         bom_ids = self.env['mrp.bom'].search([('product_tmpl_id', '=', self.product_id.id)])
         self.bom_id = bom_ids[0] if bom_ids else False
 
-    @api.model
-    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
-        context = self._context
-        res = super(models.TransientModel, self).fields_view_get(view_id=view_id,
-                                                                 view_type=view_type,
-                                                                 toolbar=toolbar,
-                                                                 submenu=submenu)
-        if view_type == 'form' and context.get('active_model') == 'stock.available':
-            categSaleablePH = self.env.ref('.prodcat084')  # Imported external ids lacks of associated module
-            if categSaleablePH:
-                doc = etree.XML(res['arch'])
-                for node in doc.xpath("//field[@name='product_id']"):
-                    node.set('domain', "[('categ_ids', '=', " + str(categSaleablePH[0].id) + ")]")
-                res['arch'] = etree.tostring(doc)
-
-        return res
-
 
 class StockAvailableDetails(models.TransientModel):
     _name = 'stock.available.details'
