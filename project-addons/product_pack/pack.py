@@ -679,7 +679,7 @@ class stock_picking(orm.Model):
         sale_obj = self.pool.get('sale.order')
         sale_line_obj = self.pool.get('sale.order.line')
         invoice_line_obj = self.pool.get('account.invoice.line')
-        invoice_id = super(stock_pciking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
+        invoice_id = super(stock_picking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
         picking_product_ids = [x.product_id.id for x in picking.move_lines]
         if picking.group_id:
             sale_ids = sale_obj.search(cr, uid, [('procurement_group_id', '=', picking.group_id.id)], context=context)
