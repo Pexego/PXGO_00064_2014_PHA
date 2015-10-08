@@ -663,7 +663,7 @@ class stock_picking(orm.Model):
                 invoices += self._invoice_create_line(cr, uid, final_moves, journal_id, type, context=context)
             else:
                 # Si el albarán no tiene ningun movimiento facturable se crea
-                # una factura con uno de los movimientos y se borran las lineas.
+                # una factura con uno de los movimientos y se borran las líneas.
                 invoice = self._invoice_create_line(cr, uid, [moves[0]], journal_id, type, context=context)
                 to_delete = inv_line_obj.search(cr, uid,
                     [('invoice_id', '=', invoice),
