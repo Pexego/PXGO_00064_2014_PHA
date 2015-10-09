@@ -188,6 +188,13 @@ class product_product(orm.Model):
 
 class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
+
+    def _pack_icon(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context):
+            res[line.id] = 'terp-camera_test' if line.pack_parent_line_id else ''
+        return res
+
     _columns = {
         'pack_depth': fields.integer(
             'Depth', required=True,
@@ -199,6 +206,7 @@ class sale_order_line(orm.Model):
         ),
         'pack_child_line_ids': fields.one2many(
             'sale.order.line', 'pack_parent_line_id', 'Lines in pack'),
+        'pack_icon': fields.function(_pack_icon, string='Pack component', type='char', store=False),
     }
     _defaults = {
         'pack_depth': 0,
@@ -655,7 +663,7 @@ class stock_picking(orm.Model):
                 invoices += self._invoice_create_line(cr, uid, final_moves, journal_id, type, context=context)
             else:
                 # Si el albarán no tiene ningun movimiento facturable se crea
-                # una factura con uno de los movimientos y se borran las lineas.
+                # una factura con uno de los movimientos y se borran las líneas.
                 invoice = self._invoice_create_line(cr, uid, [moves[0]], journal_id, type, context=context)
                 to_delete = inv_line_obj.search(cr, uid,
                     [('invoice_id', '=', invoice),
@@ -671,7 +679,7 @@ class stock_picking(orm.Model):
         sale_obj = self.pool.get('sale.order')
         sale_line_obj = self.pool.get('sale.order.line')
         invoice_line_obj = self.pool.get('account.invoice.line')
-        invoice_id = super(stock_pciking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
+        invoice_id = super(stock_picking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
         picking_product_ids = [x.product_id.id for x in picking.move_lines]
         if picking.group_id:
             sale_ids = sale_obj.search(cr, uid, [('procurement_group_id', '=', picking.group_id.id)], context=context)
@@ -706,11 +714,18 @@ class stock_move(orm.Model):
                     res[move.id] = True
         return res
 
+    def _pack_icon(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context):
+            res[line.id] = 'terp-camera_test' if line.pack_component else ''
+        return res
+
     _columns = {
         'pack_component': fields.function(_pack_component,
                                           string='Pack component',
                                           type='boolean',
                                           store=False),
+        'pack_icon': fields.function(_pack_icon, string='Pack component', type='char', store=False),
     }
 
 

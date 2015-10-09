@@ -45,6 +45,7 @@ msgstr "Agrupar por..."
 #: view:stock.picking:sale_intermediary.order_note_intermediary_order_form
 #: view:stock.picking:sale_intermediary.order_note_intermediary_search_tree_view
 #: view:stock.picking:sale_intermediary.order_note_partner_id_order_form
+#: view:sale.order:sale_intermediary.sale_order_add_intermediary_attrs_order_policy
 msgid "Intermediary"
 msgstr "Intermediario"
 

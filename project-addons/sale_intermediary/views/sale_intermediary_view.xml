@@ -120,14 +120,32 @@
             </field>
         </record>
 
-
-
         <!-- ##### -->
         <record id="sale_order_add_intermediary_attrs_order_policy" model="ir.ui.view">
             <field name="name">sale.order.add.intermediary.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="priority">10</field>
             <field name="arch" type="xml">
+                <field name="partner_id" position="replace">
+                    <div>
+                        <label for="partner_id"
+                               string="Customer"
+                               attrs="{'invisible': [('intermediary', '=', True)]}"
+                               style="font-weight: bold;"/>
+                        <label for="partner_id"
+                               string="Intermediary"
+                               attrs="{'invisible': [('intermediary', '=', False)]}"
+                               style="font-weight: bold;"/>
+                    </div>
+                    <div>
+                        <field name="partner_id"
+                               on_change="onchange_partner_id(partner_id, context)"
+                               domain="[('customer','=',True)]"
+                               context="{'search_default_customer':1, 'show_address': 1}"
+                               options='{"always_reload": True}'/>
+                    </div>
+                </field>
                 <field name="order_policy" position="attributes">
                     <attribute name="attrs">{'readonly': [('intermediary', '=', True)]}</attribute>
                 </field>

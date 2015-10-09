@@ -29,6 +29,8 @@
     'website': 'www.pharmadus.com',
     'depends' : [
         'purchase',
+        'report_webkit',
+        'l10n_es_partner_mercantil',
     ],
     'data' : [
         'data/report_paperformat.xml',
