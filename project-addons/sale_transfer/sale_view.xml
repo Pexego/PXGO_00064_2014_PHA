@@ -74,7 +74,7 @@
             </field>
         </record>
 
-        <record id="sale_report_extended_search" model="ir.ui.view">
+        <!--record id="sale_report_extended_search" model="ir.ui.view">
             <field name="name">sale.report.extended_search</field>
             <field name="model">sale.report</field>
             <field name="inherit_id" ref="sale.view_order_product_search"/>
@@ -84,6 +84,24 @@
                     </filter>
                 </filter>
             </field>
+        </record-->
+
+        <record id="view_transfer_sales" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">6</field>
+            <field name="arch" type="xml">
+                <tree string="Presupuesto" fonts="bold:message_unread==True" colors="grey:state=='cancel';blue:state in ('waiting_date','manual');red:state in ('invoice_except','shipping_except')">
+                    <field name="message_unread" invisible="1" modifiers="{'readonly': true, 'tree_invisible': true}"/>
+                    <field name="name" string="Número de presupuesto" modifiers="{'readonly': [['state', 'not in', ['draft', 'sent']]], 'required': true}"/>
+                    <field name="date_order" modifiers="{'readonly': [['state', 'not in', ['draft', 'sent']]], 'required': true}"/>
+                    <field name="partner_id" modifiers="{'readonly': [['state', 'not in', ['draft', 'sent']]], 'required': true}"/>
+                    <field name="notified_partner_id" modifiers="{}"/>
+                    <field name="user_id" modifiers="{}"/>
+                    <field name="amount_total" sum="Total impuestos incluidos" modifiers="{'readonly': true}"/>
+                    <field name="state" modifiers="{'readonly': true}"/>
+                </tree>
+            </field>
         </record>
 
         <record id="action_transfer" model="ir.actions.act_window">
@@ -91,7 +109,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.order</field>
             <field name="view_type">form</field>
-            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_id" ref="view_transfer_sales"/>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field name="context">{'search_default_my_sale_orders_filter': 1, 'default_transfer': 1}</field>
             <field name="domain">[('transfer', '=', 1)]</field>
@@ -104,7 +122,7 @@
         </record>
 
         <menuitem id="sale_order_transfer" name="Transfer orders" string="Transfer sale order"
-        action="action_transfer"  parent="base.menu_sales" sequence="4"/>
+            action="action_transfer"  parent="base.menu_sales" sequence="4"/>
 
 
 
