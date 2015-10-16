@@ -6,7 +6,7 @@
             <field name="domain">[['sale_type', '=', 'transfer']]</field>
             <field name="user_id"></field>
             <field name="name">Cooperative reposition</field>
-            <field name="context">{'group_by': ['product_id', 'notified_partner_id'], 'measures': ['price_total'], 'col_group_by': ['date:month']}</field>
+            <field name="context">{'group_by': ['notified_partner_id', 'product_id'], 'measures': ['price_total'], 'col_group_by': ['date:month']}</field>
         </record>
     </data>
 </openerp>
