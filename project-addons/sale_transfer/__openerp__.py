@@ -35,6 +35,7 @@
               'settled_view.xml',
               'sale_workflow.xml',
               'templates/template_mail.xml',
+              'data/initialization.xml',
              ],
     "installable": True
 }
