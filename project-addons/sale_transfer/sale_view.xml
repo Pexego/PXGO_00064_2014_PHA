@@ -111,8 +111,5 @@
 
         <menuitem id="sale_order_transfer" name="Transfer orders" string="Transfer sale order"
             action="action_transfer"  parent="base.menu_sales" sequence="4"/>
-
-
-
     </data>
 </openerp>

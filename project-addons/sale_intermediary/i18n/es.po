@@ -81,6 +81,7 @@ msgstr "Albaranes"
 
 #. module: sale_intermediary
 #: field:sale.order,intermediary:0
+#: view:stock.picking:sale_intermediary.order_note_intermediary_order_form
 msgid "Sale by intermediary"
 msgstr "Venta por intermediario"
 
@@ -103,8 +104,8 @@ msgstr "Cliente final"
 
 #. module: sale_intermediary
 #: view:stock.picking:sale_intermediary.order_note_intermediary_order_form
-msgid "Supplier"
-msgstr "Proveedor"
+msgid "Partner"
+msgstr "Empresa"
 
 #. module: sale_intermediary
 #: model:ir.actions.act_window,name:sale_intermediary.action_intermediary

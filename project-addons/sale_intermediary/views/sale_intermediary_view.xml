@@ -91,7 +91,7 @@
                 <field name="partner_id" position="before">
                     <div>
                         <label for="partner_id"
-                               string="Supplier"
+                               string="Partner"
                                attrs="{'invisible': [('intermediary', '=', True)]}"
                                style="font-weight: bold;"/>
                         <label for="partner_id"
