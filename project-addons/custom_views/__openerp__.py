@@ -26,11 +26,13 @@
     'description': " //static/description/index.html//",
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
-    'depends' : ['sale'],
+    'depends' : ['sale',
+                 'purchase_analytic_plans'],
     'data' : [
         'views/sale_view.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',
+        'views/purchase_view.xml'
     ],
     'installable': True
 }
