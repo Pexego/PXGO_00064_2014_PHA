@@ -107,7 +107,8 @@
             <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="arch" type="xml">
                 <field name="origin" position="after">
-                    <field name="supplier_delivery_note"/>
+                    <field name="supplier_delivery_note"
+                           invisible="context.get('active_id') == 2"/> <!-- ref('stock.picking_type_out') -->
                 </field>
             </field>
         </record>
