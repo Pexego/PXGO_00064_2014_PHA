@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class sale_order(models.Model):
@@ -27,6 +27,10 @@ class sale_order(models.Model):
 
     internal_note = fields.Text(string='Internal note')
 
-    @api.multi
+    @api.one
     def write(self, vals):
-        return vals
+        res = super(sale_order, self).write(vals)
+        text = vals.get('internal_note', False)
+        if text:
+            self.env['']
+        return res
