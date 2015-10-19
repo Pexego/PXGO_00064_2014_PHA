@@ -6,8 +6,11 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <field name="note" position="after">
-                    <field name="internal_note" class="oe_inline" placeholder="Internal note..."/>
+                <field name="note" position="replace">
+                    <group colspan="4">
+                        <field name="internal_note" placeholder="Internal note..."/>
+                        <field name="note" placeholder="Terms and conditions..."/>
+                    </group>
                 </field>
             </field>
         </record>

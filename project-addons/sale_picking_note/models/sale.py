@@ -32,5 +32,6 @@ class sale_order(models.Model):
         res = super(sale_order, self).write(vals)
         text = vals.get('internal_note', False)
         if text:
-            self.env['']
+            for picking in self.picking_ids:
+                picking.note = text
         return res
