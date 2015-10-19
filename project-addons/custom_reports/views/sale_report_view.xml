@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_order_product_search" model="ir.ui.view">
+            <field name="name">sale.report.search</field>
+            <field name="model">sale.report</field>
+            <field name="inherit_id" ref="sale.view_order_product_search"/>
+            <field name="arch" type="xml">
+                <filter name="Customer" position="before">
+                    <filter string="Sale type" context="{'group_by':'sale_type'}"/>
+                </filter>
+
+                <filter name="Quotations" position="replace">
+                    <filter name="Quotations" domain="[('state','in',('draft','sent')), ('sale_type', '=', 'normal')]]"/>
+                </filter>
+
+                <filter name="Sales" position="replace">
+                    <filter name="Samples" string="Samples" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'sample')]"/>
+                    <filter name="Transfers" string="Transfers" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'transfer')]"/>
+                    <filter name="Replacements" string="Replacements" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'replacement')]"/>
+                    <filter name="Sales" string="Sales" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'normal')]"/>
+                </filter>
+
+                <filter string="Customer" position="after">
+                    <filter string="Sale channel" domain="[]" context="{'group_by':'sale_channel_id'}"/>
+                </filter>
+
+                <filter string="Company" position="after">
+                    <filter string="Cooperative" context="{'group_by':'notified_partner_id'}" domain="[('sale_type', '=', 'transfer')]"/>
+                </filter>
+            </field>
+        </record>
+    </data>
+</openerp>

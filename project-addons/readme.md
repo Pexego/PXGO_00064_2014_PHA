@@ -1,0 +1,1 @@
+Post-buildout or post execute /start_openerp -u all it's necesary update manually custom_reports tu fix dependencies with sale_transfer_sample_rel / sale_channel TO-DO

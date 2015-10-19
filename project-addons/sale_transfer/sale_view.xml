@@ -74,18 +74,6 @@
             </field>
         </record>
 
-        <!--record id="sale_report_extended_search" model="ir.ui.view">
-            <field name="name">sale.report.extended_search</field>
-            <field name="model">sale.report</field>
-            <field name="inherit_id" ref="sale.view_order_product_search"/>
-            <field name="arch" type="xml">
-                <filter string='Customer' position="after">
-                    <filter string='Cooperative' context="{'group_by' : 'notified_partner_id'}" domain="">
-                    </filter>
-                </filter>
-            </field>
-        </record-->
-
         <record id="view_transfer_sales" model="ir.ui.view">
             <field name="name">sale.order.tree</field>
             <field name="model">sale.order</field>
@@ -123,8 +111,5 @@
 
         <menuitem id="sale_order_transfer" name="Transfer orders" string="Transfer sale order"
             action="action_transfer"  parent="base.menu_sales" sequence="4"/>
-
-
-
     </data>
 </openerp>
