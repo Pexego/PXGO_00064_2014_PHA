@@ -7,6 +7,11 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
+                <field name="comercial" position="attributes">
+                    <attribute name="attrs">
+                        {'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}
+                    </attribute>
+                </field>
                 <field name="street" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
