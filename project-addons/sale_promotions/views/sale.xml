@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Other Information']/group/group/field[@name='origin']" position="after">
-                    <field name='coupon_code' attrs="{'readonly':[('state','!=','draft')]}" />
+                    <field name='coupon_code' attrs="{'readonly':[('state','!=','draft')]}" groups="base.group_sale_manager"/>
                 </xpath>
             </field>
         </record>
@@ -19,7 +19,7 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="/form/header/button[@name='action_button_confirm']" position="after">
-                    <button name="apply_promotions" type="object" states="draft" string="Apply Promotions" />
+                    <button name="apply_promotions" type="object" states="draft" string="Apply Promotions" groups="base.group_sale_manager"/>
                 </xpath>
             </field>
         </record>
