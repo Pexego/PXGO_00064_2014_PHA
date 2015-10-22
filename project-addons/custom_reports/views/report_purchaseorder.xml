@@ -71,7 +71,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 15px;">
+                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px;">
                         <strong>Shipping address:</strong>
                         <div t-if="o.dest_address_id">
                             <div t-field="o.dest_address_id"
@@ -90,7 +90,7 @@
             <div class="page">
                 <div class="oe_structure"/>
 
-                <div>
+                <div style="border-bottom: 2px solid black; margin-bottom: 10px;">
                     <h2 t-if="o.state != 'draft'">Purchase Order Confirmation N°: <span t-field="o.name"/></h2>
                     <h2 t-if="o.state == 'draft'">Request for Quotation N°: <span t-field="o.name"/></h2>
                 </div>

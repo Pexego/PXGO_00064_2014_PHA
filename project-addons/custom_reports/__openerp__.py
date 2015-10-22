@@ -39,6 +39,7 @@
         'data/report_paperformat.xml',
         'views/report_stockinventory.xml',
         'views/report_purchaseorder.xml',
+        'views/report_saleorder.xml',
         'views/sale_report_view.xml',
     ],
     'installable': True
