@@ -331,6 +331,10 @@ class PromotionsRules(osv.Model):
                                                ))
         order = self.pool.get('sale.order').browse(cursor, user,
                                                    order_id, context)
+
+        # Clear existing promotion lines here to allow various actions per rule
+        action_obj.clear_existing_promotion_lines(cursor, user, order, context)
+
         for action in promotion_rule.actions:
             try:
                 action_obj.execute(cursor, user, action.id,
@@ -1144,7 +1148,8 @@ class PromotionsRulesActions(osv.Model):
         @param order: sale order
         @param context: Context(no direct use).
         """
-        self.clear_existing_promotion_lines(cursor, user, order, context)
+        # If we clear promotion lines here, only one promotion by rule can be applied
+        # self.clear_existing_promotion_lines(cursor, user, order, context)
         action = self.browse(cursor, user, action_id, context)
         method_name = 'action_' + action.action_type
         return getattr(self, method_name).__call__(cursor, user, action,
