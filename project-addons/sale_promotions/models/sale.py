@@ -58,6 +58,7 @@ class SaleOrderLine(osv.osv):
     Sale Order Line
     '''
     _inherit = "sale.order.line"
+    _order = "product_id, promotion_line desc"
     
     _columns = {
         'promotion_line':fields.boolean(

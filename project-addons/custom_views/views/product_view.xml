@@ -4,7 +4,6 @@
         <!-- Sales: Products default to tree view -->
         <record id="product_template_action_tree_view" model="ir.actions.act_window">
             <field name="name">Products</field>
-            <field name="inherit_id" ref="product.product_template_action"/>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.template</field>
             <field name="view_mode">tree,kanban,form</field>
@@ -21,7 +20,6 @@
         <!-- Purchases: Products default to tree view -->
         <record id="product_normal_action_puchased_tree_view" model="ir.actions.act_window">
             <field name="name">Products</field>
-            <field name="inherit_id" ref="purchase.product_normal_action_puchased"/>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.template</field>
             <field name="view_type">form</field>
@@ -51,7 +49,6 @@
         <!-- Warehouse: Products default to tree view and show all products -->
         <record id="product_template_action_warehouse" model="ir.actions.act_window">
             <field name="name">Products</field>
-            <field name="inherit_id" ref="product.product_template_action"/>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.template</field>
             <field name="view_mode">tree,kanban,form</field>
@@ -74,7 +71,6 @@
         <!-- MRP: Products default to tree view -->
         <record id="product_template_action_mrp" model="ir.actions.act_window">
             <field name="name">Products</field>
-            <field name="inherit_id" ref="mrp.product_template_action"/>
             <field name="res_model">product.template</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="view_type">form</field>
