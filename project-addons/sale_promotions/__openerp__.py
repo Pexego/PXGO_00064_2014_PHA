@@ -34,7 +34,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/rule.xml',
-        'views/sale.xml'
+        'views/sale.xml',
                 ],
     'installable': True
 }

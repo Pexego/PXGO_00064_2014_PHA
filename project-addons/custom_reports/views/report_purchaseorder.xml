@@ -71,7 +71,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px;">
+                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
                         <strong>Shipping address:</strong>
                         <div t-if="o.dest_address_id">
                             <div t-field="o.dest_address_id"
@@ -245,6 +245,7 @@
             </div>
         </template>
 
+        <!-- Trampota, para reemplazar el report original con el nuestro -->
         <template id="purchase.report_purchaseorder">
             <t t-call="report.html_container">
                 <t t-foreach="doc_ids" t-as="doc_id">

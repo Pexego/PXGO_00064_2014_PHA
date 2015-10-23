@@ -34,6 +34,7 @@
         'sale_transfer',
         'sale_transfer_sample_rel',
         'sale_channel',
+        'sale_promotions',
     ],
     'data' : [
         'data/report_paperformat.xml',

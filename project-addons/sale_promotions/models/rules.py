@@ -924,8 +924,7 @@ class PromotionsRulesActions(osv.Model):
         return order_line_obj.create(cursor, user, {
                              'order_id':order.id,
                              'product_id':product_y.id,
-                             'name':'[%s]%s (%s)' % (
-                                         product_y.default_code,
+                             'name':'%s (%s)' % (
                                          product_y.name,
                                          action.promotion.name),
                               'price_unit':0.00, 'promotion_line':True,
