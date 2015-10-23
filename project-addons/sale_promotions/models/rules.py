@@ -4,6 +4,7 @@
 #    Odoo, Open Source Management Solution
 #    Copyright (C) 2014 Pharmadus i+D+I (<http://www.pharmadus.com>)
 #    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    $Óscar Salvador<oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2011 NovaPoint Group LLC (<http://www.novapointgroup.com>)
 #    Copyright (C) 2004-2010 OpenERP SA (<http://www.openerp.com>)
 #
