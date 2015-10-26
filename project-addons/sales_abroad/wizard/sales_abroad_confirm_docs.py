@@ -26,7 +26,8 @@ class sales_abroad_confirm_docs(models.TransientModel):
     _name = 'sales.abroad.confirm.docs'
     _inherits = {'res.country': 'country_id'}
 
-    country_id = fields.Many2one('res.country', 'Country', required=True, ondelete='cascade')
+    country_id = fields.Many2one('res.country', 'Country', required=True,
+                                 ondelete='cascade')
     reference = fields.Char()
 
     @api.multi
@@ -50,4 +51,5 @@ class sales_abroad_confirm_docs(models.TransientModel):
     @api.one
     def action_confirmed(self):
         ctx = self.env.context
-        self.env[ctx['active_model']].browse(ctx['active_ids']).write({'docs_confirmed': True})
+        self.env[ctx['active_model']].browse(ctx['active_ids']).write(
+            {'docs_confirmed': True})

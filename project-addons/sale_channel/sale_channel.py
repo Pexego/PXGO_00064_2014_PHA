@@ -31,5 +31,3 @@ class sale_channel(osv.Model):
     _columns = {
         'name': fields.char('Name', size=150, required=True, help=""),
     }
-
-sale_channel()
