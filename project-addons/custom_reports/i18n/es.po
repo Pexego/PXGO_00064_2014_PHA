@@ -302,5 +302,5 @@ msgstr "Validado por:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
-msgid "Your Reference:"
-msgstr "Su referencia:"
+msgid "Quotation reference:"
+msgstr "Referencia de pedido:"

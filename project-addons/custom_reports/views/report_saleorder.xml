@@ -82,7 +82,7 @@
             <div class="page">
                 <div class="oe_structure"/>
 
-                <div style="border-bottom: 2px solid black; margin-bottom: 10px;">
+                <div class="row" style="border-bottom: 2px solid black; margin-bottom: 10px;">
                     <t t-if="not o.transfer">
                         <h2 t-if="o.state not in ['draft','sent']">Order Nº <span t-field="o.name"/></h2>
                         <h2 t-if="o.state in ['draft','sent']">Quotation N° <span t-field="o.name"/></h2>
@@ -92,8 +92,46 @@
                     </t>
                 </div>
 
+                <div t-if="o.transfer" class="row" style="border-bottom: 1px solid black; padding-bottom: 10px; margin-bottom: 10px;">
+                    <div class="col-xs-5">
+                        <strong>Cooperative address:</strong><br/>
+
+                        <span t-field="o.notified_partner_id.name"></span><br/>
+
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        <span t-field="o.notified_partner_id.street"></span><br/>
+
+                        <span t-field="o.notified_partner_id.zip" style="margin-left: 17px;"></span>
+                        <span t-field="o.notified_partner_id.city"></span> -
+                        <span t-field="o.notified_partner_id.state_id"></span>
+                        (<span t-field="o.notified_partner_id.country_id"></span>)<br/>
+
+                        <t t-if="o.partner_id.phone">
+                            <i class="glyphicon glyphicon-earphone"></i>
+                            <span t-field="o.notified_partner_id.phone"></span>
+                        </t>
+                        <t t-if="o.partner_id.phone and o.partner_id.fax"><span> /</span></t>
+                        <t t-if="o.partner_id.fax">
+                            <i class="glyphicon glyphicon-print"></i>
+                            <span t-field="o.notified_partner_id.fax"></span><br/>
+                        </t>
+
+                        <t t-if="o.partner_id.website">
+                            <i class="glyphicon glyphicon-globe"></i>
+                            <a t-field="o.notified_partner_id.website"></a><br/>
+                        </t>
+
+                        <t t-if="o.partner_id.email">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                            <a t-field="o.notified_partner_id.email"></a>
+                        </t>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-xs-5">
+                        <strong>Invoicing address:</strong><br/>
+
                         <span t-field="o.partner_invoice_id.name"></span><br/>
 
                         <i class="glyphicon glyphicon-map-marker"></i>
@@ -125,7 +163,7 @@
                         </t>
                     </div>
                     <div class="col-xs-3">
-                        <p t-if="o.partner_id.ref"><strong>Your Reference:</strong> <span t-field="o.client_order_ref"></span></p>
+                        <p t-if="o.partner_id.ref"><strong>Quotation reference:</strong> <span t-field="o.client_order_ref"></span></p>
                         <p t-if="o.partner_id.vat"><strong>VAT:</strong> <span t-field="o.partner_invoice_id.vat"></span></p>
                     </div>
                     <div class="col-xs-4">
@@ -144,6 +182,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row" style="width: 100%; height: 20px;">
+                    <br/>
+                </div>
+
+                <style>
+                    table thead > tr {
+                        border-bottom: 2px solid black;
+                    }
+                </style>
 
                 <table t-if="not o.transfer" class="table table-condensed">
                     <thead>
@@ -165,14 +213,14 @@
                                 <span t-esc="', '.join(map(lambda x: x.name, l.tax_id))"/>
                             </td>
                             <td class="text-right">
-                                <span t-field="l.product_uom_qty"/>
+                                <span t-esc="'%g' % l.product_uom_qty"/>
                                 <span groups="product.group_uom" t-field="l.product_uom"/>
                             </td>
                             <td class="text-right">
-                                <span t-field="l.price_unit"/>
+                                <span t-esc="'%g' % l.price_unit"/>
                             </td>
                             <td groups="sale.group_discount_per_so_line">
-                                <span t-field="l.discount"/>
+                                <span t-esc="'%g' % l.discount"/>
                             </td>
                             <td class="text-right">
                                 <span t-field="l.price_subtotal"
@@ -219,10 +267,10 @@
                                    <span t-esc="name"/>
                                 </td>
                                 <td class="text-right">
-                                    <span t-esc="quantity"/>
+                                    <span t-esc="'%g' % quantity"/>
                                 </td>
                                 <td class="text-right">
-                                    <span t-esc="promo"/>
+                                    <span t-esc="'%g' % promo"/>
                                 </td>
                                 <td class="text-right">
                                     <span t-esc="uom"/>
@@ -262,7 +310,8 @@
                     </div>
                 </div>
 
-                <p t-field="o.note" />
+                <span><strong>Observations:</strong></span>
+                <p t-field="o.note"/>
                 <p t-if="o.payment_term.note">
                     <strong>Payment Term:</strong>
                     <span t-field="o.payment_term.note"/>
