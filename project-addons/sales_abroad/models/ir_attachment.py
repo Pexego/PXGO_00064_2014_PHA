@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# #############################################################################
+##############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
@@ -16,31 +16,10 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##############################################################################
 #
-
-from openerp import models, fields, api, _, tools
-from openerp.exceptions import Warning
+##############################################################################
+from openerp import models, fields, api, exceptions, _
 import shutil, os
-
-
-class res_sales_abroad(models.Model):
-    _name = 'res.sales.abroad'
-    documents = fields.Char()
-    country_id = fields.Many2one('res.country', ondelete='restrict')
-    attachments = fields.One2many('ir.attachment', 'sales_abroad_id')
-
-    def unlink(self, cr, uid, ids, context=None):
-        # Delete all related attachments before
-        attachment = self.env['ir.attachment']
-        for sa in self.browse(cr, uid, ids, context=context):
-            attachment.unlink(cr, uid, sa.attachments.ids, context=context)
-
-        return super(res_sales_abroad, self).unlink(cr, uid, ids, context=context)
-
-class res_country(models.Model):
-    _inherit = 'res.country'
-    sales_abroad_id = fields.One2many('res.sales.abroad', 'country_id')
 
 
 class ir_attachment(models.Model):
@@ -138,59 +117,3 @@ class ir_attachment(models.Model):
             )
 
         return res
-
-
-class stock_picking(models.Model):
-    _inherit = 'stock.picking'
-    docs_confirmed = fields.Boolean(default=False)
-    docs_confirmed_check = fields.Boolean(compute='_docs_confirmed_check')
-
-    def _docs_confirmed_check(self):
-        for rec in self:
-            rec.docs_confirmed = rec.docs_confirmed or\
-                                 not bool(rec.partner_id.country_id.sales_abroad_id)
-            rec.docs_confirmed_check = rec.docs_confirmed
-
-    @api.multi
-    def pre_transfer_checks(self):
-        sp = self.browse(self.ids)
-        country_id = sp.partner_id.country_id.id
-        reference = sp.name
-        return self.env['sales.abroad.confirm.docs'].wizard_view(country_id, reference)
-
-
-class stock_move(models.Model):
-    _inherit = 'stock.move'
-    docs_confirmed = fields.Boolean(default=False)
-    docs_confirmed_check = fields.Boolean(compute='_docs_confirmed_check')
-
-    def _docs_confirmed_check(self):
-        for rec in self:
-            rec.docs_confirmed = rec.docs_confirmed or\
-                                 rec.picking_id.docs_confirmed_check
-            rec.docs_confirmed_check = rec.docs_confirmed
-
-    @api.multi
-    def pre_move_checks(self):
-        sp = self.browse(self.ids).picking_id
-        country_id = sp.partner_id.country_id.id
-        reference = sp.name
-        return self.env['sales.abroad.confirm.docs'].wizard_view(country_id, reference)
-
-
-class stock_picking_wave(models.Model):
-    _inherit = 'stock.picking.wave'
-    docs_confirmed = fields.Boolean(default=False)
-    docs_confirmed_check = fields.Boolean(compute='_docs_confirmed_check')
-
-    def _docs_confirmed_check(self):
-        for pw in self:
-            pw.docs_confirmed = True
-            for pl in pw.picking_ids:
-                pw.docs_confirmed = pw.docs_confirmed and pl.docs_confirmed_check
-            pw.docs_confirmed_check = pw.docs_confirmed
-
-    @api.multi
-    def pre_wave_checks(self):
-        if not self.docs_confirmed_check:
-            raise Warning(_("Please, check the documents of all picking lines."))

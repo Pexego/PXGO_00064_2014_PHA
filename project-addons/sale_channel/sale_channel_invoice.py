@@ -30,7 +30,6 @@ class sale_channel_invoice(osv.Model):
         'sale_channel_id': fields.many2one('sale_channel', 'Sale channel', required=False),
     }
 
-sale_channel_invoice()
 
 
 class my_stock_picking(osv.osv):
@@ -46,6 +45,5 @@ class my_stock_picking(osv.osv):
             })
         return inv_vals
 
-my_stock_picking()
 
 
