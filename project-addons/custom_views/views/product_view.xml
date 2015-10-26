@@ -105,6 +105,17 @@
                     <field name="seller_ids" class="oe_edit_only"/>
                     <field name="suppliers_pricelists" class="oe_read_only"/>
                 </field>
+                <field name="description" position="replace">
+                </field>
+                <field name="sale_ok" position="before">
+                    <field name="description" placeholder="describe the product characteristics..."/>
+                </field>
+                <div name="options" position="attributes">
+                    <attribute name="style">width: 390px; margin: 0 0 0 5px;</attribute>
+                </div>
+                <field name="image_medium" position="attributes">
+                    <attribute name="style">min-height: 100px;</attribute>
+                </field>
             </field>
         </record>
     </data>
