@@ -98,6 +98,11 @@ msgid "Reception realized by"
 msgstr "Recepción realizada por"
 
 #. module: stock_reception
+#: field:stock.picking,supplier_delivery_note:0
+msgid "Supplier delivery note"
+msgstr "Albarán de proveedor"
+
+#. module: stock_reception
 #: field:stock.production.lot,uom_id:0
 msgid "UoM"
 msgstr "UoM"

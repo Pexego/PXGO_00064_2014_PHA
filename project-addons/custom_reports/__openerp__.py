@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,11 +29,17 @@
     'website': 'www.pharmadus.com',
     'depends' : [
         'purchase',
+        'report_webkit',
+        'l10n_es_partner_mercantil',
+        'sale_transfer',
+        'sale_transfer_sample_rel',
+        'sale_channel',
     ],
     'data' : [
         'data/report_paperformat.xml',
         'views/report_stockinventory.xml',
         'views/report_purchaseorder.xml',
+        'views/sale_report_view.xml',
     ],
     'installable': True
 }

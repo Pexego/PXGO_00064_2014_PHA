@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="0">
+        <record model="ir.filters" id="sale_transfer_filter">
+            <field name="model_id">sale.report</field>
+            <field name="domain">[['sale_type', '=', 'transfer']]</field>
+            <field name="user_id"></field>
+            <field name="name">Cooperative reposition</field>
+            <field name="context">{'group_by': ['notified_partner_id', 'product_id'], 'measures': ['price_total'], 'col_group_by': ['date:month']}</field>
+        </record>
+    </data>
+</openerp>

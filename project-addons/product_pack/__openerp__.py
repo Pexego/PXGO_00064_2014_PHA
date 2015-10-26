@@ -42,7 +42,8 @@ as children of the pack product.
         'sale',
         'sale_stock',
         'stock_account',
-        'purchase'
+        'purchase',
+        'web_tree_image'
     ],
     "data": [
         'views/report_saleorder.xml',

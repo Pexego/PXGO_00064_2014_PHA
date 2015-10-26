@@ -86,22 +86,31 @@
             <field name="name">order_note_intermediary_order.form</field>
             <field name="model">stock.picking</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="inherit_id" ref="stock_picking_wave.view_stock_picking_wave_inherit" />
             <field name="arch" type="xml">
-                <field name="origin" position="after">
-                    <field name="intermediary" string="Intermediary"></field>
+                <field name="partner_id" position="before">
+                    <div>
+                        <label for="partner_id"
+                               string="Partner"
+                               attrs="{'invisible': [('intermediary', '=', True)]}"
+                               style="font-weight: bold;"/>
+                        <label for="partner_id"
+                               string="Customer"
+                               attrs="{'invisible': [('intermediary', '=', False)]}"
+                               style="font-weight: bold;"/>
+                    </div>
                 </field>
-            </field>
-        </record>
-
-        <record id="order_note_partner_id_order_form" model="ir.ui.view">
-            <field name="name">order_note_partner_id_order.form</field>
-            <field name="model">stock.picking</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="stock.view_picking_form" />
-            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="nolabel">1</attribute>
+                </field>
                 <field name="partner_id" position="after">
-                    <field name="partner_id_intermediary" string="Intermediary"></field>
+                    <field name="partner_id_intermediary"
+                           string="Intermediary"
+                           attrs="{'invisible': [('intermediary', '=', False)]}">
+                    </field>
+                </field>
+                <field name="wave_id" position="after">
+                    <field name="intermediary"></field>
                 </field>
             </field>
         </record>
@@ -120,14 +129,28 @@
             </field>
         </record>
 
-
-
         <!-- ##### -->
         <record id="sale_order_add_intermediary_attrs_order_policy" model="ir.ui.view">
             <field name="name">sale.order.add.intermediary.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="priority">10</field>
             <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <div>
+                        <label for="partner_id"
+                               string="Customer"
+                               attrs="{'invisible': [('intermediary', '=', True)]}"
+                               style="font-weight: bold;"/>
+                        <label for="partner_id"
+                               string="Intermediary"
+                               attrs="{'invisible': [('intermediary', '=', False)]}"
+                               style="font-weight: bold;"/>
+                    </div>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="nolabel">1</attribute>
+                </field>
                 <field name="order_policy" position="attributes">
                     <attribute name="attrs">{'readonly': [('intermediary', '=', True)]}</attribute>
                 </field>

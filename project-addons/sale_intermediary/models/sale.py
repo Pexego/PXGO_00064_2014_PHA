@@ -27,7 +27,7 @@ from openerp.osv import osv
 class my_sale_order(models.Model):
 
     _inherit = 'sale.order'
-    intermediary = fields.Boolean("Intermediary", default=False)
+    intermediary = fields.Boolean("Sale by intermediary", default=False)
 
 
 class my_account_invoice(models.Model):

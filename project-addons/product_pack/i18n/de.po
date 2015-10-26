@@ -143,3 +143,16 @@ msgstr ""
 #: help:product.product,pack_line_ids:0
 msgid "List of products that are part of this pack."
 msgstr ""
+
+#: view:sale.order:product_pack.view_order_form
+#: field:sale.order.line,pack_icon:0
+#: view:stock.move:product_pack.view_move_picking_tree
+#: field:stock.move,pack_component:0
+#: field:stock.move,pack_icon:0
+msgid "Pack component"
+msgstr "Pack component"
+
+#. module: product_pack
+#: field:stock.pack.operation,pack_component:0
+msgid "pack component"
+msgstr "Pack component"

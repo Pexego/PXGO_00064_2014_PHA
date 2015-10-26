@@ -54,3 +54,37 @@ msgstr "Show SubMenu-RQ"
 #: model:ir.ui.menu,name:purchase.menu_purchase_rfq
 msgid "Drafts purchase"
 msgstr "Borradores de compra"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:purchase.menu_purchase_rfq
+msgid "Drafts purchase"
+msgstr "Borradores de compra"
+
+#. module: custom_permissions
+#: model:ir.actions.report.xml,name:purchase.report_purchase_quotation
+#: view:purchase.order:purchase.purchase_order_form
+#: selection:purchase.report,state:0
+#: view:website:purchase.report_purchasequotation_document
+msgid "Request for Quotation"
+msgstr "Borrador de compra"
+
+#. module: custom_permissions
+#: view:website:purchase.report_purchaseorder_document
+msgid "Request for Quotation N°"
+msgstr "Borrador de compra Nº"
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:purchase.purchase_rfq
+#: model:ir.ui.menu,name:purchase.menu_purchase_rfq
+msgid "Requests for Quotation"
+msgstr "Borradores de compra"
+
+#. module: custom_permissions
+#: view:purchase.requisition:purchase_requisition.view_purchase_requisition_form
+msgid "Requests for Quotation"
+msgstr "Borradores de compra"
+
+#. module: custom_permissions
+#: view:purchase.order.form:purchase.purchase_order_form
+msgid "Request for Quotation"
+msgstr "Borrador de compra"
