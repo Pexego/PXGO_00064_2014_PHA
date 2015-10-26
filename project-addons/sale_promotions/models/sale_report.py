@@ -39,7 +39,7 @@ class sale_report(osv.osv):
                     sum(l.product_uom_qty / u.factor * u2.factor) as product_uom_qty,
                     sum(l.product_uom_qty * l.price_unit * (100.0-l.discount) / 100.0) as price_total,
                     count(*) as nbr,
-                    sum(case when l.promotion_line=True then l.product_uos_qty else 0 end)  as nbonus,
+                    sum(case when l.promotion_line=True then product_uom_qty else 0 end)  as nbonus,
                     s.date_order as date,
                     s.date_confirm as date_confirm,
                     s.partner_id as partner_id,

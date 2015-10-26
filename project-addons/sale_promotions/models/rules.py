@@ -4,6 +4,7 @@
 #    Odoo, Open Source Management Solution
 #    Copyright (C) 2014 Pharmadus i+D+I (<http://www.pharmadus.com>)
 #    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    $Óscar Salvador<oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2011 NovaPoint Group LLC (<http://www.novapointgroup.com>)
 #    Copyright (C) 2004-2010 OpenERP SA (<http://www.openerp.com>)
 #
@@ -331,6 +332,10 @@ class PromotionsRules(osv.Model):
                                                ))
         order = self.pool.get('sale.order').browse(cursor, user,
                                                    order_id, context)
+
+        # Clear existing promotion lines here to allow various actions per rule
+        action_obj.clear_existing_promotion_lines(cursor, user, order, context)
+
         for action in promotion_rule.actions:
             try:
                 action_obj.execute(cursor, user, action.id,
@@ -924,8 +929,7 @@ class PromotionsRulesActions(osv.Model):
         return order_line_obj.create(cursor, user, {
                              'order_id':order.id,
                              'product_id':product_y.id,
-                             'name':'[%s]%s (%s)' % (
-                                         product_y.default_code,
+                             'name':'%s (%s)' % (
                                          product_y.name,
                                          action.promotion.name),
                               'price_unit':0.00, 'promotion_line':True,
@@ -1145,7 +1149,8 @@ class PromotionsRulesActions(osv.Model):
         @param order: sale order
         @param context: Context(no direct use).
         """
-        self.clear_existing_promotion_lines(cursor, user, order, context)
+        # If we clear promotion lines here, only one promotion by rule can be applied
+        # self.clear_existing_promotion_lines(cursor, user, order, context)
         action = self.browse(cursor, user, action_id, context)
         method_name = 'action_' + action.action_type
         return getattr(self, method_name).__call__(cursor, user, action,

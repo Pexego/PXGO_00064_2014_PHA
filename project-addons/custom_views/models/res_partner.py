@@ -21,7 +21,7 @@
 
 from openerp import models, api
 
-class res_partner_concatenated(models.Model):
+class res_partner(models.Model):
     _inherit = 'res.partner'
 
     @api.multi
@@ -35,4 +35,4 @@ class res_partner_concatenated(models.Model):
                 res.append((rec.id, name))
             return res
         else:
-            return super(res_partner_concatenated, self).name_get()
+            return super(res_partner, self).name_get()
