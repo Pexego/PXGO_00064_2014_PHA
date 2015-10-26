@@ -71,7 +71,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 15px;">
+                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
                         <strong>Shipping address:</strong>
                         <div t-if="o.dest_address_id">
                             <div t-field="o.dest_address_id"
@@ -90,13 +90,15 @@
             <div class="page">
                 <div class="oe_structure"/>
 
-                <div>
+                <div class="row" style="border-bottom: 2px solid black; margin-bottom: 10px;">
                     <h2 t-if="o.state != 'draft'">Purchase Order Confirmation N°: <span t-field="o.name"/></h2>
                     <h2 t-if="o.state == 'draft'">Request for Quotation N°: <span t-field="o.name"/></h2>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-5">
+                        <strong>Invoicing address:</strong><br/>
+
                         <span t-field="o.partner_id.name"></span><br/>
 
                         <i class="glyphicon glyphicon-map-marker"></i>
@@ -147,7 +149,17 @@
                     </div>
                 </div>
 
-                <table class="table table-condensed" style="margin-top: 20px;">
+                <div class="row" style="width: 100%; height: 20px;">
+                    <br/>
+                </div>
+
+                <style>
+                    table thead > tr {
+                        border-bottom: 2px solid black;
+                    }
+                </style>
+
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th><strong>Description</strong></th>
@@ -245,6 +257,7 @@
             </div>
         </template>
 
+        <!-- Trampota, para reemplazar el report original con el nuestro -->
         <template id="purchase.report_purchaseorder">
             <t t-call="report.html_container">
                 <t t-foreach="doc_ids" t-as="doc_id">

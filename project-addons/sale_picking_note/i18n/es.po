@@ -1,0 +1,33 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sale_picking_note
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-19 13:46+0000\n"
+"PO-Revision-Date: 2015-10-19 15:46+0200\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: sale_picking_note
+#: field:sale.order,internal_note:0
+msgid "Internal note"
+msgstr "Nota para almacén"
+
+#. module: sale_picking_note
+#: view:sale.order:sale_picking_note.view_order_form
+msgid "Internal note..."
+msgstr "Nota para almacén..."
+
+#. module: sale_picking_note
+#: view:sale.order:sale_picking_note.view_order_form
+msgid "Terms and conditions..."
+msgstr "Términos y condiciones..."
