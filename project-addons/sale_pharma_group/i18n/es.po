@@ -162,7 +162,7 @@ msgstr "Febrero"
 #. module: sale_pharma_group
 #: field:import.pharma.group.sales.wzd,import_file:0
 msgid "File to import"
-msgstr "Fihero a importar (.xls)"
+msgstr "Fichero a importar (.xls)"
 
 #. module: sale_pharma_group
 #: view:commission.bussines.line:sale_pharma_group.commission_bussines_line_form
