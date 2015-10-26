@@ -35,9 +35,9 @@ class partner_review(orm.Model):
     #Return true if the user is Manager to edit the new client state "Confirmed"
     def _check_permissions(self, cr, uid,  context):
         res = {}
-        # Get the PR Manager id's
-        group_obj = self.pool.get('res.groups')
-        manager_ids = group_obj.search(cr, uid, [('name','=', 'PR/Manager')])
+        # Get the PR Manager group id
+        manager_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'newclient_review',
+                                                                          'group_partners_review')[1]
 
         # Get the user and see what groups he/she is in
         user_obj = self.pool.get('res.users')
@@ -47,12 +47,7 @@ class partner_review(orm.Model):
         for grp in user.groups_id:
             user_group_ids.append(grp.id)
 
-        if ( manager_ids[0] in user_group_ids):
-            # 'Manager'
-            return True
-        else:
-            # = 'User'
-            return False
+        return (manager_id in user_group_ids)
 
 
     def confirm_review(self, cr, uid, ids, context=None):
@@ -63,7 +58,8 @@ class partner_review(orm.Model):
             context = {}
         #If partner is added by a Manager or is a supplier... data is always confirmed
         #If us user, or if is a client from prestashop
-        creatorid=52  ##user assign as creator of the partner
+        ##user assign as creator of the partner TO-DO
+        creatorid = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'base', 'user_root')[1]
 
         obj_user = self.pool.get('res.users')
         list_user = obj_user.search(cr, uid, [('id', '=', creatorid)] )

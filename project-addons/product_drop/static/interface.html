@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/interface.css">
+	    <link rel="stylesheet" type="text/css" href="css/keyboard.css">
+	    <link rel="stylesheet" type="text/css" href="css/glyphicons.css">
+		<title>Baja de artículos para uso interno</title>
+	</head>
+	<body>
+        <div id="ventanaUsuarios">
+            <div id="selectorUsuarios"></div>
+            <div id="panelBotonesUsuarios">
+                <div class="botonDesp">
+                    <button type="button" class="btn btn-info btn-lg" onclick="panelUsuarios.arriba();">
+                        <span style="padding: 0 20px;"
+                              class="glyphicon glyphicon-chevron-up"
+                              aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-info btn-lg" onclick="panelUsuarios.abajo();">
+                        <span style="padding: 0 20px;"
+                              class="glyphicon glyphicon-chevron-down"
+                              aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="capaSombra"></div>
+        <div class="main container">
+            <div id="formulario" class="row">
+                <nav class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="/">SIGI</a>
+                            <a id="btnSalir" type="button" class="btn btn-danger pull-right" href="javascript:window.location.reload(true)">SALIR</a>
+                            <img id="foto" src="favicon.ico" class="pull-right">
+                            <span id="usuario" class="navbar-brand pull-right"></span>
+                            <h2 id="titulo" class="text-center">Seleccione su usuario</h2>
+                        </div>
+                    </div>
+                </nav>
+
+                <form class="form-horizontal" data-drop_id="0">
+                    <div class="form-group">
+                        <label for="inputEAN" class="col-sm-2 control-label">CÓDIGO EAN</label>
+                        <div class="paddingPorMargin col-sm-3">
+                            <input type="text" class="form-control" id="inputEAN" placeholder="Código de barras">
+                            <span class="iconoTeclado glyphicons keyboard-wireless"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProducto" class="col-sm-2 control-label">PRODUCTO</label>
+                        <div id="producto" class="combo paddingPorMargin col-sm-8">
+                            <input type="text" class="form-control" id="inputProducto"
+                                   placeholder="Producto (Escriba el producto a buscar ó pulse aquí para escojer uno de la lista)">
+                            <span class="iconoTeclado glyphicons keyboard-wireless"></span>
+                            <span class="iconoCombo glyphicon glyphicon-triangle-bottom"></span>
+                            <span class="lista">
+                            </span>
+                        </div>
+                    </div>
+                    <p>&nbsp;</p>
+                    <div class="form-group">
+                        <label for="inputCantidad" class="col-sm-2 control-label">CANTIDAD</label>
+                        <div class="col-sm-2">
+                            <input type="integer" class="form-control" id="inputCantidad" placeholder="Cantidad">
+                        </div>
+                        <div id="botonesCantidad">
+                            <button type="button" class="btn btn-lg btn-warning" onclick="ajustaCantidad(-5);">- 5</button>
+                            <button type="button" class="btn btn-lg btn-warning" onclick="ajustaCantidad(-1);">- 1</button>
+                            <button type="button" class="btn btn-lg btn-primary" onclick="ajustaCantidad(1);">+ 1</button>
+                            <button type="button" class="btn btn-lg btn-primary" onclick="ajustaCantidad(5);">+ 5</button>
+                            <button type="button" class="btn btn-lg btn-danger"  onclick="ajustaCantidad(0);">Borrar</button>
+                        </div>
+                    </div>
+                    <div class="form-group sinMargenInferior">
+                        <label for="inputLote" class="col-sm-2 control-label">LOTE</label>
+                        <div id="lote" class="combo paddingPorMargin col-sm-3">
+                            <input type="text" class="form-control" id="inputLote" placeholder="Lote">
+                            <span class="iconoCombo glyphicon glyphicon-triangle-bottom"></span>
+                            <span class="lista">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-toolbar col-sm-offset-2 col-sm-11">
+                            <button id="btnGuardar"
+                                    type="button"
+                                    class="btn btn-primary btn-lg active pull-right"
+                                    onclick="reservarProducto();">
+                                GUARDAR
+                            </button>
+                            <button id="btnLimpiar"
+                                    type="reset"
+                                    class="btn btn-danger btn-lg active pull-right"
+                                    onclick="limpiarFormulario();">
+                                LIMPIAR
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="listaProductos" class="row">
+                <table class="table table-fixed">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-6">Producto</th>
+                            <th class="col-xs-2">Lote</th>
+                            <th class="col-xs-1">Cant.</th>
+                            <th class="col-xs-3">Modificar | Borrar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="botonTabla">
+                    <button type="button"
+                            class="btn btn-success btn-lg"
+                            style="margin-top: -8px; margin-bottom: 70px; margin-left: 15px;"
+                            onclick="confirmarBaja();">
+                        CONFIRMAR
+                    </button>
+                </div>
+                <div class="botonTabla" style="margin-left: 40px;">
+                    <button type="button" class="btn btn-info btn-lg" style="margin-bottom: 15px;" onclick="tablaProductos.subirTabla();">
+                        <span style="padding: 0 20px;"
+                              class="glyphicon glyphicon-chevron-up"
+                              aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="botonTabla" style="margin-left: 40px;">
+                    <button type="button" class="btn btn-info btn-lg" onclick="tablaProductos.bajarTabla();">
+                        <span style="padding: 0 20px;"
+                              class="glyphicon glyphicon-chevron-down"
+                              aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+		<script src="js/jquery-2.1.4.min.js"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js"></script>
+        <script src="js/jquery.animate-colors-min.js"></script>
+       	<script src="js/keyboard/jquery.keyboard.js"></script>
+       	<script src="js/keyboard/ms-Spanish.js"></script>
+       	<script src="js/keyboard/es.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.xmlrpc.min.js"></script>
+        <script src="js/odoo.xmlrpc.js"></script>
+        <script src="/product_drop/parameters.js"></script>
+        <script src="js/interface.js"></script>
+	</body>
+</html>

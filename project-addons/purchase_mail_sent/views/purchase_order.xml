@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="purchase_order_tree_view_extended" model="ir.ui.view">
+            <field name="name">purchase.order.tree.view.extended</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="pc_sent"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="purchase_order_form_extended">
+            <field name="name">purchase.order.form.extended</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_approve']" position="after">
+                    <field name="pc_sent" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

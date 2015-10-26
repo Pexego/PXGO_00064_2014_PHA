@@ -23,7 +23,7 @@ msgstr "Ciudad"
 #. module: newclient_review
 #: view:res.partner:0
 msgid "Client data must be reviewed before confirm one order"
-msgstr "Los datos deben ser revisados antes de confirmar venta"
+msgstr "Los datos serán revisados antes de confirmar venta"
 
 #. module: newclient_review
 #: field:res.partner,confirmed:0
@@ -39,7 +39,7 @@ msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del clien
 #. module: newclient_review
 #: model:ir.ui.menu,name:newclient_review.partner_review_menu_
 msgid "Clients to review"
-msgstr "Clientes sin revisar"
+msgstr "Revision de clientes"
 
 #. module: newclient_review
 #: view:res.partner:0
@@ -100,7 +100,7 @@ msgstr "Partner review"
 #. module: newclient_review
 #: model:ir.actions.act_window,name:newclient_review.action_newclient_clients_to_review
 msgid "Partners to review"
-msgstr "Clientes sin revisar"
+msgstr "Revision de clientes"
 
 #. module: newclient_review
 #: model:ir.module.category,description:newclient_review.module_partner_review_category

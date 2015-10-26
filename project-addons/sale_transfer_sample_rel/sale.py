@@ -31,12 +31,13 @@ class sale_order(models.Model):
     sale_type = fields.Selection(selection=[('normal', 'Normal'),
                                             ('sample', 'Sample'),
                                             ('transfer', 'Transfer'),
-                                            ('replacement', 'Replacement')],
+                                            ('replacement', 'Replacement'),
+                                            ('intermediary', 'Intermediary')],
                                  string="Type", compute='_get_type',
                                  store=True)
 
     @api.one
-    @api.depends('transfer', 'sample', 'replacement')
+    @api.depends('transfer', 'sample', 'replacement', 'intermediary')
     def _get_type(self):
         if self.transfer:
             self.sale_type = 'transfer'
@@ -44,6 +45,8 @@ class sale_order(models.Model):
             self.sale_type = 'sample'
         elif self.replacement:
             self.sale_type = 'replacement'
+        elif self.intermediary:
+            self.sale_type = 'intermediary'
         else:
             self.sale_type = 'normal'
 
@@ -55,4 +58,5 @@ class sale_order_line(models.Model):
     _inherit = 'sale.order.line'
 
     virtual_available = fields.Float('Virtual Available',
-                                     related='product_id.virtual_available')
+                                     related='product_id.virtual_available',
+                                     digits=(16, 2))

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+        <record model="stock.location" id="consumption_for_internal_use_location">
+            <field name="complete_name">Consumption for internal use</field>
+            <field name="name">Consumption for internal use</field>
+            <field name="usage">internal</field>
+            <field name="scrap_location">false</field>
+            <field name="company_id/id" ref="base.main_company"></field>
+            <field name="location_id/id" ref="stock.stock_location_locations_virtual"></field>
+        </record>
+        <record model="ir.config_parameter" id="product_drop_xmlrpc_user">
+            <field name="key">product_drop.xmlrpc_user</field>
+            <field name="value">SET XMLRPC USER NAME</field>
+        </record>
+        <record model="ir.config_parameter" id="product_drop_xmlrpc_password">
+            <field name="key">product_drop.xmlrpc_password</field>
+            <field name="value">SET XMLRPC USER PASSWORD</field>
+        </record>
+        <record model="ir.config_parameter" id="product_drop_authorized_addresses">
+            <field name="key">product_drop.authorized_addresses</field>
+            <field name="value">IPs SEPARATED WITH SPACES AND '*' AS WILDCARD. EXAMPLE: 192.168.1.* 172.20.*.*</field>
+        </record>
+    </data>
+</openerp>

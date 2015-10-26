@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Sales: Products default to tree view -->
+        <record id="product_template_action_tree_view" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="context">{"search_default_filter_to_sell":1}</field>
+        </record>
+        <!-- Sales: Overwrite menuitem to point to the new action -->
+        <menuitem action="product_template_action_tree_view" id="product.menu_product_template_action"
+                  name="Products list"
+                  parent="base.menu_product" sequence="1"
+        />
+
+        <!-- Purchases: Products default to tree view -->
+        <record id="product_normal_action_puchased_tree_view" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{"search_default_filter_to_purchase":1}</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new product.
+                </p><p>
+                    You must define a product for everything you purchase, whether
+                    it's a physical product, a consumable or services you buy to
+                    subcontractants.
+                </p><p>
+                    The product form contains detailed information to improve the
+                    purchase process: prices, procurement logistics, accounting data,
+                    available suppliers, etc.
+                </p>
+            </field>
+        </record>
+        <!-- Purchases: Overwrite menuitem to point to the new action -->
+        <menuitem name="Products" id="purchase.menu_procurement_partner_contact_form"
+                  action="product_normal_action_puchased_tree_view"
+                  parent="purchase.menu_procurement_management_product"
+        />
+
+        <!-- Warehouse: Products default to tree view and show all products -->
+        <record id="product_template_action_warehouse" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="context">{}</field>
+        </record>
+        <!-- Warehouse: Overwrite menuitems to point to the new action -->
+        <menuitem action="product_template_action_warehouse"
+                  id="stock.menu_stock_products_menu"
+                  parent="stock.menu_stock_product"
+                  sequence="1"
+        />
+        <menuitem action="product_template_action_warehouse"
+                  id="stock.menu_product_template_config_stock"
+                  parent="stock.menu_product_in_config_stock"
+                  sequence="1"
+        />
+
+        <!-- MRP: Products default to tree view -->
+        <record id="product_template_action_mrp" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_tree_view"/>
+            <field name="context">{}</field>
+        </record>
+        <!-- MRP: Overwrite menuitem to point to the new action -->
+        <menuitem action="product_template_action_mrp"
+                  name="Products"
+                  id="mrp.menu_mrp_product_form"
+                  parent="mrp.menu_mrp_bom"
+        />
+
+        <record id="product_supplier_pricelist_tree_view" model="ir.ui.view">
+            <field name="name">product.supplier.pricelist.tree.view</field>
+            <field name="model">pricelist.partnerinfo</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier pricelist">
+                    <field name="suppinfo_id"/>
+                    <field name="min_quantity"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="seller_ids" position="replace">
+                    <field name="seller_ids" class="oe_edit_only"/>
+                    <field name="suppliers_pricelists" class="oe_read_only"/>
+                </field>
+                <field name="description" position="replace">
+                </field>
+                <field name="sale_ok" position="before">
+                    <field name="description" placeholder="describe the product characteristics..."/>
+                </field>
+                <div name="options" position="attributes">
+                    <attribute name="style">width: 390px; margin: 0 0 0 5px;</attribute>
+                </div>
+                <field name="image_medium" position="attributes">
+                    <attribute name="style">min-height: 100px;</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

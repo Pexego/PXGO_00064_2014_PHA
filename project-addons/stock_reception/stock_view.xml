@@ -90,5 +90,26 @@
 
         <menuitem name="Container type" parent="stock.menu_stock_configuration" action="action_stock_container_type" id="stock_container_type_menu"/>
 
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="supplier_delivery_note"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_search" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="supplier_delivery_note"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

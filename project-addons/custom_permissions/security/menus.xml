@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+    <!-- MENUS RENAMED -->
+         <record model="ir.ui.menu" id="purchase.menu_purchase_rfq">
+            <field name="name">Drafts purchase</field>
+        </record>
+    <!--MENUS / adding custom menus Doing (5,) and (4,...) in the same record, doesn't work-->
+        <record id="mail.mail_feeds_main" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('base.group_user')),(4,ref('group_show_menu_messaging'))]"/>
+        </record>
+        <record id="base.menu_reporting" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('base.group_user')),(4,ref('group_show_menu_reporting'))]"/>
+        </record>
+        <record id="website.menu_website" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('group_show_menu_website'))]"/>
+        </record>
+    <!-- SUBMENUS Purchase Requirement -->
+
+    </data>
+</openerp>

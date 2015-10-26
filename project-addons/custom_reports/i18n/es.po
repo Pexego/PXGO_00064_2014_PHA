@@ -1,0 +1,306 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* custom_reports
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-23 08:06+0000\n"
+"PO-Revision-Date: 2015-10-23 10:08+0200\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid ""
+",\n"
+"                            Folio"
+msgstr ""
+",\n"
+"                            Folio"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid ""
+",\n"
+"                            Registration"
+msgstr ""
+",\n"
+"                            Registro"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid ""
+",\n"
+"                            Sheet Number"
+msgstr ""
+",\n"
+"                            Hoja"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid ""
+",\n"
+"                            Volume"
+msgstr ""
+",\n"
+"                            Tomo"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid ", or by e-mail at"
+msgstr ", o en el e-mail"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "CIF"
+msgstr "CIF"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "CN Code"
+msgstr "Código CN"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Company"
+msgstr "Compañía"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+#: field:sale.report,notified_partner_id:0
+msgid "Cooperative"
+msgstr "Cooperativa"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Date Ordered:"
+msgstr "Fecha pedido:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Description"
+msgstr "Descripción"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Disc.(%)"
+msgstr "Desc.(%)"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "For any doubt or explanation, be contacted with us in the number"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con nosotros en el número"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Net Price"
+msgstr "Precio neto"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Observations:"
+msgstr "Observaciones:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Order Date:"
+msgstr "Fecha de pedido:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Order Nº"
+msgstr "Nº de pedido"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Page:"
+msgstr "Página:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Payment Term:"
+msgstr "Plazo de pago:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Planned Date:"
+msgstr "Fecha de entrega:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Price"
+msgstr "Precio"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Promo"
+msgstr "Promoción"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Purchase Order Confirmation N°:"
+msgstr "Confirmación de orden de compra N°:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Qty"
+msgstr "Ctdad"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Quotation Date:"
+msgstr "Fecha de presupuesto:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Quotation N°"
+msgstr "Presupuesto Nº"
+
+#. module: custom_reports
+#: view:website:stock.report_inventory
+msgid "Real qty."
+msgstr "Cantidad real"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Recorded in the Companies Registry of"
+msgstr "Inscrita en el Registro Mercantil de"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Replacements"
+msgstr "Reposiciones"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Request for Quotation N°:"
+msgstr "Solicitud de presupuesto N°:"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Sale channel"
+msgstr "Canal de venta"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Sale type"
+msgstr "Tipo de venta"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Sales"
+msgstr "Ventas"
+
+#. module: custom_reports
+#: model:ir.model,name:custom_reports.model_sale_report
+msgid "Sales Orders Statistics"
+msgstr "Estadísticas pedidos de venta"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Salesperson:"
+msgstr "Comercial:"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Samples"
+msgstr "Muestras/publicitario"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Shipping address:"
+msgstr "Dirección de envío:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Supplier code:"
+msgstr "Código proveedor:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: custom_reports
+#: view:website:stock.report_inventory
+msgid "Theoretical qty."
+msgstr "Cantidad teórica"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Total"
+msgstr "Total"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Total Without Taxes"
+msgstr "Total sin impuestos"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Transfer order N°"
+msgstr "Pedido transfer N°"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.view_order_product_search
+msgid "Transfers"
+msgstr "Transfers"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "Unit Price"
+msgstr "Precio unidad"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Unit of measure"
+msgstr "Unidad de medida"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "VAT:"
+msgstr "NIF:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Validated By:"
+msgstr "Validado por:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Quotation reference:"
+msgstr "Referencia de pedido:"

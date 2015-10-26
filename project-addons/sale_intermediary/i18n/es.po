@@ -1,0 +1,118 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sale_intermediary
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-16 09:40+0000\n"
+"PO-Revision-Date: 2015-10-16 11:40+0200\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: sale_intermediary
+#: model:ir.actions.act_window,help:sale_intermediary.action_intermediary
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Click to create a intermediary order.\n"
+"              </p>\n"
+"            "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Pulse para crear un nuevo pedido de intermediario.\n"
+"              </p>\n"
+"            "
+
+#. module: sale_intermediary
+#: view:account.invoice.report:sale_intermediary.account_invoice_report_intermediary
+#: view:account.invoice.report:sale_intermediary.account_invoice_report_intermediary_2
+msgid "Cliente final"
+msgstr "Cliente final"
+
+#. module: sale_intermediary
+#: view:sale.order:sale_intermediary.sale_order_add_intermediary_attrs_order_policy
+#: view:stock.picking:sale_intermediary.order_note_intermediary_order_form
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: sale_intermediary
+#: view:stock.picking:sale_intermediary.order_note_intermediary_search_tree_view
+msgid "Group by..."
+msgstr "Agrupar por..."
+
+#. module: sale_intermediary
+#: view:sale.order:sale_intermediary.sale_order_add_intermediary_attrs_order_policy
+#: view:stock.picking:sale_intermediary.order_note_intermediary_order_form
+#: view:stock.picking:sale_intermediary.order_note_intermediary_search_tree_view
+msgid "Intermediary"
+msgstr "Intermediario"
+
+#. module: sale_intermediary
+#: model:ir.ui.menu,name:sale_intermediary.sale_order_intermediary
+msgid "Intermediary orders"
+msgstr "Pedidos de intermediario"
+
+#. module: sale_intermediary
+#: model:ir.model,name:sale_intermediary.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: sale_intermediary
+#: model:ir.model,name:sale_intermediary.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Estadísticas de facturas"
+
+#. module: sale_intermediary
+#: model:ir.model,name:sale_intermediary.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: sale_intermediary
+#: view:stock.picking:sale_intermediary.order_note_intermediary_search_tree_view
+msgid "Picking Lists"
+msgstr "Albaranes"
+
+#. module: sale_intermediary
+#: field:sale.order,intermediary:0
+#: view:stock.picking:sale_intermediary.order_note_intermediary_order_form
+msgid "Sale by intermediary"
+msgstr "Venta por intermediario"
+
+#. module: sale_intermediary
+#: model:ir.model,name:sale_intermediary.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: sale_intermediary
+#: view:account.invoice:sale_intermediary.account_invoice_intermediary_filter
+#: view:account.invoice:sale_intermediary.account_invoice_intermediary_group
+msgid "Shipping customer"
+msgstr "Cliente final"
+
+#. module: sale_intermediary
+#: field:account.invoice,partner_shipping_id:0
+#: field:account.invoice.report,partner_shipping_id:0
+msgid "Shipping to"
+msgstr "Cliente final"
+
+#. module: sale_intermediary
+#: view:stock.picking:sale_intermediary.order_note_intermediary_order_form
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: sale_intermediary
+#: model:ir.actions.act_window,name:sale_intermediary.action_intermediary
+msgid "intermediary orders"
+msgstr "Pedidos de intermediario"
+
+#. module: sale_intermediary
+#: view:sale.order:sale_intermediary.sale_order_add_intermediary_attrs_order_policy
+msgid "{'readonly': [('intermediary', '=', True)]}"
+msgstr "{'readonly': [('intermediary', '=', True)]}"

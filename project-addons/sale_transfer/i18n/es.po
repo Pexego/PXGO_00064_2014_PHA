@@ -188,6 +188,9 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 
 #. module: sale_transfer
 #: field:sale.order,notified_partner_id:0
+#: field:sale.report,notified_partner_id:0
+#: view:sale.report:0
+#: view:sale.report:sale_transfer.view_order_product_search_notified_partner
 msgid "Cooperative"
 msgstr "Cooperativa"
 
@@ -220,4 +223,9 @@ msgstr "transfer orders"
 #: view:sale.order:0
 msgid "{'invisible': [('transfer', '=', True)]}"
 msgstr "{'invisible': [('transfer', '=', True)]}"
+
+#. module: sale_transfer
+#: model:ir.filters,name:sale_transfer.sale_transfer_filter
+msgid "Cooperative reposition"
+msgstr "Reposición cooperativas"
 

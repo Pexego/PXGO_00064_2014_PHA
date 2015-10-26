@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+        <record model="ir.config_parameter" id="sales_abroad_directory">
+            <field name="key">sales_abroad.directory</field>
+            <field name="value">/home/odoo/sales_abroad_documents</field>
+        </record>
+    </data>
+</openerp>

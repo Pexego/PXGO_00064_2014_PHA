@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="sale_order_add_intermediary_form" model="ir.ui.view">
+            <field name="name">sale.order.add.intermediary.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <newline/>
+                    <h2>
+                        <label for="intermediary"/>
+                        <field name="intermediary" readonly="1"/>
+                    </h2>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_intermediary" model="ir.actions.act_window">
+            <field name="name">intermediary orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1, 'default_intermediary': 1}</field>
+            <field name="domain">[('intermediary', '=', 1)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a intermediary order.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="sale_order_intermediary" name="Intermediary orders" string="Intermediary orders"
+        action="action_intermediary" parent="base.menu_sales" sequence="3"/>
+
+        <record id="account_invoice_report_intermediary" model="ir.ui.view">
+            <field name="name">account_invoice.report.intermediary</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+            <field name="arch" type="xml">
+                <filter name="partner_id" position="after">
+                    <filter string="Cliente final" domain="[]" context="{'group_by':'partner_shipping_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="account_invoice_report_intermediary_2" model="ir.ui.view">
+            <field name="name">account_invoice.report.intermediary</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+            <field name="arch" type="xml">
+                <filter name="customer" position="after">
+                    <filter string="Cliente final" name="partner_shipping_id"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="account_invoice_intermediary_group" model="ir.ui.view">
+            <field name="name">account_invoice.intermediary.group</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <filter string="Shipping customer" domain="[]" context="{'group_by':'partner_shipping_id'}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="account_invoice_intermediary_filter" model="ir.ui.view">
+            <field name="name">account_invoice.intermediary.filter</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <filter name="group_by_partner_id" position="after">
+                    <filter string="Shipping customer" name="partner_shipping_id"/>
+                </filter>
+            </field>
+        </record>
+
+        <!-- # -->
+
+        <record id="order_note_intermediary_order_form" model="ir.ui.view">
+            <field name="name">order_note_intermediary_order.form</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock_picking_wave.view_stock_picking_wave_inherit" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <div>
+                        <label for="partner_id"
+                               string="Partner"
+                               attrs="{'invisible': [('intermediary', '=', True)]}"
+                               style="font-weight: bold;"/>
+                        <label for="partner_id"
+                               string="Customer"
+                               attrs="{'invisible': [('intermediary', '=', False)]}"
+                               style="font-weight: bold;"/>
+                    </div>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="nolabel">1</attribute>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="partner_id_intermediary"
+                           string="Intermediary"
+                           attrs="{'invisible': [('intermediary', '=', False)]}">
+                    </field>
+                </field>
+                <field name="wave_id" position="after">
+                    <field name="intermediary"></field>
+                </field>
+            </field>
+        </record>
+
+        <record id="order_note_intermediary_search_tree_view" model="ir.ui.view">
+            <field name="name">order_note.intermediary.search.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search" />
+            <field name="arch" type="xml">
+                <search string="Picking Lists">
+                    <filter string="Intermediary" icon="terp-stock" domain="[('intermediary','=',True)]"/>
+                    <group col='8' colspan='15' expand='1' string='Group by...'>
+                        <filter string="Intermediary" icon="terp-personal" domain="[]" context="{'group_by':'intermediary'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ##### -->
+        <record id="sale_order_add_intermediary_attrs_order_policy" model="ir.ui.view">
+            <field name="name">sale.order.add.intermediary.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <div>
+                        <label for="partner_id"
+                               string="Customer"
+                               attrs="{'invisible': [('intermediary', '=', True)]}"
+                               style="font-weight: bold;"/>
+                        <label for="partner_id"
+                               string="Intermediary"
+                               attrs="{'invisible': [('intermediary', '=', False)]}"
+                               style="font-weight: bold;"/>
+                    </div>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="nolabel">1</attribute>
+                </field>
+                <field name="order_policy" position="attributes">
+                    <attribute name="attrs">{'readonly': [('intermediary', '=', True)]}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="name">Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="context">{
+                    'search_default_my_sale_orders_filter': 1
+                }
+            </field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')), ('intermediary', '=', 0)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a quotation that can be converted into a sales
+                    order.
+                </p><p>
+                    OpenERP will help you efficiently handle the complete sales flow:
+                    quotation, sales order, delivery, invoicing and payment.
+                </p>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
