@@ -55,6 +55,7 @@ class ProductPackingBase(models.Model):
     _name = 'product.packing.base'
 
     name = fields.Char('Name', required=True)
+    number_of_objects = fields.Integer('Number of objects', required=True)
 
 class product_form(models.Model):
     _name = 'product.form'
