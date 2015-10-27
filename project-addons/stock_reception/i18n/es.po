@@ -103,6 +103,11 @@ msgid "Supplier delivery note"
 msgstr "Albarán de proveedor"
 
 #. module: stock_reception
+#: field:stock.move,real_partner_id:0
+msgid "Real partner"
+msgstr "Proveedor"
+
+#. module: stock_reception
 #: field:stock.production.lot,uom_id:0
 msgid "UoM"
 msgstr "UoM"
