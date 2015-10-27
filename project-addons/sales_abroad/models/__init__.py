@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus I+D+i All Rights Reserved
-#    $Iván Alvarez <informatica@pharmadus.com>$
+#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -11,21 +11,14 @@
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp.osv import fields, osv
-
-
-class sale_channel_order(osv.Model):
-
-    _inherit = 'sale.order'
-
-    _columns = {
-        'sale_channel_id': fields.many2one('sale_channel', 'Sale channel', required=True),
-    }
+from . import sales_abroad
+from . import ir_attachment
+from . import res_country
+from . import stock

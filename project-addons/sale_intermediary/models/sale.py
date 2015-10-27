@@ -18,10 +18,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 from openerp import fields, models
-from openerp.osv import osv
 
 
 class my_sale_order(models.Model):
@@ -32,10 +29,10 @@ class my_sale_order(models.Model):
 
 class my_account_invoice(models.Model):
     _inherit = 'account.invoice'
-    partner_shipping_id = fields.Many2one('res.partner' , 'Shipping to', required=False )
+    partner_shipping_id = fields.Many2one('res.partner' , 'Shipping to', required=False)
 
 
-class my_stock_picking(osv.osv):
+class my_stock_picking(models.Model):
 
     _inherit = "stock.picking"
 

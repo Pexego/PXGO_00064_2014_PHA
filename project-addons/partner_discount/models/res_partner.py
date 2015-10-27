@@ -30,10 +30,5 @@ class res_partner(models.Model):
     """adds new field discount on partner"""
     _inherit = 'res.partner'
 
-    sale_discount = fields.Float("Sale Discount (%)", help="If select this partner in sale order, discount will be dragged to sale order lines", default=0.0);
-
-
-    #_defaults = {
-    #    'sale_discount': lambda *a: 0.0
-    #}
+    sale_discount = fields.Float("Sale Discount (%)", help="If select this partner in sale order, discount will be dragged to sale order lines", default=0.0)
 

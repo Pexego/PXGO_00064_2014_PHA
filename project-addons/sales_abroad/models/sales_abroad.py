@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+# #############################################################################
 #
 #    Copyright (C) 2014 Pharmadus All Rights Reserved
-#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -16,12 +16,21 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 ##############################################################################
-from openerp import models, fields
+from openerp import models, fields, api, _, tools
 
 
-class purchase_order(models.Model):
-    _inherit = 'purchase.order'
+class res_sales_abroad(models.Model):
+    _name = 'res.sales.abroad'
+    documents = fields.Char()
+    country_id = fields.Many2one('res.country', ondelete='restrict')
+    attachments = fields.One2many('ir.attachment', 'sales_abroad_id')
 
-    pc_sent = fields.Boolean('¿PC Sent?', default=False)
+    def unlink(self, cr, uid, ids, context=None):
+        # Delete all related attachments before
+        attachment = self.env['ir.attachment']
+        for sa in self.browse(cr, uid, ids, context=context):
+            attachment.unlink(cr, uid, sa.attachments.ids, context=context)
+
+        return super(res_sales_abroad, self).unlink(cr, uid, ids,
+                                                    context=context)

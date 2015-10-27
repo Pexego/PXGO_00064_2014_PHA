@@ -331,6 +331,7 @@
             <field name="arch" type="xml">
                 <tree string="Product packing base">
                     <field name="name" select="1"/>
+                    <field name="number_of_objects"/>
                 </tree>
             </field>
         </record>
@@ -345,6 +346,7 @@
                         <group>
                             <separator string="Base packing format" colspan="4"/>
                             <field name="name" select="1"/>
+                            <field name="number_of_objects"/>
                         </group>
                     </sheet>
                 </form>

@@ -63,10 +63,13 @@ class ImportPharmaGroupSales(models.TransientModel):
 
         for line in range(1, sh.nrows):
             row = sh.row_values(line)
-            p_ids = product_env.search([('cn_code', '=', row[4].strip())])
+            cn_code = row[4].strip().replace("'", "")
+            if '.' not in cn_code:
+                cn_code = cn_code[:-1] + '.' + cn_code[-1]
+            p_ids = product_env.search([('cn_code', '=', cn_code)])
             if not p_ids:
                 raise exceptions.Warning(_('Any product found with CN %s')
-                                         % row[4])
+                                         % cn_code)
 
             zip_ids = zip_env.search([('name', '=', row[2].strip())])
             if not zip_ids:
