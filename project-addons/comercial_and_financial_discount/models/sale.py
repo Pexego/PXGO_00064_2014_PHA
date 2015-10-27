@@ -123,12 +123,11 @@ class SaleOrder(models.Model):
                                        self.comercial_discount_amount - \
                                        self.financial_discount_amount
 
-        discount = (100 - self.financial_discount_percentage -
-                    self.comercial_discount_percentage) / 100
-        self.amount_tax_with_discounts = self.amount_tax * discount
-        self.amount_total_with_discounts = \
-            (self.amount_untaxed * discount) + \
-            self.amount_tax_with_discounts
+        amount_tax_com_disc = self.amount_tax * discount_com
+        self.amount_tax_with_discounts = amount_tax_com_disc * discount_fin
+
+        self.amount_total_with_discounts = self.amount_subtotal_untaxed + \
+                                           self.amount_tax_with_discounts
 
     @api.one
     @api.depends('comercial_discount_percentage')
