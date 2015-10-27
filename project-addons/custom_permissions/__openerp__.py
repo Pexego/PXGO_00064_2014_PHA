@@ -34,10 +34,12 @@
                  'product',
                  'mrp',
                  'custom_sale_commission',
-                 'delivery'],
+                 'delivery',
+                 'portal_sale'],
     'data' : ['views/sale_view.xml',
               'views/partner_view.xml',
               'security/groups.xml',
+              'security/record_rules.xml',
               'security/menus.xml',
               'security/ir.model.access.csv'],
     'installable': True
