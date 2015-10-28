@@ -27,7 +27,7 @@ class sale_order(models.Model):
 
     internal_note = fields.Text(string='Internal note')
 
-    @api.one
+    @api.multi
     def write(self, vals):
         res = super(sale_order, self).write(vals)
         text = vals.get('internal_note', False)
