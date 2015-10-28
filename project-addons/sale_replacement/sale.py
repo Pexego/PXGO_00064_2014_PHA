@@ -144,7 +144,8 @@ class sale_order_line(models.Model):
     @api.depends('order_id.rep_lines')
     def _get_qty_replaced(self):
         rep_lines = self.search_read(
-            [('orig_sale', '=', self.order_id.id),
+            [('product_id', '=', self.product_id.id),
+             ('orig_sale', '=', self.order_id.id),
              ('state', 'not in', ('draft', 'sent', 'cancel'))],
             ['product_uom_qty'])
         self.qty_replaced = sum([x['product_uom_qty'] for x in rep_lines])
