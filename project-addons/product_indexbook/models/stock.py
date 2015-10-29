@@ -30,7 +30,7 @@ class stock_location(models.Model):
 class stock_quant(models.Model):
     _inherit = 'stock.quant'
 
-    @api.model
+    @api.one
     def qc_check_if_need_pis(self, vals):
         # Check if destination location are affected by quality control, product has P.I.S. and quant has lot assigned
         # If true and is not already created, create new product identification sheet entry
@@ -49,7 +49,7 @@ class stock_quant(models.Model):
         return super(stock_quant, self).create(vals)
 
 
-    @api.one
+    @api.multi
     def write(self, vals):
         self.qc_check_if_need_pis(vals)
         return super(stock_quant, self).write(vals)

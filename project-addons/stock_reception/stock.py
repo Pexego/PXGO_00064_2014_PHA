@@ -55,3 +55,5 @@ class StockMove(models.Model):
 
     real_partner_id = fields.Many2one('res.partner', 'Real partner',
                                       related='picking_id.partner_id')
+    purchase_order_id = fields.Many2one('purchase.order', 'Purchase order',
+                                        related='purchase_line_id.order_id')

@@ -27,24 +27,25 @@ class res_partner(models.Model):
 
     _inherit = 'res.partner'
 
-    @api.one
+    @api.multi
     def write(self, vals):
         _today = date.today()
         pricelist_history_obj = self.env['product.pricelist.partner.history']
         pricelist_pur = vals.get('property_product_pricelist_purchase', False)
         pricelist_sale = vals.get('property_product_pricelist', False)
-        if pricelist_pur:
-            vals_history = {'date': _today, 'pricelist_id':
-                            self.property_product_pricelist_purchase.id,
-                            'partner_id': self.id}
-            vals_history['type'] = 'purchase'
-            pricelist_history_obj.create(vals_history)
-        if pricelist_sale:
-            vals_history = {'date': _today, 'pricelist_id':
-                            self.property_product_pricelist.id,
-                            'partner_id': self.id}
-            vals_history['type'] = 'sale'
-            pricelist_history_obj.create(vals_history)
+        for partner in self:
+            if pricelist_pur:
+                vals_history = {'date': _today, 'pricelist_id':
+                                partner.property_product_pricelist_purchase.id,
+                                'partner_id': partner.id}
+                vals_history['type'] = 'purchase'
+                pricelist_history_obj.create(vals_history)
+            if pricelist_sale:
+                vals_history = {'date': _today, 'pricelist_id':
+                                partner.property_product_pricelist.id,
+                                'partner_id': partner.id}
+                vals_history['type'] = 'sale'
+                pricelist_history_obj.create(vals_history)
         return super(res_partner, self).write(vals)
 
     @api.multi

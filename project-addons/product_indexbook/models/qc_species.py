@@ -122,10 +122,12 @@ class qc_species(models.Model):
 
         return new_rev
 
-    @api.one
+    @api.multi
     def write(self, vals):
-        self._compose_revision(vals)
-        return super(qc_species, self).write(vals)
+        for species in self:
+            species._compose_revision(vals)
+            super(qc_species, species).write(vals)
+        return True
 
     @api.multi
     def new_revision(self):
