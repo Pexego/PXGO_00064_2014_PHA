@@ -216,11 +216,6 @@ msgid "Inventory Locations"
 msgstr "Inventory Locations"
 
 #. module: product_indexbook
-#: field:stock.location,qc_location:0
-msgid "Is a quarantine location?"
-msgstr "Is a quarantine location?"
-
-#. module: product_indexbook
 #: field:qc.aspects,write_uid:0
 #: field:qc.micro.chars,write_uid:0
 #: field:qc.pis,write_uid:0

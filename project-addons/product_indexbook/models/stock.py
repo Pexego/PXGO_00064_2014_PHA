@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,35 +21,38 @@
 
 from openerp import models, fields, api
 
-class stock_location(models.Model):
-    _inherit = 'stock.location'
 
-    qc_location = fields.Boolean(string='Is a quarantine location?', default=False)
-
-
-class stock_quant(models.Model):
+class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
-    @api.model
+    @api.one
     def qc_check_if_need_pis(self, vals):
-        # Check if destination location are affected by quality control, product has P.I.S. and quant has lot assigned
-        # If true and is not already created, create new product identification sheet entry
-        location = self.env['stock.location'].browse([vals['location_id']]) if vals.get('location_id') else self.location_id
-        product = self.env['product.template'].browse([vals['product_id']]) if vals.get('product_id') else self.product_id
+        # Check if destination location are affected by quality control,
+        # product has P.I.S. and quant has lot assigned
+        # If true and is not already created, create new
+        # product identification sheet entry
+        location_obj = self.env['stock.location']
+        location = location_obj.browse([vals['location_id']]) if \
+            vals.get('location_id') else self.location_id
+        warehouse_id = location_obj.get_warehouse(location)
+        warehouse = self.env['stock.warehouse'].browse(warehouse_id)
+        product = self.env['product.template'].browse([vals['product_id']]) if \
+            vals.get('product_id') else self.product_id
         lot = vals['lot_id'] if vals.get('lot_id') else self.lot_id.id
         qc_pis = self.env['qc.pis']
-        if location.qc_location and product.qc_has_pis and lot:
-            if (qc_pis.search_count([('lot', '=', lot)]) == 0): # One P.I.S. for each lot
+        if warehouse.wh_qc_stock_loc_id == location and \
+                product.qc_has_pis and lot:
+            # One P.I.S. for each lot
+            if (qc_pis.search_count([('lot', '=', lot)]) == 0):
                 qc_pis.create({'lot': lot, 'reference': product.id})
-
 
     @api.model
     def create(self, vals):
         self.qc_check_if_need_pis(vals)
         return super(stock_quant, self).create(vals)
 
-
-    @api.one
+    @api.multi
     def write(self, vals):
-        self.qc_check_if_need_pis(vals)
+        for quant in self:
+            quant.qc_check_if_need_pis(vals)
         return super(stock_quant, self).write(vals)
