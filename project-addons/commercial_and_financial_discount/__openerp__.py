@@ -2,7 +2,6 @@
 #################################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2013 Julius Network Solutions SARL <contact@julius.fr>
 #    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com$
 #
@@ -22,10 +21,10 @@
 #################################################################################
 
 {
-    "name" : "Comercial and financial discount",
-    "summary": "Comercial and financial discount on sale orders",
+    "name" : "Commercial and financial discount",
+    "summary": "Commercial and financial discount on sale orders",
     "version" : "1",
-    "author" : "Julius Network Solutions & Pharmadus",
+    "author" : "Pharmadus",
     "website" : "http://www.pharmadus.com",
     "category" : "Sales Management",
     "depends" : [
@@ -42,6 +41,7 @@ This module will add two fields in the sale order, and it will work as the modul
     """,
     "demo" : [],
     "data" : [
+        "views/res_partner_view.xml",
         "views/sale_view.xml",
         "views/report_quotation_discounted.xml",
         "data/product_data.xml",

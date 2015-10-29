@@ -26,8 +26,8 @@ from openerp import models, fields
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    comercial_discount = fields.Float(
-        "Comercial discount (%)",
+    commercial_discount = fields.Float(
+        "Commercial discount (%)",
         help="If select this partner in sale order, discount will be added to order",
         default=0.0)
     financial_discount = fields.Float(
