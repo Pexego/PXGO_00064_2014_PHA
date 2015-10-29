@@ -17,5 +17,66 @@
         </record>
     <!-- SUBMENUS Purchase Requirement -->
 
+    <!-- Actions -->
+    <record model="ir.actions.act_window" id="action_allsales_salesmanph">
+            <field name="name">Sale orders SalesmanPH (Confirmed)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="domain"> [('state', 'not in', ('draft', 'sent', 'cancel')), ('replacement', '=', 0), ('sample', '=', 0), ('transfer', '=', 0)]</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="view_id" ref="sale.view_order_tree"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_draftsales_salesmanph">
+            <field name="name">Sale orders SalesmanPH (Drafts)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="domain"> [('state','in',('draft',))]</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_partners_salesmanph">
+            <field name="name">Partners SalesmanPHs</field>
+            <field name="type">ir.actions.act_window</field>
+             <field name="domain">[]</field>
+            <field name="filter">1</field>
+            <field name="res_model">res.partner</field>
+            <field name="context">{'default_customer':1, 'search_default_customer':1}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref=""/>
+            <field name="search_view_id" ref=""/>
+
+    </record>
+    <!-- Menu comerciales -->
+    <menuitem id="menu_custom_salesmanph"
+              name="Salesmans"
+              parent="portal.portal_menu"
+              sequence="9"
+              groups="group_salesman_ph"/>
+
+    <menuitem id="menu_custom_allsales_salesmanph"
+              name="Sales (Approved)"
+              action="action_allsales_salesmanph"
+              parent="menu_custom_salesmanph"
+              sequence="10"/>
+
+     <menuitem id="menu_custom_sales_salesmanph"
+                name="Sales (Draft)"
+                action="action_draftsales_salesmanph"
+                parent="menu_custom_salesmanph"
+                sequence="20"/>
+
+    <menuitem id="menu_custom_partners_salesmanph"
+              name="Partners"
+              action="action_partners_salesmanph"
+              parent="menu_custom_salesmanph"
+              sequence="30"/>
+
     </data>
 </openerp>
