@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,11 +22,14 @@
 from openerp import models, fields, api
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    qc_has_pis = fields.Boolean(string='P.I.S.', default=False, help="Has product identification sheet?")
-    qc_species = fields.One2many(string='Species', comodel_name='qc.species.product.template.rel', inverse_name='product')
+    qc_has_pis = fields.Boolean(string='P.I.S.', default=False,
+                                help="Has product identification sheet?")
+    qc_species = fields.One2many(string='Species',
+                                 comodel_name='qc.species.product.template.rel',
+                                 inverse_name='product')
     qc_aspects = fields.Many2many(string='Aspects', comodel_name='qc.aspects')
 
     @api.multi

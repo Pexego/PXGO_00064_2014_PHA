@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,9 @@
 #
 
 from openerp import models, fields, api
-from openerp.exceptions import Warning
 
 
-class qc_aspects(models.Model):
+class QcAspects(models.Model):
     _name = 'qc.aspects'
     _description = 'Aspects'
     _order = 'id'
@@ -36,7 +35,7 @@ class qc_aspects(models.Model):
     ]
 
 
-class qc_micro_chars(models.Model):
+class QcMicroChars(models.Model):
     _name = 'qc.micro.chars'
     _description = 'Microscopic characters'
     _order = 'name'
@@ -45,10 +44,11 @@ class qc_micro_chars(models.Model):
     visible = fields.Boolean(string='Visible', default=True)
 
     _sql_constraints = [
-        ('qc_micro_chars_name_uniq', 'unique(name)', 'This microscopic character already exists!'),
+        ('qc_micro_chars_name_uniq', 'unique(name)',
+         'This microscopic character already exists!'),
     ]
 
-class qc_varieties(models.Model):
+class QcVarieties(models.Model):
     _name = 'qc.varieties'
     _description = 'Specie varieties'
     _order = 'name'
@@ -56,9 +56,10 @@ class qc_varieties(models.Model):
     name = fields.Char(string='Variety')
     code = fields.Char(string='Short code', size=3, required=True)
     visible = fields.Boolean(string='Visible', default=True)
-    specie = fields.Many2one(string='Specie', comodel_name='qc.species', ondelete='cascade')
+    specie = fields.Many2one(string='Specie', comodel_name='qc.species',
+                             ondelete='cascade')
 
-class qc_species(models.Model):
+class QcSpecies(models.Model):
     _name = 'qc.species'
     _description = 'Species for quality control'
     _order = 'name, idm_code_rev desc'
@@ -68,11 +69,16 @@ class qc_species(models.Model):
     used_part = fields.Char(string='Used part')
     idm_code = fields.Char(string='IDM code', size=8, readonly=True)
     revision = fields.Integer(string='Revision', required=True, readonly=True)
-    varieties = fields.One2many(string='Specie varieties', comodel_name='qc.varieties', inverse_name='specie')
+    varieties = fields.One2many(string='Specie varieties',
+                                comodel_name='qc.varieties',
+                                inverse_name='specie')
     idm_code_rev = fields.Char(string='IDM code & rev.', select=True)
     parent_revision_id = fields.Integer()
-    micro_characters = fields.Many2many(string='Microscopic characters', comodel_name='qc.micro.chars')
-    products = fields.One2many(string='Products', comodel_name='qc.species.product.template.rel', inverse_name='name')
+    micro_characters = fields.Many2many(string='Microscopic characters',
+                                        comodel_name='qc.micro.chars')
+    products = fields.One2many(string='Products',
+                               comodel_name='qc.species.product.template.rel',
+                               inverse_name='name')
     visible = fields.Boolean(string='Visible', default=True)
 
     def _compose_revision(self, vals):
@@ -82,10 +88,12 @@ class qc_species(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('idm_code', False): # Is a duplicated specie from another previously existent?
+        # Is a duplicated specie from another previously existent?
+        if vals.get('idm_code', False):
             vals['parent_revision_id'] = -1
         else: # New specie, so there is no parent
-            vals['idm_code'] = self.env['ir.sequence'].get_id('qc.species.idm.code', 'code')
+            vals['idm_code'] = self.env['ir.sequence'].get_id(
+                'qc.species.idm.code', 'code')
             vals['parent_revision_id'] = 0
 
         if not vals.get('revision', False):
@@ -95,20 +103,23 @@ class qc_species(models.Model):
         # break parent's relation with products and hide parent
         if vals['parent_revision_id'] == -1:
             code = vals['idm_code_rev']
-            parent = self.search([('idm_code_rev', '=', code)], limit=1, order='id desc')
+            parent = self.search([('idm_code_rev', '=', code)], limit=1,
+                                 order='id desc')
             vals['parent_revision_id'] = parent.id
             vals['revision'] += 1
             self._compose_revision(vals) # Compose idm code & revision
 
-            new_rev = super(qc_species, self).create(vals)
+            new_rev = super(QcSpecies, self).create(vals)
 
-            # Change relation with varieties to the new revision, to maintain relation with products
+            # Change relation with varieties to the new revision, to maintain
+            # relation with products
             for item in parent.varieties:
                 item.specie = new_rev.id
 
             # Duplicate varieties to maintaining the history
             for item in new_rev.varieties:
-                parent.varieties.create({'name': item.name, 'code': item.code, 'specie': parent.id})
+                parent.varieties.create({'name': item.name, 'code': item.code,
+                                         'specie': parent.id})
 
             # Change relation with products to the new revision
             for item in parent.products:
@@ -118,14 +129,15 @@ class qc_species(models.Model):
             parent.visible = False
         else:
             self._compose_revision(vals) # Compose idm code & revision
-            new_rev = super(qc_species, self).create(vals)
+            new_rev = super(QcSpecies, self).create(vals)
 
         return new_rev
 
-    @api.one
+    @api.multi
     def write(self, vals):
-        self._compose_revision(vals)
-        return super(qc_species, self).write(vals)
+        for specie in self:
+            specie._compose_revision(vals)
+        return super(QcSpecies, self).write(vals)
 
     @api.multi
     def new_revision(self):
@@ -138,8 +150,8 @@ class qc_species(models.Model):
             'view_mode': 'form',
             'res_model': 'qc.species',
             'res_id': new_rev.ids[0],
-            'target': 'inline', # "inline" opens it in edit mode, but top buttons appears hidden (Odoo bug?)
-            'context': ctx,
+            'target': 'inline', # "inline" opens it in edit mode, but
+            'context': ctx,     # top buttons appears hidden (Odoo bug?)
         }
 
     @api.multi
@@ -157,24 +169,31 @@ class qc_species(models.Model):
         }
 
 
-class qc_species_product_template_rel(models.Model):
+class QcSpeciesProductTemplateRel(models.Model):
     _name = 'qc.species.product.template.rel'
     _description = 'Relation between species & products'
 
-    name = fields.Many2one(string='Raw material', comodel_name='qc.species', ondelete='restrict')
-    idm_code_rev_var = fields.Char(string='IDM code', compute='_idm_code_rev_var')
+    name = fields.Many2one(string='Raw material', comodel_name='qc.species',
+                           ondelete='restrict')
+    idm_code_rev_var = fields.Char(string='IDM code',
+                                   compute='_idm_code_rev_var')
     specie = fields.Char(string='Specie', related='name.specie', readonly=True)
-    used_part = fields.Char(string='Used part', related='name.used_part', readonly=True)
-    variety = fields.Many2one(string='Variety', comodel_name='qc.varieties', ondelete='restrict',
-                              domain="[('specie', '=', name), ('visible', '=', True)]")
+    used_part = fields.Char(string='Used part', related='name.used_part',
+                            readonly=True)
+    variety = fields.Many2one(string='Variety', comodel_name='qc.varieties',
+                              ondelete='restrict',
+                              domain="[('specie', '=', name), "
+                                     "('visible', '=', True)]")
     macro = fields.Char(string='Macroscopic character')
     micro = fields.Boolean(string='Has micro char?', default=True)
-    product = fields.Many2one(string='Product', comodel_name='product.template', ondelete='restrict')
+    product = fields.Many2one(string='Product', comodel_name='product.template',
+                              ondelete='restrict')
 
     @api.depends('name', 'variety')
     def _idm_code_rev_var(self):
         for item in self:
             if item.variety and item.variety.code and item.variety.code.strip():
-                item.idm_code_rev_var = item.name.idm_code_rev + ' (' + item.variety.code + ')'
+                item.idm_code_rev_var = item.name.idm_code_rev + \
+                                        ' (' + item.variety.code + ')'
             else:
                 item.idm_code_rev_var = item.name.idm_code_rev
