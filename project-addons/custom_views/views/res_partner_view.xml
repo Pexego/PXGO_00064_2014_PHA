@@ -33,9 +33,9 @@
                 <field name="phone" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-                <field name="vat" position="attributes">
+                <!--field name="vat" position="attributes">
                     <attribute name="required">1</attribute>
-                </field>
+                </field-->
             </field>
         </record>
 

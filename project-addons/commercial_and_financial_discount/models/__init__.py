@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Copyright (C) 2015 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    $Oscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,28 +19,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'Product index book',
-    'version': '2.0',
-    'author': 'Pharmadus I+D+i',
-    'description': 'Product index book',
-    'category': 'Quality',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'base',
-        'product',
-        'stock',
-        'purchase',
-        'quality_management_menu',
-    ],
-    'data' : [
-        'data/sequence.xml',
-        'data/initialization.xml',
-        'views/qc_species.xml',
-        'views/qc_pis.xml',
-        'views/product_template.xml',
-        'views/report_pis.xml',
-        'security/ir.model.access.csv',
-    ],
-    'installable': True
-}
+from . import res_partner, sale

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Oscar Salvador<oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
