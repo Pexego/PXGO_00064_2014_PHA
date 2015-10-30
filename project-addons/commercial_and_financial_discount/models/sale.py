@@ -2,6 +2,7 @@
 ###############################################################################
 #
 #    OpenERP, Open Source Management Solution
+#    Copyright (C) 2013-Today Julius Network Solutions SARL <contact@julius.fr>
 #    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Oscar Salvador <oscar.salvador@pharmadus.com>$
 #
@@ -150,7 +151,6 @@ class SaleOrder(models.Model):
             self.financial_discount_input > 100):
             raise Warning(_('Discount value should be between 0 and 100'))
 
-    @api.one
     def _get_lines_by_taxes(self, lines=None):
         """ This method will return a dictionary of taxes as keys
         with the related lines.
@@ -230,7 +230,7 @@ class SaleOrder(models.Model):
             if (len(lines_by_taxes) > 0) and \
                     (self.commercial_discount_percentage +
                      self.financial_discount_percentage > 0):
-                self._generate_discounts_lines_by_taxes(lines_by_taxes[0])
+                self._generate_discounts_lines_by_taxes(lines_by_taxes)
             # Recompute amounts
             self._calculate_amounts
         return True
