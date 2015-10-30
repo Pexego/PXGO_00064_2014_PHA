@@ -49,10 +49,10 @@ class StockQuant(models.Model):
     @api.model
     def create(self, vals):
         self.qc_check_if_need_pis(vals)
-        return super(stock_quant, self).create(vals)
+        return super(StockQuant, self).create(vals)
 
     @api.multi
     def write(self, vals):
         for quant in self:
             quant.qc_check_if_need_pis(vals)
-        return super(stock_quant, self).write(vals)
+        return super(StockQuant, self).write(vals)
