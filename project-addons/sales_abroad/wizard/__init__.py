@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import sales_abroad_confirm_docs
+from . import sales_abroad_confirm_docs

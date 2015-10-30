@@ -57,13 +57,6 @@
             </div>
         </template>
 
-        <template id="assets_backend" inherit_id="web.assets_backend" name="Survey assets">
-            <xpath expr="." position="inside">
-                <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.js" />
-                <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
-            </xpath>
-        </template>
-
         <!-- Vista contenedora para el prototipo, se debe mirar como se puede generar al vuelo, desde el controller -->
         <template id="protocol_print" name="Protocol">
             <style>
@@ -77,6 +70,8 @@
                     <link rel="stylesheet" href="/quality_protocol_report/static/src/css/quality_style.css"/>
                         <t t-call-assets="web.assets_common"/>
                         <t t-call-assets="web.assets_backend"/>
+                    <script type="text/javascript" src="/quality_protocol_report/static/src/js/jquery.appendGrid-1.4.2.js" />
+                    <script type="text/javascript" src="/quality_protocol_report/static/src/js/quality_survey.js" />
                 </t>
                 <div class="openerp">
                     <div class="container oe_form">

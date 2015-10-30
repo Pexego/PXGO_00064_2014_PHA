@@ -2,16 +2,6 @@
 <openerp>
     <data>
 
-        <record id="product_template_form_view_add_cn" model="ir.ui.view">
-            <field name="name">product.template.common.form.add_cn</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_only_form_view"/>
-            <field name="arch" type="xml">
-                <field name="default_code" position="after">
-                    <field name="cn_code"/>
-                </field>
-            </field>
-        </record>
         <record model="ir.ui.view" id="product_template_add_limits">
             <field name="name">product.template.form</field>
             <field name="model">product.template</field>
@@ -35,6 +25,9 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="cn_code"/>
+                </field>
                 <page string="Information" position="after">
                     <page string="Specs">
                         <group colspan="4">
@@ -331,6 +324,7 @@
             <field name="arch" type="xml">
                 <tree string="Product packing base">
                     <field name="name" select="1"/>
+                    <field name="number_of_objects"/>
                 </tree>
             </field>
         </record>
@@ -345,6 +339,7 @@
                         <group>
                             <separator string="Base packing format" colspan="4"/>
                             <field name="name" select="1"/>
+                            <field name="number_of_objects"/>
                         </group>
                     </sheet>
                 </form>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2014 Pharmadus All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,20 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api
-
-
-class sale_order(models.Model):
-    _inherit = 'sale.order'
-
-    internal_note = fields.Text(string='Internal note')
-
-    @api.multi
-    def write(self, vals):
-        res = super(sale_order, self).write(vals)
-        text = vals.get('internal_note', False)
-        if text:
-            for picking in self.picking_ids:
-                picking.note = text
-        return res
+from . import sales_abroad
+from . import ir_attachment
+from . import res_country
+from . import stock

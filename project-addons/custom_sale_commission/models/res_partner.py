@@ -52,7 +52,7 @@ class res_partner_agent(models.Model):
 
     auto = fields.Boolean('Automatic created', default=False)
 
-    @api.one
+    @api.multi
     def write(self, vals):
         vals['auto'] = vals.get('auto', False)
         return super(res_partner_agent, self).write(vals)

@@ -29,5 +29,3 @@ class sale_channel_order(osv.Model):
     _columns = {
         'sale_channel_id': fields.many2one('sale_channel', 'Sale channel', required=True),
     }
-
-sale_channel_order()
