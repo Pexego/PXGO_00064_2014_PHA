@@ -4,7 +4,6 @@
         <record id="product_financial_discount" model="product.product">
             <field name="name">Financial discount</field>
             <field name="list_price">0</field>
-            <field name="price_data">0</field>
             <field name="standard_price">0</field>
             <field name="type">service</field>
             <field name="taxes_id">[(6, 0, [])]</field>
@@ -13,7 +12,6 @@
         <record id="product_commercial_discount" model="product.product">
             <field name="name">Commercial discount</field>
             <field name="list_price">0</field>
-            <field name="price_data">0</field>
             <field name="standard_price">0</field>
             <field name="type">service</field>
             <field name="taxes_id">[(6, 0, [])]</field>
