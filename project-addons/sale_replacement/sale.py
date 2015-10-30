@@ -91,7 +91,7 @@ class sale_order_line(models.Model):
 
     is_sale_replacement = fields.Boolean('is sale replacement',
                                          related='order_id.replacement',
-                                         store=True)
+                                         readonly=True)
 
     orig_sale = fields.Many2one('sale.order', 'Original order')
 
