@@ -107,7 +107,8 @@ class SaleOrder(models.Model):
             else:
                 amount_gross += line.product_uom_qty * line.price_unit
                 discount_art = discount_art + \
-                      (line.product_uom_qty * line.price_unit * line.discount / 100)
+                      (line.product_uom_qty * line.price_unit *
+                       line.discount / 100)
         self.amount_gross_untaxed = amount_gross
         self.article_discount = discount_art
         self.commercial_discount_amount = com_disc_amount
@@ -176,15 +177,15 @@ class SaleOrder(models.Model):
             'commercial_and_financial_discount.product_financial_discount')
         for tax_str in lines_by_taxes.keys():
             # Apply discounts percentages
-            discount_fin = self.financial_discount_percentage / 100
             discount_com = self.commercial_discount_percentage / 100
+            discount_fin = self.financial_discount_percentage / 100
             # Accumulate lines amounts
             sum = 0
             for line in lines_by_taxes[tax_str]:
                 sum += line.price_subtotal
             # Calculate discounts amounts
             amount_com = sum * discount_com
-            amount_fin = (sum - discount_com) * discount_fin
+            amount_fin = (sum - amount_com) * discount_fin
             # Add new lines with products of discounts
             for product_id, discount, is_com_disc, is_fin_disc, percentage in [
                         (product_com, amount_com, True, False, discount_com),
@@ -233,4 +234,19 @@ class SaleOrder(models.Model):
                 self._generate_discounts_lines_by_taxes(lines_by_taxes)
             # Recompute amounts
             self._calculate_amounts
+        return True
+
+    @api.one
+    def update_with_discounts(self):
+        if self.state in ('draft', 'sent'):
+            if self.commercial_discount_percentage or \
+                    self.financial_discount_percentage:
+               self.generate_discounts()
+            else:
+                # Delete old discounts lines
+                for line in self.order_line:
+                    if line.commercial_discount or line.financial_discount:
+                        line.unlink()
+                # Recompute amounts
+                self._calculate_amounts
         return True

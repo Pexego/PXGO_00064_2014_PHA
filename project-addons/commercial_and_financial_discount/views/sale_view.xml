@@ -39,22 +39,22 @@
                            widget="monetary"
                            options="{'currency_field': 'currency_id'}" />
                 </field>
-                <xpath expr="//group[@name='sale_total']" position="after">
+                <button name="button_dummy" position="attributes">
+                    <attribute name="name">update_with_discounts</attribute>
+                </button>
+                <group name="sale_total" position="after">
                     <group class="oe_edit_only" style="width: 65%%" attrs="{'invisible':[('state','not in',('draft','sent'))]}">
                         <label for="commercial_discount_input"/>
                         <div>
                             <field name="commercial_discount_input" class="oe_inline"/>
+                            <button name="generate_discounts" string="Generate discounts" type="object"/>
                         </div>
                         <label for="financial_discount_input"/>
                         <div>
 	                        <field name="financial_discount_input" class="oe_inline"/>
                         </div>
-                        <label for="generate_discounts"></label>
-                        <div>
-                            <button name="generate_discounts" string="Generate discounts" type="object"/>
-                        </div>
                     </group>
-            	</xpath>
+            	</group>
             </field>
         </record>
     </data>
