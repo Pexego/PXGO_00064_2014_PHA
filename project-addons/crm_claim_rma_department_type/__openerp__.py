@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,19 +19,14 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
-
-
-class sale_order(models.Model):
-    _inherit = 'sale.order'
-
-    internal_note = fields.Text(string='Internal note')
-
-    @api.multi
-    def write(self, vals):
-        res = super(sale_order, self).write(vals)
-        text = vals.get('internal_note', False)
-        if text:
-            for picking in self.picking_ids:
-                picking.note = text
-        return res
+{
+    'name': 'Crm claim rma department type',
+    'version': '1.0',
+    'category': '',
+    'description': """Adds a new type to the claim and adds the department X to the followers""",
+    'author': 'Comunitea',
+    'website': '',
+    "depends": ['base', 'crm_claim'],
+    "data": ['crm_claim.xml', 'security/ir.model.access.csv'],
+    "installable": True
+}

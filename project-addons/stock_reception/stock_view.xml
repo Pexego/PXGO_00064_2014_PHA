@@ -96,7 +96,18 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
                 <field name="origin" position="after">
-                    <field name="supplier_delivery_note"/>
+                    <field name="supplier_delivery_note" required="True"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_tree" model="ir.ui.view">
+           <field name="name">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="supplier_delivery_note"/> <!-- ref('stock.picking_type_out') -->
                 </field>
             </field>
         </record>
@@ -111,5 +122,41 @@
                 </field>
             </field>
         </record>
+
+        <!-- date - product_id - real_partner_id - product_uom_qty - product_uom - origin - state-->
+        <record id="view_move_tree_receipt_picking" model="ir.ui.view">
+            <field name="name">stock.move.tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="replace"/>
+                <field name="origin" position="replace">
+                    <field name="product_id"/>
+                </field>
+                <button name="%(stock.move_scrap)d" position="after">
+                    <field name="origin"/>
+                </button>
+                <field name="partner_id" position="replace">
+                    <field name="real_partner_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_move_form_add-purchase" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="picking_id" position="after">
+                    <field name="purchase_order_id" attrs="{'invisible': [('purchase_order_id', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+        <menuitem id="menu_procurement_management_inventory" name="Incoming Products"
+            parent="stock.menu_stock_root" sequence="4"/>
+      <menuitem action="stock.action_receipt_picking_move" id="menu_action_picking_tree_in_move"
+            parent="menu_procurement_management_inventory" sequence="11"/>
+
     </data>
 </openerp>

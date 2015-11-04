@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+# #############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2014 Pharmadus All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -16,22 +16,21 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 ##############################################################################
+from openerp import models, fields, api, _, tools
 
-from openerp import models, fields, api
 
+class res_sales_abroad(models.Model):
+    _name = 'res.sales.abroad'
+    documents = fields.Char()
+    country_id = fields.Many2one('res.country', ondelete='restrict')
+    attachments = fields.One2many('ir.attachment', 'sales_abroad_id')
 
-class sale_order(models.Model):
-    _inherit = 'sale.order'
+    def unlink(self, cr, uid, ids, context=None):
+        # Delete all related attachments before
+        attachment = self.env['ir.attachment']
+        for sa in self.browse(cr, uid, ids, context=context):
+            attachment.unlink(cr, uid, sa.attachments.ids, context=context)
 
-    internal_note = fields.Text(string='Internal note')
-
-    @api.multi
-    def write(self, vals):
-        res = super(sale_order, self).write(vals)
-        text = vals.get('internal_note', False)
-        if text:
-            for picking in self.picking_ids:
-                picking.note = text
-        return res
+        return super(res_sales_abroad, self).unlink(cr, uid, ids,
+                                                    context=context)

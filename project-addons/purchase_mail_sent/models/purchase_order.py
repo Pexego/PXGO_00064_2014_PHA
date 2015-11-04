@@ -20,6 +20,8 @@
 ##############################################################################
 from openerp import models, fields
 
+
 class purchase_order(models.Model):
     _inherit = 'purchase.order'
-    pc_sent = fields.Boolean('¿PC Sent?',default=False )
+
+    pc_sent = fields.Boolean('¿PC Sent?', default=False)
