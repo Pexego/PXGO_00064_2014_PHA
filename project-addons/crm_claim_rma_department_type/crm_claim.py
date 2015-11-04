@@ -35,7 +35,6 @@ class CrmClaim(models.Model):
 
     @api.model
     def create(self, vals):
-        import ipdb; ipdb.set_trace()
         if vals.get('department_type'):
             department_type = self.env['crm.claim.department.type'].browse(vals['department_type'])
             manager = department_type.department_id.manager_id.user_id.partner_id
