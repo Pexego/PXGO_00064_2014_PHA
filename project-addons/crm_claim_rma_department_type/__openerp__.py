@@ -27,6 +27,6 @@
     'author': 'Comunitea',
     'website': '',
     "depends": ['base', 'crm_claim'],
-    "data": ['crm_claim.xml'],
+    "data": ['crm_claim.xml', 'security/ir.model.access.csv'],
     "installable": True
 }
