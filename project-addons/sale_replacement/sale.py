@@ -29,6 +29,15 @@ class sale_order(models.Model):
 
     replacement = fields.Boolean('Replacement')
     rep_lines = fields.One2many('sale.order.line', 'orig_sale', 'Rep lines')
+    is_all_invoiced = fields.Boolean('Is invoiced', compute='_get_replacement_invoiced')
+
+    @api.one
+    def _get_replacement_invoiced(self):
+        is_all_invoiced = True
+        for line in self.order_line:
+            if not line.is_all_replaced:
+                is_all_invoiced = False
+        self.is_all_invoiced = is_all_invoiced
 
     @api.model
     def _prepare_order_line_procurement(self, order, line, group_id=False):
@@ -91,7 +100,7 @@ class sale_order_line(models.Model):
 
     is_sale_replacement = fields.Boolean('is sale replacement',
                                          related='order_id.replacement',
-                                         store=True)
+                                         readonly=True)
 
     orig_sale = fields.Many2one('sale.order', 'Original order')
 
