@@ -44,17 +44,17 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     @api.multi
-    def product_id_change_with_wh(self, cr, uid, ids, pricelist, product,
+    def product_id_change_with_wh(self, pricelist, product,
                                   qty=0, uom=False, qty_uos=0, uos=False,
                                   name='', partner_id=False, lang=False,
                                   update_tax=True, date_order=False,
                                   packaging=False, fiscal_position=False,
-                                  flag=False, warehouse_id=False,
-                                  context=None):
-        res = super(sale_order_line, self).product_id_change_with_wh(
-            cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name,
+                                  flag=False, warehouse_id=False):
+
+        res = super(SaleOrderLine, self).product_id_change_with_wh(
+            pricelist, product, qty, uom, qty_uos, uos, name,
             partner_id, lang, update_tax, date_order, packaging,
-            fiscal_position, flag, warehouse_id, context)
+            fiscal_position, flag, warehouse_id)
         order_agent_obj = self.env['sale.order.agent']
 
         if product and not res['value']['line_agent_ids']:
@@ -63,7 +63,7 @@ class SaleOrderLine(models.Model):
             if not product_obj.commission_exent:
                 order_agent_ids = []
                 obj_list = []
-                for agent in context.get('sale_agent_ids', False):
+                for agent in self._context.get('sale_agent_ids', []):
                     if type(agent[-1]) == type(obj_list):
                         obj_list += agent[-1]
                     else:
