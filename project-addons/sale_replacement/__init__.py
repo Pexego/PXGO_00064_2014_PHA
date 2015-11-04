@@ -22,3 +22,4 @@
 import sale
 import stock
 import wizard
+import sale_order_to_invoice_view

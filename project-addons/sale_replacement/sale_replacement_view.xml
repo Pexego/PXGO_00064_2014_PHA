@@ -22,6 +22,16 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
             <field name="arch" type="xml">
+                <xpath expr="//h1" position="before">
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <field name="is_all_invoiced" invisible="1"/>
+                        <button type="object"
+                            name="view_invoiced_qtys"
+                            class="oe_stat_button"
+                            string="Invoiced quantities"
+                            attrs="{'invisible': ['|', ('replacement', '=', False), ('is_all_invoiced', '=', True)]}"/>
+                    </div>
+                </xpath>
 
                 <xpath expr="//field[@name='order_line']/tree//field[@name='discount']"  position="after">
                     <field name="is_sale_replacement" invisible="True"/>
