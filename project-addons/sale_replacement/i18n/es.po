@@ -27,6 +27,12 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "            "
 
 #. module: sale_replacement
+#: model:ir.actions.act_window,name:sale_replacement.action_replacements_to_invoice
+#: model:ir.ui.menu,name:sale_replacement.to_invoice_menu
+msgid "Replacements to invoice"
+msgstr "Depositos por facturar"
+
+#. module: sale_replacement
 #: field:sale.order.line,is_all_replaced:0
 msgid "All replaced"
 msgstr "All replaced"
