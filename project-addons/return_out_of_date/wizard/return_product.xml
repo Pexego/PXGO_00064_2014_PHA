@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="return_out_date_form" model="ir.ui.view">
+            <field name="name">return.out.date.form</field>
+            <field name="model">return.out.date</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Return of out of date products">
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="return_lines">
+                            <tree editable="top">
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="uom_id" groups="product.group_uom"/>
+                                <field name="lot_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <button string="Return" name="return_product" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Return out of date"
+            res_model="return.out.date"
+            view_id="return_out_date_form"
+            view_mode="form"
+            target="new"
+            id="return_out_of_date_action"/>
+
+        <menuitem
+            id="menu_return_out_date"
+            name="Return out of date"
+            string="Return out of date"
+            action="return_out_of_date_action"
+            parent="stock.menu_stock_inventory_control"/>
+    </data>
+</openerp>
+
