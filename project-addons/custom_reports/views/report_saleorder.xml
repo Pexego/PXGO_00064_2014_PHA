@@ -234,7 +234,7 @@
                             <th>Taxes</th>
                             <th class="text-right">Quantity</th>
                             <th class="text-right">Unit price</th>
-                            <th groups="sale.group_discount_per_so_line">Disc.(%)</th>
+                            <th class="text-right" groups="sale.group_discount_per_so_line">Disc.(%)</th>
                             <th class="text-right">Price w/discount</th>
                             <th class="text-right">Price</th>
                         </tr>
@@ -258,7 +258,7 @@
                             <td class="text-right">
                                 <span t-esc="'%g' % l.price_unit"/>
                             </td>
-                            <td groups="sale.group_discount_per_so_line">
+                            <td class="text-right" groups="sale.group_discount_per_so_line">
                                 <span t-esc="'%g' % l.discount" style="padding-left: 10px;"/>
                             </td>
                             <td class="text-right">
@@ -325,7 +325,7 @@
                 </table>
 
                 <div t-if="not o.transfer" class="row">
-                    <div class="col-xs-4 pull-right">
+                    <div class="col-xs-5 pull-right">
                         <table class="table table-condensed">
                             <tr class="border-black">
                                 <td>Amount</td>
@@ -349,7 +349,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Commercial discount <span t-field="o.commercial_discount_percentage"/> %</td>
+                                <td><span t-field="o.commercial_discount_display"/></td>
                                 <td class="text-right">
                                     <span t-field="o.commercial_discount_amount"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
@@ -363,7 +363,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Financial discount <span t-field="o.financial_discount_percentage"/> %</td>
+                                <td><span t-field="o.financial_discount_display"/></td>
                                 <td class="text-right">
                                     <span t-field="o.financial_discount_amount"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
