@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* sale_replacement
+#   * sale_replacement
 #
 msgid ""
 msgstr ""
@@ -25,6 +25,16 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "                Pulse para crear una orden de pedido en DEPOSITO.\n"
 "              </p>\n"
 "            "
+
+#. module: sale_replacement
+#: field:sale.order.line,is_all_replaced:0
+msgid "All replaced"
+msgstr "All replaced"
+
+#. module: sale_replacement
+#: view:sale.order:sale_replacement.sale_order_line_add_replacement_form
+msgid "Invoiced quantities"
+msgstr "Cantidad facturada"
 
 #. module: sale_replacement
 #: code:addons/sale_replacement/wizard/stock_return_picking.py:99
@@ -52,6 +62,37 @@ msgid "Not found the original line of replacement"
 msgstr "No se ha encontrado la linea original a reponer."
 
 #. module: sale_replacement
+#: code:addons/sale_replacement/sale.py:337
+#, python-format
+msgid "Not found the original sale line.\n"
+""
+msgstr "No se ha encontrado la linea de venta original.\n"
+""
+
+#. module: sale_replacement
+#: code:addons/sale_replacement/sale.py:330
+#, python-format
+msgid "Not found the original sale.\n"
+""
+msgstr "No se ha encontrado la venta original.\n"
+""
+
+#. module: sale_replacement
+#: field:sale.order.to.invoice.replacement,order_id:0
+msgid "Order"
+msgstr "Pedido"
+
+#. module: sale_replacement
+#: field:sale.order.line,orig_sale:0
+msgid "Original order"
+msgstr "Pedido original"
+
+#. module: sale_replacement
+#: field:sale.order.to.invoice.replacement,partner_id:0
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: sale_replacement
 #: model:ir.model,name:sale_replacement.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
@@ -74,10 +115,30 @@ msgid "Replacement"
 msgstr "Depòsito"
 
 #. module: sale_replacement
+#: field:sale.order,is_all_invoiced:0
+msgid "Is invoiced"
+msgstr "Pedido facturado"
+
+#. module: sale_replacement
 #: code:addons/sale_replacement/wizard/stock_return_picking.py:98
 #, python-format
 msgid "Replacement Error !"
 msgstr "Error en depósito !"
+
+#. module: sale_replacement
+#: field:sale.order.to.invoice.replacement,quantity_invoiced:0
+msgid "Quantity invoiced"
+msgstr "Cantidad facturada"
+
+#. module: sale_replacement
+#: field:sale.order.to.invoice.replacement,quantity:0
+msgid "Sale quantity"
+msgstr "Cantidad vendida"
+
+#. module: sale_replacement
+#: field:sale.order.to.invoice.replacement,product_id:0
+msgid "Product"
+msgstr "Producto"
 
 #. module: sale_replacement
 #: model:ir.model,name:sale_replacement.model_stock_return_picking
