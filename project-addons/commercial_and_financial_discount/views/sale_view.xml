@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="view_order_form_inherit" model="ir.ui.view">
-            <field name="name">sale.order.form.inherit</field>
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
             <field name="priority">25</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <field name="price_subtotal" position="replace">
+                    <field name="gross_amount"/>
+                </field>
             	<field name="amount_tax" position="replace"></field>
             	<field name="amount_untaxed" position="replace">
                     <field name="amount_gross_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="article_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_with_article_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <div class="oe_inline">
                         <field name="commercial_discount_display"
                                nolabel="1"

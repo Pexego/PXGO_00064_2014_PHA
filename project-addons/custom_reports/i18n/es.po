@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-03 15:07+0000\n"
-"PO-Revision-Date: 2015-11-03 16:14+0100\n"
+"POT-Creation-Date: 2015-11-05 08:07+0000\n"
+"PO-Revision-Date: 2015-11-05 09:08+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_reports
@@ -48,6 +48,15 @@ msgstr ""
 "                            Hoja"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid ""
+",\n"
+"                            TIN"
+msgstr ""
+",\n"
+"                            NIF"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
@@ -79,10 +88,14 @@ msgid "Article discount"
 msgstr "Descuento artículo"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
-msgid "CIF"
-msgstr "CIF"
+msgid "BIC:"
+msgstr "BIC:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "TIN"
+msgstr "NIF"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
@@ -93,6 +106,11 @@ msgstr "Cód. CN"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Client code:"
 msgstr "Código cliente:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Closing date:"
+msgstr "Fecha de vencimiento:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
@@ -149,8 +167,18 @@ msgstr "Descuento financiero"
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
-msgid "For any doubt or explanation, be contacted with us in the number"
-msgstr "Para cualquier duda o aclaración, póngase en contacto con nosotros en el número"
+msgid "For any doubt or explanation, be contacted with Sales Dept. in the number"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
+msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
+
+#. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated."
+msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -192,8 +220,8 @@ msgstr "Página:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
-msgid "Payment Term:"
-msgstr "Plazo de pago:"
+msgid "Payment mode:"
+msgstr "Forma de pago:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -228,7 +256,7 @@ msgstr "Ctdad"
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quantity"
-msgstr "Ctdad"
+msgstr "Cantidad"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
@@ -342,9 +370,8 @@ msgstr "Transfers"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_saleorder_document
-msgid "Unit price"
-msgstr "Precio ud"
+msgid "Unit Price"
+msgstr "Precio unidad"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
@@ -352,9 +379,13 @@ msgid "Unit of measure"
 msgstr "Unidad de medida"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
-msgid "VAT:"
+msgid "Unit price"
+msgstr "Precio ud"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "TIN:"
 msgstr "NIF:"
 
 #. module: custom_reports

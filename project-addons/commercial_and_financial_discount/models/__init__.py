@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-from . import res_partner, sale
+from . import res_partner, sale, account_invoice, sale_stock
