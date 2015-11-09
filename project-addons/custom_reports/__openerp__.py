@@ -41,6 +41,7 @@
         'views/report_stockinventory.xml',
         'views/report_purchaseorder.xml',
         'views/report_saleorder.xml',
+        'views/report_invoice.xml',
         'views/sale_report_view.xml',
     ],
     'installable': True

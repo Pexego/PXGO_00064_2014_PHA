@@ -28,6 +28,7 @@
                         <button type="object"
                             name="view_invoiced_qtys"
                             class="oe_stat_button"
+                            icon="fa-money"
                             string="Invoiced quantities"
                             attrs="{'invisible': ['|', ('replacement', '=', False), ('is_all_invoiced', '=', True)]}"/>
                     </div>

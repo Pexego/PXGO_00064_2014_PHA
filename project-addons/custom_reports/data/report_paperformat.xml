@@ -22,5 +22,9 @@
         <record id="sale.report_sale_order" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_reports.paperformat_orders"/>
         </record>
+
+        <record id="account.account_invoices" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="custom_reports.paperformat_orders"/>
+        </record>
     </data>
 </openerp>

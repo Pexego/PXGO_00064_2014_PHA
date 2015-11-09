@@ -1,0 +1,118 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * return_out_of_date
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-05 10:46+0000\n"
+"PO-Revision-Date: 2015-11-05 10:46+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: return_out_of_date
+#: view:return.out.date:return_out_of_date.return_out_date_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: return_out_of_date
+#: field:return.out.date,create_uid:0
+#: field:return.out.date.line,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: return_out_of_date
+#: field:return.out.date,create_date:0
+#: field:return.out.date.line,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: return_out_of_date
+#: field:return.out.date,partner_id:0
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: return_out_of_date
+#: field:return.out.date,id:0
+#: field:return.out.date.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: return_out_of_date
+#: field:return.out.date,write_uid:0
+#: field:return.out.date.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: return_out_of_date
+#: field:return.out.date,write_date:0
+#: field:return.out.date.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: return_out_of_date
+#: field:return.out.date,return_lines:0
+msgid "Lines"
+msgstr "Lineas"
+
+#. module: return_out_of_date
+#: field:return.out.date.line,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: return_out_of_date
+#: model:stock.location,name:return_out_of_date.stock_location_out_date
+msgid "Out of date"
+msgstr "Caducado"
+
+#. module: return_out_of_date
+#: field:return.out.date.line,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: return_out_of_date
+#: field:return.out.date.line,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: return_out_of_date
+#: model:ir.model,name:return_out_of_date.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
+
+#. module: return_out_of_date
+#: view:return.out.date:return_out_of_date.return_out_date_form
+msgid "Return"
+msgstr "Retirar"
+
+#. module: return_out_of_date
+#: view:return.out.date:return_out_of_date.return_out_date_form
+msgid "Return of out of date products"
+msgstr "Retirada de producto caducado"
+
+#. module: return_out_of_date
+#: model:ir.actions.act_window,name:return_out_of_date.return_out_of_date_action
+#: model:ir.ui.menu,name:return_out_of_date.menu_return_out_date
+msgid "Return out of date"
+msgstr "Retirar producto caducado"
+
+#. module: return_out_of_date
+#: model:ir.model,name:return_out_of_date.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: return_out_of_date
+#: field:return.out.date.line,uom_id:0
+msgid "UoM"
+msgstr "UdM"
+
+#. module: return_out_of_date
+#: field:return.out.date.line,wizard_id:0
+msgid "Wizard"
+msgstr "Asistente"
+

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
-#    $Oscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,4 +19,14 @@
 #
 ##############################################################################
 
-from . import res_partner, sale, account_invoice, sale_stock
+{
+    'name': 'Return out of date products',
+    'version': '1.0',
+    'category': '',
+    'description': """Manage the return of out of date sold products""",
+    'author': 'Comunitea',
+    'website': '',
+    "depends": ['base', 'stock'],
+    "data": ['data/stock.xml', 'wizard/return_product.xml'],
+    "installable": True
+}
