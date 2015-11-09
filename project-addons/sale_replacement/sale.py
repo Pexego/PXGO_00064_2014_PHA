@@ -39,6 +39,14 @@ class sale_order(models.Model):
                 is_all_invoiced = False
         self.is_all_invoiced = is_all_invoiced
 
+    @api.multi
+    def view_invoiced_qtys(self):
+        action_data = self.env.ref('sale_replacement.action_replacements_to_invoice').read()[0]
+
+        action_data['context'] = {}
+        action_data['domain'] = [('order_id', 'in', self.ids)]
+        return action_data
+
     @api.model
     def _prepare_order_line_procurement(self, order, line, group_id=False):
         res = super(sale_order, self)._prepare_order_line_procurement(order,
@@ -104,6 +112,7 @@ class sale_order_line(models.Model):
 
     orig_sale = fields.Many2one('sale.order', 'Original order')
 
+
     from openerp.osv import fields as fields2
 
     def _fnct_line_invoiced(self, cr, uid, ids, field_name, args,
@@ -150,7 +159,7 @@ class sale_order_line(models.Model):
     }
 
     @api.one
-    @api.depends('order_id.rep_lines')
+    @api.depends('order_id.rep_lines.state')
     def _get_qty_replaced(self):
         rep_lines = self.search_read(
             [('product_id', '=', self.product_id.id),

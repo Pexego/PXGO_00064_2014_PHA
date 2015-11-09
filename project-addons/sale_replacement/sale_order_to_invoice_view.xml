@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="sale_replacement_to_invoice_tree" model="ir.ui.view">
+            <field name="name">sale.order.to.invoice.replacement.tree</field>
+            <field name="model">sale.order.to.invoice.replacement</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="To invoice replacements">
+                    <field name="order_id"/>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="quantity"/>
+                    <field name="quantity_invoiced"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_replacement_to_invoice_filter" model="ir.ui.view">
+            <field name="name">sale.order.to.invoice.replacement.filter</field>
+            <field name="model">sale.order.to.invoice.replacement</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="order_id"/>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_replacements_to_invoice">
+            <field name="name">Replacements to invoice</field>
+            <field name="res_model">sale.order.to.invoice.replacement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sale_replacement_to_invoice_tree"/>
+            <field name="search_view_id" ref="sale_replacement_to_invoice_filter"/>
+        </record>
+
+        <menuitem name="Replacements to invoice" parent="base.next_id_64" action="action_replacements_to_invoice" id="to_invoice_menu" sequence="100"/>
+
+    </data>
+</openerp>

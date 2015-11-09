@@ -131,7 +131,7 @@
                     </div>
                     <div class="col-xs-3">
                         <p t-if="o.partner_id.ref"><strong>Supplier code:</strong> <span t-field="o.partner_id.ref"></span></p>
-                        <p t-if="o.partner_id.vat"><strong>VAT:</strong> <span t-field="o.partner_id.vat"></span></p>
+                        <p t-if="o.partner_id.vat"><strong>TIN:</strong> <span t-field="o.partner_id.vat"></span></p>
                     </div>
                     <div class="col-xs-4">
                         <div t-if="o.date_order">
@@ -241,7 +241,7 @@
                             Registration <span t-field="company.partner_id.es_seccion"/>,
                             Folio <span t-field="company.partner_id.es_folio"/>,
                             Sheet Number <span t-field="company.partner_id.es_hoja"/>
-                            CIF <span t-field="company.partner_id.vat"/>
+                            TIN <span t-field="company.partner_id.vat"/>
                         </p>
                         <p style="font-size: 13px; margin-top: 5px;">
                             For any doubt or explanation, be contacted with us in the number <b><span t-field="company.phone"/></b>, or by e-mail at <a t-field="company.partner_id.email"></a>.

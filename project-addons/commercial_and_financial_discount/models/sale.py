@@ -2,7 +2,6 @@
 ###############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2013-Today Julius Network Solutions SARL <contact@julius.fr>
 #    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Oscar Salvador <oscar.salvador@pharmadus.com>$
 #
@@ -24,12 +23,71 @@
 from openerp import models, api, fields, _
 import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning
+from datetime import datetime, timedelta
+
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    commercial_discount = fields.Boolean('Commercial discount', readonly=True)
-    financial_discount = fields.Boolean('Financial discount', readonly=True)
+    price_subtotal = fields.Float(
+        'Subtotal',
+        compute='_amount_line',
+        digits_compute= dp.get_precision('Account'))
+    gross_amount = fields.Float(
+        'Gross amount',
+        compute='_amount_line',
+        digits_compute= dp.get_precision('Account'))
+    discount_amount = fields.Float(
+        'Discount amount',
+        compute='_amount_line',
+        digits_compute= dp.get_precision('Account'))
+    discounted_amount = fields.Float(
+        'Discounted amount',
+        compute='_amount_line',
+        digits_compute= dp.get_precision('Account'))
+    commercial_discount = fields.Float(
+        'Commercial discount (%)',
+        digits_compute=dp.get_precision('Discount'),
+        readonly=True,
+        default=0.0,
+        states={'draft': [('readonly', False)]})
+    financial_discount = fields.Float('Financial discount (%)',
+        digits_compute=dp.get_precision('Discount'),
+        readonly=True,
+        default=0.0,
+        states={'draft': [('readonly', False)]})
+
+    @api.one
+    @api.depends('product_uom_qty',
+                 'price_unit',
+                 'discount',
+                 'commercial_discount',
+                 'financial_discount')
+    def _amount_line(self):
+        price = self.price_unit * (1 - (self.discount or 0.0) / 100.0) * \
+                (1 - (self.commercial_discount or 0.0) / 100.0) * \
+                (1 - (self.financial_discount or 0.0) / 100.0)
+        taxes = self.tax_id.compute_all(price, self.product_uom_qty,
+                                        self.product_id,
+                                        self.order_id.partner_id, False)
+        cur = self.order_id.pricelist_id.currency_id
+        self.gross_amount = cur.round(self.price_unit * self.product_uom_qty)
+        self.discount_amount = cur.round(self.gross_amount -
+                                         price * self.product_uom_qty)
+        self.discounted_amount = cur.round(self.price_unit *
+                                           self.product_uom_qty *
+                                           (1 - (self.discount or 0.0) / 100.0))
+        self.price_subtotal = cur.round(taxes['total'])
+
+    @api.v7
+    def _prepare_order_line_invoice_line(self, cr, uid, line, account_id=False,
+                                         context=None):
+        res = super(SaleOrderLine, self)._prepare_order_line_invoice_line(cr,
+                                                uid, line, account_id, context)
+        if not line.invoiced:
+            res['commercial_discount'] = line.commercial_discount
+            res['financial_discount'] = line.financial_discount
+        return res
 
 
 class SaleOrder(models.Model):
@@ -43,6 +101,10 @@ class SaleOrder(models.Model):
     article_discount = fields.Float(
         'Article discount',
         digits_compute=dp.get_precision('Account'),
+        compute='_calculate_amounts',
+        store=True)
+    amount_with_article_discount = fields.Float(
+        'Amount with article discount',
         compute='_calculate_amounts',
         store=True)
     amount_net_untaxed = fields.Float(
@@ -74,7 +136,12 @@ class SaleOrder(models.Model):
         digits_compute=dp.get_precision('Account'),
         compute='_calculate_amounts',
         store=True)
+    closing_date = fields.Date(
+        'Closing date',
+        compute='_closing_date',
+        store=True)
 
+    @api.v7
     def onchange_partner_id(self, cr, uid, ids, partner_id, context):
         res = super(SaleOrder, self).onchange_partner_id(cr, uid, ids,
                                                          partner_id, context)
@@ -86,9 +153,7 @@ class SaleOrder(models.Model):
         return res
 
     @api.one
-    @api.depends('amount_untaxed',
-                 'amount_tax',
-                 'order_line',
+    @api.depends('order_line',
                  'order_line.product_uom_qty',
                  'order_line.price_unit',
                  'order_line.discount',
@@ -96,25 +161,36 @@ class SaleOrder(models.Model):
                  'financial_discount_percentage')
     def _calculate_amounts(self):
         amount_gross = 0
-        discount_art = 0
+        art_disc_amount = 0
         com_disc_amount = 0
         fin_disc_amount = 0
         for line in self.order_line:
-            if line.commercial_discount:
-                com_disc_amount += line.price_unit
-            elif line.financial_discount:
-                fin_disc_amount += line.price_unit
-            else:
-                amount_gross += line.product_uom_qty * line.price_unit
-                discount_art = discount_art + \
-                      (line.product_uom_qty * line.price_unit *
-                       line.discount / 100)
+            amount = line.product_uom_qty * line.price_unit
+            amount_gross += amount
+            art_disc_amount += amount * line.discount / 100
+            aux = amount * (1 - line.discount / 100)
+            com_disc_amount += aux * line.commercial_discount / 100
+            aux = aux * (1 - line.commercial_discount / 100)
+            fin_disc_amount += aux * line.financial_discount / 100
         self.amount_gross_untaxed = amount_gross
-        self.article_discount = discount_art
+        self.article_discount = art_disc_amount
+        self.amount_with_article_discount = amount_gross - art_disc_amount
         self.commercial_discount_amount = com_disc_amount
-        self.amount_net_untaxed = amount_gross - discount_art + \
-                                  self.commercial_discount_amount
+        self.amount_net_untaxed = amount_gross - art_disc_amount - \
+                                  com_disc_amount
         self.financial_discount_amount = fin_disc_amount
+
+    @api.v7
+    def _amount_line_tax(self, cr, uid, line, context=None):
+        val = 0.0
+        discounts = (1-(line.discount or 0.0)/100.0) * \
+                    (1-(line.commercial_discount or 0.0)/100.0) * \
+                    (1-(line.financial_discount or 0.0)/100.0)
+        for c in self.pool.get('account.tax').compute_all(cr, uid,
+                 line.tax_id, line.price_unit * discounts, line.product_uom_qty,
+                 line.product_id, line.order_id.partner_id)['taxes']:
+            val += c.get('amount', 0.0)
+        return val
 
     @api.one
     @api.depends('commercial_discount_percentage')
@@ -152,101 +228,38 @@ class SaleOrder(models.Model):
             self.financial_discount_input > 100):
             raise Warning(_('Discount value should be between 0 and 100'))
 
-    def _get_lines_by_taxes(self, lines=None):
-        """ This method will return a dictionary of taxes as keys
-        with the related lines.
-        """
-        if lines is None:
-            lines = self.order_line
-        res = {}
-        for line in lines:
-            taxes = [tax.id for tax in line.tax_id]
-            if taxes:
-                taxes.sort()
-            taxes_str = str(taxes)
-            res.setdefault(taxes_str, [])
-            res[taxes_str].append(line)
-        return res
-
     @api.one
-    def _generate_discounts_lines_by_taxes(self, lines_by_taxes):
-        line_obj = self.env['sale.order.line']
-        product_com = self.env.ref(
-            'commercial_and_financial_discount.product_commercial_discount')
-        product_fin = self.env.ref(
-            'commercial_and_financial_discount.product_financial_discount')
-        for tax_str in lines_by_taxes.keys():
-            # Apply discounts percentages
-            discount_com = self.commercial_discount_percentage / 100
-            discount_fin = self.financial_discount_percentage / 100
-            # Accumulate lines amounts
-            sum = 0
-            for line in lines_by_taxes[tax_str]:
-                sum += line.price_subtotal
-            # Calculate discounts amounts
-            amount_com = sum * discount_com
-            amount_fin = (sum - amount_com) * discount_fin
-            # Add new lines with products of discounts
-            for product_id, discount, is_com_disc, is_fin_disc, percentage in [
-                        (product_com, amount_com, True, False, discount_com),
-                        (product_fin, amount_fin, False, True, discount_fin)]:
-                res = line_obj.product_id_change(
-                    pricelist=self.pricelist_id.id,
-                    product=product_id.id, qty=1,
-                     partner_id=self.partner_id.id,
-                    lang=self.partner_id.lang, update_tax=True,
-                    date_order=self.date_order,
-                    fiscal_position=self.fiscal_position.id)
-                value = res.get('value')
-                if value:
-                    tax_ids = eval(tax_str)
-                    description = product_id.name +\
-                                  ' (%.2f %%)'%(percentage * 100)
-                    value.update({
-                        'name': description,
-                        'commercial_discount': is_com_disc,
-                        'financial_discount': is_fin_disc,
-                        'price_unit': -discount,
-                        'order_id': self.id,
-                        'product_id': product_id.id,
-                        'product_uom_qty': 1,
-                        'product_uos_qty': 1,
-                        'tax_id': [(6, 0, tax_ids)],
-                    })
-                    line_obj.create(value)
-
-    @api.one
-    def generate_discounts(self):
-        if self.state in ('draft', 'sent'):
-            # Delete previous discounts lines
-            for line in self.order_line:
-                if line.commercial_discount or line.financial_discount:
-                    line.unlink()
-            # Pass discounts to apply
-            self.commercial_discount_percentage = self.commercial_discount_input
-            self.financial_discount_percentage = self.financial_discount_input
-            # Groups order lines by taxes types
-            lines_by_taxes = self._get_lines_by_taxes()
-            # Generate discounts lines by each tax and discount type
-            if (len(lines_by_taxes) > 0) and \
-                    (self.commercial_discount_percentage +
-                     self.financial_discount_percentage > 0):
-                self._generate_discounts_lines_by_taxes(lines_by_taxes)
-            # Recompute amounts
-            self._calculate_amounts
-        return True
+    @api.depends('date_order', 'payment_term')
+    def _closing_date(self):
+        if self.payment_term.line_ids:
+            date_format = '%Y-%m-%d %H:%M:%S'
+            date = datetime.strptime(self.date_order, date_format).date()
+            date = date + timedelta(days=self.payment_term.line_ids[0].days)
+            self.closing_date = date.strftime(date_format)
 
     @api.one
     def update_with_discounts(self):
         if self.state in ('draft', 'sent'):
-            if self.commercial_discount_percentage or \
-                    self.financial_discount_percentage:
-               self.generate_discounts()
-            else:
-                # Delete old discounts lines
-                for line in self.order_line:
-                    if line.commercial_discount or line.financial_discount:
-                        line.unlink()
-                # Recompute amounts
-                self._calculate_amounts
+            # Force to recompute amounts
+            for line in self.order_line:
+                line.commercial_discount = self.commercial_discount_percentage
+                line.financial_discount = self.financial_discount_percentage
+                # Fire write event on this field to activate _amount_all
+                # function which recompute sale totals
+                line.price_unit = line.price_unit
+        return True
+
+    @api.one
+    def generate_discounts(self):
+        if self.state in ('draft', 'sent'):
+            # Apply discounts per line
+            for line in self.order_line:
+                line.commercial_discount = self.commercial_discount_input
+                line.financial_discount = self.financial_discount_input
+                # Fire write event on this field to activate _amount_all
+                # function which recompute sale totals
+                line.price_unit = line.price_unit
+            # Save discounts applied
+            self.commercial_discount_percentage = self.commercial_discount_input
+            self.financial_discount_percentage = self.financial_discount_input
         return True
