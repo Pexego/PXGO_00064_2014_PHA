@@ -35,6 +35,7 @@
         'sale_transfer_sample_rel',
         'sale_channel',
         'sale_promotions',
+        'commercial_and_financial_discount',
     ],
     'data' : [
         'data/report_paperformat.xml',

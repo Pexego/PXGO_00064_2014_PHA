@@ -36,4 +36,5 @@ class StockMove(models.Model):
             sale_line = move.procurement_id.sale_line_id
             res['commercial_discount'] = sale_line.commercial_discount
             res['financial_discount'] = sale_line.financial_discount
+            res['move_id'] = move.id
         return res

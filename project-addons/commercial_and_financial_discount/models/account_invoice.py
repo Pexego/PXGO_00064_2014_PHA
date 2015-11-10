@@ -62,6 +62,9 @@ class AccountInvoiceLine(models.Model):
         readonly=True,
         default=0.0,
         states={'draft': [('readonly', False)]})
+    move_id = fields.Many2one(
+        comodel_name='stock.move',
+        readonly=True)
 
     @api.one
     @api.depends('price_unit', 'discount', 'commercial_discount',
@@ -265,7 +268,9 @@ class AccountInvoice(models.Model):
         amount_untaxed = 0
         amount_gross = 0
         art_disc_amount = 0
+        com_discount = 0
         com_disc_amount = 0
+        fin_discount = 0
         fin_disc_amount = 0
         for line in self.invoice_line:
             amount_untaxed = line.price_subtotal
@@ -292,12 +297,12 @@ class AccountInvoice(models.Model):
 
         if com_discount > 0:
             self.commercial_discount_display = \
-                _('Commercial discount (%.2f %%) :')%com_discount
+                _('Commercial discount (%.2f %%):')%com_discount
         else:
             self.commercial_discount_display = _('Commercial discount:')
 
         if fin_discount > 0:
             self.financial_discount_display = \
-                _('Financial discount (%.2f %%) :')%fin_discount
+                _('Financial discount (%.2f %%):')%fin_discount
         else:
             self.financial_discount_display = _('Financial discount:')

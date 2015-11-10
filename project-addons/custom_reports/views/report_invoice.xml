@@ -202,7 +202,8 @@
                         <tr>
                             <th>CN Code</th>
                             <th>Description / EAN13</th>
-                            <th class="text-right" groups="product.group_uom">Quantity</th>
+                            <th>Lot / Approved / Best before</th>
+                            <th class="text-right">Qty</th>
                             <th class="text-right">Unit price</th>
                             <th class="text-right">Disc.(%)</th>
                             <th class="text-right">Price w/discount</th>
@@ -218,9 +219,20 @@
                                 <span t-field="l.name"/><br/>
                                 <span t-field="l.product_id.ean13"/>
                             </td>
+                            <td>
+                                <br/>
+                                <table>
+                                    <tbody>
+                                        <tr t-foreach="l.move_id.quant_ids" t-as="q">
+                                            <td><span t-field="q.lot_id.name"/> / </td>
+                                            <td><span t-field="q.lot_id.life_date"/> / </td>
+                                            <td><span t-field="q.lot_id.use_date"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % l.quantity"/><br/>
-                                <span t-field="l.uos_id" groups="product.group_uom"/>
+                                <span t-esc="'%g' % l.quantity"/>
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.price_unit"/>
