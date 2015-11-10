@@ -46,6 +46,6 @@ This module will add two fields in the sale order, and it will work as the modul
         "views/report_quotation_discounted.xml",
         "data/product_data.xml",
     ],
-    'installable' : False,
+    'installable' : True,
     'active' : False,
 }

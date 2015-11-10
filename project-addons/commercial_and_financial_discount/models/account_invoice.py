@@ -273,7 +273,7 @@ class AccountInvoice(models.Model):
         fin_discount = 0
         fin_disc_amount = 0
         for line in self.invoice_line:
-            amount_untaxed = line.price_subtotal
+            amount_untaxed += line.price_subtotal
             amount = line.quantity * line.price_unit
             amount_gross += amount
             art_disc_amount += amount * line.discount / 100
