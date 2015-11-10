@@ -200,7 +200,7 @@ class SaleOrder(models.Model):
                 _('Commercial discount (%.2f %%) :')\
                 %self.commercial_discount_percentage
         else:
-            self.commercial_discount_display = _('Commercial discount:')
+            self.commercial_discount_display = _('Commercial discount :')
 
     @api.one
     @api.depends('financial_discount_percentage')
@@ -210,7 +210,7 @@ class SaleOrder(models.Model):
                 _('Financial discount (%.2f %%) :')\
                 %self.financial_discount_percentage
         else:
-            self.financial_discount_display = _('Financial discount:')
+            self.financial_discount_display = _('Financial discount :')
 
     @api.one
     @api.constrains('commercial_discount_input')

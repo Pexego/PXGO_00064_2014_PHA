@@ -188,9 +188,11 @@
                         <p t-if="o.partner_id.customer_payment_mode">
                             <strong>Payment mode:</strong><br/>
                             <span t-field="o.partner_id.customer_payment_mode.name"/><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_name"/><br/>
-                            BIC: <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_bic"/><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                            <t t-if="not o.partner_id.customer_payment_mode.hide_account_at_invoice">
+                                <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_name"/><br/>
+                                BIC: <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_bic"/><br/>
+                                <span t-field="o.partner_id.customer_payment_mode.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                            </t>
                         </p>
                     </div>
                     <div class="col-xs-4">

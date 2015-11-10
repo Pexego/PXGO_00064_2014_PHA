@@ -297,12 +297,12 @@ class AccountInvoice(models.Model):
 
         if com_discount > 0:
             self.commercial_discount_display = \
-                _('Commercial discount (%.2f %%):')%com_discount
+                _('Commercial discount (%.2f %%) :')%com_discount
         else:
-            self.commercial_discount_display = _('Commercial discount:')
+            self.commercial_discount_display = _('Commercial discount :')
 
         if fin_discount > 0:
             self.financial_discount_display = \
-                _('Financial discount (%.2f %%):')%fin_discount
+                _('Financial discount (%.2f %%) :')%fin_discount
         else:
-            self.financial_discount_display = _('Financial discount:')
+            self.financial_discount_display = _('Financial discount :')
