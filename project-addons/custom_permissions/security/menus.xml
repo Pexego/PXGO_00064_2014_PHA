@@ -18,30 +18,7 @@
         <!-- SUBMENUS Purchase Requirement -->
 
         <!-- Actions -->
-        <!--record model="ir.actions.act_window" id="action_allsales_salesmanph">
-                <field name="name">Sale orders SalesmanPH (Confirmed)</field>
-                <field name="type">ir.actions.act_window</field>
-                <field name="res_model">sale.order</field>
-                <field name="domain"> [('state', 'not in', ('draft', 'sent', 'cancel')), ('replacement', '=', 0), ('sample', '=', 0), ('transfer', '=', 0)]</field>
-                <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
-                <field name="view_type">form</field>
-                <field name="view_mode">tree,form,calendar,graph</field>
-                <field name="view_id" ref="sale.view_order_tree"/>
-        </record>
-
-        <record model="ir.actions.act_window" id="action_draftsales_salesmanph">
-                <field name="name">Sale orders SalesmanPH (Drafts)</field>
-                <field name="type">ir.actions.act_window</field>
-                <field name="res_model">sale.order</field>
-                <field name="domain"> [('state','in',('draft',))]</field>
-                <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
-                <field name="view_type">form</field>
-                <field name="view_mode">tree,form,calendar,graph</field>
-                <field name="search_view_id" ref="sale.view_sales_order_filter"/>
-        </record>
-
-
-        <record model="ir.actions.act_window" id="action_partners_salesmanph">
+        <!--record model="ir.actions.act_window" id="action_partners_salesmanph">
                 <field name="name">Partners SalesmanPHs</field>
                 <field name="type">ir.actions.act_window</field>
                  <field name="domain">[]</field>
@@ -54,6 +31,28 @@
                 <field name="search_view_id" ref=""/>
 
         </record-->
+        <record model="ir.actions.act_window" id="action_allsales_salesmanph">
+                <field name="name">Sale orders SalesmanPH (Confirmed)</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">sale.order</field>
+                <field name="domain"> [('state', 'not in', ('draft', 'sent'))]</field>
+                <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form,calendar,graph</field>
+                <field name="view_id" ref="sale_transfer_sample_rel.view_all_sales"/>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_draftsales_salesmanph">
+                <field name="name">Sale orders SalesmanPH (Drafts)</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">sale.order</field>
+                <field name="domain"> [('state','in',('draft',))]</field>
+                <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form,calendar,graph</field>
+                <field name="view_id" ref="sale_transfer_sample_rel.view_all_sales"/>
+                <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
         <!-- Menu comerciales nuevos -->
         <menuitem id="menu_custom_salesmanph"
                   name="Salesmans"
@@ -62,39 +61,39 @@
                   groups="group_salesman_ph"/>
 
         <menuitem id="menu_custom_allsales_approved_salesmanph"
-                  name="ALL Sales (Approved)"
-                  action="sale.action_orders"
+                  name="ALL Sales [Approved]"
+                  action="action_allsales_salesmanph"
                   parent="menu_custom_salesmanph"
                   sequence="10"/>
 
          <menuitem id="menu_custom_allsales_draft_salesmanph"
-                    name="Filter Sales Draft"
-                    action="sale_transfer_sample_rel.action_show_all_sales"
+                    name="ALL Sales [Draft]"
+                    action="action_draftsales_salesmanph"
                     parent="menu_custom_salesmanph"
                     sequence="20"/>
          <menuitem id="menu_custom_newsale_free_salesmanph"
-                    name="Filter Sale (Muestras)"
+                    name="ONLY Sale (Muestras)"
                     action="sale_samples.action_samples"
                     parent="menu_custom_salesmanph"
                     sequence="35"/>
          <menuitem id="menu_custom_newsale_repo_salesmanph"
-                    name="Filter Sale (Deposito)"
+                    name="ONLY Sale (Deposito)"
                     action="sale_replacement.action_replacements"
                     parent="menu_custom_salesmanph"
                     sequence="40"/>
          <menuitem id="menu_custom_newsale_interm_salesmanph"
-                    name="Filter Sale (Intermediario)"
+                    name="ONLY Sale (Intermediario)"
                     action="sale_intermediary.action_intermediary"
                     parent="menu_custom_salesmanph"
                     sequence="45"/>
          <menuitem id="menu_custom_newsale_transfer_salesmanph"
-                    name="Filter Sale (Transfer)"
+                    name="ONLY Sale (Transfer)"
                     action="sale_transfer.action_transfer"
                     parent="menu_custom_salesmanph"
                     sequence="50"/>
         <menuitem id="menu_custom_partners_salesmanph"
                   name="Partners"
-                  action="action_partners_salesmanph"
+                  action="base.action_partner_form"
                   parent="menu_custom_salesmanph"
                   sequence="55"/>
         <!-- oculto los no necesarios, asociados a un grupo vacio, para que en caso de lanzar buildout no vuelvan a aparecer-->
