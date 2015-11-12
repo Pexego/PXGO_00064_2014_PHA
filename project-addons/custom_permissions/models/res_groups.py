@@ -22,10 +22,7 @@
 
 from openerp import models, fields, _
 
-class SaleChannel(models.Model):
-    _inherit = 'sale_channel'
+class CustomGroup(models.Model):
+    _inherit = 'res.groups'
 
-    default_for_group_salesmanph = fields.Boolean(
-        default=False,
-        string='set by default for salesmanph?',
-        help='set by default for salesmanph?')
+    default_sale_channel = fields.Many2one('sale_channel', 'Default sale channel')
