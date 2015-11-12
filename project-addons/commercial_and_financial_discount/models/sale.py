@@ -116,7 +116,8 @@ class SaleOrder(models.Model):
     commercial_discount_percentage = fields.Float(readonly=True)
     commercial_discount_display = fields.Char(
         size = 32,
-        compute='_commercial_discount_display')
+        compute='_commercial_discount_display',
+        default='Commercial discount')
     commercial_discount_amount = fields.Float(
         digits_compute=dp.get_precision('Account'),
         compute='_calculate_amounts',
@@ -128,7 +129,8 @@ class SaleOrder(models.Model):
     financial_discount_percentage = fields.Float(readonly=True)
     financial_discount_display = fields.Char(
         size=32,
-        compute='_financial_discount_display')
+        compute='_financial_discount_display',
+        default='Financial discount')
     financial_discount_amount = fields.Float(
         digits_compute=dp.get_precision('Account'),
         compute='_calculate_amounts',
@@ -142,9 +144,10 @@ class SaleOrder(models.Model):
     @api.onchange('partner_id')
     def onchange_partner_id(self, partner_id):
         res = super(SaleOrder, self).onchange_partner_id(partner_id)
+        partner = self.env['res.partner'].browse(partner_id)
         res['value'].update({
-            'commercial_discount_input': partner_id.commercial_discount,
-            'financial_discount_input': partner_id.financial_discount
+            'commercial_discount_input': partner.commercial_discount,
+            'financial_discount_input': partner.financial_discount
         })
         return res
 

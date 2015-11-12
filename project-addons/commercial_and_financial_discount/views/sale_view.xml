@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="sale_order_form_detailed_discounts" model="ir.ui.view">
-            <field name="name">sale.order.form.detailed.discounts</field>
+        <record id="sale_order_form_com_fin_disc" model="ir.ui.view">
+            <field name="name">sale.order.form.com.fin.disc</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="priority">25</field>
@@ -18,7 +18,9 @@
                     <div class="oe_inline">
                         <field name="commercial_discount_display"
                                nolabel="1"
-                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;"/>
+                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;">
+                            <span> :</span>
+                        </field>
                     </div>
                     <field name="commercial_discount_amount"
                            nolabel="1"
@@ -30,7 +32,9 @@
                     <div class="oe_inline">
                         <field name="financial_discount_display"
                                nolabel="1"
-                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;"/>
+                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;">
+                            <span> :</span>
+                        </field>
                     </div>
                     <field name="financial_discount_amount"
                            nolabel="1"

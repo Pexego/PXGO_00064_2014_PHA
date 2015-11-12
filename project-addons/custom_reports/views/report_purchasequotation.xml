@@ -194,7 +194,7 @@
                                 <span t-esc="'%g' % line.product_qty"/>
                             </td>
                             <td>
-                                <span t-field="line.product_uom.name" groups="product.group_uom"/>
+                                <span t-field="line.product_uom.name"/>
                             </td>
                         </tr>
                     </tbody>

@@ -238,7 +238,7 @@
                             <th>Taxes</th>
                             <th class="text-right">Quantity</th>
                             <th class="text-right">Unit price</th>
-                            <th class="text-right" groups="sale.group_discount_per_so_line">Disc.(%)</th>
+                            <th class="text-right">Disc.(%)</th>
                             <th class="text-right">Price w/discount</th>
                             <th class="text-right">Price</th>
                         </tr>
@@ -257,12 +257,12 @@
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.product_uom_qty"/><br/>
-                                <span groups="product.group_uom" t-field="l.product_uom"/>
+                                <span t-field="l.product_uom"/>
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.price_unit"/>
                             </td>
-                            <td class="text-right" groups="sale.group_discount_per_so_line">
+                            <td class="text-right">
                                 <span t-esc="'%g' % l.discount" style="padding-left: 10px;"/>
                             </td>
                             <td class="text-right">
