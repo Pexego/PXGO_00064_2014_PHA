@@ -22,27 +22,31 @@
 
 {
     "name" : "Commercial and financial discount",
-    "summary": "Commercial and financial discount on sale orders",
+    "summary": "Commercial and financial discount on orders",
     "version" : "1",
     "author" : "Pharmadus",
     "website" : "http://www.pharmadus.com",
-    "category" : "Sales Management",
+    "category" : "Sales & Purchases Management",
     "depends" : [
         "sale",
         "stock",
         "account",
+        "purchase",
+        "purchase_discount",
     ],
     "description": """
-Comercial and financial discount on a sale order
-================================================
-Module to manage comercial and financial discounts in sale orders
+Comercial and financial discount on orders
+==========================================
+Module to manage comercial and financial discounts in sale and purchase orders
 
-This module will add two fields in the sale order, and it will work as the module "delivery" works.
+This module will add commercial and financial discounts fields in sale and purchase order.
+Both fields values can be preset in the partner form, assigning specific discounts to each partner.
+The discounts only will be applied if the user press "Generate discounts" button in the order form.
     """,
-    "demo" : [],
     "data" : [
         "views/res_partner_view.xml",
         "views/sale_view.xml",
+        "views/purchase_view.xml",
         "views/account_invoice_view.xml",
         "views/report_saleorder.xml",
         "views/report_invoice.xml",

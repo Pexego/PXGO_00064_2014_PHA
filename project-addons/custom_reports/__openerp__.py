@@ -41,6 +41,7 @@
         'data/report_paperformat.xml',
         'views/report_stockinventory.xml',
         'views/report_purchaseorder.xml',
+        'views/report_purchasequotation.xml',
         'views/report_saleorder.xml',
         'views/report_invoice.xml',
         'views/account_payment_view.xml',

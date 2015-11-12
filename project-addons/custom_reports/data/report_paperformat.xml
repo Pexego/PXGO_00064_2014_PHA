@@ -15,6 +15,10 @@
             <field name="dpi">90</field>
         </record>
 
+        <record id="purchase.report_purchase_quotation" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="custom_reports.paperformat_orders"/>
+        </record>
+
         <record id="purchase.action_report_purchase_order" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_reports.paperformat_orders"/>
         </record>

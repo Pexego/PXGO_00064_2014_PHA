@@ -22,7 +22,7 @@
 
 from openerp import models, api, fields, _
 import openerp.addons.decimal_precision as dp
-from datetime import datetime, timedelta
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -55,13 +55,11 @@ class AccountInvoiceLine(models.Model):
         'Commercial discount (%)',
         digits_compute=dp.get_precision('Discount'),
         readonly=True,
-        default=0.0,
-        states={'draft': [('readonly', False)]})
+        default=0.0)
     financial_discount = fields.Float('Financial discount (%)',
         digits_compute=dp.get_precision('Discount'),
         readonly=True,
-        default=0.0,
-        states={'draft': [('readonly', False)]})
+        default=0.0)
     move_id = fields.Many2one(
         comodel_name='stock.move',
         readonly=True)

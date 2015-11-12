@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="order_form_detailed_discounts" model="ir.ui.view">
-            <field name="name">account.invoice.form.detailed.discounts</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_form"/>
-            <field name="priority">17</field>
+        <record id="purchase_order_form_detailed_discounts" model="ir.ui.view">
+            <field name="name">purchase.order.form.detailed.discounts</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="priority">25</field>
             <field name="arch" type="xml">
-                <label for="amount_tax" position="replace"></label>
+                <field name="price_subtotal" position="replace">
+                    <field name="gross_amount"/>
+                </field>
             	<field name="amount_tax" position="replace"></field>
-                <field name="amount_total" position="replace"></field>
-                <field name="residual" position="replace"></field>
-
             	<field name="amount_untaxed" position="replace">
                     <field name="amount_gross_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="article_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -40,28 +39,26 @@
                     <field name="amount_untaxed"
                            widget="monetary"
                            options="{'currency_field': 'currency_id'}"/>
-                    <div>
-                        <label for="amount_tax"/>
-                        <button name="button_reset_taxes"
-                                states="draft,proforma2"
-                                string="(update)"
-                                class="oe_link oe_edit_only"
-                                type="object"
-                                help="Recompute taxes and total"/>
-                    </div>
-                    <field name="amount_tax"
-                           nolabel="1"
+            		<field name="amount_tax"
                            widget="monetary"
-                           options="{'currency_field': 'currency_id'}"/>
-                    <field name="amount_total"
-                           class="oe_subtotal_footer_separator"
-                           widget="monetary"
-                           options="{'currency_field': 'currency_id'}"/>
-                    <field name="residual"
-                           groups="account.group_account_user"
-                           widget="monetary"
-                           options="{'currency_field': 'currency_id'}"/>
+                           options="{'currency_field': 'currency_id'}" />
                 </field>
+                <button name="button_dummy" position="attributes">
+                    <attribute name="name">update_with_discounts</attribute>
+                </button>
+                <field name="notes" position="before">
+                    <group class="oe_edit_only" style="width: 65%%" attrs="{'invisible':[('state','not in',('draft','sent'))]}">
+                        <label for="commercial_discount_input"/>
+                        <div>
+                            <field name="commercial_discount_input" class="oe_inline"/>
+                            <button name="generate_discounts" string="Generate discounts" type="object"/>
+                        </div>
+                        <label for="financial_discount_input"/>
+                        <div>
+	                        <field name="financial_discount_input" class="oe_inline"/>
+                        </div>
+                    </group>
+            	</field>
             </field>
         </record>
     </data>

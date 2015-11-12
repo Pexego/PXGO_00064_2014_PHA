@@ -23,11 +23,10 @@
 from openerp import models, api, fields, _
 import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning
-from datetime import datetime, timedelta
 
 
-class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
 
     price_subtotal = fields.Float(
         'Subtotal',
@@ -55,40 +54,34 @@ class SaleOrderLine(models.Model):
         readonly=True,
         default=0.0)
 
+    @api.model
+    def _calc_line_base_price(self, line):
+        res = super(PurchaseOrderLine, self)._calc_line_base_price(line)
+        return res * (1 - (line.commercial_discount or 0.0) / 100.0) * \
+                     (1 - (line.financial_discount or 0.0) / 100.0)
+
     @api.one
-    @api.depends('product_uom_qty',
+    @api.depends('product_qty',
                  'price_unit',
                  'discount',
                  'commercial_discount',
                  'financial_discount')
     def _amount_line(self):
-        price = self.price_unit * (1 - (self.discount or 0.0) / 100.0) * \
-                (1 - (self.commercial_discount or 0.0) / 100.0) * \
-                (1 - (self.financial_discount or 0.0) / 100.0)
-        taxes = self.tax_id.compute_all(price, self.product_uom_qty,
+        price = self._calc_line_base_price(self)
+        qty = self._calc_line_quantity(self)
+        taxes = self.taxes_id.compute_all(price, qty,
                                         self.product_id,
                                         self.order_id.partner_id, False)
         cur = self.order_id.pricelist_id.currency_id
-        self.gross_amount = cur.round(self.price_unit * self.product_uom_qty)
-        self.discount_amount = cur.round(self.gross_amount -
-                                         price * self.product_uom_qty)
-        self.discounted_amount = cur.round(self.price_unit *
-                                           self.product_uom_qty *
+        self.gross_amount = cur.round(self.price_unit * qty)
+        self.discount_amount = cur.round(self.gross_amount - price * qty)
+        self.discounted_amount = cur.round(self.gross_amount *
                                            (1 - (self.discount or 0.0) / 100.0))
         self.price_subtotal = cur.round(taxes['total'])
 
-    @api.model
-    def _prepare_order_line_invoice_line(self, line, account_id):
-        res = super(SaleOrderLine, self)._prepare_order_line_invoice_line(
-            line, account_id)
-        if not line.invoiced:
-            res['commercial_discount'] = line.commercial_discount
-            res['financial_discount'] = line.financial_discount
-        return res
 
-
-class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'
 
     amount_gross_untaxed = fields.Float(
         'Amount',
@@ -133,10 +126,14 @@ class SaleOrder(models.Model):
         digits_compute=dp.get_precision('Account'),
         compute='_calculate_amounts',
         store=True)
-    closing_date = fields.Date(
-        'Closing date',
-        compute='_closing_date',
-        store=True)
+
+    @api.model
+    def _prepare_inv_line(self, account_id, order_line):
+        result = super(PurchaseOrder, self)._prepare_inv_line(
+            account_id, order_line)
+        result['commercial_discount'] = order_line.commercial_discount or 0.0
+        result['financial_discount'] = order_line.financial_discount or 0.0
+        return result
 
     @api.multi
     @api.onchange('partner_id')
@@ -150,7 +147,7 @@ class SaleOrder(models.Model):
 
     @api.one
     @api.depends('order_line',
-                 'order_line.product_uom_qty',
+                 'order_line.product_qty',
                  'order_line.price_unit',
                  'order_line.discount',
                  'commercial_discount_percentage',
@@ -161,7 +158,7 @@ class SaleOrder(models.Model):
         com_disc_amount = 0
         fin_disc_amount = 0
         for line in self.order_line:
-            amount = line.product_uom_qty * line.price_unit
+            amount = line.product_qty * line.price_unit
             amount_gross += amount
             art_disc_amount += amount * line.discount / 100
             aux = amount * (1 - line.discount / 100)
@@ -182,8 +179,8 @@ class SaleOrder(models.Model):
         discounts = (1-(line.discount or 0.0)/100.0) * \
                     (1-(line.commercial_discount or 0.0)/100.0) * \
                     (1-(line.financial_discount or 0.0)/100.0)
-        for c in line.tax_id.compute_all(line.price_unit * discounts,
-                 line.product_uom_qty, line.product_id,
+        for c in line.taxes_id.compute_all(line.price_unit * discounts,
+                 line.product_qty, line.product_id,
                  line.order_id.partner_id)['taxes']:
             val += c.get('amount', 0.0)
         return val
@@ -223,15 +220,6 @@ class SaleOrder(models.Model):
             (self.financial_discount_input < 0 or \
             self.financial_discount_input > 100):
             raise Warning(_('Discount value should be between 0 and 100'))
-
-    @api.one
-    @api.depends('date_order', 'payment_term')
-    def _closing_date(self):
-        if self.payment_term.line_ids:
-            date_format = '%Y-%m-%d %H:%M:%S'
-            date = datetime.strptime(self.date_order, date_format).date()
-            date = date + timedelta(days=self.payment_term.line_ids[0].days)
-            self.closing_date = date.strftime(date_format)
 
     @api.one
     def update_with_discounts(self):
