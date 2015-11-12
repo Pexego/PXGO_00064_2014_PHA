@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_order_form_salesmanph">
+            <field name="name">sale.order.form.salesmanph</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_salesman_ph') ])]"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="is_in_group_salesmanph" invisible="0"/>
+                </field>
+                <field name="warehouse_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="project_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="replacement" position="attributes">
+                    <attribute name="context">{'default_replacement':True}</attribute>
+                </field>
+                <field name="carrier_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <label for="carrier_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+                    <!--name colspan="4" attrs="{'invisible': [('is_in_group_salesmanph', '=', True)]}" />
+                    <field eval="self._is_in_group_salesman_bis" name="is_in_group_salesmanph"/>
+                </field-->
+            </field>
+        </record>
+    </data>
+</openerp>
