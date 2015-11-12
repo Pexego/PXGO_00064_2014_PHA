@@ -12,7 +12,8 @@
             <field name="context">{"search_default_filter_to_sell":1}</field>
         </record>
         <!-- Sales: Overwrite menuitem to point to the new action -->
-        <menuitem action="product_template_action_tree_view" id="product.menu_product_template_action"
+        <menuitem action="product_template_action_tree_view_custom_view"
+                  id="product.menu_product_template_action"
                   name="Products list"
                   parent="base.menu_product" sequence="1"
         />
@@ -42,7 +43,7 @@
         </record>
         <!-- Purchases: Overwrite menuitem to point to the new action -->
         <menuitem name="Products" id="purchase.menu_procurement_partner_contact_form"
-                  action="product_normal_action_puchased_tree_view"
+                  action="product_normal_action_puchased_tree_view_custom_view"
                   parent="purchase.menu_procurement_management_product"
         />
 
