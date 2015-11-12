@@ -43,9 +43,11 @@ This module will add two fields in the sale order, and it will work as the modul
     "data" : [
         "views/res_partner_view.xml",
         "views/sale_view.xml",
-        "views/report_quotation_discounted.xml",
+        "views/account_invoice_view.xml",
+        "views/report_saleorder.xml",
+        "views/report_invoice.xml",
         "data/product_data.xml",
     ],
-    'installable' : False,
+    'installable' : True,
     'active' : False,
 }

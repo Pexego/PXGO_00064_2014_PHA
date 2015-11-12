@@ -151,14 +151,15 @@
                     </div>
                     <div class="col-xs-3">
                         <p t-if="o.partner_id.ref"><strong>Client code:</strong> <span t-field="o.partner_id.ref"></span></p>
-                        <p><strong>Quotation reference:</strong> <span t-field="o.name"></span></p>
                         <p><strong>Source:</strong> <span t-field="o.origin"></span></p>
-                        <p t-if="o.partner_id.customer_payment_mode">
+                        <p t-if="o.payment_mode_id">
                             <strong>Payment mode:</strong><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.name"/><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_name"/><br/>
-                            BIC: <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_bic"/><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                            <span t-field="o.payment_mode_id.name"/><br/>
+                            <t t-if="not o.payment_mode_id.hide_account_at_invoice">
+                                <span t-field="o.payment_mode_id.bank_id.bank_name"/><br/>
+                                BIC: <span t-field="o.payment_mode_id.bank_id.bank_bic"/><br/>
+                                <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                            </t>
                         </p>
                     </div>
                     <div class="col-xs-4">
@@ -176,6 +177,9 @@
                         <div t-if="o.user_id.name">
                             <strong>Salesperson:</strong>
                             <p t-field="o.user_id.name"/>
+                        </div>
+                        <div>
+                            <p><strong>Quotation reference:</strong> <span t-field="o.name"></span></p>
                         </div>
                     </div>
                     <div class="col-xs-2" t-if="o.reference">
@@ -201,8 +205,8 @@
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Description / EAN13</th>
-                            <th class="text-right" groups="product.group_uom">Quantity</th>
+                            <th>Description | EAN13<br/>Lot | Approved | Best before</th>
+                            <th class="text-right">Qty</th>
                             <th class="text-right">Unit price</th>
                             <th class="text-right">Disc.(%)</th>
                             <th class="text-right">Price w/discount</th>
@@ -215,12 +219,33 @@
                                 <span t-field="l.product_id.cn_code"/>
                             </td>
                             <td>
-                                <span t-field="l.name"/><br/>
-                                <span t-field="l.product_id.ean13"/>
+                                <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
+                                <br/>
+                                <table t-if="l.move_id">
+                                    <tbody>
+                                        <tr t-foreach="l.move_id.quant_ids" t-as="q">
+                                            <td><span t-field="q.lot_id.name"/></td>
+                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                            <td>
+                                                <span t-if="q.lot_id.acceptance_date" t-field="q.lot_id.acceptance_date"/>
+                                                <span t-if="not q.lot_id.acceptance_date">(Not approved)</span>
+                                            </td>
+                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                            <td>
+                                                <t t-set="u_date" t-value="q.lot_id.use_date"/>
+                                                <t t-if="u_date">
+                                                    <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                </t>
+                                                <t t-if="not u_date">
+                                                    <span>(Unspecified)</span>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % l.quantity"/><br/>
-                                <span t-field="l.uos_id" groups="product.group_uom"/>
+                                <span t-esc="'%g' % l.quantity"/>
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.price_unit"/>

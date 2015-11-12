@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import sale_report
+import sale_report, account_payment

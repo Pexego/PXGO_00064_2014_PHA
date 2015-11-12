@@ -20,21 +20,11 @@
 #
 ###############################################################################
 
-from openerp import models, api
+from openerp import models, fields
 
+class PaymentMode(models.Model):
+    _inherit="payment.mode"
 
-class StockMove(models.Model):
-    _inherit = 'stock.move'
-
-    @api.v7
-    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type,
-                               context=None):
-        res = super(StockMove, self)._get_invoice_line_vals(cr, uid, move,
-                                            partner, inv_type, context=context)
-        if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and\
-                move.procurement_id.sale_line_id:
-            sale_line = move.procurement_id.sale_line_id
-            res['commercial_discount'] = sale_line.commercial_discount
-            res['financial_discount'] = sale_line.financial_discount
-            res['move_id'] = move.id
-        return res
+    hide_account_at_invoice = fields.Boolean('Hide bank account when payment '
+                                             'mode shown in an invoice',
+                                             default=False)
