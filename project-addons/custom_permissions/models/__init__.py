@@ -19,4 +19,4 @@
 #
 ##############################################################################
 from . import sale
-from . import sale_channel
+from . import res_groups

@@ -28,7 +28,6 @@
                 <field name="groups" eval="[(4, ref('group_salesman_ph'))]"/>
         </record>
         <delete model="ir.rule" id="portal_sale.portal_sale_order_user_rule"/>
-
         <record id="res_partner_salesman_list_access_1" model="ir.rule">
                 <field name="name">Salesmanph - Res Partner CRW</field>
                 <field name="model_id" ref="account.model_res_partner"/>

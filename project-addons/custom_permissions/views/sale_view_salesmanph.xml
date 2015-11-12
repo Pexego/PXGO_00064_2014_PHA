@@ -8,9 +8,6 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="groups_id" eval="[(6, 0, [ref('group_salesman_ph') ])]"/>
             <field name="arch" type="xml">
-                <field name="name" position="before">
-                    <field name="is_in_group_salesmanph" invisible="0"/>
-                </field>
                 <field name="warehouse_id" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
@@ -26,9 +23,77 @@
                 <label for="carrier_id" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </label>
-                    <!--name colspan="4" attrs="{'invisible': [('is_in_group_salesmanph', '=', True)]}" />
-                    <field eval="self._is_in_group_salesman_bis" name="is_in_group_salesmanph"/>
-                </field-->
+                <page string="Other Information" position="attributes">
+                    <attribute name="groups">custom_permissions.group_salesman_ph</attribute>
+                </page>
+                <field name="company_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_partner_form_salesmanph">
+            <field name="name">view.partner.form.salesmanph</field>
+            <field name="model">res.partner</field>
+            <field name="priority">52</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_salesman_ph') ])]"/>
+            <field name="arch" type="xml">
+                <page string="Warnings" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <field name="agent" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="commission_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="company_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <separator string="Agents/Consultancy" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </separator>
+                <button name="assign_agent" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <field name="date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//page[@name='sales_purchases']//field[@name='supplier']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']//field[@name='customer']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <field name="property_stock_customer" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_stock_supplier" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_delivery_carrier" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_product_pricelist_purchase" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <button name="view_pricelist_history" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <field name="notify_email" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <!--reposicionado-->
+                <xpath expr="//page[@name='sales_purchases']//field[@name='customer']" position="replace">
+                </xpath>
+                <field name="active" position="after">
+                    <field name="customer" readonly="1"></field>
+                </field>
             </field>
         </record>
     </data>

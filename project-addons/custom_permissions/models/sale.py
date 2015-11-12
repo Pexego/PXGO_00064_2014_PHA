@@ -25,40 +25,13 @@ from openerp import models, api, fields, _
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    is_in_group_salesmanph = fields.Boolean(
-        string='is in group salesmanph',
-        compute='_is_in_group_salesman',
-        help='User is in SalesmanPH group',
-        store=False)
-
     @api.multi
-    @api.depends('name')
-    def _is_in_group_salesman(self):
-        # Get the SalesmanPh Manager group id
-        salesmangroup_id = self.env['ir.model.data'].get_object_reference('custom_permissions',
-                                                                          'group_salesman_ph')[1]
+    @api.depends('partner_id')
+    def onchange_partner_id(self, part):
+        res = super(SaleOrder, self).onchange_partner_id(part)
 
-        # Get the user and see what groups he/she is in
-        user_obj = self.env['res.users']
-        user = user_obj.browse(self._uid)
+        salesmangroup_id = self.env.ref('custom_permissions.group_salesman_ph')
+        if self.env.user in salesmangroup_id.users:
+            res['value']['sale_channel_id'] = salesmangroup_id.default_sale_channel
 
-        user_group_ids = []
-        for grp in user.groups_id:
-            user_group_ids.append(grp.id)
-        returnacion = (salesmangroup_id in user_group_ids)
-        self.is_in_group_salesmanph = returnacion
-
-    def _is_in_group_salesman_bis(self):
-        # Get the SalesmanPh Manager group id
-        salesmangroup_id = self.env['ir.model.data'].get_object_reference('custom_permissions',
-                                                                          'group_salesman_ph')[1]
-
-        # Get the user and see what groups he/she is in
-        user_obj = self.env['res.users']
-        user = user_obj.browse(self._uid)
-
-        user_group_ids = []
-        for grp in user.groups_id:
-            user_group_ids.append(grp.id)
-        returnacion = (salesmangroup_id in user_group_ids)
-        return returnacion
+        return res
