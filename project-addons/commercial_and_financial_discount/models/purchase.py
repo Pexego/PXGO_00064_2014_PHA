@@ -140,7 +140,7 @@ class PurchaseOrder(models.Model):
     @api.multi
     @api.onchange('partner_id')
     def onchange_partner_id(self, partner_id):
-        res = super(SaleOrder, self).onchange_partner_id(partner_id)
+        res = super(PurchaseOrder, self).onchange_partner_id(partner_id)
         partner = self.env['res.partner'].browse(partner_id)
         res['value'].update({
             'commercial_discount_input': partner.commercial_discount,
@@ -232,7 +232,7 @@ class PurchaseOrder(models.Model):
                 line.commercial_discount = self.commercial_discount_percentage
                 line.financial_discount = self.financial_discount_percentage
                 # Fire write event on this field to activate _amount_all
-                # function which recompute sale totals
+                # function which recompute purchase totals
                 line.price_unit = line.price_unit
         return True
 
@@ -244,7 +244,7 @@ class PurchaseOrder(models.Model):
                 line.commercial_discount = self.commercial_discount_input
                 line.financial_discount = self.financial_discount_input
                 # Fire write event on this field to activate _amount_all
-                # function which recompute sale totals
+                # function which recompute purchase totals
                 line.price_unit = line.price_unit
             # Save discounts applied
             self.commercial_discount_percentage = self.commercial_discount_input
