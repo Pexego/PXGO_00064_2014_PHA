@@ -98,6 +98,9 @@
                 <field name="origin" position="after">
                     <field name="supplier_delivery_note"/>
                 </field>
+                <field name="note" position="attributes">
+                    <attribute name="attrs">{'required': [('picking_type_code', '=', 'incoming')]}</attribute>
+                </field>
             </field>
         </record>
 
