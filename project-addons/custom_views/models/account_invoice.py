@@ -21,27 +21,17 @@
 
 from openerp import models, fields, api
 
-class ProductProduct(models.Model):
-    _inherit = 'product.product'
+
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
 
     @api.multi
-    def name_get(self): # Hide default_code by default
-        return super(ProductProduct,
-                     self.with_context(display_default_code=False)).name_get()
-
-
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
-
-    @api.one
-    @api.depends('seller_ids')
-    def _suppliers_pricelists(self):
-        ids = []
-        for product in self:
-            for seller in product.seller_ids:
-                for pricelist in seller.pricelist_ids:
-                    ids.append(pricelist.id)
-        self.suppliers_pricelists = ids
-
-    suppliers_pricelists = fields.One2many('pricelist.partnerinfo',
-                                           compute="_suppliers_pricelists")
+    def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',
+            partner_id=False, fposition_id=False, price_unit=False, currency_id=False,
+            company_id=None):
+        res = super(AccountInvoiceLine, self).product_id_change(product,
+                uom_id, qty, name, type, partner_id, fposition_id, price_unit,
+                currency_id, company_id)
+        product_name = self.env['product.product'].browse(product).name_template
+        res['value']['name'] = product_name
+        return res

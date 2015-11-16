@@ -239,6 +239,10 @@ class AccountInvoice(models.Model):
         compute='_compute_amount',
         store=True,
         readonly=True)
+    commercial_discount_input = fields.Float(
+        'Commercial discount percentage',
+        readonly=True,
+        states={'draft':[('readonly', False)], 'sent':[('readonly', False)]})
     commercial_discount_display = fields.Char(
         size = 32,
         compute='_compute_amount',
@@ -249,6 +253,10 @@ class AccountInvoice(models.Model):
         compute='_compute_amount',
         store=True,
         readonly=True)
+    financial_discount_input = fields.Float(
+        'Financial discount percentage',
+        readonly=True,
+        states={'draft':[('readonly', False)], 'sent':[('readonly', False)]})
     financial_discount_display = fields.Char(
         size=32,
         compute='_compute_amount',
@@ -260,10 +268,22 @@ class AccountInvoice(models.Model):
         store=True,
         readonly=True)
 
+    @api.multi
+    @api.onchange('partner_id')
+    def onchange_partner_id(self, type, partner_id, date_invoice=False,
+            payment_term=False, partner_bank_id=False, company_id=False):
+        res = super(AccountInvoice, self).onchange_partner_id(type, partner_id,
+                date_invoice, payment_term, partner_bank_id, company_id)
+        partner = self.env['res.partner'].browse(partner_id)
+        res['value'].update({
+            'commercial_discount_input': partner.commercial_discount,
+            'financial_discount_input': partner.financial_discount
+        })
+        return res
+
     @api.one
     @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
     def _compute_amount(self):
-        amount_untaxed = 0
         amount_gross = 0
         art_disc_amount = 0
         com_discount = 0
@@ -271,7 +291,6 @@ class AccountInvoice(models.Model):
         fin_discount = 0
         fin_disc_amount = 0
         for line in self.invoice_line:
-            amount_untaxed += line.price_subtotal
             amount = line.quantity * line.price_unit
             amount_gross += amount
             art_disc_amount += amount * line.discount / 100
@@ -289,9 +308,6 @@ class AccountInvoice(models.Model):
         self.amount_net_untaxed = amount_gross - art_disc_amount - \
                                   com_disc_amount
         self.financial_discount_amount = fin_disc_amount
-        self.amount_untaxed = amount_untaxed
-        self.amount_tax = sum(line.amount for line in self.tax_line)
-        self.amount_total = self.amount_untaxed + self.amount_tax
 
         if com_discount > 0:
             self.commercial_discount_display = \
@@ -304,3 +320,14 @@ class AccountInvoice(models.Model):
                 _('Financial discount (%.2f %%)')%fin_discount
         else:
             self.financial_discount_display = _('Financial discount')
+
+        super(AccountInvoice, self)._compute_amount()
+
+    @api.one
+    def generate_discounts(self):
+        if self.state in ('draft'):
+            # Apply discounts per line
+            for line in self.invoice_line:
+                line.commercial_discount = self.commercial_discount_input
+                line.financial_discount = self.financial_discount_input
+        return self.button_reset_taxes()

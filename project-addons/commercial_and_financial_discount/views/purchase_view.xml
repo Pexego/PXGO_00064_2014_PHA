@@ -51,7 +51,7 @@
                     <attribute name="name">update_with_discounts</attribute>
                 </button>
                 <field name="notes" position="before">
-                    <group class="oe_edit_only" style="width: 65%%" attrs="{'invisible':[('state','not in',('draft','sent'))]}">
+                    <group class="oe_edit_only" style="width: 65%%;" attrs="{'invisible':[('state','not in',('draft','sent'))]}">
                         <label for="commercial_discount_input"/>
                         <div>
                             <field name="commercial_discount_input" class="oe_inline"/>
