@@ -132,6 +132,9 @@
                             <i class="glyphicon glyphicon-print"></i>
                             <span t-field="o.notified_partner_id.fax"></span><br/>
                         </t>
+                        <t t-if="o.notified_partner_id.phone and not o.notified_partner_id.fax">
+                            <br/>
+                        </t>
 
                         <t t-if="o.partner_id.website">
                             <i class="glyphicon glyphicon-globe"></i>
@@ -167,6 +170,9 @@
                         <t t-if="o.partner_id.fax">
                             <i class="glyphicon glyphicon-print"></i>
                             <span t-field="o.partner_id.fax"></span><br/>
+                        </t>
+                        <t t-if="o.partner_id.phone and not o.partner_id.fax">
+                            <br/>
                         </t>
 
                         <t t-if="o.partner_id.website">

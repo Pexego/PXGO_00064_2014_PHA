@@ -135,6 +135,9 @@
                             <i class="glyphicon glyphicon-print"></i>
                             <span t-field="o.commercial_partner_id.fax"></span><br/>
                         </t>
+                        <t t-if="o.partner_id.phone and not o.partner_id.fax">
+                            <br/>
+                        </t>
 
                         <t t-if="o.partner_id.website">
                             <i class="glyphicon glyphicon-globe"></i>
@@ -220,10 +223,10 @@
                             <td>
                                 <span t-field="l.product_id.cn_code"/>
                             </td>
-                            <td>
+                            <td style="min-width: 40%;">
                                 <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
                                 <br/>
-                                <table t-if="l.move_id">
+                                <table t-if="l.move_id" style="width: 100%;">
                                     <tbody>
                                         <tr t-foreach="l.move_id.quant_ids" t-as="q">
                                             <td><span t-field="q.lot_id.name"/></td>
