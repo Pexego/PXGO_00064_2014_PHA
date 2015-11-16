@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--Claims button-->
+        <record id="crm_claim.view_claim_res_partner_info_form"
+               model="ir.ui.view">
+           <field name="groups_id" eval="[(4, ref('custom_permissions.group_salesman_ph'))]"/>
+
+       </record>
+
+        <!-- Modifications to hide Sale Confirm Button to comercials -->
+        <record model="ir.ui.view" id="crm_case_claims_form_view_custom_salesmanph">
+            <field name="name">crm.claim.form.custom.salesmanph</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Claim Description']/group[1]" position="attributes">
+                    <attribute name="groups">custom_permissions.group_salesman_ph</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
