@@ -26,15 +26,20 @@ from openerp import models, api
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    @api.v7
-    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type,
-                               context=None):
-        res = super(StockMove, self)._get_invoice_line_vals(cr, uid, move,
-                                            partner, inv_type, context=context)
+    @api.model
+    def _get_invoice_line_vals(self, move, partner, inv_type):
+        res = super(StockMove, self)._get_invoice_line_vals(move, partner,
+                                                            inv_type)
         if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and\
                 move.procurement_id.sale_line_id:
             sale_line = move.procurement_id.sale_line_id
             res['commercial_discount'] = sale_line.commercial_discount
             res['financial_discount'] = sale_line.financial_discount
+            res['move_id'] = move.id
+
+        if move.purchase_line_id:
+            purchase_line = move.purchase_line_id
+            res['commercial_discount'] = purchase_line.commercial_discount
+            res['financial_discount'] = purchase_line.financial_discount
             res['move_id'] = move.id
         return res

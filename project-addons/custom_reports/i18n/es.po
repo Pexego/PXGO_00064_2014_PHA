@@ -6,19 +6,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-05 08:07+0000\n"
-"PO-Revision-Date: 2015-11-05 09:08+0100\n"
+"POT-Creation-Date: 2015-11-12 09:50+0000\n"
+"PO-Revision-Date: 2015-11-12 10:56+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
+"Plural-Forms: \n"
+"Language: es\n"
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "&nbsp;|&nbsp;"
+msgstr "&nbsp;|&nbsp;"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "(Not approved)"
+msgstr "(No aprobado)"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "(Unspecified)"
+msgstr "(Sin especificar)"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
@@ -28,7 +45,9 @@ msgstr ""
 "                            Folio"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
@@ -38,7 +57,9 @@ msgstr ""
 "                            Registro"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
@@ -48,6 +69,9 @@ msgstr ""
 "                            Hoja"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
@@ -57,7 +81,9 @@ msgstr ""
 "                            NIF"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
@@ -67,64 +93,80 @@ msgstr ""
 "                            Tomo"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ", or by e-mail at"
 msgstr ", o en el e-mail"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Amount"
-msgstr "Importe"
+msgstr "Importe bruto"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Amount with article discount"
 msgstr "Importe c. dto. de artículo"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Article discount"
 msgstr "Descuento artículo"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "BIC:"
 msgstr "BIC:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid "TIN"
-msgstr "NIF"
+#: view:website:custom_reports.report_invoice_document
+msgid "Base"
+msgstr "Base"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "CN Code"
-msgstr "Cód. CN"
+msgstr "Código CN"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Cancelled Invoice"
+msgstr "Factura cancelada"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Client code:"
 msgstr "Código cliente:"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_saleorder_document
-msgid "Commercial discount"
-msgstr "Descuento comercial"
+#: view:website:custom_reports.report_invoice_document
+msgid "Comment:"
+msgstr "Comentario:"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Company"
 msgstr "Compañía"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
-#: field:sale.report,notified_partner_id:0
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Cooperative"
 msgstr "Cooperativa"
 
@@ -134,7 +176,7 @@ msgid "Cooperative address:"
 msgstr "Dirección cooperativa:"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Customer"
 msgstr "Cliente"
 
@@ -145,6 +187,7 @@ msgstr "Fecha pedido:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Description"
 msgstr "Descripción"
@@ -155,55 +198,100 @@ msgid "Description / EAN13"
 msgstr "Descripción / EAN13"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Description | EAN13"
+msgstr "Descripción | EAN13"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_saleorder_document
-msgid "Financial discount"
-msgstr "Descuento financiero"
+#: view:website:custom_reports.report_invoice_document
+msgid "Draft Invoice"
+msgstr "Factura borrador"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Fiscal Position Remark:"
+msgstr "Observaciones de la posición fiscal"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
+msgid "For any doubt or explanation, be contacted with Purchases Dept. in the number"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Compras en el número"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "For any doubt or explanation, be contacted with Sales Dept. in the number"
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
 
 #. module: custom_reports
+#: field:payment.mode,hide_account_at_invoice:0
+msgid "Hide bank account when payment mode shown in an invoice"
+msgstr "Oculta la cuenta bancaria cuando se muestra el modo de pago en una factura"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
 msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated."
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Invoice Date:"
+msgstr "Fecha de factura:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Invoicing address:"
 msgstr "Dirección de facturación:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid "Net Price"
-msgstr "Precio neto"
+#: view:website:custom_reports.report_invoice_document
+msgid "Lot | Approved | Best before"
+msgstr "Lote | Aprobado | Caducidad"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Net amount"
 msgstr "Importe neto"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Observations:"
 msgstr "Observaciones:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 msgid "Order Date:"
 msgstr "Fecha de pedido:"
 
@@ -213,27 +301,50 @@ msgid "Order Nº"
 msgstr "Nº de pedido"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "PRO-FORMA"
+msgstr "PRO-FORMA"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Page:"
 msgstr "Página:"
 
 #. module: custom_reports
+#: model:ir.model,name:custom_reports.model_payment_mode
+msgid "Payment Mode"
+msgstr "Modo de pago"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Payment Term:"
+msgstr "Plazo de pago:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Payment mode:"
 msgstr "Forma de pago:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 msgid "Planned Date:"
 msgstr "Fecha de entrega:"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Price"
 msgstr "Precio"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Price w/discount"
 msgstr "Precio c. dto"
@@ -249,11 +360,13 @@ msgid "Purchase Order Confirmation N°:"
 msgstr "Confirmación de orden de compra N°:"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
 msgid "Qty"
 msgstr "Ctdad"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quantity"
 msgstr "Cantidad"
@@ -269,6 +382,7 @@ msgid "Quotation N°"
 msgstr "Presupuesto Nº"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quotation reference:"
 msgstr "Referencia de pedido:"
@@ -279,33 +393,46 @@ msgid "Real qty."
 msgstr "Cantidad real"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Recorded in the Companies Registry of"
 msgstr "Inscrita en el Registro Mercantil de"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:website:custom_reports.report_invoice_document
+msgid "Reference:"
+msgstr "Referencia:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Refund"
+msgstr "Factura rectificativa"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Replacements"
 msgstr "Reposiciones"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 msgid "Request for Quotation N°:"
 msgstr "Solicitud de presupuesto N°:"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Sale channel"
 msgstr "Canal de venta"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Sale type"
 msgstr "Tipo de venta"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Sales"
 msgstr "Ventas"
 
@@ -315,27 +442,52 @@ msgid "Sales Orders Statistics"
 msgstr "Estadísticas pedidos de venta"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Salesperson:"
 msgstr "Comercial:"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Samples"
 msgstr "Muestras/publicitario"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Shipping address:"
 msgstr "Dirección de envío:"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Source:"
+msgstr "Origen:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Supplier Invoice"
+msgstr "Factura de proveedor"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Supplier Refund"
+msgstr "Factura rectificativa de proveedor"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 msgid "Supplier code:"
 msgstr "Código proveedor:"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Taxes"
@@ -347,12 +499,14 @@ msgid "Theoretical qty."
 msgstr "Cantidad teórica"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Total"
 msgstr "Total"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Total Without Taxes"
@@ -364,31 +518,37 @@ msgid "Transfer order N°"
 msgstr "Pedido transfer N°"
 
 #. module: custom_reports
-#: view:sale.report:custom_reports.view_order_product_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Transfers"
 msgstr "Transfers"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid "Unit Price"
-msgstr "Precio unidad"
-
-#. module: custom_reports
+#: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Unit of measure"
 msgstr "Unidad de medida"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Unit price"
-msgstr "Precio ud"
+msgstr "Precio ud."
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
-msgid "TIN:"
-msgstr "NIF:"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
 msgid "Validated By:"
 msgstr "Validado por:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
+msgid "info@pharmadus.com"
+msgstr "info@pharmadus.com"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_saleorder_document
+msgid "ventas@pharmadus.com"
+msgstr "ventas@pharmadus.com"

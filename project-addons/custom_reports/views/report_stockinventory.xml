@@ -11,7 +11,7 @@
                 <th class="text-right"><strong>Real qty.</strong></th>
             </xpath>
             <xpath expr="//td[span/@t-field='line.product_qty']" position="replace">
-                <td class="text-right"><span t-esc="int(line.product_qty) if (line.product_qty * 10) % 10 == 0 else line.product_qty * 1"/> <span t-field="line.product_uom_id" groups="product.group_uom"/></td>
+                <td class="text-right"><span t-esc="int(line.product_qty) if (line.product_qty * 10) % 10 == 0 else line.product_qty * 1"/> <span t-field="line.product_uom_id"/></td>
                 <td><span> </span></td>
             </xpath>
         </template>

@@ -80,9 +80,11 @@
                         </div>
                     </div>
                     <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
-                        <strong>Shipping address:</strong>
-                        <div t-field="o.partner_shipping_id"
-                             t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                        <t t-if="o.partner_shipping_id">
+                            <strong>Shipping address:</strong>
+                            <div t-field="o.partner_id"
+                                 t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                        </t>
                     </div>
                 </div>
             </div>
@@ -114,39 +116,42 @@
                     <div class="col-xs-5">
                         <strong>Invoicing address:</strong><br/>
 
-                        <span t-field="o.partner_id.name"></span><br/>
+                        <span t-field="o.commercial_partner_id.name"></span><br/>
 
                         <i class="glyphicon glyphicon-map-marker"></i>
-                        <span t-field="o.partner_id.street"></span><br/>
+                        <span t-field="o.commercial_partner_id.street"></span><br/>
 
-                        <span t-field="o.partner_id.zip" style="margin-left: 17px;"></span>
-                        <span t-field="o.partner_id.city"></span> -
-                        <span t-field="o.partner_id.state_id"></span>
-                        (<span t-field="o.partner_id.country_id"></span>)<br/>
+                        <span t-field="o.commercial_partner_id.zip" style="margin-left: 17px;"></span>
+                        <span t-field="o.commercial_partner_id.city"></span> -
+                        <span t-field="o.commercial_partner_id.state_id"></span>
+                        (<span t-field="o.commercial_partner_id.country_id"></span>)<br/>
 
                         <t t-if="o.partner_id.phone">
                             <i class="glyphicon glyphicon-earphone"></i>
-                            <span t-field="o.partner_id.phone"></span>
+                            <span t-field="o.commercial_partner_id.phone"></span>
                         </t>
                         <t t-if="o.partner_id.phone and o.partner_id.fax"><span> /</span></t>
                         <t t-if="o.partner_id.fax">
                             <i class="glyphicon glyphicon-print"></i>
-                            <span t-field="o.partner_id.fax"></span><br/>
+                            <span t-field="o.commercial_partner_id.fax"></span><br/>
+                        </t>
+                        <t t-if="o.partner_id.phone and not o.partner_id.fax">
+                            <br/>
                         </t>
 
                         <t t-if="o.partner_id.website">
                             <i class="glyphicon glyphicon-globe"></i>
-                            <a t-field="o.partner_id.website"></a><br/>
+                            <a t-field="o.commercial_partner_id.website"></a><br/>
                         </t>
 
                         <t t-if="o.partner_id.email">
                             <i class="glyphicon glyphicon-envelope"></i>
-                            <a t-field="o.partner_id.email"></a><br/>
+                            <a t-field="o.commercial_partner_id.email"></a><br/>
                         </t>
 
                         <t t-if="o.partner_id.vat">
                             <i class="glyphicon glyphicon-briefcase"></i>
-                            <span t-field="o.partner_id.vat"/>
+                            <span t-field="o.commercial_partner_id.vat"/>
                         </t>
                     </div>
                     <div class="col-xs-3">
@@ -218,10 +223,10 @@
                             <td>
                                 <span t-field="l.product_id.cn_code"/>
                             </td>
-                            <td>
+                            <td style="min-width: 40%;">
                                 <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
                                 <br/>
-                                <table t-if="l.move_id">
+                                <table t-if="l.move_id" style="width: 100%;">
                                     <tbody>
                                         <tr t-foreach="l.move_id.quant_ids" t-as="q">
                                             <td><span t-field="q.lot_id.name"/></td>
