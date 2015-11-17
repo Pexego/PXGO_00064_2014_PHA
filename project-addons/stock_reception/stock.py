@@ -19,8 +19,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
-
+from openerp import models, fields, api
+from lxml import etree
 
 class StockContainerType(models.Model):
     _name = 'stock.container.type'
@@ -42,6 +42,26 @@ class StockProductionLot(models.Model):
     container_number = fields.Integer('Number of containers')
     pallets = fields.Integer('Pallets')
     picking_exist = fields.Boolean('Picking exists')
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        res = super(StockProductionLot, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
+        if self._context.get('in_pick', False) and view_type=='form':
+            arch = res['arch']
+            doc = etree.XML(arch)
+            for field in ['container_type', 'quantity', 'uom_id', 'container_number', 'pallets']:
+                node = doc.xpath("//field[@name='%s']" % field)[0]
+                modifiers = node.get('modifiers')
+                if not modifiers or modifiers == '{}':
+                    modifiers = '{"required": true}'
+                else:
+                    modifiers = modifiers[:modifiers.rfind('}')] + ', "required": true' + '}'
+                node.set('modifiers', modifiers)
+            res['arch'] = etree.tostring(doc)
+        return res
+
 
 
 class StockPicking(models.Model):
