@@ -64,6 +64,21 @@ class AccountInvoiceLine(models.Model):
         comodel_name='stock.move',
         readonly=True)
 
+    @api.model
+    def create(self, vals):
+        commercial_discount = vals.get('commercial_discount', False)
+        financial_discount = vals.get('financial_discount', False)
+        invoice = self.env['account.invoice'].browse(vals['invoice_id'])
+
+        if commercial_discount and \
+                       invoice.commercial_discount_input != commercial_discount:
+            invoice.commercial_discount_input = commercial_discount
+        if financial_discount and \
+                       invoice.financial_discount_input != financial_discount:
+            invoice.financial_discount_input = financial_discount
+
+        return super(AccountInvoiceLine, self).create(vals)
+
     @api.one
     @api.depends('price_unit', 'discount', 'commercial_discount',
                 'financial_discount', 'invoice_line_tax_id', 'quantity',
