@@ -302,6 +302,11 @@ msgid "Normal"
 msgstr "Normal"
 
 #. module: product_spec
+#: field:product.template,box_elements:0
+msgid "Number of elements in a box"
+msgstr "Elementos por caja(Completo)"
+
+#. module: product_spec
 #: view:product.template:product_spec.product_search_form_view_extended_search
 msgid "Objective"
 msgstr "Objetivo"

@@ -131,6 +131,9 @@ class ProductTemplate(models.Model):
     ean13 = fields.Char(string='EAN13 Barcode', store=True, related='product_variant_ids.ean13')
     default_code = fields.Char(string='Internal Reference', store=True, related='product_variant_ids.default_code')
 
+    # This product is packed in a box of box_elements number
+    box_elements = fields.Integer('Number of elements in a box', required=False)
+
     @api.model
     def create(self, vals):
         tmpl = super(ProductTemplate, self).create(vals)
