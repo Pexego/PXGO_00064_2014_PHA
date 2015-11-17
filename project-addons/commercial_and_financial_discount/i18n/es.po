@@ -1,0 +1,235 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* commercial_and_financial_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-12 12:23+0000\n"
+"PO-Revision-Date: 2015-11-12 12:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: commercial_and_financial_discount
+#: view:account.invoice:commercial_and_financial_discount.invoice_form_com_fin_disc
+msgid "(update)"
+msgstr "(actualizar)"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,amount_gross_untaxed:0
+#: field:sale.order,amount_gross_untaxed:0
+#: field:account.invoice,amount_gross_untaxed:0
+#: view:website:account.report_invoice_document
+#: view:website:sale.report_saleorder_document
+msgid "Amount"
+msgstr "Importe bruto"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,amount_with_article_discount:0
+#: field:sale.order,amount_with_article_discount:0
+#: field:account.invoice,amount_with_article_discount:0
+#: view:website:account.report_invoice_document
+#: view:website:sale.report_saleorder_document
+msgid "Amount with article discount"
+msgstr "Importe c. dto. de artículo"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,article_discount:0
+#: field:sale.order,article_discount:0
+#: field:account.invoice,article_discount:0
+#: view:website:account.report_invoice_document
+#: view:website:sale.report_saleorder_document
+msgid "Article discount"
+msgstr "Descuento artículo"
+
+#. module: commercial_and_financial_discount
+#: code:addons/commercial_and_financial_discount/models/account_invoice.py:300
+#: code:addons/commercial_and_financial_discount/models/purchase.py:196
+#: code:addons/commercial_and_financial_discount/models/sale.py:199
+#: model:product.template,name:commercial_and_financial_discount.product_commercial_discount_product_template
+#, python-format
+msgid "Commercial discount"
+msgstr "Descuento comercial"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order.line,commercial_discount:0
+#: field:sale.order.line,commercial_discount:0
+#: field:account.invoice.line,commercial_discount:0
+msgid "Commercial discount (%)"
+msgstr "Descuento comercial (%)"
+
+#. module: commercial_and_financial_discount
+#: code:addons/commercial_and_financial_discount/models/account_invoice.py:298
+#: code:addons/commercial_and_financial_discount/models/purchase.py:193
+#: code:addons/commercial_and_financial_discount/models/sale.py:196
+#, python-format
+msgid "Commercial discount (%.2f %%)"
+msgstr "Descuento comercial (%.2f %%)"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,commercial_discount_amount:0
+#: field:sale.order,commercial_discount_amount:0
+#: field:account.invoice,commercial_discount_amount:0
+msgid "Commercial discount amount"
+msgstr "Importe descuento comercial"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,commercial_discount_input:0
+#: field:purchase.order,commercial_discount_percentage:0
+#: field:sale.order,commercial_discount_input:0
+#: field:sale.order,commercial_discount_percentage:0
+msgid "Commercial discount percentage"
+msgstr "Porcentaje descuento comercial"
+
+#. module: commercial_and_financial_discount
+#: code:addons/commercial_and_financial_discount/models/purchase.py:214
+#: code:addons/commercial_and_financial_discount/models/purchase.py:222
+#: code:addons/commercial_and_financial_discount/models/sale.py:217
+#: code:addons/commercial_and_financial_discount/models/sale.py:225
+#, python-format
+msgid "Discount value should be between 0 and 100"
+msgstr "El descuento tiene que estar entre 0 y 100"
+
+#. module: commercial_and_financial_discount
+#: code:addons/commercial_and_financial_discount/models/account_invoice.py:306
+#: code:addons/commercial_and_financial_discount/models/purchase.py:206
+#: code:addons/commercial_and_financial_discount/models/sale.py:209
+#: model:product.template,name:commercial_and_financial_discount.product_financial_discount_product_template
+#, python-format
+msgid "Financial discount"
+msgstr "Descuento financiero"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order.line,financial_discount:0
+#: field:sale.order.line,financial_discount:0
+#: field:account.invoice.line,financial_discount:0
+msgid "Financial discount (%)"
+msgstr "Descuento financiero (%)"
+
+#. module: commercial_and_financial_discount
+#: code:addons/commercial_and_financial_discount/models/account_invoice.py:304
+#: code:addons/commercial_and_financial_discount/models/purchase.py:203
+#: code:addons/commercial_and_financial_discount/models/sale.py:206
+#, python-format
+msgid "Financial discount (%.2f %%)"
+msgstr "Descuento financiero (%.2f %%)"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,financial_discount_amount:0
+#: field:sale.order,financial_discount_amount:0
+#: field:account.invoice,financial_discount_amount:0
+msgid "Financial discount amount"
+msgstr "Importe descuento financiero"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,financial_discount_input:0
+#: field:purchase.order,financial_discount_percentage:0
+#: field:sale.order,financial_discount_input:0
+#: field:sale.order,financial_discount_percentage:0
+msgid "Financial discount percentage"
+msgstr "Porcentaje descuento financiero"
+
+#. module: commercial_and_financial_discount
+#: view:purchase.order:commercial_and_financial_discount.purchase_order_form_com_fin_disc
+#: view:sale.order:commercial_and_financial_discount.sale_order_form_com_fin_disc
+msgid "Generate discounts"
+msgstr "Aplicar descuentos"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_account_invoice_tax
+msgid "Invoice Tax"
+msgstr "Impuesto de factura"
+
+#. module: commercial_and_financial_discount
+#: field:purchase.order,amount_net_untaxed:0
+#: field:sale.order,amount_net_untaxed:0
+#: field:account.invoice,amount_net_untaxed:0
+#: view:website:account.report_invoice_document
+#: view:website:sale.report_saleorder_document
+msgid "Net amount"
+msgstr "Importe neto"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
+
+#. module: commercial_and_financial_discount
+#: view:account.invoice:commercial_and_financial_discount.invoice_form_com_fin_disc
+msgid "Recompute taxes and total"
+msgstr "Recalcular total e impuestos"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_sale_order_line_make_invoice
+msgid "Sale OrderLine Make_invoice"
+msgstr "Venta Línea_pedido Realizar_factura"
+
+#. module: commercial_and_financial_discount
+#: view:res.partner:commercial_and_financial_discount.partner_form_com_fin_disc
+msgid "Sales & Purchases"
+msgstr "Ventas & Compras"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: commercial_and_financial_discount
+#: model:ir.model,name:commercial_and_financial_discount.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: commercial_and_financial_discount
+#: view:website:account.report_invoice_document
+#: view:website:sale.report_saleorder_document
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: commercial_and_financial_discount
+#: view:website:account.report_invoice_document
+#: view:website:sale.report_saleorder_document
+msgid "Total"
+msgstr "Total"
+
+#. module: commercial_and_financial_discount
+#: view:website:account.report_invoice_document
+#: view:website:sale.report_saleorder_document
+msgid "Total Without Taxes"
+msgstr "Base imponible"
+
+#. module: commercial_and_financial_discount
+#: view:purchase.order:commercial_and_financial_discount.purchase_order_form_com_fin_disc
+#: view:sale.order:commercial_and_financial_discount.sale_order_form_com_fin_disc
+msgid "update_with_discounts"
+msgstr "update_with_discounts"
+

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record model="ir.ui.view" id="view_order_form">
+        <record model="ir.ui.view" id="view_order_form_custom_view">
             <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="mode">primary</field>
             <field name="priority">9</field>
             <field name="arch" type="xml">
                 <field name="partner_id" position="attributes">
@@ -17,6 +16,21 @@
                 <field name="client_order_ref" position="attributes">
                     <attribute name="string">Order reference</attribute>
                     <attribute name="required">True</attribute>
+                </field>
+            </field>
+        </record>
+
+        <!-- Sale Order Line -->
+        <record id="view_order_add_stock_form" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="line_agent_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="invoice_lines" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </field>
             </field>
         </record>

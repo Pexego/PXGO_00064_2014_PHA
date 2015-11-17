@@ -80,9 +80,11 @@
                         </div>
                     </div>
                     <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
-                        <strong>Shipping address:</strong>
-                        <div t-field="o.partner_shipping_id"
-                             t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                        <t t-if="o.partner_shipping_id">
+                            <strong>Shipping address:</strong>
+                            <div t-field="o.partner_id"
+                                 t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                        </t>
                     </div>
                 </div>
             </div>
@@ -114,51 +116,55 @@
                     <div class="col-xs-5">
                         <strong>Invoicing address:</strong><br/>
 
-                        <span t-field="o.partner_id.name"></span><br/>
+                        <span t-field="o.commercial_partner_id.name"></span><br/>
 
                         <i class="glyphicon glyphicon-map-marker"></i>
-                        <span t-field="o.partner_id.street"></span><br/>
+                        <span t-field="o.commercial_partner_id.street"></span><br/>
 
-                        <span t-field="o.partner_id.zip" style="margin-left: 17px;"></span>
-                        <span t-field="o.partner_id.city"></span> -
-                        <span t-field="o.partner_id.state_id"></span>
-                        (<span t-field="o.partner_id.country_id"></span>)<br/>
+                        <span t-field="o.commercial_partner_id.zip" style="margin-left: 17px;"></span>
+                        <span t-field="o.commercial_partner_id.city"></span> -
+                        <span t-field="o.commercial_partner_id.state_id"></span>
+                        (<span t-field="o.commercial_partner_id.country_id"></span>)<br/>
 
                         <t t-if="o.partner_id.phone">
                             <i class="glyphicon glyphicon-earphone"></i>
-                            <span t-field="o.partner_id.phone"></span>
+                            <span t-field="o.commercial_partner_id.phone"></span>
                         </t>
                         <t t-if="o.partner_id.phone and o.partner_id.fax"><span> /</span></t>
                         <t t-if="o.partner_id.fax">
                             <i class="glyphicon glyphicon-print"></i>
-                            <span t-field="o.partner_id.fax"></span><br/>
+                            <span t-field="o.commercial_partner_id.fax"></span><br/>
+                        </t>
+                        <t t-if="o.partner_id.phone and not o.partner_id.fax">
+                            <br/>
                         </t>
 
                         <t t-if="o.partner_id.website">
                             <i class="glyphicon glyphicon-globe"></i>
-                            <a t-field="o.partner_id.website"></a><br/>
+                            <a t-field="o.commercial_partner_id.website"></a><br/>
                         </t>
 
                         <t t-if="o.partner_id.email">
                             <i class="glyphicon glyphicon-envelope"></i>
-                            <a t-field="o.partner_id.email"></a><br/>
+                            <a t-field="o.commercial_partner_id.email"></a><br/>
                         </t>
 
                         <t t-if="o.partner_id.vat">
                             <i class="glyphicon glyphicon-briefcase"></i>
-                            <span t-field="o.partner_id.vat"/>
+                            <span t-field="o.commercial_partner_id.vat"/>
                         </t>
                     </div>
                     <div class="col-xs-3">
                         <p t-if="o.partner_id.ref"><strong>Client code:</strong> <span t-field="o.partner_id.ref"></span></p>
-                        <p><strong>Quotation reference:</strong> <span t-field="o.name"></span></p>
                         <p><strong>Source:</strong> <span t-field="o.origin"></span></p>
-                        <p t-if="o.partner_id.customer_payment_mode">
+                        <p t-if="o.payment_mode_id">
                             <strong>Payment mode:</strong><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.name"/><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_name"/><br/>
-                            BIC: <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_bic"/><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                            <span t-field="o.payment_mode_id.name"/><br/>
+                            <t t-if="not o.payment_mode_id.hide_account_at_invoice">
+                                <span t-field="o.payment_mode_id.bank_id.bank_name"/><br/>
+                                BIC: <span t-field="o.payment_mode_id.bank_id.bank_bic"/><br/>
+                                <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                            </t>
                         </p>
                     </div>
                     <div class="col-xs-4">
@@ -176,6 +182,9 @@
                         <div t-if="o.user_id.name">
                             <strong>Salesperson:</strong>
                             <p t-field="o.user_id.name"/>
+                        </div>
+                        <div>
+                            <p><strong>Quotation reference:</strong> <span t-field="o.name"></span></p>
                         </div>
                     </div>
                     <div class="col-xs-2" t-if="o.reference">
@@ -201,8 +210,8 @@
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Description / EAN13</th>
-                            <th class="text-right" groups="product.group_uom">Quantity</th>
+                            <th>Description | EAN13<br/>Lot | Approved | Best before</th>
+                            <th class="text-right">Qty</th>
                             <th class="text-right">Unit price</th>
                             <th class="text-right">Disc.(%)</th>
                             <th class="text-right">Price w/discount</th>
@@ -214,13 +223,34 @@
                             <td>
                                 <span t-field="l.product_id.cn_code"/>
                             </td>
-                            <td>
-                                <span t-field="l.name"/><br/>
-                                <span t-field="l.product_id.ean13"/>
+                            <td style="min-width: 40%;">
+                                <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
+                                <br/>
+                                <table t-if="l.move_id" style="width: 100%;">
+                                    <tbody>
+                                        <tr t-foreach="l.move_id.quant_ids" t-as="q">
+                                            <td><span t-field="q.lot_id.name"/></td>
+                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                            <td>
+                                                <span t-if="q.lot_id.acceptance_date" t-field="q.lot_id.acceptance_date"/>
+                                                <span t-if="not q.lot_id.acceptance_date">(Not approved)</span>
+                                            </td>
+                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                            <td>
+                                                <t t-set="u_date" t-value="q.lot_id.use_date"/>
+                                                <t t-if="u_date">
+                                                    <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                </t>
+                                                <t t-if="not u_date">
+                                                    <span>(Unspecified)</span>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % l.quantity"/><br/>
-                                <span t-field="l.uos_id" groups="product.group_uom"/>
+                                <span t-esc="'%g' % l.quantity"/>
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.price_unit"/>

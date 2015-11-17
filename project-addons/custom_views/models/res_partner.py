@@ -21,18 +21,20 @@
 
 from openerp import models, api
 
-class res_partner(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     @api.multi
     def name_get(self):
         key = 'concatenate_name_comercial'
 
-        if key in self._context and self._context.get(key): # If key is defined and form is in create mode
+        # If key is defined and form is in create mode
+        if key in self._context and self._context.get(key):
             res = []
             for rec in self:
-                name = rec.name + (' (' + rec.comercial + ')' if rec.comercial else '')
+                name = rec.name + \
+                       (' (' + rec.comercial + ')' if rec.comercial else '')
                 res.append((rec.id, name))
             return res
         else:
-            return super(res_partner, self).name_get()
+            return super(ResPartner, self).name_get()

@@ -68,6 +68,18 @@ msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: stock_reception
+#: code:addons/stock_reception/wizard/stock_transfer.py:61
+#, python-format
+msgid "Lots without reception data: %s"
+msgstr "Lotes sin datos de recepción: %s"
+
+#. module: stock_reception
+#: code:addons/stock_reception/wizard/stock_transfer.py:61
+#, python-format
+msgid "Field error"
+msgstr "Error en recepción"
+
+#. module: stock_reception
 #: model:ir.model,name:stock_reception.model_stock_production_lot
 msgid "Lot/Serial"
 msgstr "Lot/Serial"

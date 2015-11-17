@@ -35,13 +35,16 @@
         'sale_transfer_sample_rel',
         'sale_channel',
         'sale_promotions',
+        'commercial_and_financial_discount',
     ],
     'data' : [
         'data/report_paperformat.xml',
         'views/report_stockinventory.xml',
         'views/report_purchaseorder.xml',
+        'views/report_purchasequotation.xml',
         'views/report_saleorder.xml',
         'views/report_invoice.xml',
+        'views/account_payment_view.xml',
         'views/sale_report_view.xml',
     ],
     'installable': True

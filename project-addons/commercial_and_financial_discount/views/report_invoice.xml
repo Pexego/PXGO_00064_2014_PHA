@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_invoice_with_discounts" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@class='row']/div[@class='col-xs-4 pull-right']" position="replace">
+                <div class="col-xs-5 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td>Amount</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_gross_untaxed"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Article discount</td>
+                            <td class="text-right">
+                                <span t-field="o.article_discount"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Amount with article discount</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_with_article_discount"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span t-field="o.commercial_discount_display"/></td>
+                            <td class="text-right">
+                                <span t-field="o.commercial_discount_amount"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Net amount</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_net_untaxed"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span t-field="o.financial_discount_display"/></td>
+                            <td class="text-right">
+                                <span t-field="o.financial_discount_amount"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Total Without Taxes</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Taxes</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <strong t-field="o.amount_total"
+                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+       </template>
+    </data>
+</openerp>

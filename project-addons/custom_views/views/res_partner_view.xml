@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="view_partner_form" model="ir.ui.view">
+        <record id="view_partner_form_custom_view" model="ir.ui.view">
             <field name="name">res.partner.form</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
@@ -11,6 +11,9 @@
                     <attribute name="attrs">
                         {'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}
                     </attribute>
+                </field>
+                <field name="title" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </field>
                 <field name="street" position="attributes">
                     <attribute name="required">1</attribute>
@@ -33,13 +36,16 @@
                 <field name="phone" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-                <!--field name="vat" position="attributes">
+                <field name="vat" position="attributes">
                     <attribute name="required">1</attribute>
-                </field-->
+                </field>
+                <field name="vat" position="before">
+                    <label string="Debe introducir el codigo del pais antes del NIF. Para un cliente de España : ES antes del NIF, ejemplo : ES93952134D"></label>
+                </field>
             </field>
         </record>
 
-        <record id="view_partner_tree" model="ir.ui.view">
+        <record id="view_partner_tree_custom_view" model="ir.ui.view">
             <field name="name">res.partner.tree</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_tree"/>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_groups_form_custom_default_sale_channel" model="ir.ui.view">
+            <field name="name">view.groups.form.custom</field>
+            <field name="model">res.groups</field>
+            <field name="inherit_id" ref="base.view_groups_form"/>
+            <field name="arch" type="xml">
+                <field name="is_portal" position="after">
+                    <field name="default_sale_channel"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

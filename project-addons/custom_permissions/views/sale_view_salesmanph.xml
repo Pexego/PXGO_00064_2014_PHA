@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_order_form_salesmanph">
+            <field name="name">sale.order.form.salesmanph</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_salesman_ph') ])]"/>
+            <field name="arch" type="xml">
+                <field name="warehouse_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="project_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="replacement" position="attributes">
+                    <attribute name="context">{'default_replacement':True}</attribute>
+                </field>
+                <field name="carrier_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <label for="carrier_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+                <page string="Other Information" position="attributes">
+                    <attribute name="groups">custom_permissions.group_salesman_ph</attribute>
+                </page>
+                <field name="company_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="incoterm" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="categ_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="campaign_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="medium_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="source_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="sale_agent_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+               <field name="fiscal_position" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <!-- Sale Order Line -->
+        <record id="view_order_add_stock_form" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="address_allotment_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="th_weight" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+
+
+        <!--Page "Sales"-->
+        <record id="account.view_partner_property_form"
+               model="ir.ui.view">
+           <field name="groups_id" eval="[(4, ref('custom_permissions.group_salesman_ph'))]"/>
+       </record>
+
+
+        <!--Sales buttons and total sales number-->
+        <record id="sale.res_partner_view_buttons"
+               model="ir.ui.view">
+           <field name="groups_id" eval="[(4, ref('custom_permissions.group_salesman_ph'))]"/>
+       </record>
+        <!-- Accounting-->
+        <record id="account.partner_view_buttons"
+               model="ir.ui.view">
+           <field name="groups_id" eval="[(4, ref('custom_permissions.group_salesman_ph'))]"/>
+       </record>
+
+
+        <record model="ir.ui.view" id="view_partner_form_salesmanph">
+            <field name="name">view.partner.form.salesmanph</field>
+            <field name="model">res.partner</field>
+            <field name="priority">53</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_salesman_ph') ])]"/>
+            <field name="arch" type="xml">
+                <page string="Warnings" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <field name="agent" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="commission_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="company_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <separator string="Agents/Consultancy" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </separator>
+                <button name="assign_agent" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <field name="date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//page[@name='sales_purchases']//field[@name='supplier']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']//field[@name='customer']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="property_stock_customer" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_stock_supplier" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_delivery_carrier" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_product_pricelist_purchase" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <button name="view_pricelist_history" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <field name="notify_email" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <page string="Commercial Info" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </page>
+                <field name="last_reconciliation_date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_account_receivable" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_account_payable" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="property_supplier_payment_term" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="supplier_payment_mode" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="debit" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="credit_limit" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="property_product_pricelist" position="replace">
+                </field>
+                <field name="ref" position="before">
+                    <field name="property_product_pricelist" required="True"></field>
+                </field>
+                <field name="payment_responsible_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <xpath expr="//field[@name='contracts_count']/.." position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='claim_count']/.." position="attributes">
+                    <attribute name="groups">custom_permissions.group_salesman_ph</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
