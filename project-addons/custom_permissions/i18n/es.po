@@ -88,3 +88,8 @@ msgstr "Borradores de compra"
 #: view:purchase.order.form:purchase.purchase_order_form
 msgid "Request for Quotation"
 msgstr "Borrador de compra"
+
+#. module: crm_claim
+#: view:crm.claim:crm_claim.crm_case_claims_form_view
+msgid "Claim Reporter"
+msgstr "Empresa que transmite la reclamación"

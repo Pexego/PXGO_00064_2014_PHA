@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="crm_case_claims_form_view_custom_width" model="ir.ui.view">
+            <field name="name">crm.claim.custom.width.form</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="attributes">
+                    <attribute name="class">oe_form_sheet_custom_width_screen</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
