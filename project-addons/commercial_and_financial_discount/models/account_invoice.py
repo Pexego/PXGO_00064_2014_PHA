@@ -69,12 +69,14 @@ class AccountInvoiceLine(models.Model):
         commercial_discount = vals.get('commercial_discount', False)
         financial_discount = vals.get('financial_discount', False)
         invoice = self.env['account.invoice'].browse(vals['invoice_id'])
+
         if commercial_discount and \
                        invoice.commercial_discount_input != commercial_discount:
             invoice.commercial_discount_input = commercial_discount
         if financial_discount and \
                        invoice.financial_discount_input != financial_discount:
             invoice.financial_discount_input = financial_discount
+
         return super(AccountInvoiceLine, self).create(vals)
 
     @api.one
