@@ -31,12 +31,14 @@
         'sale',
         'purchase',
         'purchase_analytic_plans',
+        'sale_commission',
     ],
     'data' : [
         'views/sale_view.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',
-        'views/purchase_view.xml'
+        'views/purchase_view.xml',
+        'views/stock_view.xml'
     ],
     'installable': True
 }
