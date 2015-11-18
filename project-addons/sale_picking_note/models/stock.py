@@ -19,4 +19,11 @@
 #
 ##############################################################################
 
-import res_partner, product, account_invoice, stock_quant
+from openerp import models, fields
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    internal_note = fields.Text(string='Note from sale order',
+                                related='sale_id.internal_note', readonly=True)
