@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
-#    $Oscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,4 +19,11 @@
 #
 ##############################################################################
 
-from . import models
+from openerp import models, fields
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    internal_note = fields.Text(string='Note from sale order',
+                                related='sale_id.internal_note', readonly=True)

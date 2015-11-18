@@ -50,7 +50,6 @@ The discounts only will be applied if the user press "Generate discounts" button
         "views/account_invoice_view.xml",
         "views/report_saleorder.xml",
         "views/report_invoice.xml",
-        "data/product_data.xml",
     ],
     'installable' : True,
     'active' : False,

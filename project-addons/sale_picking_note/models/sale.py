@@ -19,19 +19,10 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields
 
 
-class sale_order(models.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     internal_note = fields.Text(string='Internal note')
-
-    @api.multi
-    def write(self, vals):
-        res = super(sale_order, self).write(vals)
-        text = vals.get('internal_note', False)
-        if text:
-            for picking in self.picking_ids:
-                picking.note = text
-        return res
