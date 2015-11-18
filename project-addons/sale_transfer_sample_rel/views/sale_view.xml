@@ -164,6 +164,28 @@
         <menuitem name="Leads" id="crm.menu_crm_leads" parent="base.menu_sales" sequence="5"
             action="crm.crm_case_category_act_leads_all"/>
 
+        <!-- Sale Type -->
+        <record id="view_quotation_tree_sale_transfer_rel" model="ir.ui.view">
+            <field name="name">sale.order.tree.sale.transfer.rel</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="sale_type"/>
+                </field>
+            </field>
+        </record>
+        <!-- Sale Type in replacement type -->
+        <record id="view_quotation_tree_sale_transfer_rel" model="ir.ui.view">
+            <field name="name">sale.order.tree.sale.transfer.rel</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_replacement.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="sale_type"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
 
