@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2014 Pexego All Rights Reserved
+#    Marcos Ybarra Mayor <marcos.ybarra@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,5 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-import res_partner, product, account_invoice, stock_quant
+
+class LotStateSelection(models.Model):
+    _inherit = 'stock.quant'
+
+    lot_state = fields.Selection(string='Lot state', related='lot_id.state')
