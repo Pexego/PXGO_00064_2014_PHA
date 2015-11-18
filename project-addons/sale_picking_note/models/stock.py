@@ -19,23 +19,11 @@
 #
 ##############################################################################
 
-{
-    'name': 'Sale to picking note',
-    'version': '1.0',
-    'author': 'Pharmadus I+D+i',
-    'summary' : 'Write internal comments at sale form to view in picking',
-    'description': "Write internal comments at sale form to view in picking",
-    'category': 'Sale, Warehouse',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'sale',
-        'stock',
-		'sale_stock',
-    ],
-    'data' : [
-        'views/sale_view.xml',
-        'views/stock_view.xml',
-    ],
-    'installable': True
-}
+from openerp import models, fields
 
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    internal_note = fields.Text(string='Note from sale order',
+                                related='sale_id.internal_note', readonly=True)

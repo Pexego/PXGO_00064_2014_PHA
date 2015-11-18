@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="picking_form_sale_picking_note" model="ir.ui.view">
+            <field name="name">picking.form.sale.picking.note</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority">12</field>
+            <field name="arch" type="xml">
+                <field name="note" position="before">
+                    <group colspan="4">
+                        <field name="internal_note" attrs="{'invisible': [('internal_note', '==', False)]}"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
