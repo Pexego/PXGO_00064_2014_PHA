@@ -68,15 +68,17 @@ class AccountInvoiceLine(models.Model):
     def create(self, vals):
         commercial_discount = vals.get('commercial_discount', False)
         financial_discount = vals.get('financial_discount', False)
-        invoice = self.env['account.invoice'].browse(vals['invoice_id'])
-
-        if commercial_discount and \
-                       invoice.commercial_discount_input != commercial_discount:
-            invoice.commercial_discount_input = commercial_discount
-        if financial_discount and \
-                       invoice.financial_discount_input != financial_discount:
-            invoice.financial_discount_input = financial_discount
-
+        invoice_id = vals.get('invoice_id', False)
+        if invoice_id:
+            invoice = self.env['account.invoice'].browse(invoice_id)
+            commercial_discount = \
+                commercial_discount if commercial_discount else invoice.\
+                    commercial_discount
+            financial_discount = \
+                financial_discount if financial_discount else invoice.\
+                    financial_discount
+        vals['commercial_discount_input'] = commercial_discount
+        vals['financial_discount_input'] = financial_discount
         return super(AccountInvoiceLine, self).create(vals)
 
     @api.one
