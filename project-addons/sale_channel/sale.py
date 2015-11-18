@@ -27,7 +27,7 @@ class sale_order(osv.Model):
 
     _inherit = 'sale.order'
 
-    def _prepare_invoice(self, cr, uid, order, context=None):
-        result = super(sale_order, self)._prepare_invoice(cr, uid, order, context=context)
+    def _prepare_invoice(self, cr, uid, order, lines, context=None):
+        result = super(sale_order, self)._prepare_invoice(cr, uid, order, lines, context=context)
         result['sale_channel_id'] = order.sale_channel_id.id
         return result
