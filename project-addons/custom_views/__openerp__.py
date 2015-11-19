@@ -39,7 +39,8 @@
         'views/product_view.xml',
         'views/purchase_view2.xml',
         'views/stock_quant.xml',
-        'views/stock_view.xml'
+        'views/stock_view.xml',
+        'views/view_form_custom.xml'
     ],
     'installable': True
 }

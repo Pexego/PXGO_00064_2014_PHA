@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend_custom_views"
+                  name="Modify button widget to save only on edit/create states of form"
+                  inherit_id="web.assets_backend">
+            <xpath expr="script[@src='/web/static/src/js/view_form.js']" position="after">
+                <script src="/custom_views/static/src/js/view_form_custom.js"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

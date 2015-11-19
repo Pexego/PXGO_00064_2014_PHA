@@ -240,7 +240,7 @@
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Description / EAN13</th>
+                            <th>Product / EAN13</th>
                             <th>Taxes</th>
                             <th class="text-right">Quantity</th>
                             <th class="text-right">Unit price</th>
@@ -255,7 +255,7 @@
                                 <span t-field="l.product_id.cn_code"/>
                             </td>
                             <td>
-                                <span t-field="l.name"/><br/>
+                                <span t-field="l.product_id.name_template"/><br/>
                                 <span t-field="l.product_id.ean13"/>
                             </td>
                             <td>
@@ -286,32 +286,58 @@
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Description</th>
+                            <th>Product</th>
                             <th class="text-right">Quantity</th>
-                            <th class="text-right">Promo</th>
+                            <th class="text-right">Bonification</th>
                             <th class="text-right">Unit of measure</th>
                         </tr>
                     </thead>
                     <tbody class="sale_tbody">
-                        <t t-set="prev_product_id" t-value="0"/>
-                        <tr t-foreach="o.order_line" t-as="l">
-                            <t t-if="l.product_id.id != prev_product_id">
-                                <t t-set="prev_product_id" t-value="l.product_id.id"/>
-                                <t t-set="cn_code" t-value="l.product_id.cn_code"/>
-                                <t t-set="name" t-value="l.name"/>
-                                <t t-set="uom" t-value="l.product_uom.name"/>
-                                <t t-if="not l.promotion_line">
+                        <t>
+                            <t t-set="prev_product_id" t-value="False"/>
+                            <t t-set="cn_code" t-value="False"/>
+                            <t t-set="name" t-value="False"/>
+                            <t t-set="uom" t-value="False"/>
+                            <t t-set="promo" t-value="0"/>
+                            <t t-set="quantity" t-value="0"/>
+
+                            <tr t-foreach="o.order_line" t-as="l">
+                                <t t-if="l.product_id.id != prev_product_id">
+                                    <t t-if="prev_product_id">
+                                        <td>
+                                           <span t-esc="cn_code"/>
+                                        </td>
+                                        <td>
+                                           <span t-esc="name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="'%g' % quantity"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="'%g' % promo"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="uom"/>
+                                        </td>
+                                    </t>
+
+                                    <t t-set="prev_product_id" t-value="l.product_id.id"/>
+                                    <t t-set="cn_code" t-value="l.product_id.cn_code"/>
+                                    <t t-set="name" t-value="l.product_id.name_template"/>
+                                    <t t-set="uom" t-value="l.product_uom.name"/>
                                     <t t-set="promo" t-value="0"/>
+                                    <t t-set="quantity" t-value="0"/>
                                 </t>
-                            </t>
-                            <t t-if="l.promotion_line">
-                                <t t-set="promo" t-value="l.product_uom_qty"/>
-                                <t t-set="quantity" t-value="0"/>
-                            </t>
-                            <t t-if="not l.promotion_line">
-                                <t t-set="quantity" t-value="l.product_uom_qty"/>
-                            </t>
-                            <t t-if="quantity > 0">
+
+                                <t t-if="l.promotion_line or (l.price_unit == 0)">
+                                    <t t-set="promo" t-value="promo + l.product_uom_qty"/>
+                                </t>
+                                <t t-if="(not l.promotion_line) and (l.price_unit > 0)">
+                                    <t t-set="quantity" t-value="quantity + l.product_uom_qty"/>
+                                </t>
+                            </tr>
+
+                            <tr t-if="quantity + promo > 0">
                                 <td>
                                    <span t-esc="cn_code"/>
                                 </td>
@@ -327,10 +353,8 @@
                                 <td class="text-right">
                                     <span t-esc="uom"/>
                                 </td>
-                                <t t-set="promo" t-value="0"/>
-                                <t t-set="quantity" t-value="0"/>
-                            </t>
-                        </tr>
+                            </tr>
+                        </t>
                     </tbody>
                 </table>
 
