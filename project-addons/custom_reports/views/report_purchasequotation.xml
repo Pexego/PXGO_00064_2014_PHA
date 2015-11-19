@@ -183,21 +183,24 @@
                 <table class="table table-condensed details">
                     <thead>
                         <tr>
-                            <th><strong>Description</strong></th>
+                            <th><strong>Product</strong></th>
                             <th class="text-right"><strong>Quantity</strong></th>
                             <th>Unit of measure</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr t-foreach="o.order_line" t-as="line">
+                        <tr t-foreach="o.order_line" t-as="l">
                             <td>
-                                <span t-field="line.product_id.name_template"/>
+                                <span t-field="l.product_id.name_template"/>
+                                <t t-if="l.product_id.name_template != l.name">
+                                    <br/><span t-field="l.name"/>
+                                </t>
                             </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % line.product_qty"/>
+                                <span t-esc="'%g' % l.product_qty"/>
                             </td>
                             <td>
-                                <span t-field="line.product_uom.name"/>
+                                <span t-field="l.product_uom.name"/>
                             </td>
                         </tr>
                     </tbody>

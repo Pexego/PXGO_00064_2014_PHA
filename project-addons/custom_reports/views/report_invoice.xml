@@ -210,7 +210,7 @@
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Description | EAN13<br/>Lot | Approved | Best before</th>
+                            <th>Product | EAN13<br/>Lot | Approved | Best before</th>
                             <th class="text-right">Qty</th>
                             <th class="text-right">Unit price</th>
                             <th class="text-right">Disc.(%)</th>

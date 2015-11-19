@@ -133,6 +133,11 @@ msgid "Base"
 msgstr "Base"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_saleorder_document
+msgid "Bonification"
+msgstr "Bonificación"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "CN Code"
@@ -189,18 +194,18 @@ msgstr "Fecha pedido:"
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
-msgid "Description"
-msgstr "Descripción"
+msgid "Product"
+msgstr "Producto"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
-msgid "Description / EAN13"
-msgstr "Descripción / EAN13"
+msgid "Product / EAN13"
+msgstr "Producto / EAN13"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
-msgid "Description | EAN13"
-msgstr "Descripción | EAN13"
+msgid "Product | EAN13"
+msgstr "Producto | EAN13"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
@@ -348,11 +353,6 @@ msgstr "Precio"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Price w/discount"
 msgstr "Precio c. dto"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_saleorder_document
-msgid "Promo"
-msgstr "Promoción"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
