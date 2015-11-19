@@ -26,12 +26,6 @@ class StockTransferDetails(models.TransientModel):
 
     _inherit = 'stock.transfer_details'
 
-    is_incoming = fields.Boolean('Is incoming picking', compute='_get_incoming')
-
-    @api.one
-    def _get_incoming(self):
-        self.is_incoming = self.transfer_id.picking_id.picking_type_code == 'incoming'
-
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
         res = super(StockTransferDetails, self).fields_view_get(
