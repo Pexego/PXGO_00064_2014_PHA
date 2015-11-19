@@ -41,6 +41,6 @@
     'author': 'Pexego',
     'website': '',
     "depends": ['stock', 'purchase'],
-    "data": ['stock_view.xml', 'security/ir.model.access.csv'],
+    "data": ['stock_view.xml', 'wizard/stock_transfer.xml', 'security/ir.model.access.csv'],
     "installable": True
 }
