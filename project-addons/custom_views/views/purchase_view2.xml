@@ -8,7 +8,7 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="priority">17</field>
-            <field name="groups_id" eval="[(6, 0, [ref('product.group_uom'), ref('purchase.group_analytic_accounting')])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('purchase.group_purchase_manager')])]"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='order_line']/tree" position="attributes">
                     <attribute name="editable">True</attribute>
