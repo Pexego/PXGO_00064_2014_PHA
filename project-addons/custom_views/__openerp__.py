@@ -40,7 +40,8 @@
         'views/purchase_view2.xml',
         'views/stock_quant.xml',
         'views/stock_view.xml',
-        'views/view_form_custom.xml'
+        'views/view_form_custom.xml',
+        'data/wizards_units_precision.xml',
     ],
     'installable': True
 }
