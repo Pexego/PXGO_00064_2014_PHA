@@ -20,23 +20,28 @@
 ##############################################################################
 
 {
-    'name': "Custom view css",
+    'name': 'Custom view css',
     'version': '1.0',
     'category': 'sale',
     'description': """Update specific view css, currently : Sales""",
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
-    "depends" : ['base',
-                 'sale',
-                 'purchase',
-                 'account_accountant',
-                 'mrp',
-                 'crm_claim'],
-    "data" : ['views/sheet.xml',
-              'views/sale_view.xml',
-              'views/crm_claim.xml',
-              'views/purchase_view.xml',
-              'views/production_view.xml',
-              'views/invoice_view.xml'],
-    "installable": True
+    'depends' : [
+        'base',
+        'sale',
+        'purchase',
+        'account_accountant',
+        'mrp',
+        'crm_claim'
+    ],
+    'data' : [
+        'views/sheet.xml',
+        'views/sale_view.xml',
+        'views/crm_claim.xml',
+        'views/purchase_view.xml',
+        'views/production_view.xml',
+        'views/invoice_view.xml',
+        'views/modal_dialogs_width.xml',
+    ],
+    'installable': True
 }
