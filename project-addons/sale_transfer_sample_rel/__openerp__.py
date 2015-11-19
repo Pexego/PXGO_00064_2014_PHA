@@ -38,6 +38,6 @@
                 'sale_replacement',
                 'sale_intermediary'],
 
-    "data": ['sale_view.xml'],
+    "data": ['views/sale_view.xml'],
     "installable": True
 }

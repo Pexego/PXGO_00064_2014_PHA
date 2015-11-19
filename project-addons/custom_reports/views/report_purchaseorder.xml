@@ -194,7 +194,7 @@
                     <table class="table table-condensed details">
                         <thead>
                             <tr>
-                                <th>Description</th>
+                                <th>Product</th>
                                 <th>Taxes</th>
                                 <th class="text-right"><strong>Qty</strong></th>
                                 <th class="text-right">Unit price</th>
@@ -207,6 +207,9 @@
                             <tr t-foreach="o.order_line" t-as="l">
                                 <td>
                                     <span t-field="l.product_id.name_template"/>
+                                    <t t-if="l.product_id.name_template != l.name">
+                                        <br/><span t-field="l.name"/>
+                                    </t>
                                 </td>
                                 <td>
                                     <span t-esc="', '.join(map(lambda x: x.name, l.taxes_id))"/>
