@@ -31,8 +31,12 @@ class StockTransferDetails(models.TransientModel):
         res = super(StockTransferDetails, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=submenu)
-        picking_id = self._context.get('active_id', False)
-        picking = self.env['stock.picking'].browse(picking_id)
+        if self._context.get('active_model', False) == 'stock.picking':
+            picking_id = self._context.get('active_id', False)
+            picking = self.env['stock.picking'].browse(picking_id)
+        else:
+            line = self.env[self._context['active_model']].browse(self._context['active_id'])
+            picking  = line.transfer_id.picking_id
         if picking.picking_type_code == 'incoming':
             arch = res.get('fields', {}).get('item_ids', {}).get('views', {}).get('tree', {}).get('arch', '')
             if not arch:
@@ -60,3 +64,14 @@ class StockTransferDetails(models.TransientModel):
             if errors:
                 raise exceptions.Warning(_('Field error'), _('Lots without reception data: %s') % ', '.join(lot_errors))
         return super(StockTransferDetails, self).do_detailed_transfer()
+
+
+class StockTransferDetailsItems(models.TransientModel):
+
+    _inherit = 'stock.transfer_details_items'
+
+    is_incoming = fields.Boolean('Is incoming picking', compute='_get_incoming')
+
+    @api.one
+    def _get_incoming(self):
+        self.is_incoming = self.transfer_id.picking_id.picking_type_code == 'incoming'
