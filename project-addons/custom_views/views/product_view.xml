@@ -11,6 +11,7 @@
             <field name="view_id" ref="product.product_template_tree_view"/>
             <field name="context">{"search_default_filter_to_sell":1}</field>
         </record>
+
         <!-- Sales: Overwrite menuitem to point to the new action -->
         <menuitem action="product_template_action_tree_view_custom_view"
                   id="product.menu_product_template_action"
