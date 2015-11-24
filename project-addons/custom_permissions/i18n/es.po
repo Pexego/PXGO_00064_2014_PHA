@@ -92,12 +92,12 @@ msgstr "Empresa que transmite la reclamación"
 #. module: custom_permissions
 #: model:ir.ui.menu,name:custom_permissions.menu_custom_allsales_approved_salesmanph
 msgid "ALL Sales [Approved]"
-msgstr "TODAS Ventas [Aprobadas]"
+msgstr "TODAS Ventas[APROBADAS]"
 
 #. module: custom_permissions
 #: model:ir.ui.menu,name:custom_permissions.menu_custom_allsales_draft_salesmanph
 msgid "ALL Sales [Draft]"
-msgstr "TODAS Ventas [BORRADORES]"
+msgstr "TODAS Ventas[Borradores]"
 
 #. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_hide_empty

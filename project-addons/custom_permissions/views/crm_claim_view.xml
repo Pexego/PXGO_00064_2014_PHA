@@ -14,8 +14,9 @@
             <field name="model">crm.claim</field>
             <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@string='Claim Description']/group[1]" position="attributes">
-                    <attribute name="groups">custom_permissions.group_salesman_ph</attribute>
+                <xpath expr="//page[@string='Follow Up']" position="replace">
+                </xpath>
+                <xpath expr="//separator[@string='Responsibilities']/.." position="replace">
                 </xpath>
             </field>
         </record>
