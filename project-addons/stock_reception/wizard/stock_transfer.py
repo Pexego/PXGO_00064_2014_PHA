@@ -56,7 +56,7 @@ class StockTransferDetails(models.TransientModel):
             lot_errors = []
             for line in self.item_ids:
                 if line.lot_id and self.picking_id.picking_type_code == 'incoming':
-                    for field in ['container_type', 'quantity', 'uom_id', 'container_number', 'pallets']:
+                    for field in ['container_type', 'uom_id']:
                         if not line.lot_id[field]:
                             errors = True
                             if line.lot_id.name not in lot_errors:
