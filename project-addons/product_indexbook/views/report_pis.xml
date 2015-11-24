@@ -1,225 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-<template id="report_pis">
-    <t t-call="report.html_container">
-        <t t-foreach="docs" t-as="o">
-            <div class="page">
-                <t t-if="res_company.logo">
-                    <!-- Attention: t-field-options dictionary needs parameters surrounded by double quotes -->
-                    <span t-field="res_company.logo" t-field-options='{"widget": "image"}'/>
-                </t>
-                <div style="font-size: 2em; font-weight: bold;">
-                    FICHA DE IDENTIFICACIÓN DE PRODUCTO <span t-field="o.name" style="display: inline-block; float: right;"/>
-                    <span style="clear: both;"/>
-                </div>
-                <div style="font-size: 1.2em; border: 2px solid black; width: 100%;">
-                    <div style="width: 74%; float: left; padding: 0.5em;">
-                        <b>Referencia:</b> <span t-field="o.reference" style="wordwrap"/>
-                    </div>
-                    <div style="width: 24%; float: right; border-left: 2px solid black; padding: 0.5em;">
-                        <b>Lote:</b> <span t-field="o.lot"/>
-                    </div>
-                    <div style="clear: both;"></div>
-                </div>
-<!-- ASPECT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                <t t-if="o.aspect_chars">
-                    <div class="section_title" style="padding: 1em 0;">
-                        ASPECTO
-                    </div>
-                    <table class="grid">
-                        <thead>
-                            <tr>
-                                <th style="width: 32%;">PARÁMETRO</th>
-                                <th style="width: 45%;">COMENTARIO</th>
-                                <th style="width: 10%;">CONFORME</th>
-                                <th style="width: 13%;">NO CONFORME</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="o.aspect_chars" t-as="aspect">
-                                <td>
-                                    <span t-field="aspect.name"/>
-                                </td>
-                                <td>
-                                    <span t-field="aspect.remark"/>
-                                </td>
-                                <td class="text-center">
-                                    <input t-if="aspect.compliant" type="checkbox" checked="1"/>
-                                    <input t-if="not aspect.compliant" type="checkbox"/>
-                                </td>
-                                <td class="text-center">
-                                    <input t-if="aspect.non_compliant" type="checkbox" checked="1"/>
-                                    <input t-if="not aspect.non_compliant" type="checkbox"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="observations_title">Observaciones:</div>
-                    <div class="observations">
-                        <span t-field="o.aspect_observations"/>
-                    </div>
-                    <div class="separator"/>
-                </t>
-<!-- MACROSCOPIC CHARACTERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                <t t-if="o.macro_chars">
-                    <div class="section_title">
-                        CARACTERES MACROSCÓPICOS
-                    </div>
-                    <span>Se identifican macroscópicamente en la muestra los siguientes elementos:</span>
-                    <table class="grid">
-                        <thead>
-                            <tr>
-                                <th style="width: 32%;">ESPECIE</th>
-                                <th style="width: 45%;">CARÁCTER OBSERVADO</th>
-                                <th style="width: 10%;">CONFORME</th>
-                                <th style="width: 13%;">NO CONFORME</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="o.macro_chars" t-as="macro">
-                                <td>
-                                    <span t-field="macro.product_specie.name.name"/>
-                                </td>
-                                <td>
-                                    <span t-field="macro.product_specie.macro"/>
-                                </td>
-                                <td class="text-center">
-                                    <input t-if="macro.compliant" type="checkbox" checked="1"/>
-                                    <input t-if="not macro.compliant" type="checkbox"/>
-                                </td>
-                                <td class="text-center">
-                                    <input t-if="macro.non_compliant" type="checkbox" checked="1"/>
-                                    <input t-if="not macro.non_compliant" type="checkbox"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="observations_title">Observaciones:</div>
-                    <div class="observations">
-                        <span t-field="o.macro_observations"/>
-                    </div>
-                    <div class="separator"/>
-                </t>
-<!-- MICROSCOPIC CHARACTERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                <t t-if="o.micro_chars">
-                    <div class="section_title">
-                        CARACTERES MICROSCÓPICOS
-                    </div>
-                    <span>Se identifican microscópicamente en la muestra los siguientes elementos:</span>
-                    <table class="grid">
-                        <thead>
-                            <tr>
-                                <th style="width: 29%;">ESPECIE</th>
-                                <th style="width: 11%;">CÓD. IDM</th>
-                                <th style="width: 45%;">CARACTERES OBSERVADOS</th>
-                                <th style="width: 6%;">CONF.</th>
-                                <th style="width: 9%;">NO CONF.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="o.micro_chars" t-as="micro">
-                                <td>
-                                    <span t-field="micro.product_specie.name.name"/>
-                                </td>
-                                <td>
-                                    <span t-field="micro.product_specie.name.idm_code_rev"/>
-                                    <t t-if="micro.product_specie.variety.code">
-                                        (<span t-field="micro.product_specie.variety.code"/>)
-                                    </t>
-                                </td>
-                                <td>
-                                    <div t-foreach="micro.children" t-as="char" class="inline_checkbox">
-                                        <span t-field="char.name" style="font-size: 0.7em;"/>
-                                        <input t-if="char.checked" type="checkbox" checked="1"/>
-                                        <input t-if="not char.checked" type="checkbox"/>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <input t-if="micro.compliant" type="checkbox" checked="1"/>
-                                    <input t-if="not micro.compliant" type="checkbox"/>
-                                </td>
-                                <td class="text-center">
-                                    <input t-if="micro.non_compliant" type="checkbox" checked="1"/>
-                                    <input t-if="not micro.non_compliant" type="checkbox"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="observations_title">Observaciones:</div>
-                    <div class="observations">
-                        <span t-field="o.micro_observations"/>
-                    </div>
-                    <div class="separator"/>
-                </t>
-<!-- SIGNATURE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                <div style="float: right; margin: 6em 0 1em 0; font-size: 0.9em;">
-                    Fdo. Responsable de Control de Calidad<br/>
-                    <span t-field="res_company.name"/>
-                </div>
-                <div style="clear: both;"/>
-            </div>
-        </t>
-    </t>
-</template>
+    <data>
+        <template id="report_pis">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
 <!-- CSS STYLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-<template id="report_pis_style" inherit_id="report.layout">
-    <xpath expr="//style" position="after">
-        <style type="text/css">
-            div.page {
-                font-family: Ubuntu;
-                font-size: 12px;
-            }
-            div.section_title {
-                font-size: 1.3em;
-                font-weight: bold;
-                padding: 1em 0 0 0;
-            }
-            div.separator {
-                width: 100%;
-                height: 1px;
-                border: 1px solid black;
-                margin: 1em 0;
-            }
-            input[type=checkbox] {
-                margin-top: -0.2em;
-            }
-            table.grid {
-                width: 100%;
-                table-layout: fixed;
-            }
-            table.grid, table.grid th, table.grid td {
-                border: 1px solid black;
-                border-collapse: separate;
-            }
-            table.grid thead th {
-                font-size: 0.9em;
-            }
-            table.grid td {
-                height: 14px;
-                overflow: hidden;
-            }
-            .observations {
-                width: 100%;
-                height: 2.8em;
-                border: 1px solid black;
-                overflow: hidden;
-            }
-            .observations_title {
-                margin: 0.7em 0 -0.2em 0.3em;
-                width: 8em;
-            }
-            .inline_checkbox {
-                display: inline-block;
-                border-left: 1px dotted black;
-                border-bottom: 1px dotted black;
-                padding-left: 0.2em;
-                padding-right: 0.8em;
-                margin-left: -1px;
-                margin-bottom: -1px;
-            }
-        </style>
-    </xpath>
-</template>
-</data>
+                    <style type="text/css">
+                        div.page {
+                            font-family: Ubuntu;
+                            font-size: 12px;
+                        }
+                        div.section_title {
+                            font-size: 1.3em;
+                            font-weight: bold;
+                            padding: 1em 0 0 0;
+                        }
+                        div.separator {
+                            width: 100%;
+                            height: 1px;
+                            border: 1px solid black;
+                            margin: 1em 0;
+                        }
+                        input[type=checkbox] {
+                            margin-top: -0.2em;
+                        }
+                        table.grid {
+                            width: 100%;
+                            table-layout: fixed;
+                        }
+                        table.grid, table.grid th, table.grid td {
+                            border: 1px solid black;
+                            border-collapse: separate;
+                        }
+                        table.grid thead th {
+                            font-size: 0.9em;
+                        }
+                        table.grid td {
+                            height: 14px;
+                            overflow: hidden;
+                        }
+                        .observations {
+                            width: 100%;
+                            height: 2.8em;
+                            border: 1px solid black;
+                            overflow: hidden;
+                        }
+                        .observations_title {
+                            margin: 0.7em 0 -0.2em 0.3em;
+                            width: 8em;
+                        }
+                        .inline_checkbox {
+                            display: inline-block;
+                            border-left: 1px dotted black;
+                            border-bottom: 1px dotted black;
+                            padding-left: 0.2em;
+                            padding-right: 0.8em;
+                            margin-left: -1px;
+                            margin-bottom: -1px;
+                        }
+                    </style>
+                    <div class="page">
+                        <t t-if="res_company.logo">
+                            <!-- Attention: t-field-options dictionary needs parameters surrounded by double quotes -->
+                            <span t-field="res_company.logo" t-field-options='{"widget": "image"}'/>
+                        </t>
+                        <div style="font-size: 2em; font-weight: bold;">
+                            FICHA DE IDENTIFICACIÓN DE PRODUCTO <span t-field="o.name" style="display: inline-block; float: right;"/>
+                            <span style="clear: both;"/>
+                        </div>
+                        <div style="font-size: 1.2em; border: 2px solid black; width: 100%;">
+                            <div style="width: 74%; float: left; padding: 0.5em;">
+                                <b>Referencia:</b> <span t-field="o.reference" style="wordwrap"/>
+                            </div>
+                            <div style="width: 24%; float: right; border-left: 2px solid black; padding: 0.5em;">
+                                <b>Lote:</b> <span t-field="o.lot"/>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+<!-- ASPECT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                        <t t-if="o.aspect_chars">
+                            <div class="section_title" style="padding: 1em 0;">
+                                ASPECTO
+                            </div>
+                            <table class="grid">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 32%;">PARÁMETRO</th>
+                                        <th style="width: 45%;">COMENTARIO</th>
+                                        <th style="width: 10%;">CONFORME</th>
+                                        <th style="width: 13%;">NO CONFORME</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.aspect_chars" t-as="aspect">
+                                        <td>
+                                            <span t-field="aspect.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="aspect.remark"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <input t-if="aspect.compliant" type="checkbox" checked="1"/>
+                                            <input t-if="not aspect.compliant" type="checkbox"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <input t-if="aspect.non_compliant" type="checkbox" checked="1"/>
+                                            <input t-if="not aspect.non_compliant" type="checkbox"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="observations_title">Observaciones:</div>
+                            <div class="observations">
+                                <span t-field="o.aspect_observations"/>
+                            </div>
+                            <div class="separator"/>
+                        </t>
+<!-- MACROSCOPIC CHARACTERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                        <t t-if="o.macro_chars">
+                            <div class="section_title">
+                                CARACTERES MACROSCÓPICOS
+                            </div>
+                            <span>Se identifican macroscópicamente en la muestra los siguientes elementos:</span>
+                            <table class="grid">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 32%;">ESPECIE</th>
+                                        <th style="width: 45%;">CARÁCTER OBSERVADO</th>
+                                        <th style="width: 10%;">CONFORME</th>
+                                        <th style="width: 13%;">NO CONFORME</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.macro_chars" t-as="macro">
+                                        <td>
+                                            <span t-field="macro.product_specie.name.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="macro.product_specie.macro"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <input t-if="macro.compliant" type="checkbox" checked="1"/>
+                                            <input t-if="not macro.compliant" type="checkbox"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <input t-if="macro.non_compliant" type="checkbox" checked="1"/>
+                                            <input t-if="not macro.non_compliant" type="checkbox"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="observations_title">Observaciones:</div>
+                            <div class="observations">
+                                <span t-field="o.macro_observations"/>
+                            </div>
+                            <div class="separator"/>
+                        </t>
+<!-- MICROSCOPIC CHARACTERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                        <t t-if="o.micro_chars">
+                            <div class="section_title">
+                                CARACTERES MICROSCÓPICOS
+                            </div>
+                            <span>Se identifican microscópicamente en la muestra los siguientes elementos:</span>
+                            <table class="grid">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 29%;">ESPECIE</th>
+                                        <th style="width: 11%;">CÓD. IDM</th>
+                                        <th style="width: 45%;">CARACTERES OBSERVADOS</th>
+                                        <th style="width: 6%;">CONF.</th>
+                                        <th style="width: 9%;">NO CONF.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.micro_chars" t-as="micro">
+                                        <td>
+                                            <span t-field="micro.product_specie.name.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="micro.product_specie.name.idm_code_rev"/>
+                                            <t t-if="micro.product_specie.variety.code">
+                                                (<span t-field="micro.product_specie.variety.code"/>)
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <div t-foreach="micro.children" t-as="char" class="inline_checkbox">
+                                                <span t-field="char.name" style="font-size: 0.7em;"/>
+                                                <input t-if="char.checked" type="checkbox" checked="1"/>
+                                                <input t-if="not char.checked" type="checkbox"/>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <input t-if="micro.compliant" type="checkbox" checked="1"/>
+                                            <input t-if="not micro.compliant" type="checkbox"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <input t-if="micro.non_compliant" type="checkbox" checked="1"/>
+                                            <input t-if="not micro.non_compliant" type="checkbox"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="observations_title">Observaciones:</div>
+                            <div class="observations">
+                                <span t-field="o.micro_observations"/>
+                            </div>
+                            <div class="separator"/>
+                        </t>
+<!-- SIGNATURE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                        <div style="float: right; margin: 6em 0 1em 0; font-size: 0.9em;">
+                            Fdo. Responsable de Control de Calidad<br/>
+                            <span t-field="res_company.name"/>
+                        </div>
+                        <div style="clear: both;"/>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
 </openerp>
