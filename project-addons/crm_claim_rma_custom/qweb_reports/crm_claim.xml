@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_crm_claim_document">
+            <style>
+                @media all
+                {
+                    .seccion{
+                        page-break-inside: avoid;
+                    }
+                }
+                .bordered {border: 1px solid black; border-collapse: collapse;}
+                .page {margin-left: 75px; margin-right: 75px;}
+                h5 {
+                    margin-bottom: 0px !important;
+                    margin-top: 0px !important;
+                }
+                .div_checkbox {height: 15px;
+                               width: 15px;
+                               font-size: 12px;
+                               font-weight: bold;
+                               border: 1px solid black;
+                               text-align: center;
+                }
+
+                .row-eq-height {
+                  display: -webkit-box;
+                  display: -webkit-flex;
+                  display: -ms-flexbox;
+                  display:         flex;
+                }
+
+            </style>
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"></t>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"></t>
+                    </t>
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+                            </div>
+                            <div class="col-xs-3 col-xs-offset-5 text-right">
+                                <div class="bordered" style="padding: 15px;">
+                                    <div class="row">
+                                        <div class="col-xs-12">CODIGO: <span t-field="o.code"/></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">Fecha: <span t-field="o.date_str"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <h2 class="text-center">REGISTRO DE RECLAMACIONES</h2>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-xs-offset-10 text-right"><strong>Sección A</strong></div>
+                        </div>
+                        <div class="row seccion">
+                            <div class="col-xs-12">
+                                <div class="row row-eq-height">
+                                    <div class="col-xs-4 bordered">Producto: <span t-field="o.products"/></div>
+                                    <div class="col-xs-4 bordered">Lote: <span t-field="o.lots"/></div>
+                                    <div class="col-xs-4 bordered">Cantidad: <span t-field="o.quantities"/></div>
+                                </div>
+                                <div class="row row-eq-height">
+                                    <div class="col-xs-8 bordered">Cliente: <span t-field="o.partner_id"/></div>
+                                    <div class="col-xs-4 bordered">Localización: <span t-field="o.partner_id.city"/></div>
+                                </div>
+                                <div class="row row-eq-height">
+                                    <div class="col-xs-4 bordered">Nº de pedido:</div>
+                                    <div class="col-xs-4 bordered">Nº de albarán:</div>
+                                    <div class="col-xs-4 bordered">Fecha de expedición:</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6 bordered">
+                                        <div class="row">
+                                            <div class="col-xs-12">Documentación adjunta:</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-3 text-right">SI</div>
+                                            <div class="col-xs-3 text-left">
+                                                <div class="div_checkbox">
+                                                    <t t-if="o.doc_attached == 'yes'">
+                                                        <span>X</span>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 text-right">NO</div>
+                                            <div class="col-xs-3 text-left">
+                                                <div class="div_checkbox">
+                                                    <t t-if="o.doc_attached == 'no'">
+                                                        <span>X</span>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 bordered">
+                                        <div class="row">
+                                            <div class="col-xs-12">Muestra adjunta:</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-3 text-right">SI</div>
+                                            <div class="col-xs-3 text-left">
+                                                <div class="div_checkbox">
+                                                    <t t-if="o.sample_attached == 'yes'">
+                                                        <span>X</span>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 text-right">NO</div>
+                                            <div class="col-xs-3 text-left">
+                                                <div class="div_checkbox">
+                                                    <t t-if="o.sample_attached == 'no'">
+                                                        <span>X</span>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row bordered">
+                                    <div class="col-xs-12"><h5>MOTIVO DE LA RECLAMACIÓN</h5></div>
+                                </div>
+                                <div class="row bordered">
+                                    <div class="col-xs-12">
+                                        <div class="row"  style="min-height: 350px;">
+                                            <div class="col-xs-12">
+                                                <span t-field="o.description"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="height: 50px;">
+                                            <div  class="col-xs-3 col-xs-offset-9 text-right">(Firma y fecha)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-xs-offset-10 text-right"><strong>Sección B</strong></div>
+                        </div>
+                        <div class="row bordered seccion">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h5><strong>INFORME DE</strong></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3 col-xs-offset-1 text-right">Control de calidad</div>
+                                    <div class="col-xs-1 text-left">
+                                        <div class="div_checkbox">
+                                            <t t-if="o.quality_control_report"><span>X</span></t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3 col-xs-offset-1  text-right">Garantía de calidad</div>
+                                    <div class="col-xs-1 text-left">
+                                        <div class="div_checkbox">
+                                            <t t-if="o.quality_warranty_report"><span>X</span></t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="row"  style="min-height: 200px;">
+                                            <div class="col-xs-12">
+                                                <span t-field="o.quality_report"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="height: 50px;">
+                                            <div class="col-xs-3 col-xs-offset-9 text-right">(Firma y fecha)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-xs-offset-10 text-right"><strong>Sección C</strong></div>
+                        </div>
+                        <div class="row bordered seccion">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h5><strong>INFORME DE LA DIRECCIÓN TÉCNICA</strong></h5>
+                                    </div>
+                                </div>
+                                <div class="row"  style="min-height: 100px;">
+                                    <div class="col-xs-12">
+                                        <span t-field="o.tech_dir_report"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h5>CONCLUSIÓN DE LA DIRECCIÓN TÉCNICA</h5>
+                                    </div>
+                                </div>
+                                <div class="row"  style="min-height: 50px;">
+                                    <div class="col-xs-12">
+                                        <span t-field="o.tech_dir_conclusion"/>
+                                    </div>
+                                </div>
+                                <div class="row"   style="min-height: 50px;">
+                                    <div class="col-xs-12">
+                                        <h5>ACCIONES CORRECTIVAS (si proceden):</h5>
+                                        <span t-if="o.type_action=='correction'" t-field="o.resolution"/>
+                                    </div>
+                                </div>
+                                <div class="row" style="height: 50px;">
+                                    <div class="col-xs-3 col-xs-offset-9 text-right">(Firma y fecha)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-xs-offset-10 text-right"><strong>Sección D</strong></div>
+                        </div>
+                        <div class="row bordered seccion">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h5><strong>INFORME DE LA DIRECCIÓN COMERCIAL</strong></h5>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 2px;">
+                                    <div class="col-xs-12">
+                                        <h5>RESULTADO Y SOLUCIÓN DE LA RECLAMACIÓN</h5>
+                                    </div>
+                                </div>
+                                <div class="row"  style="min-height: 20px;">
+                                    <div class="col-xs-12">
+                                        <span t-field="o.result_and_solution"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h5>MEDIDAS TOMADAS:</h5>
+                                    </div>
+                                </div>
+                                <div class="row" style="min-height: 100px;">
+                                    <div class="col-xs-12">
+                                        <span t-field="o.action_taken"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">VALORACIÓN ECONÓMICA:</div>
+                                    <div class="col-xs-8">
+                                        <t t-if="o.economic_valuation">
+                                            <span t-field="o.economic_valuation"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row" style="height: 50px;">
+                                    <div class="col-xs-3 col-xs-offset-9 text-right">(Firma y fecha)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bordered">
+                            <div class="col-xs-12">
+                                <div class="row" style="min-height: 100px;">
+                                    <div class="col-xs-12">
+                                        <h5><strong>VERIFICACIÓN Y AUTORIZACIÓN POR DIRECCIÓN GENERAL</strong></h5>
+                                        <span t-field="o.general_dir_ver_and_auth"/>
+                                    </div>
+                                </div>
+                                <div class="row" style="height: 50px;">
+                                    <div class="col-xs-3 col-xs-offset-6 text-right">(Firma y fecha)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="footer">
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

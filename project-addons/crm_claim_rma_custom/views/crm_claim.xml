@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="claim_form_add_report_data" model="ir.ui.view">
+            <field name="name">crm.claim.form</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Report">
+                        <group>
+                            <group>
+                                <group>
+                                    <field name="doc_attached"/>
+                                </group>
+                                <group>
+                                    <field name="sample_attached"/>
+                                </group>
+                            </group>
+
+                            <separator string="Report of..." colspan="4"/>
+
+                            <group>
+                                <field name="quality_control_report"/>
+                            </group>
+                            <group>
+                                <field name="quality_warranty_report"/>
+                            </group>
+                            <field name="quality_report" nolabel="1" colspan="4"/>
+                            <separator string="Technical direction report" colspan="4"/>
+                            <field name="tech_dir_report"  nolabel="1" colspan="4"/>
+                            <separator string="Technical direction conclusion" colspan="4"/>
+                            <field name="tech_dir_conclusion"  nolabel="1" colspan="4"/>
+                            <separator string="Result and solution" colspan="4"/>
+                            <field name="result_and_solution"  nolabel="1" colspan="4"/>
+                            <separator string="Action taken" colspan="4"/>
+                            <field name="action_taken"  nolabel="1" colspan="4"/>
+                            <group>
+                                <field name="economic_valuation"/>
+                            </group>
+                            <separator string="verification and authorization by general management" colspan="4"/>
+                            <field name="general_dir_ver_and_auth"  nolabel="1"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>
