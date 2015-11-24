@@ -19,5 +19,12 @@
 #
 ##############################################################################
 
-import res_partner, product, account_invoice, stock_quant, \
-       stock_transfer_details
+from openerp import models, fields
+import openerp.addons.decimal_precision as dp
+
+class StockTransferDetailsItems(models.TransientModel):
+    _inherit = 'stock.transfer_details_items'
+
+    quantity = fields.Float('Quantity',
+                            digits=dp.get_precision('Wizards units precision'),
+                            default = 1.0)

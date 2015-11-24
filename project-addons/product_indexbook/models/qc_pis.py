@@ -93,7 +93,7 @@ class QcPisMicroChars(models.Model):
             self.compliant = False
 
 
-class qc_pis_macro_chars(models.Model):
+class QcPisMacroChars(models.Model):
     _name = 'qc.pis.macro.chars'
     _description = 'Macroscopic characters'
 

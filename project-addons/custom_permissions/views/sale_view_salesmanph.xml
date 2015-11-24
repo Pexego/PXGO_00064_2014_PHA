@@ -185,6 +185,8 @@
                 <xpath expr="//field[@name='claim_count']/.." position="attributes">
                     <attribute name="groups">custom_permissions.group_salesman_ph</attribute>
                 </xpath>
+                <xpath expr="//field[@name='opportunity_count']/.." position="replace">
+                </xpath>
             </field>
         </record>
     </data>

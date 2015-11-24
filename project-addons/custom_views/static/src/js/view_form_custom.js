@@ -39,7 +39,9 @@
                     return self.on_confirmed();
                 }
             };
-            if (!this.node.attrs.special && (this.view.get('actual_mode') != 'view')) {
+            if ((this.view.model == 'res.partner') && (this.view.get('actual_mode') == 'view')) {
+                return exec_action();
+            } else if (!this.node.attrs.special) {
                 return this.view.recursive_save().then(exec_action);
             } else {
                 return exec_action();
