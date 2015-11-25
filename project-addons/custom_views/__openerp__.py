@@ -32,6 +32,8 @@
         'purchase',
         'purchase_analytic_plans',
         'sale_commission',
+        'newclient_review',
+        'pre_customer',
     ],
     'data' : [
         'views/sale_view.xml',

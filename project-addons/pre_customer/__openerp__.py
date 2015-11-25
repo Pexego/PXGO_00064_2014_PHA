@@ -29,6 +29,8 @@
     'website': 'www.pharmadus.com',
     'depends' : [
         'base',
+        'newclient_review',
+        'custom_permissions',
     ],
     'data' : [
         'views/res_partner_view.xml',

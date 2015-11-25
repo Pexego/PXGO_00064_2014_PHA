@@ -19,10 +19,48 @@
 #
 ##############################################################################
 
-from openerp import fields, models
+from openerp import fields, models, api, exceptions
+from openerp.tools.translate import _
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     pre_customer = fields.Boolean('pre-Customer', default=False)
+
+    @api.multi
+    def validate_customer(self):
+        warning = ''
+
+        if not (self.street and self.street.strip()):
+            warning += _('- Street field is mandatory.\n')
+        if not self.zip_id:
+            warning += _('- Must select a postal code/city option.\n')
+        if not (self.zip and self.zip.strip()):
+            warning += _('- Zip field is mandatory.\n')
+        if not (self.city and self.city.strip()):
+            warning += _('- City field is mandatory.\n')
+        if not self.state_id:
+            warning += _('- Must select a State.\n')
+        if not self.country_id:
+            warning += _('- Must select a Country.\n')
+        if not (self.phone and self.phone.strip()):
+            warning += _('- Phone field is mandatory.\n')
+        if not (self.vat and self.vat.strip()):
+            warning += _('- VAT field is mandatory.\n')
+
+        if warning == '':
+            self.pre_customer = False
+            return {
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'res.partner',
+                'view_id': self.env.ref('base.view_partner_form').id,
+                'res_id': self.id,
+                'target': 'current'
+            }
+        else:
+            raise exceptions.Warning(_('Error validating the customer:\n'),
+                                     warning)
+            return False
