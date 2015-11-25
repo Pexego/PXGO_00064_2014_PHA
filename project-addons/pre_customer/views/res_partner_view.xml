@@ -16,65 +16,26 @@
             </field>
         </record>
 
-        <record id="pre_customer_form_original" model="ir.ui.view">
-            <field name="name">pre-Customer form</field>
+        <record model="ir.ui.view" id="pre_customer_form">
+            <field name="name">pre-Customers form</field>
             <field name="model">res.partner</field>
-            <field name="priority">1</field>
+            <field name="inherit_id" ref="custom_permissions.view_partner_form_salesmanph"/>
+            <field name="priority">53</field>
+            <field name="mode">primary</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_user')])]"/>
             <field name="arch" type="xml">
-                <form string="pre-Customer">
+                <sheet position="before">
                     <button name="validate_customer"
                             string="Validate customer"
                             type="object"
                             class="oe_read_only"
                             icon="STOCK_APPLY"/>
-                    <sheet>
-                        <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
-                        <div class="oe_title oe_left">
-                            <h1>
-                                <field name="name" default_focus="1" placeholder="Name" />
-                            </h1>
-                            <field name="category_id" widget="many2many_tags" placeholder="Tags..."/>
-                        </div>
-                        <group>
-                            <group>
-                                <label for="street" string="Address"/>
-                                <div>
-                                    <field name="street" placeholder="Street..."/>
-                                    <field name="street2"/>
-                                    <field name="zip_id"/>
-                                    <div class="address_format">
-                                        <field name="city" placeholder="City" style="width: 40%%"/>
-                                        <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
-                                        <field name="zip" placeholder="ZIP" style="width: 20%%"/>
-                                    </div>
-                                    <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
-                                </div>
-                                <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
-                            </group>
-                            <group>
-                                <field name="phone"/>
-                                <field name="mobile"/>
-                                <field name="fax"/>
-                                <field name="email" widget="email"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="pre_customer_form">
-            <field name="name">pre-Customers form</field>
-            <field name="model">res.partner</field>
-            <field name="priority">52</field>
-            <field name="inherit_id" ref="custom_permissions.view_partner_form_salesmanph"/>
-            <field name="groups_id" eval="[(6, 0, [ref('custom_permissions.group_salesman_ph') ])]"/>
-            <field name="arch" type="xml">
+                </sheet>
                 <field name="street" position="attributes">
-                    <attribute name="attrs">{'required': False)}</attribute>
+                    <attribute name="required">False</attribute>
                 </field>
                 <field name="zip_id" position="attributes">
-                    <attribute name="attrs">{'required': False)}</attribute>
+                    <attribute name="required">False</attribute>
                 </field>
                 <field name="zip" position="attributes">
                     <attribute name="required">False</attribute>
