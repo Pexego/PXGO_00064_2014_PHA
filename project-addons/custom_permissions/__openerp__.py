@@ -40,7 +40,7 @@
                  'project',
                  'sale_transfer_sample_rel',
                  'crm_claim',
-                 'partner_prospect'],
+                 'pre_customer'],
     'data' : ['security/groups.xml',
               'views/crm_claim_view.xml',
               'views/partner_followup.xml',

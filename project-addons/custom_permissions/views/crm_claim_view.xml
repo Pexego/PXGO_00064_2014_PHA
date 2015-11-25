@@ -20,5 +20,18 @@
                 </xpath>
             </field>
         </record>
+        <record id="crm_case_claims_tree_view_custom_views" model="ir.ui.view">
+            <field name="name">crm.claim.form.custom_permissions</field>
+            <field name="model">crm.claim</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="crm_claim.crm_case_claims_tree_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_salesman_ph') ])]"/>
+            <field name="arch" type="xml">
+                <tree  string="Claims" position="attributes">
+                    <attribute name="create">false</attribute>
+                </tree >
+            </field>
+        </record>
+
     </data>
 </openerp>
