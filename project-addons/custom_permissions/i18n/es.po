@@ -21,34 +21,29 @@ msgid "Confirm Sale"
 msgstr "Confirmar venta"
 
 #. module: custom_permissions
-#: model:res.groups,name:custom_permissions.group_salesman_ph
-msgid "Salesman PH"
-msgstr "Salesman PH"
-
-#. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_show_menu_hr
 msgid "Show Menu-HR"
-msgstr "Show Menu-HR"
+msgstr "Mostrar Menu-RecursosHumanos"
 
 #. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_show_menu_reporting
 msgid "Show Menu-Reporting"
-msgstr "Show Menu-Reporting"
+msgstr "Mostrar Menu-Informes"
 
 #. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_show_menu_website
 msgid "Show Menu-WebSite"
-msgstr "Show Menu-WebSite"
+msgstr "Mostrar Menu-WebSite"
 
 #. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_show_menu_messaging
 msgid "Show Menu-messaging"
-msgstr "Show Menu-messaging"
+msgstr "Mostrar Menu-Mensajeria"
 
 #. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_show_submenu_purchase_rfq
 msgid "Show SubMenu-RQ"
-msgstr "Show SubMenu-RQ"
+msgstr "Mostrar SubMenu-BorradoresCompra"
 
 #. module: custom_permissions
 #: model:ir.ui.menu,name:purchase.menu_purchase_rfq
@@ -93,3 +88,64 @@ msgstr "Borrador de compra"
 #: view:crm.claim:crm_claim.crm_case_claims_form_view
 msgid "Claim Reporter"
 msgstr "Empresa que transmite la reclamación"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_allsales_approved_salesmanph
+msgid "ALL Sales [Approved]"
+msgstr "TODAS Ventas[APROBADAS]"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_allsales_draft_salesmanph
+msgid "ALL Sales [Draft]"
+msgstr "TODAS Ventas[Borradores]"
+
+#. module: custom_permissions
+#: model:res.groups,name:custom_permissions.group_hide_empty
+msgid "Empty(ToHideMenus)"
+msgstr "SiempreVacio(ParaOcultarMenus)"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_repo_salesmanph
+msgid "ONLY Sale (Deposito)"
+msgstr "SOLO Ventas (Deposito)"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_interm_salesmanph
+msgid "ONLY Sale (Intermediario)"
+msgstr "SOLO Ventas (Intermediario)"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_free_salesmanph
+msgid "ONLY Sale (Muestras)"
+msgstr "SOLO Ventas (Muestras)"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_transfer_salesmanph
+msgid "ONLY Sale (Transfer)"
+msgstr "SOLO Ventas (Transfer)"
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:custom_permissions.action_allsales_salesmanph
+msgid "Sale orders SalesmanPH (Confirmed)"
+msgstr "TODOS los pedidos de venta CONFIRMADOS"
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:custom_permissions.action_draftsales_salesmanph
+msgid "Sale orders SalesmanPH (Drafts)"
+msgstr "TODOS los pedidos de venta BORRADOR"
+
+#. module: custom_permissions
+#: model:res.groups,comment:custom_permissions.group_salesman_ph
+msgid "Salesman Commission Permission Group."
+msgstr "Grupo de comerciales de PH, gestion de permisos y vistas personalizadas"
+
+
+#. module: custom_permissions
+#: model:res.groups,name:custom_permissions.group_salesman_ph
+msgid "Salesman PH"
+msgstr "Comercial PH"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_partners_salesmanph
+msgid "Partners"
+msgstr "Clientes"
