@@ -42,6 +42,8 @@ class CrmClaim(models.Model):
     products = fields.Char('Products', compute='_get_products', store=True)
     lots = fields.Char('Lots', compute='_get_lots', store=True)
     quantities = fields.Char('Quantities', compute='_get_quantities', store=True)
+    picking_id = fields.Many2one('stock.picking', 'Picking', domain=[('picking_type_code',
+                                                                      '=', 'outgoing')])
 
     @api.one
     @api.depends('date')
@@ -51,15 +53,57 @@ class CrmClaim(models.Model):
     @api.one
     @api.depends('claim_line_ids.product_id')
     def _get_products(self):
-        self.products = ', '.join([x.product_id.name for x in self.claim_line_ids])
+        self.products = ', '.join([x.product_id.name for x in self.claim_line_ids
+                                   if x.product_id])
 
     @api.one
     @api.depends('claim_line_ids.prodlot_id')
     def _get_lots(self):
-        self.lots = ', '.join([x.prodlot_id.name for x in self.claim_line_ids])
+        self.lots = ', '.join([x.prodlot_id.name for x in self.claim_line_ids if x.prodlot_id])
 
     @api.one
     @api.depends('claim_line_ids.product_returned_quantity')
     def _get_quantities(self):
-        quantities_list = [str(x.product_returned_quantity) for x in self.claim_line_ids]
+        quantities_list = [str(x.product_returned_quantity) for x in self.claim_line_ids
+                           if x.product_returned_quantity]
         self.quantities = ', '.join(quantities_list)
+
+    @api.onchange('invoice_id', 'picking_id', 'warehouse_id', 'claim_type', 'date')
+    def _onchange_invoice_warehouse_type_date(self):
+        res = super(CrmClaim, self)._onchange_invoice_warehouse_type_date()
+        claim_line_obj = self.env['claim.line']
+        warehouse = self.warehouse_id
+        if self.picking_id and self._context.get('create_lines', False):
+            claim_lines = []
+            for move in self.picking_id.move_lines:
+                for packop in move.linked_move_operation_ids:
+                    location_dest = claim_line_obj.get_destination_location(
+                        packop.move_id.product_id, warehouse)
+                    procurement = packop.move_id.procurement_id
+                    warranty_return_address = claim_line_obj._warranty_return_address_values(
+                        packop.move_id.product_id, self.company_id, warehouse)
+                    warranty_return_address = warranty_return_address['warranty_return_partner']
+                    line = {
+                        'name': packop.move_id.name,
+                        'claim_origine': "none",
+                        'product_id': packop.move_id.product_id.id,
+                        'product_returned_quantity': packop.operation_id.product_qty,
+                        'unit_sale_price': procurement.sale_line_id.price_unit,
+                        'location_dest_id': location_dest.id,
+                        'warranty_return_partner': warranty_return_address,
+                        'prodlot_id': packop.operation_id.lot_id.id,
+                        'state': 'draft',
+                    }
+                    claim_lines.append((0, 0, line))
+            value = self._convert_to_cache(
+                {'claim_line_ids': claim_lines}, validate=False)
+            self.update(value)
+        return res
+
+
+class CrmClaimLine(models.Model):
+
+    _inherit = 'claim.line'
+
+    def auto_set_warranty(self):
+        return
