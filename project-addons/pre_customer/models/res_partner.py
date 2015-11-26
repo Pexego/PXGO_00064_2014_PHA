@@ -51,6 +51,8 @@ class ResPartner(models.Model):
 
         if warning == '':
             self.pre_customer = False
+            salesmangroup_id = self.env.ref('custom_permissions.group_salesman_ph')
+            self.confirmed = self.env.user in salesmangroup_id.users
             return {
                 'type': 'ir.actions.act_window',
                 'view_type': 'form',
