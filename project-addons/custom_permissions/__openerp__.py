@@ -47,6 +47,7 @@
               'views/res_groups_view.xml',
               'views/sale_view_salesmanph.xml',
               'views/partner_view.xml',
+              'views/res_partner_view.xml',
               'security/record_rules.xml',
               'security/menus.xml',
               'security/ir.model.access.csv'],
