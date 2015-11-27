@@ -68,6 +68,8 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     supplier_delivery_note = fields.Char('Supplier delivery note')
+    purchase_order = fields.Many2one('purchase.order', 'Purchase',
+                                     related='move_lines.purchase_order_id')
 
 
 class StockMove(models.Model):

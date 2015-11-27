@@ -1,0 +1,275 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * crm_claim_rma_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-24 11:31+0000\n"
+"PO-Revision-Date: 2015-11-24 11:31+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "(Firma y fecha)"
+msgstr "(Firma y fecha)"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "ACCIONES CORRECTIVAS (si proceden):"
+msgstr "ACCIONES CORRECTIVAS (si proceden):"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
+#: field:crm.claim,action_taken:0
+msgid "Action taken"
+msgstr "Medidas tomadas"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,doc_attached:0
+msgid "Attached documentation"
+msgstr "Documentación adjunta"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "CODIGO:"
+msgstr "CODIGO:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "CONCLUSIÓN DE LA DIRECCIÓN TÉCNICA"
+msgstr "CONCLUSIÓN DE LA DIRECCIÓN TÉCNICA"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Cantidad:"
+msgstr "Cantidad:"
+
+#. module: crm_claim_rma_custom
+#: model:ir.actions.report.xml,name:crm_claim_rma_custom.report_crm_claim
+#: model:ir.model,name:crm_claim_rma_custom.model_crm_claim
+msgid "Claim"
+msgstr "Reclamación"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Cliente:"
+msgstr "Cliente:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Control de calidad"
+msgstr "Control de calidad"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,date_str:0
+msgid "Date without hour"
+msgstr "Date without hour"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Documentación adjunta:"
+msgstr "Documentación adjunta:"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,economic_valuation:0
+msgid "Economic valuation"
+msgstr "Valoración económica"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Fecha de expedición:"
+msgstr "Fecha de expedición:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Fecha:"
+msgstr "Fecha:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Garantía de calidad"
+msgstr "Garantía de calidad"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "INFORME DE"
+msgstr "INFORME DE"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "INFORME DE LA DIRECCIÓN COMERCIAL"
+msgstr "INFORME DE LA DIRECCIÓN COMERCIAL"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "INFORME DE LA DIRECCIÓN TÉCNICA"
+msgstr "INFORME DE LA DIRECCIÓN TÉCNICA"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Localización:"
+msgstr "Localización:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Lote:"
+msgstr "Lote:"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,lots:0
+msgid "Lots"
+msgstr "Lots"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "MEDIDAS TOMADAS:"
+msgstr "MEDIDAS TOMADAS:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "MOTIVO DE LA RECLAMACIÓN"
+msgstr "MOTIVO DE LA RECLAMACIÓN"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Muestra adjunta:"
+msgstr "Muestra adjunta:"
+
+#. module: crm_claim_rma_custom
+#: selection:crm.claim,doc_attached:0
+#: selection:crm.claim,sample_attached:0
+msgid "NO"
+msgstr "NO"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Nº de albarán:"
+msgstr "Nº de albarán:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Nº de pedido:"
+msgstr "Nº de pedido:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Producto:"
+msgstr "Producto:"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,products:0
+msgid "Products"
+msgstr "Products"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,quality_control_report:0
+msgid "Quality control"
+msgstr "Control de calidad"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,quality_report:0
+msgid "Quality report"
+msgstr "Informe de calidad"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,quantities:0
+msgid "Quantities"
+msgstr "Quantities"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "REGISTRO DE RECLAMACIONES"
+msgstr "REGISTRO DE RECLAMACIONES"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "RESULTADO Y SOLUCIÓN DE LA RECLAMACIÓN"
+msgstr "RESULTADO Y SOLUCIÓN DE LA RECLAMACIÓN"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
+msgid "Report"
+msgstr "Informe"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
+msgid "Report of..."
+msgstr "Informe de..."
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
+#: field:crm.claim,result_and_solution:0
+msgid "Result and solution"
+msgstr "Resultado y solución"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,sample_attached:0
+msgid "Sample attached"
+msgstr "Muestra adjunta"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Sección A"
+msgstr "Sección A"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Sección B"
+msgstr "Sección B"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Sección C"
+msgstr "Sección C"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "Sección D"
+msgstr "Sección D"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
+#: field:crm.claim,tech_dir_conclusion:0
+msgid "Technical direction conclusion"
+msgstr "Conclusiones de la dirección técnica"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
+#: field:crm.claim,tech_dir_report:0
+msgid "Technical direction report"
+msgstr "Informe de dirección técnica"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "VALORACIÓN ECONÓMICA:"
+msgstr "VALORACIÓN ECONÓMICA:"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "VERIFICACIÓN Y AUTORIZACIÓN POR DIRECCIÓN GENERAL"
+msgstr "VERIFICACIÓN Y AUTORIZACIÓN POR DIRECCIÓN GENERAL"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,quality_warranty_report:0
+msgid "Warranty report"
+msgstr "Garantía de calidad"
+
+#. module: crm_claim_rma_custom
+#: selection:crm.claim,doc_attached:0
+#: selection:crm.claim,sample_attached:0
+msgid "YES"
+msgstr "SI"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
+#: field:crm.claim,general_dir_ver_and_auth:0
+msgid "verification and authorization by general management"
+msgstr "Verificación y autorización por dirección general"
+
