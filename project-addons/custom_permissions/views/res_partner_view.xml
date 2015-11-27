@@ -54,9 +54,5 @@
             <field name="sequence" eval="1"/>
         </record>
 
-        <menuitem id="menu_custom_restricted_customers_salesmanph"
-                  parent="custom_permissions.menu_custom_salesmanph"
-                  action="action_restricted_customer_form"
-                  sequence="54"/>
     </data>
 </openerp>
