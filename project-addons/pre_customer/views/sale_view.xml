@@ -16,7 +16,7 @@
                         [('customer', '=', True), ('pre_customer', '=', False)]
                     </attribute>
                 </field>
-                <field name="partner_shipping_id">
+                <field name="partner_shipping_id" position="attributes">
                     <attribute name="domain">
                         [('customer', '=', True), ('pre_customer', '=', False)]
                     </attribute>
