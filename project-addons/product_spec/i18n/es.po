@@ -299,7 +299,7 @@ msgstr "Nombre"
 #. module: product_spec
 #: selection:product.extra.category,type:0
 msgid "Normal"
-msgstr "Normal"
+msgstr "Directo"
 
 #. module: product_spec
 #: field:product.template,box_elements:0
