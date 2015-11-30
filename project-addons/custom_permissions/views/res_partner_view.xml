@@ -39,6 +39,7 @@
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="base.view_res_partner_filter"/>
             <field name="context">{"search_default_user_id": uid, "search_default_customer": 1}</field>
+            <field name="domain">[('pre_customer', '=', False)]</field>
         </record>
 
         <record id="action_restricted_customer_tree_view" model="ir.actions.act_window.view">
@@ -53,6 +54,5 @@
             <field name="act_window_id" ref="action_restricted_customer_form"/>
             <field name="sequence" eval="1"/>
         </record>
-
     </data>
 </openerp>
