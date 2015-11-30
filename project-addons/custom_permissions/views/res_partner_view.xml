@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="restricted_customer_tree" model="ir.ui.view">
+            <field name="name">Only edit customer tree</field>
+            <field name="model">res.partner</field>
+            <field name="priority">8</field>
+            <field name="arch" type="xml">
+                <tree string="Contacts" create="false" delete="false">
+                    <field name="display_name"/>
+                    <field name="comercial"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="restricted_customer_form" model="ir.ui.view">
+            <field name="name">Only edit customers form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="custom_permissions.view_partner_form_salesmanph"/>
+            <field name="priority">53</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_restricted_customer_form" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="context">{"search_default_user_id": uid, "search_default_customer": 1}</field>
+        </record>
+
+        <record id="action_restricted_customer_tree_view" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="restricted_customer_tree"/>
+            <field name="act_window_id" ref="action_restricted_customer_form"/>
+            <field name="sequence" eval="0"/>
+        </record>
+        <record id="action_restricted_customer_form_view" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="restricted_customer_form"/>
+            <field name="act_window_id" ref="action_restricted_customer_form"/>
+            <field name="sequence" eval="1"/>
+        </record>
+
+    </data>
+</openerp>

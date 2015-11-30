@@ -73,10 +73,10 @@ class AccountInvoiceLine(models.Model):
             invoice = self.env['account.invoice'].browse(invoice_id)
             commercial_discount = \
                 commercial_discount if commercial_discount else invoice.\
-                    commercial_discount
+                    commercial_discount_input
             financial_discount = \
                 financial_discount if financial_discount else invoice.\
-                    financial_discount
+                    financial_discount_input
         vals['commercial_discount_input'] = commercial_discount
         vals['financial_discount_input'] = financial_discount
         return super(AccountInvoiceLine, self).create(vals)

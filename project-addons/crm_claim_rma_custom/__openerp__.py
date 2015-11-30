@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2015 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,31 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name': "Custom views",
+    'name': 'Claims customizations',
     'version': '1.0',
-    'category': '',
-    'summary' : 'Custom views',
-    'description': " //static/description/index.html//",
-    'author': 'Pharmadus I+D+i',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'sale',
-        'purchase',
-        'purchase_analytic_plans',
-        'sale_commission',
-        'newclient_review',
-        'pre_customer',
-    ],
-    'data' : [
-        'views/sale_view.xml',
-        'views/res_partner_view.xml',
-        'views/product_view.xml',
-        'views/purchase_view2.xml',
-        'views/stock_quant.xml',
-        'views/stock_view.xml',
-        'views/view_form_custom.xml',
-        'data/wizards_units_precision.xml',
-    ],
-    'installable': True
+    'category': 'sale',
+    'description': """""",
+    'author': 'Comunitea',
+    'website': '',
+    "depends": ['base', 'sale', 'crm_claim', 'crm_claim_rma'],
+    "data": ['views/crm_claim.xml', 'qweb_reports/crm_claim.xml', 'claim_report.xml'],
+    "installable": True
 }

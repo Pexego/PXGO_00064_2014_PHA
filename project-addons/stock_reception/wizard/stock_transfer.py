@@ -37,7 +37,7 @@ class StockTransferDetails(models.TransientModel):
         else:
             line = self.env[self._context['active_model']].browse(self._context['active_id'])
             picking  = line.transfer_id.picking_id
-        if picking.picking_type_code == 'incoming':
+        if picking.purchase_order:
             arch = res.get('fields', {}).get('item_ids', {}).get('views', {}).get('tree', {}).get('arch', '')
             if not arch:
                 return res
@@ -51,12 +51,12 @@ class StockTransferDetails(models.TransientModel):
 
     @api.one
     def do_detailed_transfer(self):
-        if self.picking_id.picking_type_code == 'incoming':
+        if self.picking_id.purchase_order:
             errors = False
             lot_errors = []
             for line in self.item_ids:
-                if line.lot_id and self.picking_id.picking_type_code == 'incoming':
-                    for field in ['container_type', 'quantity', 'uom_id', 'container_number', 'pallets']:
+                if line.lot_id and self.picking_id.purchase_order:
+                    for field in ['container_type', 'uom_id']:
                         if not line.lot_id[field]:
                             errors = True
                             if line.lot_id.name not in lot_errors:
@@ -74,4 +74,4 @@ class StockTransferDetailsItems(models.TransientModel):
 
     @api.one
     def _get_incoming(self):
-        self.is_incoming = self.transfer_id.picking_id.picking_type_code == 'incoming'
+        self.is_incoming = self.transfer_id.picking_id.purchase_order and True or False

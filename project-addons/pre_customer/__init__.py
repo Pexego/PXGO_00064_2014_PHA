@@ -2,7 +2,6 @@
 ##############################################################################
 #
 #    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,31 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': "Custom views",
-    'version': '1.0',
-    'category': '',
-    'summary' : 'Custom views',
-    'description': " //static/description/index.html//",
-    'author': 'Pharmadus I+D+i',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'sale',
-        'purchase',
-        'purchase_analytic_plans',
-        'sale_commission',
-        'newclient_review',
-        'pre_customer',
-    ],
-    'data' : [
-        'views/sale_view.xml',
-        'views/res_partner_view.xml',
-        'views/product_view.xml',
-        'views/purchase_view2.xml',
-        'views/stock_quant.xml',
-        'views/stock_view.xml',
-        'views/view_form_custom.xml',
-        'data/wizards_units_precision.xml',
-    ],
-    'installable': True
-}
+
+from . import models

@@ -23,7 +23,7 @@
 from openerp import models, fields
 
 class PaymentMode(models.Model):
-    _inherit="payment.mode"
+    _inherit='payment.mode'
 
     hide_account_at_invoice = fields.Boolean('Hide bank account when payment '
                                              'mode shown in an invoice',
