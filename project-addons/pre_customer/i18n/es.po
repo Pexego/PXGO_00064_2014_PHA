@@ -107,11 +107,11 @@ msgstr "Validar cliente"
 #. module: pre_customer
 #: field:res.partner,pre_customer:0
 msgid "pre-Customer"
-msgstr "pre-Cliente"
+msgstr "Pre-Cliente"
 
 #. module: pre_customer
 #: model:ir.actions.act_window,name:pre_customer.action_pre_customer_form
 #: model:ir.ui.menu,name:pre_customer.menu_custom_pre_partners_salesmanph
 #: model:ir.ui.menu,name:pre_customer.menu_pre_customer_form
 msgid "pre-Customers"
-msgstr "pre-Clientes"
+msgstr "Pre-Clientes"
