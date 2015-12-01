@@ -50,5 +50,5 @@ class PartnerReview(models.Model):
 
     @api.multi
     def write(self, vals):
-        vals[confirmed] = self._check_permissions()
+        vals['confirmed'] = self._check_permissions()
         return super(PartnerReview, self).write(vals)

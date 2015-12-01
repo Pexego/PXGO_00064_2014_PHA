@@ -135,6 +135,11 @@ msgid "Sale orders SalesmanPH (Drafts)"
 msgstr "TODOS los pedidos de venta BORRADOR"
 
 #. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_direct_salesmanph
+msgid "ONLY Sale (Direct)"
+msgstr "SOLO Ventas (Directas)"
+
+#. module: custom_permissions
 #: model:res.groups,comment:custom_permissions.group_salesman_ph
 msgid "Salesman Commission Permission Group."
 msgstr "Grupo de comerciales de PH, gestion de permisos y vistas personalizadas"
@@ -146,6 +151,12 @@ msgid "Salesman PH"
 msgstr "Comercial PH"
 
 #. module: custom_permissions
-#: model:ir.ui.menu,name:custom_permissions.menu_custom_partners_salesmanph
-msgid "Partners"
+#: model:ir.actions.act_window,name:custom_permissions.action_restricted_customer_form
+msgid "Customers"
+msgstr "Clientes"
+
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_restricted_customers_salesmanph
+msgid "Clientes"
 msgstr "Clientes"

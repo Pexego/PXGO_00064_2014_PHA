@@ -123,5 +123,16 @@
               </p>
             </field>
         </record>
+
+        <record id="newclient_review.action_newclients_to_review" model="ir.actions.act_window">
+            <field name="name">Partners to review</field>
+            <field name="res_model">res.partner</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('pre_customer', '=', False)]</field>
+            <field name="context">{"search_default_confirmed":1}</field>
+            <field name="search_view_id" ref="newclient_review.newclients_to_review_filter"/>
+        </record>
     </data>
 </openerp>

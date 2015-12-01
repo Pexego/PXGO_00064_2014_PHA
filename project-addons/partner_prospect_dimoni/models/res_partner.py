@@ -19,22 +19,22 @@
 #
 ##############################################################################
 
-{
-    'name': 'Pre customer validation',
-    'version': '1.0',
-    'author': 'Pharmadus I+D+i',
-    'summary' : 'Form for previous validation of customers',
-    'description': 'Form for previous validation of customers',
-    'category': 'Customers',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'base',
-        'newclient_review',
-        'custom_permissions',
-    ],
-    'data' : [
-        'views/res_partner_view.xml',
-        'views/sale_view.xml',
-    ],
-    'installable': True
-}
+from openerp import models, fields, api
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    has_sales_in_dimoni = fields.Boolean('¿Has sales in Dimoni?', default=False)
+
+    @api.one
+    @api.depends('commercial_partner_id',
+                 'commercial_partner_id.sale_order_ids',
+                 'commercial_partner_id.sale_order_ids.state',
+                 'commercial_partner_id.child_ids',
+                 'commercial_partner_id.child_ids.sale_order_ids',
+                 'commercial_partner_id.child_ids.sale_order_ids.state')
+    def _compute_prospect(self):
+        res = super(ResPartner, self)._compute_prospect()
+        return res and not self.has_sales_in_dimoni
+

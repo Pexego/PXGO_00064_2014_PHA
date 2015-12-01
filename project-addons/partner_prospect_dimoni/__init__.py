@@ -19,22 +19,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'Pre customer validation',
-    'version': '1.0',
-    'author': 'Pharmadus I+D+i',
-    'summary' : 'Form for previous validation of customers',
-    'description': 'Form for previous validation of customers',
-    'category': 'Customers',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'base',
-        'newclient_review',
-        'custom_permissions',
-    ],
-    'data' : [
-        'views/res_partner_view.xml',
-        'views/sale_view.xml',
-    ],
-    'installable': True
-}
+from . import models

@@ -45,6 +45,23 @@
                 <field name="search_view_id" ref="sale.view_sales_order_filter"/>
         </record>
 
+        <record id="action_direct" model="ir.actions.act_window">
+            <field name="name">Direct orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_order_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="context">{'search_default_my_sale_orders_filter': 1}</field>
+            <field name="domain">[('transfer', '=', 0),('replacement', '=', 0), ('sample', '=', 0) , ('intermediary', '=', 0)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a direct order.
+              </p>
+            </field>
+        </record>
+
         <!-- Menu comerciales nuevos -->
         <menuitem id="menu_custom_salesmanph"
                   name="Sales"
@@ -63,6 +80,11 @@
                     action="action_draftsales_salesmanph"
                     parent="menu_custom_salesmanph"
                     sequence="20"/>
+         <menuitem id="menu_custom_newsale_direct_salesmanph"
+                    name="ONLY Sale (Directas)"
+                    action="action_direct"
+                    parent="menu_custom_salesmanph"
+                    sequence="30"/>
          <menuitem id="menu_custom_newsale_free_salesmanph"
                     name="ONLY Sale (Muestras)"
                     action="sale_samples.action_samples"
