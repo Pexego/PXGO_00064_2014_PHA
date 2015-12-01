@@ -42,6 +42,7 @@ msgstr "Confirmar documentos"
 
 #. module: sales_abroad
 #: model:ir.model,name:sales_abroad.model_res_country
+#: view:sale.report:sales_abroad.view_order_product_search_country
 #: field:sales.abroad.confirm.docs,country_id:0
 msgid "Country"
 msgstr "País"
