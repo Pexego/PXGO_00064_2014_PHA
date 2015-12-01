@@ -28,13 +28,12 @@ class SaleReport(models.Model):
     country_id = fields.Many2one('res.country', 'Country')
 
     def _select(self):
-        return super(SaleReport, self)._select() + ', pa.country_id as country_id '
+        select_str = super(SaleReport, self)._select()
+        return select_str + ', pa.country_id as country_id '
 
     def _from(self):
-        from_str = """
-            join res_partner pa on pa.id = s.partner_id
-        """
-        return super(SaleReport, self)._from() + from_str
+        from_str = super(SaleReport, self)._from()
+        return from_str + ' join res_partner pa on pa.id = s.partner_id '
 
     def _group_by(self):
         return super(SaleReport, self)._group_by() + ', pa.country_id '
