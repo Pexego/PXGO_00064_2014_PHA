@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@
     'data' : [
         'security/ir.model.access.csv',
         'view/sales_abroad_view.xml',
+        'view/sale_report_view.xml',
         'wizard/sales_abroad_confirm_docs_view.xml',
         'data/initialization.xml',
     ],

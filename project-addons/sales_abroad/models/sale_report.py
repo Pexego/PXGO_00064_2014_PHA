@@ -18,8 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import sales_abroad
-from . import ir_attachment
-from . import res_country
-from . import stock
-from . import sale_report
+
+from openerp import models, fields
+
+
+class SaleReport(models.Model):
+    _inherit = 'sale.report'
+
+    country_id = fields.Many2one('res.country', 'Country')
+
+    def _select(self):
+        select_str = super(SaleReport, self)._select()
+        return select_str + ', pa.country_id as country_id '
+
+    def _from(self):
+        from_str = super(SaleReport, self)._from()
+        return from_str + ' join res_partner pa on pa.id = s.partner_id '
+
+    def _group_by(self):
+        return super(SaleReport, self)._group_by() + ', pa.country_id '

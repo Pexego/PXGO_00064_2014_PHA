@@ -18,8 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import sales_abroad
-from . import ir_attachment
-from . import res_country
-from . import stock
-from . import sale_report
+
+import res_partner

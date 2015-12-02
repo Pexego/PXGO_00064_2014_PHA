@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # #############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,17 +20,9 @@
 from openerp import models, fields, api, _, tools
 
 
-class res_sales_abroad(models.Model):
+class ResSalesAbroad(models.Model):
     _name = 'res.sales.abroad'
+
     documents = fields.Char()
     country_id = fields.Many2one('res.country', ondelete='restrict')
-    attachments = fields.One2many('ir.attachment', 'sales_abroad_id')
-
-    def unlink(self, cr, uid, ids, context=None):
-        # Delete all related attachments before
-        attachment = self.env['ir.attachment']
-        for sa in self.browse(cr, uid, ids, context=context):
-            attachment.unlink(cr, uid, sa.attachments.ids, context=context)
-
-        return super(res_sales_abroad, self).unlink(cr, uid, ids,
-                                                    context=context)
+    attachments = fields.One2many('ir.attachment', 'sales_abroad_id', ondelete='cascade')
