@@ -28,6 +28,11 @@ msgid "Internal note..."
 msgstr "Nota para almacén..."
 
 #. module: sale_picking_note
+#: field:stock.picking,internal_note:0
+msgid "Note from sale order"
+msgstr "Nota desde pedido de venta"
+
+#. module: sale_picking_note
 #: view:sale.order:sale_picking_note.view_order_form
 msgid "Terms and conditions..."
 msgstr "Términos y condiciones..."

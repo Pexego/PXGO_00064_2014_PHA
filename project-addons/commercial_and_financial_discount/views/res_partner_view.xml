@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="partner_form_com_fin_disc" model="ir.ui.view">
+            <field name="name">partner.form.com.fin.disc</field>
+            <field name="model">res.partner</field>
+            <field name="priority">15</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <page string="Sales &amp; Purchases" position="inside">
+                    <group name="discounts">
+                        <field name="commercial_discount"/>
+                        <field name="financial_discount"/>
+                    </group>
+                </page>
+            </field>
+        </record>
+    </data>
+</openerp>

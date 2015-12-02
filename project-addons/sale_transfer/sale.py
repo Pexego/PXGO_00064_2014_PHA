@@ -26,8 +26,14 @@ class sale(models.Model):
 
     _inherit = 'sale.order'
 
+    def _get_cooperatives_domain(self):
+        # VARIAS / Dimoni(Mayorista) / Dimoni(Mayorista-Cooperativa)
+        res = [('category_id.id', '=', self.env.ref('sale_transfer.et999').id)]
+        return res
+
     transfer = fields.Boolean('Transfer')
-    notified_partner_id = fields.Many2one('res.partner', 'Cooperative')
+    notified_partner_id = fields.Many2one('res.partner', 'Cooperative',
+                  domain=_get_cooperatives_domain)
     settled = fields.Boolean('Settled', readonly=True, default=False)
 
     settlement_agent_id = fields.Many2one('settlement.agent', 'Settlement')

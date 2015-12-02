@@ -22,7 +22,7 @@ msgid "<p class=\"oe_view_nocontent_create\">\n"
 "              </p>\n"
 "            "
 msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"                Pulse para crear una orden de reposición.\n"
+"                Pulse para crear una orden de pedido en DEPOSITO.\n"
 "              </p>\n"
 "            "
 
@@ -46,7 +46,7 @@ msgstr "Cantidad facturada"
 #: code:addons/sale_replacement/wizard/stock_return_picking.py:99
 #, python-format
 msgid "Error in the quantityof replacement."
-msgstr "Error en la cantidad de la reposición."
+msgstr "Error en la cantidad en depósito."
 
 #. module: sale_replacement
 #: code:addons/sale_replacement/sale.py:189
@@ -59,7 +59,7 @@ msgstr "Error!"
 #: code:addons/sale_replacement/sale.py:120
 #, python-format
 msgid "Not found a replacement order for the partner"
-msgstr "No se ha encontrado la orden de reposición"
+msgstr "No se ha encontrado la orden de depósito."
 
 #. module: sale_replacement
 #: code:addons/sale_replacement/sale.py:130
@@ -107,7 +107,7 @@ msgstr "Albarán"
 #: code:addons/sale_replacement/sale.py:135
 #, python-format
 msgid "Qty error in replacement."
-msgstr "Error de cantidad en la reposición."
+msgstr "Error de cantidad en depósito."
 
 #. module: sale_replacement
 #: field:sale.order.line,qty_replacement:0
@@ -118,7 +118,7 @@ msgstr "Cantidad repuesta."
 #: field:sale.order,replacement:0
 #: field:sale.order.line,replacement:0
 msgid "Replacement"
-msgstr "Reposición"
+msgstr "Depòsito"
 
 #. module: sale_replacement
 #: field:sale.order,is_all_invoiced:0
@@ -129,7 +129,7 @@ msgstr "Pedido facturado"
 #: code:addons/sale_replacement/wizard/stock_return_picking.py:98
 #, python-format
 msgid "Replacement Error !"
-msgstr "Error en reposición !"
+msgstr "Error en depósito !"
 
 #. module: sale_replacement
 #: field:sale.order.to.invoice.replacement,quantity_invoiced:0
@@ -166,4 +166,4 @@ msgstr "Línea pedido de venta"
 #: model:ir.actions.act_window,name:sale_replacement.action_replacements
 #: model:ir.ui.menu,name:sale_replacement.sale_order_replacement
 msgid "replacement orders"
-msgstr "Pedidos de reposición"
+msgstr "Pedidos en depósito"

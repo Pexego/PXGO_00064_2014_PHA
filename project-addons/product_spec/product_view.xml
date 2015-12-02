@@ -49,6 +49,7 @@
                                 <field name="packing_production"/>
                                 <field name="packing_internal"/>
                                 <field name="packing"/>
+                                <field name="box_elements"/>
                                 <field name="objective"/>
                             </group>
                         </group>

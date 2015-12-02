@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend_modal_dialogs_widths"
+                  name="Increase modal dialogs width"
+                  inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/custom_widths/static/src/css/modal_dialogs_width.css"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

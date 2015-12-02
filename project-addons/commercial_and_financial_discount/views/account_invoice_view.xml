@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="invoice_form_com_fin_disc" model="ir.ui.view">
+            <field name="name">invoice.form.com.fin.disc</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <label for="amount_tax" position="replace"></label>
+            	<field name="amount_tax" position="replace"></field>
+                <field name="amount_total" position="replace"></field>
+                <field name="residual" position="replace"></field>
+
+            	<field name="amount_untaxed" position="replace">
+                    <field name="amount_gross_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="article_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_with_article_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <div class="oe_inline">
+                        <field name="commercial_discount_display"
+                               nolabel="1"
+                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;">
+                            <span> :</span>
+                        </field>
+                    </div>
+                    <field name="commercial_discount_amount"
+                           nolabel="1"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_net_untaxed"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <div class="oe_inline">
+                        <field name="financial_discount_display"
+                               nolabel="1"
+                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;">
+                            <span> :</span>
+                        </field>
+                    </div>
+                    <field name="financial_discount_amount"
+                           nolabel="1"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_untaxed"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <div>
+                        <label for="amount_tax"/>
+                    </div>
+                    <field name="amount_tax"
+                           nolabel="1"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_total"
+                           class="oe_subtotal_footer_separator"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="residual"
+                           groups="account.group_account_user"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                </field>
+                <group class="oe_subtotal_footer oe_right" position="after">
+                    <group class="oe_edit_only" style="width: 65%%" attrs="{'invisible':[('state','!=','draft')]}">
+                        <label for="commercial_discount_input"/>
+                        <div>
+                            <field name="commercial_discount_input" class="oe_inline"/>
+                            <button name="generate_discounts" string="Generate discounts" type="object"/>
+                        </div>
+                        <label for="financial_discount_input"/>
+                        <div>
+	                        <field name="financial_discount_input" class="oe_inline"/>
+                        </div>
+                    </group>
+            	</group>
+            </field>
+        </record>
+        <record id="invoice_supplier_form_com_fin_disc" model="ir.ui.view">
+            <field name="name">Supplier invoice form with com. and fin. discounts</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <label for="amount_tax" position="replace"></label>
+            	<field name="amount_tax" position="replace"></field>
+                <field name="amount_total" position="replace"></field>
+                <field name="residual" position="replace"></field>
+
+            	<field name="amount_untaxed" position="replace">
+                    <field name="amount_gross_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="article_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_with_article_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <div class="oe_inline">
+                        <field name="commercial_discount_display"
+                               nolabel="1"
+                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;">
+                            <span> :</span>
+                        </field>
+                    </div>
+                    <field name="commercial_discount_amount"
+                           nolabel="1"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_net_untaxed"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <div class="oe_inline">
+                        <field name="financial_discount_display"
+                               nolabel="1"
+                               style="padding-right: 8px; font-weight: bold; white-space: nowrap;">
+                            <span> :</span>
+                        </field>
+                    </div>
+                    <field name="financial_discount_amount"
+                           nolabel="1"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_untaxed"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <div>
+                        <label for="amount_tax"/>
+                    </div>
+                    <field name="amount_tax"
+                           nolabel="1"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_total"
+                           class="oe_subtotal_footer_separator"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="residual"
+                           groups="account.group_account_user"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                </field>
+                <field name="tax_line" position="after">
+                    <group class="oe_edit_only" style="width: auto;" attrs="{'invisible':[('state','!=','draft')]}">
+                        <label for="commercial_discount_input"/>
+                        <div>
+                            <field name="commercial_discount_input" class="oe_inline"/>
+                            <button name="generate_discounts" string="Generate discounts" type="object"/>
+                        </div>
+                        <label for="financial_discount_input"/>
+                        <div>
+	                        <field name="financial_discount_input" class="oe_inline"/>
+                        </div>
+                    </group>
+            	</field>
+            </field>
+        </record>
+    </data>
+</openerp>

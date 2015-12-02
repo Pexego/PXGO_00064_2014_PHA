@@ -3,6 +3,8 @@
     <data noupdate="0">
         <record id="group_salesman_ph" model="res.groups">
              <field name="name">Salesman PH</field>
+             <field name="comment">Salesman Commission Permission Group.</field>
+             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
         <record id="group_show_menu_messaging" model="res.groups">
              <field name="name">Show Menu-messaging</field>
@@ -16,8 +18,8 @@
         <record id="group_show_menu_website" model="res.groups">
              <field name="name">Show Menu-WebSite</field>
         </record>
-        <record id="group_show_submenu_purchase_rfq" model="res.groups">
-             <field name="name">Show SubMenu-RQ</field>
+        <record id="group_hide_empty" model="res.groups">
+             <field name="name">Empty(ToHideMenus)</field>
         </record>
     </data>
 </openerp>

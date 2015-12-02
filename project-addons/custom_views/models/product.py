@@ -21,15 +21,16 @@
 
 from openerp import models, fields, api
 
-class product_product(models.Model):
+class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     @api.multi
     def name_get(self): # Hide default_code by default
-        return super(product_product, self.with_context(display_default_code=False)).name_get()
+        return super(ProductProduct,
+                     self.with_context(display_default_code=False)).name_get()
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     @api.one
@@ -42,4 +43,5 @@ class product_template(models.Model):
                     ids.append(pricelist.id)
         self.suppliers_pricelists = ids
 
-    suppliers_pricelists = fields.One2many('pricelist.partnerinfo', compute="_suppliers_pricelists")
+    suppliers_pricelists = fields.One2many('pricelist.partnerinfo',
+                                           compute="_suppliers_pricelists")

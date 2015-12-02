@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,57 +19,36 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields, osv
-from openerp import tools
-from openerp.tools.translate import _
 
-class partner_review(orm.Model):
+from openerp import models, fields, api
+
+
+class PartnerReview(models.Model):
     _inherit = 'res.partner'
-    _description = "List of partners in Waiting for review state"
-    _columns = {
-        'confirmed': fields.boolean('Client with data reviewed?'),
-    }
-    _defaults = {
-            'confirmed' : False,
-    }
+    _description = 'List of partners in Waiting for review state'
 
-    #Return true if the user is Manager to edit the new client state "Confirmed"
-    def _check_permissions(self, cr, uid,  context):
-        res = {}
+    confirmed = fields.Boolean('Client with data reviewed?', defaul=False)
+
+    # Return true if the user is Manager to edit the new client state "Confirmed"
+    def _check_permissions(self):
         # Get the PR Manager group id
-        manager_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'newclient_review',
-                                                                          'group_partners_review')[1]
+        manager_group_id = self.env.ref('newclient_review.group_partners_review')
+        return self.env.user in manager_group_id.users
 
-        # Get the user and see what groups he/she is in
-        user_obj = self.pool.get('res.users')
-        user = user_obj.browse(cr, uid, uid, context=context)
+    @api.multi
+    def confirm_review(self):
+        self.confirmed = True
+        return True
 
-        user_group_ids = []
-        for grp in user.groups_id:
-            user_group_ids.append(grp.id)
+    @api.model
+    def create(self, vals):
+        # If partner is added by a Manager or is a supplier... data is always confirmed
+        # TODO: PRESTASHOP -> If is a user or a client from prestashop
+        # TODO: PRESTASHOP -> assign user as creator of the partner
+        vals['confirmed'] = self._check_permissions() or vals.get('supplier')
+        return super(PartnerReview, self).create(vals)
 
-        return (manager_id in user_group_ids)
-
-
-    def confirm_review(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'confirmed': True})
-
-    def create(self, cr, uid, vals, context=None):
-        if context is None:
-            context = {}
-        #If partner is added by a Manager or is a supplier... data is always confirmed
-        #If us user, or if is a client from prestashop
-        ##user assign as creator of the partner TO-DO
-        creatorid = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'base', 'user_root')[1]
-
-        obj_user = self.pool.get('res.users')
-        list_user = obj_user.search(cr, uid, [('id', '=', creatorid)] )
-        size_list_user = len(list_user)
-
-        if (self._check_permissions(cr, uid, context) or vals.get('supplier')==True or
-                    context.get('alias_model_name')=='res.users' or context.get('connector_no_export')==True):
-            vals['confirmed']=True
-            if (context.get('connector_no_export') and (size_list_user==1)): ##It is assigned to a custom user
-                vals['user_id']=creatorid
-                return super(partner_review, self).create(cr, creatorid, vals, context=context)
-        return super(partner_review, self).create(cr, uid, vals, context=context)
+    @api.multi
+    def write(self, vals):
+        vals['confirmed'] = self._check_permissions()
+        return super(PartnerReview, self).write(vals)

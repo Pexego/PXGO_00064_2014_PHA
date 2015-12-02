@@ -19,5 +19,5 @@
 #
 ##############################################################################
 
-import res_partner
-import product
+import res_partner, product, account_invoice, stock_quant, \
+       stock_transfer_details

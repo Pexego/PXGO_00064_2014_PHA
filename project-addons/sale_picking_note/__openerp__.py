@@ -28,12 +28,13 @@
     'category': 'Sale, Warehouse',
     'website': 'www.pharmadus.com',
     'depends' : [
-        'base',
         'sale',
         'stock',
+		'sale_stock',
     ],
     'data' : [
         'views/sale_view.xml',
+        'views/stock_view.xml',
     ],
     'installable': True
 }

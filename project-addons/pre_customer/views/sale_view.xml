@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="sale_order_pre_customer_filtered_form" model="ir.ui.view">
+            <field name="name">Sale order pre-customer filtered form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="domain">
+                        [('customer', '=', True), ('pre_customer', '=', False)]
+                    </attribute>
+                </field>
+                <field name="partner_invoice_id" position="attributes">
+                    <attribute name="domain">
+                        [('customer', '=', True), ('pre_customer', '=', False)]
+                    </attribute>
+                </field>
+                <field name="partner_shipping_id" position="attributes">
+                    <attribute name="domain">
+                        [('customer', '=', True), ('pre_customer', '=', False)]
+                    </attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
