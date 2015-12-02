@@ -40,10 +40,6 @@ msgstr "Mostrar Menu-WebSite"
 msgid "Show Menu-messaging"
 msgstr "Mostrar Menu-Mensajeria"
 
-#. module: custom_permissions
-#: model:res.groups,name:custom_permissions.group_show_submenu_purchase_rfq
-msgid "Show SubMenu-RQ"
-msgstr "Mostrar SubMenu-BorradoresCompra"
 
 #. module: custom_permissions
 #: model:ir.ui.menu,name:purchase.menu_purchase_rfq

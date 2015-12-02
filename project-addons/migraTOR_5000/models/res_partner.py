@@ -18,8 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import sales_abroad
-from . import ir_attachment
-from . import res_country
-from . import stock
-from . import sale_report
+
+from openerp import models, fields
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    cuenta_dimoni_cobros = fields.Text('SubCuenta contable de cobros')
+    cuenta_dimoni_pagos = fields.Text('SubCuenta contable de pagos')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
+#    Copyright (C) 2015 Pharmadus All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,8 +18,18 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import sales_abroad
-from . import ir_attachment
-from . import res_country
-from . import stock
-from . import sale_report
+{
+    'name': "migraTOR 5000",
+    'version': '1.0',
+    'category': '',
+    'summary' : 'Auxiliary modifications to facilitate data migration',
+    'description': " //static/description/index.html//",
+    'author': 'Pharmadus I+D+i',
+    'website': 'www.pharmadus.com',
+    'depends' : [
+        'base',
+    ],
+    'data' : [
+    ],
+    'installable': True
+}

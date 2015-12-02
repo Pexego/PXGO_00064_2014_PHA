@@ -14,9 +14,11 @@
             <field name="model">crm.claim</field>
             <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@string='Follow Up']" position="replace">
+                <xpath expr="//page[@string='Follow Up']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//separator[@string='Responsibilities']/.." position="replace">
+                <xpath expr="//separator[@string='Responsibilities']/.." position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
             </field>
         </record>

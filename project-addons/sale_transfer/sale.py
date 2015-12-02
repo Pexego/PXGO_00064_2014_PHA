@@ -28,7 +28,7 @@ class sale(models.Model):
 
     def _get_cooperatives_domain(self):
         # VARIAS / Dimoni(Mayorista) / Dimoni(Mayorista-Cooperativa)
-        res = [('category_id.id', '=', self.env.ref('.et058').id)]
+        res = [('category_id.id', '=', self.env.ref('sale_transfer.et999').id)]
         return res
 
     transfer = fields.Boolean('Transfer')

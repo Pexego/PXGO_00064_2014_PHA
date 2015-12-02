@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,8 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import sales_abroad
-from . import ir_attachment
-from . import res_country
-from . import stock
-from . import sale_report
+
+from . import models
