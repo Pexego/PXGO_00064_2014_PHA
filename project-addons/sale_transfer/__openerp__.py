@@ -31,11 +31,11 @@
                  'sale_stock',
                  'sale_commission',
                  'sale_pharma_group'],
+    "init_xml": ['data/initialization.xml'],
     "data" : ['sale_view.xml',
               'settled_view.xml',
               'sale_workflow.xml',
               'templates/template_mail.xml',
-              'data/initialization.xml',
              ],
     "installable": True
 }
