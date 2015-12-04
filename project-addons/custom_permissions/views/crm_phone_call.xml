@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Hide oportunity -->
+        <record model="ir.ui.view" id="crm_case_phone_form_view_custom_views">
+            <field name="name">ccrm.phonecall.form.custom.salesmanph</field>
+            <field name="model">crm.phonecall</field>
+            <field name="inherit_id" ref="crm.crm_case_phone_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@help='Convert To Opportunity']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='opportunity_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

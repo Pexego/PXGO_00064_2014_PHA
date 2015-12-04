@@ -6,7 +6,22 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="partner_external_maps.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//button[@string='Route Map']" position="replace">
+                <xpath expr="//button[@string='Route Map']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- move eventual customer to Sales Page -->
+        <record id="view_partner_prospect_form_custom" model="ir.ui.view">
+            <field name="name">res.partner.view.buttons.prospect.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="partner_prospect.res_partner_prospect_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='prospect']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='active']" position="after">
+                    <field name="prospect" attrs="{'invisible': [('customer', '=', False)]}"/>
                 </xpath>
             </field>
         </record>
