@@ -27,6 +27,7 @@
     'author': 'Comunitea',
     'website': '',
     "depends": ['base', 'sale', 'crm_claim', 'crm_claim_rma'],
-    "data": ['views/crm_claim.xml', 'qweb_reports/crm_claim.xml', 'claim_report.xml'],
+    "data": ['views/crm_claim.xml', 'views/crm_claim_stage.xml', 'qweb_reports/crm_claim.xml',
+             'claim_report.xml'],
     "installable": True
 }

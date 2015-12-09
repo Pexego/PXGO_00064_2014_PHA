@@ -18,5 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import crm_claim
-from . import crm_claim_stage
+from openerp import models, fields, api, exceptions, _
+
+
+class CrmClaimStage(models.Model):
+
+    _inherit = 'crm.claim.stage'
+
+    show_sections = fields.Selection((('A', 'A'), ('B_C', 'B/C'), ('D', 'D'),
+                                      ('all', 'All')), 'Show sections', default='all')
