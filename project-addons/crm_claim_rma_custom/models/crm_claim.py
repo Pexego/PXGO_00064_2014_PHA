@@ -37,6 +37,7 @@ class CrmClaim(models.Model):
     result_and_solution = fields.Text('Result and solution')
     action_taken = fields.Text('Action taken')
     economic_valuation = fields.Float('Economic valuation')
+    show_sections = fields.Char('Show stage', compute='_get_show_sections')
     general_dir_ver_and_auth = fields.Text('verification and authorization by general'
                                            ' management')
     products = fields.Char('Products', compute='_get_products', store=True)
@@ -44,6 +45,10 @@ class CrmClaim(models.Model):
     quantities = fields.Char('Quantities', compute='_get_quantities', store=True)
     picking_id = fields.Many2one('stock.picking', 'Picking', domain=[('picking_type_code',
                                                                       '=', 'outgoing')])
+
+    @api.one
+    def _get_show_sections(self):
+        self.show_sections = self.stage_id.show_sections
 
     @api.one
     @api.depends('date')
