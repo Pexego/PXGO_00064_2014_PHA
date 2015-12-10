@@ -18,4 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import stock_return_picking
+from . import stock_return_picking
+from . import sale_replacement_create_sale
