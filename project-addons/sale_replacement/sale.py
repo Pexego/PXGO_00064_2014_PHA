@@ -46,7 +46,8 @@ class sale_order(models.Model):
         line.update(self.env['sale.order.line'].product_id_change_with_wh(
             par_val['pricelist_id'], line['product_id'], line['product_uom_qty'],
             partner_id=partner_id, date_order=date.today().strftime('%Y-%m-%d'),
-            fiscal_position=par_val['fiscal_position'], warehouse_id=self._get_default_warehouse())['value'])
+            fiscal_position=par_val.get('fiscal_position', False),
+            warehouse_id=self._get_default_warehouse())['value'])
         return line
 
     @api.model
