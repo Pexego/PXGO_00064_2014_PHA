@@ -40,7 +40,7 @@ class SaleReplacementCreateSale(models.TransientModel):
                     'product_id': line.product_id.id,
                     'replacement': True,
                     'orig_sale': line.order_id.id,
-                    'product_uom_qty': line.quantity,
+                    'product_uom_qty': line.quantity - line.quantity_invoiced,
                 }
                 line_default = self.env['sale.order.line'].default_get(['product_uom', 'state'])
                 line_vals.update(line_default)
