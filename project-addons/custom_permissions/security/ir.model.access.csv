@@ -33,3 +33,5 @@ id_res_group_salesmanph,res_group_salesmanph,base.model_res_groups,group_salesma
 id_payment_term_salesmanph,payment_term_salesmanph,account.model_account_payment_term,group_salesman_ph,1,0,0,0
 id_purchase_order_salesmanph,purchase_order_salesmanph,purchase.model_purchase_order,group_salesman_ph,1,0,0,0
 id_account_move_line_salesmanph,account_move_line_salesmanph,account.model_account_move_line,group_salesman_ph,1,0,0,0
+id_crm_claim_type,crm_claim_type_salesmanph,crm_claim_type.model_crm_claim_type,group_salesman_ph,1,0,0,0
+id_crm_line_salesmanph,crm_line_salesmanph,crm_claim_rma.model_claim_line,group_salesman_ph,1,0,0,0
