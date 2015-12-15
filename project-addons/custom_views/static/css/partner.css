@@ -1,0 +1,10 @@
+/* Hide send email from partner form */
+
+a.oe_compose_post{
+    display:none;
+}
+
+span.oe_sep_word{
+    display:none !important;
+}
+
