@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="reportpicking_add_pack" inherit_id="customer_product_name.reportpicking_change_prod_name">
+            <xpath expr="//tr[@t-foreach='o.move_lines']" position="replace">
+                <t t-foreach="o.move_lines" t-as="move">
+                    <t t-if="move.pack_component != True">
+                        <tr>
+                            <td><span t-field="move.product_name"/></td>
+                            <td class="text-right"><span t-field="move.product_uom_qty"/> <span t-field="move.product_uom" groups="product.group_uom"/></td>
+                            <t t-if="o.picking_type_id.code != 'incoming'"><td><span t-field="move.location_id"/></td></t>
+                            <td>
+                                <span t-if="move.product_id and move.product_id.ean13">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', move.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
+                                </span>
+                            </td>
+                            <t t-if="o.picking_type_id.code != 'outgoing'"><td><span t-field="move.location_dest_id"/></td></t>
+                        </tr>
+                    </t>
+                </t>
+            </xpath>
+
+            <xpath expr="//tbody/tr[@t-foreach='o.pack_operation_ids']" position="replace">
+                <t t-foreach="o.pack_operation_ids" t-as="pack_operation">
+                    <t t-if="pack_operation.pack_component != True">
+                        <tr>
+                            <td>
+                                <span t-field="pack_operation.product_name"/>
+                                <t t-if="not pack_operation.product_id and pack_operation.package_id"><span  t-field="pack_operation.package_id"/></t>
+                            </td>
+                            <td class="text-right"><span t-field="pack_operation.product_qty"/> <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/></td>
+                            <t t-if="o.picking_type_id.code != 'incoming'">
+                                <td><span t-field="pack_operation.location_id"/>
+                                    <span t-if="pack_operation.package_id">:</span>
+                                    <span t-field="pack_operation.package_id"/>
+                                    <span t-if="pack_operation.lot_id">:</span>
+                                    <span t-field="pack_operation.lot_id"/>
+                                </td>
+                            </t>
+                            <td>
+                                <span t-if="pack_operation.lot_id">
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', pack_operation.lot_id.name, 600, 100)" style="width:300px;height:50px"/>
+                                </span>
+                                <span t-if="pack_operation.product_id and not pack_operation.lot_id and pack_operation.product_id.ean13">
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', pack_operation.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
+                                </span>
+                                <span t-if="pack_operation.package_id and not pack_operation.product_id">
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', pack_operation.package_id.name, 600, 100)" style="width:300px;height:50px"/>
+                                </span>
+                            </td>
+                            <t t-if="o.picking_type_id.code != 'outgoing'">
+                                <td><span t-field="pack_operation.location_dest_id"/>
+                                    <span t-if="pack_operation.result_package_id">:</span>
+                                    <span t-field="pack_operation.result_package_id"/>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</openerp>
