@@ -85,8 +85,11 @@
             <field name="act_window_id" ref="action_newclients_to_review"/>
         </record>
 
-        <menuitem name="Clients to review" sequence="7" parent="base.menu_sales"
-            action="action_newclients_to_review" id="menu_partner_review"/>
+        <menuitem name="Clients to review"
+                  sequence="7"
+                  parent="base.menu_sales"
+                  action="action_newclients_to_review"
+                  id="menu_partner_review"/>
 
         <record id="base.action_partner_form" model="ir.actions.act_window">
             <field name="name">Customers</field>
