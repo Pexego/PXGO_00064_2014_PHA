@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_order_form">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" position="inside">
+                    <field name="pack_parent_line_id" invisible="1"/>
+                    <field name="pack_icon" string="Pack component" widget="image"/>
+                </tree>
+                <tree string="Sales Order Lines" position="attributes">
+                    <attribute name="colors">green:pack_parent_line_id</attribute>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
