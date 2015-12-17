@@ -197,6 +197,12 @@ msgstr "Código cliente:"
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
+msgid "Client quotation ref.:"
+msgstr "Ref. pedido de cliente:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_saleorder_document
 msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
