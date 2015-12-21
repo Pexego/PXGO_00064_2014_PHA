@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <template id="report_saleorder_document">
+        <template id="wsl_report_delivery_note_document">
             <!-- Multicompany -->
             <t t-if="o and 'company_id' in o">
                 <t t-set="company" t-value="o.company_id"></t>
@@ -98,13 +98,7 @@
                 </style>
                 <div class="row">
                     <div class="col-xs-12">
-                        <t t-if="not o.transfer">
-                            <h2 t-if="o.state not in ['draft','sent']">Order Nº <span t-field="o.name"/></h2>
-                            <h2 t-if="o.state in ['draft','sent']">Quotation N° <span t-field="o.name"/></h2>
-                        </t>
-                        <t t-if="o.transfer">
-                            <h2>Transfer order N° <span t-field="o.name"/></h2>
-                        </t>
+                        <h2>Delivery note N° <span t-field="picking.name"/></h2>
                         <div style="border-bottom: 2px solid black; margin-bottom: 10px;"></div>
                     </div>
                 </div>
@@ -476,13 +470,40 @@
             </div>
         </template>
 
-        <!-- Trampota, para reemplazar el report original con el nuestro -->
-        <template id="sale.report_saleorder">
-            <t t-call="report.html_container">
-                <t t-foreach="doc_ids" t-as="doc_id">
-                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'custom_reports.report_saleorder_document')"/>
+        <template id="wsl_do_not_available">
+            <div class="header"></div>
+            <div class="page">
+                <h1>This report is only available for outgoing orders</h1>
+            </div>
+            <div class="footer"></div>
+        </template>
+
+        <template id="wsl_aux_report_delivery_note">
+            <t t-foreach="docs" t-as="picking">
+                <t t-set="o" t-value="picking.sale_id"/>
+                <t t-if="o">
+                    <t t-call="warehouse_shipping_light.wsl_report_delivery_note_document"/>
+                </t>
+                <t t-if="not o">
+                    <t t-call="warehouse_shipping_light.wsl_do_not_available"/>
                 </t>
             </t>
         </template>
+
+        <template id="wsl_report_delivery_note">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'warehouse_shipping_light.wsl_aux_report_delivery_note')"/>
+                </t>
+            </t>
+        </template>
+
+        <report
+            string="Sale order"
+            id="wsl_action_sale_order"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="warehouse_shipping_light.wsl_report_delivery_note"
+        />
     </data>
 </openerp>

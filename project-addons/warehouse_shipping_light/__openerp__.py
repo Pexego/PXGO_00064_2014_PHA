@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,36 +20,23 @@
 ##############################################################################
 
 {
-    'name': 'Custom reports',
+    'name': 'Warehouse shipping light',
     'version': '1.0',
     'author': 'Pharmadus I+D+i',
-    'summary' : 'Odoo reports customized',
-    'description': 'Odoo reports customized',
-    'category': 'Reports',
+    'summary' : 'Warehouse shipping (light version)',
+    'description': 'Warehouse shipping (light version)',
+    'category': 'Warehouse',
     'website': 'www.pharmadus.com',
     'depends' : [
-        'purchase',
-        'report_webkit',
-        'l10n_es_partner_mercantil',
-        'sale_transfer',
-        'sale_transfer_sample_rel',
-        'sale_channel',
-        'sale_promotions',
-        'commercial_and_financial_discount',
-        'stock_reception',
-        'invoice_link_sale',
+        'sale',
+        'stock',
+        'custom_reports',
     ],
     'data' : [
-        'views/report_stockinventory.xml',
-        'views/report_purchaseorder.xml',
-        'views/report_purchasequotation.xml',
+        'wizard/stock_transfer_details.xml',
+        'views/report_stockpicking.xml',
         'views/report_saleorder.xml',
-        'views/report_invoice.xml',
-        'views/report_lot_labels.xml',
-        'views/account_payment_view.xml',
-        'views/sale_report_view.xml',
         'views/stock_view.xml',
-        'data/report_paperformat.xml',
     ],
     'installable': True
 }

@@ -197,6 +197,12 @@ msgstr "Código cliente:"
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
 #: view:website:custom_reports.report_saleorder_document
+msgid "Client quotation ref.:"
+msgstr "Ref. pedido de cliente:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_saleorder_document
 msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
@@ -430,12 +436,12 @@ msgstr "Cantidad"
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quotation Date:"
-msgstr "Fecha de presupuesto:"
+msgstr "Fecha de pedido:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quotation N°"
-msgstr "Presupuesto Nº"
+msgstr "Nº de pedido"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
@@ -475,7 +481,7 @@ msgstr "Reposiciones"
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 msgid "Request for Quotation N°:"
-msgstr "Solicitud de presupuesto N°:"
+msgstr "Solicitud de pedido N°:"
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
