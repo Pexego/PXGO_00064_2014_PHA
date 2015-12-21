@@ -11,3 +11,8 @@ body {
     text-align: center;
     margin: 40px;
 }
+
+.oe_kanban_image_medium {
+  width: 256px;
+  height: 256px;
+}
