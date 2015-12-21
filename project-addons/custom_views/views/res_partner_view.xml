@@ -56,6 +56,9 @@
                     <field name="city"/>
                     <field name="state_id"/>
                 </field>
+                <field name="prospect" position="replace">
+                    <field name="active"/>
+                </field>
             </field>
         </record>
 
