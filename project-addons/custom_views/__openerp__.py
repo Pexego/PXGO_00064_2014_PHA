@@ -38,13 +38,14 @@
     ],
     'data' : [
         'views/sale_view.xml',
-        'views/partner_css.xml',
+        'views/custom_css.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',
         'views/purchase_view2.xml',
         'views/stock_quant.xml',
         'views/stock_view.xml',
         'views/view_form_custom.xml',
+        'views/invoice.xml',
         'data/wizards_units_precision.xml',
     ],
     'installable': True

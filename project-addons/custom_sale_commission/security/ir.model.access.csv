@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_category_agent_commission,access_category_agent_commission,model_category_agent_commission,base.group_user,1,1,1,1
+id_product_agent_commission_purchase_user,product_agent_commission_purchase_user,sale_commission.model_product_agent_commission,purchase.group_purchase_user,1,0,0,0
