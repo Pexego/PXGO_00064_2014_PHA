@@ -33,9 +33,12 @@
         'custom_reports',
     ],
     'data' : [
+        'data/report_paperformat.xml',
         'wizard/stock_transfer_details.xml',
         'views/report_stockpicking.xml',
         'views/report_saleorder.xml',
+        'views/report_container_labels.xml',
+        'views/report_palet_labels.xml',
         'views/stock_view.xml',
     ],
     'installable': True
