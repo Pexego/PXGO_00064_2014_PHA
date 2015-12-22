@@ -48,11 +48,12 @@
                                 table.table {
                                     margin: 0;
                                 }
-                                table th,
-                                table tr,
-                                table td {
+                                table th, table tr, table td {
                                     padding: 0 !important;
                                     line-height: 1em !important;
+                                }
+                                thead, tbody, th, tr, td {
+                                    border-color: transparent !important;
                                 }
                                 tr.normal-title th {
                                     font-weight: normal;
@@ -105,7 +106,7 @@
                                             <t t-if="po.palet == palet">
                                                 <tr>
                                                     <td><span t-field="po.product_id"/></td>
-                                                    <td><span t-esc="'%g' % po.product_qty"/></td>
+                                                    <td class="text-center"><span t-esc="'%g' % po.product_qty"/></td>
                                                 </tr>
                                             </t>
                                         </t>

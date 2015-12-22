@@ -6,7 +6,7 @@
             <field name="format">custom</field>
             <field name="dpi">90</field>
             <field name="margin_top">12</field>
-            <field name="margin_bottom">7</field>
+            <field name="margin_bottom">10</field>
             <field name="margin_left">5</field>
             <field name="margin_right">5</field>
             <field name="page_height">100</field>

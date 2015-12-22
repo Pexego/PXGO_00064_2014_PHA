@@ -17,5 +17,27 @@
                 </field>
             </field>
         </record>
+
+        <record id="view_transfer_split_config" model="ir.ui.view">
+            <field name="name">Enter quantity of the new line</field>
+            <field name="model">stock.transfer_details_items</field>
+            <field name="arch" type="xml">
+                <form string="Split details" version="7">
+                    <group>
+                        <field name="product_id" readonly="True"/>
+                        <field name="lot_id" readonly="True"/>
+                        <label for="quantity" string="Available quantity"/>
+                        <field name="quantity" readonly="True" nolabel="1"/>
+                        <field name="product_uom_id" readonly="True"/>
+                        <field name="quantity_to_extract"/>
+                    </group>
+                    <footer>
+                        <button name="do_split_quantities" string="Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button name="do_not_split_quantities" string="Cancel" type="object" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>
