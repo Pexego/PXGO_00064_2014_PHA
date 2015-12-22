@@ -1,0 +1,625 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* warehouse_shipping_light
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-22 12:02+0000\n"
+"PO-Revision-Date: 2015-12-22 13:08+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "# containers"
+msgstr "# containers"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "&nbsp;"
+msgstr "&nbsp;"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "&nbsp;|&nbsp;"
+msgstr "&nbsp;|&nbsp;"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "(Not approved)"
+msgstr "(No aprobado)"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "(Unspecified)"
+msgstr "(Sin especificar)"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid ""
+")\n"
+"                                    - Tfno."
+msgstr ""
+")\n"
+"                                    - Tfno."
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid ""
+",\n"
+"                                Folio"
+msgstr ""
+",\n"
+"                                Folio"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid ""
+",\n"
+"                                Registration"
+msgstr ""
+",\n"
+"                                Registro"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid ""
+",\n"
+"                                Sheet Number"
+msgstr ""
+",\n"
+"                                Hoja"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid ""
+",\n"
+"                                TIN"
+msgstr ""
+",\n"
+"                                NIF"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid ""
+",\n"
+"                                Volume"
+msgstr ""
+",\n"
+"                                Tomo"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid ""
+",\n"
+"                            Folio"
+msgstr ""
+",\n"
+"                            Folio"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid ""
+",\n"
+"                            Registration"
+msgstr ""
+",\n"
+"                            Registro"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid ""
+",\n"
+"                            Sheet Number"
+msgstr ""
+",\n"
+"                            Hoja"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid ""
+",\n"
+"                            TIN"
+msgstr ""
+",\n"
+"                            NIF"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid ""
+",\n"
+"                            Volume"
+msgstr ""
+",\n"
+"                            Tomo"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid ", or by e-mail at"
+msgstr ", o en el e-mail"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "- Móvil"
+msgstr "- Móvil"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "- Pegatina"
+msgstr "- Pegatina"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "ARTÍCULO"
+msgstr "ARTÍCULO"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Amount"
+msgstr "Importe"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Amount with article discount"
+msgstr "Importe c. dto. de artículo"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Article discount"
+msgstr "Descuento artículo"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "BIC:"
+msgstr "BIC:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Bonification"
+msgstr "Bonificación"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+msgid "Bultos totales"
+msgstr "Bultos totales"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "CANTIDAD"
+msgstr "CANTIDAD"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "CN Code"
+msgstr "Código CN"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Carrier:"
+msgstr "Transportista:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Client code:"
+msgstr "Código cliente:"
+
+#. module: warehouse_shipping_light
+#: model:ir.actions.report.xml,name:warehouse_shipping_light.wsl_action_delivery_note
+msgid "Client delivery note"
+msgstr "Client delivery note"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Client quotation ref.:"
+msgstr "Ref. pedido de cliente:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Closing date:"
+msgstr "Fecha de vencimiento:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Commitment Date:"
+msgstr "Commitment Date:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Comp."
+msgstr "Completo"
+
+#. module: warehouse_shipping_light
+#: field:stock.pack.operation,complete:0
+msgid "Complete"
+msgstr "Completo"
+
+#. module: warehouse_shipping_light
+#: model:ir.actions.report.xml,name:warehouse_shipping_light.action_report_container_labels
+msgid "Container labels"
+msgstr "Etiquetas de bulto"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Container type"
+msgstr "Container type"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Cooperative address:"
+msgstr "Dirección cooperativa:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Customer Address:"
+msgstr "Dirección de cliente:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Date Ordered:"
+msgstr "Fecha pedido:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Delivery Address:"
+msgstr "Dirección de envío:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Delivery note N°"
+msgstr "Delivery note N°"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Description"
+msgstr "Descripción"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Destination"
+msgstr "Destino"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Disc.(%)"
+msgstr "Desc.(%)"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Estimated weight:"
+msgstr "Peso estimado:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "Fecha y hora"
+msgstr "Fecha y hora"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "For any doubt or explanation, be contacted with Sales Dept. in the number"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
+msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated."
+msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
+
+#. module: warehouse_shipping_light
+#: model:ir.actions.report.xml,name:warehouse_shipping_light.wsl_action_report_picking
+msgid "Internal picking note"
+msgstr "Internal picking note"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Invoicing address:"
+msgstr "Dirección de facturación:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Lot"
+msgstr "Lote real"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Lot | Approved | Best before"
+msgstr "Lote | Aprobado | Caducidad"
+
+#. module: warehouse_shipping_light
+#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
+msgid "Measure"
+msgstr "Measure"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Net amount"
+msgstr "Importe neto"
+
+#. module: warehouse_shipping_light
+#: field:stock.picking,complete:0
+msgid "Number of complete"
+msgstr "Number of complete"
+
+#. module: warehouse_shipping_light
+#: field:stock.picking,number_of_palets:0
+msgid "Number of palets"
+msgstr "Number of palets"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Observations:"
+msgstr "Observaciones:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Order (Origin):"
+msgstr "Order (Origin):"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Pack."
+msgstr "Bulto"
+
+#. module: warehouse_shipping_light
+#: field:stock.pack.operation,package:0
+#: field:stock.transfer_details_items,package:0
+msgid "Package"
+msgstr "Package"
+
+#. module: warehouse_shipping_light
+#: model:ir.model,name:warehouse_shipping_light.model_stock_pack_operation
+msgid "Packing Operation"
+msgstr "Operación de empaquetado"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Page:"
+msgstr "Página:"
+
+#. module: warehouse_shipping_light
+#: field:stock.pack.operation,palet:0
+#: field:stock.transfer_details_items,palet:0
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Palet"
+msgstr "Palet"
+
+#. module: warehouse_shipping_light
+#: model:ir.actions.report.xml,name:warehouse_shipping_light.action_report_palet_labels
+msgid "Palet labels"
+msgstr "Palet labels"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "Palets totales"
+msgstr "Palets totales"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Pallets"
+msgstr "Pallets"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Payment mode:"
+msgstr "Forma de pago:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "Peso total"
+msgstr "Peso total"
+
+#. module: warehouse_shipping_light
+#: model:ir.model,name:warehouse_shipping_light.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: warehouse_shipping_light
+#: model:ir.model,name:warehouse_shipping_light.model_stock_transfer_details
+msgid "Picking wizard"
+msgstr "Asistente de albarán"
+
+#. module: warehouse_shipping_light
+#: model:ir.model,name:warehouse_shipping_light.model_stock_transfer_details_items
+msgid "Picking wizard items"
+msgstr "Elementos del asistente de albarán"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Price"
+msgstr "Precio"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Price w/discount"
+msgstr "Precio c. dto"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Product"
+msgstr "Producto"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Product | EAN13"
+msgstr "Producto | EAN13"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Qty"
+msgstr "Ctdad"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Qty.&nbsp;"
+msgstr "Qty.&nbsp;"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Quotation Date:"
+msgstr "Fecha de presupuesto:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Quotation reference:"
+msgstr "Referencia de pedido:"
+
+#. module: warehouse_shipping_light
+#: field:stock.picking,real_weight:0
+msgid "Real weight to send"
+msgstr "Real weight to send"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Real weight:"
+msgstr "Peso real:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Recorded in the Companies Registry of"
+msgstr "Inscrita en el Registro Mercantil de"
+
+#. module: warehouse_shipping_light
+#: field:stock.pack.operation,rest:0
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Rest"
+msgstr "Resto"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Salesperson:"
+msgstr "Comercial:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Shipping address:"
+msgstr "Dirección de envío:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Source"
+msgstr "Origen"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Suggested lot"
+msgstr "Lote sugerido"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Supplier Address:"
+msgstr "Dirección del proveedor:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Supplier code:"
+msgstr "Código proveedor:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Supplier delivery note:"
+msgstr "Supplier delivery note:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Supplier lot"
+msgstr "Supplier lot"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_do_not_available
+msgid "This report is only available for outgoing orders"
+msgstr "This report is only available for outgoing orders"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Total"
+msgstr "Total"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Total Without Taxes"
+msgstr "Base imponible"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Total complete:"
+msgstr "Bultos completos:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Total packages:"
+msgstr "Total packages:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_container_labels
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "Transportista"
+msgstr "Transportista"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Unit of measure"
+msgstr "Unidad de medida"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "Unit price"
+msgstr "Precio ud"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Units"
+msgstr "Cantidad"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Warehouse Address:"
+msgstr "Dirección del almacén"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "ventas@pharmadus.com"
+msgstr "ventas@pharmadus.com"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.report_palet_labels
+msgid "~ NO HAY PALETS EN ESTE ALBARÁN ~"
+msgstr "~ NO HAY PALETS EN ESTE ALBARÁN ~"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       

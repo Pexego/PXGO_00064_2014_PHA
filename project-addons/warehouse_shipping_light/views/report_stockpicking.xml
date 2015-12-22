@@ -222,10 +222,13 @@
                         table.details tbody > tr {
                             font-size: 12px;
                         }
+                        table#sale-pack-ops tr {
+                            vertical-align: top;
+                        }
                     </style>
 
                     <t t-if="o.sale_id and (o.picking_type_id.code == 'outgoing')">
-                        <t t-esc="o.create_pack_ops()"/>
+                        <t t-set="dumb" t-value="o.create_pack_ops()"/>
                     </t>
 
                     <table t-if="not o.pack_operation_ids" class="table table-condensed">
@@ -350,10 +353,10 @@
                         </tbody>
                     </table>
 
-                    <table t-if="o.pack_operation_ids and o.sale_id" class="table table-condensed table-bordered details">
+                    <table t-if="o.pack_operation_ids and o.sale_id" id="sale-pack-ops" class="table table-condensed table-bordered details">
                         <thead>
                             <tr>
-                                <th>Palet</th>
+                                <th style="min-width: 50px;">Palet</th>
                                 <th>Comp.</th>
                                 <th>Pack.</th>
                                 <th>Rest</th>
@@ -364,8 +367,8 @@
                                 <th>Lot</th>
                             </tr>
                        </thead>
-                       <tbody class="sale_tbody">
-                            <tr t-foreach="o.pack_operation_ids" t-as="l" style="height: 2em;">
+                       <tbody>
+                            <tr t-foreach="o.pack_operation_ids" t-as="l" style="height: 3.5em;">
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
                                     <span t-field="l.palet"/>
                                 </td>
@@ -379,7 +382,7 @@
                                     <span t-field="l.rest"/>
                                 </td>
                                 <td style="width: 37%; vertical-align: middle;">
-                                    <span t-field="l.product_id.name_template"/><br/>
+                                    <span t-field="l.product_id.name_template"/>
                                 </td>
                                 <td style="width: 8%; vertical-align: middle;" class="text-center">
                                     <span t-esc="'%g' % l.product_qty"/>
@@ -398,49 +401,46 @@
                     </table>
 
                     <style>
-                        div#resume p {
+                        div.resume p {
                             padding: 0;
                             margin: 0;
                         }
-                        div#resume strong {
+                        div.resume strong {
                             display: inline-block;
-                            width: 15%;
+                            width: 120px;
                         }
-                        div#resume span {
+                        div.resume span {
                             display: inline-block;
-                            min-width: 10%;
+                            min-width: 90px;
                             border-bottom: 1px solid black;
                         }
                     </style>
                     <div t-if="o.picking_type_id.code=='outgoing'" class="row">
-                        <div id="resume" class="col-xs-12">
-                            <p>
-                                <strong>Carrier:</strong>
-                                <span t-field="o.carrier_id"/>
-                            </p>
-                            <p>
-                                <strong>Total complete:</strong>
-                                <span t-field="o.complete"/>
-                            </p>
-                            <p>
-                                <strong>Total packages:</strong>
-                                <span><![CDATA[&nbsp;]]></span>
-                            </p>
-                            <p>
-                                <strong>Estimated weight:</strong>
-                                <span t-field="o.weight"/>
-                                <strong t-field="o.weight_uom_id"/>
-                            </p>
-                            <p>
-                                <strong>Real weight:</strong>
-                                <t t-if="o.real_weight">
-                                    <span t-field="o.real_weight"/>
-                                </t>
-                                <t t-if="not o.real_weight">
+                        <div class="col-xs-12">
+                            <div style="width: 30%; float: left;">
+                                <strong>Total complete:</strong> <span t-field="o.complete"/>
+                            </div>
+                            <div class="resume" style="width: 50%; float: right;">
+                                <p>
+                                    <strong>Carrier:</strong>
+                                    <span t-field="o.carrier_id"/>
+                                </p>
+                                <p>
+                                    <strong>Total packages:</strong>
                                     <span><![CDATA[&nbsp;]]></span>
-                                </t>
-                                <strong t-field="o.weight_uom_id"/>
-                            </p>
+                                </p>
+                                <p>
+                                    <strong>Real weight:</strong>
+                                    <t t-if="o.real_weight">
+                                        <span t-esc="'%g' % o.real_weight" class="text-right"/>
+                                    </t>
+                                    <t t-if="not o.real_weight">
+                                        <span><![CDATA[&nbsp;]]></span>
+                                    </t>
+                                    <b t-field="o.weight_uom_id"/> (Estimated: <i t-esc="'%g' % o.weight"/>)
+                                </p>
+                            </div>
+                            <div style="clear: both;"/>
                         </div>
                     </div>
 

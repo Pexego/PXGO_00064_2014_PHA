@@ -20,7 +20,8 @@
 ##############################################################################
 
 from openerp import models, fields, api
-
+from openerp.tools.translate import _
+import openerp.addons.decimal_precision as dp
 
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
@@ -82,12 +83,15 @@ class StockTransferDetailsItems(models.TransientModel):
 
     palet = fields.Integer('Palet', default=0)
     complete = fields.Integer('Complete',
-                              compute='_recalculate_complete_and_rest',
-                              readonly=True)
+                           compute='_recalculate_complete_and_rest',
+                           readonly=True)
     package = fields.Integer('Package', default=0)
     rest = fields.Integer('Rest',
-                          compute='_recalculate_complete_and_rest',
-                          readonly=True)
+                           compute='_recalculate_complete_and_rest',
+                           readonly=True)
+    quantity_to_extract = fields.Float('Quantity to extract',
+                           digits=dp.get_precision('Product Unit of Measure'),
+                           default=0)
 
     @api.one
     @api.depends('product_id', 'quantity')
@@ -101,3 +105,45 @@ class StockTransferDetailsItems(models.TransientModel):
             else:
                 rec.complete = 0
                 rec.rest = self.quantity
+
+    @api.multi
+    def split_wizard_view(self):
+        view = self.env.ref('warehouse_shipping_light.view_transfer_split_config')
+
+        return {
+            'name': _('Enter quantity of the new line'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'stock.transfer_details_items',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'target': 'new',
+            'res_id': self.ids[0],
+            'context': self.env.context,
+        }
+
+    @api.multi
+    def split_quantities(self):
+        if self and self[0]:
+            return self[0].split_wizard_view()
+
+    @api.multi
+    def do_split_quantities(self):
+        for det in self:
+            if det.quantity>1:
+                det.quantity = (det.quantity-det.quantity_to_extract)
+                new_id = det.copy(context=self.env.context)
+                new_id.quantity = det.quantity_to_extract
+                new_id.quantity_to_extract = 0
+                new_id.packop_id = False
+                det.quantity_to_extract = 0
+        if self and self[0]:
+            return self[0].transfer_id.wizard_view()
+
+    @api.multi
+    def do_not_split_quantities(self):
+        for det in self:
+            det.quantity_to_extract = 0
+        if self and self[0]:
+            return self[0].transfer_id.wizard_view()
