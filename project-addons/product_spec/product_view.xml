@@ -80,13 +80,15 @@
                     <field
                         name="name"
                         string="Product"
-                        filter_domain="['|','|','|',('default_code','ilike',self),('ean13','ilike',self),('cn_code','ilike',self),('name','ilike',self)]"
+                        filter_domain="['|','|','|',('default_code','ilike',self),('ean13','ilike',self),('cn_code','ilike',self)
+                        ,('name','ilike',self)]"
                     />
                 </field>
                 <field name="categ_id" position="after">
                     <field name="categ_ids"/>
                 </field>
                 <separator position="after">
+                    <field name="description"/>
                     <field name="default_code"/>
                     <field name="ean13"/>
                     <field name="cn_code"/>
