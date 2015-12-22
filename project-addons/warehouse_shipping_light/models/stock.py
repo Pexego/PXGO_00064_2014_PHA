@@ -33,13 +33,17 @@ class StockPicking(models.Model):
                               compute='_compute_packages_and_weight',
                               readonly=True,
                               store=True)
+    number_of_palets = fields.Integer('Number of palets',
+                              compute='_compute_packages_and_weight',
+                              readonly=True,
+                              store=True)
     weight = fields.Float('Weight',
-                          compute='_compute_packages_and_weight',
-                          readonly=True,
-                          store=True)
+                              compute='_compute_packages_and_weight',
+                              readonly=True,
+                              store=True)
     real_weight = fields.Float('Real weight to send',
-                               required=True,
-                               default=0)
+                              required=True,
+                              default=0)
 
     @api.one
     @api.depends('pack_operation_ids',
@@ -49,19 +53,21 @@ class StockPicking(models.Model):
                  'pack_operation_ids.product_id')
     def _compute_packages_and_weight(self):
         complete_sum = 0
-        packages_sum = 0
         weight_sum = 0
         package_list = [] # Count different packages
+        palet_list = []  # Count differents palets
 
         for po in self.pack_operation_ids:
             complete_sum += po.complete
-            if not po.package in package_list:
-                packages_sum += 1 if po.package > 0 else 0
+            if po.package > 0 and not po.package in package_list:
                 package_list.append(po.package)
+            if po.palet > 0 and not po.palet in palet_list:
+                palet_list.append(po.palet)
             weight_sum += po.product_id.product_tmpl_id.weight * po.product_qty
 
         self.complete = complete_sum
-        self.number_of_packages = packages_sum + complete_sum
+        self.number_of_packages = len(package_list) + complete_sum
+        self.number_of_palets = len(palet_list)
         self.weight = weight_sum
 
     @api.one

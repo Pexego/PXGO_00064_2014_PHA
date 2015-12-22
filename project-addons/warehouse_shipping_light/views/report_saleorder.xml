@@ -214,8 +214,10 @@
                             <p t-field="o.user_id.name"/>
                         </div>
                         <div>
-                            <strong>Quotation reference:</strong>
-                            <p t-field="o.client_order_ref"/>
+                            <p><strong>Quotation reference:</strong> <span t-field="o.name"/></p>
+                        </div>
+                        <div>
+                            <strong>Client quotation ref.:</strong> <span t-field="o.client_order_ref"/>
                         </div>
                     </div>
                 </div>
@@ -237,26 +239,46 @@
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Product / EAN13</th>
-                            <th>Taxes</th>
-                            <th class="text-right">Quantity</th>
+                            <th>Product | EAN13<br/>Lot | Approved | Best before</th>
+                            <th class="text-right">Qty</th>
                             <th class="text-right">Unit price</th>
                             <th class="text-right">Disc.(%)</th>
                             <th class="text-right">Price w/discount</th>
                             <th class="text-right">Price</th>
                         </tr>
-                   </thead>
-                   <tbody class="sale_tbody">
+                    </thead>
+                    <tbody class="sale_tbody">
                         <tr t-foreach="o.order_line" t-as="l">
                             <td>
                                 <span t-field="l.product_id.cn_code"/>
                             </td>
-                            <td>
-                                <span t-field="l.product_id.name_template"/><br/>
-                                <span t-field="l.product_id.ean13"/>
-                            </td>
-                            <td>
-                                <span t-esc="', '.join(map(lambda x: x.name, l.tax_id))"/>
+                            <td style="min-width: 40%;">
+                                <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
+                                <br/>
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <t t-foreach="l.procurement_ids.move_ids" t-as="m">
+                                            <tr t-foreach="m.quant_ids" t-as="q">
+                                                <td><span t-field="q.lot_id.name"/></td>
+                                                <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                <td>
+                                                    <span t-if="q.lot_id.acceptance_date" t-field="q.lot_id.acceptance_date"/>
+                                                    <span t-if="not q.lot_id.acceptance_date">(Not approved)</span>
+                                                </td>
+                                                <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                <td>
+                                                    <t t-set="u_date" t-value="q.lot_id.use_date"/>
+                                                    <t t-if="u_date">
+                                                        <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                    </t>
+                                                    <t t-if="not u_date">
+                                                        <span>(Unspecified)</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.product_uom_qty"/><br/>
@@ -499,11 +521,15 @@
         </template>
 
         <report
-            string="Sale order"
-            id="wsl_action_sale_order"
+            string="Client delivery note"
+            id="wsl_action_delivery_note"
             model="stock.picking"
             report_type="qweb-pdf"
             name="warehouse_shipping_light.wsl_report_delivery_note"
         />
+
+        <record id="warehouse_shipping_light.wsl_action_delivery_note" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="custom_reports.paperformat_orders"/>
+        </record>
     </data>
 </openerp>
