@@ -34,6 +34,7 @@
         'sale_commission',
         'newclient_review',
         'pre_customer',
+        'partner_prospect',
     ],
     'data' : [
         'views/sale_view.xml',

@@ -22,6 +22,17 @@
                 <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
             </record>
 
+        <record model="ir.actions.act_window" id="action_products">
+                <field name="name">Product list SalesmanPH</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">product.product</field>
+                <field name="view_mode">kanban</field>
+                <field name="view_type">form</field>
+                <field name="view_id" ref="product_template_kanban_view_salesmanph"/>
+                <field name="domain">[('sale_ok', '=', 1)]</field>
+                <field name="context">{}</field>
+        </record>
+
         <record model="ir.actions.act_window" id="action_allsales_salesmanph">
                 <field name="name">Sale orders SalesmanPH (Confirmed)</field>
                 <field name="type">ir.actions.act_window</field>
@@ -147,6 +158,11 @@
                     action="sale_transfer.action_transfer"
                     parent="menu_custom_salesmanph"
                     sequence="50"/>
+         <menuitem id="menu_custom_products_salesmanph"
+                    name="Products"
+                    action="action_products"
+                    parent="menu_custom_salesmanph"
+                    sequence="55"/>
         <menuitem id="menu_custom_restricted_customers_salesmanph"
                   parent="custom_permissions.menu_crm_custom_salesmanph"
                   action="custom_permissions.action_restricted_customer_form"
