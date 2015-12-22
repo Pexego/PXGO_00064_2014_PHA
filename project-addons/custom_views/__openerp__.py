@@ -38,7 +38,7 @@
     ],
     'data' : [
         'views/sale_view.xml',
-        'views/partner_css.xml',
+        'views/custom_css.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',
         'views/purchase_view2.xml',

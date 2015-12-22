@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <!--Overwrite general kanban, we dont need price. Add description, ean, cnCode-->
+        <record id="product_kanban_view" model="ir.ui.view">
+            <field name="name">Product Kanban</field>
+            <field name="model">product.product</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="image_small"/>
+                    <field name="lst_price"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open"><img t-att-src="kanban_image('product.product', 'image_medium', record.id.value)" class="oe_kanban_image_med"/></a>
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open">
+                                            <field name="name"/>
+                                            <field name="attribute_value_ids"/>
+                                        </a>
+                                    </h4>
+                                    <div name="tags"/>
+                                    <ul>
+                                        <li>EAN13: <field name="ean13"></field></li>
+                                        <li>CN: <field name="cn_code"></field></li>
+                                        <li>Desc: <field name="description"></field></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
         <!-- Sales: Products default to tree view -->
         <record id="product_template_action_tree_view_custom_view" model="ir.actions.act_window">
             <field name="name">Products</field>
