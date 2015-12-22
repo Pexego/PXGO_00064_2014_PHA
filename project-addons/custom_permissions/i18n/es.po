@@ -224,3 +224,14 @@ msgstr "Reuniones"
 #: model:ir.actions.act_window,name:custom_permissions.action_meetings_customviews
 msgid "Meetings salesmanph"
 msgstr "Reuniones"
+
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:custom_permissions.action_products
+msgid "Product list SalesmanPH"
+msgstr "Listado de productos"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_products_salesmanph
+msgid "Products"
+msgstr "Productos"

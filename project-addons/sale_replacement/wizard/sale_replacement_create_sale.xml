@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="sale_replacement_create_sale_form" model="ir.ui.view">
+            <field name="name">sale.replacement.create.sale.form</field>
+            <field name="model">sale.replacement.create.sale</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Create sale">
+                    <button string="Create" name="create_sale" type="object" icon="gtk-ok"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Create sale"
+            res_model="sale.replacement.create.sale"
+            src_model="sale.order.to.invoice.replacement"
+            view_id="sale_replacement_create_sale_form"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_sale_replacement_create_sale"/>
+
+    </data>
+</openerp>
+

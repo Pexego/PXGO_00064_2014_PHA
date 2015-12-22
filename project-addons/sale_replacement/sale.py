@@ -21,6 +21,7 @@
 
 from openerp import models, fields, exceptions, api, workflow
 from openerp.tools.translate import _
+from datetime import date
 
 
 class sale_order(models.Model):
@@ -38,6 +39,27 @@ class sale_order(models.Model):
             if not line.is_all_replaced:
                 is_all_invoiced = False
         self.is_all_invoiced = is_all_invoiced
+
+    @api.model
+    def execute_onchanges(self, partner_id, line):
+        par_val = self.onchange_partner_id(partner_id)['value']
+        line.update(self.env['sale.order.line'].product_id_change_with_wh(
+            par_val['pricelist_id'], line['product_id'], line['product_uom_qty'],
+            partner_id=partner_id, date_order=date.today().strftime('%Y-%m-%d'),
+            fiscal_position=par_val.get('fiscal_position', False),
+            warehouse_id=self._get_default_warehouse())['value'])
+        return line
+
+    @api.model
+    def default_get(self, fields):
+        res = super(sale_order, self).default_get(fields)
+        if self._context.get('order_line', False) and res.get('partner_id'):
+            # Se debe ejecutar el onchange del producto manualmente
+            final_line_vals = []
+            for line_vals in eval(self._context.get('order_line')):
+                final_line_vals.append((0, 0, self.execute_onchanges(res['partner_id'], line_vals[2])))
+            res['order_line'] = final_line_vals
+        return res
 
     @api.multi
     def view_invoiced_qtys(self):
