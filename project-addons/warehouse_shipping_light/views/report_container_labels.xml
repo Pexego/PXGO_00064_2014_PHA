@@ -48,11 +48,12 @@
                                 table.table {
                                     margin: 0;
                                 }
-                                table th,
-                                table tr,
-                                table td {
+                                table th, table tr, table td {
                                     padding: 0 !important;
                                     line-height: 1em !important;
+                                }
+                                thead, tbody, th, tr, td {
+                                    border-color: transparent !important;
                                 }
                                 tr.normal-title th {
                                     font-weight: normal;
@@ -104,7 +105,7 @@
                                             <t t-set="complete" t-value="completes.pop()"/>
                                             <tr>
                                                 <td><span t-field="complete.product_id"/></td>
-                                                <td><span t-field="complete.product_id.box_elements"/></td>
+                                                <td class="text-center"><span t-field="complete.product_id.box_elements"/></td>
                                             </tr>
                                         </t>
                                         <t t-if="containers">
@@ -113,7 +114,7 @@
                                                 <t t-if="po.package == container">
                                                     <tr>
                                                         <td><span t-field="po.product_id"/></td>
-                                                        <td><span t-field="po.rest"/></td>
+                                                        <td class="text-center"><span t-field="po.rest"/></td>
                                                     </tr>
                                                 </t>
                                             </t>
