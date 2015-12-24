@@ -48,7 +48,7 @@ class SettlementLine(models.Model):
         elif self.pharma_group_sale_id:
             if (self.pharma_group_sale_id.agent_id.id ==
                     self.settlement_agent_id.agent_id.id):
-                comm = self.pharma_group_sale_id.agent_id.commission
+                comm = self.pharma_group_sale_id.get_applicable_commission()
                 self.amount = self.pharma_group_sale_id.price_unit * \
                     self.pharma_group_sale_id.product_qty
                 self.commission_id = comm.id

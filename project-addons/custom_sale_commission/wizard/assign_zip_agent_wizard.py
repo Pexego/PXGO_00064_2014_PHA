@@ -27,7 +27,7 @@ class assign_zip_agent_wizard(models.TransientModel):
 
     _name = 'assign.zip.agent.wizard'
 
-    zip = fields.Char('Zip code', size=64)
+    zip = fields.Char('Zip code')
     agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
 
     @api.one

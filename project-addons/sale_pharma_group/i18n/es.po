@@ -165,6 +165,11 @@ msgid "File to import"
 msgstr "Fichero a importar (.xls)"
 
 #. module: sale_pharma_group
+#: field:import.pharma.group.sales.wzd,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: sale_pharma_group
 #: view:commission.bussines.line:sale_pharma_group.commission_bussines_line_form
 msgid "General info."
 msgstr "General info."
