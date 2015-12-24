@@ -44,6 +44,7 @@ class res_partner(models.Model):
                 {'agent_id': self.zip_id.agent_id.id,
                  'commission_id': self.zip_id.agent_id.commission.id,
                  'partner_id': self.id, 'auto': True})
+        self.user_id = self.zip_id.agent_id.get_user()
 
 
 class res_partner_agent(models.Model):

@@ -31,3 +31,11 @@ established in settlement')
     base_qty = fields.Float('Base quantity')
     related_zip_ids = fields.One2many('res.better.zip', 'agent_id',
                                       string="Zips", readonly=True)
+
+    @api.multi
+    def get_user(self):
+        self.ensure_one()
+        if self.type == 'asesor':
+            return self.user_id
+        else:
+            return self.employee_id.user_id
