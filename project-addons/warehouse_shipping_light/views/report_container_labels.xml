@@ -101,14 +101,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <t t-if="not containers and completes">
-                                            <t t-set="complete" t-value="completes.pop()"/>
-                                            <tr>
-                                                <td><span t-field="complete.product_id"/></td>
-                                                <td class="text-center"><span t-field="complete.product_id.box_elements"/></td>
-                                            </tr>
-                                        </t>
-                                        <t t-if="containers">
+                                        <t t-if="not completes and containers">
                                             <t t-set="container" t-value="containers.pop()"/>
                                             <t t-foreach="p.pack_operation_ids" t-as="po">
                                                 <t t-if="po.package == container">
@@ -118,6 +111,13 @@
                                                     </tr>
                                                 </t>
                                             </t>
+                                        </t>
+                                        <t t-if="completes">
+                                            <t t-set="complete" t-value="completes.pop()"/>
+                                            <tr>
+                                                <td><span t-field="complete.product_id"/></td>
+                                                <td class="text-center"><span t-field="complete.product_id.box_elements"/></td>
+                                            </tr>
                                         </t>
                                     </tbody>
                                 </table>

@@ -3,7 +3,6 @@
     <data>
         <record id="paperformat_orders" model="report.paperformat">
             <field name="name">Orders (Custom reports)</field>
-            <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">75</field>
@@ -33,7 +32,6 @@
 
         <record id="paperformat_lots_labels" model="report.paperformat">
             <field name="name">Labels (Custom reports)</field>
-            <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">16</field>
