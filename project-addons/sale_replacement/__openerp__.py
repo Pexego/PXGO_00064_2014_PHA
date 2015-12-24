@@ -26,7 +26,7 @@
     'description': """""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
-    "depends": ['sale', 'sale_stock'],
+    "depends": ['sale', 'sale_stock', 'sale_commission'],
     "data": ['sale_workflow.xml', 'sale_replacement_view.xml', 'sale_order_to_invoice_view.xml', 'wizard/sale_replacement_create_sale.xml', 'security/ir.model.access.csv'],
     "installable": True
 }

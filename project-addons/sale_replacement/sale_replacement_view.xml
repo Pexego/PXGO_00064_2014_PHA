@@ -51,13 +51,13 @@
                     Se sobreescribe el onchange de sale_stock para añadir campos en el contexto.
                -->
                 <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="attributes">
-                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale}</attribute>
+                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="attributes">
                     <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="attributes">
-                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale}</attribute>
+                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/form//field[@name='product_uom_qty']" position="attributes">
                    <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale}</attribute>
