@@ -25,7 +25,7 @@ msgstr "&nbsp;|&nbsp;"
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
 msgid "(Not approved)"
-msgstr "(No aprobado)"
+msgstr "              "
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
@@ -313,7 +313,7 @@ msgstr "LOTE"
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
 msgid "Lot | Approved | Best before"
-msgstr "Lote | Aprobado | Caducidad"
+msgstr "Lote | Aprobado | Consumo preferente"
 
 #. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_report_lot_labels
@@ -441,7 +441,7 @@ msgstr "Fecha de pedido:"
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quotation N°"
-msgstr "Nº de pedido"
+msgstr "Nº solicitud de pedido"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_document
