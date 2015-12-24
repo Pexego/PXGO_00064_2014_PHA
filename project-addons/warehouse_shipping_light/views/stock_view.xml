@@ -11,5 +11,49 @@
                 </field>
             </field>
         </record>
+
+        <record id="wsl_view_picking_tree" model="ir.ui.view">
+            <field name="name">Warehouse Shipping Light - Picking tree</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery notes">
+                    <field name="partner_id"/>
+                    <field name="priority"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="wsl_picking_filter" model="ir.ui.view">
+            <field name="name">Warehouse Shipping Light - Filter</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="Search outgoing picking">
+                    <field name="name" string="Picking"/>
+                    <field name="partner_id"/>
+                    <field name="priority"/>
+                    <!--filter name="in_progress" string="In Progress" domain="[('state','=', 'in_progress')]" help="Picking Waves not finished"/-->
+                    <!--group expand="0" string="Group By">
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                    </group-->
+               </search>
+            </field>
+        </record>
+
+        <record id="wsl_action_picking_tree" model="ir.actions.act_window">
+            <field name="name">Delivery notes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking</field>
+            <field name="domain">[('picking_type_code', '=', 'outgoing')]</field> <!-- , ('state', '=', 'done') -->
+            <field name="view_type">form</field>
+            <field name="view_mode">tree, form</field>
+            <field name="view_id" ref="wsl_view_picking_tree"/>
+            <field name="search_view_id" ref="wsl_picking_filter"/>
+        </record>
+
+        <menuitem action="wsl_action_picking_tree"
+                  id="wsl_menu_picking_tree"
+                  parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="31"/>
     </data>
 </openerp>

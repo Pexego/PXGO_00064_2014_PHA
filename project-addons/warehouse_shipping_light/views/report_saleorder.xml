@@ -198,9 +198,8 @@
                     </div>
                     <div class="col-xs-4">
                         <div t-if="o.date_order">
-                            <strong t-if="o.state not in ['draft','sent']">Date Ordered:</strong>
-                            <strong t-if="o.state in ['draft','sent']">Quotation Date:</strong>
-                            <p t-field="o.date_order"/>
+                            <strong>Delivery note date:</strong>
+                            <p t-esc="time.strftime('%d/%m/%Y', time.strptime(picking.date,'%Y-%m-%d %H:%M:%S'))"/>
                         </div>
                         <div t-if="o.payment_term">
                             <strong>Closing date:</strong>
@@ -255,19 +254,19 @@
                             <td style="min-width: 40%;">
                                 <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
                                 <br/>
-                                <table style="width: 100%;">
+                                <table>
                                     <tbody>
                                         <t t-foreach="l.procurement_ids.move_ids" t-as="m">
-                                            <tr t-foreach="m.quant_ids" t-as="q">
-                                                <td><span t-field="q.lot_id.name"/></td>
+                                            <tr t-foreach="m.lot_ids" t-as="lot">
+                                                <td><span t-field="lot.name"/></td>
                                                 <td><![CDATA[&nbsp;|&nbsp;]]></td>
                                                 <td>
-                                                    <span t-if="q.lot_id.acceptance_date" t-field="q.lot_id.acceptance_date"/>
-                                                    <span t-if="not q.lot_id.acceptance_date">(Not approved)</span>
+                                                    <span t-if="lot.acceptance_date" t-field="lot.acceptance_date"/>
+                                                    <span t-if="not lot.acceptance_date">(Not approved)</span>
                                                 </td>
                                                 <td><![CDATA[&nbsp;|&nbsp;]]></td>
                                                 <td>
-                                                    <t t-set="u_date" t-value="q.lot_id.use_date"/>
+                                                    <t t-set="u_date" t-value="lot.use_date"/>
                                                     <t t-if="u_date">
                                                         <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
                                                     </t>
@@ -446,12 +445,20 @@
                         </table>
                     </div>
                 </div>
-                <span><strong>Observations:</strong></span>
-                <p t-field="o.note"/>
-                <!-- p t-if="o.payment_term.note">
+
+                <p>
+                    <strong>Observations:</strong>
+                    <span t-field="o.note"/>
+                </p>
+                <p t-if="o.payment_term.note">
                     <strong>Payment Term:</strong>
                     <span t-field="o.payment_term.note"/>
-                </p -->
+                </p>
+                <p t-if="o.fiscal_position.note">
+                    <strong>Fiscal Position Remark:</strong>
+                    <span t-field="o.fiscal_position.note"/>
+                </p>
+
                 <div class="oe_structure"/>
             </div>
 
@@ -471,7 +478,7 @@
                     </div>
                     <div style="margin-left: 90px;">
                         <p style="font-size: 12px; margin: 5px 0; padding: 0;">
-                            For any doubt or explanation, be contacted with Sales Dept. in the number <b><span t-field="company.phone"/></b>, or by e-mail at <a href="mailto:ventas@pharmadus.com">ventas@pharmadus.com</a>.
+                            For any doubt or explanation, be contacted with Sales Dept. in the number <b><span t-field="company.phone"/></b>, or by e-mail at ventas@pharmadus.com
                         </p>
                         <p style="font-size: 8px; margin: 0; padding: 0;">
                             Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,

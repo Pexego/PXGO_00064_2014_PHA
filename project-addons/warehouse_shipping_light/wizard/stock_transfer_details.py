@@ -19,8 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
-from openerp.tools.translate import _
+from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
 
 class StockTransferDetails(models.TransientModel):
@@ -76,6 +75,18 @@ class StockTransferDetails(models.TransientModel):
         self.picking_id.do_transfer()
 
         return True
+
+    @api.multi
+    def wizard_view(self):
+        picking = self[0].picking_id
+        if (picking.picking_type_code == 'outgoing') and\
+                not (picking.real_weight > 0):
+            raise exceptions.Warning(
+                    _('Real weight to send must be greater than zero'))
+        else:
+            type = picking.picking_type_code
+            return super(StockTransferDetails,
+                         self.with_context(picking_type = type)).wizard_view()
 
 
 class StockTransferDetailsItems(models.TransientModel):
