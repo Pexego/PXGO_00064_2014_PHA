@@ -27,6 +27,7 @@
                     <field name="real_weight"/>
                     <field name="number_of_packages"/>
                     <field name="number_of_palets"/>
+                    <field name="sent"/>
                 </tree>
             </field>
         </record>

@@ -16,6 +16,11 @@
                     <div class="col-xs-3">
                         <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
                     </div>
+                    <div class="col-xs-6" style="font-size: 24px; padding-top: 10px;">
+                        <strong>
+                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_done,'%Y-%m-%d %H:%M:%S'))"/>
+                        </strong>
+                    </div>
                     <div class="list-inline pull-right" style="padding: 20px 10px 0 0;">
                         <li>Page:</li>
                         <li><span class="page"/></li>
@@ -25,16 +30,39 @@
                 </div>
                 <div class="row zero_min_height">
                     <div class="col-xs-12">
-                        <div style="border-bottom: 1px solid black;"></div>
+                        <div style="width: 100%; border-bottom: 1px solid black;"></div>
+                        <div style="font-size: 18px;">
+                            Agency: <strong t-field="o.carrier_id"/>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="page">
-                <table>
+                <table class="table table-condensed" style="font-size: 10px;">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Delivery address</th>
+                            <th>Phone</th>
+                            <th>ZIP</th>
+                            <th>City</th>
+                            <th>Weight</th>
+                            <th>Packages</th>
+                            <th>Delivery note</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <t t-foreach="docs" t-as="p">
                             <tr>
+                                <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
+                                <td><span t-field="partner.name"/></td>
+                                <td><span t-field="partner.street"/></td>
+                                <td><span t-field="partner.phone"/></td>
+                                <td><span t-field="partner.zip"/></td>
+                                <td><span t-field="partner.city"/></td>
+                                <td><span t-field="p.real_weight"/></td>
+                                <td><span t-field="p.number_of_packages"/></td>
                                 <td><span t-field="p.name"/></td>
                             </tr>
                         </t>
@@ -43,14 +71,27 @@
             </div>
 
             <div class="footer">
+                <style>
+                    div.signature-box {
+                        width: 42%;
+                        height: 105px;
+                        border: 1px solid black;
+                        position: relative;
+                        padding-left: 5px;
+                    }
+                </style>
                 <div class="row">
-                    <div class="pull-left">
-
+                    <div class="pull-left signature-box">
+                        <strong>TRANSPORT VISUAL INSPECTION: OK☐<![CDATA[&nbsp;&nbsp;]]>NO OK☐</strong>
+                        <div style="position: absolute; bottom: 0;">
+                            Signature or person in charge of logistics
+                        </div>
                     </div>
-                    <div class="pull-right">
-
+                    <div class="pull-right signature-box">
+                        <div style="position: absolute; bottom: 0;">
+                            Signature of courier
+                        </div>
                     </div>
-
                 </div>
             </div>
         </template>
@@ -73,12 +114,12 @@
             <field name="name">Warehouse expeditions</field>
             <field name="format">A4</field>
             <field name="orientation">Landscape</field>
-            <field name="margin_top">15</field>
+            <field name="margin_top">20</field>
             <field name="margin_bottom">30</field>
-            <field name="margin_left">7</field>
-            <field name="margin_right">7</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
             <field name="header_line" eval="False"/>
-            <field name="header_spacing">13</field>
+            <field name="header_spacing">20</field>
             <field name="dpi">90</field>
         </record>
 
