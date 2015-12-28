@@ -20,6 +20,7 @@
 ##############################################################################
 
 from openerp import models, fields, api
+import time
 
 
 class StockPicking(models.Model):
@@ -44,6 +45,26 @@ class StockPicking(models.Model):
     real_weight = fields.Float('Real weight to send',
                               required=True,
                               default=0)
+    date_done_day = fields.Char('Day',
+                              compute='_compute_day_done',
+                              store=True)
+    date_done_hour = fields.Char('Hour',
+                              compute='_compute_day_done',
+                              store=True)
+    zip = fields.Char(related='move_lines.partner_id.zip')
+    city = fields.Char(related='move_lines.partner_id.city')
+    state_id = fields.Many2one(related='move_lines.partner_id.state_id')
+    country_id = fields.Many2one(related='move_lines.partner_id.country_id')
+    sent = fields.Integer('Sent', default=0)
+
+    @api.one
+    @api.depends('date_done')
+    def _compute_day_done(self):
+        day = self.date_done if self.date_done else self.date
+        self.date_done_day = time.strftime('%d %B',
+                                        time.strptime(day, '%Y-%m-%d %H:%M:%S'))
+        self.date_done_hour = time.strftime('%H:%M:%S',
+                                        time.strptime(day, '%Y-%m-%d %H:%M:%S'))
 
     @api.one
     @api.depends('pack_operation_ids',
@@ -55,7 +76,7 @@ class StockPicking(models.Model):
         complete_sum = 0
         weight_sum = 0
         package_list = [] # Count different packages
-        palet_list = []  # Count differents palets
+        palet_list = []  # Count different palets
 
         for po in self.pack_operation_ids:
             complete_sum += po.complete

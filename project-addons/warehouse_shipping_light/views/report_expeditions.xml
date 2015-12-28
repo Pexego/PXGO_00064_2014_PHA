@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="wsl_report_expeditions_base">
+            <t t-set="o" t-value="docs[0]"/>
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
+            <div class="header">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+                    </div>
+                    <div class="list-inline pull-right" style="padding: 20px 10px 0 0;">
+                        <li>Page:</li>
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </div>
+                </div>
+                <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page">
+                <table>
+                    <tbody>
+                        <t t-foreach="docs" t-as="p">
+                            <tr>
+                                <td><span t-field="p.name"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="footer">
+                <div class="row">
+                    <div class="pull-left">
+
+                    </div>
+                    <div class="pull-right">
+
+                    </div>
+
+                </div>
+            </div>
+        </template>
+
+        <template id="wsl_report_expeditions">
+            <t t-call="report.html_container">
+                <t t-raw="translate_doc(doc_ids[0], doc_model, 'partner_id.lang', 'warehouse_shipping_light.wsl_report_expeditions_base')"/>
+            </t>
+        </template>
+
+        <report
+            string="Expeditions report"
+            id="wsl_action_report_expeditions"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="warehouse_shipping_light.wsl_report_expeditions"
+        />
+
+        <record id="paperformat_expeditions" model="report.paperformat">
+            <field name="name">Warehouse expeditions</field>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">13</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="warehouse_shipping_light.wsl_action_report_expeditions" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="warehouse_shipping_light.paperformat_expeditions"/>
+        </record>
+    </data>
+</openerp>

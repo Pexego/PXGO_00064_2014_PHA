@@ -39,6 +39,7 @@
         'views/report_saleorder.xml',
         'views/report_container_labels.xml',
         'views/report_palet_labels.xml',
+        'views/report_expeditions.xml',
         'views/stock_view.xml',
     ],
     'installable': True
