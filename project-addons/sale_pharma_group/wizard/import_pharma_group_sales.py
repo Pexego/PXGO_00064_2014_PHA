@@ -47,6 +47,23 @@ class ImportPharmaGroupSales(models.TransientModel):
     pricelist_id = fields.Many2one('product.pricelist', 'Pricelist',
                                    domain=[('type', '=', 'sale')],
                                    required=True)
+    partner_id = fields.Many2one('res.partner', 'Partner', required=True)
+
+    def _get_positions(self, header):
+        for pos in range(0, len(header)):
+            if header[pos] == u'farmacia':
+                p_name_pos = pos
+            elif header[pos] == u'dirección':
+                p_street_pos = pos
+            elif header[pos] == u'CP':
+                p_zip_pos = pos
+            elif header[pos] == u'población':
+                p_location_pos = pos
+            elif header[pos] == u'CN':
+                cn_pos = pos
+            elif header[pos] == u'unidades':
+                qty_pos = pos
+        return p_name_pos, p_street_pos, p_zip_pos, p_location_pos, cn_pos, qty_pos
 
     @api.one
     def action_import(self):
@@ -61,9 +78,11 @@ class ImportPharmaGroupSales(models.TransientModel):
         imp_date = str(self.year) + "-" + self.month + "-" + \
             str(last_month_day)
 
+        header = sh.row_values(0)
+        p_name_pos, p_street_pos, p_zip_pos, p_location_pos, cn_pos, qty_pos = self._get_positions(header)
         for line in range(1, sh.nrows):
             row = sh.row_values(line)
-            cn_code = row[4].strip().replace("'", "")
+            cn_code = row[cn_pos].strip().replace("'", "")
             if '.' not in cn_code:
                 cn_code = cn_code[:-1] + '.' + cn_code[-1]
             p_ids = product_env.search([('cn_code', '=', cn_code)])
@@ -71,23 +90,24 @@ class ImportPharmaGroupSales(models.TransientModel):
                 raise exceptions.Warning(_('Any product found with CN %s')
                                          % cn_code)
 
-            zip_ids = zip_env.search([('name', '=', row[2].strip())])
+            zip_ids = zip_env.search([('name', '=', row[p_zip_pos].strip())])
             if not zip_ids:
-                raise exceptions.Warning(_('Zip %s not found') % row[2])
+                raise exceptions.Warning(_('Zip %s not found') % row[p_zip_pos])
 
             if not zip_ids[0].agent_id:
                 raise exceptions.Warning(_('Zip %s didn\'t have agent set')
-                                         % row[2])
+                                         % row[p_zip_pos])
 
-            pharma_env.create({'pharmacy_name': row[0],
-                               'pharmacy_street': row[1],
-                               'pharmacy_zip': row[2],
-                               'pharmacy_location': row[3],
-                               'product_cn': row[4],
-                               'product_qty': row[6],
+            pharma_env.create({'pharmacy_name': row[p_name_pos],
+                               'pharmacy_street': row[p_street_pos],
+                               'pharmacy_zip': row[p_zip_pos],
+                               'pharmacy_location': row[p_location_pos],
+                               'product_cn': row[cn_pos],
+                               'product_qty': row[qty_pos],
                                'product_id': p_ids[0].id,
                                'agent_id': zip_ids[0].agent_id.id,
                                'date': imp_date,
                                'price_unit': p_ids[0].price,
-                               'price_subtotal': p_ids[0].price * row[6]
+                               'price_subtotal': p_ids[0].price * row[qty_pos],
+                               'partner_id': self.partner_id.id
                                })
