@@ -38,9 +38,10 @@ class SaleAgent(models.Model):
     invoice_concept = fields.Char('Invoice concept', help='Concept to be \
 established in settlement')
     base_qty = fields.Float('Base quantity')
-    related_zip_ids = fields.One2many('res.better.zip', 'agent_id',
-                                      string="Zips", readonly=True)
-    related_agent_ids = fields.One2many('sale.agent.relateds', 'original_agent_id', 'Related agents')
+    related_zip_ids = fields.One2many('location.agent.category.rel',
+                                      'agent_id', 'Zips')
+    related_agent_ids = fields.One2many('sale.agent.relateds',
+                                        'original_agent_id', 'Related agents')
 
     @api.multi
     def get_user(self):
@@ -55,6 +56,8 @@ established in settlement')
         self.ensure_one()
         related_commissions = []
         for related in self.related_agent_ids:
-            related_commissions.append({'agent_id': related.related_agent_id.id, 'commission_id': related.commission_id.id})
+            related_commissions.append(
+                {'agent_id': related.related_agent_id.id,
+                 'commission_id': related.commission_id.id})
             related_commissions += related.related_agent_id.get_related_commissions()
         return related_commissions

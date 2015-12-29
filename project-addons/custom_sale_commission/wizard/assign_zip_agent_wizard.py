@@ -28,6 +28,8 @@ class assign_zip_agent_wizard(models.TransientModel):
     _name = 'assign.zip.agent.wizard'
 
     zip = fields.Char('Zip code')
+    category_ids = fields.Many2many('res.partner.category',
+                                    string='Categories', required=True)
     agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
 
     @api.one
@@ -41,7 +43,13 @@ class assign_zip_agent_wizard(models.TransientModel):
         for zip in zip_list:
             locations = self.env['res.better.zip'].search([('name', '=', zip)])
             for location in locations:
-                location.agent_id = self.agent_id
+                for category in self.category_ids:
+                    location_agents = location.agent_ids.filtered(
+                        lambda record: record.category_id.id == category.id)
+                    location_agents.unlink()
+                    location_agents.create({'zip_id': location.id,
+                                            'agent_id': self.agent_id.id,
+                                            'category_id': category.id})
 
     @api.multi
     def delete_all(self):
