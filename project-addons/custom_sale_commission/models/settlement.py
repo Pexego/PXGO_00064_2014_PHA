@@ -34,7 +34,8 @@ established in the invoice')
         for line in self:
             total = vals.get('total', line.total)
             if total != 0:
-                vals['total'] = total - line.base_qty + vals.get('base_qty', line.base_qty)
+                vals['total'] = total - line.base_qty + \
+                    vals.get('base_qty', line.base_qty)
             else:
                 vals['total'] = vals.get('base_qty', line.base_qty)
         return super(SettlementAgent, self).write(vals)

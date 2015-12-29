@@ -28,23 +28,17 @@ class res_partner(models.Model):
 
     @api.one
     def assign_agent(self):
-        if not self.zip_id or not self.zip_id.agent_id:
+        self.commission_ids.filtered(lambda x: x.auto).unlink()
+        if not self.zip_id or not self.zip_id.agent_ids or not self.category_id:
             return
-        changed = False
-        for commission in self.commission_ids:
-            if changed and commission.auto:
-                commission.unlink()
-                continue
-            if commission.auto is True:
-                commission.agent_id = self.zip_id.agent_id.id
-                commission.commission_id = self.zip_id.agent_id.commission
-                changed = True
-        if not changed:
-            self.env['res.partner.agent'].create(
-                {'agent_id': self.zip_id.agent_id.id,
-                 'commission_id': self.zip_id.agent_id.commission.id,
-                 'partner_id': self.id, 'auto': True})
-        self.user_id = self.zip_id.agent_id.get_user()
+        for agent in self.zip_id.agent_ids:
+            all_categ = self.env['res.partner.category'].search([('id', 'child_of', agent.category_id._ids)])
+            if all_categ & self.category_id:
+                self.env['res.partner.agent'].create(
+                    {'agent_id': agent.agent_id.id,
+                     'commission_id': agent.agent_id.commission.id,
+                     'partner_id': self.id, 'auto': True})
+                self.user_id = agent.agent_id.get_user()
 
 
 class res_partner_agent(models.Model):

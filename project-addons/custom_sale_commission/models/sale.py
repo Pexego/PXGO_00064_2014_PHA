@@ -45,7 +45,7 @@ class SaleOrder(models.Model):
             if part:
                 partner = self.env['res.partner'].browse(part)
                 for agent in partner.mapped('commission_ids.agent_id'):
-                    related  += agent.get_related_commissions()
+                    related += agent.get_related_commissions()
             related_commissions = [(0, 0, x) for x in related]
             for commission in related_commissions:
                 if commission not in res['value']['sale_agent_ids']:
