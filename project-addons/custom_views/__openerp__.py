@@ -35,6 +35,7 @@
         'newclient_review',
         'pre_customer',
         'partner_prospect',
+        'stock'
     ],
     'data' : [
         'views/sale_view.xml',
