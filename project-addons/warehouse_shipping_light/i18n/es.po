@@ -212,8 +212,8 @@ msgstr "Bonificación"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_container_labels
-msgid "Bultos totales"
-msgstr "Bultos totales"
+msgid "Bultos"
+msgstr "Bultos"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_container_labels
@@ -532,8 +532,8 @@ msgstr "Etiquetas de palet"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_palet_labels
-msgid "Palets totales"
-msgstr "Palets totales"
+msgid "Palets"
+msgstr "Palets"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
