@@ -1,28 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <!--Overwrite general kanban, we dont need price. Add description, ean, cnCode-->
+        <record id="product_kanban_view" model="ir.ui.view">
+            <field name="name">Product Kanban</field>
+            <field name="model">product.product</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="image_small"/>
+                    <field name="lst_price"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open"><img t-att-src="kanban_image('product.product', 'image_medium', record.id.value)" class="oe_kanban_image_med"/></a>
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open">
+                                            <field name="name"/>
+                                            <field name="attribute_value_ids"/>
+                                        </a>
+                                    </h4>
+                                    <div name="tags"/>
+                                    <ul>
+                                        <li>EAN13: <field name="ean13"></field></li>
+                                        <li>CN: <field name="cn_code"></field></li>
+                                        <li>Desc: <field name="description"></field></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
         <!-- Sales: Products default to tree view -->
-        <!--record id="product_template_action_tree_view_custom_view" model="ir.actions.act_window">
+        <record id="product_template_action_tree_view_custom_view" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.template</field>
+            <field name="res_model">product.product</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="product.product_template_tree_view"/>
             <field name="context">{"search_default_filter_to_sell":1}</field>
-        </record-->
+        </record>
         <!-- Sales: Overwrite menuitem to point to the new action -->
-        <!--menuitem action="product_template_action_tree_view_custom_view"
+        <menuitem action="product_template_action_tree_view_custom_view"
                   id="product.menu_product_template_action"
                   name="Products list"
                   parent="base.menu_product" sequence="1"
-        /-->
+        />
 
         <!-- Purchases: Products default to tree view -->
-        <!--record id="product_normal_action_puchased_tree_view_custom_view" model="ir.actions.act_window">
+        <record id="product_normal_action_puchased_tree_view_custom_view" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.template</field>
+            <field name="res_model">product.product</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="context">{"search_default_filter_to_purchase":1}</field>
@@ -40,25 +75,25 @@
                     available suppliers, etc.
                 </p>
             </field>
-        </record-->
+        </record>
         <!-- Purchases: Overwrite menuitem to point to the new action -->
-        <!--menuitem name="Products" id="purchase.menu_procurement_partner_contact_form"
+        <menuitem name="Products" id="purchase.menu_procurement_partner_contact_form"
                   action="product_normal_action_puchased_tree_view_custom_view"
                   parent="purchase.menu_procurement_management_product"
-        /-->
+        />
 
         <!-- Warehouse: Products default to tree view and show all products -->
-        <!--record id="product_template_action_warehouse_custom_view" model="ir.actions.act_window">
+        <record id="product_template_action_warehouse_custom_view" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.template</field>
+            <field name="res_model">product.product</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="product.product_template_tree_view"/>
             <field name="context">{}</field>
-        </record-->
+        </record>
         <!-- Warehouse: Overwrite menuitems to point to the new action -->
-        <!--menuitem action="product_template_action_warehouse_custom_view"
+        <menuitem action="product_template_action_warehouse_custom_view"
                   id="stock.menu_stock_products_menu"
                   parent="stock.menu_stock_product"
                   sequence="1"
@@ -67,23 +102,25 @@
                   id="stock.menu_product_template_config_stock"
                   parent="stock.menu_product_in_config_stock"
                   sequence="1"
-        /-->
+        />
+
 
         <!-- MRP: Products default to tree view -->
-        <!--record id="product_template_action_mrp_custom_view" model="ir.actions.act_window">
+        <record id="product_template_action_mrp_custom_view" model="ir.actions.act_window">
             <field name="name">Products</field>
-            <field name="res_model">product.template</field>
+            <field name="res_model">product.product</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="product.product_template_tree_view"/>
             <field name="context">{}</field>
-        </record-->
+        </record>
+
         <!-- MRP: Overwrite menuitem to point to the new action -->
-        <!--menuitem action="product_template_action_mrp_custom_view"
+        <menuitem action="product_template_action_mrp_custom_view"
                   name="Products"
                   id="mrp.menu_mrp_product_form"
                   parent="mrp.menu_mrp_bom"
-        /-->
+        />
 
         <record id="product_supplier_pricelist_tree_view_custom_view" model="ir.ui.view">
             <field name="name">product.supplier.pricelist.tree.view</field>
@@ -117,6 +154,18 @@
                 </div>
                 <field name="image_medium" position="attributes">
                     <attribute name="style">min-height: 100px;</attribute>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_stock_product_template_tree" model="ir.ui.view">
+            <field name="name">product.template.stock.tree.inherit.customview</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="virtual_available" position="after">
+                    <field name="uom_id"/>
                 </field>
             </field>
         </record>

@@ -100,9 +100,9 @@
                   sequence="4"/>
 
         <menuitem id="menu_custom_pre_partners_salesmanph"
-                  parent="custom_permissions.menu_custom_salesmanph"
+                  parent="custom_permissions.menu_crm_custom_salesmanph"
                   action="action_pre_customer_form"
-                  sequence="53"/>
+                  sequence="5"/>
 
         <record id="base.action_partner_form" model="ir.actions.act_window">
             <field name="name">Customers</field>
@@ -131,8 +131,45 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('pre_customer', '=', False)]</field>
-            <field name="context">{"search_default_confirmed":1}</field>
+            <field name="context">{"search_default_confirmed":1 , "search_default_unactive":1}</field>
             <field name="search_view_id" ref="newclient_review.newclients_to_review_filter"/>
+        </record>
+
+
+        <!--Delete Sales Button Base view of preclient-->
+        <record id="res_partner_view_buttons_sale_customview" model="ir.ui.view">
+            <field name="name">res.partner.view.buttons.sale.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="pre_customer.pre_customer_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@icon='fa-strikethrough']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Delete Invoice Button Base view of preclient-->
+        <record id="res_partner_view_buttons_invoice_customview" model="ir.ui.view">
+            <field name="name">res.partner.view.buttons.invoice.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="pre_customer.pre_customer_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@icon='fa-pencil-square-o']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Delete Invoice Button Base view of preclient-->
+        <record id="res_partner_view_buttons_claim_customview" model="ir.ui.view">
+            <field name="name">res.partner.view.buttons.claims.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="pre_customer.pre_customer_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@icon='fa-comments']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
         </record>
     </data>
 </openerp>

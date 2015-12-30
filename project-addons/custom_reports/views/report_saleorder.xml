@@ -192,7 +192,6 @@
                     </div>
                     <div class="col-xs-3">
                         <p t-if="o.partner_id.ref"><strong>Client code:</strong> <span t-field="o.partner_id.ref"></span></p>
-                        <p style="min-height: 40px;"><strong>Quotation reference:</strong> <span t-field="o.client_order_ref"></span></p>
                         <p t-if="o.partner_id.customer_payment_mode">
                             <strong>Payment mode:</strong><br/>
                             <span t-field="o.partner_id.customer_payment_mode.name"/><br/>
@@ -219,6 +218,10 @@
                         <div t-if="o.user_id.name">
                             <strong>Salesperson:</strong>
                             <p t-field="o.user_id.name"/>
+                        </div>
+                        <div>
+                            <strong>Quotation reference:</strong>
+                            <p t-field="o.client_order_ref"/>
                         </div>
                     </div>
                 </div>
@@ -452,7 +455,7 @@
                     </div>
                     <div style="margin-left: 90px;">
                         <p style="font-size: 12px; margin: 5px 0; padding: 0;">
-                            For any doubt or explanation, be contacted with Sales Dept. in the number <b><span t-field="company.phone"/></b>, or by e-mail at <a href="mailto:ventas@pharmadus.com">ventas@pharmadus.com</a>.
+                            For any doubt or explanation, be contacted with Sales Dept. in the number <b><span t-field="company.phone"/></b>, or by e-mail at ventas@pharmadus.com
                         </p>
                         <p style="font-size: 8px; margin: 0; padding: 0;">
                             Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,

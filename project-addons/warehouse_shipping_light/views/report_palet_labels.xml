@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_palet_labels">
+            <t t-foreach="docs" t-as="p">
+                <t t-set="partner" t-value="p.sale_id.partner_id"/>
+                <t t-set="palets" t-value="[]"/>
+                <t t-foreach="p.pack_operation_ids" t-as="po">
+                    <t t-if="po.palet and po.palet not in palets">
+                        <t t-esc="palets.append(po.palet)"/>
+                    </t>
+                </t>
+                <t t-esc="palets.sort()"/>
+                <t t-esc="palets.reverse()"/>
+                <t t-if="not p.number_of_palets">
+                    <t t-call="report.html_container">
+                        <div class="page">
+                            <h2><br/><br/><br/>~ NO HAY PALETS EN ESTE ALBARÁN ~</h2>
+                        </div>
+                    </t>
+                </t>
+                <t t-foreach="range(1, p.number_of_palets + 1)" t-as="palet_number">
+                    <t t-call="report.html_container">
+                        <div class="header">
+                            <div class="row">
+                                <div>
+                                    <span t-esc="'Palet %d de %d' % (palet_number, p.number_of_palets)"/>
+                                    - Pegatina <span class="page"/> de <span class="topage"/>
+                                </div>
+
+                                <div t-if="res_company.logo"
+                                     style="display: inline-block; float: right; margin: -20px 10px 0 0;">
+                                    <span t-field="res_company.logo" t-field-options='{"widget": "image"}'/>
+                                </div>
+                                <div style="clear: both;"/>
+                            </div>
+                        </div>
+                        <div class="page">
+                            <style type="text/css">
+                                p, span, div {
+                                    padding: 0;
+                                    margin: 0;
+                                }
+                                div.line {
+                                    width: 100%;
+                                    line-height: 1em;
+                                }
+                                table.table {
+                                    margin: 0;
+                                }
+                                table th, table tr, table td {
+                                    padding: 0 !important;
+                                    line-height: 1em !important;
+                                }
+                                thead, tbody, th, tr, td {
+                                    border-color: transparent !important;
+                                }
+                                tr.normal-title th {
+                                    font-weight: normal;
+                                }
+                                .table-condensed > thead > tr > th {
+                                    border: none !important;
+                                }
+                            </style>
+                            <div class="row">
+                                <div class="line" t-field="partner.name" style="font-size: 30px; font-weight: bold;"/>
+                                <div class="line" t-field="partner.street" style="font-size: 24px;"/>
+                                <div class="line" style="font-size: 24px;">
+                                    <span t-field="partner.zip"/> <span t-field="partner.city"></span>
+                                </div>
+                                <div class="line" style="font-size: 24px;">
+                                    <span t-field="partner.state_id"></span> (<span t-field="partner.country_id"></span>)
+                                    - Tfno. <span t-field="partner.phone"/> - Móvil <span t-field="partner.mobile"/>
+                                </div>
+                                <t t-if="p.sale_id">
+                                    <div class="line" t-field="p.sale_id.carrier_note" style="font-size: 18px; font-weight: bold;"/>
+                                </t>
+                                <div style="width: 100%; border: 1px solid black; border-right: 0; border-left: 0; font-size: 18px;">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="normal-title">
+                                                <th>Palets</th>
+                                                <th>Peso total</th>
+                                                <th>Fecha y hora</th>
+                                                <th>Transportista</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="font-weight: bold;">
+                                                <td><span t-field="p.number_of_palets"/></td>
+                                                <td><span t-esc="'%g' % p.real_weight"/> <span t-field="p.weight_uom_id"/></td>
+                                                <td><span t-field="p.date"/></td>
+                                                <td><span t-field="p.carrier_id"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="width: 100%; height: 10px;"></div>
+                                <table class="table table-condensed" style="font-size: 16px;">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-xs-10">ARTÍCULO</th>
+                                            <th class="col-xs-2">CANTIDAD</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="palet" t-value="palets.pop()"/>
+                                        <t t-foreach="p.pack_operation_ids" t-as="po">
+                                            <t t-if="po.palet == palet">
+                                                <tr>
+                                                    <td><span t-field="po.product_id"/></td>
+                                                    <td class="text-center"><span t-esc="'%g' % po.product_qty"/></td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="action_report_palet_labels"
+            model="stock.picking"
+            string="Palet labels"
+            report_type="qweb-pdf"
+            name="warehouse_shipping_light.report_palet_labels"
+            attachment_use="False"
+        />
+
+        <record id="warehouse_shipping_light.action_report_palet_labels" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="warehouse_shipping_light.paperformat_container_labels"/>
+        </record>
+    </data>
+</openerp>

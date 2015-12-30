@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_stock_enter_transfer_shipping_details" model="ir.ui.view">
+            <field name="name">Wharehouse shipping details</field>
+            <field name="model">stock.transfer_details</field>
+            <field name="inherit_id" ref="stock.view_stock_enter_transfer_details"/>
+            <field name="arch" type="xml">
+                <tree string="Inventory Details" position="attributes">
+                    <attribute name="default_order">product_id, lot_id</attribute>
+                </tree>
+                <field name="product_id" position="before">
+                    <field name="palet" invisible="context.get('picking_type') in ['incoming', 'internal']"/>
+                    <field name="complete" invisible="context.get('picking_type') in ['incoming', 'internal']"/>
+                    <field name="package" invisible="context.get('picking_type') in ['incoming', 'internal']"/>
+                    <field name="rest" invisible="context.get('picking_type') in ['incoming', 'internal']"/>
+                </field>
+                <field name="product_uom_id" position="attributes">
+                    <attribute name="string">Measure</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_transfer_split_config" model="ir.ui.view">
+            <field name="name">Enter quantity of the new line</field>
+            <field name="model">stock.transfer_details_items</field>
+            <field name="arch" type="xml">
+                <form string="Split details" version="7">
+                    <group>
+                        <field name="product_id" readonly="True"/>
+                        <field name="lot_id" readonly="True"/>
+                        <label for="quantity" string="Available quantity"/>
+                        <field name="quantity" readonly="True" nolabel="1"/>
+                        <field name="product_uom_id" readonly="True"/>
+                        <field name="quantity_to_extract"/>
+                    </group>
+                    <footer>
+                        <button name="do_split_quantities" string="Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button name="do_not_split_quantities" string="Cancel" type="object" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

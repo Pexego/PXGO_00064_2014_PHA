@@ -16,11 +16,22 @@
                 <field name="groups_id" eval="[(4,ref('group_show_menu_website'))]"/>
             </record>
             <record id="hr_expense.next_id_49" model="ir.ui.menu">
-                <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+                <field name="groups_id" eval="[(4,ref('base.group_user'))]"/>
             </record>
             <record id="hr_holidays.menu_open_ask_holidays" model="ir.ui.menu">
                 <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
             </record>
+
+        <record model="ir.actions.act_window" id="action_products">
+                <field name="name">Product list SalesmanPH</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">product.product</field>
+                <field name="view_mode">kanban</field>
+                <field name="view_type">form</field>
+                <field name="view_id" ref="product_template_kanban_view_salesmanph"/>
+                <field name="domain">[('sale_ok', '=', 1)]</field>
+                <field name="context">{}</field>
+        </record>
 
         <record model="ir.actions.act_window" id="action_allsales_salesmanph">
                 <field name="name">Sale orders SalesmanPH (Confirmed)</field>
@@ -62,9 +73,51 @@
             </field>
         </record>
 
+        <!-- Meetings action calendar -->
+        <record id="action_meetings_customviews" model="ir.actions.act_window">
+            <field name="name">Meetings salesmanph</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="calendar.view_calendar_event_calendar"/>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('user_id','=',uid)]</field>
+            <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
+            <field name="help" type="html">
+              <p class='oe_view_nocontent_create'>
+                  Pulse aquí para añadir un nuevo evento o reunion.
+              </p>
+            </field>
+        </record>
+
+            <!-- Call Planed action calendar -->
+        <record id="action_calls_planed_customviews" model="ir.actions.act_window">
+            <field name="name">CallsPlaned salesmanph</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.phonecall</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="crm.crm_case_phone_calendar_view"/>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('user_id','=',uid), ('state','!=','done')]</field>
+            <field name="search_view_id" ref="crm.view_crm_case_phonecalls_filter"/>
+            <field name="help" type="html">
+              <p class='oe_view_nocontent_create'>
+                  Pulse aquí para añadir una llamada planeada.
+              </p>
+            </field>
+        </record>
+
         <!-- Menu comerciales nuevos -->
         <menuitem id="menu_custom_salesmanph"
                   name="Sales"
+                  parent="portal.portal_menu"
+                  sequence="8"
+                  groups="group_salesman_ph"/>
+        <!-- CRM menu -->
+        <menuitem id="menu_crm_custom_salesmanph"
+                  name="Crm"
                   parent="portal.portal_menu"
                   sequence="9"
                   groups="group_salesman_ph"/>
@@ -105,15 +158,35 @@
                     action="sale_transfer.action_transfer"
                     parent="menu_custom_salesmanph"
                     sequence="50"/>
+         <menuitem id="menu_custom_products_salesmanph"
+                    name="Products"
+                    action="action_products"
+                    parent="menu_custom_salesmanph"
+                    sequence="55"/>
         <menuitem id="menu_custom_restricted_customers_salesmanph"
-                  parent="custom_permissions.menu_custom_salesmanph"
+                  parent="custom_permissions.menu_crm_custom_salesmanph"
                   action="custom_permissions.action_restricted_customer_form"
-                  sequence="54"/>
-        <!--menuitem id="menu_crm_claims_salesmanph"
-                  name="Claims"
-                  action="portal_claim.crm_case_categ_claim0"
-                  parent="menu_custom_salesmanph"
-                  sequence="60"/-->
+                  sequence="10"/>
+        <menuitem id="menu_crm_calls_plan_salesmanph"
+                  name="Calls planed"
+                  action="action_calls_planed_customviews"
+                  parent="menu_crm_custom_salesmanph"
+                  sequence="15"/>
+        <menuitem id="menu_crm_calls_reg__salesmanph"
+                  name="Calls done"
+                  action="crm.crm_case_categ_phone_incoming0"
+                  parent="menu_crm_custom_salesmanph"
+                  sequence="20"/>
+        <menuitem id="menu_crm_meetings_tree_salesmanph_custom"
+                  name="Meetings"
+                  action="action_meetings_customviews"
+                  parent="menu_crm_custom_salesmanph"
+                  sequence="25"/>
+        <menuitem id="menu_crm_expenses_tree_salesmanph"
+                  name="Expenses"
+                  action="hr_expense.expense_all"
+                  parent="menu_crm_custom_salesmanph"
+                  sequence="30"/>
 
         <!-- oculto los no necesarios, asociados a un grupo vacio, para que en caso de lanzar buildout no vuelvan a aparecer-->
         <record id="portal.portal_projects" model="ir.ui.menu">

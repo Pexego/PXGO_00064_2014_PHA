@@ -101,24 +101,29 @@ msgid "Empty(ToHideMenus)"
 msgstr "SiempreVacio(ParaOcultarMenus)"
 
 #. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_direct_salesmanph
+msgid "ONLY Sale (Directas)"
+msgstr "SOLO Ventas(Directas)"
+
+#. module: custom_permissions
 #: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_repo_salesmanph
 msgid "ONLY Sale (Deposito)"
-msgstr "SOLO Ventas (Deposito)"
+msgstr "SOLO Ventas(Deposito)"
 
 #. module: custom_permissions
 #: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_interm_salesmanph
 msgid "ONLY Sale (Intermediario)"
-msgstr "SOLO Ventas (Intermediario)"
+msgstr "SOLO Ventas(Intermediario)"
 
 #. module: custom_permissions
 #: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_free_salesmanph
 msgid "ONLY Sale (Muestras)"
-msgstr "SOLO Ventas (Muestras)"
+msgstr "SOLO Ventas(Muestras)"
 
 #. module: custom_permissions
 #: model:ir.ui.menu,name:custom_permissions.menu_custom_newsale_transfer_salesmanph
 msgid "ONLY Sale (Transfer)"
-msgstr "SOLO Ventas (Transfer)"
+msgstr "SOLO Ventas(Transfer)"
 
 #. module: custom_permissions
 #: model:ir.actions.act_window,name:custom_permissions.action_allsales_salesmanph
@@ -156,3 +161,77 @@ msgstr "Clientes"
 #: model:ir.ui.menu,name:custom_permissions.menu_custom_restricted_customers_salesmanph
 msgid "Clientes"
 msgstr "Clientes"
+
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,help:custom_permissions.action_direct
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to create a direct order.\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Click para crear una venta directa.\n"
+"              </p>\n"
+"            "
+
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_crm_calls_reg__salesmanph
+msgid "Calls done"
+msgstr "Llamadas hechas"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_crm_calls_plan_salesmanph
+msgid "Calls planed"
+msgstr "Llamadas planeadas"
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:custom_permissions.action_calls_planed_customviews
+msgid "CallsPlaned salesmanph"
+msgstr "Llamadas planeadas"
+
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_crm_custom_salesmanph
+msgid "Crm"
+msgstr "Crm"
+
+
+#. module: custom_permissions
+#: field:res.groups,default_sale_channel:0
+msgid "Default sale channel"
+msgstr "Canal de venta por defecto"
+
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:custom_permissions.action_direct
+msgid "Direct orders"
+msgstr "Pedidos directos"
+
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_crm_expenses_tree_salesmanph
+msgid "Expenses"
+msgstr "Gastos"
+
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_crm_meetings_tree_salesmanph_custom
+msgid "Meetings"
+msgstr "Reuniones"
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:custom_permissions.action_meetings_customviews
+msgid "Meetings salesmanph"
+msgstr "Reuniones"
+
+
+#. module: custom_permissions
+#: model:ir.actions.act_window,name:custom_permissions.action_products
+msgid "Product list SalesmanPH"
+msgstr "Listado de productos"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_custom_products_salesmanph
+msgid "Products"
+msgstr "Productos"

@@ -7,6 +7,16 @@
                 <field name="domain_force">[(1, '=', 1)]</field>
                 <field name="groups" eval="[(4, ref('group_salesman_ph'))]"/>
         </record>
+        <record id="crm_rule_personal_phonecall_salesmanph" model="ir.rule">
+                <field name="name">Salesmanph - Own Calls</field>
+                <field name="model_id" ref="crm.model_crm_phonecall"/>
+                <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+                <field name="perm_create" eval="True"/>
+                <field name="perm_read" eval="True"/>
+                <field name="perm_write" eval="True"/>
+                <field name="perm_unlink" eval="True"/>
+                <field name="groups" eval="[(4, ref('group_salesman_ph'))]"/>
+        </record>
         <record id="sale_order_salesman_list_access_0" model="ir.rule">
                 <field name="name">Salesmanph - Sale Order - C</field>
                 <field name="model_id" ref="sale.model_sale_order"/>
@@ -46,6 +56,18 @@
                 <field name="perm_write" eval="True"/>
                 <field name="perm_unlink" eval="False"/>
                 <field name="groups" eval="[(4, ref('group_salesman_ph'))]"/>
+        </record>
+
+        <!-- Purchase records-->
+            <record id="purchase_order_own_purchases" model="ir.rule">
+                <field name="name">Purchases - User Only Own Purchases</field>
+                <field name="model_id" ref="account_payment_purchase.model_purchase_order"/>
+                <field name="domain_force">[('create_uid', '=', user.id)]</field>
+                <field name="perm_create" eval="True"/>
+                <field name="perm_read" eval="True"/>
+                <field name="perm_write" eval="True"/>
+                <field name="perm_unlink" eval="False"/>
+                <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]"/>
         </record>
     </data>
 </openerp>

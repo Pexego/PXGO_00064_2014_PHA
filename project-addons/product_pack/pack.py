@@ -5,7 +5,6 @@
 #    Copyright (C) 2012 Domsense srl (<http://www.domsense.com>)
 #    Copyright (C) 2013 Agile Business Group sagl (<http://www.agilebg.com>)
 #    Copyright (C) 2014 Pexego Sistemas Informáticos
-#    Copyright (C) 2015 Óscar Salvador - Pharmadus (http://www.pharmadus.com)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -32,18 +31,18 @@ class product_pack(orm.Model):
     _rec_name = 'product_id'
     _columns = {
         'parent_product_id': fields.many2one(
-            'product.template', 'Parent Product',
+            'product.product', 'Parent Product',
             ondelete='cascade', required=True
         ),
         'quantity': fields.float('Quantity', required=True),
         'product_id': fields.many2one(
-            'product.template', 'Product', required=True
+            'product.product', 'Product', required=True
         ),
     }
 
 
 class product_product(orm.Model):
-    _inherit = 'product.template'
+    _inherit = 'product.product'
 
     def _product_available(self, cr, uid, ids, field_names=None, arg=False, context=None):
         res = {}
@@ -188,13 +187,11 @@ class product_product(orm.Model):
 
 class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
-
     def _pack_icon(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for line in self.browse(cr, uid, ids, context):
             res[line.id] = 'terp-camera_test' if line.pack_parent_line_id else ''
         return res
-
     _columns = {
         'pack_depth': fields.integer(
             'Depth', required=True,
@@ -221,14 +218,14 @@ class sale_order_line(orm.Model):
 
     @api.multi
     def pack_in_moves(self, product_ids):
-        is_in_list = True
+        is_in_list = False
         for child in self.pack_child_line_ids:
             if child.pack_child_line_ids:
-                if not child.pack_in_moves(product_ids):
-                    is_in_list = False
+                if child.pack_in_moves(product_ids):
+                    is_in_list = True
             else:
-                if child.product_id.id not in product_ids:
-                    is_in_list = False
+                if child.product_id.id in product_ids:
+                    is_in_list = True
         return is_in_list
 
 
@@ -346,7 +343,7 @@ class sale_order(orm.Model):
 
                     # Obtain product name in partner's language
                     ctx = {'lang': order.partner_id.lang}
-                    subproduct_name = self.pool.get('product.template').browse(
+                    subproduct_name = self.pool.get('product.product').browse(
                         cr, uid, subproduct.id, ctx).name
 
                     tax_ids = self.pool.get('account.fiscal.position').map_tax(
@@ -362,7 +359,7 @@ class sale_order(orm.Model):
                     vals = {
                         'order_id': order.id,
                         'name': '%s%s' % (
-                            '>> ' * (line.pack_depth+1), subproduct_name
+                            '> ' * (line.pack_depth+1), subproduct_name
                         ),
                         'sequence': sequence,
                         'delay': subproduct.sale_delay or 0.0,
@@ -535,7 +532,7 @@ class purchase_order(orm.Model):
 
                     # Obtain product name in partner's language
                     ctx = {'lang': order.partner_id.lang}
-                    subproduct_name = self.pool.get('product.template').browse(
+                    subproduct_name = self.pool.get('product.product').browse(
                         cr, uid, subproduct.id, ctx).name
 
                     tax_ids = self.pool.get('account.fiscal.position').map_tax(
@@ -624,7 +621,7 @@ class purchase_order(orm.Model):
         return res'''
 
 
-class stock_picking(orm.Model):
+class stock_pciking(orm.Model):
 
     _inherit = 'stock.picking'
 
@@ -663,7 +660,7 @@ class stock_picking(orm.Model):
                 invoices += self._invoice_create_line(cr, uid, final_moves, journal_id, type, context=context)
             else:
                 # Si el albarán no tiene ningun movimiento facturable se crea
-                # una factura con uno de los movimientos y se borran las líneas.
+                # una factura con uno de los movimientos y se borran las lineas.
                 invoice = self._invoice_create_line(cr, uid, [moves[0]], journal_id, type, context=context)
                 to_delete = inv_line_obj.search(cr, uid,
                     [('invoice_id', '=', invoice),
@@ -679,7 +676,7 @@ class stock_picking(orm.Model):
         sale_obj = self.pool.get('sale.order')
         sale_line_obj = self.pool.get('sale.order.line')
         invoice_line_obj = self.pool.get('account.invoice.line')
-        invoice_id = super(stock_picking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
+        invoice_id = super(stock_pciking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
         picking_product_ids = [x.product_id.id for x in picking.move_lines]
         if picking.group_id:
             sale_ids = sale_obj.search(cr, uid, [('procurement_group_id', '=', picking.group_id.id)], context=context)
@@ -720,9 +717,10 @@ class stock_move(orm.Model):
             res[line.id] = 'terp-camera_test' if line.pack_component else ''
         return res
 
+
     _columns = {
         'pack_component': fields.function(_pack_component,
-                                          string='Pack component',
+                                          string='pack component',
                                           type='boolean',
                                           store=False),
         'pack_icon': fields.function(_pack_icon, string='Pack component', type='char', store=False),
