@@ -25,19 +25,17 @@ class ProductCategory(models.Model):
 
     _inherit = 'product.category'
     category_commission_ids = fields.One2many('category.agent.commission',
-                                             'category_id', 'Agents')
+                                              'category_id', 'Agents')
 
 
 class CategoryAgentCommission(models.Model):
 
     _name = 'category.agent.commission'
 
-
     category_id = fields.Many2one('product.category', 'product.category')
     commission_id = fields.Many2one('commission', 'Applied commission',
-                                         required=True)
+                                    required=True)
     agent_ids = fields.Many2many('sale.agent',
-                                      'category_agent_sale_agent_rel',
-                                      'product_commission_id',
-                                      'agent_id', 'Agents')
-
+                                 'category_agent_sale_agent_rel',
+                                 'product_commission_id',
+                                 'agent_id', 'Agents')

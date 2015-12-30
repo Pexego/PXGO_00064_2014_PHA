@@ -89,18 +89,18 @@ class ImportPharmaGroupSales(models.TransientModel):
             if not p_ids:
                 raise exceptions.Warning(_('Any product found with CN %s')
                                          % cn_code)
-
-            zip_ids = zip_env.search([('name', '=', row[p_zip_pos].strip())])
+            zip = str(int(row[p_zip_pos])).strip().rjust(5, '0')
+            zip_ids = zip_env.search([('name', '=', zip)])
             if not zip_ids:
-                raise exceptions.Warning(_('Zip %s not found') % row[p_zip_pos])
+                raise exceptions.Warning(_('Zip %s not found') % zip)
 
             if not zip_ids[0].agent_id:
                 raise exceptions.Warning(_('Zip %s didn\'t have agent set')
-                                         % row[p_zip_pos])
+                                         % zip)
 
             pharma_env.create({'pharmacy_name': row[p_name_pos],
                                'pharmacy_street': row[p_street_pos],
-                               'pharmacy_zip': row[p_zip_pos],
+                               'pharmacy_zip': zip,
                                'pharmacy_location': row[p_location_pos],
                                'product_cn': row[cn_pos],
                                'product_qty': row[qty_pos],

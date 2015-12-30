@@ -19,7 +19,20 @@
                 <page string="Customer assigned" position="after">
                     <page string="Related zips">
                         <button name="%(assign_zip_agent_wizard_action)d" type="action" string="Assign ZIP"/>
-                        <field name="related_zip_ids" colspan="4" nolabel="1"/>
+                        <field name="related_zip_ids" readonly="1" colspan="4" nolabel="1">
+                            <tree editable="top">
+                                <field name="zip_id"/>
+                                <field name="category_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Related agents">
+                        <field name="related_agent_ids" colspan="4" col="4" nolabel="1">
+                            <tree editable="top">
+                                <field name="related_agent_id"/>
+                                <field name="commission_id"/>
+                            </tree>
+                        </field>
                     </page>
                 </page>
             </field>

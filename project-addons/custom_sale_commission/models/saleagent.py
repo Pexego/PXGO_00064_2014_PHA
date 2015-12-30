@@ -21,7 +21,16 @@
 from openerp import models, fields, api, exceptions, _
 
 
-class ui(models.Model):
+class SaleAgentRelateds(models.Model):
+
+    _name = 'sale.agent.relateds'
+
+    original_agent_id = fields.Many2one('sale.agent', 'Orig Agent')
+    related_agent_id = fields.Many2one('sale.agent', 'Related agent')
+    commission_id = fields.Many2one('commission', 'Commission')
+
+
+class SaleAgent(models.Model):
 
     _inherit = 'sale.agent'
 
@@ -29,8 +38,10 @@ class ui(models.Model):
     invoice_concept = fields.Char('Invoice concept', help='Concept to be \
 established in settlement')
     base_qty = fields.Float('Base quantity')
-    related_zip_ids = fields.One2many('res.better.zip', 'agent_id',
-                                      string="Zips", readonly=True)
+    related_zip_ids = fields.One2many('location.agent.category.rel',
+                                      'agent_id', 'Zips')
+    related_agent_ids = fields.One2many('sale.agent.relateds',
+                                        'original_agent_id', 'Related agents')
 
     @api.multi
     def get_user(self):
@@ -39,3 +50,14 @@ established in settlement')
             return self.user_id
         else:
             return self.employee_id.user_id
+
+    @api.multi
+    def get_related_commissions(self):
+        self.ensure_one()
+        related_commissions = []
+        for related in self.related_agent_ids:
+            related_commissions.append(
+                {'agent_id': related.related_agent_id.id,
+                 'commission_id': related.commission_id.id})
+            related_commissions += related.related_agent_id.get_related_commissions()
+        return related_commissions
