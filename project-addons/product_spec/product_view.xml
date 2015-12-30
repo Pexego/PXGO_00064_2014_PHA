@@ -616,7 +616,7 @@
                   id="stock.menu_product_by_extra_category"
                   parent="stock.menu_stock_product"
                   sequence="12"
-                  groups="base.group_no_one"
+                  groups="base.group_no_one,stock.group_stock_user,stock.group_stock_manager"
         />
         <record id="product_tree_extra_categ_action" model="ir.actions.act_window">
             <field name="name">Products by Extra Category</field>
