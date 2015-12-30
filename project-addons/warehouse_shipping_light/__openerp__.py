@@ -30,6 +30,7 @@
     'depends' : [
         'sale',
         'stock',
+        'delivery',
         'custom_reports',
     ],
     'data' : [
@@ -39,6 +40,8 @@
         'views/report_saleorder.xml',
         'views/report_container_labels.xml',
         'views/report_palet_labels.xml',
+        'views/report_expeditions.xml',
+        'views/sale_view.xml',
         'views/stock_view.xml',
     ],
     'installable': True

@@ -1,0 +1,215 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* custom_sale_commission
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-24 13:00+0000\n"
+"PO-Revision-Date: 2015-12-24 13:00+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: custom_sale_commission
+#: model:ir.model,name:custom_sale_commission.model_res_better_zip
+msgid " City/locations completion object"
+msgstr " Objeto de completado de ciudad/ubicación"
+
+#. module: custom_sale_commission
+#: view:res.better.zip:custom_sale_commission.view_better_zip_filter_add_agent
+msgid "Agent"
+msgstr "Agente"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,agent_ids:0
+#: field:product.category,category_commission_ids:0
+msgid "Agents"
+msgstr "Agentes"
+
+#. module: custom_sale_commission
+#: view:product.category:custom_sale_commission.product_category_add_commission
+msgid "Agents and Categories"
+msgstr "Agentes y categorías"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,commission_id:0
+msgid "Applied commission"
+msgstr "Comisiones aplicadas"
+
+#. module: custom_sale_commission
+#: view:assign.agent.zip.wizard:custom_sale_commission.assign_agent_zip_wizard_view
+#: view:assign.zip.agent.wizard:custom_sale_commission.assign_zip_agent_wizard_view
+msgid "Assign"
+msgstr "Assignar"
+
+#. module: custom_sale_commission
+#: view:sale.agent:custom_sale_commission.sale_agent_modify_partner_form
+msgid "Assign ZIP"
+msgstr "Asignar CP"
+
+#. module: custom_sale_commission
+#: view:res.partner:custom_sale_commission.view_partner_form
+msgid "Assign agent by ZIP"
+msgstr "Asignar agente por CP"
+
+#. module: custom_sale_commission
+#: view:assign.agent.zip.wizard:custom_sale_commission.assign_agent_zip_wizard_view
+#: model:ir.actions.act_window,name:custom_sale_commission.assign_agent_by_zip_wizard_action
+msgid "Assign agent by zip"
+msgstr "Asignar agente por CP"
+
+#. module: custom_sale_commission
+#: view:assign.zip.agent.wizard:custom_sale_commission.assign_zip_agent_wizard_view
+#: model:ir.actions.act_window,name:custom_sale_commission.assign_zip_agent_wizard_action
+msgid "Assign zip to agent"
+msgstr "Assignar CP a agente"
+
+#. module: custom_sale_commission
+#: field:sale.agent,base_qty:0
+#: field:settlement.agent,base_qty:0
+msgid "Base quantity"
+msgstr "Base quantity"
+
+#. module: custom_sale_commission
+#: view:assign.agent.zip.wizard:custom_sale_commission.assign_agent_zip_wizard_view
+#: view:assign.zip.agent.wizard:custom_sale_commission.assign_zip_agent_wizard_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: custom_sale_commission
+#: field:sale.agent.relateds,commission_id:0
+msgid "Commission"
+msgstr "Commisión"
+
+#. module: custom_sale_commission
+#: view:product.category:custom_sale_commission.product_category_add_commission
+msgid "Commissions"
+msgstr "Comisiones"
+
+#. module: custom_sale_commission
+#: help:sale.agent,invoice_concept:0
+msgid "Concept to be established in settlement"
+msgstr "Concepto que se pondrá en la liquidación"
+
+#. module: custom_sale_commission
+#: help:settlement.agent,invoice_concept:0
+msgid "Concept to be established in the invoice"
+msgstr "Concepto que se pondrá en la factura"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,create_uid:0
+#: field:sale.agent.relateds,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,create_date:0
+#: field:sale.agent.relateds,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: custom_sale_commission
+#: view:sale.agent:custom_sale_commission.sale_agent_modify_partner_form
+msgid "Customer assigned"
+msgstr "Cliente asignado"
+
+#. module: custom_sale_commission
+#: view:res.better.zip:custom_sale_commission.view_better_zip_filter_add_agent
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,id:0
+#: field:sale.agent.relateds,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: custom_sale_commission
+#: field:sale.agent,invoice_concept:0
+#: field:settlement.agent,invoice_concept:0
+msgid "Invoice concept"
+msgstr "Concepto de factura"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,write_uid:0
+#: field:sale.agent.relateds,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,write_date:0
+#: field:sale.agent.relateds,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: custom_sale_commission
+#: field:sale.agent.relateds,original_agent_id:0
+msgid "Orig Agent"
+msgstr "Orig Agent"
+
+#. module: custom_sale_commission
+#: model:ir.model,name:custom_sale_commission.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: custom_sale_commission
+#: model:ir.model,name:custom_sale_commission.model_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: custom_sale_commission
+#: field:sale.agent.relateds,related_agent_id:0
+msgid "Related agent"
+msgstr "Agente relacionado"
+
+#. module: custom_sale_commission
+#: view:sale.agent:custom_sale_commission.sale_agent_modify_partner_form
+#: field:sale.agent,related_agent_ids:0
+msgid "Related agents"
+msgstr "Agentes relacionados"
+
+#. module: custom_sale_commission
+#: view:sale.agent:custom_sale_commission.sale_agent_modify_partner_form
+msgid "Related zips"
+msgstr "CPs relacionados"
+
+#. module: custom_sale_commission
+#: model:ir.model,name:custom_sale_commission.model_sale_agent
+msgid "Sale agent"
+msgstr "Agente de ventas"
+
+#. module: custom_sale_commission
+#: model:ir.model,name:custom_sale_commission.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: custom_sale_commission
+#: model:ir.model,name:custom_sale_commission.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: custom_sale_commission
+#: view:assign.zip.agent.wizard:custom_sale_commission.assign_zip_agent_wizard_view
+msgid "This action will remove all zip assigned to the agent. Are you sure?"
+msgstr "Esta acción eliminará todos los códigos postales asignados al cliente. ¿Está seguro?"
+
+#. module: custom_sale_commission
+#: field:sale.agent,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: custom_sale_commission
+#: field:category.agent.commission,category_id:0
+msgid "product.category"
+msgstr "product.category"
+
+#. module: custom_sale_commission
+#: view:assign.zip.agent.wizard:custom_sale_commission.assign_zip_agent_wizard_view
+msgid "remove all zip assigned"
+msgstr "Eliminar todos los CP asignados"
+

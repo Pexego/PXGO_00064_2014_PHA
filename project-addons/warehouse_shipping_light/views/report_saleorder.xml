@@ -199,7 +199,13 @@
                     <div class="col-xs-4">
                         <div t-if="o.date_order">
                             <strong>Delivery note date:</strong>
-                            <p t-esc="time.strftime('%d/%m/%Y', time.strptime(picking.date,'%Y-%m-%d %H:%M:%S'))"/>
+                            <t t-if="picking.date_done">
+                                <t t-set="delivery_date" t-value="picking.date_done"/>
+                            </t>
+                            <t t-if="not picking.date_done">
+                                <t t-set="delivery_date" t-value="picking.date"/>
+                            </t>
+                            <p t-esc="time.strftime('%d/%m/%Y', time.strptime(delivery_date, '%Y-%m-%d %H:%M:%S'))"/>
                         </div>
                         <div t-if="o.payment_term">
                             <strong>Closing date:</strong>

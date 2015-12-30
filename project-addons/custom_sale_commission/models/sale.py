@@ -37,6 +37,19 @@ class SaleOrder(models.Model):
                                'commission_id': agent_id.commission.id})
             if new_comm not in res['value']['sale_agent_ids']:
                 res['value']['sale_agent_ids'].append(new_comm)
+        # related agents
+        if agent_id or part:
+            related = []
+            if agent_id:
+                related += agent_id.get_related_commissions()
+            if part:
+                partner = self.env['res.partner'].browse(part)
+                for agent in partner.mapped('commission_ids.agent_id'):
+                    related += agent.get_related_commissions()
+            related_commissions = [(0, 0, x) for x in related]
+            for commission in related_commissions:
+                if commission not in res['value']['sale_agent_ids']:
+                    res['value']['sale_agent_ids'].append(commission)
         return res
 
 

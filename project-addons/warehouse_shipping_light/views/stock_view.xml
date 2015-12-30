@@ -17,9 +17,17 @@
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
                 <tree string="Delivery notes">
-                    <field name="partner_id"/>
-                    <field name="priority"/>
+                    <field name="state" invisible="1"/>
+                    <field name="date_done_hour"/>
                     <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="state_id"/>
+                    <field name="real_weight"/>
+                    <field name="number_of_packages"/>
+                    <field name="number_of_palets"/>
+                    <field name="sent"/>
                 </tree>
             </field>
         </record>
@@ -29,13 +37,15 @@
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
                 <search string="Search outgoing picking">
-                    <field name="name" string="Picking"/>
+                    <field name="name"/>
                     <field name="partner_id"/>
-                    <field name="priority"/>
-                    <!--filter name="in_progress" string="In Progress" domain="[('state','=', 'in_progress')]" help="Picking Waves not finished"/-->
-                    <!--group expand="0" string="Group By">
-                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
-                    </group-->
+                    <filter name="filter_not_sent" string="Not sent" domain="[('sent', '=', 0)]" help="Picking not sent"/>
+                    <group expand="1" string="Group By">
+                        <filter name="group_by_partner" string="Partner" context="{'group_by':'partner_id'}"/>
+                        <filter name="group_by_date_done" string="Date done" context="{'group_by':'date_done'}"/>
+                        <filter name="group_by_day_done" string="Date done day" context="{'group_by':'date_done_day'}"/>
+                        <filter name="group_by_carrier" string="Carrier" context="{'group_by':'carrier_id'}"/>
+                    </group>
                </search>
             </field>
         </record>
@@ -44,7 +54,8 @@
             <field name="name">Delivery notes</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.picking</field>
-            <field name="domain">[('picking_type_code', '=', 'outgoing')]</field> <!-- , ('state', '=', 'done') -->
+            <field name="domain">[('picking_type_code', '=', 'outgoing'), ('state', '=', 'done')]</field>
+            <field name="context">{'search_default_group_by_carrier': 1, 'search_default_group_by_day_done': 1, 'search_default_filter_not_sent': 1}</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree, form</field>
             <field name="view_id" ref="wsl_view_picking_tree"/>

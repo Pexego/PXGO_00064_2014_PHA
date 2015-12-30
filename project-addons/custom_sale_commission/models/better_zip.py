@@ -22,8 +22,18 @@
 from openerp import models, fields
 
 
+class LocationAgentCategoryRel(models.Model):
+
+    _name = 'location.agent.category.rel'
+
+    agent_id = fields.Many2one('sale.agent', 'Agent')
+    zip_id = fields.Many2one('res.better.zip', 'Zip')
+    category_id = fields.Many2one('res.partner.category', 'Category')
+
+
 class BetterZip(models.Model):
 
     _inherit = "res.better.zip"
 
-    agent_id = fields.Many2one('sale.agent', 'Agent')
+    agent_ids = fields.One2many('location.agent.category.rel', 'zip_id',
+                                'Agents')

@@ -68,7 +68,7 @@ class SettlementAgent(models.Model):
                                               'settlement_agent_id':
                                               sagent.id,
                                               'commission_id':
-                                              sale.agent_id.commission.id})
+                                              sale.get_applicable_commission().id})
             line = sett_line.browse(cr, uid, line)
             line.calcula()
             if line.commission_id.type == 'fijo':

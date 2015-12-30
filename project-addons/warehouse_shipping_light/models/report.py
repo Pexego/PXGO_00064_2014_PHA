@@ -19,4 +19,24 @@
 #
 ##############################################################################
 
-import stock, report, sale
+from openerp import models, api
+
+
+class wslReportExpeditions(models.AbstractModel):
+    _name = 'report.warehouse_shipping_light.wsl_report_expeditions'
+
+    @api.multi
+    def render_html(self, data=None):
+        model = u'stock.picking'
+        pickings = self.env[model].browse(self._ids)
+        docargs = {
+            'doc_ids': self._ids,
+            'doc_model': model,
+            'docs': pickings,
+        }
+        # Update sent counter
+        for p in pickings:
+            p.sent += 1
+
+        return self.env['report'].render(
+                'warehouse_shipping_light.wsl_report_expeditions', docargs)

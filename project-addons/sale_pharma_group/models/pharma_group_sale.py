@@ -39,8 +39,16 @@ class PharmaGroupSale(models.Model):
     agent_id = fields.Many2one('sale.agent', 'Agent', required=True)
     price_unit = fields.Float('Price unit', required=True,
                               digits=dp.get_precision('Product Price'))
-    price_subtotal = \
-        fields.Float('Subtotal', required=True, digits=(16, 2))
+    price_subtotal = fields.Float('Subtotal', required=True, digits=(16, 2))
     settled = fields.Boolean('Settled', readonly=True)
     settled_qty = fields.Float('Settled qty.',  digits=(16, 2), readonly=True)
     date = fields.Date('Import date')
+    partner_id = fields.Many2one('res.partner', 'Partner')
+
+    def get_applicable_commission(self):
+        if self.partner_id:
+            partner_agent = self.partner_id.commission_ids.filtered(
+                lambda record: record.agent_id.id == self.agent_id.id)
+            if partner_agent:
+                return partner_agent.commission_id
+        return self.agent_id.commission_id

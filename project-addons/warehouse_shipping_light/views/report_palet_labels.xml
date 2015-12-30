@@ -72,11 +72,14 @@
                                     <span t-field="partner.state_id"></span> (<span t-field="partner.country_id"></span>)
                                     - Tfno. <span t-field="partner.phone"/> - Móvil <span t-field="partner.mobile"/>
                                 </div>
+                                <t t-if="p.sale_id">
+                                    <div class="line" t-field="p.sale_id.carrier_note" style="font-size: 18px; font-weight: bold;"/>
+                                </t>
                                 <div style="width: 100%; border: 1px solid black; border-right: 0; border-left: 0; font-size: 18px;">
                                     <table class="table table-condensed">
                                         <thead>
                                             <tr class="normal-title">
-                                                <th>Palets totales</th>
+                                                <th>Palets</th>
                                                 <th>Peso total</th>
                                                 <th>Fecha y hora</th>
                                                 <th>Transportista</th>
