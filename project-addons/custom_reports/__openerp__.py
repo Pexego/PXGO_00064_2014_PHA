@@ -37,6 +37,7 @@
         'sale_promotions',
         'commercial_and_financial_discount',
         'stock_reception',
+        'invoice_link_sale',
     ],
     'data' : [
         'views/report_stockinventory.xml',

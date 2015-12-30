@@ -2,16 +2,13 @@
 # This file contains the translation of the following modules:
 # 	* nan_product_pack
 #
-# Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>, 2011.
-# Óscar Salvador - Pharmadus <oscar.salvador@pharmadus.com>, 2015.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2011-01-15 11:45+0000\n"
-"PO-Revision-Date: 2015-10-06 09:00+0000\n"
-"Last-Translator: Oscar Salvador - Pharmadus <oscar.salvador@pharmadus.com>\n"
+"PO-Revision-Date: 2011-02-15 15:15+0000\n"
+"Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,16 +161,3 @@ msgstr "Línia de paquet de productes"
 #: help:product.product,pack_line_ids:0
 msgid "List of products that are part of this pack."
 msgstr "Llista de productes que formen part del paquet."
-
-#: view:sale.order:product_pack.view_order_form
-#: field:sale.order.line,pack_icon:0
-#: view:stock.move:product_pack.view_move_picking_tree
-#: field:stock.move,pack_component:0
-#: field:stock.move,pack_icon:0
-msgid "Pack component"
-msgstr "Component d'un paquet"
-
-#. module: product_pack
-#: field:stock.pack.operation,pack_component:0
-msgid "pack component"
-msgstr "Component d'un paquet"

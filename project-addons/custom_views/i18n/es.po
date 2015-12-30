@@ -108,3 +108,11 @@ msgstr "Solicitud de presupuesto Nº"
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
 msgid "My Purchases"
 msgstr "Mis compras"
+
+
+#. module: stock
+#: code:addons/stock/stock.py:0
+#: code:addons/stock/stock.py:0
+#, python-format
+msgid "Location %s has child locations. The movements should be at an end location"
+msgstr "El almacén %s tiene hijos. Todos los materiales deben ser movidos a un almacen sin almacenes hijos"

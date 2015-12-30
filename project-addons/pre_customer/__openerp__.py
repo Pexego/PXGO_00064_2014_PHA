@@ -31,6 +31,7 @@
         'base',
         'newclient_review',
         'custom_permissions',
+        'crm_claim',
     ],
     'data' : [
         'views/res_partner_view.xml',
