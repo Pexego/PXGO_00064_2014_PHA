@@ -25,5 +25,10 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="base.action_partner_supplier_form" model="ir.actions.act_window">
+            <field name="view_id" ref="base.view_partner_tree"/>
+        </record>
+
     </data>
 </openerp>
