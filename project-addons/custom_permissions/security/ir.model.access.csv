@@ -35,3 +35,5 @@ id_purchase_order_salesmanph,purchase_order_salesmanph,purchase.model_purchase_o
 id_account_move_line_salesmanph,account_move_line_salesmanph,account.model_account_move_line,group_salesman_ph,1,0,0,0
 id_crm_claim_type,crm_claim_type_salesmanph,crm_claim_type.model_crm_claim_type,group_salesman_ph,1,0,0,0
 id_crm_line_salesmanph,crm_line_salesmanph,crm_claim_rma.model_claim_line,group_salesman_ph,1,0,0,0
+id_sale_order_line_manager,sale_order_line_manager,sale.model_sale_order_line,base.group_sale_manager,1,1,1,1
+id_sale_order_line_supermanager,sale_order_line_supermanager,sale.model_sale_order_line,base.group_sale_salesman_all_leads,1,1,1,1
