@@ -45,6 +45,8 @@
                     <group expand="0" string="Group By">
                         <filter string="Ciudad" context="{'group_by':'city'}"/>
                         <filter string="Comercial" context="{'group_by':'create_uid'}"/>
+                        <filter string="Customer payment mode" context="{'group_by':'customer_payment_mode'}"/>
+                        <filter string="Supplier payment mode" context="{'group_by':'supplier_payment_mode'}"/>
                     </group>
                </search>
             </field>
