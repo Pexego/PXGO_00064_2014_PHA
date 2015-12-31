@@ -11,5 +11,9 @@
                 </field>
             </field>
         </record>
+
+        <record id="stock.quantsact" model="ir.actions.act_window">
+            <field name="context">{'search_default_internal_loc': 1, 'nodelete': True}</field>
+        </record>
     </data>
 </openerp>

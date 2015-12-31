@@ -18,10 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
+from openerp import models, fields, api, exceptions, _
 
 
 class LotStateSelection(models.Model):
     _inherit = 'stock.quant'
 
     lot_state = fields.Selection(string='Lot state', related='lot_id.state')
+
+    @api.multi
+    def unlink(self):
+        if self._context.get('nodelete', False):
+            raise exceptions.Warning(_('Deletion aviod'),
+                                     _('quants erasing is not allowed'))
+        return super(LotStateSelection, self).unlink()
