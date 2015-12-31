@@ -48,6 +48,7 @@
         'views/view_form_custom.xml',
         'views/invoice.xml',
         'data/wizards_units_precision.xml',
+        'security/menus.xml',
     ],
     'installable': True
 }
