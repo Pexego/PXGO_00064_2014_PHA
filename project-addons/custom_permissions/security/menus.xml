@@ -18,9 +18,11 @@
             <record id="hr_expense.next_id_49" model="ir.ui.menu">
                 <field name="groups_id" eval="[(4,ref('base.group_user'))]"/>
             </record>
-            <record id="hr_holidays.menu_open_ask_holidays" model="ir.ui.menu">
-                <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+            <!--Just salesmanPh can introduce cost-->
+            <record id="hr_expense.menu_expense_all" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4,ref('group_salesman_ph')),(4,ref('base.group_hr_manager')),(4,ref('base.group_hr_user'))]"/>
             </record>
+
 
         <record model="ir.actions.act_window" id="action_products">
                 <field name="name">Product list SalesmanPH</field>

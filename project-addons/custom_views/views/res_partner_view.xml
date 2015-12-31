@@ -58,6 +58,9 @@
                 </field>
                 <field name="prospect" position="replace">
                     <field name="active"/>
+                    <field name="supplier_payment_mode"/>
+                    <field name="customer_payment_mode"/>
+
                 </field>
             </field>
         </record>
