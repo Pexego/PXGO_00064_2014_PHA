@@ -4,7 +4,7 @@
         <record id="view_picking_form_customview" model="ir.ui.view">
             <field name="name">stock.picking.form.customview</field>
             <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="inherit_id" ref="sale_commission.stock_picking_form_add_agent_field"/>
             <field name="arch" type="xml">
                 <field name="agent_ids" position="attributes">
                     <attribute name="invisible">1</attribute>
