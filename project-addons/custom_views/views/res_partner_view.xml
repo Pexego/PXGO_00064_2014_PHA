@@ -21,9 +21,6 @@
                 <field name="city" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-                <field name="zip_id" position="attributes">
-                    <attribute name="required">1</attribute>
-                </field>
                 <field name="zip" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
@@ -36,11 +33,33 @@
                 <field name="phone" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
+            </field>
+        </record>
+
+        <record id="view_partner_form_add_vat_required" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base_vat.view_partner_form"/>
+            <field name="priority">51</field>
+            <field name="arch" type="xml">
                 <field name="vat" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
                 <field name="vat" position="before">
                     <label string="Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"></label>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_partner_form_add_zip_id_required" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="priority">51</field>
+            <field name="inherit_id" ref="base_location.view_partner_form"/>
+            <field name="priority">51</field>
+            <field name="arch" type="xml">
+                <field name="zip_id" position="attributes">
+                    <attribute name="required">1</attribute>
                 </field>
             </field>
         </record>
@@ -95,6 +114,7 @@
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
             <field name="domain">[]</field>
             <field name="context">{'default_customer':1, 'search_default_customer':1}</field>
             <field name="filter" eval="True"/>
