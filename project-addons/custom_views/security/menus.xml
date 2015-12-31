@@ -20,5 +20,10 @@
             <record id="hr_holidays.menu_open_company_allocation" model="ir.ui.menu">
                 <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
             </record>
+
+            <!--Menu Quants for warehouse user for list product/place-->
+            <record id="stock.menu_quants" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('stock.group_stock_user')])]"/>
+            </record>
     </data>
 </openerp>
