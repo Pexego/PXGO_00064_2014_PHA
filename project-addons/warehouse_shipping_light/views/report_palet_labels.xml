@@ -89,7 +89,7 @@
                                             <tr style="font-weight: bold;">
                                                 <td><span t-field="p.number_of_palets"/></td>
                                                 <td><span t-esc="'%g' % p.real_weight"/> <span t-field="p.weight_uom_id"/></td>
-                                                <td><span t-field="p.date"/></td>
+                                                <td><t t-if="p.date_done"><span t-field="p.date_done"/></t></td>
                                                 <td><span t-field="p.carrier_id"/></td>
                                             </tr>
                                         </tbody>

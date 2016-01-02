@@ -268,7 +268,7 @@
                                                 <td><![CDATA[&nbsp;|&nbsp;]]></td>
                                                 <td>
                                                     <span t-if="lot.acceptance_date" t-field="lot.acceptance_date"/>
-                                                    <span t-if="not lot.acceptance_date">(Not approved)</span>
+                                                    <span t-if="not lot.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
                                                 </td>
                                                 <td><![CDATA[&nbsp;|&nbsp;]]></td>
                                                 <td>

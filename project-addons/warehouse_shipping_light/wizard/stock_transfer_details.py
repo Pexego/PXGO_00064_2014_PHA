@@ -79,10 +79,14 @@ class StockTransferDetails(models.TransientModel):
     @api.multi
     def wizard_view(self):
         picking = self[0].picking_id
-        if (picking.picking_type_code == 'outgoing') and\
-                not (picking.real_weight > 0):
-            raise exceptions.Warning(
-                    _('Real weight to send must be greater than zero'))
+        if (picking.picking_type_code == 'outgoing') and \
+                (not (picking.real_weight > 0) or not picking.carrier_id):
+            message = ''
+            if not (picking.real_weight > 0):
+                message = _('Real weight to send must be greater than zero.\n')
+            if not (picking.carrier_id):
+                message += _('Carrier is not asigned.')
+            raise exceptions.Warning(message)
         else:
             type = picking.picking_type_code
             return super(StockTransferDetails,

@@ -105,7 +105,7 @@
         <report
             string="Expeditions report"
             id="wsl_action_report_expeditions"
-            model="stock.picking"
+            model="stock.expeditions"
             report_type="qweb-pdf"
             name="warehouse_shipping_light.wsl_report_expeditions"
         />
