@@ -55,18 +55,16 @@ class PartnerReview(models.Model):
         vals['confirmed'] = self._check_permissions()
 
         attrs = self.fields_get()
-        fields = ''
-        for field in vals:
-            if field != 'confirmed':
-                original_value = eval('self.' + field)
-                original_value = original_value if original_value \
-                                                else _('(empty)')
-                fields += u'<br>{0}: {1} => {2}'.format(
-                        _(attrs[field]['string']), original_value, vals[field])
+        for partner in self:
+            fields = ''
+            for field in vals:
+                if field != 'confirmed':
+                    original_value = eval('partner.' + field)
+                    original_value = original_value if original_value \
+                                                    else _('(empty)')
+                    fields += u'<br>{0}: {1} => {2}'.format(
+                            _(attrs[field]['string']), original_value, vals[field])
 
-        try:
-            self.message_post(body=_('Modified fields: ') + fields)
-        except:
-            print "Unexpected error:", sys.exc_info()[0]
+                partner.message_post(body=_('Modified fields: ') + fields)
 
         return super(PartnerReview, self).write(vals)
