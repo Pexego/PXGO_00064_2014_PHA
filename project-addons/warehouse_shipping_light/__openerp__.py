@@ -43,6 +43,7 @@
         'views/report_expeditions.xml',
         'views/sale_view.xml',
         'views/stock_view.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True
 }
