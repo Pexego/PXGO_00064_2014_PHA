@@ -128,3 +128,10 @@ class StockPackOperation(models.Model):
             else:
                 rec.complete = 0
                 rec.rest = self.product_qty
+
+
+class StockExpeditions(models.Model):
+    _name = 'stock.expeditions'
+    _description = 'Expeditions'
+    _inherit = 'stock.picking'
+    _table = 'stock_picking'

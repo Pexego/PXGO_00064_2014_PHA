@@ -22,6 +22,7 @@
 
 from openerp import models, fields, api
 from openerp.tools.translate import _
+import sys
 
 
 class PartnerReview(models.Model):
@@ -63,6 +64,9 @@ class PartnerReview(models.Model):
                 fields += u'<br>{0}: {1} => {2}'.format(
                         _(attrs[field]['string']), original_value, vals[field])
 
-        self.message_post(body=_('Modified fields: ') + fields)
+        try:
+            self.message_post(body=_('Modified fields: ') + fields)
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
 
         return super(PartnerReview, self).write(vals)

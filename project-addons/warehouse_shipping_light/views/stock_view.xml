@@ -12,9 +12,9 @@
             </field>
         </record>
 
-        <record id="wsl_view_picking_tree" model="ir.ui.view">
-            <field name="name">Warehouse Shipping Light - Picking tree</field>
-            <field name="model">stock.picking</field>
+        <record id="wsl_view_expeditions_tree" model="ir.ui.view">
+            <field name="name">Warehouse Shipping Light - Expeditions tree</field>
+            <field name="model">stock.expeditions</field>
             <field name="arch" type="xml">
                 <tree string="Delivery notes">
                     <field name="state" invisible="1"/>
@@ -32,14 +32,14 @@
             </field>
         </record>
 
-        <record id="wsl_picking_filter" model="ir.ui.view">
-            <field name="name">Warehouse Shipping Light - Filter</field>
-            <field name="model">stock.picking</field>
+        <record id="wsl_expeditions_filter" model="ir.ui.view">
+            <field name="name">Warehouse Shipping Light - Expeditions filter</field>
+            <field name="model">stock.expeditions</field>
             <field name="arch" type="xml">
-                <search string="Search outgoing picking">
+                <search string="Search expeditions">
                     <field name="name"/>
                     <field name="partner_id"/>
-                    <filter name="filter_not_sent" string="Not sent" domain="[('sent', '=', 0)]" help="Picking not sent"/>
+                    <filter name="filter_not_sent" string="Not sent" domain="[('sent', '=', 0)]" help="Not expedited"/>
                     <group expand="1" string="Group By">
                         <filter name="group_by_partner" string="Partner" context="{'group_by':'partner_id'}"/>
                         <filter name="group_by_date_done" string="Date done" context="{'group_by':'date_done'}"/>
@@ -50,20 +50,20 @@
             </field>
         </record>
 
-        <record id="wsl_action_picking_tree" model="ir.actions.act_window">
+        <record id="wsl_action_expeditions_tree" model="ir.actions.act_window">
             <field name="name">Delivery notes</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">stock.picking</field>
+            <field name="res_model">stock.expeditions</field>
             <field name="domain">[('picking_type_code', '=', 'outgoing'), ('state', '=', 'done')]</field>
             <field name="context">{'search_default_group_by_carrier': 1, 'search_default_group_by_day_done': 1, 'search_default_filter_not_sent': 1}</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree, form</field>
-            <field name="view_id" ref="wsl_view_picking_tree"/>
-            <field name="search_view_id" ref="wsl_picking_filter"/>
+            <field name="view_id" ref="wsl_view_expeditions_tree"/>
+            <field name="search_view_id" ref="wsl_expeditions_filter"/>
         </record>
 
-        <menuitem action="wsl_action_picking_tree"
-                  id="wsl_menu_picking_tree"
+        <menuitem action="wsl_action_expeditions_tree"
+                  id="wsl_menu_expeditions_tree"
                   parent="stock.menu_stock_warehouse_mgmt"
                   sequence="31"/>
     </data>
