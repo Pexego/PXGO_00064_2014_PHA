@@ -74,6 +74,9 @@ class StockTransferDetails(models.TransientModel):
         # Execute the transfer of the picking
         self.picking_id.do_transfer()
 
+        # Create expedition if proceed
+        self.picking_id.create_expedition()
+
         return True
 
     @api.multi
