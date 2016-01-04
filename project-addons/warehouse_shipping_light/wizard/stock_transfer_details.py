@@ -55,57 +55,87 @@ class StockTransferDetails(models.TransientModel):
                     continue
                 op = pack_operation.browse(item['packop_id'])
                 item['palet'] = op.palet
+                item['complete'] = op.complete
                 item['package'] = op.package
+                item['rest'] = op.rest
 
         return res
 
     @api.one
     def do_detailed_transfer(self):
-        res = super(StockTransferDetails, self).do_detailed_transfer()
-
-        # Update existing pack operations with additional data
+        processed_ids = []
+        # Create new and update existing pack operations
         for lstits in [self.item_ids, self.packop_ids]:
             for prod in lstits:
-                data = {
+                pack_datas = {
+                    'product_id': prod.product_id.id,
+                    'product_uom_id': prod.product_uom_id.id,
+                    'product_qty': prod.quantity,
+                    'package_id': prod.package_id.id,
+                    'lot_id': prod.lot_id.id,
+                    'location_id': prod.sourceloc_id.id,
+                    'location_dest_id': prod.destinationloc_id.id,
+                    'result_package_id': prod.result_package_id.id,
+                    'date': prod.date if prod.date else datetime.now(),
+                    'owner_id': prod.owner_id.id,
                     'palet': prod.palet,
+                    'complete': prod.complete,
                     'package': prod.package,
+                    'rest': prod.quantity -  (prod.complete *
+                                   prod.product_id.product_tmpl_id.box_elements)
                 }
                 if prod.packop_id:
-                    prod.packop_id.write(data)
+                    prod.packop_id.with_context(no_recompute=True).write(pack_datas)
+                    processed_ids.append(prod.packop_id.id)
+                else:
+                    pack_datas['picking_id'] = self.picking_id.id
+                    packop_id = self.env['stock.pack.operation'].create(pack_datas)
+                    processed_ids.append(packop_id.id)
+        # Delete the others
+        packops = self.env['stock.pack.operation'].search(['&', ('picking_id', '=', self.picking_id.id), '!', ('id', 'in', processed_ids)])
+        packops.unlink()
+
+        # Execute the transfer of the picking
+        self.picking_id.do_transfer()
 
         # Create expedition if proceed
         self.picking_id.create_expedition()
 
-        return res
+        return True
 
 
 class StockTransferDetailsItems(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
 
     palet = fields.Integer('Palet', default=0)
-    complete = fields.Integer('Complete',
-                           compute='_recalculate_complete_and_rest',
-                           readonly=True)
+    complete = fields.Integer('Complete', default=0)
     package = fields.Integer('Package', default=0)
-    rest = fields.Integer('Rest',
-                           compute='_recalculate_complete_and_rest',
-                           readonly=True)
+    rest = fields.Integer('Rest', readonly=True)
     quantity_to_extract = fields.Float('Quantity to extract',
                            digits=dp.get_precision('Product Unit of Measure'),
                            default=0)
 
-    @api.one
-    @api.depends('product_id', 'quantity')
-    def _recalculate_complete_and_rest(self):
-        for rec in self:
-            complete_qty = rec.product_id.product_tmpl_id.box_elements
-            if complete_qty > 0:
-                div = divmod(rec.quantity, complete_qty)
-                rec.complete = div[0]
-                rec.rest = div[1]
+    @api.onchange('quantity', 'complete')
+    def onchange_complete(self):
+        message = False
+        complete_qty = self.product_id.product_tmpl_id.box_elements
+        if complete_qty > 0:
+            required_qty = self.complete * complete_qty
+            if required_qty > self.quantity:
+                self.complete = 0
+                self.rest = self.quantity
+                message = _('Insufficient quantity to satisfy the required complete units!')
             else:
-                rec.complete = 0
-                rec.rest = self.quantity
+                self.complete = self.complete
+                self.rest = self.quantity - required_qty
+        else:
+            self.complete = 0
+            message = _('Complete qty is not defined for this product!')
+
+        res = {}
+        if message:
+            res['warning'] = {'title': _('Warning'), 'message': message}
+        return res
 
     @api.multi
     def split_wizard_view(self):
@@ -127,6 +157,7 @@ class StockTransferDetailsItems(models.TransientModel):
     @api.multi
     def split_quantities(self):
         if self and self[0]:
+            self.complete = 0
             return self[0].split_wizard_view()
 
     @api.multi
@@ -134,8 +165,10 @@ class StockTransferDetailsItems(models.TransientModel):
         for det in self:
             if det.quantity>1:
                 det.quantity = (det.quantity-det.quantity_to_extract)
+                det.rest = det.quantity
                 new_id = det.copy(context=self.env.context)
                 new_id.quantity = det.quantity_to_extract
+                new_id.rest = new_id.quantity
                 new_id.quantity_to_extract = 0
                 new_id.packop_id = False
                 det.quantity_to_extract = 0

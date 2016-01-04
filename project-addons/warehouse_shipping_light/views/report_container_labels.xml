@@ -110,7 +110,7 @@
                                                 <t t-if="po.package == container">
                                                     <tr>
                                                         <td><span t-field="po.product_id"/></td>
-                                                        <td class="text-center"><span t-field="po.rest"/></td>
+                                                        <td class="text-center"><span t-esc="'%g' % po.rest"/></td>
                                                     </tr>
                                                 </t>
                                             </t>
