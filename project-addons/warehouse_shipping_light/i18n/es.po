@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-03 21:15+0000\n"
-"PO-Revision-Date: 2016-01-03 22:21+0100\n"
+"POT-Creation-Date: 2016-01-04 15:18+0000\n"
+"PO-Revision-Date: 2016-01-04 16:22+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -256,7 +256,7 @@ msgid "Carrier"
 msgstr "Transportista"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:91
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:38
 #, python-format
 msgid "Carrier is not asigned."
 msgstr "Transportista no asignado."
@@ -313,13 +313,13 @@ msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:319
+#: code:addons/warehouse_shipping_light/models/stock.py:297
 #, python-format
 msgid "Commercial discount"
 msgstr "Descuento comercial"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:317
+#: code:addons/warehouse_shipping_light/models/stock.py:295
 #, python-format
 msgid "Commercial discount (%.2f %%)"
 msgstr "Descuento comercial (%.2f %%)"
@@ -346,8 +346,15 @@ msgstr "Completos"
 
 #. module: warehouse_shipping_light
 #: field:stock.pack.operation,complete:0
+#: field:stock.transfer_details_items,complete:0
 msgid "Complete"
 msgstr "Completos"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:133
+#, python-format
+msgid "Complete qty is not defined for this product!"
+msgstr "¡Las unidades de un completo no están definidas para este producto!"
 
 #. module: warehouse_shipping_light
 #: model:ir.actions.report.xml,name:warehouse_shipping_light.action_report_container_labels
@@ -437,7 +444,7 @@ msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:132
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:145
 #, python-format
 msgid "Enter quantity of the new line"
 msgstr "Introduzca la cantidad a transferir a la nueva línea"
@@ -464,13 +471,13 @@ msgid "Fecha y hora"
 msgstr "Fecha y hora"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:325
+#: code:addons/warehouse_shipping_light/models/stock.py:303
 #, python-format
 msgid "Financial discount"
 msgstr "Descuento financiero"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:323
+#: code:addons/warehouse_shipping_light/models/stock.py:301
 #, python-format
 msgid "Financial discount (%.2f %%)"
 msgstr "Descuento financiero (%.2f %%)"
@@ -526,6 +533,12 @@ msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated."
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:127
+#, python-format
+msgid "Insufficient quantity to satisfy the required complete units!"
+msgstr "¡No hay suficientes unidades en esta línea para despachar esa cantidad de completos!"
 
 #. module: warehouse_shipping_light
 #: model:ir.actions.report.xml,name:warehouse_shipping_light.wsl_action_report_picking
@@ -765,7 +778,7 @@ msgid "Real weight to send"
 msgstr "Peso real envío"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:89
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:36
 #, python-format
 msgid "Real weight to send must be greater than zero.\n"
 msgstr "El peso real de envío debe ser mayor que cero.\n"
@@ -782,7 +795,7 @@ msgid "Recorded in the Companies Registry of"
 msgstr "Inscrita en el Registro Mercantil de"
 
 #. module: warehouse_shipping_light
-#: field:stock.pack.operation,rest:0
+#: field:stock.transfer_details_items,rest:0
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Rest"
 msgstr "Resto"
@@ -914,6 +927,12 @@ msgstr "Cantidad"
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Warehouse Address:"
 msgstr "Dirección del almacén"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:137
+#, python-format
+msgid "Warning"
+msgstr "Aviso"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_expeditions_base

@@ -27,11 +27,12 @@
     'icon': '/sale_channel/static/src/img/icon.png',
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
-    "depends": ['sale'],
+    "depends": ['sale', 'stock', 'delivery'],
     "data": [
         'sale_channel_view.xml',
         'sale_channel_extra_view.xml',
         'sale_channel_invoice_report.xml',
+        'stock_view.xml',
         'security/ir.model.access.csv'
     ],
     "installable": True

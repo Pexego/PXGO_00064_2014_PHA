@@ -39,10 +39,6 @@ class StockPicking(models.Model):
                               compute='_compute_packages_and_weight',
                               readonly=True,
                               store=True)
-    weight = fields.Float('Weight',
-                              compute='_compute_packages_and_weight',
-                              readonly=True,
-                              store=True)
     real_weight = fields.Float('Real weight to send',
                               required=True,
                               default=0)
@@ -56,23 +52,24 @@ class StockPicking(models.Model):
                  'pack_operation_ids.product_qty',
                  'pack_operation_ids.product_id')
     def _compute_packages_and_weight(self):
-        complete_sum = 0
-        weight_sum = 0
-        package_list = [] # Count different packages
-        palet_list = []  # Count different palets
+        if len(self.pack_operation_ids) > 0:
+            complete_sum = 0
+            weight_sum = 0
+            package_list = [] # Count different packages
+            palet_list = []  # Count different palets
 
-        for po in self.pack_operation_ids:
-            complete_sum += po.complete
-            if po.package > 0 and not po.package in package_list:
-                package_list.append(po.package)
-            if po.palet > 0 and not po.palet in palet_list:
-                palet_list.append(po.palet)
-            weight_sum += po.product_id.product_tmpl_id.weight * po.product_qty
+            for po in self.pack_operation_ids:
+                complete_sum += po.complete
+                if po.package > 0 and not po.package in package_list:
+                    package_list.append(po.package)
+                if po.palet > 0 and not po.palet in palet_list:
+                    palet_list.append(po.palet)
+                weight_sum += po.product_id.product_tmpl_id.weight * po.product_qty
 
-        self.complete = complete_sum
-        self.number_of_packages = len(package_list) + complete_sum
-        self.number_of_palets = len(palet_list)
-        self.weight = weight_sum
+            self.complete = complete_sum
+            self.number_of_packages = len(package_list) + complete_sum
+            self.number_of_palets = len(palet_list)
+            self.weight = weight_sum
 
     @api.one
     def create_expedition(self):
@@ -101,28 +98,9 @@ class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
 
     palet = fields.Integer('Palet', default=0)
-    complete = fields.Integer('Complete',
-                              compute='_compute_complete_and_rest',
-                              readonly=True,
-                              store=True)
+    complete = fields.Integer('Complete')
     package = fields.Integer('Package', default=0)
-    rest = fields.Integer('Rest',
-                          compute='_compute_complete_and_rest',
-                          readonly=True,
-                          store=True)
-
-    @api.one
-    @api.depends('product_id', 'product_qty')
-    def _compute_complete_and_rest(self):
-        for rec in self:
-            complete_qty = rec.product_id.product_tmpl_id.box_elements
-            if complete_qty > 0:
-                div = divmod(rec.product_qty, complete_qty)
-                rec.complete = div[0]
-                rec.rest = div[1]
-            else:
-                rec.complete = 0
-                rec.rest = self.product_qty
+    rest = fields.Float('Rest', related='product_qty')
 
 
 class StockExpeditions(models.Model):
