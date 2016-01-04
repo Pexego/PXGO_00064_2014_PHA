@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,62 +22,9 @@
 from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
 
+
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
-
-    @api.model
-    def default_get(self, fields):
-        res = super(StockTransferDetails, self).default_get(fields)
-        picking = self.env['stock.picking'].browse(
-            self.env.context.get('active_id', False))
-        pack_operation = self.env['stock.pack.operation']
-        if picking.picking_type_code == 'outgoing':
-            for item in res.get('item_ids', []):
-                if not item['packop_id']:
-                    continue
-                op = pack_operation.browse(item['packop_id'])
-                item['palet'] = op.palet
-                item['package'] = op.package
-        return res
-
-    @api.one
-    def do_detailed_transfer(self):
-        processed_ids = []
-        # Create new and update existing pack operations
-        for lstits in [self.item_ids, self.packop_ids]:
-            for prod in lstits:
-                pack_datas = {
-                    'product_id': prod.product_id.id,
-                    'product_uom_id': prod.product_uom_id.id,
-                    'product_qty': prod.quantity,
-                    'package_id': prod.package_id.id,
-                    'lot_id': prod.lot_id.id,
-                    'location_id': prod.sourceloc_id.id,
-                    'location_dest_id': prod.destinationloc_id.id,
-                    'result_package_id': prod.result_package_id.id,
-                    'date': prod.date if prod.date else datetime.now(),
-                    'owner_id': prod.owner_id.id,
-                    'palet': prod.palet,
-                    'package': prod.package,
-                }
-                if prod.packop_id:
-                    prod.packop_id.with_context(no_recompute=True).write(pack_datas)
-                    processed_ids.append(prod.packop_id.id)
-                else:
-                    pack_datas['picking_id'] = self.picking_id.id
-                    packop_id = self.env['stock.pack.operation'].create(pack_datas)
-                    processed_ids.append(packop_id.id)
-        # Delete the others
-        packops = self.env['stock.pack.operation'].search(['&', ('picking_id', '=', self.picking_id.id), '!', ('id', 'in', processed_ids)])
-        packops.unlink()
-
-        # Execute the transfer of the picking
-        self.picking_id.do_transfer()
-
-        # Create expedition if proceed
-        self.picking_id.create_expedition()
-
-        return True
 
     @api.multi
     def wizard_view(self):
@@ -93,7 +40,43 @@ class StockTransferDetails(models.TransientModel):
         else:
             type = picking.picking_type_code
             return super(StockTransferDetails,
-                         self.with_context(picking_type = type)).wizard_view()
+                         self.with_context(picking_type=type)).wizard_view()
+
+    @api.model
+    def default_get(self, fields):
+        res = super(StockTransferDetails, self).default_get(fields)
+
+        picking = self.env['stock.picking'].browse(
+            self.env.context.get('active_id', False))
+        pack_operation = self.env['stock.pack.operation']
+        if picking.picking_type_code == 'outgoing':
+            for item in res.get('item_ids', []):
+                if not item['packop_id']:
+                    continue
+                op = pack_operation.browse(item['packop_id'])
+                item['palet'] = op.palet
+                item['package'] = op.package
+
+        return res
+
+    @api.one
+    def do_detailed_transfer(self):
+        res = super(StockTransferDetails, self).do_detailed_transfer()
+
+        # Update existing pack operations with additional data
+        for lstits in [self.item_ids, self.packop_ids]:
+            for prod in lstits:
+                data = {
+                    'palet': prod.palet,
+                    'package': prod.package,
+                }
+                if prod.packop_id:
+                    prod.packop_id.write(data)
+
+        # Create expedition if proceed
+        self.picking_id.create_expedition()
+
+        return res
 
 
 class StockTransferDetailsItems(models.TransientModel):
