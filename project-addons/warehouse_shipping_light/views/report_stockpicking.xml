@@ -193,6 +193,10 @@
                             <p>
                                 <strong>Order (Origin):</strong> <span t-field="o.origin"/>
                             </p>
+                            <p t-if="o.sale_channel_id">
+                                <strong>Channel:</strong>
+                                <span t-field="o.sale_channel_id"/>
+                            </p>
                         </div>
                         <div class="col-xs-4">
                             <p>

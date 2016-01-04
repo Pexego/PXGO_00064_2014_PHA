@@ -26,4 +26,5 @@ from openerp import models, fields, api
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    sale_channel_id = fields.Many2one(related='sale_id.sale_channel_id')
+    sale_channel_id = fields.Many2one(string='Canal de venta',
+                                      related='sale_id.sale_channel_id')
