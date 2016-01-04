@@ -38,11 +38,12 @@ class stock_return_picking(models.TransientModel):
         pick = pick_obj.browse(cr, uid, record_id, context=context)
         data = self.read(cr, uid, ids[0], context=context)
         returned_lines = 0
-
         # Cancel assignment of existing chained assigned moves
         moves_to_unreserve = []
+        to_check_moves = []
         for move in pick.move_lines:
-            to_check_moves = [move.move_dest_id]
+            if move.move_dest_id:
+                to_check_moves = [move.move_dest_id]
             while to_check_moves:
                 current_move = to_check_moves.pop()
                 if current_move.state not in ('done', 'cancel') and \
