@@ -28,6 +28,7 @@
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
     'depends' : [
+        'base',
         'sale',
         'purchase',
         'purchase_analytic_plans',

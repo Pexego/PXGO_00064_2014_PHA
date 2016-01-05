@@ -93,6 +93,12 @@ class StockPicking(models.Model):
                 transfer_details.with_context(ctx).\
                     create({'picking_id': picking[0]})
 
+    @api.multi
+    def do_print_picking(self):
+        # Redirects to the new report
+        return self.env['report'].\
+            get_action(self, 'warehouse_shipping_light.wsl_report_picking')
+
 
 class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
@@ -100,8 +106,12 @@ class StockPackOperation(models.Model):
     palet = fields.Integer('Palet', default=0)
     complete = fields.Integer('Complete')
     package = fields.Integer('Package', default=0)
-    rest = fields.Float('Rest', related='product_qty')
+    rest = fields.Float('Rest', default=0)
 
+    @api.model
+    def create(self, vals):
+        vals['rest'] = vals.get('quantity', 0)
+        return super(StockPackOperation, self).create(vals)
 
 class StockExpeditions(models.Model):
     _name = 'stock.expeditions'
