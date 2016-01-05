@@ -6,8 +6,20 @@
             <field name="model">stock.transfer_details</field>
             <field name="inherit_id" ref="stock.view_stock_enter_transfer_details"/>
             <field name="arch" type="xml">
+                <group string="Products To Move">
+                    <div class="oe_grey" position="after">
+                        <div class="list-inline" style="padding: 0;">
+                            <li style="width: 10%;"><label for="total_packages" style="color: black;"/></li>
+                            <li><field name="total_packages" style="color: black;"/></li>
+                        </div>
+                        <div class="list-inline" style="padding: 0;">
+                            <li style="width: 10%;"><label for="total_palets" style="color: black;"/></li>
+                            <li><field name="total_palets" style="color: black;"/></li>
+                        </div>
+                    </div>
+                </group>
                 <tree string="Inventory Details" position="attributes">
-                    <attribute name="default_order">product_id, lot_id</attribute>
+                    <attribute name="default_order">packop_id</attribute>
                 </tree>
                 <field name="product_id" position="before">
                     <field name="palet" invisible="context.get('picking_type') in ['incoming', 'internal']"/>
