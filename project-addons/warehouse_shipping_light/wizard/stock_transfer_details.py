@@ -21,6 +21,7 @@
 
 from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
+from datetime import datetime
 
 
 class StockTransferDetails(models.TransientModel):
