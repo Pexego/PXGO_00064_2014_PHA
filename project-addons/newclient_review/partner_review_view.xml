@@ -11,7 +11,7 @@
                     <field name="create_uid"/>
                     <field name="city"/>
                     <field name="date"/>
-                    <field name="active/"/>
+                    <field name="active"/>
                 </tree>
             </field>
         </record>
