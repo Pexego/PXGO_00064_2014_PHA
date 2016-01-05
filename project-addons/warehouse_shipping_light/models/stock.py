@@ -106,8 +106,12 @@ class StockPackOperation(models.Model):
     palet = fields.Integer('Palet', default=0)
     complete = fields.Integer('Complete')
     package = fields.Integer('Package', default=0)
-    rest = fields.Float('Rest', related='product_qty')
+    rest = fields.Float('Rest', default=0)
 
+    @api.model
+    def create(self, vals):
+        vals['rest'] = vals.get('quantity', 0)
+        return super(StockPackOperation, self).create(vals)
 
 class StockExpeditions(models.Model):
     _name = 'stock.expeditions'

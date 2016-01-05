@@ -51,7 +51,7 @@
                             <th>Packages</th>
                             <th>Delivery note</th>
                             <th t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
-                                Etiquetas impresas
+                                Etiquetas YA impresas
                             </th>
                         </tr>
                     </thead>
