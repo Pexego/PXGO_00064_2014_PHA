@@ -93,6 +93,12 @@ class StockPicking(models.Model):
                 transfer_details.with_context(ctx).\
                     create({'picking_id': picking[0]})
 
+    @api.multi
+    def do_print_picking(self):
+        # Redirects to the new report
+        return self.env['report'].\
+            get_action(self, 'warehouse_shipping_light.wsl_report_picking')
+
 
 class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
