@@ -53,6 +53,7 @@
                             <th t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
                                 Etiquetas YA impresas
                             </th>
+                            <th>Contrareembolso</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,13 +68,22 @@
                                 <td><span t-field="p.real_weight"/></td>
                                 <td><span t-field="p.number_of_packages"/></td>
                                 <td><span t-field="p.name"/></td>
+                                <!-- Si es la empresa de transportes MRW -->
                                 <td t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
+                                    <!-- Y el canal de venta es www.storepharmadus.com -->
                                     <span t-if="p.sale_channel_id in p.env.ref('__export__.sale_channel_3')">
                                         Yes
                                     </span>
                                     <span t-if="p.sale_channel_id not in p.env.ref('__export__.sale_channel_3')">
                                         No
                                     </span>
+                                </td>
+                                <td>
+                                    <!-- Modo de pago contrareembolso de PH -->
+                                    <t t-if="p.sale_id and p.sale_id.payment_mode_id in p.env.ref('__export__.payment_mode_43')">
+                                        <span t-field="p.amount_total"
+                                              t-field-options='{"widget": "monetary", "display_currency": "p.sale_id.pricelist_id.currency_id"}'/>
+                                    </t>
                                 </td>
                             </tr>
                         </t>
