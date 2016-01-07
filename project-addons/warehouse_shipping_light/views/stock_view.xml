@@ -9,6 +9,9 @@
                 <field name="weight_net" position="after">
                     <field name="real_weight"/>
                 </field>
+                <field name="carrier_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
             </field>
         </record>
 

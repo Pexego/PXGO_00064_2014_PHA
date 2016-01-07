@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-05 11:19+0000\n"
-"PO-Revision-Date: 2016-01-05 12:20+0100\n"
+"POT-Creation-Date: 2016-01-07 09:22+0000\n"
+"PO-Revision-Date: 2016-01-07 10:26+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -256,7 +256,7 @@ msgid "Carrier"
 msgstr "Transportista"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:39
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:71
 #, python-format
 msgid "Carrier is not asigned."
 msgstr "Transportista no asignado."
@@ -318,13 +318,13 @@ msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:303
+#: code:addons/warehouse_shipping_light/models/stock.py:306
 #, python-format
 msgid "Commercial discount"
 msgstr "Descuento comercial"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:301
+#: code:addons/warehouse_shipping_light/models/stock.py:304
 #, python-format
 msgid "Commercial discount (%.2f %%)"
 msgstr "Descuento comercial (%.2f %%)"
@@ -356,7 +356,7 @@ msgid "Complete"
 msgstr "Completos"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:134
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:164
 #, python-format
 msgid "Complete qty is not defined for this product!"
 msgstr "¡Las unidades de un completo no están definidas para este producto!"
@@ -370,6 +370,11 @@ msgstr "Etiquetas de bulto"
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Container type"
 msgstr "Tipo de envase"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Contrareembolso"
+msgstr "Contrareembolso"
 
 #. module: warehouse_shipping_light
 #: field:stock.expeditions,create_uid:0
@@ -449,10 +454,15 @@ msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:146
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:176
 #, python-format
 msgid "Enter quantity of the new line"
 msgstr "Introduzca la cantidad a transferir a la nueva línea"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Etiquetas YA impresas"
+msgstr "Etiquetas YA impresas"
 
 #. module: warehouse_shipping_light
 #: model:ir.model,name:warehouse_shipping_light.model_stock_expeditions
@@ -476,13 +486,13 @@ msgid "Fecha y hora"
 msgstr "Fecha y hora"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:309
+#: code:addons/warehouse_shipping_light/models/stock.py:312
 #, python-format
 msgid "Financial discount"
 msgstr "Descuento financiero"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:307
+#: code:addons/warehouse_shipping_light/models/stock.py:310
 #, python-format
 msgid "Financial discount (%.2f %%)"
 msgstr "Descuento financiero (%.2f %%)"
@@ -540,7 +550,7 @@ msgid "In observance of the Organic law 15/1999 of 13 December on the Protection
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:128
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:158
 #, python-format
 msgid "Insufficient quantity to satisfy the required complete units!"
 msgstr "¡No hay suficientes unidades en esta línea para despachar esa cantidad de completos!"
@@ -551,20 +561,10 @@ msgid "Internal picking note"
 msgstr "Albarán interno de picking"
 
 #. module: warehouse_shipping_light
-#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
-msgid "Inventory Details"
-msgstr "Detalles del inventario"
-
-#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Invoicing address:"
 msgstr "Dirección de facturación:"
-
-#. module: warehouse_shipping_light
-#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
-msgid "Labels printed?"
-msgstr "Etiqueta ya impresa"
 
 #. module: warehouse_shipping_light
 #: field:stock.expeditions,write_uid:0
@@ -623,6 +623,12 @@ msgstr "No enviado"
 #: field:stock.picking,complete:0
 msgid "Number of complete"
 msgstr "Número de completos"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:69
+#, python-format
+msgid "Number of packages must be greater than zero.\n"
+msgstr "El número de bultos tiene que ser mayor que cero.\n"
 
 #. module: warehouse_shipping_light
 #: field:stock.picking,number_of_palets:0
@@ -758,6 +764,11 @@ msgid "Product | EAN13"
 msgstr "Producto | EAN13"
 
 #. module: warehouse_shipping_light
+#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
+msgid "Products To Move"
+msgstr "Productos a mover"
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Qty"
 msgstr "Ctdad"
@@ -789,7 +800,7 @@ msgid "Real weight to send"
 msgstr "Peso real envío"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:37
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:67
 #, python-format
 msgid "Real weight to send must be greater than zero.\n"
 msgstr "El peso real de envío debe ser mayor que cero.\n"
@@ -806,7 +817,7 @@ msgid "Recorded in the Companies Registry of"
 msgstr "Inscrita en el Registro Mercantil de"
 
 #. module: warehouse_shipping_light
-#: field:stock.transfer_details_items,rest:0
+#: field:stock.pack.operation,rest:0 field:stock.transfer_details_items,rest:0
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Rest"
 msgstr "Resto"
@@ -914,6 +925,28 @@ msgid "Total complete:"
 msgstr "Completos:"
 
 #. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Total expeditions"
+msgstr "Total expediciones"
+
+#. module: warehouse_shipping_light
+#: field:stock.transfer_details,total_packages_expected:0
+msgid "Total packages expected"
+msgstr "Total bultos previstos"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:108
+#, python-format
+msgid "Total packages is greater than specified in carrier details"
+msgstr "El número de bultos es mayor de lo especificado en los detalles del transportista."
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:104
+#, python-format
+msgid "Total packages is minor than specified in carrier details"
+msgstr "El número de bultos es menor de lo especificado en los detalles del transportista."
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Total packages:"
 msgstr "Total bultos:"
@@ -940,7 +973,7 @@ msgid "Warehouse Address:"
 msgstr "Dirección del almacén"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:138
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:168
 #, python-format
 msgid "Warning"
 msgstr "Aviso"
@@ -975,14 +1008,14 @@ msgid "ZIP"
 msgstr "C.P."
 
 #. module: warehouse_shipping_light
+#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
+msgid "of"
+msgstr "de"
+
+#. module: warehouse_shipping_light
 #: view:stock.transfer_details_items:warehouse_shipping_light.view_transfer_split_config
 msgid "or"
 msgstr "o"
-
-#. module: warehouse_shipping_light
-#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
-msgid "product_id, lot_id"
-msgstr "product_id, lot_id"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_palet_labels

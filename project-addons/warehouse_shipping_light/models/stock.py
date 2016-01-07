@@ -32,9 +32,8 @@ class StockPicking(models.Model):
                               readonly=True,
                               store=True)
     number_of_packages = fields.Integer('Number of packages',
-                              compute='_compute_packages_and_weight',
-                              readonly=True,
-                              store=True)
+                              required=True,
+                              default=0)
     number_of_palets = fields.Integer('Number of palets',
                               compute='_compute_packages_and_weight',
                               readonly=True,
@@ -67,7 +66,6 @@ class StockPicking(models.Model):
                 weight_sum += po.product_id.product_tmpl_id.weight * po.product_qty
 
             self.complete = complete_sum
-            self.number_of_packages = len(package_list) + complete_sum
             self.number_of_palets = len(palet_list)
             self.weight = weight_sum
 
@@ -102,6 +100,7 @@ class StockPicking(models.Model):
 
 class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
+    _order = 'product_id, id'
 
     palet = fields.Integer('Palet', default=0)
     complete = fields.Integer('Complete')

@@ -11,6 +11,8 @@
                         <div class="list-inline" style="padding: 0;">
                             <li style="width: 10%;"><label for="total_packages" style="color: black;"/></li>
                             <li><field name="total_packages" style="color: black;"/></li>
+                            <li style="color: black;">of</li>
+                            <li style="color: black;"><field name="total_packages_expected"/></li>
                         </div>
                         <div class="list-inline" style="padding: 0;">
                             <li style="width: 10%;"><label for="total_palets" style="color: black;"/></li>
@@ -18,9 +20,6 @@
                         </div>
                     </div>
                 </group>
-                <tree string="Inventory Details" position="attributes">
-                    <attribute name="default_order">packop_id</attribute>
-                </tree>
                 <field name="product_id" position="before">
                     <field name="palet" invisible="context.get('picking_type') in ['incoming', 'internal']"/>
                     <field name="complete" invisible="context.get('picking_type') in ['incoming', 'internal']"/>

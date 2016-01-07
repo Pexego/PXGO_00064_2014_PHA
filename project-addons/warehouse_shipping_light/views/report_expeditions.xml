@@ -57,9 +57,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <t t-set="expeditions" t-value="0"/>
+                        <t t-set="weight" t-value="0"/>
+                        <t t-set="packages" t-value="0"/>
                         <t t-foreach="docs" t-as="p">
+                            <t t-set="expeditions" t-value="expeditions + 1"/>
+                            <t t-set="weight" t-value="weight + p.real_weight"/>
+                            <t t-set="packages" t-value="packages + p.number_of_packages"/>
+                            <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
                             <tr>
-                                <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
                                 <td><span t-field="partner.name"/></td>
                                 <td><span t-field="partner.street"/></td>
                                 <td><span t-field="partner.phone"/></td>
@@ -87,6 +93,18 @@
                                 </td>
                             </tr>
                         </t>
+                        <tr style="border: 2px solid grey; border-left: 0; border-right: 0;">
+                            <td><strong>Total expeditions</strong></td>
+                            <td><strong t-esc="expeditions"/></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong t-esc="weight"/></td>
+                            <td><strong t-esc="packages"/></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
