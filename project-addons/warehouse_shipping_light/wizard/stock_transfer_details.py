@@ -123,7 +123,13 @@ class StockTransferDetails(models.TransientModel):
                 if prod.packop_id:
                     prod.packop_id.with_context(no_recompute=True).write(pack_datas)
                 else:
-                    pack_datas['picking_id'] = self.picking_id.id
+                    pack_datas.update({
+                        'picking_id': self.picking_id.id,
+                        'product_qty': prod.quantity,
+                        'location_id': prod.sourceloc_id.id,
+                        'location_dest_id': prod.destinationloc_id.id,
+                        'result_package_id': prod.result_package_id.id
+                    })
                     self.env['stock.pack.operation'].create(pack_datas)
 
         res = super(StockTransferDetails, self).do_detailed_transfer()
