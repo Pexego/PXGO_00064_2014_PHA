@@ -135,7 +135,7 @@
                         <t t-set="partner" t-value="o.purchase_order.partner_id"/>
                     </t>
 
-                    <div class="row">
+                    <div class="row" style="font-size: 12px;">
                         <div class="col-xs-5" t-if="partner">
                             <strong>Invoicing address:</strong><br/>
 
@@ -192,6 +192,14 @@
                             </p>
                             <p>
                                 <strong>Order (Origin):</strong> <span t-field="o.origin"/>
+                            </p>
+                            <p t-if="o.sale_channel_id">
+                                <strong>Channel:</strong>
+                                <span t-field="o.sale_channel_id"/>
+                            </p>
+                            <p t-if="o.sale_id and o.sale_id.partner_id.customer_payment_mode">
+                                <strong>Payment mode:</strong><br/>
+                                <span t-field="o.sale_id.partner_id.customer_payment_mode"/><br/>
                             </p>
                         </div>
                         <div class="col-xs-4">
@@ -379,7 +387,7 @@
                                     <span t-field="l.package"/>
                                 </td>
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
-                                    <span t-field="l.rest"/>
+                                    <span t-esc="'%g' % l.rest"/>
                                 </td>
                                 <td style="width: 37%; vertical-align: middle;">
                                     <span t-field="l.product_id.name_template"/>
@@ -420,7 +428,7 @@
                             <div style="width: 30%; float: left;">
                                 <strong>Total complete:</strong> <span t-field="o.complete"/>
                             </div>
-                            <div class="resume" style="width: 50%; float: right;">
+                            <div class="resume" style="width: 60%; float: right;">
                                 <p>
                                     <strong>Carrier:</strong>
                                     <span t-field="o.carrier_id"/>
@@ -437,7 +445,7 @@
                                     <t t-if="not o.real_weight">
                                         <span><![CDATA[&nbsp;]]></span>
                                     </t>
-                                    <b t-field="o.weight_uom_id"/> (Estimated: <i t-esc="'%g' % o.weight"/>)
+                                    <b t-field="o.weight_uom_id"/> (Estimated: <i t-esc="'%.2f' % o.weight"/>)
                                 </p>
                             </div>
                             <div style="clear: both;"/>

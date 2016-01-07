@@ -102,6 +102,7 @@ msgstr "Producto"
 
 #. module: sale_channel
 #: field:account.invoice,sale_channel_id:0
+#: field:stock.picking.sale_channel_id:0
 #: view:account.invoice.report:0
 #: view:sale.order:0
 #: field:sale.order,sale_channel_id:0

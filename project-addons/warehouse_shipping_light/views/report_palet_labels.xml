@@ -3,7 +3,7 @@
     <data>
         <template id="report_palet_labels">
             <t t-foreach="docs" t-as="p">
-                <t t-set="partner" t-value="p.sale_id.partner_id"/>
+                <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
                 <t t-set="palets" t-value="[]"/>
                 <t t-foreach="p.pack_operation_ids" t-as="po">
                     <t t-if="po.palet and po.palet not in palets">
@@ -89,7 +89,7 @@
                                             <tr style="font-weight: bold;">
                                                 <td><span t-field="p.number_of_palets"/></td>
                                                 <td><span t-esc="'%g' % p.real_weight"/> <span t-field="p.weight_uom_id"/></td>
-                                                <td><span t-field="p.date"/></td>
+                                                <td><t t-if="p.date_done"><span t-field="p.date_done"/></t></td>
                                                 <td><span t-field="p.carrier_id"/></td>
                                             </tr>
                                         </tbody>
