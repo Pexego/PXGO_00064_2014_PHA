@@ -35,7 +35,8 @@ class PartnerReview(models.Model):
     def _check_permissions(self):
         # Get the PR Manager group id
         manager_group_id = self.env.ref('newclient_review.group_partners_review')
-        return self.env.user in manager_group_id.users
+        return (self.env.user in manager_group_id.users) or \
+               (self.env.user.company_id <> self.env.ref('base.main_company'))
 
     @api.multi
     def confirm_review(self):
