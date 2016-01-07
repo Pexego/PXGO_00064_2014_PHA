@@ -44,7 +44,7 @@ class wslReportExpeditions(models.AbstractModel):
                 'warehouse_shipping_light.wsl_report_expeditions', docargs)
 
 
-class wslReportDeliveryNote(models.AbstractModel):
+class wslReportPickingNote(models.AbstractModel):
     _name = 'report.warehouse_shipping_light.wsl_report_picking'
 
     @api.multi
@@ -53,7 +53,7 @@ class wslReportDeliveryNote(models.AbstractModel):
         pickings = self.env[model].browse(self._ids)
 
         if pickings:
-            if pickings[0].state not in ['assigned', 'done']:
+            if pickings[0].state not in ['partially_available', 'assigned', 'done']:
                 raise Warning(_('You must confirm availability of this picking note first!'))
 
         docargs = {
