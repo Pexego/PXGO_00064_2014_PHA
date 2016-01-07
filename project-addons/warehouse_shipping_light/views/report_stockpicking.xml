@@ -378,16 +378,16 @@
                        <tbody>
                             <tr t-foreach="o.pack_operation_ids" t-as="l" style="height: 3.5em;">
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
-                                    <span t-field="l.palet"/>
+                                    <span/>
                                 </td>
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
-                                    <span t-field="l.complete"/>
+                                    <span/>
                                 </td>
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
-                                    <span t-field="l.package"/>
+                                    <span/>
                                 </td>
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
-                                    <span t-esc="'%g' % l.rest"/>
+                                    <span/>
                                 </td>
                                 <td style="width: 37%; vertical-align: middle;">
                                     <span t-field="l.product_id.name_template"/>
