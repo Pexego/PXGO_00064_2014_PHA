@@ -26,19 +26,53 @@ import openerp.addons.decimal_precision as dp
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
 
+    total_packages = fields.Integer('Total packages', compute='_compute_counters')
+    total_packages_expected = fields.Integer(readonly=True)
+    total_palets = fields.Integer('Total palets', compute='_compute_counters')
+
+    def recalculate_counters(self):
+        package_list = [] # Count different packages
+        palet_list = []   # Count different palets
+        completes = 0     # Sum completes
+        for item in self.item_ids:
+            if item.package > 0 and not item.package in package_list:
+                package_list.append(item.package)
+            if item.palet > 0 and not item.palet in palet_list:
+                palet_list.append(item.palet)
+            completes += item.complete
+        self.total_packages = len(package_list) + completes
+        self.total_palets = len(palet_list)
+
+    @api.one
+    @api.depends('item_ids',
+                 'item_ids.package',
+                 'item_ids.palet')
+    def _compute_counters(self):
+        self.recalculate_counters()
+
+    @api.onchange('item_ids',
+                  'item_ids.package',
+                  'item_ids.palet')
+    def onchange_complete(self):
+        self.recalculate_counters()
+
     @api.multi
     def wizard_view(self):
         picking = self[0].picking_id
         if (picking.picking_type_code == 'outgoing') and \
-                (not (picking.real_weight > 0) or not picking.carrier_id):
+                (not (picking.real_weight > 0) or not picking.carrier_id or
+                 not (picking.number_of_packages > 0)):
             message = ''
             if not (picking.real_weight > 0):
                 message = _('Real weight to send must be greater than zero.\n')
+            if not (picking.number_of_packages > 0):
+                message += _('Number of packages must be greater than zero.\n')
             if not (picking.carrier_id):
                 message += _('Carrier is not asigned.')
             raise exceptions.Warning(message)
         else:
             type = picking.picking_type_code
+            self.total_packages_expected = picking.number_of_packages
             return super(StockTransferDetails,
                          self.with_context(picking_type=type)).wizard_view()
 
@@ -64,6 +98,17 @@ class StockTransferDetails(models.TransientModel):
 
     @api.one
     def do_detailed_transfer(self):
+        # Check equality of total packages and number of packages
+        if self.picking_id.picking_type_code == 'outgoing':
+            if self.picking_id.number_of_packages > self.total_packages:
+                raise exceptions.Warning(_(
+                   'Total packages is minor than specified in carrier details'
+                ))
+            elif  self.picking_id.number_of_packages < self.total_packages:
+                raise exceptions.Warning(_(
+                   'Total packages is greater than specified in carrier details'
+                ))
+
         # Add new data of the wizard to pack operations
         for lstits in [self.item_ids, self.packop_ids]:
             for prod in lstits:
@@ -91,6 +136,7 @@ class StockTransferDetails(models.TransientModel):
 
 class StockTransferDetailsItems(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
+    _order = 'product_id, id'
 
     palet = fields.Integer('Palet', default=0)
     complete = fields.Integer('Complete', default=0)
