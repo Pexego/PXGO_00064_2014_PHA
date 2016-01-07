@@ -6,11 +6,11 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-                <field name="weight_net" position="after">
+                <field name="number_of_packages" position="after">
                     <field name="real_weight"/>
                 </field>
                 <field name="carrier_id" position="attributes">
-                    <attribute name="required">1</attribute>
+                    <attribute name="attrs">{'required': [('picking_type_code','=','outgoing')]}</attribute>
                 </field>
             </field>
         </record>
