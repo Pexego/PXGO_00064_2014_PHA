@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 11:01+0000\n"
-"PO-Revision-Date: 2015-11-24 12:03+0100\n"
+"POT-Creation-Date: 2016-01-08 17:08+0000\n"
+"PO-Revision-Date: 2016-01-08 18:10+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,17 +18,23 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "&nbsp;"
+msgstr "&nbsp;"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "&nbsp;&nbsp;&nbsp;"
+msgstr "&nbsp;&nbsp;&nbsp;"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "&nbsp;|&nbsp;"
 msgstr "&nbsp;|&nbsp;"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
-msgid "(Not approved)"
-msgstr "              "
-
-#. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "(Unspecified)"
 msgstr "(Sin especificar)"
 
@@ -78,7 +84,8 @@ msgstr ""
 "                                Tomo"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
@@ -89,7 +96,8 @@ msgstr ""
 "                            Folio"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
@@ -100,7 +108,8 @@ msgstr ""
 "                            Registro"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
@@ -111,7 +120,8 @@ msgstr ""
 "                            Hoja"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
@@ -122,7 +132,8 @@ msgstr ""
 "                            NIF"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid ""
@@ -133,42 +144,56 @@ msgstr ""
 "                            Tomo"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
-#: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
+#: view:website:custom_reports.report_invoice_biosalud
 msgid ", or by e-mail at"
 msgstr ", o en el e-mail"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_purchaseorder_document
+#: view:website:custom_reports.report_purchasequotation_document
+msgid ", or by e-mail at info@pharmadus.com"
+msgstr ", o al e-mail info@pharmadus.com"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
+#: view:website:custom_reports.report_saleorder_document
+msgid ", or by e-mail at ventas@pharmadus.com"
+msgstr ", o al e-mail ventas@pharmadus.com"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Amount"
 msgstr "Importe"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Amount with article discount"
 msgstr "Importe c. dto. de artículo"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Article discount"
 msgstr "Descuento artículo"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "BIC:"
 msgstr "BIC:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Base"
 msgstr "Base"
 
@@ -178,36 +203,40 @@ msgid "Bonification"
 msgstr "Bonificación"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "CN Code"
 msgstr "Código CN"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Cancelled Invoice"
 msgstr "Factura cancelada"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "Client code:"
 msgstr "Código cliente:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
-#: view:website:custom_reports.report_saleorder_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Client quotation ref.:"
 msgstr "Ref. pedido de cliente:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Comment:"
 msgstr "Comentario:"
 
@@ -215,6 +244,11 @@ msgstr "Comentario:"
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Company"
 msgstr "Compañía"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_biosalud
+msgid "Concept"
+msgstr "Concepto"
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
@@ -238,21 +272,28 @@ msgid "Date Ordered:"
 msgstr "Fecha pedido:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Draft Invoice"
 msgstr "Factura borrador"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Fiscal Position Remark:"
 msgstr "Observaciones de la posición fiscal"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_biosalud
+msgid "For any doubt or explanation of the invoice, be contacted with Administration Dept. in the number"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Administración en el número"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -261,7 +302,7 @@ msgid "For any doubt or explanation, be contacted with Purchases Dept. in the nu
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Compras en el número"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "For any doubt or explanation, be contacted with Sales Dept. in the number"
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
@@ -272,7 +313,7 @@ msgid "Hide bank account when payment mode shown in an invoice"
 msgstr "Oculta la cuenta bancaria cuando se muestra el modo de pago en una factura"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
@@ -280,7 +321,8 @@ msgid "In agreement with the law 11/97 of packings and residues of packings, we 
 msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
@@ -288,17 +330,25 @@ msgid "In observance of the Organic law 15/1999 of 13 December on the Protection
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Invoice"
 msgstr "Factura"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Invoice Date:"
 msgstr "Fecha de factura:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: model:ir.actions.report.xml,name:custom_reports.action_invoice_bio_without_iso
+msgid "Invoice without ISO 9001"
+msgstr "Facturas sin ISO 9001"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
@@ -311,9 +361,9 @@ msgid "LOT"
 msgstr "LOTE"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Lot | Approved | Best before"
-msgstr "Lote | Aprobado | Consumo preferente"
+msgstr "Lote | Aprobado | Caducidad"
 
 #. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_report_lot_labels
@@ -321,7 +371,8 @@ msgid "Lots labels"
 msgstr "Etiquetas de lotes"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Net amount"
@@ -346,12 +397,14 @@ msgid "Order Nº"
 msgstr "Nº de pedido"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "PRO-FORMA"
 msgstr "PRO-FORMA"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
@@ -364,12 +417,14 @@ msgid "Payment Mode"
 msgstr "Modo de pago"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Payment Term:"
 msgstr "Plazo de pago:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "Payment mode:"
 msgstr "Forma de pago:"
@@ -381,14 +436,16 @@ msgid "Planned Date:"
 msgstr "Fecha de entrega:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Price"
 msgstr "Precio"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Price w/discount"
@@ -412,7 +469,7 @@ msgid "Product / EAN13"
 msgstr "Producto / EAN13"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Product | EAN13"
 msgstr "Producto | EAN13"
 
@@ -422,7 +479,8 @@ msgid "Purchase Order Confirmation N°:"
 msgstr "Confirmación de orden de compra N°:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 msgid "Qty"
 msgstr "Ctdad"
@@ -436,15 +494,16 @@ msgstr "Cantidad"
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quotation Date:"
-msgstr "Fecha de pedido:"
+msgstr "Fecha de presupuesto:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quotation N°"
-msgstr "Nº solicitud de pedido"
+msgstr "Presupuesto Nº"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "Quotation reference:"
 msgstr "Referencia de pedido:"
@@ -455,7 +514,8 @@ msgid "Real qty."
 msgstr "Cantidad real"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
@@ -463,12 +523,14 @@ msgid "Recorded in the Companies Registry of"
 msgstr "Inscrita en el Registro Mercantil de"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Reference:"
 msgstr "Referencia:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Refund"
 msgstr "Factura rectificativa"
 
@@ -481,7 +543,7 @@ msgstr "Reposiciones"
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 msgid "Request for Quotation N°:"
-msgstr "Solicitud de pedido N°:"
+msgstr "Solicitud de presupuesto N°:"
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
@@ -504,7 +566,7 @@ msgid "Sales Orders Statistics"
 msgstr "Estadísticas pedidos de venta"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "Salesperson:"
 msgstr "Comercial:"
@@ -515,7 +577,8 @@ msgid "Samples"
 msgstr "Muestras/publicitario"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
@@ -523,17 +586,20 @@ msgid "Shipping address:"
 msgstr "Dirección de envío:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Source:"
 msgstr "Origen:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Supplier Invoice"
 msgstr "Factura de proveedor"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Supplier Refund"
 msgstr "Factura rectificativa de proveedor"
 
@@ -544,12 +610,14 @@ msgid "Supplier code:"
 msgstr "Código proveedor:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 msgid "Tax"
 msgstr "Impuesto"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Taxes"
@@ -561,14 +629,16 @@ msgid "Theoretical qty."
 msgstr "Cantidad teórica"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Total"
 msgstr "Total"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Total Without Taxes"
@@ -591,11 +661,12 @@ msgid "Unit of measure"
 msgstr "Unidad de medida"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Unit price"
-msgstr "Precio ud"
+msgstr "Precio ud."
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -604,13 +675,6 @@ msgid "Validated By:"
 msgstr "Validado por:"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_purchasequotation_document
-msgid "info@pharmadus.com"
-msgstr "info@pharmadus.com"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_invoice_document
-#: view:website:custom_reports.report_saleorder_document
-msgid "ventas@pharmadus.com"
-msgstr "ventas@pharmadus.com"
+#: view:website:custom_reports.report_invoice_biosalud
+msgid "administracion@laboratoriobiosalud.com"
+msgstr "administracion@laboratoriobiosalud.com"

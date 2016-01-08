@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import stock, report, sale
+import stock, abstract_report, sale
