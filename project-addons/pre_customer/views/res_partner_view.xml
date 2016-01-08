@@ -57,7 +57,7 @@
                     <attribute name="required">False</attribute>
                 </field>
                 <field name="property_product_pricelist" position="attributes">
-                    <attribute name="property_product_pricelist">False</attribute>
+                    <attribute name="required">False</attribute>
                 </field>
             </field>
         </record>
