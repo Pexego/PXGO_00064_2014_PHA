@@ -263,9 +263,9 @@ class StockExpeditions(models.Model):
             aux = aux * (1 - com_discount / 100)
             fin_discount = sale_line.financial_discount
             fin_disc_amount += aux * fin_discount / 100
+            aux = aux * (1 - fin_discount / 100)
             # Compute line taxes
-            for c in sale_line.tax_id.compute_all(sale_line.price_unit,
-                                      line.product_qty, line.product_id,
+            for c in sale_line.tax_id.compute_all(aux, 1, line.product_id,
                                       self.sale_id.partner_id)['taxes']:
                 amount_tax += c.get('amount', 0.0)
 
@@ -280,10 +280,9 @@ class StockExpeditions(models.Model):
         aux = aux * (1 - com_discount / 100)
         fin_discount = sale_line.financial_discount
         fin_disc_amount += aux * fin_discount / 100
+        aux = aux * (1 - fin_discount / 100)
         # Compute sale line taxes
-        for c in sale_line.tax_id.compute_all(sale_line.price_unit,
-                                  sale_line.product_uom_qty,
-                                  sale_line.product_id,
+        for c in sale_line.tax_id.compute_all(aux, 1, sale_line.product_id,
                                   self.sale_id.partner_id)['taxes']:
             amount_tax += c.get('amount', 0.0)
 
