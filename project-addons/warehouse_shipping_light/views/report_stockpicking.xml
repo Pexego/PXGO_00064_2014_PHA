@@ -475,7 +475,7 @@
                                 </t>
                             </t>
                         </div>
-                        <div style="margin-left: 90px;">
+                        <div style="margin-left: 80px;">
                             <p style="font-size: 8px; margin: 0; padding: 0;">
                                 Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,
                                 Volume <span t-field="company.partner_id.es_tomo"/>,
