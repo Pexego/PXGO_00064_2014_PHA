@@ -56,6 +56,9 @@
                 <field name="vat" position="attributes">
                     <attribute name="required">False</attribute>
                 </field>
+                <field name="property_product_pricelist" position="attributes">
+                    <attribute name="property_product_pricelist">False</attribute>
+                </field>
             </field>
         </record>
 
