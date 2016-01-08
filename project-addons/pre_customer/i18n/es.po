@@ -21,7 +21,7 @@ msgstr ""
 #: code:addons/pre_customer/models/res_partner.py:42
 #, python-format
 msgid "- City field is mandatory.\n"
-msgstr "- El campo \"Ciudad\" es obligatorio.\n"
+msgstr "- Ciudad es obligatorio.\n"
 
 #. module: pre_customer
 #: code:addons/pre_customer/models/res_partner.py:46
@@ -39,31 +39,51 @@ msgstr "- Debe seleccionar una provincia.\n"
 #: code:addons/pre_customer/models/res_partner.py:38
 #, python-format
 msgid "- Must select a postal code/city option.\n"
-msgstr "- Debe seleccionar una opción C.P./Ciudad.\n"
+msgstr "- C.P./ Ciudad. es obligatorio\n"
 
 #. module: pre_customer
 #: code:addons/pre_customer/models/res_partner.py:48
 #, python-format
 msgid "- Phone field is mandatory.\n"
-msgstr "- El campo \"Teléfono\" es obligatorio.\n"
+msgstr "- Teléfono es obligatorio.\n"
 
 #. module: pre_customer
 #: code:addons/pre_customer/models/res_partner.py:36
 #, python-format
 msgid "- Street field is mandatory.\n"
-msgstr "- El campo \"Calle\" es obligatorio.\n"
+msgstr "- Calle es obligatorio.\n"
 
 #. module: pre_customer
 #: code:addons/pre_customer/models/res_partner.py:50
 #, python-format
 msgid "- VAT field is mandatory.\n"
-msgstr "- El campo \"NIF\" en la pestaña \"Contabilidad\" es obligatorio.\n"
+msgstr "- NIF en Contabilidad es obligatorio.\n"
 
 #. module: pre_customer
 #: code:addons/pre_customer/models/res_partner.py:40
 #, python-format
 msgid "- Zip field is mandatory.\n"
-msgstr "- El campo C.P. es obligatorio.\n"
+msgstr "- C.P. es obligatorio.\n"
+
+#. module: pre_customer
+#: code:addons/pre_customer/models/res_partner.py:58
+#, python-format
+msgid "- Payment mode is mandatory.\n"
+msgstr "- Modo de Pago de Cliente en Contabilidad es obligatorio.\n"
+
+#. module: pre_customer
+#: code:addons/pre_customer/models/res_partner.py:56
+#, python-format
+msgid "- Payment term is mandatory.\n"
+msgstr "- Plazo de Pago de Cliente en Contabilidad es obligatorio.\n"
+
+#. module: pre_customer
+#: code:addons/pre_customer/models/res_partner.py:54
+#, python-format
+msgid "- Pricelist is mandatory.\n"
+msgstr "- Tarifa de Venta en Ventas&Compras es obligatoria.\n"
+
+
 
 #. module: pre_customer
 #: model:ir.actions.act_window,help:pre_customer.action_pre_customer_form
