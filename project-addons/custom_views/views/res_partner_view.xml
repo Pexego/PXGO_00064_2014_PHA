@@ -161,5 +161,13 @@
                    </field>
             </field>
         </record>
+
+
+        <!--Page "Accounting"-->
+        <record id="account.view_partner_property_form"
+               model="ir.ui.view">
+           <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+       </record>
+
     </data>
 </openerp>

@@ -21,6 +21,11 @@ msgid "Confirm Sale"
 msgstr "Confirmar venta"
 
 #. module: custom_permissions
+#: view:res.partner:custom_permissions.view_partner_form_salesmanph
+msgid "Agents/Consultancy"
+msgstr "Comisionistas"
+
+#. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_show_menu_hr
 msgid "Show Menu-HR"
 msgstr "Mostrar Menu-RecursosHumanos"

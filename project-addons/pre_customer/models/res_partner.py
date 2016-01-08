@@ -28,6 +28,8 @@ class ResPartner(models.Model):
 
     pre_customer = fields.Boolean('pre-Customer', default=False)
 
+
+
     @api.multi
     def validate_customer(self):
         warning = ''
@@ -48,6 +50,12 @@ class ResPartner(models.Model):
             warning += _('- Phone field is mandatory.\n')
         if not (self.vat and self.vat.strip()):
             warning += _('- VAT field is mandatory.\n')
+        if not self.property_product_pricelist:
+            warning += _('- Pricelist is mandatory.\n')
+        if not self.property_payment_term:
+            warning += _('- Payment term is mandatory.\n')
+        if not self.customer_payment_mode:
+            warning += _('- Payment mode is mandatory.\n')
 
         if warning == '':
             self.pre_customer = False

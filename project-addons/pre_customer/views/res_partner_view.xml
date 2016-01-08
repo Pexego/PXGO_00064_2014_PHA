@@ -56,6 +56,9 @@
                 <field name="vat" position="attributes">
                     <attribute name="required">False</attribute>
                 </field>
+                <field name="property_product_pricelist" position="attributes">
+                    <attribute name="property_product_pricelist">False</attribute>
+                </field>
             </field>
         </record>
 
@@ -73,7 +76,8 @@
                     "search_default_customer": 1,
                     "default_user_id": uid,
                     "default_customer": 1,
-                    "default_pre_customer": 1
+                    "default_pre_customer": 1,
+                    "default_property_product_pricelist": ""
                 }
             </field>
             <field name="help" type="html">
@@ -131,7 +135,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('pre_customer', '=', False)]</field>
-            <field name="context">{"search_default_confirmed":1 , "search_default_unactive":1}</field>
+            <field name="context">{"search_default_confirmed":1}</field>
             <field name="search_view_id" ref="newclient_review.newclients_to_review_filter"/>
         </record>
 
