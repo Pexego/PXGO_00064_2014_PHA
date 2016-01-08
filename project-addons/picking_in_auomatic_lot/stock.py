@@ -31,7 +31,7 @@ class stock_transfer_details(models.TransientModel):
             self.env.context.get('active_id', False))
         if picking.picking_type_code == 'incoming':
             for item in res.get('item_ids', []):
-                if not item['product_id']:
+                if not item['product_id'] or item['lot_id']:
                     continue
                 prodlot_id = self.env['stock.production.lot'].with_context(
                     {'product_id': item['product_id'],
