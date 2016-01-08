@@ -66,7 +66,13 @@
                             <t t-set="packages" t-value="packages + p.number_of_packages"/>
                             <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
                             <tr>
-                                <td><span t-field="partner.name"/></td>
+                                <td>
+                                    <span t-field="partner.name"/>
+                                    <t t-if="partner.comercial">
+                                        <![CDATA[&nbsp;]]>
+                                        <span t-field="partner.comercial"/>
+                                    </t>
+                                </td>
                                 <td><span t-field="partner.street"/></td>
                                 <td><span t-field="partner.phone"/></td>
                                 <td><span t-field="partner.zip"/></td>

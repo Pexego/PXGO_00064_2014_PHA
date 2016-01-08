@@ -64,6 +64,12 @@
                             </style>
                             <div class="row">
                                 <div class="line" t-field="partner.name" style="font-size: 30px; font-weight: bold;"/>
+                                <t t-if="partner.parent_id">
+                                    <div class="line" t-field="partner.parent_id.comercial" style="font-size: 24px;"/>
+                                </t>
+                                <t t-if="not partner.parent_id">
+                                    <div class="line" t-field="partner.comercial" style="font-size: 24px;"/>
+                                </t>
                                 <div class="line" t-field="partner.street" style="font-size: 24px;"/>
                                 <div class="line" style="font-size: 24px;">
                                     <span t-field="partner.zip"/> <span t-field="partner.city"></span>
