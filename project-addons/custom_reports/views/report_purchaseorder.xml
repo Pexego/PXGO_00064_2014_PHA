@@ -324,7 +324,7 @@
                                 </t>
                             </t>
                         </div>
-                        <div style="margin-left: 90px;">
+                        <div style="margin-left: 80px;">
                             <p style="font-size: 12px; margin: 5px 0; padding: 0;">
                                 For any doubt or explanation, be contacted with Purchases Dept. in the number <b><span t-field="company.phone"/></b>, or by e-mail at info@pharmadus.com
                             </p>

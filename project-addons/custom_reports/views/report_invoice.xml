@@ -10,430 +10,25 @@
                 <t t-set="company" t-value="res_company"></t>
             </t>
 
-            <div class="header">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
-                    </div>
-                    <div class="list-inline pull-right" style="padding: 20px 10px 0 0;">
-                        <li>Page:</li>
-                        <li><span class="page"/></li>
-                        <li>/</li>
-                        <li><span class="topage"/></li>
-                    </div>
-                </div>
-                <div class="row zero_min_height">
-                    <div class="col-xs-12">
-                        <div style="border-bottom: 1px solid black;"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5">
-                        <style>
-                            div#company_address {
-                                font-size: 10px;
-                            }
-                            div#company_address p {
-                                margin: 1.5px 0;
-                            }
-                            a {
-                                color: black;
-                            }
-                        </style>
-                        <div id="company_address">
-                            <p>
-                                <span t-field="company.partner_id.name"></span>
-                            </p>
-                            <p>
-                                <i class="glyphicon glyphicon-map-marker"></i>
-                                <span t-field="company.partner_id.street"></span>
-                            </p>
-                            <p>
-                                <span t-field="company.partner_id.zip" style="margin-left: 13px;"></span>
-                                <span t-field="company.partner_id.city"></span> -
-                                <span t-field="company.partner_id.state_id"></span>
-                                (<span t-field="company.partner_id.country_id"></span>)
-                            </p>
-                            <p>
-                                <t t-if="company.partner_id.phone">
-                                    <i class="glyphicon glyphicon-earphone"></i>
-                                    <span t-field="company.partner_id.phone"></span>
-                                </t>
-                                <t t-if="company.partner_id.phone and company.partner_id.fax"><span> /</span></t>
-                                <t t-if="company.partner_id.fax">
-                                    <i class="glyphicon glyphicon-print"></i>
-                                    <span t-field="company.partner_id.fax"></span>
-                                </t>
-                            </p>
-                            <p t-if="company.partner_id.website">
-                                <i class="glyphicon glyphicon-globe"></i>
-                                <a t-field="company.partner_id.website"></a>
-                            </p>
-                            <p t-if="company.partner_id.email">
-                                <i class="glyphicon glyphicon-envelope"></i>
-                                <a t-field="company.partner_id.email"></a>
-                            </p>
-                            <p>
-                                <i class="glyphicon glyphicon-briefcase"></i>
-                                <span t-field="company.partner_id.vat"/>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
-                        <t t-if="o.partner_shipping_id">
-                            <strong>Shipping address:</strong>
-                            <div t-field="o.partner_id"
-                                 t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
-                        </t>
-                    </div>
-                </div>
-            </div>
-
-            <div class="page">
-                <div class="oe_structure"/>
-                <style>
-                    a {
-                        color: black;
-                    }
-                </style>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h2>
-                            <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
-                            <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
-                            <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
-                            <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
-                            <span t-if="o.type == 'out_refund'">Refund</span>
-                            <span t-if="o.type == 'in_refund'">Supplier Refund</span>
-                            <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
-                            <span t-field="o.number"/>
-                        </h2>
-                        <div style="border-bottom: 2px solid black; margin-bottom: 10px;"></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5">
-                        <strong>Invoicing address:</strong><br/>
-
-                        <span t-field="o.commercial_partner_id.name"></span><br/>
-
-                        <i class="glyphicon glyphicon-map-marker"></i>
-                        <span t-field="o.commercial_partner_id.street"></span><br/>
-
-                        <span t-field="o.commercial_partner_id.zip" style="margin-left: 17px;"></span>
-                        <span t-field="o.commercial_partner_id.city"></span> -
-                        <span t-field="o.commercial_partner_id.state_id"></span>
-                        (<span t-field="o.commercial_partner_id.country_id"></span>)<br/>
-
-                        <t t-if="o.partner_id.phone">
-                            <i class="glyphicon glyphicon-earphone"></i>
-                            <span t-field="o.commercial_partner_id.phone"></span>
-                        </t>
-                        <t t-if="o.partner_id.phone and o.partner_id.fax"><span> /</span></t>
-                        <t t-if="o.partner_id.fax">
-                            <i class="glyphicon glyphicon-print"></i>
-                            <span t-field="o.commercial_partner_id.fax"></span><br/>
-                        </t>
-                        <t t-if="o.partner_id.phone and not o.partner_id.fax">
-                            <br/>
-                        </t>
-
-                        <t t-if="o.partner_id.website">
-                            <i class="glyphicon glyphicon-globe"></i>
-                            <a t-field="o.commercial_partner_id.website"></a><br/>
-                        </t>
-
-                        <t t-if="o.partner_id.email">
-                            <i class="glyphicon glyphicon-envelope"></i>
-                            <a t-field="o.commercial_partner_id.email"></a><br/>
-                        </t>
-
-                        <t t-if="o.partner_id.vat">
-                            <i class="glyphicon glyphicon-briefcase"></i>
-                            <span t-field="o.commercial_partner_id.vat"/>
-                        </t>
-                    </div>
-                    <div class="col-xs-3">
-                        <p t-if="o.partner_id.ref"><strong>Client code:</strong> <span t-field="o.partner_id.ref"></span></p>
-                        <p t-if="o.origin"><strong>Source:</strong> <span t-field="o.origin"></span></p>
-                        <p t-if="o.payment_mode_id">
-                            <strong>Payment mode:</strong><br/>
-                            <span t-field="o.payment_mode_id.name"/><br/>
-                            <t t-if="not o.payment_mode_id.hide_account_at_invoice">
-                                <span t-field="o.payment_mode_id.bank_id.bank_name"/><br/>
-                                BIC: <span t-field="o.payment_mode_id.bank_id.bank_bic"/><br/>
-                                <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
-                            </t>
-                        </p>
-                    </div>
-                    <div class="col-xs-4">
-                        <div t-if="o.date_invoice">
-                            <strong>Invoice Date:</strong>
-                            <p t-field="o.date_invoice"/>
-                        </div>
-                        <div t-if="o.payment_term">
-                            <strong>Closing date:</strong>
-                            <p>
-                                <span t-field="o.date_due"/>
-                                (<span t-field="o.payment_term"/>)
-                            </p>
-                        </div>
-                        <div t-if="o.user_id.name">
-                            <strong>Salesperson:</strong>
-                            <p t-field="o.user_id.name"/>
-                        </div>
-                        <div t-if="o.sale_ids">
-                            <p>
-                                <strong>Quotation reference:</strong>
-                                <t t-foreach="o.sale_ids" t-as="sale">
-                                    <t t-if="sale_index > 0">, </t>
-                                    <span t-field="sale.name"/>
-                                </t>
-                            </p>
-                        </div>
-                        <div t-if="o.name">
-                            <p><strong>Client quotation ref.:</strong> <span t-field="o.name"/></p>
-                        </div>
-                    </div>
-                    <div class="col-xs-2" t-if="o.reference">
-                        <strong>Reference:</strong>
-                        <p t-field="o.name"/>
-                    </div>
-                </div>
-                <div class="row" style="width: 100%; height: 20px;">
-                    <br/>
-                </div>
-                <style>
-                    table thead > tr {
-                        border-bottom: 2px solid black;
-                    }
-                    table.table-condensed td {
-                        padding: 0 !important;
-                    }
-                    table.details tbody > tr {
-                        font-size: 12px;
-                    }
-                </style>
-                <table class="table table-condensed details">
-                    <thead>
-                        <tr>
-                            <th>CN Code</th>
-                            <th>Product | EAN13<br/>Lot | Approved | Best before</th>
-                            <th class="text-right">Qty</th>
-                            <th class="text-right">Unit price</th>
-                            <th class="text-right">Disc.(%)</th>
-                            <th class="text-right">Price w/discount</th>
-                            <th class="text-right">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody class="invoice_tbody">
-                        <tr t-foreach="o.invoice_line" t-as="l">
-                            <td>
-                                <span t-field="l.product_id.cn_code"/>
-                            </td>
-                            <td style="min-width: 40%;">
-                                <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
-                                <br/>
-                                <table t-if="l.move_id">
-                                    <tbody>
-                                        <tr t-foreach="l.move_id.lot_ids" t-as="lot">
-                                            <td><span t-field="lot.name"/></td>
-                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
-                                            <td>
-                                                <span t-if="lot.acceptance_date" t-field="lot.acceptance_date"/>
-                                                <span t-if="not lot.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
-                                            </td>
-                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
-                                            <td>
-                                                <t t-set="u_date" t-value="lot.use_date"/>
-                                                <t t-if="u_date">
-                                                    <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
-                                                </t>
-                                                <t t-if="not u_date">
-                                                    <span>(Unspecified)</span>
-                                                </t>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="'%g' % l.quantity"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="'%g' % l.price_unit"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="'%g' % l.discount" style="padding-left: 10px;"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-field="l.discounted_amount"
-                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                            </td>
-                            <td class="text-right">
-                                <span t-field="l.gross_amount"
-                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="row" style="position: relative;">
-                    <div class="col-xs-6 pull-left" t-if="o.tax_line" style="position: absolute; bottom: 0;">
-                        <table class="table table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>Tax</th>
-                                    <th class="text-right">Base</th>
-                                    <th class="text-right">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr t-foreach="o.tax_line" t-as="t">
-                                    <td><span t-field="t.name"/></td>
-                                    <td class="text-right">
-                                        <span t-field="t.base"
-                                            t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                    </td>
-                                    <td class="text-right">
-                                        <span t-field="t.amount"
-                                            t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="col-xs-5 pull-right">
-                        <table class="table table-condensed">
-                            <tr class="border-black">
-                                <td>Amount</td>
-                                <td class="text-right">
-                                    <span t-field="o.amount_gross_untaxed"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Article discount</td>
-                                <td class="text-right">
-                                    <span t-field="o.article_discount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Amount with article discount</td>
-                                <td class="text-right">
-                                    <span t-field="o.amount_with_article_discount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span t-field="o.commercial_discount_display"/></td>
-                                <td class="text-right">
-                                    <span t-field="o.commercial_discount_amount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Net amount</td>
-                                <td class="text-right">
-                                    <span t-field="o.amount_net_untaxed"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span t-field="o.financial_discount_display"/></td>
-                                <td class="text-right">
-                                    <span t-field="o.financial_discount_amount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr class="border-black">
-                                <td><strong>Total Without Taxes</strong></td>
-                                <td class="text-right">
-                                    <span t-field="o.amount_untaxed"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Taxes</td>
-                                <td class="text-right">
-                                    <span t-field="o.amount_tax"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr class="border-black">
-                                <td><strong>Total</strong></td>
-                                <td class="text-right">
-                                    <strong t-field="o.amount_total"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <p>
-                    <strong>Comment:</strong>
-                    <t t-if="o.sale_ids">
-                        <t t-foreach="o.sale_ids" t-as="sale">
-                            <span t-field="sale.note"/>
-                            <![CDATA[&nbsp;]]>
-                        </t>
-                    </t>
-                    <span t-field="o.comment"/>
-                </p>
-                <p t-if="o.payment_term.note">
-                    <strong>Payment Term:</strong>
-                    <span t-field="o.payment_term.note"/>
-                </p>
-                <p t-if="o.fiscal_position.note">
-                    <strong>Fiscal Position Remark:</strong>
-                    <span t-field="o.fiscal_position.note"/>
-                </p>
-
-                <div class="oe_structure"/>
-            </div>
-
-            <div class="footer">
-                <style>
-                    a {
-                        color: black;
-                    }
-                </style>
-                <div style="position: relative; border-top: 1px solid black;">
-                    <div style="position: absolute; top: 4px; left: 0;">
-                        <t t-foreach="company.header_image" t-as="h_image">
-                            <t t-if="h_image.name[:12] == 'footer_image'">
-                                <span t-field="h_image.img" t-field-options='{"widget": "image"}'/>
-                            </t>
-                        </t>
-                    </div>
-                    <div style="margin-left: 90px;">
-                        <p style="font-size: 12px; margin: 5px 0; padding: 0;">
-                            For any doubt or explanation, be contacted with Sales Dept. in the number <b><span t-field="company.phone"/></b>, or by e-mail at ventas@pharmadus.com
-                        </p>
-                        <p style="font-size: 8px; margin: 0; padding: 0;">
-                            Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,
-                            Volume <span t-field="company.partner_id.es_tomo"/>,
-                            Registration <span t-field="company.partner_id.es_seccion"/>,
-                            Folio <span t-field="company.partner_id.es_folio"/>,
-                            Sheet Number <span t-field="company.partner_id.es_hoja"/>,
-                            TIN <span t-field="company.partner_id.vat"/>
-                        </p>
-                        <p style="font-size: 8px; margin: 0; padding: 0;">
-                            In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated.
-                        </p>
-                        <p style="font-size: 8px; margin: 0; padding: 0;">
-                            In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue.
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <!-- LABORATORIO BIOSALUD -->
+            <t t-if="o.env.user.company_id == company.env.ref('__export__.res_company_6')">
+                <t t-call="custom_reports.report_invoice_biosalud"/>
+            </t>
+            <!-- SEAL -->
+            <t t-if="o.env.user.company_id == company.env.ref('__export__.res_company_5')">
+                <t t-call="custom_reports.report_invoice_pharmadus"/>
+            </t>
+            <!-- HOTEL / MARBEMSA -->
+            <t t-if="o.env.user.company_id == company.env.ref('__export__.res_company_7')">
+                <t t-call="custom_reports.report_invoice_pharmadus"/>
+            </t>
+            <!-- PROCESOS FARMACÉUTICOS INDUSTRIALES -->
+            <t t-if="o.env.user.company_id == company.env.ref('base.main_company')">
+                <t t-call="custom_reports.report_invoice_pharmadus"/>
+            </t>
         </template>
 
-        <!-- Trampota, para reemplazar el report original con el nuestro -->
+        <!-- Trampota, para reemplazar el report original con los nuestros -->
         <template id="account.report_invoice">
             <t t-call="report.html_container">
                 <t t-foreach="doc_ids" t-as="doc_id">
@@ -441,5 +36,35 @@
                 </t>
             </t>
         </template>
+
+        <template id="report_invoice_bio_w_o_iso">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
+            <t t-set="hide_iso_logo" t-value="True"/>
+            <t t-call="custom_reports.report_invoice_biosalud"/>
+        </template>
+
+        <template id="report_invoice_bio_without_iso">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'custom_reports.report_invoice_bio_w_o_iso')"/>
+                </t>
+            </t>
+        </template>
+
+        <report
+            string="Invoice without ISO 9001"
+            id="action_invoice_bio_without_iso"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="custom_reports.report_invoice_bio_without_iso"
+            groups="custom_permissions.group_reports_bio"
+        />
     </data>
 </openerp>

@@ -38,6 +38,7 @@
         'commercial_and_financial_discount',
         'stock_reception',
         'invoice_link_sale',
+        'custom_permissions',
     ],
     'data' : [
         'views/report_stockinventory.xml',
@@ -45,6 +46,8 @@
         'views/report_purchasequotation.xml',
         'views/report_saleorder.xml',
         'views/report_invoice.xml',
+        'views/report_invoice_pharmadus.xml',
+        'views/report_invoice_biosalud.xml',
         'views/report_lot_labels.xml',
         'views/account_payment_view.xml',
         'views/sale_report_view.xml',
