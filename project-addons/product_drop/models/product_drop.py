@@ -113,13 +113,25 @@ class product_drop_details(models.Model):
             ).lot_stock_id
         dest_id = self.env.ref('product_drop.consumption_for_internal_use_location')
         wh = self.env['stock.location'].get_warehouse(location)
-        type_search_dict = [('code', '=', 'internal')]
+
+        # Search first for default assigned internal type
+        type_search_dict = [('product_drop_default', '=', True)]
         if wh:
             type_search_dict.append(('warehouse_id', '=', wh))
-        picking_type = self.env['stock.picking.type'].search(
-            type_search_dict)
+        picking_type = self.env['stock.picking.type'].search(type_search_dict)
+
+        # Otherwise, search for the first available internal type
+        if not len(picking_type):
+            type_search_dict = [('code', '=', 'internal')]
+            if wh:
+                type_search_dict.append(('warehouse_id', '=', wh))
+            picking_type = self.env['stock.picking.type'].search(
+                    type_search_dict)
+
+        picking_type_id = picking_type[0].id
+
         picking_vals = {
-            'picking_type_id': picking_type.id,
+            'picking_type_id': picking_type_id,
             'partner_id': company,
             'date': date.today(),
             'origin': lot.name
@@ -141,7 +153,7 @@ class product_drop_details(models.Model):
             'state': 'draft',
             'partner_id': company,
             'company_id': company,
-            'picking_type_id': picking_type.id,
+            'picking_type_id': picking_type_id,
             'procurement_id': False,
             'origin': lot.name,
             'invoice_state': 'none',
