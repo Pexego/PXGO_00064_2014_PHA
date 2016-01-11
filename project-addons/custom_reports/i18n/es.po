@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-08 17:08+0000\n"
-"PO-Revision-Date: 2016-01-08 18:10+0100\n"
+"POT-Creation-Date: 2016-01-11 15:05+0000\n"
+"PO-Revision-Date: 2016-01-11 16:07+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -356,6 +356,16 @@ msgid "Invoicing address:"
 msgstr "Dirección de facturación:"
 
 #. module: custom_reports
+#: field:account.journal,simplified_invoices_account:0
+msgid "Is an account for simplified invoices?"
+msgstr "¿Se usa para emitir facturas simplificadas?"
+
+#. module: custom_reports
+#: model:ir.model,name:custom_reports.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_lot_labels
 msgid "LOT"
 msgstr "LOTE"
@@ -584,6 +594,12 @@ msgstr "Muestras/publicitario"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Shipping address:"
 msgstr "Dirección de envío:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_biosalud
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "Simplified"
+msgstr "simplificada"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud

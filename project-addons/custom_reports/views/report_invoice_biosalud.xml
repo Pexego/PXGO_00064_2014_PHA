@@ -99,6 +99,7 @@
                             <span t-if="o.type == 'out_refund'">Refund</span>
                             <span t-if="o.type == 'in_refund'">Supplier Refund</span>
                             <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
+                            <span t-if="o.journal_id.simplified_invoices_account"> Simplified</span>
                             <span t-field="o.number"/>
                         </h2>
                         <div style="border-bottom: 2px solid black; margin-bottom: 10px;"></div>
