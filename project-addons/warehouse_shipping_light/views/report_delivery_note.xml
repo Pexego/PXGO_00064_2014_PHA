@@ -432,10 +432,22 @@
             <div class="footer"></div>
         </template>
 
+        <template id="wsl_sale_order_intermediary">
+            <div class="header"></div>
+            <div class="page">
+                <p><h1>SALE ORDER WITH INTERMEDIARY</h1></p>
+                <p><h2>This delivery note should not be sent to customer from warehouse</h2></p>
+            </div>
+            <div class="footer"></div>
+        </template>
+
         <template id="wsl_aux_report_delivery_note">
             <t t-foreach="docs" t-as="picking">
                 <t t-set="s" t-value="picking.sale_id"/>
                 <t t-if="s">
+                    <t t-if="s.intermediary">
+                        <t t-call="warehouse_shipping_light.wsl_sale_order_intermediary"/>
+                    </t>
                     <t t-call="warehouse_shipping_light.wsl_report_delivery_note_document"/>
                 </t>
                 <t t-if="not s">
