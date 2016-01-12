@@ -97,6 +97,17 @@ class StockPicking(models.Model):
         return self.env['report'].\
             get_action(self, 'warehouse_shipping_light.wsl_report_picking')
 
+    def _prepare_shipping_invoice_line(self, cr, uid, picking, invoice, context):
+        # Create shipping invoice line with the same price/qty of origin
+        res = super(StockPicking, self)._prepare_shipping_invoice_line(cr, uid,
+                                                      picking, invoice, context)
+        if res and picking.sale_id:
+            for line in picking.sale_id.order_line:
+                if line.is_delivery:
+                    res['price_unit'] = line.price_unit
+                    res['quantity'] = line.product_uom_qty
+        return res
+
 
 class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
