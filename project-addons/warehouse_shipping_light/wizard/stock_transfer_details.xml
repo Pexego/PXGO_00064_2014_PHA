@@ -8,13 +8,13 @@
             <field name="arch" type="xml">
                 <group string="Products To Move">
                     <div class="oe_grey" position="after">
-                        <div class="list-inline" style="padding: 0;">
+                        <div class="list-inline" style="padding: 0;" invisible="context.get('picking_type') in ['incoming', 'internal']">
                             <li style="width: 10%;"><label for="total_packages" style="color: black;"/></li>
                             <li><field name="total_packages" style="color: black;"/></li>
                             <li style="color: black;">of</li>
                             <li style="color: black;"><field name="total_packages_expected"/></li>
                         </div>
-                        <div class="list-inline" style="padding: 0;">
+                        <div class="list-inline" style="padding: 0;" invisible="context.get('picking_type') in ['incoming', 'internal']">
                             <li style="width: 10%;"><label for="total_palets" style="color: black;"/></li>
                             <li><field name="total_palets" style="color: black;"/></li>
                         </div>
