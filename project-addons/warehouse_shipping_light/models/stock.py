@@ -259,8 +259,10 @@ class StockExpeditions(models.Model):
         art_disc_amount = 0
         com_discount = 0
         com_disc_amount = 0
+        com_discount_global = 0
         fin_discount = 0
         fin_disc_amount = 0
+        fin_discount_global = 0
         amount_tax = 0
 
         for line in self.move_lines:
@@ -275,6 +277,8 @@ class StockExpeditions(models.Model):
             fin_discount = sale_line.financial_discount
             fin_disc_amount += aux * fin_discount / 100
             aux = aux * (1 - fin_discount / 100)
+            com_discount_global = com_discount or com_discount_global
+            fin_discount_global = fin_discount or fin_discount_global
             # Compute line taxes
             for c in sale_line.tax_id.compute_all(aux, 1, line.product_id,
                                       self.sale_id.partner_id)['taxes']:
@@ -309,14 +313,14 @@ class StockExpeditions(models.Model):
         self.amount_tax = amount_tax
         self.amount_total = self.amount_untaxed + self.amount_tax
 
-        if com_discount > 0:
+        if com_discount_global > 0:
             self.commercial_discount_display = \
-                _('Commercial discount (%.2f %%)') % com_discount
+                _('Commercial discount (%.2f %%)') % com_discount_global
         else:
             self.commercial_discount_display = _('Commercial discount')
 
-        if fin_discount > 0:
+        if fin_discount_global > 0:
             self.financial_discount_display = \
-                _('Financial discount (%.2f %%)') % fin_discount
+                _('Financial discount (%.2f %%)') % fin_discount_global
         else:
             self.financial_discount_display = _('Financial discount')

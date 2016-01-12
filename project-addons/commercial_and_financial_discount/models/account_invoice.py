@@ -77,8 +77,10 @@ class AccountInvoiceLine(models.Model):
             financial_discount = \
                 financial_discount if financial_discount else invoice.\
                     financial_discount_input
-        vals['commercial_discount_input'] = commercial_discount
-        vals['financial_discount_input'] = financial_discount
+            if invoice.commercial_discount_input <> commercial_discount:
+                invoice.commercial_discount_input = commercial_discount
+            if invoice.financial_discount_input <> financial_discount:
+                invoice.financial_discount_input = financial_discount
         return super(AccountInvoiceLine, self).create(vals)
 
     @api.one
@@ -299,14 +301,17 @@ class AccountInvoice(models.Model):
         return res
 
     @api.one
-    @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
+    @api.depends('invoice_line.price_subtotal',
+                 'tax_line.amount')
     def _compute_amount(self):
         amount_gross = 0
         art_disc_amount = 0
         com_discount = 0
         com_disc_amount = 0
+        com_discount_global = 0
         fin_discount = 0
         fin_disc_amount = 0
+        fin_discount_global = 0
         for line in self.invoice_line:
             amount = line.quantity * line.price_unit
             amount_gross += amount
@@ -317,6 +322,8 @@ class AccountInvoice(models.Model):
             aux = aux * (1 - com_discount / 100)
             fin_discount = line.financial_discount
             fin_disc_amount += aux * fin_discount / 100
+            com_discount_global = com_discount or com_discount_global
+            fin_discount_global = fin_discount or fin_discount_global
 
         self.amount_gross_untaxed = amount_gross
         self.article_discount = art_disc_amount
@@ -326,15 +333,15 @@ class AccountInvoice(models.Model):
                                   com_disc_amount
         self.financial_discount_amount = fin_disc_amount
 
-        if com_discount > 0:
+        if com_discount_global > 0:
             self.commercial_discount_display = \
-                _('Commercial discount (%.2f %%)')%com_discount
+                _('Commercial discount (%.2f %%)')%com_discount_global
         else:
             self.commercial_discount_display = _('Commercial discount')
 
-        if fin_discount > 0:
+        if fin_discount_global > 0:
             self.financial_discount_display = \
-                _('Financial discount (%.2f %%)')%fin_discount
+                _('Financial discount (%.2f %%)')%fin_discount_global
         else:
             self.financial_discount_display = _('Financial discount')
 
@@ -345,6 +352,7 @@ class AccountInvoice(models.Model):
         if self.state in ('draft'):
             # Apply discounts per line
             for line in self.invoice_line:
-                line.commercial_discount = self.commercial_discount_input
-                line.financial_discount = self.financial_discount_input
+                if not (line.sale_line_ids and line.sale_line_ids[0].is_delivery):
+                    line.commercial_discount = self.commercial_discount_input
+                    line.financial_discount = self.financial_discount_input
         return self.button_reset_taxes()
