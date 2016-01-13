@@ -14,5 +14,18 @@
                 </separator>
             </field>
         </record>
+
+        <record id="custom_views_stock_picking_tree" model="ir.ui.view">
+            <field name="name">Custom views - Stock picking tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="address_city"/>
+                    <field name="address_zip"/>
+                    <field name="address_country"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

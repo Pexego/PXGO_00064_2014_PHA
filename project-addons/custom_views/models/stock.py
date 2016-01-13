@@ -18,6 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-import res_partner, product, account_invoice, stock_quant, \
-       stock_transfer_details, sale, stock
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    address_city = fields.Char(related='partner_id.city', store=True)
+    address_zip = fields.Char(related='partner_id.zip', store=True)
+    address_country = fields.Char(related='partner_id.country_id.name', store=True)
