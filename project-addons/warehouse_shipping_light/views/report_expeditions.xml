@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-xs-6" style="font-size: 24px; padding-top: 10px;">
                         <strong>
-                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_done,'%Y-%m-%d %H:%M:%S'))"/>
+                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y')"/>
                         </strong>
                     </div>
                     <div class="list-inline pull-right" style="padding: 20px 10px 0 0;">
