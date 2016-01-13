@@ -363,7 +363,7 @@
                 </table>
 
                 <div t-if="not o.transfer" class="row">
-                    <div class="col-xs-5 pull-right">
+                    <div class="col-xs-5 pull-right" style="page-break-inside: avoid !important;">
                         <table class="table table-condensed">
                             <tr class="border-black">
                                 <td>Amount</td>

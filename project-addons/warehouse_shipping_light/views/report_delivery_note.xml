@@ -303,7 +303,7 @@
                 </table>
 
                 <div class="row">
-                    <div class="col-xs-5 pull-right">
+                    <div class="col-xs-5 pull-right" style="page-break-inside: avoid !important;">
                         <t t-set="exp" t-value="o.expedition_id"/>
                         <t t-if="exp and exp.amount_total">
                             <table class="table table-condensed">
