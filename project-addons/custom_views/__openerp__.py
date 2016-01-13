@@ -48,6 +48,7 @@
         'views/stock_view.xml',
         'views/view_form_custom.xml',
         'views/invoice.xml',
+        'views/purchase_analytics_plan_view.xml',
         'data/wizards_units_precision.xml',
         'security/menus.xml',
     ],
