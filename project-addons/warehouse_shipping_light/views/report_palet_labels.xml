@@ -3,7 +3,7 @@
     <data>
         <template id="report_palet_labels">
             <t t-foreach="docs" t-as="p">
-                <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
+                <t t-set="partner" t-value="p.partner_id"/>
                 <t t-set="palets" t-value="[]"/>
                 <t t-foreach="p.pack_operation_ids" t-as="po">
                     <t t-if="po.palet and po.palet not in palets">

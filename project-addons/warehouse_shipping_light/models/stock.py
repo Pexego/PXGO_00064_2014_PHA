@@ -71,8 +71,7 @@ class StockPicking(models.Model):
 
     @api.one
     def create_expedition(self):
-        if self.state == 'done' and self.sale_id and\
-                        self.picking_type_id.code == 'outgoing':
+        if self.state == 'done' and self.picking_type_id.code == 'outgoing':
             expeditions = self.env['stock.expeditions']
             if not expeditions.search([('picking_id', '=', self.id)]):
                 self.expedition_id = expeditions.create({'picking_id': self.id})
@@ -213,22 +212,23 @@ class StockExpeditions(models.Model):
     def create(self, vals):
         p = self.env['stock.picking'].browse(vals['picking_id'])
 
-        # Search for carrier charge in sale order lines
-        for sale_line in p.sale_id.order_line:
-            if sale_line.is_delivery:
-                vals['carrier_sale_line'] = sale_line.id
-
-        # If not exists carrier sale line
-        if not vals.get('carrier_sale_line', False):
-            original_state = p.sale_id.state
-            p.sale_id.state = 'draft'
-            p.sale_id.carrier_id = p.carrier_id
-            p.sale_id.delivery_set()
-            p.sale_id.state = original_state
+        if p.sale_id:
+            # Search for carrier charge in sale order lines
             for sale_line in p.sale_id.order_line:
                 if sale_line.is_delivery:
-                    sale_line.state = 'confirmed'
                     vals['carrier_sale_line'] = sale_line.id
+
+            # If not exists carrier sale line
+            if not vals.get('carrier_sale_line', False):
+                original_state = p.sale_id.state
+                p.sale_id.state = 'draft'
+                p.sale_id.carrier_id = p.carrier_id
+                p.sale_id.delivery_set()
+                p.sale_id.state = original_state
+                for sale_line in p.sale_id.order_line:
+                    if sale_line.is_delivery:
+                        sale_line.state = 'confirmed'
+                        vals['carrier_sale_line'] = sale_line.id
 
         return super(StockExpeditions, self).create(vals)
 

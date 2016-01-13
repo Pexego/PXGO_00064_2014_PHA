@@ -79,7 +79,7 @@ class wslReportDeliveryNote(models.AbstractModel):
             for p in pickings:
                 if p.state != 'done':
                     raise Warning(_('You must transfer this picking note first!'))
-                if not p.sale_id:
+                if not p.picking_type_code == 'outgoing':
                     raise Warning(_('This report is only available for '
                                     'outgoing orders'))
 

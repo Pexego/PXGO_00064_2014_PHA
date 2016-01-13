@@ -64,7 +64,7 @@
                             <t t-set="expeditions" t-value="expeditions + 1"/>
                             <t t-set="weight" t-value="weight + p.real_weight"/>
                             <t t-set="packages" t-value="packages + p.number_of_packages"/>
-                            <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
+                            <t t-set="partner" t-value="p.partner_id"/>
                             <tr>
                                 <td>
                                     <span t-field="partner.name"/>
