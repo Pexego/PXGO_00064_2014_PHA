@@ -148,7 +148,12 @@
                         </t>
                     </div>
                     <div class="col-xs-3">
-                        <p t-if="o.partner_id.ref"><strong>Client code:</strong> <span t-field="o.partner_id.ref"></span></p>
+                        <p t-if="o.partner_id.ref">
+                            <strong>
+                                <t t-if="o.type in ('in_refund', 'in_invoice')">Supplier code:</t>
+                                <t t-if="not o.type in ('in_refund', 'in_invoice')">Client code:</t>
+                            </strong> <span t-field="o.partner_id.ref"></span>
+                        </p>
                         <p t-if="o.origin"><strong>Source:</strong> <span t-field="o.origin"></span></p>
                         <p t-if="o.payment_mode_id">
                             <strong>Payment mode:</strong><br/>
@@ -156,7 +161,7 @@
                             <t t-if="not o.payment_mode_id.hide_account_at_invoice">
                                 <span t-field="o.payment_mode_id.bank_id.bank_name"/><br/>
                                 BIC: <span t-field="o.payment_mode_id.bank_id.bank_bic"/><br/>
-                                <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                                <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px; font-size: 11px;"/>
                             </t>
                         </p>
                     </div>
