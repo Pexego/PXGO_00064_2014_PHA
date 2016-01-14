@@ -30,5 +30,16 @@
                 </field>
             </field>
         </record>
+
+        <record id="custom_views_invoice_tree" model="ir.ui.view">
+            <field name="name">Custom views - Invoice tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="partner_shipping_id" groups="base.group_user"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
