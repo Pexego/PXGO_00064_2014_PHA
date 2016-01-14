@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_shipping_address">
+            <t t-if="shipadd">
+                <span t-field="shipadd.display_name"/><br/>
+                <t t-if="shipadd.comercial">
+                    <span t-field="shipadd.comercial"/><br/>
+                </t>
+                <span t-field="shipadd.street"/><br/>
+                <t t-if="shipadd.street2">
+                    <span t-field="shipadd.street2"/><br/>
+                </t>
+                <span t-field="shipadd.zip"/>
+                <span t-field="shipadd.city"/> -
+                <span t-field="shipadd.state_id"/><br/>
+                <span t-field="shipadd.country_id"/>
+            </t>
+            <t t-if="not shipadd">
+                <p>
+                    WARNING: UNKNOWN ADDRESS!!<br/>
+                    VARIABLE "shipadd" NOT DEFINED IN TEMPLATE
+                </p>
+            </t>
+        </template>
+    </data>
+</openerp>
