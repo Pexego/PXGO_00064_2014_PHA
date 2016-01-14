@@ -195,6 +195,9 @@
                                 <t t-if="l.product_id.name_template != l.name">
                                     <br/><span t-field="l.name"/>
                                 </t>
+                                <t t-if="l.product_id.default_code">
+                                    <br/><span t-field="l.product_id.default_code"/>
+                                </t>
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.product_qty"/>
