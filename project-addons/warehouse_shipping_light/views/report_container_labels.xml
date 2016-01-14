@@ -71,6 +71,7 @@
                                     <div class="line" t-field="partner.comercial" style="font-size: 24px;"/>
                                 </t>
                                 <div class="line" t-field="partner.street" style="font-size: 24px;"/>
+                                <div class="line" t-field="partner.street2" style="font-size: 24px;"/>
                                 <div class="line" style="font-size: 24px;">
                                     <span t-field="partner.zip"/> <span t-field="partner.city"></span>
                                 </div>
