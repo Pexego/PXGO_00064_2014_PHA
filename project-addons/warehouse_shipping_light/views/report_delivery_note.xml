@@ -155,7 +155,7 @@
                             <t t-if="not s.partner_id.customer_payment_mode.hide_account_at_invoice">
                                 <span t-field="s.partner_id.customer_payment_mode.bank_id.bank_name"/><br/>
                                 BIC: <span t-field="s.partner_id.customer_payment_mode.bank_id.bank_bic"/><br/>
-                                <span t-field="s.partner_id.customer_payment_mode.bank_id.acc_number" style="display: inline-block; width: 260px;"/>
+                                <span t-field="s.partner_id.customer_payment_mode.bank_id.acc_number" style="display: inline-block; width: 260px; font-size: 11px;"/>
                             </t>
                         </p>
                     </div>

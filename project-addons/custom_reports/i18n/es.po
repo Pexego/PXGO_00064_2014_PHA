@@ -215,7 +215,6 @@ msgid "Cancelled Invoice"
 msgstr "Factura cancelada"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_saleorder_document
 msgid "Client code:"
@@ -606,6 +605,12 @@ msgstr "simplificada"
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Source:"
 msgstr "Origen:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
+#: view:website:custom_reports.report_saleorder_document
+msgid "Supplier code:"
+msgstr "Código proveedor:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
