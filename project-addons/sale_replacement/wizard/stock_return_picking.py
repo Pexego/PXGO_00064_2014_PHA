@@ -42,8 +42,7 @@ class stock_return_picking(models.TransientModel):
         moves_to_unreserve = []
         to_check_moves = []
         for move in pick.move_lines:
-            if move.move_dest_id:
-                to_check_moves = [move.move_dest_id]
+            to_check_moves = [move.move_dest_id] if move.move_dest_id.id else []
             while to_check_moves:
                 current_move = to_check_moves.pop()
                 if current_move.state not in ('done', 'cancel') and \
