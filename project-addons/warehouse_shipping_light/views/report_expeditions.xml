@@ -67,7 +67,7 @@
                             <t t-set="partner" t-value="p.partner_id"/>
                             <tr>
                                 <td>
-                                    <span t-field="partner.name"/>
+                                    <span t-field="partner.display_name"/>
                                     <t t-if="partner.comercial">
                                         <![CDATA[&nbsp;]]>
                                         <span t-field="partner.comercial"/>
