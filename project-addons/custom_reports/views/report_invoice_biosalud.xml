@@ -73,10 +73,9 @@
                     </div>
                     <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
                         <t t-if="o.partner_id">
-                            <strong>Shipping address:</strong>
-                            <div><span t-field="o.partner_id.comercial"/></div>
-                            <div t-field="o.partner_id"
-                                 t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                            <strong>Shipping address:</strong><br/>
+                            <t t-set="shipadd" t-value="o.partner_id"/>
+                            <t t-call="custom_reports.report_shipping_address"/>
                         </t>
                     </div>
                 </div>
@@ -99,6 +98,7 @@
                             <span t-if="o.type == 'out_refund'">Refund</span>
                             <span t-if="o.type == 'in_refund'">Supplier Refund</span>
                             <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
+                            <span t-if="o.journal_id.simplified_invoices_account"> Simplified</span>
                             <span t-field="o.number"/>
                         </h2>
                         <div style="border-bottom: 2px solid black; margin-bottom: 10px;"></div>
@@ -267,7 +267,7 @@
                         </table>
                     </div>
 
-                    <div class="col-xs-5 pull-right">
+                    <div class="col-xs-5 pull-right" style="page-break-inside: avoid !important;">
                         <table class="table table-condensed">
                             <tr class="border-black">
                                 <td>Amount</td>

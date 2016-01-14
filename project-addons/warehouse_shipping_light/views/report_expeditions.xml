@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-xs-6" style="font-size: 24px; padding-top: 10px;">
                         <strong>
-                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_done,'%Y-%m-%d %H:%M:%S'))"/>
+                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y')"/>
                         </strong>
                     </div>
                     <div class="list-inline pull-right" style="padding: 20px 10px 0 0;">
@@ -64,10 +64,10 @@
                             <t t-set="expeditions" t-value="expeditions + 1"/>
                             <t t-set="weight" t-value="weight + p.real_weight"/>
                             <t t-set="packages" t-value="packages + p.number_of_packages"/>
-                            <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
+                            <t t-set="partner" t-value="p.partner_id"/>
                             <tr>
                                 <td>
-                                    <span t-field="partner.name"/>
+                                    <span t-field="partner.display_name"/>
                                     <t t-if="partner.comercial">
                                         <![CDATA[&nbsp;]]>
                                         <span t-field="partner.comercial"/>

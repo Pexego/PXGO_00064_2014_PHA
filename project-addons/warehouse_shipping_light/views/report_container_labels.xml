@@ -3,7 +3,7 @@
     <data>
         <template id="report_container_labels">
             <t t-foreach="docs" t-as="p">
-                <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
+                <t t-set="partner" t-value="p.partner_id"/>
                 <t t-set="containers" t-value="[]"/>
                 <t t-set="completes" t-value="[]"/>
                 <t t-foreach="p.pack_operation_ids" t-as="po">
@@ -63,7 +63,7 @@
                                 }
                             </style>
                             <div class="row">
-                                <div class="line" t-field="partner.name" style="font-size: 30px; font-weight: bold;"/>
+                                <div class="line" t-esc="partner.display_name" style="font-size: 30px; font-weight: bold;"/>
                                 <t t-if="partner.parent_id">
                                     <div class="line" t-field="partner.parent_id.comercial" style="font-size: 24px;"/>
                                 </t>

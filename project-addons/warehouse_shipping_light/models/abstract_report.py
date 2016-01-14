@@ -53,8 +53,10 @@ class wslReportPickingNote(models.AbstractModel):
         pickings = self.env[model].browse(self._ids)
 
         if pickings:
-            if pickings[0].state not in ['partially_available', 'assigned', 'done']:
-                raise Warning(_('You must confirm availability of this picking note first!'))
+            for p in pickings:
+                if p.state not in ['partially_available', 'assigned', 'done']:
+                    raise Warning(_('You must confirm availability of this'
+                                    ' picking note first!'))
 
         docargs = {
             'doc_ids': self._ids,
@@ -74,10 +76,12 @@ class wslReportDeliveryNote(models.AbstractModel):
         pickings = self.env[model].browse(self._ids)
 
         if pickings:
-            if pickings[0].state != 'done':
-                raise Warning(_('You must transfer this picking note first!'))
-            if not pickings[0].sale_id:
-                raise Warning(_('This report is only available for outgoing orders'))
+            for p in pickings:
+                if p.state != 'done':
+                    raise Warning(_('You must transfer this picking note first!'))
+                if not p.picking_type_code == 'outgoing':
+                    raise Warning(_('This report is only available for '
+                                    'outgoing orders'))
 
         docargs = {
             'doc_ids': self._ids,
@@ -96,11 +100,13 @@ class wslReportContainerLabels(models.AbstractModel):
         model = u'stock.picking'
         pickings = self.env[model].browse(self._ids)
 
-        if pickings and pickings[0].state != 'done':
-            raise Warning(_('You must transfer this picking note first!'))
+        if pickings:
+            for p in pickings:
+                if p.state != 'done':
+                    raise Warning(_('You must transfer this picking note first!'))
 
-        if not pickings or not pickings[0].number_of_packages:
-            raise Warning(_('No container labels to print!'))
+                if not p.number_of_packages:
+                    raise Warning(_('No container labels to print!'))
 
         docargs = {
             'doc_ids': self._ids,
@@ -119,11 +125,13 @@ class wslReportPaletLabels(models.AbstractModel):
         model = u'stock.picking'
         pickings = self.env[model].browse(self._ids)
 
-        if pickings and pickings[0].state != 'done':
-            raise Warning(_('You must transfer this picking note first!'))
+        if pickings:
+            for p in pickings:
+                if p.state != 'done':
+                    raise Warning(_('You must transfer this picking note first!'))
 
-        if not pickings or not pickings[0].number_of_palets:
-            raise Warning(_('No palet labels to print!'))
+                if not p.number_of_palets:
+                    raise Warning(_('No palet labels to print!'))
 
         docargs = {
             'doc_ids': self._ids,

@@ -3,10 +3,10 @@
     <data>
         <template id="wsl_report_delivery_note_document">
             <!-- Multicompany -->
-            <t t-if="s and 'company_id' in s">
+            <t t-if="o and 'company_id' in o">
                 <t t-set="company" t-value="o.company_id"></t>
             </t>
-            <t t-if="not s or not 'company_id' in s">
+            <t t-if="not o or not 'company_id' in o">
                 <t t-set="company" t-value="res_company"></t>
             </t>
 
@@ -80,11 +80,10 @@
                         </div>
                     </div>
                     <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
-                        <t t-if="s.partner_shipping_id">
-                            <strong>Shipping address:</strong>
-                            <div><span t-field="s.partner_id.comercial"/></div>
-                            <div t-field="s.partner_shipping_id"
-                                 t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                        <t t-if="o.partner_id">
+                            <strong>Shipping address:</strong><br/>
+                            <t t-set="shipadd" t-value="o.partner_id"/>
+                            <t t-call="custom_reports.report_shipping_address"/>
                         </t>
                     </div>
                 </div>
@@ -105,50 +104,52 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-5">
-                        <strong>Invoicing address:</strong><br/>
+                    <t t-if="s">
+                        <div class="col-xs-5">
+                            <strong>Invoicing address:</strong><br/>
 
-                        <span t-field="s.partner_id.name"></span><br/>
+                            <span t-field="s.partner_id.name"></span><br/>
 
-                        <i class="glyphicon glyphicon-map-marker"></i>
-                        <span t-field="s.partner_id.street"></span><br/>
+                            <i class="glyphicon glyphicon-map-marker"></i>
+                            <span t-field="s.partner_id.street"></span><br/>
 
-                        <span t-field="s.partner_id.zip" style="margin-left: 17px;"></span>
-                        <span t-field="s.partner_id.city"></span> -
-                        <span t-field="s.partner_id.state_id"></span>
-                        (<span t-field="s.partner_id.country_id"></span>)<br/>
+                            <span t-field="s.partner_id.zip" style="margin-left: 17px;"></span>
+                            <span t-field="s.partner_id.city"></span> -
+                            <span t-field="s.partner_id.state_id"></span>
+                            (<span t-field="s.partner_id.country_id"></span>)<br/>
 
-                        <t t-if="s.partner_id.phone">
-                            <i class="glyphicon glyphicon-earphone"></i>
-                            <span t-field="s.partner_id.phone"></span>
-                        </t>
-                        <t t-if="s.partner_id.phone and s.partner_id.fax"><span> /</span></t>
-                        <t t-if="s.partner_id.fax">
-                            <i class="glyphicon glyphicon-print"></i>
-                            <span t-field="s.partner_id.fax"></span><br/>
-                        </t>
-                        <t t-if="s.partner_id.phone and not s.partner_id.fax">
-                            <br/>
-                        </t>
+                            <t t-if="s.partner_id.phone">
+                                <i class="glyphicon glyphicon-earphone"></i>
+                                <span t-field="s.partner_id.phone"></span>
+                            </t>
+                            <t t-if="s.partner_id.phone and s.partner_id.fax"><span> /</span></t>
+                            <t t-if="s.partner_id.fax">
+                                <i class="glyphicon glyphicon-print"></i>
+                                <span t-field="s.partner_id.fax"></span><br/>
+                            </t>
+                            <t t-if="s.partner_id.phone and not s.partner_id.fax">
+                                <br/>
+                            </t>
 
-                        <t t-if="s.partner_id.website">
-                            <i class="glyphicon glyphicon-globe"></i>
-                            <a t-field="s.partner_id.website"></a><br/>
-                        </t>
+                            <t t-if="s.partner_id.website">
+                                <i class="glyphicon glyphicon-globe"></i>
+                                <a t-field="s.partner_id.website"></a><br/>
+                            </t>
 
-                        <t t-if="s.partner_id.email">
-                            <i class="glyphicon glyphicon-envelope"></i>
-                            <a t-field="s.partner_id.email"></a><br/>
-                        </t>
+                            <t t-if="s.partner_id.email">
+                                <i class="glyphicon glyphicon-envelope"></i>
+                                <a t-field="s.partner_id.email"></a><br/>
+                            </t>
 
-                        <t t-if="s.partner_id.vat">
-                            <i class="glyphicon glyphicon-briefcase"></i>
-                            <span t-field="s.partner_id.vat"/>
-                        </t>
-                    </div>
+                            <t t-if="s.partner_id.vat">
+                                <i class="glyphicon glyphicon-briefcase"></i>
+                                <span t-field="s.partner_id.vat"/>
+                            </t>
+                        </div>
+                    </t>
                     <div class="col-xs-3">
-                        <p t-if="s.partner_id.ref"><strong>Client code:</strong> <span t-field="s.partner_id.ref"></span></p>
-                        <p t-if="s.partner_id.customer_payment_mode">
+                        <p t-if="s and s.partner_id.ref"><strong>Client code:</strong> <span t-field="s.partner_id.ref"></span></p>
+                        <p t-if="s and s.partner_id.customer_payment_mode">
                             <strong>Payment mode:</strong><br/>
                             <span t-field="s.partner_id.customer_payment_mode.name"/><br/>
                             <t t-if="not s.partner_id.customer_payment_mode.hide_account_at_invoice">
@@ -169,21 +170,21 @@
                             </t>
                             <p t-esc="time.strftime('%d/%m/%Y', time.strptime(delivery_date, '%Y-%m-%d %H:%M:%S'))"/>
                         </div>
-                        <div t-if="s.payment_term">
+                        <div t-if="s and s.payment_term">
                             <strong>Closing date:</strong>
                             <p>
                                 <span t-field="s.closing_date"/>
                                 (<span t-field="s.payment_term"/>)
                             </p>
                         </div>
-                        <div t-if="s.user_id.name">
+                        <div t-if="s and s.user_id.name">
                             <strong>Salesperson:</strong>
                             <p t-field="s.user_id.name"/>
                         </div>
                         <div>
-                            <p><strong>Quotation reference:</strong> <span t-field="s.name"/></p>
+                            <p><strong>Quotation reference:</strong> <span t-field="o.origin"/></p>
                         </div>
-                        <div>
+                        <div t-if="s and s.client_order_ref">
                             <strong>Client quotation ref.:</strong> <span t-field="s.client_order_ref"/>
                         </div>
                     </div>
@@ -301,77 +302,79 @@
                 </table>
 
                 <div class="row">
-                    <div class="col-xs-5 pull-right">
+                    <div class="col-xs-5 pull-right" style="page-break-inside: avoid !important;">
                         <t t-set="exp" t-value="o.expedition_id"/>
-                        <table class="table table-condensed">
-                            <tr class="border-black">
-                                <td>Amount</td>
-                                <td class="text-right">
-                                    <span t-field="exp.amount_gross_untaxed"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Article discount</td>
-                                <td class="text-right">
-                                    <span t-field="exp.article_discount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Amount with article discount</td>
-                                <td class="text-right">
-                                    <span t-field="exp.amount_with_article_discount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span t-field="exp.commercial_discount_display"/></td>
-                                <td class="text-right">
-                                    <span t-field="exp.commercial_discount_amount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Net amount</td>
-                                <td class="text-right">
-                                    <span t-field="exp.amount_net_untaxed"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span t-field="exp.financial_discount_display"/></td>
-                                <td class="text-right">
-                                    <span t-field="exp.financial_discount_amount"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr class="border-black">
-                                <td><strong>Total Without Taxes</strong></td>
-                                <td class="text-right">
-                                    <span t-field="exp.amount_untaxed"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Taxes</td>
-                                <td class="text-right">
-                                    <span t-field="exp.amount_tax"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                            <tr class="border-black">
-                                <td><strong>Total</strong></td>
-                                <td class="text-right">
-                                    <strong t-field="exp.amount_total"
-                                        t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
-                                </td>
-                            </tr>
-                        </table>
+                        <t t-if="exp and exp.amount_total">
+                            <table class="table table-condensed">
+                                <tr class="border-black">
+                                    <td>Amount</td>
+                                    <td class="text-right">
+                                        <span t-field="exp.amount_gross_untaxed"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Article discount</td>
+                                    <td class="text-right">
+                                        <span t-field="exp.article_discount"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Amount with article discount</td>
+                                    <td class="text-right">
+                                        <span t-field="exp.amount_with_article_discount"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span t-field="exp.commercial_discount_display"/></td>
+                                    <td class="text-right">
+                                        <span t-field="exp.commercial_discount_amount"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Net amount</td>
+                                    <td class="text-right">
+                                        <span t-field="exp.amount_net_untaxed"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span t-field="exp.financial_discount_display"/></td>
+                                    <td class="text-right">
+                                        <span t-field="exp.financial_discount_amount"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Total Without Taxes</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="exp.amount_untaxed"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Taxes</td>
+                                    <td class="text-right">
+                                        <span t-field="exp.amount_tax"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-right">
+                                        <strong t-field="exp.amount_total"
+                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
                     </div>
                 </div>
 
-                <p>
+                <p t-if="s.note">
                     <strong>Observations:</strong>
                     <span t-field="s.note"/>
                 </p>
@@ -432,13 +435,25 @@
             <div class="footer"></div>
         </template>
 
+        <template id="wsl_sale_order_intermediary">
+            <div class="header"></div>
+            <div class="page">
+                <p><h1>SALE ORDER WITH INTERMEDIARY</h1></p>
+                <p><h2>This delivery note should not be sent to customer from warehouse</h2></p>
+            </div>
+            <div class="footer"></div>
+        </template>
+
         <template id="wsl_aux_report_delivery_note">
             <t t-foreach="docs" t-as="picking">
                 <t t-set="s" t-value="picking.sale_id"/>
-                <t t-if="s">
+                <t t-if="picking.picking_type_code == 'outgoing'">
+                    <t t-if="s and s.intermediary">
+                        <t t-call="warehouse_shipping_light.wsl_sale_order_intermediary"/>
+                    </t>
                     <t t-call="warehouse_shipping_light.wsl_report_delivery_note_document"/>
                 </t>
-                <t t-if="not s">
+                <t t-if="not picking.picking_type_code == 'outgoing'">
                     <t t-call="warehouse_shipping_light.wsl_do_not_available"/>
                 </t>
             </t>

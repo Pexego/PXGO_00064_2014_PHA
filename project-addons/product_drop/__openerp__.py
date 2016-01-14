@@ -35,6 +35,7 @@
     'data' : [
         'data/initialization.xml',
         'views/product_drop.xml',
+        'views/stock_view.xml',
         'report/product_drop_report.xml',
         'security/ir.model.access.csv',
     ],

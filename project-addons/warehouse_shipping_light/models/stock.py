@@ -71,8 +71,7 @@ class StockPicking(models.Model):
 
     @api.one
     def create_expedition(self):
-        if self.state == 'done' and self.sale_id and\
-                        self.picking_type_id.code == 'outgoing':
+        if self.state == 'done' and self.picking_type_id.code == 'outgoing':
             expeditions = self.env['stock.expeditions']
             if not expeditions.search([('picking_id', '=', self.id)]):
                 self.expedition_id = expeditions.create({'picking_id': self.id})
@@ -96,6 +95,17 @@ class StockPicking(models.Model):
         # Redirects to the new report
         return self.env['report'].\
             get_action(self, 'warehouse_shipping_light.wsl_report_picking')
+
+    def _prepare_shipping_invoice_line(self, cr, uid, picking, invoice, context):
+        # Create shipping invoice line with the same price/qty of origin
+        res = super(StockPicking, self)._prepare_shipping_invoice_line(cr, uid,
+                                                      picking, invoice, context)
+        if res and picking.sale_id:
+            for line in picking.sale_id.order_line:
+                if line.is_delivery:
+                    res['price_unit'] = line.price_unit
+                    res['quantity'] = line.product_uom_qty
+        return res
 
 
 class StockPackOperation(models.Model):
@@ -202,22 +212,23 @@ class StockExpeditions(models.Model):
     def create(self, vals):
         p = self.env['stock.picking'].browse(vals['picking_id'])
 
-        # Search for carrier charge in sale order lines
-        for sale_line in p.sale_id.order_line:
-            if sale_line.is_delivery:
-                vals['carrier_sale_line'] = sale_line.id
-
-        # If not exists carrier sale line
-        if not vals.get('carrier_sale_line', False):
-            original_state = p.sale_id.state
-            p.sale_id.state = 'draft'
-            p.sale_id.carrier_id = p.carrier_id
-            p.sale_id.delivery_set()
-            p.sale_id.state = original_state
+        if p.sale_id:
+            # Search for carrier charge in sale order lines
             for sale_line in p.sale_id.order_line:
                 if sale_line.is_delivery:
-                    sale_line.state = 'confirmed'
                     vals['carrier_sale_line'] = sale_line.id
+
+            # If not exists carrier sale line
+            if not vals.get('carrier_sale_line', False):
+                original_state = p.sale_id.state
+                p.sale_id.state = 'draft'
+                p.sale_id.carrier_id = p.carrier_id
+                p.sale_id.delivery_set()
+                p.sale_id.state = original_state
+                for sale_line in p.sale_id.order_line:
+                    if sale_line.is_delivery:
+                        sale_line.state = 'confirmed'
+                        vals['carrier_sale_line'] = sale_line.id
 
         return super(StockExpeditions, self).create(vals)
 
@@ -248,8 +259,10 @@ class StockExpeditions(models.Model):
         art_disc_amount = 0
         com_discount = 0
         com_disc_amount = 0
+        com_discount_global = 0
         fin_discount = 0
         fin_disc_amount = 0
+        fin_discount_global = 0
         amount_tax = 0
 
         for line in self.move_lines:
@@ -264,6 +277,8 @@ class StockExpeditions(models.Model):
             fin_discount = sale_line.financial_discount
             fin_disc_amount += aux * fin_discount / 100
             aux = aux * (1 - fin_discount / 100)
+            com_discount_global = com_discount or com_discount_global
+            fin_discount_global = fin_discount or fin_discount_global
             # Compute line taxes
             for c in sale_line.tax_id.compute_all(aux, 1, line.product_id,
                                       self.sale_id.partner_id)['taxes']:
@@ -298,14 +313,14 @@ class StockExpeditions(models.Model):
         self.amount_tax = amount_tax
         self.amount_total = self.amount_untaxed + self.amount_tax
 
-        if com_discount > 0:
+        if com_discount_global > 0:
             self.commercial_discount_display = \
-                _('Commercial discount (%.2f %%)') % com_discount
+                _('Commercial discount (%.2f %%)') % com_discount_global
         else:
             self.commercial_discount_display = _('Commercial discount')
 
-        if fin_discount > 0:
+        if fin_discount_global > 0:
             self.financial_discount_display = \
-                _('Financial discount (%.2f %%)') % fin_discount
+                _('Financial discount (%.2f %%)') % fin_discount_global
         else:
             self.financial_discount_display = _('Financial discount')

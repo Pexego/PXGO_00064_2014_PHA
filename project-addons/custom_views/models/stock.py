@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,5 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-import sale_report, account_payment, account
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    address_city = fields.Char(related='partner_id.city', store=True)
+    address_zip = fields.Char(related='partner_id.zip', store=True)
+    address_country = fields.Char(related='partner_id.country_id.name', store=True)

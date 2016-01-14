@@ -51,9 +51,7 @@ class StockTransferDetails(models.TransientModel):
     def _compute_counters(self):
         self.recalculate_counters()
 
-    @api.onchange('item_ids',
-                  'item_ids.package',
-                  'item_ids.palet')
+    @api.onchange('item_ids')
     def onchange_complete(self):
         self.recalculate_counters()
 
