@@ -106,7 +106,7 @@ class product_drop_details(models.Model):
             }
         }
 
-    def _create_stock_move(self, lot, qty):
+    def _create_stock_move(self, lot, prod, qty):
         company = self.env.user.company_id.id
         location = self.env['stock.warehouse'].search(
                 [('company_id', '=', company)]
@@ -139,10 +139,10 @@ class product_drop_details(models.Model):
         picking_id = self.env['stock.picking'].create(picking_vals)
 
         move_dict = {
-            'name': lot.product_id.name or '',
-            'product_id': lot.product_id.id,
-            'product_uom': lot.product_id.uom_id.id,
-            'product_uos': lot.product_id.uos_id.id,
+            'name': prod.name or '',
+            'product_id': prod.id,
+            'product_uom': prod.uom_id.id if prod.uom_id else False,
+            'product_uos': prod.uos_id.id if prod.uom_id else False,
             'restrict_lot_id': lot.id,
             'product_uom_qty': qty,
             'date': date.today(),
@@ -166,7 +166,8 @@ class product_drop_details(models.Model):
     @api.model
     def create(self, vals):
         lot = self.env['stock.production.lot'].browse(vals['lot_id'])
-        vals['move_id'] = self._create_stock_move(lot, vals['product_qty'])
+        product = self.env['product.product'].browse(vals['name'])
+        vals['move_id'] = self._create_stock_move(lot, product, vals['product_qty'])
         return super(product_drop_details, self).create(vals)
 
     @api.multi
@@ -175,7 +176,9 @@ class product_drop_details(models.Model):
             detail.move_id.picking_id.unlink()
             new_lot_id = vals['lot_id'] if vals.get('lot_id') else detail.lot_id
             new_product_qty = vals['product_qty'] if vals.get('product_qty') else detail.product_qty
-            vals['move_id'] = detail._create_stock_move(new_lot_id, new_product_qty)
+            new_product_id = vals['name'] if vals.get('name') else detail.name.id
+            new_product_id = self.env['product.product'].browse(new_product_id)
+            vals['move_id'] = detail._create_stock_move(new_lot_id, new_product_id, new_product_qty)
         return super(product_drop_details, self).write(vals)
 
     @api.multi
