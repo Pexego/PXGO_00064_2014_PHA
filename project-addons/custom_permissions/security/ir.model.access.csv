@@ -38,3 +38,5 @@ id_crm_line_salesmanph,crm_line_salesmanph,crm_claim_rma.model_claim_line,group_
 id_sale_order_line_manager,sale_order_line_manager,sale.model_sale_order_line,base.group_sale_manager,1,1,1,1
 id_sale_order_line_supermanager,sale_order_line_supermanager,sale.model_sale_order_line,base.group_sale_salesman_all_leads,1,1,1,1
 id_product_supplier_purchase_user,product_supplier_purchase_user,product.model_product_supplierinfo,purchase.group_purchase_user,1,1,1,1
+id_lot_add_wh_user,lot_stock_add_edit,lot_issue.model_stock_production_lot,custom_permissions.group_lot_add_edit,1,1,1,1
+access_stock_production_lot_user,stock.production.lot.user,stock.model_stock_production_lot,stock.group_stock_user,1,0,0,0
