@@ -603,7 +603,6 @@
                   id="product.menu_products_extra_category"
                   parent="base.menu_product"
                   sequence="31"
-                  groups="base.group_no_one"
         />
         <!-- Purchases menu -->
         <menuitem action="product_category_action_extra_categories"
