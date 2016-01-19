@@ -154,13 +154,13 @@ password=passwordLogin)
                 try:
                     bkp = execute(conn, 'dump', tools.config['admin_passwd'], rec.name)
                 except:
-                    logger.notifyChannel('backup', netsvc.LOG_INFO, "Could'nt backup database %s. Bad database administrator password for server running at http://%s:%s" %(rec.name, rec.host, rec.port))
+                    _logger.debug("Could'nt backup database %s. Bad database administrator password for server running at http://%s:%s" %(rec.name, rec.host, rec.port))
                     continue
                 bkp = base64.decodestring(bkp)
                 fp.write(bkp)
                 fp.close()
             else:
-                logger.notifyChannel('backup', netsvc.LOG_INFO, "database %s doesn't exist on http://%s:%s" %(rec.name, rec.host, rec.port))
+                _logger.debug("database %s doesn't exist on http://%s:%s" %(rec.name, rec.host, rec.port))
 
             #Check if user wants to write to SFTP or not.
             if rec.sftpwrite is True:

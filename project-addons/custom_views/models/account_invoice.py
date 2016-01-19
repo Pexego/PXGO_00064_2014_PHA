@@ -19,7 +19,46 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, api, fields
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
+import datetime
+
+
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    latest_calculations = fields.Datetime('Latest date and time when amounts were calculated')
+
+    @api.model
+    def create(self, vals):
+        res = super(AccountInvoice, self).create(vals)
+        # Trigger write event to force recalculations after create
+        res.state = res.state
+        return res
+
+    @api.multi
+    def write(self, vals):
+        # Force recalculations on save
+        if not vals.get('latest_calculations'):
+            now = datetime.datetime.now()
+            if self.latest_calculations:
+                then = datetime.datetime.strptime(self.latest_calculations,
+                                                  DATETIME_FORMAT)
+            else:
+                then = now - datetime.timedelta(days=1)
+
+            diff = now - then
+            if diff.days > 0 or diff.seconds > 10:
+                # Timestamp to avoid unnecessary loops
+                vals['latest_calculations'] = fields.Datetime.now()
+                res = super(AccountInvoice, self).write(vals)
+                self.button_reset_taxes()
+            else:
+                res = super(AccountInvoice, self).write(vals)
+        else:
+            res = super(AccountInvoice, self).write(vals)
+
+        return res
 
 
 class AccountInvoiceLine(models.Model):

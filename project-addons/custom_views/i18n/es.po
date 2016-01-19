@@ -1,118 +1,224 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* custom_permissions
+# 	* custom_views
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-15 08:39+0000\n"
-"PO-Revision-Date: 2015-09-15 08:39+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-01-18 12:58+0000\n"
+"PO-Revision-Date: 2016-01-18 14:01+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_views
-#: view:sale.order:custom_views.view_order_form
-msgid "Order reference"
-msgstr "Referencia de pedido"
-
-#. module: product
-#: view:product.template:product.product_template_form_view
-msgid "This note will be displayed on requests for quotation..."
-msgstr "Estas notas serán mostradas en los borradores de compra..."
-
-#. module: purchase
-#: help:purchase.config.settings,module_purchase_requisition:0
-msgid ""
-"Calls for bids are used when you want to generate requests for quotations to several suppliers for a given set of products.\n"
-"            You can configure per product if you directly do a Request for Quotation\n"
-"            to one supplier or if you want a Call for Bids to compare offers from several suppliers."
-msgstr "Las licitaciones se usan cuando quiere generar borradores de compra a varios proveedores para un conjunto de productos dado. Puede configurar por producto si hace una SdP directamente a un proveedor, o si quiere licitar para comparar ofertas de varios proveedores."
-
-#. module: purchase
-#: model:ir.actions.act_window,name:purchase.purchase_rfq
-#: model:ir.ui.menu,name:purchase.menu_purchase_rfq
-msgid "Requests for Quotation"
-msgstr "Borradores de compra"
-
-#. module: purchase_requisition
-#: model:ir.actions.act_window,help:purchase_requisition.action_purchase_requisition
+#: model:ir.actions.act_window,help:custom_views.product_normal_action_puchased_tree_view_custom_view
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
-"            Click to start a new Call for Bids process. \n"
-"          </p><p>\n"
-"            A Call for Bids is a procedure for generating competing offers from\n"
-"            different bidders. In the call for bids, you can record the\n"
-"            products you need to buy and generate the creation of RfQs to\n"
-"            suppliers. Once the bids have been registered, you can review and\n"
-"            compare them and you can validate some and cancel others.\n"
-"          </p>\n"
-"        "
-msgstr "<p class=\"oe_view_nocontent_create\">\nPulse para iniciar un nuevo proceso de licitación de compra.\n</p><p>\nLa licitación de compra es un procedimiento para generar ofertas \ncompetitivas desde diferentes licitadores. En esta licitación, puede\ngrabar los productos que necesita comprar y gestionar la creación de\nlos borradores de compra a los proveedores. Una vez que\nlas solicitudes se han registrado, puedes revisarlas y compararlas para\nvalidar algunas y cancelar otras.\n</p>\n        "
-
-#. module: purchase_requisition
-#: view:purchase.requisition:purchase_requisition.view_purchase_requisition_form
-msgid "Requests for Quotation"
-msgstr "Borradores de compra"
-
-#. module: stock
-#: model:ir.actions.act_window,help:stock.action_orderpoint_form
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                Click to add a reordering rule.\n"
-"              </p><p>You can define your minimum stock rules, so that Odoo will automatically create draft manufacturing orders or request for quotations according to the stock level. Once the virtual stock of a product (= stock on hand minus all confirmed orders and reservations) is below the minimum quantity, Odoo will generate a procurement request to increase the stock up to the maximum quantity.</p>\n"
+"                    Click to define a new product.\n"
+"                </p><p>\n"
+"                    You must define a product for everything you purchase, whether\n"
+"                    it's a physical product, a consumable or services you buy to\n"
+"                    subcontractants.\n"
+"                </p><p>\n"
+"                    The product form contains detailed information to improve the\n"
+"                    purchase process: prices, procurement logistics, accounting data,\n"
+"                    available suppliers, etc.\n"
+"                </p>\n"
 "            "
-msgstr "<p class=\"oe_view_nocontent_create\">\nPulse para añadir un regla de reabastecimiento.\n</p><p>\nPuede definir sus reglas de existencias mínimas, para que Odoo cree automáticamente órdenes de producción en borrador de compra de acuerdo con los niveles de existencias. Una vez las existencias virtuales de un producto (= existencias disponibles menos todos los pedidos confirmados y las reservas) está por debajo de la cantidad mínima, Odoo generará una petición de abastecimiento para incrementar las existencias hasta la cantidad máxima.\n</p>\n            "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                    Haga click para definir un nuevo producto.\n"
+"                </p><p>\n"
+"                    Tiene que especificar un producto para todo lo que compre, ya sea\n"
+"                    un producto físico, consumible o servicios que pueda comprar a\n"
+"                    otras empresas.\n"
+"                </p><p>\n"
+"                    El formulario de producto contiene información detallada para mejorar\n"
+"                    el proceso de compra: precios, logística de aprovisionamiento,\n"
+"                    información contable, proveedores disponibles, etc.\n"
+"                </p>\n"
+"            "
 
-#. module: base
-#: model:ir.module.module,description:base.module_purchase
-msgid ""
-"\n"
-"Manage goods requirement by Purchase Orders easily\n"
-"==================================================\n"
-"\n"
-"Purchase management enables you to track your suppliers' price quotations and convert them into purchase orders if necessary.\n"
-"OpenERP has several methods of monitoring invoices and tracking the receipt of ordered goods. You can handle partial deliveries in OpenERP, so you can keep track of items that are still to be delivered in your orders, and you can issue reminders automatically.\n"
-"\n"
-"OpenERP’s replenishment management rules enable the system to generate draft purchase orders automatically, or you can configure it to run a lean process driven entirely by current production needs.\n"
-"\n"
-"Dashboard / Reports for Purchase Management will include:\n"
-"---------------------------------------------------------\n"
-"* Request for Quotations\n"
-"* Purchase Orders Waiting Approval\n"
-"* Monthly Purchases by Category\n"
-"* Receipt Analysis\n"
-"* Purchase Analysis\n"
-"    "
-msgstr "\nGestione los requisitos de bienes a través de pedidos de compra fácilmente\n==========================================================================\n\nLa gestión de compras le permite gestionar los borradores de compra de sus proveedores y convertirlas en pedidos de compra si fuera necesario. Odoo tiene varios métodos de monitorizar las facturas y gestionar la recepción de los bienes pedidos. Puede manejar entregas parciales, para mantener la pista de los elementos que aún faltan por ser entregados en sus pedidos, y puede enviar recordatorios automáticamente.\n\nLas reglas de gestión de reposiciones de Odoo habilitan un sistema para generar pedidos de compra en borrador automáticamente, o puede configurarlo para ejecutar un proceso ligero conducido enteramente por sus necesidades de producción.\n\nEl tablero y los informes para la gestión de compras incluyen:\n--------------------------------------------------------------\n* Borradores de compra\n* Pedidos de compra esperando aprobación\n* Compras mensuales por categoría\n* Análisis de recepciones\n* Análisis de compra\n    "
+#. module: custom_views
+#: view:stock.picking:custom_views.view_picking_form_customview
+msgid "Agents/Consultancy"
+msgstr "Comisionistas"
 
-#. module: purchase
-#: model:ir.actions.report.xml,name:purchase.report_purchase_quotation
-#: view:purchase.order:purchase.purchase_order_form
-#: selection:purchase.report,state:0
-#: view:website:purchase.report_purchasequotation_document
-msgid "Request for Quotation"
-msgstr "Borrador de compra"
+#. module: custom_views
+#: view:product.product:custom_views.product_kanban_view
+msgid "CN:"
+msgstr "CN:"
 
-#. module: purchase
-#: view:website:purchase.report_purchaseorder_document
-msgid "Request for Quotation N°"
-msgstr "Solicitud de presupuesto Nº"
+#. module: custom_views
+#: view:stock.production.lot:custom_views.custom_views_search_product_lot
+msgid "Can be Purchased"
+msgstr "Puede ser comprado"
 
+#. module: custom_views
+#: view:stock.production.lot:custom_views.custom_views_search_product_lot
+msgid "Can be Sold"
+msgstr "Puede ser vendido"
+
+#. module: custom_views
+#. openerp-web
+#: code:addons/custom_views/static/src/js/view_form_custom.js:23
+#, python-format
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: custom_views
+#: field:stock.picking,address_city:0
+msgid "City"
+msgstr "Ciudad"
+
+#. module: custom_views
+#. openerp-web
+#: code:addons/custom_views/static/src/js/view_form_custom.js:21
+#, python-format
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: custom_views
+#: field:stock.picking,address_country:0
+msgid "Country Name"
+msgstr "País"
+
+#. module: custom_views
+#: view:res.partner:custom_views.view_partner_form_add_vat_required
+msgid "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
+msgstr "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
+
+#. module: custom_views
+#: code:addons/custom_views/models/stock_quant.py:32
+#, python-format
+msgid "Deletion aviod"
+msgstr "Borrado evitado"
+
+#. module: custom_views
+#: view:product.product:custom_views.product_kanban_view
+msgid "Desc:"
+msgstr "Desc:"
+
+#. module: custom_views
+#: view:product.product:custom_views.product_kanban_view
+msgid "EAN13:"
+msgstr "EAN13:"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
+
+#. module: custom_views
+#: field:account.invoice,latest_calculations:0
+msgid "Latest date and time when amounts were calculated"
+msgstr "Latest date and time when amounts were calculated"
 
 #. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
 msgid "My Purchases"
 msgstr "Mis compras"
 
+#. module: custom_views
+#: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
+msgid "New Mail"
+msgstr "Nuevo correo"
 
-#. module: stock
-#: code:addons/stock/stock.py:0
-#: code:addons/stock/stock.py:0
+#. module: custom_views
+#. openerp-web
+#: code:addons/custom_views/static/src/js/view_form_custom.js:27
 #, python-format
-msgid "Location %s has child locations. The movements should be at an end location"
-msgstr "El almacén %s tiene hijos. Todos los materiales deben ser movidos a un almacen sin almacenes hijos"
+msgid "Ok"
+msgstr "Ok"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "Order reference"
+msgstr "Referencia de pedido"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_stock_transfer_details_items
+msgid "Picking wizard items"
+msgstr "Elementos del asistente de albarán"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.product_normal_action_puchased_tree_view_custom_view
+#: model:ir.actions.act_window,name:custom_views.product_template_action_mrp_custom_view
+#: model:ir.actions.act_window,name:custom_views.product_template_action_tree_view_custom_view
+#: model:ir.actions.act_window,name:custom_views.product_template_action_warehouse_custom_view
+msgid "Products"
+msgstr "Productos"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: custom_views
+#: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
+msgid "Supplier pricelist"
+msgstr "Lista precios proveedor"
+
+#. module: custom_views
+#: help:stock.picking,address_country:0
+msgid "The full name of the country."
+msgstr "Nombre completo del país."
+
+#. module: custom_views
+#: field:stock.picking,address_zip:0
+msgid "Zip"
+msgstr "Código postal"
+
+#. module: custom_views
+#: view:stock.production.lot:custom_views.custom_views_production_lot_tree
+msgid "create_date desc"
+msgstr "create_date desc"
+
+#. module: custom_views
+#: view:product.template:custom_views.product_template_form_view_custom_view
+msgid "describe the product characteristics..."
+msgstr "Describa aquí las características del producto..."
+
+#. module: custom_views
+#: code:addons/custom_views/models/stock_quant.py:33
+#, python-format
+msgid "quants erasing is not allowed"
+msgstr "No está permitido borrar quants"
+
