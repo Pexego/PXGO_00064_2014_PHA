@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -28,6 +28,7 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).onchange_partner_id(cr, uid, ids, part, context)
         intermediary = context.get('intermediary', False)
 
+        # Dynamic filters at invoice and shipping combos
         if part and intermediary:
             res['domain'] = {
                 'partner_invoice_id': [
@@ -64,5 +65,11 @@ class SaleOrder(models.Model):
                     ('pre_customer', '=', False)
                 ]
             }
+
+        # Recover default partner picking policy
+        if part:
+            partner_id = self.pool.get('res.partner').browse(cr, uid, part)
+            if partner_id.picking_policy:
+                res['value']['picking_policy'] = partner_id.picking_policy
 
         return res
