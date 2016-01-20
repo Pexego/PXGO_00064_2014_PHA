@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).onchange_partner_id(cr, uid, ids, part, context)
         intermediary = context.get('intermediary', False)
 
-        # Dynamic filters at invoice and shipping combos
+        # Dynamic filters for invoice and shipping combos
         if part and intermediary:
             res['domain'] = {
                 'partner_invoice_id': [

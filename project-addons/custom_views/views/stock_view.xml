@@ -38,6 +38,9 @@
                     <field name="partner_id"/>
                     <field name="date"/>
                 </field>
+                <field name="location_dest_id" position="before">
+                    <field name="location_id" groups="stock.group_locations"/>
+                </field>
             </field>
         </record>
         <record id="custom_views_picking_form" model="ir.ui.view">
