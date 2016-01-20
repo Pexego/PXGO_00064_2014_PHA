@@ -115,7 +115,7 @@ msgstr "Falso"
 #. module: pre_customer
 #: field:res.partner,message_latest:0
 msgid "Last message date"
-msgstr "Último mensaje"
+msgstr "Última actualización"
 
 #. module: pre_customer
 #: model:ir.model,name:pre_customer.model_res_partner
