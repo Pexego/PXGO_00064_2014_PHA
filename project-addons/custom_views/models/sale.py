@@ -71,5 +71,10 @@ class SaleOrder(models.Model):
             partner_id = self.pool.get('res.partner').browse(cr, uid, part)
             if partner_id.picking_policy:
                 res['value']['picking_policy'] = partner_id.picking_policy
+            else:
+                ir_values = self.pool.get('ir.values')
+                picking_policy = ir_values.get_default(cr, uid, 'sale.order',
+                                                       'picking_policy')
+                res['value']['picking_policy'] = picking_policy
 
         return res
