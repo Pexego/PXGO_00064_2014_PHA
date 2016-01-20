@@ -27,8 +27,9 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     pre_customer = fields.Boolean('pre-Customer', default=False)
-
-
+    message_latest = fields.Datetime('Last message date',
+                                     compute='_compute_last_message_date',
+                                     store=True)
 
     @api.multi
     def validate_customer(self):
@@ -74,3 +75,10 @@ class ResPartner(models.Model):
             raise exceptions.Warning(_('Error validating the customer:\n'),
                                      warning)
             return False
+
+    @api.one
+    @api.depends('message_ids')
+    def _compute_last_message_date(self):
+        last_message_id = max(self.message_ids) if len(self.message_ids) else False
+        if last_message_id:
+            self.message_latest = last_message_id.date
