@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class StockPicking(models.Model):
@@ -27,3 +27,12 @@ class StockPicking(models.Model):
     address_city = fields.Char(related='partner_id.city', store=True)
     address_zip = fields.Char(related='partner_id.zip', store=True)
     address_country = fields.Char(related='partner_id.country_id.name', store=True)
+    picking_type_desc = fields.Char(compute='_compute_picking_type_desc')
+
+    @api.one
+    @api.depends('picking_type_id')
+    def _compute_picking_type_desc(self):
+        types = {'outgoing': ' - (Albarán de salida)',
+                 'incoming': ' - (Albarán de entrada)',
+                 'internal': ' - (Albarán interno)'}
+        self.picking_type_desc = types.get(self.picking_type_id.code, '')
