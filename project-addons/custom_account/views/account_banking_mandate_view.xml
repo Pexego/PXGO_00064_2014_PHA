@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_mandate_form_change_readonly" model="ir.ui.view">
+            <field name="name">account.banking.mandate.form</field>
+            <field name="model">account.banking.mandate</field>
+            <field name="inherit_id" ref="account_banking_mandate.view_mandate_form"/>
+            <field name="arch" type="xml">
+                <field name="unique_mandate_reference" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
