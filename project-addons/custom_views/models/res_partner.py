@@ -26,6 +26,9 @@ from openerp.osv.expression import get_unaccent_wrapper
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    is_company = fields.Boolean('Is a Company',
+            default=True,
+            help="Check if the contact is a company, otherwise it is a person")
     picking_policy = fields.Selection(
             [
                 ('direct', 'Deliver each product when available'),
