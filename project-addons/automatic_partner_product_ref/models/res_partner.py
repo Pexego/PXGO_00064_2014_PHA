@@ -18,5 +18,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api
+import base_conversion
 
-import stock, abstract_report, sale, stock_return_picking
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    reference = fields.Char('Reference',
+                            compute='_compute_reference',
+                            store=True,
+                            readonly=True)
+
+    @api.one
+    @api.depends('create_date', 'write_date')
+    def _compute_reference(self):
+        if not self.reference:
+            self.reference = 'E' + base_conversion.baseN(self.id)
+
+    @api.multi
+    def write(self, vals):
+        if len(self.ids) == 1 and (not self.ref) and not vals.get('ref', False):
+            vals['ref'] = vals.get('reference', False) or self.reference
+        return super(ResPartner, self).write(vals)

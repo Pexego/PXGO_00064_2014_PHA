@@ -19,4 +19,25 @@
 #
 ##############################################################################
 
-import stock, abstract_report, sale, stock_return_picking
+from openerp import models, api
+
+
+class StockReturnPicking(models.TransientModel):
+    _inherit = 'stock.return.picking'
+
+    @api.multi
+    def create_returns(self):
+        # Save context before...
+        model = self.env.context.get('active_model', False)
+        picking = self.env.context.get('active_id', False)
+
+        # Revert transfer
+        res = super(StockReturnPicking, self).create_returns()
+
+        # Remove expedition
+        if model == 'stock.picking' and picking:
+            picking = self.env['stock.picking'].browse(picking)
+            if picking and picking.expedition_id:
+                picking.expedition_id.unlink()
+
+        return res

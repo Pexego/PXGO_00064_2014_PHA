@@ -40,7 +40,7 @@ class StockPickingType(models.Model):
         for pt in picking_types:
             pt.product_drop_default = False
 
-    @api.one
+    @api.model
     def create(self, vals):
         res = super(StockPickingType, self).create(vals)
 

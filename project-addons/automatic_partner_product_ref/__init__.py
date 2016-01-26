@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import stock, abstract_report, sale, stock_return_picking
+from . import models

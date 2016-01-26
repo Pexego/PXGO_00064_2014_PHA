@@ -18,5 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import stock, abstract_report, sale, stock_return_picking
+{
+    'name': "Automatic reference generator",
+    'version': '1.0',
+    'category': '',
+    'summary' : 'Automatic reference generator for partners and products',
+    'description': "Automatic reference generator for partners and products",
+    'author': 'Pharmadus I+D+i',
+    'website': 'www.pharmadus.com',
+    'depends' : [
+        'base',
+        'product',
+        'product_spec',
+    ],
+    'data' : [
+        'views/product_view.xml',
+        'views/res_partner_view.xml',
+    ],
+    'installable': True
+}

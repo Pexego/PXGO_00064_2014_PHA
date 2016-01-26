@@ -19,4 +19,7 @@
 #
 ##############################################################################
 
-import stock, abstract_report, sale, stock_return_picking
+def baseN(num=0, base=26, numerals='ABCDEFGHIJKLMNOPQRSTUVWXYZ', min_width=5):
+    return (((num == 0) and numerals[0]) or \
+            (baseN(num // base, base, numerals).lstrip(numerals[0]) +
+             numerals[num % base])).rjust(min_width, numerals[0])
