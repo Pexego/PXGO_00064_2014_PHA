@@ -102,6 +102,7 @@
                     <filter string='Container' domain="[]" context="{'group_by' : 'container_id'}"/>
                     <filter string='Base form' domain="[]" context="{'group_by' : 'base_form_id'}"/>
                     <filter string='Objective' domain="[]" context="{'group_by' : 'objective'}"/>
+                    <filter string="Country" domain="[]" context="{'group_by': 'country'}"/>
                 </filter>
             </field>
         </record>
