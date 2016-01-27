@@ -26,7 +26,7 @@
     'description': """prevents transfer stock unavailable""",
     'author': 'Comunitea',
     'website': '',
-    "depends": ['stock'],
+    "depends": ['stock', 'warehouse_shipping_light'],
     "data": ['wizard/stock_transfer_details.xml'],
     "installable": True
 }
