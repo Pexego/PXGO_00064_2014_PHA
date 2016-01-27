@@ -30,5 +30,11 @@
             <field name="view_id" ref="base.view_partner_tree"/>
         </record>
 
+        <!--Button Purchases-->
+        <record id="purchase.res_partner_view_purchase_buttons"
+               model="ir.ui.view">
+           <field name="groups_id" eval="[(4, ref('purchase.group_purchase_manager'))]"/>
+       </record>
+
     </data>
 </openerp>
