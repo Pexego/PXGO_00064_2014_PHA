@@ -1,1 +1,0 @@
-update res_partner set ref = reference where ref is null;

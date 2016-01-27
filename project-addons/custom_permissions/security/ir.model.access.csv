@@ -40,3 +40,4 @@ id_sale_order_line_supermanager,sale_order_line_supermanager,sale.model_sale_ord
 id_product_supplier_purchase_user,product_supplier_purchase_user,product.model_product_supplierinfo,purchase.group_purchase_user,1,1,1,1
 id_lot_add_wh_user,lot_stock_add_edit,lot_issue.model_stock_production_lot,custom_permissions.group_lot_add_edit,1,1,1,1
 access_stock_production_lot_user,stock.production.lot.user,stock.model_stock_production_lot,stock.group_stock_user,1,0,0,0
+id_access_account_analytic_default_purchase_user,account.analytic.default.purchase.user,account_analytic_default.model_account_analytic_default,purchase.group_purchase_user,1,0,0,0
