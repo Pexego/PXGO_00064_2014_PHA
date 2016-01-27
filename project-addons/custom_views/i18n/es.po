@@ -302,3 +302,15 @@ msgstr "{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edi
 #: view:res.partner:custom_views.view_partner_form_custom_view
 msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
 msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
+
+#. modules: portal_sale, sale
+#: model:ir.ui.menu,name:portal_sale.portal_sales_orders
+#: view:crm.case.section:sale.crm_case_section_salesteams_view_kanban
+#: model:ir.actions.act_window,name:sale.action_orders
+#: model:ir.actions.act_window,name:sale.action_orders_salesteams
+#: model:ir.ui.menu,name:sale.menu_sale_order
+#: view:sale.order:sale.view_order_tree
+#: view:sale.order:sale.view_sale_order_calendar
+#: view:sale.order:sale.view_sale_order_graph
+msgid "Sales Orders"
+msgstr "Pedidos directos"
