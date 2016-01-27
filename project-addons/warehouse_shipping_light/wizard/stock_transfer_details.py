@@ -149,13 +149,13 @@ class StockTransferDetails(models.TransientModel):
         packops = self.env['stock.pack.operation'].search(['&', ('picking_id', '=', self.picking_id.id), '!', ('id', 'in', processed_ids)])
         packops.unlink()
 
-        # Execute the transfer of the picking
-        self.picking_id.do_transfer()
+        # Call original method to execute transfer and other inherited methods
+        res = super(StockTransferDetails, self).do_detailed_transfer()
 
         # Create expedition if proceed
         self.picking_id.create_expedition()
 
-        return True
+        return res
 
 
 class StockTransferDetailsItems(models.TransientModel):
