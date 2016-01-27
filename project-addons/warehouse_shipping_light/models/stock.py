@@ -122,6 +122,7 @@ class StockPackOperation(models.Model):
         vals['rest'] = vals.get('quantity', 0)
         return super(StockPackOperation, self).create(vals)
 
+
 class StockExpeditions(models.Model):
     _name = 'stock.expeditions'
     _inherits = {'stock.picking': 'picking_id'}

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-18 12:58+0000\n"
-"PO-Revision-Date: 2016-01-18 14:01+0100\n"
+"POT-Creation-Date: 2016-01-25 12:50+0000\n"
+"PO-Revision-Date: 2016-01-25 13:51+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -102,6 +102,16 @@ msgid "Deletion aviod"
 msgstr "Borrado evitado"
 
 #. module: custom_views
+#: selection:res.partner,picking_policy:0
+msgid "Deliver all products at once"
+msgstr "Entregar todos los productos a la vez"
+
+#. module: custom_views
+#: selection:res.partner,picking_policy:0
+msgid "Deliver each product when available"
+msgstr "Entregar cada producto cuando esté disponible"
+
+#. module: custom_views
 #: view:product.product:custom_views.product_kanban_view
 msgid "Desc:"
 msgstr "Desc:"
@@ -122,9 +132,14 @@ msgid "Invoice Line"
 msgstr "Línea de factura"
 
 #. module: custom_views
+#: field:res.partner,message_latest:0
+msgid "Last message date"
+msgstr "Fecha último mensaje"
+
+#. module: custom_views
 #: field:account.invoice,latest_calculations:0
 msgid "Latest date and time when amounts were calculated"
-msgstr "Latest date and time when amounts were calculated"
+msgstr "Última fecha/hora en que se calcularon los importes"
 
 #. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
@@ -144,6 +159,11 @@ msgid "Ok"
 msgstr "Ok"
 
 #. module: custom_views
+#: view:sale.order:custom_views.custom_views_sale_order_search
+msgid "Order Month"
+msgstr "Ordenar por mes"
+
+#. module: custom_views
 #: view:sale.order:custom_views.view_order_form_custom_view
 msgid "Order reference"
 msgstr "Referencia de pedido"
@@ -152,6 +172,11 @@ msgstr "Referencia de pedido"
 #: model:ir.model,name:custom_views.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
+
+#. module: custom_views
+#: help:res.partner,picking_policy:0
+msgid "Pick 'Deliver each product when available' if you allow partial delivery."
+msgstr "Escoja 'Entregar cada producto cuando esté disponible' si permite envíos parciales."
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_picking
@@ -192,6 +217,16 @@ msgid "Sales Order"
 msgstr "Pedido de venta"
 
 #. module: custom_views
+#: view:sale.order:custom_views.custom_views_sale_order_search
+msgid "Shipping Addr."
+msgstr "Dirección envío"
+
+#. module: custom_views
+#: field:res.partner,picking_policy:0
+msgid "Shipping Policy"
+msgstr "Política de facturación"
+
+#. module: custom_views
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
 msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
@@ -202,9 +237,20 @@ msgid "The full name of the country."
 msgstr "Nombre completo del país."
 
 #. module: custom_views
+#: view:purchase.order:custom_views.view_purchase_order_form_editable_list_custom
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "True"
+msgstr "True"
+
+#. module: custom_views
 #: field:stock.picking,address_zip:0
 msgid "Zip"
 msgstr "Código postal"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]"
+msgstr "[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]"
 
 #. module: custom_views
 #: view:stock.production.lot:custom_views.custom_views_production_lot_tree
@@ -217,8 +263,42 @@ msgid "describe the product characteristics..."
 msgstr "Describa aquí las características del producto..."
 
 #. module: custom_views
+#: view:product.template:custom_views.product_template_form_view_custom_view
+msgid "min-height: 100px;"
+msgstr "min-height: 100px;"
+
+#. module: custom_views
 #: code:addons/custom_views/models/stock_quant.py:33
 #, python-format
 msgid "quants erasing is not allowed"
 msgstr "No está permitido borrar quants"
 
+#. module: custom_views
+#: view:stock.picking:custom_views.custom_views_picking_form
+msgid "stock.group_stock_manager"
+msgstr "stock.group_stock_manager"
+
+#. module: custom_views
+#: view:product.template:custom_views.product_template_form_view_custom_view
+msgid "width: 390px; margin: 0 0 0 5px;"
+msgstr "width: 390px; margin: 0 0 0 5px;"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "{'concatenate_name_comercial': not id, 'default_type': 'invoice'}"
+msgstr "{'concatenate_name_comercial': not id, 'default_type': 'invoice'}"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "{'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1, 'intermediary': intermediary}"
+msgstr "{'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1, 'intermediary': intermediary}"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+msgstr "{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+
+#. module: custom_views
+#: view:res.partner:custom_views.view_partner_form_custom_view
+msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
+msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"

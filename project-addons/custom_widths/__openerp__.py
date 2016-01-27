@@ -42,6 +42,7 @@
         'views/production_view.xml',
         'views/invoice_view.xml',
         'views/modal_dialogs_width.xml',
+        'views/stock_picking.xml'
     ],
     'installable': True
 }

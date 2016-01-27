@@ -19,12 +19,24 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
 from openerp.osv.expression import get_unaccent_wrapper
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
+
+    is_company = fields.Boolean('Is a Company',
+            default=True,
+            help="Check if the contact is a company, otherwise it is a person")
+    picking_policy = fields.Selection(
+            [
+                ('direct', 'Deliver each product when available'),
+                ('one', 'Deliver all products at once')
+            ],
+            'Shipping Policy',
+            states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+            help="""Pick 'Deliver each product when available' if you allow partial delivery.""")
 
     @api.multi
     def name_get(self):

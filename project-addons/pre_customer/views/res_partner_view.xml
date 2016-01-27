@@ -13,6 +13,7 @@
                     <field name="state_id"/>
                     <field name="phone"/>
                     <field name="email"/>
+                    <field name="message_latest"/>
                 </tree>
             </field>
         </record>
