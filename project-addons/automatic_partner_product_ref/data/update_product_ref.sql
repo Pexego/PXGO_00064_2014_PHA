@@ -1,1 +1,0 @@
-update product_template set default_code = reference where default_code is null;

@@ -18,26 +18,50 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, SUPERUSER_ID
 import base_conversion
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    reference = fields.Char('Reference',
-                            compute='_compute_reference',
-                            store=True,
-                            readonly=True)
+    ref = fields.Char('Contact Reference', select=1, readonly=True)
 
     @api.one
-    @api.depends('create_date', 'write_date')
     def _compute_reference(self):
-        if not self.reference:
-            self.reference = 'E' + base_conversion.baseN(self.id)
+        if self.ref:
+            reference = self.ref
+        else:
+            reference = base_conversion.baseN(self.id, 36,
+                                        'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+                                        4)
+            if self.company_id == self.env.ref('base.main_company'):
+                reference = 'P' + reference
+            elif self.company_id == self.env.ref('__export__.res_company_6'):
+                reference = 'ML' + reference
+            elif self.company_id == self.env.ref('__export__.res_company_7'):
+                reference = 'MR' + reference
+            elif self.company_id == self.env.ref('__export__.res_company_5'):
+                reference = 'S' + reference
+            else:
+                reference = '#' + reference
+        return reference
+
+    @api.model
+    def create(self, vals):
+        res = super(ResPartner, self).create(vals)
+        if not res.ref:
+            res.ref = res._compute_reference()
+        return res
 
     @api.multi
     def write(self, vals):
         if len(self.ids) == 1 and (not self.ref) and not vals.get('ref', False):
-            vals['ref'] = vals.get('reference', False) or self.reference
+            vals['ref'] = self._compute_reference()
         return super(ResPartner, self).write(vals)
+
+    def init(self, cr):
+        partner_ids = self.search(cr, SUPERUSER_ID, [('ref', 'in', (False, ''))])
+        partners = self.browse(cr, SUPERUSER_ID, partner_ids)
+        for p in partners:
+            p.ref = p._compute_reference()

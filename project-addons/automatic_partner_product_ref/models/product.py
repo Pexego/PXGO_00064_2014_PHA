@@ -18,27 +18,41 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, SUPERUSER_ID
 import base_conversion
 
 
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
 
-    reference = fields.Char('Reference',
-                            compute='_compute_reference',
-                            store=True,
-                            readonly=True)
+    default_code = fields.Char('Internal Reference', select=True, readonly=True)
 
     @api.one
-    @api.depends('create_date', 'write_date')
     def _compute_reference(self):
-        if not self.reference:
-            self.reference = 'P' + base_conversion.baseN(self.id)
+        if self.default_code:
+            reference = self.default_code
+        else:
+            reference = 'F' + base_conversion.baseN(self.id, 36,
+                                         'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+                                         4)
+        return reference
+
+    @api.model
+    def create(self, vals):
+        res = super(ProductProduct, self).create(vals)
+        if not res.default_code:
+            res.default_code = res._compute_reference()
+        return res
 
     @api.multi
     def write(self, vals):
         if len(self.ids) == 1 and (not self.default_code) and\
                 not vals.get('default_code', False):
-            vals['default_code'] = vals.get('reference', False) or self.reference
-        return super(ProductTemplate, self).write(vals)
+            vals['default_code'] = self._compute_reference()
+        return super(ProductProduct, self).write(vals)
+
+    def init(self, cr):
+        product_ids = self.search(cr, SUPERUSER_ID, [('default_code', 'in', (False, ''))])
+        products = self.browse(cr, SUPERUSER_ID, product_ids)
+        for p in products:
+            p.default_code = p._compute_reference()
