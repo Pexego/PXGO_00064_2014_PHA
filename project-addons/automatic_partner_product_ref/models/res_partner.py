@@ -27,7 +27,6 @@ class ResPartner(models.Model):
 
     ref = fields.Char('Contact Reference', select=1, readonly=True)
 
-    @api.one
     def _compute_reference(self):
         if self.ref:
             reference = self.ref

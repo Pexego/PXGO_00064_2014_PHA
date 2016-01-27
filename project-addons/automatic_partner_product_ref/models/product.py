@@ -27,7 +27,6 @@ class ProductProduct(models.Model):
 
     default_code = fields.Char('Internal Reference', select=True, readonly=True)
 
-    @api.one
     def _compute_reference(self):
         if self.default_code:
             reference = self.default_code
