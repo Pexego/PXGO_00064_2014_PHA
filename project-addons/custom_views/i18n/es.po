@@ -92,8 +92,8 @@ msgstr "País"
 
 #. module: custom_views
 #: view:res.partner:custom_views.view_partner_form_add_vat_required
-msgid "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
-msgstr "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
+msgid "Debe introducir el codigo del país antes del NIF/CIF. Para un cliente de España: ES antes del NIF/CIF, ejemplo: ES93952134D"
+msgstr "Debe introducir el codigo del país antes del NIF/CIF. Para un cliente de España: ES antes del NIF/CIF, ejemplo: ES93952134D"
 
 #. module: custom_views
 #: code:addons/custom_views/models/stock_quant.py:32
@@ -314,3 +314,10 @@ msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', F
 #: view:sale.order:sale.view_sale_order_graph
 msgid "Sales Orders"
 msgstr "Pedidos directos"
+
+
+#. module: base
+#: code:addons/base/res/res_company.py:167 field:res.partner,vat:0
+#, python-format
+msgid "TIN"
+msgstr "NIF/CIF"
