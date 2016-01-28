@@ -25,7 +25,7 @@
                     <filter string="Cooperative" context="{'group_by':'notified_partner_id'}" domain="[('sale_type', '=', 'transfer')]"/>
                 </filter>
                 <filter string="Category of Product" position="after">
-                    <filter string="Commissions category" context="{'group_by':'product_categories'}" domain="[('commissions_parent_category', '=', True)]"/>
+                    <filter string="Commissions category" context="{'group_by':'product_categories'}" domain="[('has_commission', '=', True)]"/>
                 </filter>
             </field>
         </record>

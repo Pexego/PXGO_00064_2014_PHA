@@ -34,14 +34,14 @@ class SaleReport(models.Model):
                                  string="Type")
     sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
     product_categories = fields.Char('Product categories')
-    commissions_parent_category = fields.Boolean('Has commission')
+    has_commission = fields.Boolean('Has commission')
 
     def _select(self):
         select_str = ', s.notified_partner_id as notified_partner_id' + \
                      ', s.sale_type as sale_type' + \
                      ', s.sale_channel_id as sale_channel_id' + \
                      ', pc.name as product_categories' + \
-                     ', cpc.commissions_parent_category'
+                     ', cpc.commissions_parent_category as has_commission'
         return super(SaleReport, self)._select() + select_str
 
     def _from(self):

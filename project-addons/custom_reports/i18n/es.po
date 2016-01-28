@@ -245,6 +245,11 @@ msgid "Commissions category"
 msgstr "Categorías comisiones"
 
 #. module: custom_reports
+#: field:product.category,commissions_parent_category:0
+msgid "Commissions parent category"
+msgstr "Categoría padre comisiones"
+
+#. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Company"
 msgstr "Compañía"
@@ -312,7 +317,7 @@ msgid "For any doubt or explanation, be contacted with Sales Dept. in the number
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
 
 #. module: custom_reports
-#: field:sale.report,commissions_parent_category:0
+#: field:sale.report,has_commission:0
 msgid "Has commission"
 msgstr "Tiene comisión"
 
