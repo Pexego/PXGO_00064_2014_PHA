@@ -90,6 +90,16 @@ msgstr "Confirmar"
 msgid "Country Name"
 msgstr "País"
 
+#. module: stock
+#: field:stock.quant,create_date:0
+msgid "Creation Date"
+msgstr "Fecha movimiento"
+
+#. module: stock
+#: field:stock.quant,lot_state:0
+msgid "Lot state"
+msgstr "Estado"
+
 #. module: custom_views
 #: view:res.partner:custom_views.view_partner_form_add_vat_required
 msgid "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
