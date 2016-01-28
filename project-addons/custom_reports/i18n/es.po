@@ -241,6 +241,11 @@ msgstr "Comentario:"
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Commissions category"
+msgstr "Categorías comisiones"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Company"
 msgstr "Compañía"
 
@@ -305,6 +310,11 @@ msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de 
 #: view:website:custom_reports.report_saleorder_document
 msgid "For any doubt or explanation, be contacted with Sales Dept. in the number"
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
+
+#. module: custom_reports
+#: field:sale.report,commissions_parent_category:0
+msgid "Has commission"
+msgstr "Tiene comisión"
 
 #. module: custom_reports
 #: field:payment.mode,hide_account_at_invoice:0
@@ -471,6 +481,11 @@ msgstr "Imprimir etiquetas de lotes"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Product"
 msgstr "Producto"
+
+#. module: custom_reports
+#: field:sale.report,product_categories:0
+msgid "Product categories"
+msgstr "Categorías de producto"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document

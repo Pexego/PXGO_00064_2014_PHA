@@ -54,6 +54,7 @@
         'views/account_payment_view.xml',
         'views/sale_report_view.xml',
         'views/stock_view.xml',
+        'views/product_view.xml',
         'data/report_paperformat.xml',
     ],
     'installable': True
