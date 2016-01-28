@@ -26,6 +26,7 @@
                 </filter>
                 <filter string="Category of Product" position="after">
                     <filter string="Commissions category" context="{'group_by':'product_categories'}" domain="[('has_commission', '=', True)]"/>
+                    <filter string="Partner category" context="{'group_by':'partner_category'}"/>
                 </filter>
             </field>
         </record>

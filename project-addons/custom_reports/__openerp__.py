@@ -28,6 +28,7 @@
     'category': 'Reports',
     'website': 'www.pharmadus.com',
     'depends' : [
+        'account',
         'purchase',
         'report_webkit',
         'l10n_es_partner_mercantil',
@@ -51,6 +52,7 @@
         'views/report_lot_labels.xml',
         'views/report_shipping_address.xml',
         'views/account_view.xml',
+        'views/account_invoice_report_view.xml',
         'views/account_payment_view.xml',
         'views/sale_report_view.xml',
         'views/stock_view.xml',

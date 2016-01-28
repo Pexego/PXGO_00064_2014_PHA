@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="custom_reports_account_invoice_report_search" model="ir.ui.view">
+            <field name="name">Custom reports - Account invoice report search</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+            <field name="arch" type="xml">
+                <filter string="Due Month" position="after">
+                    <filter string="Commissions category" context="{'group_by':'product_categories'}" domain="[('has_commission', '=', True)]"/>
+                    <filter string="Partner category" context="{'group_by':'partner_category'}"/>
+                </filter>
+            </field>
+        </record>
+    </data>
+</openerp>

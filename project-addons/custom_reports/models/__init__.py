@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import product, account_payment, account, sale_report
+import product, account_payment, account, sale_report, account_invoice_report
