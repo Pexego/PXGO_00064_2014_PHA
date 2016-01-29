@@ -240,6 +240,7 @@ msgid "Comment:"
 msgstr "Comentario:"
 
 #. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Commissions category"
 msgstr "Categorías comisiones"
