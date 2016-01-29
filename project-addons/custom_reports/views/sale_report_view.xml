@@ -2,10 +2,13 @@
 <openerp>
     <data>
         <record id="sale_report_search_custom_reports" model="ir.ui.view">
-            <field name="name">sale.report.search.custom.reports</field>
+            <field name="name">Custom reports - Sale report search</field>
             <field name="model">sale.report</field>
             <field name="inherit_id" ref="sale.view_order_product_search"/>
             <field name="arch" type="xml">
+                <filter string="Sales Team" position="attributes">
+                    <attribute name="groups"></attribute>
+                </filter>
                 <filter name="Customer" position="before">
                     <filter string="Sale type" context="{'group_by':'sale_type'}"/>
                 </filter>
