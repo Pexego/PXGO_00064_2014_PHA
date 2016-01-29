@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_expeditions,access_stock_expeditions,model_stock_expeditions,,1,1,1,1
+id_stock_transfer_details_usr,stock_transfer_details_warehouse_users,model_stock_transfer_details,stock.group_stock_user,1,1,1,0
+id_stock_transfer_details_mgr,stock_transfer_details_warehouse_managers,model_stock_transfer_details,stock.group_stock_manager,1,1,1,1

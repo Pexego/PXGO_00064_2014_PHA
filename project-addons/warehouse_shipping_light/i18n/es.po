@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-28 11:18+0000\n"
-"PO-Revision-Date: 2015-12-28 12:26+0100\n"
+"POT-Creation-Date: 2016-01-11 12:40+0000\n"
+"PO-Revision-Date: 2016-01-11 13:47+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,9 +23,15 @@ msgid "# containers"
 msgstr "Nº bultos"
 
 #. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "&nbsp;"
 msgstr "&nbsp;"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "&nbsp;&nbsp;&nbsp;"
+msgstr "&nbsp;&nbsp;&nbsp;"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
@@ -36,11 +42,6 @@ msgstr "&nbsp;|&nbsp;"
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "(Estimated:"
 msgstr "(Estimado:"
-
-#. module: warehouse_shipping_light
-#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
-msgid "(Not approved)"
-msgstr ""
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
@@ -176,11 +177,28 @@ msgid "Agency:"
 msgstr "Agencia:"
 
 #. module: warehouse_shipping_light
+#: field:stock.expeditions,amount_gross_untaxed:0
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Amount"
 msgstr "Importe"
 
 #. module: warehouse_shipping_light
+#: field:stock.expeditions,amount_tax:0
+msgid "Amount tax"
+msgstr "Importe bruto"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,amount_total:0
+msgid "Amount total"
+msgstr "Total"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,amount_untaxed:0
+msgid "Amount untaxed"
+msgstr "Base imponible"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,amount_with_article_discount:0
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Amount with article discount"
 msgstr "Importe c. dto. de artículo"
@@ -191,9 +209,15 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #. module: warehouse_shipping_light
+#: field:stock.expeditions,article_discount:0
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Article discount"
 msgstr "Descuento artículo"
+
+#. module: warehouse_shipping_light
+#: field:stock.picking,expedition_id:0
+msgid "Associated expedition"
+msgstr "Expedición asociada"
 
 #. module: warehouse_shipping_light
 #: view:stock.transfer_details_items:warehouse_shipping_light.view_transfer_split_config
@@ -204,11 +228,6 @@ msgstr "Cantidad disponible"
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "BIC:"
 msgstr "BIC:"
-
-#. module: warehouse_shipping_light
-#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
-msgid "Bonification"
-msgstr "Bonificación"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_container_labels
@@ -232,14 +251,41 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
+#: field:stock.expeditions,carrier_partner_name:0
 msgid "Carrier"
 msgstr "Transportista"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:72
+#, python-format
+msgid "Carrier is not asigned."
+msgstr "Transportista no asignado."
+
+#. module: warehouse_shipping_light
+#: field:sale.order,carrier_note:0
+msgid "Carrier note"
+msgstr "Nota para transportista"
+
+#. module: warehouse_shipping_light
+#: view:sale.order:warehouse_shipping_light.wsl_view_order_form
+msgid "Carrier note..."
+msgstr "Nota para transportista..."
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,carrier_sale_line:0
+msgid "Carrier sale line"
+msgstr "Línea venta transportista"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Carrier:"
 msgstr "Transportista:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
+msgid "Channel:"
+msgstr "Canal:"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_expeditions_base
@@ -273,6 +319,28 @@ msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
 #. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/stock.py:305
+#, python-format
+msgid "Commercial discount"
+msgstr "Descuento comercial"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/stock.py:303
+#, python-format
+msgid "Commercial discount (%.2f %%)"
+msgstr "Descuento comercial (%.2f %%)"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,commercial_discount_amount:0
+msgid "Commercial discount amount"
+msgstr "Importe dto. comercial"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,commercial_discount_display:0
+msgid "Commercial discount display"
+msgstr "Descripción dto. comercial"
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Commitment Date:"
 msgstr "Fecha prevista:"
@@ -284,8 +352,15 @@ msgstr "Completos"
 
 #. module: warehouse_shipping_light
 #: field:stock.pack.operation,complete:0
+#: field:stock.transfer_details_items,complete:0
 msgid "Complete"
 msgstr "Completos"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:190
+#, python-format
+msgid "Complete qty is not defined for this product!"
+msgstr "¡Las unidades de un completo no están definidas para este producto!"
 
 #. module: warehouse_shipping_light
 #: model:ir.actions.report.xml,name:warehouse_shipping_light.action_report_container_labels
@@ -298,9 +373,19 @@ msgid "Container type"
 msgstr "Tipo de envase"
 
 #. module: warehouse_shipping_light
-#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
-msgid "Cooperative address:"
-msgstr "Dirección cooperativa:"
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Contrareembolso"
+msgstr "Contrareembolso"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,create_date:0
+msgid "Created on"
+msgstr "Creado en"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
@@ -308,17 +393,17 @@ msgid "Customer Address:"
 msgstr "Dirección de cliente:"
 
 #. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
 msgid "Date done"
-msgstr "Fecha"
+msgstr "Fecha confirmación"
 
 #. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
 msgid "Date done day"
-msgstr "Día"
+msgstr "Día fecha confirmación"
 
 #. module: warehouse_shipping_light
-#: field:stock.picking,date_done_day:0
+#: field:stock.expeditions,date_done_day:0
 msgid "Day"
 msgstr "Día"
 
@@ -348,9 +433,9 @@ msgid "Delivery note date:"
 msgstr "Fecha de albarán:"
 
 #. module: warehouse_shipping_light
-#: model:ir.actions.act_window,name:warehouse_shipping_light.wsl_action_picking_tree
-#: model:ir.ui.menu,name:warehouse_shipping_light.wsl_menu_picking_tree
-#: view:stock.picking:warehouse_shipping_light.wsl_view_picking_tree
+#: model:ir.actions.act_window,name:warehouse_shipping_light.wsl_action_expeditions_tree
+#: model:ir.ui.menu,name:warehouse_shipping_light.wsl_menu_expeditions_tree
+#: view:stock.expeditions:warehouse_shipping_light.wsl_view_expeditions_tree
 msgid "Delivery notes"
 msgstr "Expediciones"
 
@@ -370,10 +455,20 @@ msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:125
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:202
 #, python-format
 msgid "Enter quantity of the new line"
 msgstr "Introduzca la cantidad a transferir a la nueva línea"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Etiquetas YA impresas"
+msgstr "Etiquetas YA impresas"
+
+#. module: warehouse_shipping_light
+#: model:ir.model,name:warehouse_shipping_light.model_stock_expeditions
+msgid "Expeditions"
+msgstr "Expediciones"
 
 #. module: warehouse_shipping_light
 #: model:ir.actions.report.xml,name:warehouse_shipping_light.wsl_action_report_expeditions
@@ -392,6 +487,28 @@ msgid "Fecha y hora"
 msgstr "Fecha y hora"
 
 #. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/stock.py:311
+#, python-format
+msgid "Financial discount"
+msgstr "Descuento financiero"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/stock.py:309
+#, python-format
+msgid "Financial discount (%.2f %%)"
+msgstr "Descuento financiero (%.2f %%)"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,financial_discount_amount:0
+msgid "Financial discount amount"
+msgstr "Importe dto. financiero"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,financial_discount_display:0
+msgid "Financial discount display"
+msgstr "Descripción dto. financiero"
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Fiscal Position Remark:"
 msgstr "Observaciones de la posición fiscal"
@@ -402,17 +519,22 @@ msgid "For any doubt or explanation, be contacted with Sales Dept. in the number
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
 
 #. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
 msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: warehouse_shipping_light
-#: field:stock.picking,date_done_hour:0
+#: field:stock.expeditions,date_done_hour:0
 msgid "Hour"
 msgstr "Hora"
 
 #. module: warehouse_shipping_light
+#: field:report.warehouse_shipping_light.report_container_labels,id:0
+#: field:report.warehouse_shipping_light.report_palet_labels,id:0
+#: field:report.warehouse_shipping_light.wsl_report_delivery_note,id:0
 #: field:report.warehouse_shipping_light.wsl_report_expeditions,id:0
+#: field:report.warehouse_shipping_light.wsl_report_picking,id:0
+#: field:stock.expeditions,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -429,20 +551,31 @@ msgid "In observance of the Organic law 15/1999 of 13 December on the Protection
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
 #. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:184
+#, python-format
+msgid "Insufficient quantity to satisfy the required complete units!"
+msgstr "¡No hay suficientes unidades en esta línea para despachar esa cantidad de completos!"
+
+#. module: warehouse_shipping_light
 #: model:ir.actions.report.xml,name:warehouse_shipping_light.wsl_action_report_picking
 msgid "Internal picking note"
 msgstr "Albarán interno de picking"
-
-#. module: warehouse_shipping_light
-#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
-msgid "Inventory Details"
-msgstr "Detalles del inventario"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Invoicing address:"
 msgstr "Dirección de facturación:"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: warehouse_shipping_light
+#: field:stock.expeditions,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
@@ -460,12 +593,30 @@ msgid "Measure"
 msgstr "Medida"
 
 #. module: warehouse_shipping_light
+#: field:stock.expeditions,amount_net_untaxed:0
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Net amount"
 msgstr "Importe neto"
 
 #. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
+#: code:addons/warehouse_shipping_light/models/abstract_report.py:103
+#, python-format
+msgid "No container labels to print!"
+msgstr "¡No hay etiquetas de bulto para imprimir!"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/abstract_report.py:126
+#, python-format
+msgid "No palet labels to print!"
+msgstr "¡No hay etiquetas de palet para imprimir!"
+
+#. module: warehouse_shipping_light
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
+msgid "Not expedited"
+msgstr "No expedido"
+
+#. module: warehouse_shipping_light
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
 msgid "Not sent"
 msgstr "No enviado"
 
@@ -473,6 +624,12 @@ msgstr "No enviado"
 #: field:stock.picking,complete:0
 msgid "Number of complete"
 msgstr "Número de completos"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:70
+#, python-format
+msgid "Number of packages must be greater than zero.\n"
+msgstr "El número de bultos tiene que ser mayor que cero.\n"
 
 #. module: warehouse_shipping_light
 #: field:stock.picking,number_of_palets:0
@@ -541,7 +698,7 @@ msgid "Pallets"
 msgstr "Palets"
 
 #. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
 msgid "Partner"
 msgstr "Empresa"
 
@@ -552,6 +709,7 @@ msgstr "Plazo de pago:"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+#: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Payment mode:"
 msgstr "Forma de pago:"
 
@@ -567,14 +725,14 @@ msgid "Phone"
 msgstr "Teléfono"
 
 #. module: warehouse_shipping_light
+#: field:stock.expeditions,picking_id:0
+msgid "Picking"
+msgstr "Picking"
+
+#. module: warehouse_shipping_light
 #: model:ir.model,name:warehouse_shipping_light.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
-
-#. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
-msgid "Picking not sent"
-msgstr "Albaranes no enviados"
 
 #. module: warehouse_shipping_light
 #: model:ir.model,name:warehouse_shipping_light.model_stock_transfer_details
@@ -597,7 +755,6 @@ msgid "Price w/discount"
 msgstr "Precio c. dto"
 
 #. module: warehouse_shipping_light
-#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Product"
 msgstr "Producto"
@@ -606,6 +763,11 @@ msgstr "Producto"
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Product | EAN13"
 msgstr "Producto | EAN13"
+
+#. module: warehouse_shipping_light
+#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
+msgid "Products To Move"
+msgstr "Productos a mover"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
@@ -618,7 +780,6 @@ msgid "Qty.&nbsp;"
 msgstr "Ctdad&nbsp;"
 
 #. module: warehouse_shipping_light
-#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Quantity"
 msgstr "Cantidad"
@@ -640,10 +801,10 @@ msgid "Real weight to send"
 msgstr "Peso real envío"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:85
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:68
 #, python-format
-msgid "Real weight to send must be greater than zero"
-msgstr "El peso real de envío debe ser mayor que cero"
+msgid "Real weight to send must be greater than zero.\n"
+msgstr "El peso real de envío debe ser mayor que cero.\n"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
@@ -657,10 +818,20 @@ msgid "Recorded in the Companies Registry of"
 msgstr "Inscrita en el Registro Mercantil de"
 
 #. module: warehouse_shipping_light
-#: field:stock.pack.operation,rest:0
+#: field:stock.pack.operation,rest:0 field:stock.transfer_details_items,rest:0
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Rest"
 msgstr "Resto"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_sale_order_intermediary
+msgid "SALE ORDER WITH INTERMEDIARY"
+msgstr "PEDIDO DE INTERMEDIARIO:"
+
+#. module: warehouse_shipping_light
+#: model:ir.model,name:warehouse_shipping_light.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
@@ -668,12 +839,12 @@ msgid "Salesperson:"
 msgstr "Comercial:"
 
 #. module: warehouse_shipping_light
-#: view:stock.picking:warehouse_shipping_light.wsl_picking_filter
-msgid "Search outgoing picking"
-msgstr "Albaranes de salida"
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
+msgid "Search expeditions"
+msgstr "Buscar expediciones"
 
 #. module: warehouse_shipping_light
-#: field:stock.picking,sent:0
+#: field:stock.expeditions,sent:0
 msgid "Sent"
 msgstr "Enviado"
 
@@ -738,7 +909,14 @@ msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_sale_order_intermediary
+msgid "This delivery note should not be sent to customer from warehouse"
+msgstr "Este albarán no debería enviarse al cliente desde almacén. Enviar pedido sin el albarán."
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/abstract_report.py:80
 #: view:website:warehouse_shipping_light.wsl_do_not_available
+#, python-format
 msgid "This report is only available for outgoing orders"
 msgstr "Este albarán solo está disponible para órdenes de envío"
 
@@ -750,12 +928,34 @@ msgstr "Total"
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Total Without Taxes"
-msgstr "Base imponible"
+msgstr "Total sin impuestos"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Total complete:"
 msgstr "Completos:"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Total expeditions"
+msgstr "Total expediciones"
+
+#. module: warehouse_shipping_light
+#: field:stock.transfer_details,total_packages_expected:0
+msgid "Total packages expected"
+msgstr "Total bultos previstos"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:112
+#, python-format
+msgid "Total packages is greater than specified in carrier details"
+msgstr "El número de bultos es mayor de lo especificado en los detalles del transportista."
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:108
+#, python-format
+msgid "Total packages is minor than specified in carrier details"
+msgstr "El número de bultos es menor de lo especificado en los detalles del transportista."
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
@@ -770,13 +970,8 @@ msgstr "Transportista"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
-msgid "Unit of measure"
-msgstr "Unidad de medida"
-
-#. module: warehouse_shipping_light
-#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Unit price"
-msgstr "Precio ud"
+msgstr "Precio ud."
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
@@ -789,9 +984,34 @@ msgid "Warehouse Address:"
 msgstr "Dirección del almacén"
 
 #. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:194
+#, python-format
+msgid "Warning"
+msgstr "Aviso"
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_expeditions_base
 msgid "Weight"
 msgstr "Peso"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Yes"
+msgstr "Sí"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/abstract_report.py:57
+#, python-format
+msgid "You must confirm availability of this picking note first!"
+msgstr "¡Debe confirmar primero la disponibilidad de los artículos!"
+
+#. module: warehouse_shipping_light
+#: code:addons/warehouse_shipping_light/models/abstract_report.py:78
+#: code:addons/warehouse_shipping_light/models/abstract_report.py:100
+#: code:addons/warehouse_shipping_light/models/abstract_report.py:123
+#, python-format
+msgid "You must transfer this picking note first!"
+msgstr "¡Antes debe transferir todo o parte del albarán!"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_expeditions_base
@@ -799,14 +1019,19 @@ msgid "ZIP"
 msgstr "C.P."
 
 #. module: warehouse_shipping_light
+#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
+msgid "of"
+msgstr "de"
+
+#. module: warehouse_shipping_light
 #: view:stock.transfer_details_items:warehouse_shipping_light.view_transfer_split_config
 msgid "or"
 msgstr "o"
 
 #. module: warehouse_shipping_light
-#: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
-msgid "product_id, lot_id"
-msgstr "product_id, lot_id"
+#: view:stock.picking:warehouse_shipping_light.wsl_view_picking_form
+msgid "{'required': [('picking_type_code','=','outgoing')]}"
+msgstr "{'required': [('picking_type_code','=','outgoing')]}"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_palet_labels

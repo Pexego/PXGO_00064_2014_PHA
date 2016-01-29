@@ -145,6 +145,11 @@ msgid "Container"
 msgstr "Envasado"
 
 #. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Country"
+msgstr "País"
+
+#. module: product_spec
 #: field:product.extra.category,create_uid:0
 #: field:product.packing,create_uid:0 field:product.packing.base,create_uid:0
 #: field:product.packing.internal,create_uid:0

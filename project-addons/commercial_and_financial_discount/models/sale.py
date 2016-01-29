@@ -241,11 +241,12 @@ class SaleOrder(models.Model):
         if self.state in ('draft', 'sent'):
             # Force to recompute amounts
             for line in self.order_line:
-                line.commercial_discount = self.commercial_discount_percentage
-                line.financial_discount = self.financial_discount_percentage
-                # Fire write event on this field to activate _amount_all
-                # function which recompute sale totals
-                line.price_unit = line.price_unit
+                if not line.is_delivery: # Do not apply to carrier line
+                    line.commercial_discount = self.commercial_discount_percentage
+                    line.financial_discount = self.financial_discount_percentage
+                    # Fire write event on this field to activate _amount_all
+                    # function which recompute sale totals
+                    line.price_unit = line.price_unit
         return True
 
     @api.one
@@ -253,11 +254,12 @@ class SaleOrder(models.Model):
         if self.state in ('draft', 'sent'):
             # Apply discounts per line
             for line in self.order_line:
-                line.commercial_discount = self.commercial_discount_input
-                line.financial_discount = self.financial_discount_input
-                # Fire write event on this field to activate _amount_all
-                # function which recompute sale totals
-                line.price_unit = line.price_unit
+                if not line.is_delivery: # Do not apply to carrier line
+                    line.commercial_discount = self.commercial_discount_input
+                    line.financial_discount = self.financial_discount_input
+                    # Fire write event on this field to activate _amount_all
+                    # function which recompute sale totals
+                    line.price_unit = line.price_unit
             # Save discounts applied
             self.commercial_discount_percentage = self.commercial_discount_input
             self.financial_discount_percentage = self.financial_discount_input

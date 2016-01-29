@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <!--MENUS / adding custom menus Doing (5,) and (4,...) in the same record, doesn't work-->
+            <record id="hr_holidays.menu_open_ask_holidays" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4,ref('base.group_user'))]"/>
+            </record>
+            <record id="hr_holidays.menu_open_ask_holidays_new" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4,ref('base.group_user'))]"/>
+            </record>
+            <record id="hr_holidays.menu_request_approve_holidays" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+            </record>
+            <record id="hr_holidays.menu_open_allocation_holidays" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+            </record>
+            <record id="hr_holidays.menu_request_approve_allocation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+            </record>
+            <record id="hr_holidays.menu_open_company_allocation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]"/>
+            </record>
+
+            <!--Menu Quants for warehouse user for list product/place-->
+            <record id="stock.menu_quants" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('stock.group_stock_user')])]"/>
+            </record>
+    </data>
+</openerp>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 from openerp import fields, models
 
 
-class sale_report(models.Model):
+class SaleReport(models.Model):
     _inherit = 'sale.report'
 
     notified_partner_id = fields.Many2one('res.partner', 'Cooperative')
@@ -32,13 +32,35 @@ class sale_report(models.Model):
                                             ('replacement', 'Replacement'),
                                             ('intermediary', 'Intermediary')],
                                  string="Type")
-    sale_channel_id = fields.Many2one('sale_channel', 'Canal de venta')
+    sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
+    partner_category = fields.Char('Partner category')
+    product_categories = fields.Char('Product categories')
+    has_commission = fields.Boolean('Has commission')
 
     def _select(self):
         select_str = ', s.notified_partner_id as notified_partner_id' + \
-                     ', s.sale_type as sale_type, s.sale_channel_id as sale_channel_id'
-        return super(sale_report, self)._select() + select_str
+                     ', s.sale_type as sale_type' + \
+                     ', s.sale_channel_id as sale_channel_id' + \
+                     ', rpc.name as partner_category' + \
+                     ', pc.name as product_categories' + \
+                     ', cpc.commissions_parent_category as has_commission'
+        return super(SaleReport, self)._select() + select_str
+
+    def _from(self):
+        from_str = ' left join res_partner_res_partner_category_rel rpcr' + \
+                   '   on rpcr.partner_id = s.partner_id' + \
+                   ' left join res_partner_category rpc' + \
+                   '   on rpc.id = rpcr.category_id' + \
+                   ' left join product_categ_rel pcr' + \
+                   '   on pcr.product_id = p.id' + \
+                   ' left join product_category pc' + \
+                   '   on pc.id = pcr.categ_id' + \
+                   ' left join product_category cpc' + \
+                   '   on cpc.id = pc.parent_id'
+        return super(SaleReport, self)._from() + from_str
 
     def _group_by(self):
-        group_by_str = ',s.notified_partner_id, s.sale_type, s.sale_channel_id'
-        return super(sale_report, self)._group_by() + group_by_str
+        group_by_str = ', s.notified_partner_id, s.sale_type' + \
+                       ', s.sale_channel_id, rpc.name, pc.name' + \
+                       ', cpc.commissions_parent_category'
+        return super(SaleReport, self)._group_by() + group_by_str

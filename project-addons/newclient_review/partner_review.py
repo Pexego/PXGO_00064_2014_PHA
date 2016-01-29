@@ -22,6 +22,7 @@
 
 from openerp import models, fields, api
 from openerp.tools.translate import _
+import sys
 
 
 class PartnerReview(models.Model):
@@ -34,7 +35,8 @@ class PartnerReview(models.Model):
     def _check_permissions(self):
         # Get the PR Manager group id
         manager_group_id = self.env.ref('newclient_review.group_partners_review')
-        return self.env.user in manager_group_id.users
+        return (self.env.user in manager_group_id.users) or \
+               (self.env.user.company_id <> self.env.ref('base.main_company'))
 
     @api.multi
     def confirm_review(self):
@@ -54,15 +56,16 @@ class PartnerReview(models.Model):
         vals['confirmed'] = self._check_permissions()
 
         attrs = self.fields_get()
-        fields = ''
-        for field in vals:
-            if field != 'confirmed':
-                original_value = eval('self.' + field)
-                original_value = original_value if original_value \
-                                                else _('(empty)')
-                fields += u'<br>{0}: {1} => {2}'.format(
-                        _(attrs[field]['string']), original_value, vals[field])
+        for partner in self:
+            fields = ''
+            for field in vals:
+                if field != 'confirmed':
+                    original_value = eval('partner.' + field)
+                    original_value = original_value if original_value \
+                                                    else _('(empty)')
+                    fields += u'<br>{0}: {1} => {2}'.format(
+                            _(attrs[field]['string']), original_value, vals[field])
 
-        self.message_post(body=_('Modified fields: ') + fields)
+                partner.message_post(body=_('Modified fields: ') + fields)
 
         return super(PartnerReview, self).write(vals)

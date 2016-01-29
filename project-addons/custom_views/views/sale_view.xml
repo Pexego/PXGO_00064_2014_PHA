@@ -5,10 +5,15 @@
             <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="priority">9</field>
+            <field name="priority">26</field>
             <field name="arch" type="xml">
                 <field name="partner_id" position="attributes">
-                    <attribute name="context">{'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1}</attribute>
+                    <attribute name="context">
+                        {'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1, 'intermediary': intermediary}
+                    </attribute>
+                    <attribute name="options">{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}</attribute>
+                    <attribute name="width">70%</attribute>
+                    <attribute name="domain">[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]</attribute>
                 </field>
                 <field name="partner_invoice_id" position="attributes">
                     <attribute name="context">{'concatenate_name_comercial': not id, 'default_type': 'invoice'}</attribute>
@@ -17,7 +22,7 @@
                     <attribute name="string">Order reference</attribute>
                     <attribute name="required">True</attribute>
                 </field>
-            </field>
+             </field>
         </record>
 
         <!-- Sale Order Line -->
@@ -32,6 +37,30 @@
                 <field name="invoice_lines" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
+            </field>
+        </record>
+
+        <record id="custom_views_sale_order_tree" model="ir.ui.view">
+            <field name="name">Custom views - Sale order tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="partner_shipping_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="custom_views_sale_order_search" model="ir.ui.view">
+            <field name="name">Custom views - Sale order search</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_transfer_sample_rel.all_sales_filter"/>
+            <field name="arch" type="xml">
+                <filter string="Order Month" position="after">
+                    <filter string="Shipping Addr."
+                            domain="[]"
+                            context="{'group_by':'partner_shipping_id'}"/>
+                </filter>
             </field>
         </record>
     </data>

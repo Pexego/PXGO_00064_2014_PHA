@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="product_drop_picking_form" model="ir.ui.view">
+            <field name="name">Product drop - Picking type form</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <field name="return_picking_type_id" position="after">
+                    <field name="product_drop_default"
+                           attrs="{'invisible': [('code', '!=', 'internal')]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -33,6 +33,10 @@
                 <field name="phone" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
+                <field name="property_delivery_carrier" position="after">
+                    <field name="picking_policy"
+                           attrs="{'invisible': [('parent_id','!=',False)]}"/>
+                </field>
             </field>
         </record>
 
@@ -95,7 +99,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="context">{"search_default_customer":1}</field>
-            <field name="domain">[('confirmed', '=', True), ('pre_customer', '=', False), '|',('active','=',False),('active','=',True)]</field>
+            <field name="domain">[('confirmed', '=', True)]</field>
             <field name="search_view_id" ref="base.view_res_partner_filter"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -161,5 +165,13 @@
                    </field>
             </field>
         </record>
+
+
+        <!--Page "Accounting"-->
+        <record id="account.view_partner_property_form"
+               model="ir.ui.view">
+           <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+       </record>
+
     </data>
 </openerp>

@@ -102,6 +102,7 @@
                     <filter string='Container' domain="[]" context="{'group_by' : 'container_id'}"/>
                     <filter string='Base form' domain="[]" context="{'group_by' : 'base_form_id'}"/>
                     <filter string='Objective' domain="[]" context="{'group_by' : 'objective'}"/>
+                    <filter string="Country" domain="[]" context="{'group_by': 'country'}"/>
                 </filter>
             </field>
         </record>
@@ -603,7 +604,6 @@
                   id="product.menu_products_extra_category"
                   parent="base.menu_product"
                   sequence="31"
-                  groups="base.group_no_one"
         />
         <!-- Purchases menu -->
         <menuitem action="product_category_action_extra_categories"
@@ -616,7 +616,6 @@
                   id="stock.menu_product_by_extra_category"
                   parent="stock.menu_stock_product"
                   sequence="12"
-                  groups="base.group_no_one"
         />
         <record id="product_tree_extra_categ_action" model="ir.actions.act_window">
             <field name="name">Products by Extra Category</field>

@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-xs-6" style="font-size: 24px; padding-top: 10px;">
                         <strong>
-                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_done,'%Y-%m-%d %H:%M:%S'))"/>
+                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y')"/>
                         </strong>
                     </div>
                     <div class="list-inline pull-right" style="padding: 20px 10px 0 0;">
@@ -50,13 +50,29 @@
                             <th>Weight</th>
                             <th>Packages</th>
                             <th>Delivery note</th>
+                            <th t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
+                                Etiquetas YA impresas
+                            </th>
+                            <th>Contrareembolso</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <t t-set="expeditions" t-value="0"/>
+                        <t t-set="weight" t-value="0"/>
+                        <t t-set="packages" t-value="0"/>
                         <t t-foreach="docs" t-as="p">
+                            <t t-set="expeditions" t-value="expeditions + 1"/>
+                            <t t-set="weight" t-value="weight + p.real_weight"/>
+                            <t t-set="packages" t-value="packages + p.number_of_packages"/>
+                            <t t-set="partner" t-value="p.partner_id"/>
                             <tr>
-                                <t t-set="partner" t-value="p.move_lines[0].partner_id"/>
-                                <td><span t-field="partner.name"/></td>
+                                <td>
+                                    <span t-field="partner.display_name"/>
+                                    <t t-if="partner.comercial">
+                                        <![CDATA[&nbsp;]]>
+                                        <span t-field="partner.comercial"/>
+                                    </t>
+                                </td>
                                 <td><span t-field="partner.street"/></td>
                                 <td><span t-field="partner.phone"/></td>
                                 <td><span t-field="partner.zip"/></td>
@@ -64,8 +80,37 @@
                                 <td><span t-field="p.real_weight"/></td>
                                 <td><span t-field="p.number_of_packages"/></td>
                                 <td><span t-field="p.name"/></td>
+                                <!-- Si es la empresa de transportes MRW -->
+                                <td t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
+                                    <!-- Y el canal de venta es www.storepharmadus.com -->
+                                    <span t-if="p.sale_channel_id in p.env.ref('__export__.sale_channel_3')">
+                                        Yes
+                                    </span>
+                                    <span t-if="p.sale_channel_id not in p.env.ref('__export__.sale_channel_3')">
+                                        No
+                                    </span>
+                                </td>
+                                <td>
+                                    <!-- Modo de pago contrareembolso de PH -->
+                                    <t t-if="p.sale_id and p.sale_id.payment_mode_id in p.env.ref('__export__.payment_mode_43')">
+                                        <span t-field="p.amount_total"
+                                              t-field-options='{"widget": "monetary", "display_currency": "p.sale_id.pricelist_id.currency_id"}'/>
+                                    </t>
+                                </td>
                             </tr>
                         </t>
+                        <tr style="border: 2px solid grey; border-left: 0; border-right: 0;">
+                            <td><strong>Total expeditions</strong></td>
+                            <td><strong t-esc="expeditions"/></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong t-esc="weight"/></td>
+                            <td><strong t-esc="packages"/></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -105,7 +150,7 @@
         <report
             string="Expeditions report"
             id="wsl_action_report_expeditions"
-            model="stock.picking"
+            model="stock.expeditions"
             report_type="qweb-pdf"
             name="warehouse_shipping_light.wsl_report_expeditions"
         />

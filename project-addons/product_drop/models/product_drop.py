@@ -106,20 +106,32 @@ class product_drop_details(models.Model):
             }
         }
 
-    def _create_stock_move(self, lot, qty):
+    def _create_stock_move(self, lot, prod, qty):
         company = self.env.user.company_id.id
         location = self.env['stock.warehouse'].search(
                 [('company_id', '=', company)]
             ).lot_stock_id
         dest_id = self.env.ref('product_drop.consumption_for_internal_use_location')
         wh = self.env['stock.location'].get_warehouse(location)
-        type_search_dict = [('code', '=', 'internal')]
+
+        # Search first for default assigned internal type
+        type_search_dict = [('product_drop_default', '=', True)]
         if wh:
             type_search_dict.append(('warehouse_id', '=', wh))
-        picking_type = self.env['stock.picking.type'].search(
-            type_search_dict)
+        picking_type = self.env['stock.picking.type'].search(type_search_dict)
+
+        # Otherwise, search for the first available internal type
+        if not len(picking_type):
+            type_search_dict = [('code', '=', 'internal')]
+            if wh:
+                type_search_dict.append(('warehouse_id', '=', wh))
+            picking_type = self.env['stock.picking.type'].search(
+                    type_search_dict)
+
+        picking_type_id = picking_type[0].id
+
         picking_vals = {
-            'picking_type_id': picking_type.id,
+            'picking_type_id': picking_type_id,
             'partner_id': company,
             'date': date.today(),
             'origin': lot.name
@@ -127,10 +139,10 @@ class product_drop_details(models.Model):
         picking_id = self.env['stock.picking'].create(picking_vals)
 
         move_dict = {
-            'name': lot.product_id.name or '',
-            'product_id': lot.product_id.id,
-            'product_uom': lot.product_id.uom_id.id,
-            'product_uos': lot.product_id.uos_id.id,
+            'name': prod.name or '',
+            'product_id': prod.id,
+            'product_uom': prod.uom_id.id if prod.uom_id else False,
+            'product_uos': prod.uos_id.id if prod.uom_id else False,
             'restrict_lot_id': lot.id,
             'product_uom_qty': qty,
             'date': date.today(),
@@ -141,7 +153,7 @@ class product_drop_details(models.Model):
             'state': 'draft',
             'partner_id': company,
             'company_id': company,
-            'picking_type_id': picking_type.id,
+            'picking_type_id': picking_type_id,
             'procurement_id': False,
             'origin': lot.name,
             'invoice_state': 'none',
@@ -154,7 +166,8 @@ class product_drop_details(models.Model):
     @api.model
     def create(self, vals):
         lot = self.env['stock.production.lot'].browse(vals['lot_id'])
-        vals['move_id'] = self._create_stock_move(lot, vals['product_qty'])
+        product = self.env['product.product'].browse(vals['name'])
+        vals['move_id'] = self._create_stock_move(lot, product, vals['product_qty'])
         return super(product_drop_details, self).create(vals)
 
     @api.multi
@@ -163,7 +176,9 @@ class product_drop_details(models.Model):
             detail.move_id.picking_id.unlink()
             new_lot_id = vals['lot_id'] if vals.get('lot_id') else detail.lot_id
             new_product_qty = vals['product_qty'] if vals.get('product_qty') else detail.product_qty
-            vals['move_id'] = detail._create_stock_move(new_lot_id, new_product_qty)
+            new_product_id = vals['name'] if vals.get('name') else detail.name.id
+            new_product_id = self.env['product.product'].browse(new_product_id)
+            vals['move_id'] = detail._create_stock_move(new_lot_id, new_product_id, new_product_qty)
         return super(product_drop_details, self).write(vals)
 
     @api.multi

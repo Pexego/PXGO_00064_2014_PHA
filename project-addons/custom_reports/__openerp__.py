@@ -28,6 +28,8 @@
     'category': 'Reports',
     'website': 'www.pharmadus.com',
     'depends' : [
+        'account',
+        'sale',
         'purchase',
         'report_webkit',
         'l10n_es_partner_mercantil',
@@ -38,6 +40,7 @@
         'commercial_and_financial_discount',
         'stock_reception',
         'invoice_link_sale',
+        'custom_permissions',
     ],
     'data' : [
         'views/report_stockinventory.xml',
@@ -45,10 +48,16 @@
         'views/report_purchasequotation.xml',
         'views/report_saleorder.xml',
         'views/report_invoice.xml',
+        'views/report_invoice_pharmadus.xml',
+        'views/report_invoice_biosalud.xml',
         'views/report_lot_labels.xml',
+        'views/report_shipping_address.xml',
+        'views/account_view.xml',
+        'views/account_invoice_report_view.xml',
         'views/account_payment_view.xml',
         'views/sale_report_view.xml',
         'views/stock_view.xml',
+        'views/product_view.xml',
         'data/report_paperformat.xml',
     ],
     'installable': True

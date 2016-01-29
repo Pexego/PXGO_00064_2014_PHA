@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,13 +21,64 @@
 
 from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
+from datetime import datetime
+
 
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
 
+    total_packages = fields.Integer('Total packages', compute='_compute_counters')
+    total_packages_expected = fields.Integer(readonly=True)
+    total_palets = fields.Integer('Total palets', compute='_compute_counters')
+
+    def recalculate_counters(self):
+        package_list = [] # Count different packages
+        palet_list = []   # Count different palets
+        completes = 0     # Sum completes
+        for item in self.item_ids:
+            if item.package > 0 and not item.package in package_list:
+                package_list.append(item.package)
+            if item.palet > 0 and not item.palet in palet_list:
+                palet_list.append(item.palet)
+            completes += item.complete
+        self.total_packages = len(package_list) + completes
+        self.total_palets = len(palet_list)
+
+    @api.one
+    @api.depends('item_ids',
+                 'item_ids.package',
+                 'item_ids.palet')
+    def _compute_counters(self):
+        self.recalculate_counters()
+
+    @api.onchange('item_ids')
+    def onchange_complete(self):
+        self.recalculate_counters()
+
+    @api.multi
+    def wizard_view(self):
+        picking = self[0].picking_id
+        if (picking.picking_type_code == 'outgoing') and \
+                (not (picking.real_weight > 0) or not picking.carrier_id or
+                 not (picking.number_of_packages > 0)):
+            message = ''
+            if not (picking.real_weight > 0):
+                message = _('Real weight to send must be greater than zero.\n')
+            if not (picking.number_of_packages > 0):
+                message += _('Number of packages must be greater than zero.\n')
+            if not (picking.carrier_id):
+                message += _('Carrier is not asigned.')
+            raise exceptions.Warning(message)
+        else:
+            type = picking.picking_type_code
+            self.total_packages_expected = picking.number_of_packages
+            return super(StockTransferDetails,
+                         self.with_context(picking_type=type)).wizard_view()
+
     @api.model
     def default_get(self, fields):
         res = super(StockTransferDetails, self).default_get(fields)
+
         picking = self.env['stock.picking'].browse(
             self.env.context.get('active_id', False))
         pack_operation = self.env['stock.pack.operation']
@@ -37,85 +88,88 @@ class StockTransferDetails(models.TransientModel):
                     continue
                 op = pack_operation.browse(item['packop_id'])
                 item['palet'] = op.palet
+                item['complete'] = op.complete if op.complete else 0
                 item['package'] = op.package
+                if op.complete:
+                    item['rest'] = op.product_qty - (op.complete *
+                                     op.product_id.product_tmpl_id.box_elements)
+                else:
+                    item['rest'] = op.product_qty
+
         return res
 
     @api.one
     def do_detailed_transfer(self):
-        processed_ids = []
-        # Create new and update existing pack operations
+        # Check equality of total packages and number of packages before...
+        if self.picking_id.picking_type_code == 'outgoing':
+            if self.picking_id.number_of_packages > self.total_packages:
+                raise exceptions.Warning(_(
+                   'Total packages is minor than specified in carrier details'
+                ))
+            elif  self.picking_id.number_of_packages < self.total_packages:
+                raise exceptions.Warning(_(
+                   'Total packages is greater than specified in carrier details'
+                ))
+
+        res = super(StockTransferDetails, self).do_detailed_transfer()
+
         for lstits in [self.item_ids, self.packop_ids]:
             for prod in lstits:
-                pack_datas = {
-                    'product_id': prod.product_id.id,
-                    'product_uom_id': prod.product_uom_id.id,
-                    'product_qty': prod.quantity,
-                    'package_id': prod.package_id.id,
-                    'lot_id': prod.lot_id.id,
-                    'location_id': prod.sourceloc_id.id,
-                    'location_dest_id': prod.destinationloc_id.id,
-                    'result_package_id': prod.result_package_id.id,
-                    'date': prod.date if prod.date else datetime.now(),
-                    'owner_id': prod.owner_id.id,
-                    'palet': prod.palet,
-                    'package': prod.package,
-                }
-                if prod.packop_id:
-                    prod.packop_id.with_context(no_recompute=True).write(pack_datas)
-                    processed_ids.append(prod.packop_id.id)
+                complete = prod.complete if prod.complete else 0
+                if complete:
+                    rest = prod.quantity - (prod.complete *
+                                   prod.product_id.product_tmpl_id.box_elements)
                 else:
-                    pack_datas['picking_id'] = self.picking_id.id
-                    packop_id = self.env['stock.pack.operation'].create(pack_datas)
-                    processed_ids.append(packop_id.id)
-        # Delete the others
-        packops = self.env['stock.pack.operation'].search(['&', ('picking_id', '=', self.picking_id.id), '!', ('id', 'in', processed_ids)])
-        packops.unlink()
+                    rest = prod.quantity
 
-        # Execute the transfer of the picking
-        self.picking_id.do_transfer()
+                prod.packop_id.with_context(no_recompute=True).write(
+                    {
+                        'palet': prod.palet,
+                        'complete': complete,
+                        'package': prod.package,
+                        'rest': rest
+                    }
+                )
 
-        return True
+        # Create expedition if proceed
+        self.picking_id.create_expedition()
 
-    @api.multi
-    def wizard_view(self):
-        picking = self[0].picking_id
-        if (picking.picking_type_code == 'outgoing') and\
-                not (picking.real_weight > 0):
-            raise exceptions.Warning(
-                    _('Real weight to send must be greater than zero'))
-        else:
-            type = picking.picking_type_code
-            return super(StockTransferDetails,
-                         self.with_context(picking_type = type)).wizard_view()
+        return res
 
 
 class StockTransferDetailsItems(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
+    _order = 'product_id, id'
 
     palet = fields.Integer('Palet', default=0)
-    complete = fields.Integer('Complete',
-                           compute='_recalculate_complete_and_rest',
-                           readonly=True)
+    complete = fields.Integer('Complete', default=0)
     package = fields.Integer('Package', default=0)
-    rest = fields.Integer('Rest',
-                           compute='_recalculate_complete_and_rest',
-                           readonly=True)
+    rest = fields.Integer('Rest', readonly=True)
     quantity_to_extract = fields.Float('Quantity to extract',
                            digits=dp.get_precision('Product Unit of Measure'),
                            default=0)
 
-    @api.one
-    @api.depends('product_id', 'quantity')
-    def _recalculate_complete_and_rest(self):
-        for rec in self:
-            complete_qty = rec.product_id.product_tmpl_id.box_elements
-            if complete_qty > 0:
-                div = divmod(rec.quantity, complete_qty)
-                rec.complete = div[0]
-                rec.rest = div[1]
+    @api.onchange('quantity', 'complete')
+    def onchange_complete(self):
+        message = False
+        complete_qty = self.product_id.product_tmpl_id.box_elements
+        if complete_qty > 0:
+            required_qty = self.complete * complete_qty
+            if required_qty > self.quantity:
+                self.complete = 0
+                self.rest = self.quantity
+                message = _('Insufficient quantity to satisfy the required complete units!')
             else:
-                rec.complete = 0
-                rec.rest = self.quantity
+                self.complete = self.complete
+                self.rest = self.quantity - required_qty
+        else:
+            self.complete = 0
+            message = _('Complete qty is not defined for this product!')
+
+        res = {}
+        if message:
+            res['warning'] = {'title': _('Warning'), 'message': message}
+        return res
 
     @api.multi
     def split_wizard_view(self):
@@ -137,6 +191,7 @@ class StockTransferDetailsItems(models.TransientModel):
     @api.multi
     def split_quantities(self):
         if self and self[0]:
+            self.complete = 0
             return self[0].split_wizard_view()
 
     @api.multi
@@ -144,8 +199,10 @@ class StockTransferDetailsItems(models.TransientModel):
         for det in self:
             if det.quantity>1:
                 det.quantity = (det.quantity-det.quantity_to_extract)
+                det.rest = det.quantity
                 new_id = det.copy(context=self.env.context)
                 new_id.quantity = det.quantity_to_extract
+                new_id.rest = new_id.quantity
                 new_id.quantity_to_extract = 0
                 new_id.packop_id = False
                 det.quantity_to_extract = 0

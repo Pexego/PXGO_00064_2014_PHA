@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,24 +19,15 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
 
 
-class wslReportExpeditions(models.AbstractModel):
-    _name = 'report.warehouse_shipping_light.wsl_report_expeditions'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-    @api.multi
-    def render_html(self, data=None):
-        model = u'stock.picking'
-        pickings = self.env[model].browse(self._ids)
-        docargs = {
-            'doc_ids': self._ids,
-            'doc_model': model,
-            'docs': pickings,
-        }
-        # Update sent counter
-        for p in pickings:
-            p.sent += 1
-
-        return self.env['report'].render(
-                'warehouse_shipping_light.wsl_report_expeditions', docargs)
+    @api.model
+    def create(self, vals):
+        salesmangroup_id = self.env.ref('custom_permissions.group_salesman_ph')
+        if self.env.user in salesmangroup_id.users:
+            vals['user_id'] = self.env.user.id
+        return super(ResPartner, self).create(vals)

@@ -28,6 +28,7 @@
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
     'depends' : [
+        'base',
         'sale',
         'purchase',
         'purchase_analytic_plans',
@@ -35,7 +36,8 @@
         'newclient_review',
         'pre_customer',
         'partner_prospect',
-        'stock'
+        'stock',
+        'custom_permissions',
     ],
     'data' : [
         'views/sale_view.xml',
@@ -47,7 +49,10 @@
         'views/stock_view.xml',
         'views/view_form_custom.xml',
         'views/invoice.xml',
+        'views/purchase_analytics_plan_view.xml',
+        'views/account_invoice_view.xml',
         'data/wizards_units_precision.xml',
+        'security/menus.xml',
     ],
     'installable': True
 }

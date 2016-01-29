@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="custom_views_invoice_form" model="ir.ui.view">
+            <field name="name">Custom views - Invoice form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <field name="payment_term" position="replace"></field>
+                <field name="payment_mode_id" position="after">
+                    <field name="payment_term"
+                           class="oe_inline"
+                           on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)"
+                           modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="custom_views_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">Custom views - Invoice supplier form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <field name="payment_term" position="replace"></field>
+                <field name="payment_mode_id" position="after">
+                    <field name="payment_term"
+                           class="oe_inline"
+                           on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)"
+                           modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="custom_views_invoice_tree" model="ir.ui.view">
+            <field name="name">Custom views - Invoice tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="partner_shipping_id" groups="base.group_user"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

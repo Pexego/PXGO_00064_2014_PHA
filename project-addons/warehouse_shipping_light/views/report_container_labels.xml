@@ -3,7 +3,7 @@
     <data>
         <template id="report_container_labels">
             <t t-foreach="docs" t-as="p">
-                <t t-set="partner" t-value="p.sale_id.partner_id"/>
+                <t t-set="partner" t-value="p.partner_id"/>
                 <t t-set="containers" t-value="[]"/>
                 <t t-set="completes" t-value="[]"/>
                 <t t-foreach="p.pack_operation_ids" t-as="po">
@@ -63,8 +63,15 @@
                                 }
                             </style>
                             <div class="row">
-                                <div class="line" t-field="partner.name" style="font-size: 30px; font-weight: bold;"/>
+                                <div class="line" t-esc="partner.display_name" style="font-size: 30px; font-weight: bold;"/>
+                                <t t-if="partner.parent_id">
+                                    <div class="line" t-field="partner.parent_id.comercial" style="font-size: 24px;"/>
+                                </t>
+                                <t t-if="not partner.parent_id">
+                                    <div class="line" t-field="partner.comercial" style="font-size: 24px;"/>
+                                </t>
                                 <div class="line" t-field="partner.street" style="font-size: 24px;"/>
+                                <div class="line" t-field="partner.street2" style="font-size: 24px;"/>
                                 <div class="line" style="font-size: 24px;">
                                     <span t-field="partner.zip"/> <span t-field="partner.city"></span>
                                 </div>
@@ -89,7 +96,7 @@
                                             <tr style="font-weight: bold;">
                                                 <td><span t-field="p.number_of_packages"/></td>
                                                 <td><span t-esc="'%g' % p.real_weight"/> <span t-field="p.weight_uom_id"/></td>
-                                                <td><span t-field="p.date"/></td>
+                                                <td><t t-if="p.date_done"><span t-field="p.date_done"/></t></td>
                                                 <td><span t-field="p.carrier_id"/></td>
                                             </tr>
                                         </tbody>
@@ -110,7 +117,7 @@
                                                 <t t-if="po.package == container">
                                                     <tr>
                                                         <td><span t-field="po.product_id"/></td>
-                                                        <td class="text-center"><span t-field="po.rest"/></td>
+                                                        <td class="text-center"><span t-esc="'%g' % po.rest"/></td>
                                                     </tr>
                                                 </t>
                                             </t>
