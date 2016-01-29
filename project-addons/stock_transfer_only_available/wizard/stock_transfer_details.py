@@ -22,7 +22,7 @@ from openerp import models, fields, api, exceptions, _
 from openerp.tools.float_utils import float_compare
 
 
-class StockTransferDetails(models.Model):
+class StockTransferDetails(models.TransientModel):
 
     _inherit = 'stock.transfer_details'
 
