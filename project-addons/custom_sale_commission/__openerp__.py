@@ -33,6 +33,7 @@
              'views/saleagent_view.xml', 'views/settlement_view.xml',
              'views/product_category_view.xml', 'views/better_zip_view.xml',
              'views/res_partner_view.xml',
+             'views/account_invoice_view.xml',
              'security/ir.model.access.csv'],
     "installable": True
 }
