@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-18 12:19+0000\n"
-"PO-Revision-Date: 2014-12-18 13:23+0100\n"
+"POT-Creation-Date: 2016-02-01 10:31+0000\n"
+"PO-Revision-Date: 2016-02-01 11:31+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.7.1\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #. module: sales_abroad
 #: field:res.sales.abroad,attachments:0
@@ -42,7 +42,6 @@ msgstr "Confirmar documentos"
 
 #. module: sales_abroad
 #: model:ir.model,name:sales_abroad.model_res_country
-#: view:sale.report:sales_abroad.view_order_product_search_country
 #: field:sales.abroad.confirm.docs,country_id:0
 msgid "Country"
 msgstr "País"
@@ -92,6 +91,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: sales_abroad
+#: field:sale.report,country_id:0
+msgid "Invoicing country"
+msgstr "País facturación"
+
+#. module: sales_abroad
 #: field:res.sales.abroad,write_uid:0
 #: field:sales.abroad.confirm.docs,write_uid:0
 msgid "Last Updated by"
@@ -109,7 +113,7 @@ msgid "Picking List"
 msgstr "Albarán"
 
 #. module: sales_abroad
-#: code:addons/sales_abroad/sales_abroad.py:188
+#: code:addons/sales_abroad/models/stock.py:81
 #, python-format
 msgid "Please, check the documents of all picking lines."
 msgstr "Por favor, compruebe los documentos de todas las líneas de picking."
@@ -140,13 +144,18 @@ msgid "Review of documents for sales abroad"
 msgstr "Revisión de documentos para ventas al extranjero"
 
 #. module: sales_abroad
+#: model:ir.model,name:sales_abroad.model_sale_report
+msgid "Sales Orders Statistics"
+msgstr "Estadísticas pedidos de venta"
+
+#. module: sales_abroad
 #: model:ir.actions.act_window,name:sales_abroad.action_sales_abroad
 #: model:ir.ui.menu,name:sales_abroad.menu_sales_abroad
 msgid "Sales abroad"
 msgstr "Ventas al extranjero"
 
 #. module: sales_abroad
-#: code:addons/sales_abroad/wizard/sales_abroad_confirm_docs.py:38
+#: code:addons/sales_abroad/wizard/sales_abroad_confirm_docs.py:39
 #: view:res.sales.abroad:sales_abroad.view_sales_abroad_form
 #: view:res.sales.abroad:sales_abroad.view_sales_abroad_tree
 #, python-format
@@ -169,6 +178,11 @@ msgid "Shipments to this country require the following documents:"
 msgstr "Los envíos a este país requieren los siguientes documentos:"
 
 #. module: sales_abroad
+#: field:sale.report,shipping_country_id:0
+msgid "Shipping country"
+msgstr "País envío"
+
+#. module: sales_abroad
 #: model:ir.model,name:sales_abroad.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
@@ -179,7 +193,7 @@ msgid "Transfer"
 msgstr "Transferir"
 
 #. module: sales_abroad
-#: code:addons/sales_abroad/sales_abroad.py:107
+#: code:addons/sales_abroad/models/ir_attachment.py:90
 #, python-format
 msgid "country"
-msgstr "país"
+msgstr "País"

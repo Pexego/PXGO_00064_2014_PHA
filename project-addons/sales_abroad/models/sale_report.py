@@ -25,15 +25,18 @@ from openerp import models, fields
 class SaleReport(models.Model):
     _inherit = 'sale.report'
 
-    country_id = fields.Many2one('res.country', 'Country')
+    shipping_country_id = fields.Many2one('res.country', 'Shipping country')
 
     def _select(self):
         select_str = super(SaleReport, self)._select()
-        return select_str + ', pa.country_id as country_id '
+        return select_str + ', spa.country_id as shipping_country_id '
 
     def _from(self):
         from_str = super(SaleReport, self)._from()
-        return from_str + ' join res_partner pa on pa.id = s.partner_id '
+        return from_str + """
+            left join res_partner spa on spa.id = s.partner_shipping_id
+                and spa.company_id = s.company_id
+            """
 
     def _group_by(self):
-        return super(SaleReport, self)._group_by() + ', pa.country_id '
+        return super(SaleReport, self)._group_by() + ', spa.country_id '

@@ -27,9 +27,10 @@ class AccountInvoiceReport(models.Model):
 
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
+    shipping_country_id = fields.Many2one('res.country', 'Shipping country')
 
     def _select(self):
-        select_str = ', partner_category, commission_category'
+        select_str = ', partner_category, commission_category, shipping_country_id'
         return super(AccountInvoiceReport, self)._select() + select_str
 
     def _sub_select(self):
@@ -52,9 +53,17 @@ class AccountInvoiceReport(models.Model):
                   and cpc.id = pc.parent_id and cpc.commissions_parent_category = true
                 limit 1
             ) commission_category
+            , spa.country_id as shipping_country_id
             """
         return super(AccountInvoiceReport, self)._sub_select() + select_str
 
+    def _from(self):
+        from_str = """
+            left join res_partner spa on spa.id = ai.partner_shipping_id
+                and spa.company_id = ai.company_id
+            """
+        return super(AccountInvoiceReport, self)._from() + from_str
+
     def _group_by(self):
-        group_by_str = ', partner_category, commission_category'
+        group_by_str = ', partner_category, commission_category, spa.country_id'
         return super(AccountInvoiceReport, self)._group_by() + group_by_str
