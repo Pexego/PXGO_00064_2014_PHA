@@ -26,32 +26,35 @@ class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
     partner_category = fields.Char('Partner category')
-    product_categories = fields.Char('Product categories')
-    has_commission = fields.Boolean('Has commission')
+    commission_category = fields.Char('Commission category')
 
     def _select(self):
-        select_str = ', partner_category, product_categories, has_commission'
+        select_str = ', partner_category, commission_category'
         return super(AccountInvoiceReport, self)._select() + select_str
 
     def _sub_select(self):
-        select_str = ', rpc.name as partner_category' + \
-                     ', pc.name as product_categories' + \
-                     ', cpc.commissions_parent_category as has_commission'
+        select_str = """
+            , (
+                select
+                    rpc.name
+                from res_partner_res_partner_category_rel rpcr,
+                     res_partner_category rpc
+                where rpcr.partner_id = ai.partner_id
+                  and rpc.id = rpcr.category_id
+                limit 1
+            ) partner_category
+            , (
+                select
+                    pc.name
+                from product_categ_rel pcr, product_category pc, product_category cpc
+                where pcr.product_id = pr.id
+                  and pc.id = pcr.categ_id
+                  and cpc.id = pc.parent_id and cpc.commissions_parent_category = true
+                limit 1
+            ) commission_category
+            """
         return super(AccountInvoiceReport, self)._sub_select() + select_str
 
-    def _from(self):
-        from_str = ' left join res_partner_res_partner_category_rel rpcr' + \
-                   '   on rpcr.partner_id = ai.partner_id' + \
-                   ' left join res_partner_category rpc' + \
-                   '   on rpc.id = rpcr.category_id' + \
-                   ' left join product_categ_rel pcr' + \
-                   '   on pcr.product_id = pr.id' + \
-                   ' left join product_category pc' + \
-                   '   on pc.id = pcr.categ_id' + \
-                   ' left join product_category cpc' + \
-                   '   on cpc.id = pc.parent_id'
-        return super(AccountInvoiceReport, self)._from() + from_str
-
     def _group_by(self):
-        group_by_str = ', rpc.name, pc.name, cpc.commissions_parent_category'
+        group_by_str = ', partner_category, commission_category'
         return super(AccountInvoiceReport, self)._group_by() + group_by_str

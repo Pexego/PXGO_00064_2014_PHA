@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="custom_sale_commission_invoice_form" model="ir.ui.view">
+            <field name="name">Custom sale commission - Invoice form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="section_id" position="attributes">
+                    <attribute name="invisible"></attribute>
+                    <attribute name="modifiers"></attribute>
+                    <attribute name="groups">base.group_system</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
