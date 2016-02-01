@@ -41,7 +41,15 @@ class SaleReport(models.Model):
             , s.notified_partner_id as notified_partner_id
             , s.sale_type as sale_type
             , s.sale_channel_id as sale_channel_id
-            , rpc.name as partner_category
+            , (
+                select
+                    rpc.name
+                from res_partner_res_partner_category_rel rpcr,
+                     res_partner_category rpc
+                where rpcr.partner_id = s.partner_id
+                  and rpc.id = rpcr.category_id
+                limit 1
+            ) partner_category
             , (
                 select
                     pc.name
@@ -54,14 +62,8 @@ class SaleReport(models.Model):
             """
         return super(SaleReport, self)._select() + select_str
 
-    def _from(self):
-        from_str = ' left join res_partner_res_partner_category_rel rpcr' + \
-                   '   on rpcr.partner_id = s.partner_id' + \
-                   ' left join res_partner_category rpc' + \
-                   '   on rpc.id = rpcr.category_id'
-        return super(SaleReport, self)._from() + from_str
-
     def _group_by(self):
         group_by_str = ', s.notified_partner_id, s.sale_type' + \
-                       ', s.sale_channel_id, rpc.name, commission_category'
+                       ', s.sale_channel_id, partner_category' + \
+                       ', commission_category'
         return super(SaleReport, self)._group_by() + group_by_str

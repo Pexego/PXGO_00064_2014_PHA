@@ -34,7 +34,15 @@ class AccountInvoiceReport(models.Model):
 
     def _sub_select(self):
         select_str = """
-            , rpc.name as partner_category
+            , (
+                select
+                    rpc.name
+                from res_partner_res_partner_category_rel rpcr,
+                     res_partner_category rpc
+                where rpcr.partner_id = ai.partner_id
+                  and rpc.id = rpcr.category_id
+                limit 1
+            ) partner_category
             , (
                 select
                     pc.name
@@ -47,13 +55,6 @@ class AccountInvoiceReport(models.Model):
             """
         return super(AccountInvoiceReport, self)._sub_select() + select_str
 
-    def _from(self):
-        from_str = ' left join res_partner_res_partner_category_rel rpcr' + \
-                   '   on rpcr.partner_id = ai.partner_id' + \
-                   ' left join res_partner_category rpc' + \
-                   '   on rpc.id = rpcr.category_id'
-        return super(AccountInvoiceReport, self)._from() + from_str
-
     def _group_by(self):
-        group_by_str = ', rpc.name, commission_category'
+        group_by_str = ', partner_category, commission_category'
         return super(AccountInvoiceReport, self)._group_by() + group_by_str
