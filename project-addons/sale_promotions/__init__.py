@@ -24,4 +24,4 @@
 """
 Promotions for Odoo Sales
 """
-from models import rules, sale, sale_report
+from models import rules, sale #, sale_report
