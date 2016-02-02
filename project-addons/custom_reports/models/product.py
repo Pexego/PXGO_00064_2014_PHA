@@ -27,3 +27,6 @@ class ProductCategory(models.Model):
 
     commissions_parent_category = fields.Boolean('Commissions parent category',
                                                  default=False)
+    third_parties_production_category = fields.Boolean(
+                                        'Production for third parties category',
+                                        default=False)

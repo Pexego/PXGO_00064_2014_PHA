@@ -27,43 +27,100 @@ class AccountInvoiceReport(models.Model):
 
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
+    third_parties_category = fields.Many2one('product.category',
+                                             'Production for third parties')
     shipping_country_id = fields.Many2one('res.country', 'Shipping country')
+    invoicing_state_id = fields.Many2one('res.country.state', 'Invoicing state')
+    shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
+    product_line = fields.Many2one('product.line', 'Product line')
+    product_subline = fields.Many2one('product.subline', 'Product subline')
+    product_container = fields.Many2one('product.container', 'Product container')
+    product_form = fields.Many2one('product.form', 'Product form')
+    product_clothing = fields.Selection((('dressed', 'Dressed'),
+                                        ('naked', 'Naked')), 'Product clothing')
 
     def _select(self):
-        select_str = ', partner_category, commission_category, shipping_country_id'
+        select_str = """,
+            partner_category,
+            commission_category,
+            third_parties_category,
+            shipping_country_id,
+            invoicing_state_id,
+            shipping_state_id,
+            product_line,
+            product_subline,
+            product_container,
+            product_form,
+            product_clothing
+            """
         return super(AccountInvoiceReport, self)._select() + select_str
 
     def _sub_select(self):
-        select_str = """
-            , (
-                select
-                    rpc.name
-                from res_partner_res_partner_category_rel rpcr,
-                     res_partner_category rpc
-                where rpcr.partner_id = ai.partner_id
-                  and rpc.id = rpcr.category_id
-                limit 1
-            ) partner_category
-            , (
-                select
-                    pc.name
-                from product_categ_rel pcr, product_category pc, product_category cpc
-                where pcr.product_id = pr.id
-                  and pc.id = pcr.categ_id
-                  and cpc.id = pc.parent_id and cpc.commissions_parent_category = true
-                limit 1
-            ) commission_category
-            , spa.country_id as shipping_country_id
+        select_str = """,
+            case
+                when rpc.name is null then '(Sin categoría)'
+                else rpc.name
+            end as partner_category,
+            case
+                when pc.name is null then '(Sin categoría)'
+                else pc.name
+            end as commission_category,
+            tpc.id as third_parties_category,
+            spa.country_id as shipping_country_id,
+            ics.id as invoicing_state_id,
+            scs.id as shipping_state_id,
+            pt.line as product_line,
+            pt.subline as product_subline,
+            pt.container_id as product_container,
+            pt.base_form_id as product_form,
+            pt.clothing as product_clothing
             """
         return super(AccountInvoiceReport, self)._sub_select() + select_str
 
     def _from(self):
         from_str = """
+            left join res_partner_category rpc on rpc.id = (
+                    select rpcr.category_id
+                    from res_partner_res_partner_category_rel rpcr
+                    where rpcr.partner_id = partner.id
+                    limit 1
+                )
+            left join product_category pc on pc.id = (
+                    select pcr.categ_id
+                    from product_categ_rel pcr
+                    join product_category pc_aux on pc_aux.id = pcr.categ_id
+            		join product_category cpc on cpc.id = pc_aux.parent_id
+            		 and cpc.commissions_parent_category is True
+                    where pcr.product_id = pr.id
+                    limit 1
+                )
+            left join product_category tpc on tpc.id = (
+                    select pcr.categ_id
+                    from product_categ_rel pcr
+                    join product_category pc_aux on pc_aux.id = pcr.categ_id
+                    where pcr.product_id = pr.id
+                      and pc_aux.third_parties_production_category is True
+                    limit 1
+            )
             left join res_partner spa on spa.id = ai.partner_shipping_id
                 and spa.company_id = ai.company_id
+            left join res_country_state ics on ics.id = partner.state_id
+            left join res_country_state scs on scs.id = spa.state_id
             """
         return super(AccountInvoiceReport, self)._from() + from_str
 
     def _group_by(self):
-        group_by_str = ', partner_category, commission_category, spa.country_id'
+        group_by_str = """,
+            partner_category,
+            commission_category,
+            tpc.id,
+            spa.country_id,
+            ics.id,
+            scs.id,
+            pt.line,
+            pt.subline,
+            pt.container_id,
+            pt.base_form_id,
+            pt.clothing
+            """
         return super(AccountInvoiceReport, self)._group_by() + group_by_str

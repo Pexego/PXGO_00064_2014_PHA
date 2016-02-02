@@ -35,32 +35,40 @@ class SaleReport(models.Model):
     sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
+    third_parties_category = fields.Many2one('product.category',
+                                             'Production for third parties')
     country_id = fields.Many2one('res.country', 'Invoicing country')
+    invoicing_state_id = fields.Many2one('res.country.state', 'Invoicing state')
+    shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
+    product_line = fields.Many2one('product.line', 'Product line')
+    product_subline = fields.Many2one('product.subline', 'Product subline')
+    product_container = fields.Many2one('product.container', 'Product container')
+    product_form = fields.Many2one('product.form', 'Product form')
+    product_clothing = fields.Selection((('dressed', 'Dressed'),
+                                        ('naked', 'Naked')), 'Product clothing')
 
     def _select(self):
-        select_str = """
-            , s.notified_partner_id as notified_partner_id
-            , s.sale_type as sale_type
-            , s.sale_channel_id as sale_channel_id
-            , (
-                select
-                    rpc.name
-                from res_partner_res_partner_category_rel rpcr,
-                     res_partner_category rpc
-                where rpcr.partner_id = s.partner_id
-                  and rpc.id = rpcr.category_id
-                limit 1
-            ) partner_category
-            , (
-                select
-                    pc.name
-                from product_categ_rel pcr, product_category pc, product_category cpc
-                where pcr.product_id = p.id
-                  and pc.id = pcr.categ_id
-                  and cpc.id = pc.parent_id and cpc.commissions_parent_category = true
-                limit 1
-            ) commission_category
-            , pa.country_id as country_id
+        select_str = """,
+            s.notified_partner_id as notified_partner_id,
+            s.sale_type as sale_type,
+            s.sale_channel_id as sale_channel_id,
+            case
+                when rpc.name is null then '(Sin categoría)'
+                else rpc.name
+            end as partner_category,
+            case
+                when pc.name is null then '(Sin categoría)'
+                else pc.name
+            end as commission_category,
+            tpc.id as third_parties_category,
+            pa.country_id as country_id,
+            ics.id as invoicing_state_id,
+            scs.id as shipping_state_id,
+            t.line as product_line,
+            t.subline as product_subline,
+            t.container_id as product_container,
+            t.base_form_id as product_form,
+            t.clothing as product_clothing
             """
         return super(SaleReport, self)._select() + select_str
 
@@ -68,12 +76,48 @@ class SaleReport(models.Model):
         from_str = """
             left join res_partner pa
                    on (pa.id = s.partner_id and pa.company_id = s.company_id)
+            left join res_partner_category rpc on rpc.id = (
+                    select rpcr.category_id
+                    from res_partner_res_partner_category_rel rpcr
+                    where rpcr.partner_id = s.partner_id
+                    limit 1
+                )
+            left join product_category pc on pc.id = (
+                    select pcr.categ_id
+                    from product_categ_rel pcr
+                    join product_category pc_aux on pc_aux.id = pcr.categ_id
+            		join product_category cpc on cpc.id = pc_aux.parent_id
+            		 and cpc.commissions_parent_category is True
+                    where pcr.product_id = p.id
+                    limit 1
+                )
+            left join product_category tpc on tpc.id = (
+                    select pcr.categ_id
+                    from product_categ_rel pcr
+                    join product_category pc_aux on pc_aux.id = pcr.categ_id
+                    where pcr.product_id = p.id
+                      and pc_aux.third_parties_production_category is True
+                    limit 1
+            )
+            left join res_country_state ics on ics.id = pa.state_id
+            left join res_country_state scs on scs.id = spa.state_id
             """
         return super(SaleReport, self)._from() + from_str
 
     def _group_by(self):
-        group_by_str = """
-            , s.notified_partner_id, s.sale_type, s.sale_channel_id
-            , partner_category, commission_category, pa.country_id
+        group_by_str = """,
+            s.notified_partner_id,
+            s.sale_type,
+            s.sale_channel_id,
+            partner_category,
+            commission_category,
+            tpc.id,
+            pa.country_id,
+            ics.id, scs.id,
+            t.line,
+            t.subline,
+            t.container_id,
+            t.base_form_id,
+            t.clothing
             """
         return super(SaleReport, self)._group_by() + group_by_str

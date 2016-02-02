@@ -15,6 +15,7 @@
                     <group colspan="2">
                         <field name="type"/>
                         <field name="commissions_parent_category"/>
+                        <field name="third_parties_production_category"/>
                     </group>
                 </field>
             </field>
