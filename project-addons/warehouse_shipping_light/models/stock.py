@@ -97,12 +97,23 @@ class StockPicking(models.Model):
             get_action(self, 'warehouse_shipping_light.wsl_report_picking')
 
     def _prepare_shipping_invoice_line(self, cr, uid, picking, invoice, context):
+        # First, check if the carrier is the same in picking as in sale order
+        if picking.sale_id:
+            for line in picking.sale_id.order_line:
+                if line.is_delivery and \
+                         line.product_id != picking.carrier_id.product_id:
+                    # Remove old carrier product invoice lines
+                    line.invoice_lines.unlink()
+                    # Replace old carrier product with the new one
+                    line.product_id = picking.carrier_id.product_id
+
         # Create shipping invoice line with the same price/qty of origin
         res = super(StockPicking, self)._prepare_shipping_invoice_line(cr, uid,
                                                       picking, invoice, context)
         if res and picking.sale_id:
             for line in picking.sale_id.order_line:
                 if line.is_delivery:
+                    # Maintain original sale order price & quantity
                     res['price_unit'] = line.price_unit
                     res['quantity'] = line.product_uom_qty
         return res
