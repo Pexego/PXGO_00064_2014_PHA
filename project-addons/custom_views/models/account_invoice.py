@@ -43,7 +43,7 @@ class AccountInvoice(models.Model):
         if not vals.get('latest_calculations'):
             for rec in self:
                 now = datetime.datetime.now()
-                if self.latest_calculations:
+                if rec.latest_calculations:
                     then = datetime.datetime.strptime(rec.latest_calculations,
                                                       DATETIME_FORMAT)
                 else:
