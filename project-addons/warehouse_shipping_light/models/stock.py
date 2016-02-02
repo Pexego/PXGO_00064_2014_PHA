@@ -102,12 +102,14 @@ class StockPicking(models.Model):
             for line in picking.sale_id.order_line:
                 if line.is_delivery and \
                          line.product_id != picking.carrier_id.product_id:
-                    # Replace old carrier product with the new one
+                    # Replace old carrier product with the new one at sale and
+                    # invoice orders lines
+                    for invline in invoice.invoice_line:
+                        if invline.product_id == line.product_id:
+                            invline.product_id = picking.carrier_id.product_id
+                            invline.name = invline.product_id.name
                     line.product_id = picking.carrier_id.product_id
                     line.name = line.product_id.name
-                    for invline in line.invoice_lines:
-                        invline.product_id = line.product_id
-                        invline.name = line.product_id.name
 
         # Create shipping invoice line with the same price/qty of origin
         res = super(StockPicking, self)._prepare_shipping_invoice_line(cr, uid,
