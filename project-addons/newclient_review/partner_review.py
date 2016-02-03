@@ -53,8 +53,6 @@ class PartnerReview(models.Model):
 
     @api.multi
     def write(self, vals):
-        vals['confirmed'] = self._check_permissions()
-
         attrs = self.fields_get()
         for partner in self:
             fields = ''
@@ -68,4 +66,28 @@ class PartnerReview(models.Model):
 
                 partner.message_post(body=_('Modified fields: ') + fields)
 
-        return super(PartnerReview, self).write(vals)
+        # Make two separate writes to distinguish confirmed
+        # from not confirmed partners
+        rec_confirmed = self.env['res.partner']
+        rec_not_confirmed = self.env['res.partner']
+        vals_confirmed = vals.copy()
+        vals_confirmed['confirmed'] = True
+        vals_not_confirmed = vals.copy()
+        vals_not_confirmed['confirmed'] = False
+        for rec in self:
+            if vals.get('confirmed') or vals.get('supplier') or rec.supplier:
+                rec_confirmed = rec_confirmed + rec
+            else:
+                rec_not_confirmed = rec_not_confirmed + rec
+
+        if len(rec_confirmed):
+            res = super(PartnerReview, rec_confirmed).\
+                write(vals_confirmed)
+        else:
+            res = True
+
+        if len(rec_not_confirmed):
+            res = res and super(PartnerReview, rec_not_confirmed).\
+                write(vals_not_confirmed)
+
+        return res
