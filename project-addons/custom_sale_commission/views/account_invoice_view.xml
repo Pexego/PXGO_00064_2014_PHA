@@ -10,7 +10,7 @@
                 <field name="section_id" position="attributes">
                     <attribute name="invisible"></attribute>
                     <attribute name="modifiers"></attribute>
-                    <attribute name="groups">base.group_system</attribute>
+                    <attribute name="groups">base.group_sale_manager</attribute>
                 </field>
             </field>
         </record>
