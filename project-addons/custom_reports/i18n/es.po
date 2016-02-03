@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-02 16:17+0000\n"
-"PO-Revision-Date: 2016-02-02 17:21+0100\n"
+"POT-Creation-Date: 2016-02-03 08:36+0000\n"
+"PO-Revision-Date: 2016-02-03 09:38+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,7 @@ msgstr "Comentario:"
 #: field:account.invoice.report,commission_category:0
 #: field:sale.report,commission_category:0
 msgid "Commission category"
-msgstr "Categoría comisiones"
+msgstr "Categoría de comisiones"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -360,6 +360,11 @@ msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos
 #: view:website:custom_reports.report_saleorder_document
 msgid "In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated."
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Intermediary"
+msgstr "Intermediario"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -819,7 +824,7 @@ msgstr "Precio ud."
 #. module: custom_reports
 #: view:website:custom_reports.report_shipping_address
 msgid "VARIABLE \"shipadd\" NOT DEFINED IN TEMPLATE"
-msgstr "VARIABLE \"shipadd\" NOT DEFINED IN TEMPLATE"
+msgstr "VARIABLE \"shipadd\" NO DEFINIDA EN PLANTILLA"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document

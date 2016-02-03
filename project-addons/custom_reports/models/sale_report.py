@@ -31,7 +31,7 @@ class SaleReport(models.Model):
                                             ('transfer', 'Transfer'),
                                             ('replacement', 'Replacement'),
                                             ('intermediary', 'Intermediary')],
-                                 string="Type")
+                                 string='Type')
     sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
