@@ -7,9 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-04 13:20+0000\n"
-
 "PO-Revision-Date: 2016-02-04 14:23+0100\n"
-
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,7 +33,6 @@ msgstr "Ciudad"
 msgid "Client data must be reviewed before confirm one order"
 msgstr "Los datos deben ser revisados antes de confirmar venta"
 
-
 #. module: newclient_review
 #: field:res.partner,confirmed:0
 msgid "Client with data reviewed?"
@@ -43,26 +40,20 @@ msgstr "Cliente con datos revisados?"
 
 #. module: newclient_review
 #: code:addons/newclient_review/models/sale.py:36
-
 #, python-format
 msgid "Client without review. A manager must review data to confirm it before confirm order, you can \"Save\" this order to confirm later."
 msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en \\\"Guardar\\\" para que su pedido sea procesado posteriormente."
 
-
 #. module: newclient_review
 #: code:addons/newclient_review/models/account_invoice.py:36
-
 #, python-format
 msgid "Client without review. A manager must review data to confirm it before validate invoice, you can \"Save\" this invoice to validate later."
-
 msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder validar una factura, puede presionar en \\\"Guardar\\\" para que su factura pueda ser validada más tarde."
-
 
 #. module: newclient_review
 #: model:ir.ui.menu,name:newclient_review.menu_partner_review
 msgid "Clients to review"
 msgstr "Clientes sin revisar"
-
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
@@ -104,13 +95,6 @@ msgstr "Clientes"
 msgid "Data not confirmed!"
 msgstr "¡Datos no confirmados!"
 
-
-
-
-
-
-
-
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
 msgid "Group By"
@@ -123,16 +107,9 @@ msgstr "Factura"
 
 #. module: newclient_review
 #: code:addons/newclient_review/models/res_partner.py:65
-
 #, python-format
 msgid "Modified fields: "
 msgstr "Campos modificados: "
-
-
-
-
-
-
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
@@ -159,12 +136,10 @@ msgstr "Empresa"
 msgid "Partner review"
 msgstr "Cliente a revisar"
 
-
 #. module: newclient_review
 #: model:ir.actions.act_window,name:newclient_review.action_newclients_to_review
 msgid "Partners to review"
 msgstr "Clientes sin revisar"
-
 
 #. module: newclient_review
 #: model:ir.module.category,description:newclient_review.module_partner_review_category
