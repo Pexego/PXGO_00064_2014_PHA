@@ -33,7 +33,7 @@ class ResPartner(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('parent_id'):
-            parent = self.env['res.partner'].browse(vals.get('parent_id'))
+            parent = self.env['res.partner'].browse(vals['parent_id'])
             if len(parent) and parent.pre_customer:
                 vals['pre_customer'] = True
         return super(ResPartner, self).create(vals)
