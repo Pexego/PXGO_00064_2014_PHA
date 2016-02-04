@@ -18,7 +18,6 @@
 #    along with this program.    If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import fields, models, api, exceptions
 from openerp.tools.translate import _
 
@@ -30,6 +29,14 @@ class ResPartner(models.Model):
     message_latest = fields.Datetime('Last message date',
                                      compute='_compute_last_message_date',
                                      store=True)
+
+    @api.model
+    def create(self, vals):
+        if vals.get('parent_id'):
+            parent = self.env['res.partner'].browse(vals.get('parent_id'))
+            if len(parent) and parent.pre_customer:
+                vals['pre_customer'] = True
+        return super(ResPartner, self).create(vals)
 
     @api.multi
     def validate_customer(self):
