@@ -22,6 +22,24 @@
                     <attribute name="string">Order reference</attribute>
                     <attribute name="required">True</attribute>
                 </field>
+                <field name="source_id" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </field>
+                <field name="medium_id" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </field>
+                <field name="campaign_id" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </field>
+                <field name="coupon_code" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </field>
+                <field name="categ_ids" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </field>
+                <field name="origin" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </field>
              </field>
         </record>
 

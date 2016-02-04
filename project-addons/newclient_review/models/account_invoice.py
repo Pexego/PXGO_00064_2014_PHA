@@ -38,7 +38,7 @@ class AccountInvoice(models.Model):
                                 'you can "Save" this invoice to validate later.'))
 
         # Everything right, call original method
-        return super(AccountInvoice, self).invoice_open()
+        return super(AccountInvoice, self).invoice_validate()
 
 
 
