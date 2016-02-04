@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-28 14:41+0000\n"
-"PO-Revision-Date: 2015-12-28 15:43+0100\n"
+"POT-Creation-Date: 2016-02-04 13:20+0000\n"
+"PO-Revision-Date: 2016-02-04 14:23+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: newclient_review
+#: code:addons/newclient_review/models/res_partner.py:61
+#, python-format
+msgid "(empty)"
+msgstr "(empty)"
+
+#. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
 msgid "Ciudad"
 msgstr "Ciudad"
@@ -25,7 +31,7 @@ msgstr "Ciudad"
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_form
 msgid "Client data must be reviewed before confirm one order"
-msgstr "Los datos serán revisados antes de confirmar venta"
+msgstr "Los datos deben ser revisados antes de confirmar venta"
 
 #. module: newclient_review
 #: field:res.partner,confirmed:0
@@ -33,15 +39,21 @@ msgid "Client with data reviewed?"
 msgstr "Cliente con datos revisados?"
 
 #. module: newclient_review
-#: code:addons/newclient_review/partner_review_sale.py:34
+#: code:addons/newclient_review/models/sale.py:36
 #, python-format
 msgid "Client without review. A manager must review data to confirm it before confirm order, you can \"Save\" this order to confirm later."
 msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en \"Guardar\" para que su pedido sea procesado posteriormente."
 
 #. module: newclient_review
+#: code:addons/newclient_review/models/account_invoice.py:36
+#, python-format
+msgid "Client without review. A manager must review data to confirm it before validate invoice, you can \"Save\" this invoice to validate later."
+msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder validar una factura, puede presionar en \"Guardar\" para que su factura pueda ser validada más tarde."
+
+#. module: newclient_review
 #: model:ir.ui.menu,name:newclient_review.menu_partner_review
 msgid "Clients to review"
-msgstr "Clientes por revisar"
+msgstr "Clientes sin revisar"
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
@@ -65,6 +77,11 @@ msgstr "Clientes no activos"
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
+msgid "Customer payment mode"
+msgstr "Modo de pago del cliente"
+
+#. module: newclient_review
+#: view:res.partner:newclient_review.newclients_to_review_filter
 msgid "Customer without review"
 msgstr "Cliente sin revisar"
 
@@ -76,13 +93,7 @@ msgstr "Clientes"
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_form
 msgid "Data not confirmed!"
-msgstr "Datos no confirmados!"
-
-#. module: newclient_review
-#: code:addons/newclient_review/partner_review_sale.py:34
-#, python-format
-msgid "Error"
-msgstr "Error"
+msgstr "¡Datos no confirmados!"
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
@@ -90,16 +101,15 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: newclient_review
-#: code:addons/newclient_review/partner_review.py:0
+#: model:ir.model,name:newclient_review.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: newclient_review
+#: code:addons/newclient_review/models/res_partner.py:65
 #, python-format
 msgid "Modified fields: "
 msgstr "Campos modificados: "
-
-#. module: newclient_review
-#: code:addons/newclient_review/partner_review.py:0
-#, python-format
-msgid "(empty)"
-msgstr "(vacío)"
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
@@ -124,12 +134,12 @@ msgstr "Empresa"
 #. module: newclient_review
 #: model:ir.module.category,name:newclient_review.module_partner_review_category
 msgid "Partner review"
-msgstr "Revisión de cliente"
+msgstr "Cliente a revisar"
 
 #. module: newclient_review
 #: model:ir.actions.act_window,name:newclient_review.action_newclients_to_review
 msgid "Partners to review"
-msgstr "Clientes a revisar"
+msgstr "Clientes sin revisar"
 
 #. module: newclient_review
 #: model:ir.module.category,description:newclient_review.module_partner_review_category
@@ -143,6 +153,11 @@ msgstr "Pedido de venta"
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
+msgid "Supplier payment mode"
+msgstr "Modo de pago de proveedor"
+
+#. module: newclient_review
+#: view:res.partner:newclient_review.newclients_to_review_filter
 msgid "Without review"
 msgstr "Sin revisar"
 
@@ -151,3 +166,8 @@ msgstr "Sin revisar"
 msgid "customTree"
 msgstr "customTree"
 
+#. module: newclient_review
+#: code:addons/newclient_review/models/res_partner.py:63
+#, python-format
+msgid "string"
+msgstr "string"
