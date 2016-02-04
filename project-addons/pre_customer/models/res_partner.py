@@ -67,6 +67,10 @@ class ResPartner(models.Model):
 
         if warning == '':
             self.pre_customer = False
+            # Reflect state change to children also
+            self.env['res.partner'].\
+                search([('parent_id', '=', self.id)]).\
+                write({'pre_customer': False})
             salesmangroup_id = self.env.ref('newclient_review.group_partners_review')
             self.confirmed = self.env.user in salesmangroup_id.users
             return {
