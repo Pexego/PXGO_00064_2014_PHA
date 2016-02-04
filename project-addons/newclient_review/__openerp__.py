@@ -29,6 +29,6 @@
                  'sale'],
     'data' : ['security/partner_review_security.xml',
               'security/ir.model.access.csv',
-              'partner_review_view.xml'],
+              'views/res_partner_view.xml'],
     'installable': True
 }

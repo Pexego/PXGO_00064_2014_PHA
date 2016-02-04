@@ -38,6 +38,12 @@ class ResPartner(models.Model):
             states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
             help="""Pick 'Deliver each product when available' if you allow partial delivery.""")
 
+    @api.model
+    def create(self, vals):
+        if vals.get('parent_id', False) != False:
+            vals['is_company'] = False
+        return super(ResPartner, self).create(vals)
+
     @api.multi
     def name_get(self):
         key = 'concatenate_name_comercial'

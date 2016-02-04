@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
+#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,13 +19,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import models, fields, api
 from openerp.tools.translate import _
-import sys
 
 
-class PartnerReview(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
     _description = 'List of partners in Waiting for review state'
 
@@ -49,12 +47,10 @@ class PartnerReview(models.Model):
         # TODO: PRESTASHOP -> If is a user or a client from prestashop
         # TODO: PRESTASHOP -> assign user as creator of the partner
         vals['confirmed'] = self._check_permissions() or vals.get('supplier')
-        return super(PartnerReview, self).create(vals)
+        return super(ResPartner, self).create(vals)
 
     @api.multi
     def write(self, vals):
-        vals['confirmed'] = self._check_permissions()
-
         attrs = self.fields_get()
         for partner in self:
             fields = ''
@@ -68,4 +64,28 @@ class PartnerReview(models.Model):
 
                 partner.message_post(body=_('Modified fields: ') + fields)
 
-        return super(PartnerReview, self).write(vals)
+        # Make two separate writes to distinguish confirmed
+        # from not confirmed partners
+        rec_confirmed = self.env['res.partner']
+        rec_not_confirmed = self.env['res.partner']
+        vals_confirmed = vals.copy()
+        vals_confirmed['confirmed'] = True
+        vals_not_confirmed = vals.copy()
+        vals_not_confirmed['confirmed'] = False
+        for rec in self:
+            if vals.get('confirmed') or vals.get('supplier') or rec.supplier:
+                rec_confirmed = rec_confirmed + rec
+            else:
+                rec_not_confirmed = rec_not_confirmed + rec
+
+        if len(rec_confirmed):
+            res = super(ResPartner, rec_confirmed).\
+                write(vals_confirmed)
+        else:
+            res = True
+
+        if len(rec_not_confirmed):
+            res = res and super(ResPartner, rec_not_confirmed).\
+                write(vals_not_confirmed)
+
+        return res

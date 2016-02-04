@@ -32,29 +32,31 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, vals):
         res = super(AccountInvoice, self).create(vals)
-        # Trigger write event to force recalculations after create
+        # Trigger write event to force re-calculations after create
         res.state = res.state
         return res
 
     @api.multi
     def write(self, vals):
-        # Force recalculations on save
+        # Force re-calculations on save
+        re_calculate = False
         if not vals.get('latest_calculations'):
-            now = datetime.datetime.now()
-            if self.latest_calculations:
-                then = datetime.datetime.strptime(self.latest_calculations,
-                                                  DATETIME_FORMAT)
-            else:
-                then = now - datetime.timedelta(days=1)
+            for rec in self:
+                now = datetime.datetime.now()
+                if rec.latest_calculations:
+                    then = datetime.datetime.strptime(rec.latest_calculations,
+                                                      DATETIME_FORMAT)
+                else:
+                    then = now - datetime.timedelta(days=1)
 
-            diff = now - then
-            if diff.days > 0 or diff.seconds > 10:
-                # Timestamp to avoid unnecessary loops
-                vals['latest_calculations'] = fields.Datetime.now()
-                res = super(AccountInvoice, self).write(vals)
-                self.button_reset_taxes()
-            else:
-                res = super(AccountInvoice, self).write(vals)
+                diff = now - then
+                re_calculate = re_calculate or diff.days > 0 or diff.seconds > 10
+
+        if re_calculate:
+            # Timestamp to avoid unnecessary loops
+            vals['latest_calculations'] = fields.Datetime.now()
+            res = super(AccountInvoice, self).write(vals)
+            self.button_reset_taxes()
         else:
             res = super(AccountInvoice, self).write(vals)
 

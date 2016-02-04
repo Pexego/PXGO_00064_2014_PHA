@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* custom_reports
+# 	* custom_reports
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-01 13:31+0000\n"
-"PO-Revision-Date: 2016-02-01 13:31+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-02-04 11:01+0000\n"
+"PO-Revision-Date: 2016-02-04 12:05+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -38,37 +40,47 @@ msgstr "(Sin especificar)"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                                Folio"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                                Folio"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                                Registration"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                                Registro"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                                Sheet Number"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                                Hoja"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                                TIN"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                                NIF"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                                Volume"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                                Tomo"
 
 #. module: custom_reports
@@ -76,9 +88,11 @@ msgstr ",\n"
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                            Folio"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                            Folio"
 
 #. module: custom_reports
@@ -86,9 +100,11 @@ msgstr ",\n"
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                            Registration"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                            Registro"
 
 #. module: custom_reports
@@ -96,9 +112,11 @@ msgstr ",\n"
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                            Sheet Number"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                            Hoja"
 
 #. module: custom_reports
@@ -106,9 +124,11 @@ msgstr ",\n"
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                            TIN"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                            NIF"
 
 #. module: custom_reports
@@ -116,9 +136,11 @@ msgstr ",\n"
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
-msgid ",\n"
+msgid ""
+",\n"
 "                            Volume"
-msgstr ",\n"
+msgstr ""
+",\n"
 "                            Tomo"
 
 #. module: custom_reports
@@ -226,7 +248,7 @@ msgstr "Comentario:"
 #: field:account.invoice.report,commission_category:0
 #: field:sale.report,commission_category:0
 msgid "Commission category"
-msgstr "Commission category"
+msgstr "Categoría comisiones"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -285,6 +307,12 @@ msgid "Draft Invoice"
 msgstr "Factura borrador"
 
 #. module: custom_reports
+#: selection:account.invoice.report,product_clothing:0
+#: selection:sale.report,product_clothing:0
+msgid "Dressed"
+msgstr "Vestida"
+
+#. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 msgid "Due Month"
 msgstr "Mes de vencimiento"
@@ -334,6 +362,11 @@ msgid "In observance of the Organic law 15/1999 of 13 December on the Protection
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
 #. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Intermediary"
+msgstr "Intermediario"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Invoice"
@@ -376,6 +409,12 @@ msgid "Invoicing country"
 msgstr "País facturación"
 
 #. module: custom_reports
+#: field:account.invoice.report,invoicing_state_id:0
+#: field:sale.report,invoicing_state_id:0
+msgid "Invoicing state"
+msgstr "Provincia facturación"
+
+#. module: custom_reports
 #: field:account.journal,simplified_invoices_account:0
 msgid "Is an account for simplified invoices?"
 msgstr "¿Se usa para emitir facturas simplificadas?"
@@ -399,6 +438,12 @@ msgstr "Lote | Aprobado | Caducidad"
 #: model:ir.actions.report.xml,name:custom_reports.action_report_lot_labels
 msgid "Lots labels"
 msgstr "Etiquetas de lotes"
+
+#. module: custom_reports
+#: selection:account.invoice.report,product_clothing:0
+#: selection:sale.report,product_clothing:0
+msgid "Naked"
+msgstr "Sin vestir"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -510,6 +555,34 @@ msgstr "Producto / EAN13"
 #: model:ir.model,name:custom_reports.model_product_category
 msgid "Product Category"
 msgstr "Categoría de producto"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_clothing:0
+#: field:sale.report,product_clothing:0
+msgid "Product clothing"
+msgstr "Vestimenta"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_container:0
+#: field:sale.report,product_container:0
+msgid "Product container"
+msgstr "Producto - Envasado"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_form:0 field:sale.report,product_form:0
+msgid "Product form"
+msgstr "Producto - Forma"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_line:0 field:sale.report,product_line:0
+msgid "Product line"
+msgstr "Producto - Línea"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_subline:0
+#: field:sale.report,product_subline:0
+msgid "Product subline"
+msgstr "Producto - Sublínea"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
@@ -638,9 +711,14 @@ msgstr "Dirección de envío:"
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,shipping_country_id:0
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
-#: field:sale.report,shipping_country_id:0
 msgid "Shipping country"
 msgstr "País envío"
+
+#. module: custom_reports
+#: field:account.invoice.report,shipping_state_id:0
+#: field:sale.report,shipping_state_id:0
+msgid "Shipping state"
+msgstr "Provincia envío"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -691,6 +769,13 @@ msgstr "Impuestos"
 #: view:website:stock.report_inventory
 msgid "Theoretical qty."
 msgstr "Cantidad teórica"
+
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: field:account.invoice.report,third_parties:0
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+#: field:sale.report,third_parties:0
+msgid "Third parties"
+msgstr "Fab.Terceros"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -746,10 +831,9 @@ msgstr "Validado por:"
 #. module: custom_reports
 #: view:website:custom_reports.report_shipping_address
 msgid "WARNING: UNKNOWN ADDRESS!!"
-msgstr "WARNING: UNKNOWN ADDRESS!!"
+msgstr "ATENCIÓN: ¡DIRECCIÓN DESCONOCIDA!"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 msgid "administracion@laboratoriobiosalud.com"
 msgstr "administracion@laboratoriobiosalud.com"
-

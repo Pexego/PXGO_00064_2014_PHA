@@ -55,7 +55,7 @@ class StockPicking(models.Model):
             complete_sum = 0
             weight_sum = 0
             package_list = [] # Count different packages
-            palet_list = []  # Count different palets
+            palet_list = []   # Count different palets
 
             for po in self.pack_operation_ids:
                 complete_sum += po.complete
@@ -97,14 +97,53 @@ class StockPicking(models.Model):
             get_action(self, 'warehouse_shipping_light.wsl_report_picking')
 
     def _prepare_shipping_invoice_line(self, cr, uid, picking, invoice, context):
+        # First, check if the carrier is the same in picking as in sale order
+        if picking.sale_id:
+            for line in picking.sale_id.order_line:
+                if line.is_delivery and \
+                         line.product_id != picking.carrier_id.product_id:
+                    # Replace old carrier product with the new one at sale and
+                    # invoice orders lines
+                    for invline in invoice.invoice_line:
+                        if invline.product_id == line.product_id:
+                            invline.product_id = picking.carrier_id.product_id
+                            invline.name = invline.product_id.name
+                    line.product_id = picking.carrier_id.product_id
+                    line.name = line.product_id.name
+
         # Create shipping invoice line with the same price/qty of origin
         res = super(StockPicking, self)._prepare_shipping_invoice_line(cr, uid,
                                                       picking, invoice, context)
         if res and picking.sale_id:
             for line in picking.sale_id.order_line:
                 if line.is_delivery:
+                    # Maintain original sale order price & quantity
                     res['price_unit'] = line.price_unit
                     res['quantity'] = line.product_uom_qty
+        return res
+
+    @api.multi
+    def write(self, vals):
+        carrier_id = vals.get('carrier_id', False)
+        if carrier_id:
+            old_carriers = {}
+            for p in self:
+                old_carriers[p.id] = p.carrier_id
+
+        res = super(StockPicking, self).write(vals)
+
+        if carrier_id:
+            for rec in self:
+                if rec.sale_id and rec.sale_id.carrier_id != carrier_id:
+                    rec.sale_id.carrier_id = carrier_id
+                    for line in rec.sale_id.order_line:
+                        if line.is_delivery and \
+                               line.product_id != rec.carrier_id.product_id:
+                            line.product_id = rec.carrier_id.product_id
+                            line.name = line.product_id.name
+
+                if rec.expedition_id and old_carriers[rec.id] != carrier_id:
+                    rec.expedition_id._compute_carrier_name()
         return res
 
 
