@@ -35,6 +35,7 @@ class SaleReport(models.Model):
     sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
+    third_parties = fields.Char('Third parties')
     country_id = fields.Many2one('res.country', 'Invoicing country')
     invoicing_state_id = fields.Many2one('res.country.state', 'Invoicing state')
     shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
@@ -58,6 +59,10 @@ class SaleReport(models.Model):
                 when pc.name is null then '(Sin categoría)'
                 else pc.name
             end as commission_category,
+            case
+                when t.customer is not null then 'Terceros'
+                else 'Propios'
+            end as third_parties,
             pa.country_id as country_id,
             ics.id as invoicing_state_id,
             scs.id as shipping_state_id,
@@ -100,6 +105,7 @@ class SaleReport(models.Model):
             s.sale_channel_id,
             partner_category,
             commission_category,
+            t.customer,
             pa.country_id,
             ics.id, scs.id,
             t.line,

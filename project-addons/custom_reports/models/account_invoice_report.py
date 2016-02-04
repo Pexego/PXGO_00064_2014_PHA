@@ -27,6 +27,7 @@ class AccountInvoiceReport(models.Model):
 
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
+    third_parties = fields.Char('Third parties')
     shipping_country_id = fields.Many2one('res.country', 'Shipping country')
     invoicing_state_id = fields.Many2one('res.country.state', 'Invoicing state')
     shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
@@ -41,6 +42,7 @@ class AccountInvoiceReport(models.Model):
         select_str = """,
             partner_category,
             commission_category,
+            third_parties,
             shipping_country_id,
             invoicing_state_id,
             shipping_state_id,
@@ -62,6 +64,10 @@ class AccountInvoiceReport(models.Model):
                 when pc.name is null then '(Sin categoría)'
                 else pc.name
             end as commission_category,
+            case
+                when pt.customer is not null then 'Terceros'
+                else 'Propios'
+            end as third_parties,
             spa.country_id as shipping_country_id,
             ics.id as invoicing_state_id,
             scs.id as shipping_state_id,
@@ -101,6 +107,7 @@ class AccountInvoiceReport(models.Model):
         group_by_str = """,
             partner_category,
             commission_category,
+            pt.customer,
             spa.country_id,
             ics.id,
             scs.id,
