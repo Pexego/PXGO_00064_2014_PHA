@@ -42,13 +42,13 @@ msgstr "Cliente con datos revisados?"
 #: code:addons/newclient_review/models/sale.py:36
 #, python-format
 msgid "Client without review. A manager must review data to confirm it before confirm order, you can \"Save\" this order to confirm later."
-msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en \\\"Guardar\\\" para que su pedido sea procesado posteriormente."
+msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder confirmar una venta, puede presionar en \"Guardar\" para que su pedido sea procesado posteriormente."
 
 #. module: newclient_review
 #: code:addons/newclient_review/models/account_invoice.py:36
 #, python-format
 msgid "Client without review. A manager must review data to confirm it before validate invoice, you can \"Save\" this invoice to validate later."
-msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder validar una factura, puede presionar en \\\"Guardar\\\" para que su factura pueda ser validada más tarde."
+msgstr "Cliente sin confirmar. Un responsable debe verificar los datos del cliente antes de poder validar una factura, puede presionar en \"Guardar\" para que su factura pueda ser validada más tarde."
 
 #. module: newclient_review
 #: model:ir.ui.menu,name:newclient_review.menu_partner_review
