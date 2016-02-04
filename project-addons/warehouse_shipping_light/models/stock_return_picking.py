@@ -37,7 +37,7 @@ class StockReturnPicking(models.TransientModel):
 
         # Pass selected invoicing policy
         domain = res.get('domain')
-        new_picking = re.findall(r'\d+', domain)
+        new_picking = re.findall(r'\d+', domain) # Extract id from domain
         if len(new_picking):
             new_picking = self.env['stock.picking'].browse(int(new_picking[0]))
             new_picking.invoice_state = self.invoice_state

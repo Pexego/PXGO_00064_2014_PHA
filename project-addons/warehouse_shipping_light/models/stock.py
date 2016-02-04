@@ -136,6 +136,12 @@ class StockPicking(models.Model):
             for rec in self:
                 if rec.sale_id and rec.sale_id.carrier_id != carrier_id:
                     rec.sale_id.carrier_id = carrier_id
+                    for line in rec.sale_id.order_line:
+                        if line.is_delivery and \
+                               line.product_id != rec.carrier_id.product_id:
+                            line.product_id = rec.carrier_id.product_id
+                            line.name = line.product_id.name
+
                 if rec.expedition_id and old_carriers[rec.id] != carrier_id:
                     rec.expedition_id._compute_carrier_name()
         return res
