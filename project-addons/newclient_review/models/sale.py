@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,18 +19,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
-from openerp.osv import osv
+from openerp import models, api
+from openerp.exceptions import Warning
 from openerp.tools.translate import _
 
-class partner_review_sale(models.Model):
+
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def action_button_confirm(self, cr, uid, ids, context=None):
-         #If client data is not confirmed, sale cant be done
-        sale = self.browse(cr,uid,ids,context=None)
-        partner_objt = sale.partner_id
-        if (not partner_objt.confirmed):
-            #Show message and rollback
-            raise osv.except_osv(_('Error'), _('Client without review. A manager must review data to confirm it before confirm order, you can "Save" this order to confirm later.'))
-        return super(partner_review_sale, self).action_button_confirm(cr, uid, ids, context=context)
+    @api.multi
+    def action_button_confirm(self):
+        # If one client data is not confirmed, sale(s) can't be done
+        for sale in self:
+            if (not sale.partner_id.confirmed):
+                #Show message and rollback
+                raise Warning(_('Client without review. A manager must review '
+                                'data to confirm it before confirm order, you '
+                                'can "Save" this order to confirm later.'))
+
+        # Everything right, call original method
+        return super(SaleOrder, self).action_button_confirm()
