@@ -93,5 +93,16 @@
             <field name="perm_unlink" eval="True"/>
             <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
         </record>
+        <!--Warehouse Routes multicompany-->
+        <record id="model_product_category_rule" model="ir.rule">
+            <field name="name">WarehouseRoutes Multicompany</field>
+            <field name="model_id" ref="stock.location.route"/>
+            <field name="global" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
     </data>
 </openerp>
