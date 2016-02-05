@@ -34,10 +34,6 @@ class res_partner(models.Model):
         for agent in self.zip_id.agent_ids:
             all_categ = self.env['res.partner.category'].search([('id', 'child_of', agent.category_id._ids)])
             if all_categ & self.category_id:
-                self.env['res.partner.agent'].create(
-                    {'agent_id': agent.agent_id.id,
-                     'commission_id': agent.agent_id.commission.id,
-                     'partner_id': self.id, 'auto': True})
                 self.user_id = agent.agent_id.get_user()
 
 

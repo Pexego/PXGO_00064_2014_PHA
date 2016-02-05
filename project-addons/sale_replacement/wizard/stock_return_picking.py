@@ -72,6 +72,7 @@ class stock_return_picking(models.TransientModel):
             'picking_type_id': pick_type_id,
             'state': 'draft',
             'origin': pick.name,
+            'invoice_state': data['invoice_state'],
         }, context=context)
 
         for data_get in data_obj.browse(cr, uid, data['product_return_moves'],
@@ -117,6 +118,7 @@ class stock_return_picking(models.TransientModel):
                     'origin_returned_move_id': move.id,
                     'procure_method': 'make_to_stock',
                     'restrict_lot_id': data_get.lot_id.id,
+                    'invoice_state': data['invoice_state'],
                 })
 
         if not returned_lines:
