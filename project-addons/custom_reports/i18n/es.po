@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-03 08:36+0000\n"
-"PO-Revision-Date: 2016-02-03 09:38+0100\n"
+"POT-Creation-Date: 2016-02-04 11:01+0000\n"
+"PO-Revision-Date: 2016-02-04 12:05+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,7 @@ msgstr "Comentario:"
 #: field:account.invoice.report,commission_category:0
 #: field:sale.report,commission_category:0
 msgid "Commission category"
-msgstr "Categoría de comisiones"
+msgstr "Categoría comisiones"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -590,17 +590,6 @@ msgid "Product | EAN13"
 msgstr "Producto | EAN13"
 
 #. module: custom_reports
-#: field:account.invoice.report,third_parties_category:0
-#: field:sale.report,third_parties_category:0
-msgid "Production for third parties"
-msgstr "Producción a terceros"
-
-#. module: custom_reports
-#: field:product.category,third_parties_production_category:0
-msgid "Production for third parties category"
-msgstr "Categoría de producción a terceros"
-
-#. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
 msgid "Purchase Order Confirmation N°:"
 msgstr "Confirmación de orden de compra N°:"
@@ -781,6 +770,13 @@ msgstr "Impuestos"
 msgid "Theoretical qty."
 msgstr "Cantidad teórica"
 
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: field:account.invoice.report,third_parties:0
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+#: field:sale.report,third_parties:0
+msgid "Third parties"
+msgstr "Fab.Terceros"
+
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
@@ -824,7 +820,7 @@ msgstr "Precio ud."
 #. module: custom_reports
 #: view:website:custom_reports.report_shipping_address
 msgid "VARIABLE \"shipadd\" NOT DEFINED IN TEMPLATE"
-msgstr "VARIABLE \"shipadd\" NO DEFINIDA EN PLANTILLA"
+msgstr "VARIABLE \"shipadd\" NOT DEFINED IN TEMPLATE"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document

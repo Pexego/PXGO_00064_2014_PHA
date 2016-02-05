@@ -55,7 +55,7 @@ class StockPicking(models.Model):
             complete_sum = 0
             weight_sum = 0
             package_list = [] # Count different packages
-            palet_list = []  # Count different palets
+            palet_list = []   # Count different palets
 
             for po in self.pack_operation_ids:
                 complete_sum += po.complete
@@ -120,6 +120,30 @@ class StockPicking(models.Model):
                     # Maintain original sale order price & quantity
                     res['price_unit'] = line.price_unit
                     res['quantity'] = line.product_uom_qty
+        return res
+
+    @api.multi
+    def write(self, vals):
+        carrier_id = vals.get('carrier_id', False)
+        if carrier_id:
+            old_carriers = {}
+            for p in self:
+                old_carriers[p.id] = p.carrier_id
+
+        res = super(StockPicking, self).write(vals)
+
+        if carrier_id:
+            for rec in self:
+                if rec.sale_id and rec.sale_id.carrier_id != carrier_id:
+                    rec.sale_id.carrier_id = carrier_id
+                    for line in rec.sale_id.order_line:
+                        if line.is_delivery and \
+                               line.product_id != rec.carrier_id.product_id:
+                            line.product_id = rec.carrier_id.product_id
+                            line.name = line.product_id.name
+
+                if rec.expedition_id and old_carriers[rec.id] != carrier_id:
+                    rec.expedition_id._compute_carrier_name()
         return res
 
 

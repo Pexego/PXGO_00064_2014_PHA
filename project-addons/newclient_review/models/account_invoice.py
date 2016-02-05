@@ -19,4 +19,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import models
+from openerp import models, api
+from openerp.exceptions import Warning
+from openerp.tools.translate import _
+
+
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.multi
+    def invoice_validate(self):
+        # If one client data is not confirmed, invoice(s) can't be validated
+        for invoice in self:
+            if (not invoice.partner_id.confirmed):
+                #Show message and rollback
+                raise Warning(_('Client without review. A manager must review '
+                                'data to confirm it before validate invoice, '
+                                'you can "Save" this invoice to validate later.'))
+
+        # Everything right, call original method
+        return super(AccountInvoice, self).invoice_validate()
+
+
+

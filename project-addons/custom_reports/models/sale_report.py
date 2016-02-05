@@ -35,8 +35,7 @@ class SaleReport(models.Model):
     sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
-    third_parties_category = fields.Many2one('product.category',
-                                             'Production for third parties')
+    third_parties = fields.Char('Third parties')
     country_id = fields.Many2one('res.country', 'Invoicing country')
     invoicing_state_id = fields.Many2one('res.country.state', 'Invoicing state')
     shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
@@ -60,7 +59,10 @@ class SaleReport(models.Model):
                 when pc.name is null then '(Sin categoría)'
                 else pc.name
             end as commission_category,
-            tpc.id as third_parties_category,
+            case
+                when t.customer is not null then 'Terceros'
+                else 'Propios'
+            end as third_parties,
             pa.country_id as country_id,
             ics.id as invoicing_state_id,
             scs.id as shipping_state_id,
@@ -91,14 +93,6 @@ class SaleReport(models.Model):
                     where pcr.product_id = p.id
                     limit 1
                 )
-            left join product_category tpc on tpc.id = (
-                    select pcr.categ_id
-                    from product_categ_rel pcr
-                    join product_category pc_aux on pc_aux.id = pcr.categ_id
-                    where pcr.product_id = p.id
-                      and pc_aux.third_parties_production_category is True
-                    limit 1
-            )
             left join res_country_state ics on ics.id = pa.state_id
             left join res_country_state scs on scs.id = spa.state_id
             """
@@ -111,7 +105,7 @@ class SaleReport(models.Model):
             s.sale_channel_id,
             partner_category,
             commission_category,
-            tpc.id,
+            t.customer,
             pa.country_id,
             ics.id, scs.id,
             t.line,

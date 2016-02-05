@@ -50,10 +50,10 @@ class settlement_agent(models.Model):
         currency_obj = self.pool.get('res.currency')
         sale_obj = self.pool.get('sale.order')
         order_line_obj = self.pool.get('sale.order.line')
-        commission_obj = self.pool.get('commission.bussines.line')
-        amount_total = 0
+        commission_obj = self.pool.get('sale.commission')
         user = self.pool.get('res.users').browse(cr, uid, uid)
         for set_agent in self.browse(cr, uid, ids):
+            amount_total = 0
             sale_ids = sale_obj.search(cr, uid,
                                        [('transfer', '=', True),
                                         ('settled', '=', False),
@@ -61,39 +61,24 @@ class settlement_agent(models.Model):
                                         ('date_order', '>=', date_from),
                                         ('date_order', '<=', date_to)])
             for sale in sale_obj.browse(cr, uid, sale_ids):
+                set_settled_sale = False
                 for line in sale.order_line:
                     amount = 0
                     commissions_ = order_line_obj.get_applied_commission(line)
-                    commissions = [x for x in commissions_
+                    commissions = [x.commission_id for x in commissions_
                                    if x.agent_id.id == set_agent.agent_id.id]
                     for commission in commissions:
-                        # selecciona el asignado al agente para el que está
-                        # liquidando
-                        analytic = line.order_id.project_id
-                        commission_applied = commission_obj.search(
-                            cr, uid, [('commission_id', '=',
-                                       commission.commission_id.id)])
-                        if not commission_applied:
-                            commission_applied = commission_obj.search(
-                                cr, uid, [('commission_id', '=',
-                                           commission.commission_id.id)])
-                        if not commission_applied:
-                            raise exceptions.except_orm(
-                                _('Commission Error'),
-                                _('not found the appropiate commission.'))
-                        commission_app = commission_obj.browse(cr, uid, commission_applied[0])
-
                         line_amount = line.price_subtotal
-                        if commission_app.type == "fijo":
-                            commission_per = commission_app.fix_qty
+                        if commission.type == "fijo":
+                            commission_per = commission.fix_qty
                             # Para tener en cuenta las rectificativas
                             amount = amount + \
                                 line.price_subtotal * \
                                 float(commission_per) / 100
 
-                        elif commission_app.type == "tramos":
-                            amount = amount + self.pool.get('commission.bussines.line').calcula_tramos(
-                                cr, uid, [commission_app.id], line_amount)
+                        elif commission.type == "tramos":
+                            amount = amount + commission_obj.calcula_tramos(
+                                cr, uid, [commission.id], line_amount)
 
                         cc_amount_subtotal = sale.currency_id.id != \
                             user.company_id.currency_id.id and \
@@ -108,19 +93,20 @@ class settlement_agent(models.Model):
                                                  sale.currency_id.id,
                                                  user.company_id.currency_id.id,
                                                  amount, round=False) or amount
+                        set_settled_sale = True
                         linea_id = self.pool.get('settlement.line').create(
                             cr, uid, {'settlement_agent_id': set_agent.id,
                                       'name': sale.name + u"/" + line.name,
                                       'amount': cc_amount_subtotal,
                                       'commission': cc_commission_amount,
-                                      'commission_id': commission.commission_id.id,
+                                      'commission_id': commission.id,
                                       'currency_id': sale.currency_id.id,
                                       }, context={'transfer': True})
 
                         amount_total += cc_commission_amount
-
-                sale.write({'settlement_agent_id': set_agent.id,
-                            'settled': True})
+                if set_settled_sale:
+                    sale.write({'settlement_agent_id': set_agent.id,
+                                'settled': True})
             self.write(cr, uid, set_agent.id,
                        {'commission_transfer': amount_total,
                         'total': set_agent.total + amount_total})

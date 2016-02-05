@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus. All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
+#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,13 +19,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import models, fields, api
 from openerp.tools.translate import _
-import sys
 
 
-class PartnerReview(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
     _description = 'List of partners in Waiting for review state'
 
@@ -49,7 +47,7 @@ class PartnerReview(models.Model):
         # TODO: PRESTASHOP -> If is a user or a client from prestashop
         # TODO: PRESTASHOP -> assign user as creator of the partner
         vals['confirmed'] = self._check_permissions() or vals.get('supplier')
-        return super(PartnerReview, self).create(vals)
+        return super(ResPartner, self).create(vals)
 
     @api.multi
     def write(self, vals):
@@ -81,13 +79,13 @@ class PartnerReview(models.Model):
                 rec_not_confirmed = rec_not_confirmed + rec
 
         if len(rec_confirmed):
-            res = super(PartnerReview, rec_confirmed).\
+            res = super(ResPartner, rec_confirmed).\
                 write(vals_confirmed)
         else:
             res = True
 
         if len(rec_not_confirmed):
-            res = res and super(PartnerReview, rec_not_confirmed).\
+            res = res and super(ResPartner, rec_not_confirmed).\
                 write(vals_not_confirmed)
 
         return res

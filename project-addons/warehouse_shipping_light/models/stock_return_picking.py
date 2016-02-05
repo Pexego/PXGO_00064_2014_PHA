@@ -20,6 +20,7 @@
 ##############################################################################
 
 from openerp import models, api
+import re
 
 
 class StockReturnPicking(models.TransientModel):
@@ -28,11 +29,18 @@ class StockReturnPicking(models.TransientModel):
     @api.multi
     def create_returns(self):
         # Save context before...
-        model = self.env.context.get('active_model', False)
-        picking = self.env.context.get('active_id', False)
+        model = self.env.context.get('active_model')
+        picking = self.env.context.get('active_id')
 
         # Revert transfer
         res = super(StockReturnPicking, self).create_returns()
+
+        # Pass selected invoicing policy
+        domain = res.get('domain')
+        new_picking = re.findall(r'\d+', domain) # Extract id from domain
+        if len(new_picking):
+            new_picking = self.env['stock.picking'].browse(int(new_picking[0]))
+            new_picking.invoice_state = self.invoice_state
 
         # Remove expedition
         if model == 'stock.picking' and picking:

@@ -29,6 +29,7 @@
                     <filter string="Cooperative" context="{'group_by':'notified_partner_id'}" domain="[('sale_type', '=', 'transfer')]"/>
                     <filter string="Invoicing country" context="{'group_by': 'country_id'}"/>
                     <filter string="Shipping country" context="{'group_by': 'shipping_country_id'}"/>
+                    <filter string="Third parties" context="{'group_by': 'third_parties'}"/>
                 </filter>
                 <filter string="Category of Product" position="after">
                     <filter string="Commissions category" context="{'group_by':'commission_category'}" domain="[('commission_category', '!=', False)]"/>
