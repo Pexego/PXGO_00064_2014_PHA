@@ -96,7 +96,7 @@
         <!--Warehouse Routes multicompany-->
         <record id="model_product_category_rule" model="ir.rule">
             <field name="name">WarehouseRoutes Multicompany</field>
-            <field name="model_id" ref="stock.location.route"/>
+            <field name="model_id" ref="stock.model_stock_location_route"/>
             <field name="global" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_read" eval="True"/>
