@@ -59,7 +59,7 @@ class ResPartner(models.Model):
                     original_value = eval('partner.' + field)
                     original_value = original_value if original_value \
                                                     else _('(empty)')
-                    fields += u'<br>{0}: {1} => {2}'.format(
+                    fields += u'<br>{0}: {1} >> {2}'.format(
                             _(attrs[field]['string']), original_value, vals[field])
 
                 partner.message_post(body=_('Modified fields: ') + fields)

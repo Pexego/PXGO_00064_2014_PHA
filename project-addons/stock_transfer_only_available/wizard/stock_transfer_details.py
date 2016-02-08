@@ -22,14 +22,16 @@ from openerp import models, fields, api, exceptions, _
 from openerp.tools.float_utils import float_compare
 
 
-class StockTransferDetails(models.Model):
+class StockTransferDetails(models.TransientModel):
 
     _inherit = 'stock.transfer_details'
 
     @api.one
     def do_detailed_transfer(self):
+        stock_loc_id = self.picking_id.picking_type_id.warehouse_id.lot_stock_id.id
         for line in self.item_ids:
-            if line.sourceloc_id.id not in self.env['stock.location'].search([('id', 'child_of', self.picking_id.picking_type_id.warehouse_id.lot_stock_id.id)])._ids:
+            if line.sourceloc_id.id not in self.env['stock.location'].search(
+                    [('id', 'child_of', stock_loc_id)])._ids:
                 continue
             quant_vals = [('product_id', '=', line.product_id.id),
                           ('lot_id', '=', line.lot_id and line.lot_id.id or
