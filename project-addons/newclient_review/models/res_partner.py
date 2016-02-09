@@ -73,7 +73,7 @@ class ResPartner(models.Model):
         vals_not_confirmed = vals.copy()
         vals_not_confirmed['confirmed'] = False
         for rec in self:
-            if vals.get('confirmed') or vals.get('supplier') or rec.supplier:
+            if self._check_permissions() or vals.get('supplier') or rec.supplier:
                 rec_confirmed = rec_confirmed + rec
             else:
                 rec_not_confirmed = rec_not_confirmed + rec
