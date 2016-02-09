@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import account_banking_mandate, res_config
+import res_config
