@@ -8,8 +8,8 @@
             <field name="name">Cooperative reposition</field>
             <field name="context">{'group_by': ['notified_partner_id', 'product_id'], 'measures': ['price_total'], 'col_group_by': ['date:month']}</field>
         </record>
-        <record model="res.partner.category" id="et999">
+        <!--record model="res.partner.category" id="et999">
                 <field name="name">VARIAS / Dimoni(Mayorista) / Dimoni(Mayorista-Cooperativa)</field>
-        </record>
+        </record-->
     </data>
 </openerp>
