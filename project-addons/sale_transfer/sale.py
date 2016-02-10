@@ -27,8 +27,8 @@ class sale(models.Model):
     _inherit = 'sale.order'
 
     def _get_cooperatives_domain(self):
-        # VARIAS / Dimoni(Mayorista) / Dimoni(Mayorista-Cooperativa)
-        res = [('category_id.id', '=', self.env.ref('sale_transfer.et999').id)]
+        # FARMACIA / Mayorista Farma
+        res = [('category_id.id', '=', self.env.ref('.et010').id)]
         return res
 
     transfer = fields.Boolean('Transfer')
