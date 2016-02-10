@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--Delete Sales Button Base view of preclient-->
+        <record id="view_expenses_form_custom_view" model="ir.ui.view">
+            <field name="name">hr.expense.expense.custom.view</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Generate Accounting Entries']" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

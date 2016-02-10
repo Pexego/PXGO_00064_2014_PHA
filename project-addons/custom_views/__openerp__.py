@@ -51,6 +51,7 @@
         'views/invoice.xml',
         'views/purchase_analytics_plan_view.xml',
         'views/account_invoice_view.xml',
+        'views/hr_expense_custom_view.xml',
         'data/wizards_units_precision.xml',
         'security/menus.xml',
     ],
