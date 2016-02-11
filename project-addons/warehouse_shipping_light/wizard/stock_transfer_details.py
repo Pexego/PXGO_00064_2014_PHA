@@ -95,7 +95,6 @@ class StockTransferDetails(models.TransientModel):
                                      op.product_id.product_tmpl_id.box_elements)
                 else:
                     item['rest'] = op.product_qty
-
         return res
 
     @api.one
@@ -148,6 +147,7 @@ class StockTransferDetailsItems(models.TransientModel):
     quantity_to_extract = fields.Float('Quantity to extract',
                            digits=dp.get_precision('Product Unit of Measure'),
                            default=0)
+    active = fields.Boolean('Active', default=True)
 
     @api.onchange('quantity', 'complete')
     def onchange_complete(self):
@@ -215,3 +215,11 @@ class StockTransferDetailsItems(models.TransientModel):
             det.quantity_to_extract = 0
         if self and self[0]:
             return self[0].transfer_id.wizard_view()
+
+    @api.multi
+    def unlink(self):
+        if not self._context:
+            return super(StockTransferDetailsItems, self).unlink()
+        else:
+            for line in self:
+                line.active = False
