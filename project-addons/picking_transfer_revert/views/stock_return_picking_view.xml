@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <act_window name="Revert and recreate transfer"
+            res_model="stock.return.picking"
+            src_model="stock.picking"
+            view_id="picking_transfer_revert_form"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            multi="True"
+            context="{'default_invoice_state': 'none'}"
+            id="act_stock_revert_recreate_transfer"/>
+
+        <record id="picking_transfer_revert_form" model="ir.ui.view">
+            <field name="name">Revert transfer and recreate picking</field>
+            <field name="model">stock.return.picking</field>
+            <field name="arch" type="xml">
+                <form string="Return lines">
+                    <field name="has_partials_transferred_or_invoiced" invisible="1"/>
+                    <group string="You are about to reverting the transfer. Are you sure?"
+                           attrs="{'invisible': [('has_partials_transferred_or_invoiced','=',True)]}">
+                        <field name="move_dest_exists" invisible="1"/>
+                        <field name="product_return_moves" colspan="4" invisible="1">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}"/>
+                                <field name="quantity"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="This picking can not be reverted because it has partial pickings transferred or invoiced."
+                           attrs="{'invisible': [('has_partials_transferred_or_invoiced','=',False)]}">
+                    </group>
+                    <footer>
+                        <button name="revert_transfer_and_recreate_picking"
+                                string="Continue"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('has_partials_transferred_or_invoiced','=',True)]}"
+                        />
+                        <label string="or"
+                               style="padding-right: 5px;"
+                               attrs="{'invisible': [('has_partials_transferred_or_invoiced','=',True)]}"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
