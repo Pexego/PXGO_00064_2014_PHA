@@ -50,4 +50,3 @@ class StockPicking(models.Model):
                                      (self.picking_type_code == 'outgoing') and \
                                      (self.invoice_state != 'invoiced') and \
                                      (len(self.sale_id) > 0)
-#                                     (len(self.backorder_id) == 0) and \
