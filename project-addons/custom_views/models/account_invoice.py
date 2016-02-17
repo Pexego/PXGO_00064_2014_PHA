@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ class AccountInvoice(models.Model):
     def write(self, vals):
         # Force re-calculations on save
         re_calculate = False
+        type_is_out_invoice = True
         if not vals.get('latest_calculations'):
             for rec in self:
                 now = datetime.datetime.now()
@@ -50,9 +51,13 @@ class AccountInvoice(models.Model):
                     then = now - datetime.timedelta(days=1)
 
                 diff = now - then
-                re_calculate = re_calculate or diff.days > 0 or diff.seconds > 10
+                re_calculate = re_calculate or \
+                               diff.days > 0 or \
+                               diff.seconds > 10
+                type_is_out_invoice = type_is_out_invoice and \
+                                      (rec.type == 'out_invoice')
 
-        if re_calculate:
+        if re_calculate and type_is_out_invoice:
             # Timestamp to avoid unnecessary loops
             vals['latest_calculations'] = fields.Datetime.now()
             res = super(AccountInvoice, self).write(vals)
