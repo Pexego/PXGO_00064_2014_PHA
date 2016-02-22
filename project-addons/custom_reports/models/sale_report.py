@@ -33,6 +33,7 @@ class SaleReport(models.Model):
                                             ('intermediary', 'Intermediary')],
                                  string='Type')
     sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
+    partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
     third_parties = fields.Char('Third parties')
@@ -51,6 +52,10 @@ class SaleReport(models.Model):
             s.notified_partner_id as notified_partner_id,
             s.sale_type as sale_type,
             s.sale_channel_id as sale_channel_id,
+            case
+                when parent_rpc.name is null then '(Sin categoría)'
+                else parent_rpc.name
+            end as partner_parent_category,
             case
                 when rpc.name is null then '(Sin categoría)'
                 else rpc.name
@@ -78,6 +83,17 @@ class SaleReport(models.Model):
         from_str = """
             left join res_partner pa
                    on (pa.id = s.partner_id and pa.company_id = s.company_id)
+            left join res_partner_category parent_rpc on parent_rpc.id = (
+                    select
+                        case
+                            when rpc_aux.parent_id is null then parent_rpcr.category_id
+                            else rpc_aux.parent_id
+                        end
+                    from res_partner_res_partner_category_rel parent_rpcr
+                    join res_partner_category rpc_aux on rpc_aux.id = parent_rpcr.category_id
+                    where parent_rpcr.partner_id = s.partner_id
+                    limit 1
+                )
             left join res_partner_category rpc on rpc.id = (
                     select rpcr.category_id
                     from res_partner_res_partner_category_rel rpcr
@@ -103,6 +119,7 @@ class SaleReport(models.Model):
             s.notified_partner_id,
             s.sale_type,
             s.sale_channel_id,
+            partner_parent_category,
             partner_category,
             commission_category,
             t.customer,

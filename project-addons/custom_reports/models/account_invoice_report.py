@@ -25,6 +25,7 @@ from openerp import fields, models
 class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
+    partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
     third_parties = fields.Char('Third parties')
@@ -40,6 +41,7 @@ class AccountInvoiceReport(models.Model):
 
     def _select(self):
         select_str = """,
+            partner_parent_category,
             partner_category,
             commission_category,
             third_parties,
@@ -56,6 +58,10 @@ class AccountInvoiceReport(models.Model):
 
     def _sub_select(self):
         select_str = """,
+            case
+                when parent_rpc.name is null then '(Sin categoría)'
+                else parent_rpc.name
+            end as partner_parent_category,
             case
                 when rpc.name is null then '(Sin categoría)'
                 else rpc.name
@@ -81,6 +87,17 @@ class AccountInvoiceReport(models.Model):
 
     def _from(self):
         from_str = """
+            left join res_partner_category parent_rpc on parent_rpc.id = (
+                    select
+                        case
+                            when rpc_aux.parent_id is null then parent_rpcr.category_id
+                            else rpc_aux.parent_id
+                        end
+                    from res_partner_res_partner_category_rel parent_rpcr
+                    join res_partner_category rpc_aux on rpc_aux.id = parent_rpcr.category_id
+                    where parent_rpcr.partner_id = partner.id
+                    limit 1
+                )
             left join res_partner_category rpc on rpc.id = (
                     select rpcr.category_id
                     from res_partner_res_partner_category_rel rpcr
@@ -105,6 +122,7 @@ class AccountInvoiceReport(models.Model):
 
     def _group_by(self):
         group_by_str = """,
+            partner_parent_category,
             partner_category,
             commission_category,
             pt.customer,
