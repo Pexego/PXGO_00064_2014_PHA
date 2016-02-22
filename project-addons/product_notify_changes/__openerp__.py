@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,42 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name': "Custom views",
+    'name': 'Product notify changes',
     'version': '1.0',
-    'category': '',
-    'summary' : 'Custom views',
-    'description': " //static/description/index.html//",
     'author': 'Pharmadus I+D+i',
+    'summary' : 'Create messages to notify changes in products data',
+    'description': 'Create messages to notify changes in products data',
+    'category': 'Social Network',
     'website': 'www.pharmadus.com',
     'depends' : [
-        'base',
-        'sale',
-        'purchase',
-        'purchase_analytic_plans',
-        'sale_commission',
-        'sale_samples',
-        'newclient_review',
-        'pre_customer',
-        'partner_prospect',
-        'stock',
-        'custom_permissions',
+        'mail',
+        'product',
     ],
     'data' : [
-        'views/sale_view.xml',
-        'views/custom_css.xml',
-        'views/res_partner_view.xml',
-        'views/product_view.xml',
-        'views/purchase_view2.xml',
-        'views/stock_quant.xml',
-        'views/stock_view.xml',
-        'views/view_form_custom.xml',
-        'views/purchase_analytics_plan_view.xml',
-        'views/account_invoice_view.xml',
-        'views/hr_expense_custom_view.xml',
-        'wizard/payment_order_create_view.xml',
-        'data/wizards_units_precision.xml',
-        'security/menus.xml',
     ],
     'installable': True
 }

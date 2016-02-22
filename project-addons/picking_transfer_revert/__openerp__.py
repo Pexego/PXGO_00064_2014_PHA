@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
@@ -20,41 +20,21 @@
 #
 ##############################################################################
 {
-    'name': "Custom views",
+    'name': "Revert transferred pickings for sales",
     'version': '1.0',
-    'category': '',
-    'summary' : 'Custom views',
-    'description': " //static/description/index.html//",
+    'category': 'Warehouse',
+    'summary' : 'Revert an outgoing transferred picking and create a new one for sale orders.',
+    'description': 'Revert an outgoing transferred picking and create a new one for sale orders.',
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
     'depends' : [
-        'base',
         'sale',
-        'purchase',
-        'purchase_analytic_plans',
-        'sale_commission',
-        'sale_samples',
-        'newclient_review',
-        'pre_customer',
-        'partner_prospect',
         'stock',
-        'custom_permissions',
     ],
     'data' : [
-        'views/sale_view.xml',
-        'views/custom_css.xml',
-        'views/res_partner_view.xml',
-        'views/product_view.xml',
-        'views/purchase_view2.xml',
-        'views/stock_quant.xml',
+        'views/stock_return_picking_view.xml',
         'views/stock_view.xml',
-        'views/view_form_custom.xml',
-        'views/purchase_analytics_plan_view.xml',
-        'views/account_invoice_view.xml',
-        'views/hr_expense_custom_view.xml',
-        'wizard/payment_order_create_view.xml',
-        'data/wizards_units_precision.xml',
-        'security/menus.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True
 }

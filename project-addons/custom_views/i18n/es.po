@@ -152,6 +152,11 @@ msgid "Latest date and time when amounts were calculated"
 msgstr "Última fecha/hora en que se calcularon los importes"
 
 #. module: custom_views
+#: view:stock.move:custom_views.custom_views_move_search
+msgid "Lot"
+msgstr "Lote"
+
+#. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
 msgid "My Purchases"
 msgstr "Mis compras"

@@ -18,7 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, SUPERUSER_ID
+
+
+class StockMove(models.Model):
+    _inherit = 'stock.move'
+
+    lot_str = fields.Char(string='Lots',
+                          compute='_get_related_lots_str',
+                          readonly=True,
+                          store=True,
+                          select=True)
+
+    @api.depends('lot_ids')
+    def _get_related_lots_str(self):
+        for move in self:
+            move.lot_str = u", ".join([x.name for x in move.lot_ids])
+
+    def init(self, cr):
+        move_ids = self.search(cr, SUPERUSER_ID, [('lot_str', 'in', (False, ''))])
+        moves = self.browse(cr, SUPERUSER_ID, move_ids)
+        moves._get_related_lots_str()
 
 
 class StockPicking(models.Model):

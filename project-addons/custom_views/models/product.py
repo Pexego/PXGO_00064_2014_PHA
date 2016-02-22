@@ -24,14 +24,45 @@ from openerp import models, fields, api
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    is_in_current_pricelist = fields.Boolean(
+            compute='_compute_is_in_current_pricelist',
+            search='_search_is_in_current_pricelist')
+
     @api.multi
     def name_get(self): # Hide default_code by default
         return super(ProductProduct,
                      self.with_context(display_default_code=False)).name_get()
 
+    @api.depends('pricelist_id')
+    def _compute_is_in_current_pricelist(self):
+        pricelist = self.pricelist_id.mapped('id')
+        return self.env.context.get('pricelist', False) in pricelist
+
+    def _search_is_in_current_pricelist(self, operator, value):
+        # This domain filter by price list is only for Pharmadus and
+        # sale orders that aren't for sample/advertising purposes
+        if (self.env.user.company_id != self.env.ref('base.main_company')) or\
+                self.env.context.get('is_a_sample_order', False):
+            return [('active', '=', True)]
+
+        current_pricelist_product_list = []
+        pricelist = self.env.context.get('pricelist', False)
+        if pricelist:
+            pricelist_id = self.env['product.pricelist'].browse(pricelist)
+            current_pricelist_product_list = \
+                pricelist_id.version_id.items_id.mapped('product_id.id')
+        if ((operator == '=') and value) or ((operator == '!=') and not value):
+            operator = 'in'
+        else:
+            operator = 'not in'
+        return [('id', operator, current_pricelist_product_list)]
+
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
+
+    suppliers_pricelists = fields.One2many('pricelist.partnerinfo',
+                                           compute="_suppliers_pricelists")
 
     @api.one
     @api.depends('seller_ids')
@@ -42,6 +73,3 @@ class ProductTemplate(models.Model):
                 for pricelist in seller.pricelist_ids:
                     ids.append(pricelist.id)
         self.suppliers_pricelists = ids
-
-    suppliers_pricelists = fields.One2many('pricelist.partnerinfo',
-                                           compute="_suppliers_pricelists")
