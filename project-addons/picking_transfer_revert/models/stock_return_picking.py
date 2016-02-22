@@ -46,7 +46,9 @@ class StockReturnPicking(models.Model):
         # Set destination location as origin location of
         # returned move pack operation
         for move in revert_picking.move_lines:
-            move.location_dest_id = move.origin_returned_move_id.\
+            if move.origin_returned_move_id and \
+                len(move.origin_returned_move_id.linked_move_operation_ids) > 0:
+                move.location_dest_id = move.origin_returned_move_id.\
                            linked_move_operation_ids[0].operation_id.location_id
         revert_picking.do_transfer()
 
@@ -56,21 +58,25 @@ class StockReturnPicking(models.Model):
         # Set invoicing policy for origin picking as in revert picking
         picking.invoice_state = revert_picking.invoice_state
 
-        # Cancel partial pickings
-        for partial_picking in picking.partial_ids:
-            partial_picking.action_cancel()
-
         # Recollect original moves
         origin_moves = self.env['stock.move']
         for move in picking.move_lines:
             origin_moves += move
-        for partial in picking.partial_ids:
-            for move in partial.move_lines:
+        for partial_picking in picking.partial_ids:
+            for move in partial_picking.move_lines:
                 origin_moves += move
+            partial_picking.action_cancel()  # Cancel partial pickings
+
+        # Clear previously existing auxiliary procurements
+        procurements = self.env['procurement.order.aux']
+        for move in origin_moves:
+            procurement = procurements.search(
+                    [('procurement_id', '=', move.procurement_id.id)])
+            if procurement:
+                procurement.unlink()
 
         # Recover affected procurements and quantities
         procurement_ids = []
-        procurements = self.env['procurement.order.aux']
         for move in origin_moves:
             procurement = procurements.search(
                     [('procurement_id', '=', move.procurement_id.id)])

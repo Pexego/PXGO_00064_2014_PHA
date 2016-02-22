@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <act_window name="Revert and recreate transfer"
-            res_model="stock.return.picking"
-            src_model="stock.picking"
-            view_id="picking_transfer_revert_form"
-            view_mode="form"
-            target="new"
-            key2="client_action_multi"
-            multi="True"
-            context="{'default_invoice_state': 'none'}"
-            id="act_stock_revert_recreate_transfer"/>
-
         <record id="picking_transfer_revert_form" model="ir.ui.view">
             <field name="name">Revert transfer and recreate picking</field>
             <field name="model">stock.return.picking</field>
@@ -47,5 +36,16 @@
                 </form>
             </field>
         </record>
+
+        <act_window name="Revert and recreate transfer"
+            res_model="stock.return.picking"
+            src_model="stock.picking"
+            view_id="picking_transfer_revert_form"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            multi="True"
+            context="{'default_invoice_state': 'none'}"
+            id="act_stock_revert_recreate_transfer"/>
     </data>
 </openerp>
