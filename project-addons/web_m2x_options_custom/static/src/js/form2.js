@@ -1,4 +1,4 @@
-/*global openerp, _, $ */
+/*global openerp, _, $  */
 
 openerp.web_m2x_options = function (instance) {
 
