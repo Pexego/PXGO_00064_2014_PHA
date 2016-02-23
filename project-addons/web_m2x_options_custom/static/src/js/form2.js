@@ -1,6 +1,6 @@
 /*global openerp, _, $  */
 
-openerp.web_m2x_options = function (instance) {
+openerp.web_m2x_options_custom = function (instance) {
 
     "use strict";
 
@@ -8,11 +8,11 @@ openerp.web_m2x_options = function (instance) {
         _t  = instance.web._t,
         _lt = instance.web._lt;
 
-    var OPTIONS = ['web_m2x_options.create',
-                   'web_m2x_options.create_edit',
-                   'web_m2x_options.limit',
-                   'web_m2x_options.search_more',
-                   'web_m2x_options.m2o_dialog',];
+    var OPTIONS = ['web_m2x_options_custom.create',
+                   'web_m2x_options_custom.create_edit',
+                   'web_m2x_options_custom.limit',
+                   'web_m2x_options_custom.search_more',
+                   'web_m2x_options_custom.m2o_dialog',];
 
     instance.web.form.FieldMany2One = instance.web.form.FieldMany2One.extend({
 
@@ -55,8 +55,8 @@ openerp.web_m2x_options = function (instance) {
 
         show_error_displayer: function () {
             if(this.is_option_set(this.options.m2o_dialog) ||
-               _.isUndefined(this.options.m2o_dialog) && this.is_option_set(this.view.ir_options['web_m2x_options.m2o_dialog']) ||
-               this.can_create && _.isUndefined(this.options.m2o_dialog) && _.isUndefined(this.view.ir_options['web_m2x_options.m2o_dialog'])) {
+               _.isUndefined(this.options.m2o_dialog) && this.is_option_set(this.view.ir_options['web_m2x_options_custom.m2o_dialog']) ||
+               this.can_create && _.isUndefined(this.options.m2o_dialog) && _.isUndefined(this.view.ir_options['web_m2x_options_custom.m2o_dialog'])) {
                 new instance.web.form.M2ODialog(this).open();
             }
         },
@@ -69,8 +69,8 @@ openerp.web_m2x_options = function (instance) {
             // returned.
             if (_.isUndefined(this.view))
                     return this._super.apply(this, arguments);
-                if (!_.isUndefined(this.view.ir_options['web_m2x_options.limit'])) {
-                this.limit = parseInt(this.view.ir_options['web_m2x_options.limit']);
+                if (!_.isUndefined(this.view.ir_options['web_m2x_options_custom.limit'])) {
+                this.limit = parseInt(this.view.ir_options['web_m2x_options_custom.limit']);
             }
 
             if (typeof this.options.limit === 'number') {
@@ -78,7 +78,7 @@ openerp.web_m2x_options = function (instance) {
             }
 
             // add options search_more to force enable or disable search_more button
-            if (this.is_option_set(this.options.search_more) || _.isUndefined(this.options.search_more) && this.is_option_set(self.view.ir_options['web_m2x_options.search_more'])) {
+            if (this.is_option_set(this.options.search_more) || _.isUndefined(this.options.search_more) && this.is_option_set(self.view.ir_options['web_m2x_options_custom.search_more'])) {
                 this.search_more = true
             }
 
@@ -179,8 +179,8 @@ openerp.web_m2x_options = function (instance) {
                     self.options && (self.options.no_create ||
                                      self.options.no_quick_create)
                 )
-                var m2x_create_undef = _.isUndefined(self.view.ir_options['web_m2x_options.create'])
-                var m2x_create = self.view.ir_options['web_m2x_options.create'] == "True"
+                var m2x_create_undef = _.isUndefined(self.view.ir_options['web_m2x_options_custom.create'])
+                var m2x_create = self.view.ir_options['web_m2x_options_custom.create'] == "True"
 
                 if (!no_quick_create && ((can_create) ||
                                          m2x_create)) {
@@ -201,15 +201,19 @@ openerp.web_m2x_options = function (instance) {
                 }
 
                 // create...
+                var create_edit = (
+                    self.options && (self.options.create ||
+                                     self.options.create_edit)
+                )
                 var no_create_edit = (
                     self.options && (self.options.no_create ||
                                      self.options.no_create_edit)
                 )
-                var m2x_create_edit_undef = _.isUndefined(self.view.ir_options['web_m2x_options.create_edit'])
-                var m2x_create_edit = self.view.ir_options['web_m2x_options.create_edit'] == "True"
+                var m2x_create_edit_undef = _.isUndefined(self.view.ir_options['web_m2x_options_custom.create_edit'])
+                var m2x_create_edit = self.view.ir_options['web_m2x_options_custom.create_edit'] == "True"
 
-                if (!no_create_edit && ((m2x_create_edit_undef && can_create) ||
-                                        m2x_create_edit)) {
+                if (create_edit || (!no_create_edit && ((m2x_create_edit_undef && can_create) ||
+                                        m2x_create_edit))) {
 
                     values.push({
                         label: _t("Create and Edit..."),
@@ -273,8 +277,8 @@ openerp.web_m2x_options = function (instance) {
             // add options limit used to change number of selections record
             // returned.
 
-            if (!_.isUndefined(this.view.ir_options['web_m2x_options.limit'])) {
-                this.limit = parseInt(this.view.ir_options['web_m2x_options.limit']);
+            if (!_.isUndefined(this.view.ir_options['web_m2x_options_custom.limit'])) {
+                this.limit = parseInt(this.view.ir_options['web_m2x_options_custom.limit']);
             }
 
             if (typeof this.options.limit === 'number') {
@@ -321,8 +325,8 @@ openerp.web_m2x_options = function (instance) {
                     self.options && (self.options.no_create ||
                                      self.options.no_quick_create)
                 )
-                var m2x_create_undef = _.isUndefined(self.view.ir_options['web_m2x_options.create'])
-                var m2x_create = self.view.ir_options['web_m2x_options.create'] == "True"
+                var m2x_create_undef = _.isUndefined(self.view.ir_options['web_m2x_options_custom.create'])
+                var m2x_create = self.view.ir_options['web_m2x_options_custom.create'] == "True"
 
                 if (!no_quick_create && (m2x_create_undef || m2x_create)) {
 
@@ -344,8 +348,8 @@ openerp.web_m2x_options = function (instance) {
                     self.options && (self.options.no_create ||
                                      self.options.no_create_edit)
                 )
-                var m2x_create_edit_undef = _.isUndefined(self.view.ir_options['web_m2x_options.create_edit'])
-                var m2x_create_edit = self.view.ir_options['web_m2x_options.create_edit'] == "True"
+                var m2x_create_edit_undef = _.isUndefined(self.view.ir_options['web_m2x_options_custom.create_edit'])
+                var m2x_create_edit = self.view.ir_options['web_m2x_options_custom.create_edit'] == "True"
 
                 if (!no_create_edit && (m2x_create_edit_undef || m2x_create_edit)) {
 
