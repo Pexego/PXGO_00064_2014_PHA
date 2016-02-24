@@ -16,8 +16,8 @@
                             help="Sale orders in current month"/>
                     <filter string="This week"
                             name="this_week"
-                            domain="[('date','&gt;=',(context_today()+datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d'))]"
-                            help="Sale orders in current week"/>
+                            domain="[('date','&gt;=',(context_today()+relativedelta(days=-6)).strftime('%Y-%m-%d'))]"
+                            help="Sale orders in last seven days"/>
                 </filter>
                 <filter string="Sales Team" position="attributes">
                     <attribute name="groups"></attribute>
