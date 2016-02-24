@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <field name="ref" position="after">
                     <field name="invoice"/>
+                    <field name="payment_mode"/>
                 </field>
             </field>
         </record>

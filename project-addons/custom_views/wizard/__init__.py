@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-from . import models, wizard
+import account_move_line
