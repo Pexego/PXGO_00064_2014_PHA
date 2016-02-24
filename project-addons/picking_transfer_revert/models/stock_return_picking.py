@@ -58,6 +58,10 @@ class StockReturnPicking(models.Model):
         # Set invoicing policy for origin picking as in revert picking
         picking.invoice_state = revert_picking.invoice_state
 
+        # Remove expedition for original picking
+        if picking.expedition_id:
+            picking.expedition_id.unlink()
+
         # Recollect original moves
         origin_moves = self.env['stock.move']
         for move in picking.move_lines:

@@ -30,6 +30,7 @@
     'depends' : [
         'sale',
         'stock',
+        'warehouse_shipping_light'
     ],
     'data' : [
         'views/stock_return_picking_view.xml',
