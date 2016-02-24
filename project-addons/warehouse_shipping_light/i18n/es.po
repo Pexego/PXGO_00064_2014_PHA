@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 08:53+0000\n"
-"PO-Revision-Date: 2016-02-24 09:53+0100\n"
+"POT-Creation-Date: 2016-02-24 09:23+0000\n"
+"PO-Revision-Date: 2016-02-24 10:24+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -269,6 +269,7 @@ msgstr "Transportista no asignado."
 
 #. module: warehouse_shipping_light
 #: field:sale.order,carrier_note:0
+#: field:stock.picking,carrier_note:0
 msgid "Carrier note"
 msgstr "Nota para transportista"
 
@@ -324,13 +325,13 @@ msgid "Closing date:"
 msgstr "Fecha de vencimiento:"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:360
+#: code:addons/warehouse_shipping_light/models/stock.py:361
 #, python-format
 msgid "Commercial discount"
 msgstr "Descuento comercial"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:358
+#: code:addons/warehouse_shipping_light/models/stock.py:359
 #, python-format
 msgid "Commercial discount (%.2f %%)"
 msgstr "Descuento comercial (%.2f %%)"
@@ -492,13 +493,13 @@ msgid "Fecha y hora"
 msgstr "Fecha y hora"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:366
+#: code:addons/warehouse_shipping_light/models/stock.py:367
 #, python-format
 msgid "Financial discount"
 msgstr "Descuento financiero"
 
 #. module: warehouse_shipping_light
-#: code:addons/warehouse_shipping_light/models/stock.py:364
+#: code:addons/warehouse_shipping_light/models/stock.py:365
 #, python-format
 msgid "Financial discount (%.2f %%)"
 msgstr "Descuento financiero (%.2f %%)"
