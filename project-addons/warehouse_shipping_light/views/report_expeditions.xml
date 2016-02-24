@@ -98,6 +98,15 @@
                                     </t>
                                 </td>
                             </tr>
+                            <!-- Observaciones para el transportista -->
+                            <t t-if="p.sale_id and p.sale_id.carrier_note">
+                                <tr>
+                                    <td colspan="10" style="padding-top: 0; border-top: 0;">
+                                        <i>OBSERVATIONS:</i>
+                                        <i t-field="p.sale_id.carrier_note"/>
+                                    </td>
+                                </tr>
+                            </t>
                         </t>
                         <tr style="border: 2px solid grey; border-left: 0; border-right: 0;">
                             <td><strong>Total expeditions</strong></td>
