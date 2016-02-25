@@ -95,7 +95,9 @@ class ResPartner(models.Model):
             for field in vals:
                 field_value = eval('partner.' + field)
                 field_type = attrs[field]['type']
-                if field_type in ['one2many', 'many2one', 'many2many']:
+                if field_type == 'binary':
+                    continue
+                elif field_type in ['one2many', 'many2one', 'many2many']:
                     new_value = u", ".join(
                         [x.display_name for x in field_value]
                     )
