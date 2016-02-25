@@ -24,6 +24,12 @@ msgid "- City field is mandatory.\n"
 msgstr "- El campo \"Ciudad\" es obligatorio.\n"
 
 #. module: pre_customer
+#: code:addons/pre_customer/models/res_partner.py:45
+#, python-format
+msgid "- Tags is mandatory.\n"
+msgstr "- Alguna etiqueta es obligatoria.\n"
+
+#. module: pre_customer
 #: code:addons/pre_customer/models/res_partner.py:49
 #, python-format
 msgid "- Must select a Country.\n"

@@ -64,6 +64,8 @@ class ResPartner(models.Model):
             warning += _('- Payment term is mandatory.\n')
         if not self.customer_payment_mode:
             warning += _('- Payment mode is mandatory.\n')
+        if not self.category_id:
+            warning += _('- Tags is mandatory.\n')
 
         if warning == '':
             self.pre_customer = False

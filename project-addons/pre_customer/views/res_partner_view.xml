@@ -60,6 +60,9 @@
                 <field name="property_product_pricelist" position="attributes">
                     <attribute name="required">False</attribute>
                 </field>
+                <field name="category_id" position="attributes">
+                    <attribute name="required">False</attribute>
+                </field>
             </field>
         </record>
 
