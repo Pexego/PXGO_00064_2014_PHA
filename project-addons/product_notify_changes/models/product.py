@@ -48,7 +48,7 @@ class ProductProduct(models.Model):
                 field_value = eval('product.' + field)
                 field_type = attrs[field]['type']
                 if field_type == 'binary':
-                    continue
+                    new_value = _('(new binary data)') if field_value else False
                 elif field_type in ['one2many', 'many2one', 'many2many']:
                     new_value = u", ".join(
                         [x.display_name for x in field_value]
@@ -56,9 +56,14 @@ class ProductProduct(models.Model):
                 else:
                     new_value = field_value
 
-                orig_value = orig_values[product.id][field]
-                orig_value = orig_value if orig_value else _('(empty)')
-                new_value = new_value if new_value else _('(empty)')
+                if field_type == 'binary':
+                    orig_value = _('(old binary data)') if \
+                        orig_values[product.id][field] else False
+                else:
+                    orig_value = orig_values[product.id][field]
+
+                orig_value = orig_value if orig_value else _('(no data)')
+                new_value = new_value if new_value else _('(no data)')
                 fields += u'<br>{0}: {1} >> {2}'.format(
                         _(attrs[field]['string']), orig_value, new_value)
 
