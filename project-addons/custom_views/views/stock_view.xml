@@ -34,7 +34,7 @@
             <field name="inherit_id" ref="stock.view_move_picking_tree"/>
             <field name="arch" type="xml">
                 <field name="product_uom_qty" position="after">
-                    <field name="lot_str"/>
+                    <field name="lots_string"/>
                     <field name="partner_id"/>
                     <field name="date"/>
                 </field>
@@ -69,7 +69,7 @@
                             name="by_lot"
                             icon="terp-accessories-archiver"
                             domain="[]"
-                            context="{'group_by': 'lot_str'}"/>
+                            context="{'group_by': 'lots_string'}"/>
                 </filter>
             </field>
         </record>
