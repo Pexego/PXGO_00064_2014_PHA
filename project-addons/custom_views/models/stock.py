@@ -24,19 +24,26 @@ from openerp import models, fields, api, SUPERUSER_ID
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    lot_str = fields.Char(string='Lots',
-                          compute='_get_related_lots_str',
-                          readonly=True,
-                          store=True,
-                          select=True)
+    lots_string = fields.Char(string='Lots', readonly=True, index=True)
 
-    @api.depends('lot_ids')
+    @api.multi
     def _get_related_lots_str(self):
         for move in self:
-            move.lot_str = u", ".join([x.name for x in move.lot_ids])
+            lot_str = u", ".join([x.name for x in move.lot_ids])
+            if move.lots_string != lot_str:
+                move.lots_string = lot_str
+
+    @api.multi
+    def write(self, vals):
+        res = super(StockMove, self).write(vals)
+        for move in self:
+            if len(move.lot_ids) > 0:
+                self._get_related_lots_str()
+        return res
 
     def init(self, cr):
-        move_ids = self.search(cr, SUPERUSER_ID, [('lot_str', 'in', (False, ''))])
+        move_ids = self.search(cr, SUPERUSER_ID,
+                               [('lots_string', 'in', (False, ''))])
         moves = self.browse(cr, SUPERUSER_ID, move_ids)
         moves._get_related_lots_str()
 
