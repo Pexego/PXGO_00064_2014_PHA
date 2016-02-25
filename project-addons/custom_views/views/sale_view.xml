@@ -11,7 +11,7 @@
                     <attribute name="context">
                         {'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1, 'intermediary': intermediary}
                     </attribute>
-                    <attribute name="options">{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}</attribute>
+                    <attribute name="options">{'limit': 2, 'create': True, 'create_edit':True}</attribute>
                     <attribute name="width">70%</attribute>
                     <attribute name="domain">[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]</attribute>
                 </field>

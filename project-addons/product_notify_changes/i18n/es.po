@@ -20,8 +20,20 @@ msgstr ""
 #. module: product_notify_changes
 #: code:addons/product_notify_changes/models/product.py:0
 #, python-format
-msgid "(empty)"
+msgid "(no data)"
 msgstr "(vacío)"
+
+#. module: product_notify_changes
+#: code:addons/product_notify_changes/models/product.py:0
+#, python-format
+msgid "(new binary data)"
+msgstr "(nuevos datos binarios)"
+
+#. module: product_notify_changes
+#: code:addons/product_notify_changes/models/product.py:0
+#, python-format
+msgid "(old binary data)"
+msgstr "(viejos datos binarios)"
 
 #. module: product_notify_changes
 #: code:addons/product_notify_changes/models/product.py:0

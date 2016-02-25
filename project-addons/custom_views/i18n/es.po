@@ -157,6 +157,11 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: custom_views
+#: field:stock.move,lots_string:0
+msgid "Lots"
+msgstr "Lotes"
+
+#. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
 msgid "My Purchases"
 msgstr "Mis compras"

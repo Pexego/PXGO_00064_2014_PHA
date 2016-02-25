@@ -20,8 +20,20 @@ msgstr ""
 #. module: newclient_review
 #: code:addons/newclient_review/models/res_partner.py:0
 #, python-format
-msgid "(empty)"
-msgstr "(empty)"
+msgid "(no data)"
+msgstr "(vacío)"
+
+#. module: newclient_review
+#: code:addons/newclient_review/models/res_partner.py:0
+#, python-format
+msgid "(new binary data)"
+msgstr "(nuevos datos binarios)"
+
+#. module: newclient_review
+#: code:addons/newclient_review/models/res_partner.py:0
+#, python-format
+msgid "(old binary data)"
+msgstr "(viejos datos binarios)"
 
 #. module: newclient_review
 #: view:res.partner:newclient_review.newclients_to_review_filter
