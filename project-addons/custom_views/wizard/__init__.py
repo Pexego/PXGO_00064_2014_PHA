@@ -2,7 +2,6 @@
 ##############################################################################
 #
 #    Copyright (C) 2016 Pharmadus. All Rights Reserved
-#    $Marcos Ybarra<marcos.ybarra@pharmadus.com>$
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,23 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': "Revert transferred pickings for sales",
-    'version': '1.0',
-    'category': 'Warehouse',
-    'summary' : 'Revert an outgoing transferred picking and create a new one for sale orders.',
-    'description': 'Revert an outgoing transferred picking and create a new one for sale orders.',
-    'author': 'Pharmadus I+D+i',
-    'website': 'www.pharmadus.com',
-    'depends' : [
-        'sale',
-        'stock',
-        'warehouse_shipping_light'
-    ],
-    'data' : [
-        'views/stock_return_picking_view.xml',
-        'views/stock_view.xml',
-        'security/ir.model.access.csv',
-    ],
-    'installable': True
-}
+
+import account_move_line

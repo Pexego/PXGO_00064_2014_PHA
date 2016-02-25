@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-04 11:01+0000\n"
-"PO-Revision-Date: 2016-02-04 12:05+0100\n"
+"POT-Creation-Date: 2016-02-24 09:06+0000\n"
+"PO-Revision-Date: 2016-02-24 10:06+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,7 @@ msgstr "Comentario:"
 #: field:account.invoice.report,commission_category:0
 #: field:sale.report,commission_category:0
 msgid "Commission category"
-msgstr "Categoría comisiones"
+msgstr "Commission category"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -425,6 +425,16 @@ msgid "Journal"
 msgstr "Diario"
 
 #. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+msgid "Journal invoices with period in current month"
+msgstr "Facturas de este mes"
+
+#. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+msgid "Journal invoices with period in last 7 days"
+msgstr "Facturas de los últimos 7 días"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_lot_labels
 msgid "LOT"
 msgstr "LOTE"
@@ -495,6 +505,14 @@ msgid "Partner category"
 msgstr "Categoría de empresa"
 
 #. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: field:account.invoice.report,partner_parent_category:0
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+#: field:sale.report,partner_parent_category:0
+msgid "Partner parent category"
+msgstr "Categ. padre de empresa"
+
+#. module: custom_reports
 #: model:ir.model,name:custom_reports.model_payment_mode
 msgid "Payment Mode"
 msgstr "Modo de pago"
@@ -535,7 +553,7 @@ msgid "Price w/discount"
 msgstr "Precio c. dto"
 
 #. module: custom_reports
-#: view:stock.picking:custom_reports.view_picking_form_custom_reports
+#: view:stock.picking:custom_reports.custom_reports_view_picking_form
 msgid "Print lots labels"
 msgstr "Imprimir etiquetas de lotes"
 
@@ -668,6 +686,16 @@ msgstr "Canal de venta"
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Sale orders in current month"
+msgstr "Ventas de este mes"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Sale orders in last seven days"
+msgstr "Ventas de los últimos 7 días"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Sale type"
 msgstr "Tipo de venta"
 
@@ -770,12 +798,31 @@ msgstr "Impuestos"
 msgid "Theoretical qty."
 msgstr "Cantidad teórica"
 
+#. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,third_parties:0
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 #: field:sale.report,third_parties:0
 msgid "Third parties"
 msgstr "Fab.Terceros"
+
+#. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "This Year"
+msgstr "Este año"
+
+#. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "This month"
+msgstr "Este mes"
+
+#. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "This week"
+msgstr "Esta semana"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -831,7 +878,7 @@ msgstr "Validado por:"
 #. module: custom_reports
 #: view:website:custom_reports.report_shipping_address
 msgid "WARNING: UNKNOWN ADDRESS!!"
-msgstr "ATENCIÓN: ¡DIRECCIÓN DESCONOCIDA!"
+msgstr "WARNING: UNKNOWN ADDRESS!!"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud

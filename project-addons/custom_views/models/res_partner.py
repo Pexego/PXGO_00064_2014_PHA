@@ -37,6 +37,13 @@ class ResPartner(models.Model):
             'Shipping Policy',
             states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
             help="""Pick 'Deliver each product when available' if you allow partial delivery.""")
+    category_id = fields.Many2many(
+            comodel_name='res.partner.category',
+            column1='partner_id',
+            column2='category_id',
+            relation='res_partner_res_partner_category_rel',
+            domain=[('child_ids', '=', False)],
+            string='Tags')
 
     @api.model
     def create(self, vals):

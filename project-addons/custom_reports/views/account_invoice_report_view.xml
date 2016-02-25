@@ -21,11 +21,22 @@
             <field name="model">account.invoice.report</field>
             <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
             <field name="arch" type="xml">
+                <filter string="This Year" position="after">
+                    <filter string="This month"
+                            name="this_month"
+                            domain="[('date','&lt;=',(context_today()+relativedelta(day=31)).strftime('%Y-%m-%d')),('date','&gt;=',(context_today()-relativedelta(day=1)).strftime('%Y-%m-%d'))]"
+                            help="Journal invoices with period in current month"/>
+                    <filter string="This week"
+                            name="this_week"
+                            domain="[('date','&gt;=',(context_today()+relativedelta(days=-6)).strftime('%Y-%m-%d'))]"
+                            help="Journal invoices with period in last 7 days"/>
+                </filter>
 				<filter string="Sales Team" position="attributes">
                     <attribute name="groups"></attribute>
 				</filter>
                 <filter string="Due Month" position="after">
                     <filter string="Commissions category" context="{'group_by':'commission_category'}" domain="[('commission_category', '!=', False)]"/>
+                    <filter string="Partner parent category" context="{'group_by':'partner_parent_category'}"/>
                     <filter string="Partner category" context="{'group_by':'partner_category'}"/>
                     <filter string="Invoicing country" context="{'group_by': 'country_id'}"/>
                     <filter string="Shipping country" context="{'group_by': 'shipping_country_id'}"/>

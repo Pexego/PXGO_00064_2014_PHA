@@ -457,6 +457,9 @@
                         <span><strong>Observations:</strong></span>
                         <p t-field="o.internal_note"/>
                         <p t-field="o.note"/>
+                        <t t-if="(o.partner_id.picking_warn != 'no-message') and o.partner_id.picking_warn_msg">
+                            <p t-field="o.partner_id.picking_warn_msg"/>
+                        </t>
                     </div>
                     <div class="oe_structure"/>
                 </div>

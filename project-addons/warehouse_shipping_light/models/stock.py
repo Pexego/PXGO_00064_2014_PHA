@@ -43,6 +43,7 @@ class StockPicking(models.Model):
                               default=0)
     expedition_id = fields.Many2one('stock.expeditions',
                               'Associated expedition')
+    carrier_note = fields.Text(related='sale_id.carrier_note')
 
     @api.one
     @api.depends('pack_operation_ids',

@@ -12,6 +12,10 @@
                            class="oe_inline"
                            on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)"
                            modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="banking_mandate_needed" invisible="1"/>
+                </field>
+                <field name="mandate_id" position="attributes">
+                    <attribute name="attrs">{'required': [('banking_mandate_needed', '=', True)]}</attribute>
                 </field>
             </field>
         </record>

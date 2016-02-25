@@ -20,4 +20,4 @@
 ##############################################################################
 
 import res_partner, product, account_invoice, stock_quant, \
-       stock_transfer_details, sale, stock
+       stock_transfer_details, sale, stock, account_payment

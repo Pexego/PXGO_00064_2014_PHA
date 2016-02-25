@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-from . import models
+from . import models, wizard
