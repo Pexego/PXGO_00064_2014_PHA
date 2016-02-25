@@ -1,0 +1,131 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* picking_transfer_revert
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-25 11:38+0000\n"
+"PO-Revision-Date: 2016-02-25 12:45+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. module: picking_transfer_revert
+#: model:ir.model,name:picking_transfer_revert.model_procurement_order_aux
+msgid "Auxiliary procurement order"
+msgstr "Orden de acopio auxiliar"
+
+#. module: picking_transfer_revert
+#: view:stock.return.picking:picking_transfer_revert.picking_transfer_revert_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: picking_transfer_revert
+#: view:stock.return.picking:picking_transfer_revert.picking_transfer_revert_form
+msgid "Continue"
+msgstr "Continuar"
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: picking_transfer_revert
+#: field:stock.return.picking,has_partials_transferred_or_invoiced:0
+msgid "Has partials transferred or invoiced"
+msgstr "Tiene albaranes parciales trasferidos o facturados"
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,write_uid:0
+msgid "Last Updated by"
+msgstr "Últ. actualización por"
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,write_date:0
+msgid "Last Updated on"
+msgstr "Últ. actualización el"
+
+#. module: picking_transfer_revert
+#: code:addons/picking_transfer_revert/models/stock_return_picking.py:131
+#, python-format
+msgid "New picking"
+msgstr "Nuevo albarán"
+
+#. module: picking_transfer_revert
+#: field:stock.picking,partial_ids:0
+msgid "Partial ids"
+msgstr "IDs albaranes parciales"
+
+#. module: picking_transfer_revert
+#: model:ir.model,name:picking_transfer_revert.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,procurement_id:0
+msgid "Procurement order"
+msgstr "Orden de acopio"
+
+#. module: picking_transfer_revert
+#: model:ir.model,name:picking_transfer_revert.model_stock_return_picking
+msgid "Return Picking"
+msgstr "Devolver albarán"
+
+#. module: picking_transfer_revert
+#: view:stock.return.picking:picking_transfer_revert.picking_transfer_revert_form
+msgid "Return lines"
+msgstr "Líneas de devolución"
+
+#. module: picking_transfer_revert
+#: view:stock.picking:picking_transfer_revert.picking_transfer_revert_picking_form
+msgid "Reverse Transfer"
+msgstr "Revertir transferencia"
+
+#. module: picking_transfer_revert
+#: model:ir.actions.act_window,name:picking_transfer_revert.act_stock_revert_recreate_transfer
+#: view:stock.picking:picking_transfer_revert.picking_transfer_revert_picking_form
+msgid "Revert and recreate transfer"
+msgstr "Revertir y rehacer albarán"
+
+#. module: picking_transfer_revert
+#: view:stock.return.picking:picking_transfer_revert.picking_transfer_revert_form
+msgid "This picking can not be reverted because it has partial pickings transferred or invoiced."
+msgstr "Este albarán no puede ser revertido porque tiene albaranes parciales transferidos o facturados."
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,uom_qty:0
+msgid "Uom qty"
+msgstr "Ctdad. UDM"
+
+#. module: picking_transfer_revert
+#: field:procurement.order.aux,uos_qty:0
+msgid "Uos qty"
+msgstr "Ctdad. UDS"
+
+#. module: picking_transfer_revert
+#: view:stock.return.picking:picking_transfer_revert.picking_transfer_revert_form
+msgid "You are about to reverting the transfer. Are you sure?"
+msgstr "Esta a punto de revertir esta transferencia. ¿Desea continuar?"
+
+#. module: picking_transfer_revert
+#: view:stock.return.picking:picking_transfer_revert.picking_transfer_revert_form
+msgid "or"
+msgstr "o"
