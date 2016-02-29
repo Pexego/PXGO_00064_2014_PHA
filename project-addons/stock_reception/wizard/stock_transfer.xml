@@ -12,6 +12,7 @@
                 </field>
                 <field name="lot_id" position="attributes">
                     <attribute name="attrs">{'required': [('is_incoming', '=', True)]}</attribute>
+                    <attribute name="options">{'create': true, 'create_edit': true}</attribute>
                 </field>
             </field>
         </record>
