@@ -161,9 +161,7 @@ openerp.web_m2x_options_custom = function (instance) {
                             dataset.name_search(
                                 search_val, self.build_domain(),
                                 'ilike', 80).done(function (data) {
-                                    s
-
-                                    f._search_create_popup("search", data);
+                                    self._search_create_popup("search", data);
                                 });
                         },
                         classname: 'oe_m2o_dropdown_option'
