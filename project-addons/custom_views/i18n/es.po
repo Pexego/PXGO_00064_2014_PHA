@@ -274,7 +274,7 @@ msgid ""
 "The following invoices do not have the needed mandates assigned:\n"
 "%s"
 msgstr ""
-"Las siguientes facturas o tienen los mandatos necesarios asignados:\n"
+"Las siguientes facturas no tienen los mandatos necesarios asignados:\n"
 "%s"
 
 #. module: custom_views
