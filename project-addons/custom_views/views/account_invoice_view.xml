@@ -16,6 +16,7 @@
                 </field>
                 <field name="mandate_id" position="attributes">
                     <attribute name="attrs">{'required': [('banking_mandate_needed', '=', True)]}</attribute>
+                    <attribute name="domain">['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]</attribute>
                 </field>
             </field>
         </record>
