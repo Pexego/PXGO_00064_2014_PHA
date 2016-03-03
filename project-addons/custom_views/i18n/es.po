@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 10:03+0000\n"
-"PO-Revision-Date: 2016-02-24 11:03+0100\n"
+"POT-Creation-Date: 2016-03-02 12:56+0000\n"
+"PO-Revision-Date: 2016-03-02 13:58+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Comisionistas"
 #. module: custom_views
 #: field:payment.mode,banking_mandate_needed:0
 msgid "Banking mandate needed?"
-msgstr "Banking mandate needed?"
+msgstr "¿Necesita mandato SEPA?"
 
 #. module: custom_views
 #: view:product.product:custom_views.product_kanban_view
@@ -89,6 +89,11 @@ msgstr "Ciudad"
 #, python-format
 msgid "Confirm"
 msgstr "Confirmar"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_account_invoice_confirm
+msgid "Confirm the selected invoices"
+msgstr "Confirmar las facturas seleccionadas"
 
 #. module: custom_views
 #: field:stock.picking,address_country:0
@@ -149,7 +154,7 @@ msgstr "Apuntes contables"
 #. module: custom_views
 #: field:account.invoice,latest_calculations:0
 msgid "Latest date and time when amounts were calculated"
-msgstr "Latest date and time when amounts were calculated"
+msgstr "Última fecha/hora en que se calcularon los importes"
 
 #. module: custom_views
 #: view:stock.move:custom_views.custom_views_move_search
@@ -189,13 +194,13 @@ msgid "Order reference"
 msgstr "Referencia de pedido"
 
 #. module: custom_views
+#: field:account.invoice.line,partner_id:0
 #: model:ir.model,name:custom_views.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_payment_mode
-#: field:account.move.line,payment_mode:0
 msgid "Payment Mode"
 msgstr "Modo de pago"
 
@@ -263,6 +268,16 @@ msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
 
 #. module: custom_views
+#: code:addons/custom_views/models/account_invoice_state.py:43
+#, python-format
+msgid ""
+"The following invoices do not have the needed mandates assigned:\n"
+"%s"
+msgstr ""
+"Las siguientes facturas no tienen los mandatos necesarios asignados:\n"
+"%s"
+
+#. module: custom_views
 #: help:stock.picking,address_country:0
 msgid "The full name of the country."
 msgstr "Nombre completo del país."
@@ -277,6 +292,11 @@ msgstr "True"
 #: field:stock.picking,address_zip:0
 msgid "Zip"
 msgstr "Código postal"
+
+#. module: custom_views
+#: view:account.invoice:custom_views.custom_views_invoice_form
+msgid "['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]"
+msgstr "['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]"
 
 #. module: custom_views
 #: view:sale.order:custom_views.view_order_form_custom_view
@@ -352,8 +372,8 @@ msgstr "{'limit': 10, 'no_create': True, 'no_quick_create': True, 'no_create_edi
 
 #. module: custom_views
 #: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
-msgstr "{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+msgid "{'limit': 2, 'create': True, 'create_edit':True}"
+msgstr "{'limit': 2, 'create': True, 'create_edit':True}"
 
 #. module: custom_views
 #: view:account.invoice:custom_views.custom_views_invoice_form
