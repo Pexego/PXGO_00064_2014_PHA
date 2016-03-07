@@ -54,9 +54,16 @@ class AccountInvoice(models.Model):
                     partner = self.env['partner_id'].browse(partner_id)
                 else:
                     partner = invoice.partner_id
-                if partner.bank_ids:
+
+                # If the partner has not a bank and has a parent partner,
+                # assign parent bank(s) instead
+                if not partner.bank_ids and partner.parent_id.bank_ids:
+                    banks = partner.parent_id.bank_ids
+                else:
+                    banks = partner.bank_ids
+                if banks:
                     mandates = []
-                    for bank in partner.bank_ids:
+                    for bank in banks:
                         for mandate in bank.mandate_ids:
                             mandates.append(mandate)
                     if len(mandates) == 1:
