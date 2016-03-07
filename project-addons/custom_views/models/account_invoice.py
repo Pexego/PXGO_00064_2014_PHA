@@ -59,8 +59,8 @@ class AccountInvoice(models.Model):
                     for bank in partner.bank_ids:
                         for mandate in bank.mandate_ids:
                             mandates.append(mandate)
-                if len(mandates) == 1:
-                    invoice.mandate_id = mandates[0]
+                    if len(mandates) == 1:
+                        invoice.mandate_id = mandates[0]
 
         # Force re-calculations on save
         re_calculate = False
