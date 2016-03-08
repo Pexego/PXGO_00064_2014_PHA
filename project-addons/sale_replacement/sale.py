@@ -123,6 +123,7 @@ class sale_order_line(models.Model):
 
     qty_replaced = fields.Float('Quantity replacement',
                                 compute='_get_qty_replaced', store=True)
+    replaced_returned_qty = fields.Float('')
 
     is_all_replaced = fields.Boolean('All replaced',
                                      compute="_get_is_all_replaced",
@@ -181,14 +182,14 @@ class sale_order_line(models.Model):
     }
 
     @api.one
-    @api.depends('order_id.rep_lines.state')
+    @api.depends('order_id.rep_lines.state', 'replaced_returned_qty')
     def _get_qty_replaced(self):
         rep_lines = self.search_read(
             [('product_id', '=', self.product_id.id),
              ('orig_sale', '=', self.order_id.id),
              ('state', 'not in', ('draft', 'sent', 'cancel'))],
             ['product_uom_qty'])
-        self.qty_replaced = sum([x['product_uom_qty'] for x in rep_lines])
+        self.qty_replaced = sum([x['product_uom_qty'] for x in rep_lines]) + self.replaced_returned_qty
 
     @api.one
     @api.depends('product_uom_qty', 'qty_replaced')
