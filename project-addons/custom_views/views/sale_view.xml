@@ -11,7 +11,7 @@
                     <attribute name="context">
                         {'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1, 'intermediary': intermediary}
                     </attribute>
-                    <attribute name="options">{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}</attribute>
+                    <attribute name="options">{'create': False, 'create_edit':False}</attribute>
                     <attribute name="width">70%</attribute>
                     <attribute name="domain">[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]</attribute>
                 </field>
@@ -40,6 +40,13 @@
                 <field name="origin" position="attributes">
                     <attribute name="groups">base.group_system</attribute>
                 </field>
+                <field name="order_line" position="attributes">
+                    <attribute name="context">{'is_a_sample_order': sample}</attribute>
+                </field>
+                <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="attributes">
+                    <attribute name="domain">[('is_in_current_pricelist', '=', True)]</attribute>
+                    <attribute name="context">{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}</attribute>
+                </xpath>
              </field>
         </record>
 

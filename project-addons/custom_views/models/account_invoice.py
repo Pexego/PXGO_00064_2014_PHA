@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import models, api, fields
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
 import datetime
@@ -27,19 +26,52 @@ import datetime
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    latest_calculations = fields.Datetime('Latest date and time when amounts were calculated')
+    latest_calculations = fields.Datetime(
+            'Latest date and time when amounts were calculated')
+    banking_mandate_needed = fields.Boolean(
+            related='payment_mode_id.banking_mandate_needed')
 
     @api.model
     def create(self, vals):
         res = super(AccountInvoice, self).create(vals)
-        # Trigger write event to force re-calculations after create
+        # Trigger write event to force re-calculations after create and to
+        # check if payment mode need a banking mandate, to assign it
+        # automatically if it is possible.
         res.state = res.state
         return res
 
     @api.multi
     def write(self, vals):
+        # Check if banking mandate is needed and populate it if the partner has
+        # one and only one. If the partner has several mandates, the view will
+        # force the user to choose one.
+        for invoice in self:
+            if invoice.payment_mode_id and \
+               invoice.payment_mode_id.banking_mandate_needed and \
+               not vals.get('mandate_id', invoice.mandate_id.id):
+                partner_id = vals.get('partner_id', False)
+                if partner_id:
+                    partner = self.env['partner_id'].browse(partner_id)
+                else:
+                    partner = invoice.partner_id
+
+                # If the partner has not a bank and has a parent partner,
+                # assign parent bank(s) instead
+                if not partner.bank_ids and partner.parent_id.bank_ids:
+                    banks = partner.parent_id.bank_ids
+                else:
+                    banks = partner.bank_ids
+                if banks:
+                    mandates = []
+                    for bank in banks:
+                        for mandate in bank.mandate_ids:
+                            mandates.append(mandate)
+                    if len(mandates) == 1:
+                        invoice.mandate_id = mandates[0]
+
         # Force re-calculations on save
         re_calculate = False
+        type_is_out_invoice = True
         if not vals.get('latest_calculations'):
             for rec in self:
                 now = datetime.datetime.now()
@@ -50,9 +82,13 @@ class AccountInvoice(models.Model):
                     then = now - datetime.timedelta(days=1)
 
                 diff = now - then
-                re_calculate = re_calculate or diff.days > 0 or diff.seconds > 10
+                re_calculate = re_calculate or \
+                               diff.days > 0 or \
+                               diff.seconds > 10
+                type_is_out_invoice = type_is_out_invoice and \
+                                      (rec.type == 'out_invoice')
 
-        if re_calculate:
+        if re_calculate and type_is_out_invoice:
             # Timestamp to avoid unnecessary loops
             vals['latest_calculations'] = fields.Datetime.now()
             res = super(AccountInvoice, self).write(vals)
@@ -65,6 +101,13 @@ class AccountInvoice(models.Model):
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
+
+    invoice_type = fields.Selection([
+            ('out_invoice','Customer Invoice'),
+            ('in_invoice','Supplier Invoice'),
+            ('out_refund','Customer Refund'),
+            ('in_refund','Supplier Refund'),
+        ], related='invoice_id.type')
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',

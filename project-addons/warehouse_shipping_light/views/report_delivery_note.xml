@@ -4,10 +4,10 @@
         <template id="wsl_report_delivery_note_document">
             <!-- Multicompany -->
             <t t-if="o and 'company_id' in o">
-                <t t-set="company" t-value="o.company_id"></t>
+                <t t-set="company" t-value="o.company_id"/>
             </t>
             <t t-if="not o or not 'company_id' in o">
-                <t t-set="company" t-value="res_company"></t>
+                <t t-set="company" t-value="res_company"/>
             </t>
 
             <div class="header">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="row zero_min_height">
                     <div class="col-xs-12">
-                        <div style="border-bottom: 1px solid black;"></div>
+                        <div style="border-bottom: 1px solid black;"/>
                     </div>
                 </div>
                 <div class="row">
@@ -42,39 +42,39 @@
                         </style>
                         <div id="company_address">
                             <p>
-                                <span t-field="company.partner_id.name"></span>
+                                <span t-field="company.partner_id.name"/>
                             </p>
                             <p>
-                                <i class="glyphicon glyphicon-map-marker"></i>
-                                <span t-field="company.partner_id.street"></span>
+                                <i class="glyphicon glyphicon-map-marker"/>
+                                <span t-field="company.partner_id.street"/>
                             </p>
                             <p>
-                                <span t-field="company.partner_id.zip" style="margin-left: 13px;"></span>
-                                <span t-field="company.partner_id.city"></span> -
-                                <span t-field="company.partner_id.state_id"></span>
-                                (<span t-field="company.partner_id.country_id"></span>)
+                                <span t-field="company.partner_id.zip" style="margin-left: 13px;"/>
+                                <span t-field="company.partner_id.city"/> -
+                                <span t-field="company.partner_id.state_id"/>
+                                (<span t-field="company.partner_id.country_id"/>)
                             </p>
                             <p>
                                 <t t-if="company.partner_id.phone">
-                                    <i class="glyphicon glyphicon-earphone"></i>
-                                    <span t-field="company.partner_id.phone"></span>
+                                    <i class="glyphicon glyphicon-earphone"/>
+                                    <span t-field="company.partner_id.phone"/>
                                 </t>
                                 <t t-if="company.partner_id.phone and company.partner_id.fax"><span> /</span></t>
                                 <t t-if="company.partner_id.fax">
-                                    <i class="glyphicon glyphicon-print"></i>
-                                    <span t-field="company.partner_id.fax"></span>
+                                    <i class="glyphicon glyphicon-print"/>
+                                    <span t-field="company.partner_id.fax"/>
                                 </t>
                             </p>
                             <p t-if="company.partner_id.website">
-                                <i class="glyphicon glyphicon-globe"></i>
-                                <a t-field="company.partner_id.website"></a>
+                                <i class="glyphicon glyphicon-globe"/>
+                                <a t-field="company.partner_id.website"/>
                             </p>
                             <p t-if="company.partner_id.email">
-                                <i class="glyphicon glyphicon-envelope"></i>
-                                <a t-field="company.partner_id.email"></a>
+                                <i class="glyphicon glyphicon-envelope"/>
+                                <a t-field="company.partner_id.email"/>
                             </p>
                             <p>
-                                <i class="glyphicon glyphicon-briefcase"></i>
+                                <i class="glyphicon glyphicon-briefcase"/>
                                 <span t-field="company.partner_id.vat"/>
                             </p>
                         </div>
@@ -99,7 +99,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <h2>Delivery note N° <span t-field="picking.name"/></h2>
-                        <div style="border-bottom: 2px solid black; margin-bottom: 10px;"></div>
+                        <div style="border-bottom: 2px solid black; margin-bottom: 10px;"/>
                     </div>
                 </div>
 
@@ -108,48 +108,48 @@
                         <div class="col-xs-5">
                             <strong>Invoicing address:</strong><br/>
 
-                            <span t-field="s.partner_id.name"></span><br/>
+                            <span t-field="s.partner_id.name"/><br/>
 
-                            <i class="glyphicon glyphicon-map-marker"></i>
-                            <span t-field="s.partner_id.street"></span><br/>
+                            <i class="glyphicon glyphicon-map-marker"/>
+                            <span t-field="s.partner_id.street"/><br/>
 
-                            <span t-field="s.partner_id.zip" style="margin-left: 17px;"></span>
-                            <span t-field="s.partner_id.city"></span> -
-                            <span t-field="s.partner_id.state_id"></span>
-                            (<span t-field="s.partner_id.country_id"></span>)<br/>
+                            <span t-field="s.partner_id.zip" style="margin-left: 17px;"/>
+                            <span t-field="s.partner_id.city"/> -
+                            <span t-field="s.partner_id.state_id"/>
+                            (<span t-field="s.partner_id.country_id"/>)<br/>
 
                             <t t-if="s.partner_id.phone">
-                                <i class="glyphicon glyphicon-earphone"></i>
-                                <span t-field="s.partner_id.phone"></span>
+                                <i class="glyphicon glyphicon-earphone"/>
+                                <span t-field="s.partner_id.phone"/>
                             </t>
                             <t t-if="s.partner_id.phone and s.partner_id.fax"><span> /</span></t>
                             <t t-if="s.partner_id.fax">
-                                <i class="glyphicon glyphicon-print"></i>
-                                <span t-field="s.partner_id.fax"></span><br/>
+                                <i class="glyphicon glyphicon-print"/>
+                                <span t-field="s.partner_id.fax"/><br/>
                             </t>
                             <t t-if="s.partner_id.phone and not s.partner_id.fax">
                                 <br/>
                             </t>
 
                             <t t-if="s.partner_id.website">
-                                <i class="glyphicon glyphicon-globe"></i>
-                                <a t-field="s.partner_id.website"></a><br/>
+                                <i class="glyphicon glyphicon-globe"/>
+                                <a t-field="s.partner_id.website"/><br/>
                             </t>
 
                             <t t-if="s.partner_id.email">
-                                <i class="glyphicon glyphicon-envelope"></i>
-                                <a t-field="s.partner_id.email"></a><br/>
+                                <i class="glyphicon glyphicon-envelope"/>
+                                <a t-field="s.partner_id.email"/><br/>
                             </t>
 
                             <t t-if="s.partner_id.vat">
-                                <i class="glyphicon glyphicon-briefcase"></i>
+                                <i class="glyphicon glyphicon-briefcase"/>
                                 <span t-field="s.partner_id.vat"/>
                             </t>
                         </div>
                     </t>
                     <div class="col-xs-3">
-                        <p t-if="s and s.partner_id.ref"><strong>Client code:</strong> <span t-field="s.partner_id.ref"></span></p>
-                        <p t-if="s and s.partner_id.customer_payment_mode">
+                        <p t-if="s and s.partner_id.ref"><strong>Client code:</strong> <span t-field="s.partner_id.ref"/></p>
+                        <p t-if="s and s.partner_id.customer_payment_mode and not s.replacement">
                             <strong>Payment mode:</strong><br/>
                             <span t-field="s.partner_id.customer_payment_mode.name"/><br/>
                             <t t-if="not s.partner_id.customer_payment_mode.hide_account_at_invoice">
@@ -170,7 +170,7 @@
                             </t>
                             <p t-esc="time.strftime('%d/%m/%Y', time.strptime(delivery_date, '%Y-%m-%d %H:%M:%S'))"/>
                         </div>
-                        <div t-if="s and s.payment_term">
+                        <div t-if="s and s.payment_term and not s.replacement">
                             <strong>Closing date:</strong>
                             <p>
                                 <span t-field="s.closing_date"/>
@@ -428,20 +428,20 @@
         </template>
 
         <template id="wsl_do_not_available">
-            <div class="header"></div>
+            <div class="header"/>
             <div class="page">
                 <h1>This report is only available for outgoing orders</h1>
             </div>
-            <div class="footer"></div>
+            <div class="footer"/>
         </template>
 
         <template id="wsl_sale_order_intermediary">
-            <div class="header"></div>
+            <div class="header"/>
             <div class="page">
                 <p><h1>SALE ORDER WITH INTERMEDIARY</h1></p>
                 <p><h2>This delivery note should not be sent to customer from warehouse</h2></p>
             </div>
-            <div class="footer"></div>
+            <div class="footer"/>
         </template>
 
         <template id="wsl_aux_report_delivery_note">

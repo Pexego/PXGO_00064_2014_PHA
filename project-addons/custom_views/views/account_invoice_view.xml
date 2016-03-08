@@ -12,6 +12,11 @@
                            class="oe_inline"
                            on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)"
                            modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
+                    <field name="banking_mandate_needed" invisible="1"/>
+                </field>
+                <field name="mandate_id" position="attributes">
+                    <attribute name="attrs">{'required': [('banking_mandate_needed', '=', True)]}</attribute>
+                    <attribute name="domain">['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]</attribute>
                 </field>
             </field>
         </record>
@@ -28,6 +33,12 @@
                            on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)"
                            modifiers="{'readonly': [['state', 'not in', ['draft']]]}"/>
                 </field>
+                <tree string="Invoice lines" position="inside">
+                    <field name="invoice_type" invisible="1"/>
+                </tree>
+                <field name="analytics_id" position="attributes">
+                    <attribute name="attrs">{'required': [('invoice_type', '=', 'in_invoice')]}</attribute>
+                </field>
             </field>
         </record>
 
@@ -38,6 +49,11 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="partner_shipping_id" groups="base.group_user"/>
+                    <field name="supplier_invoice_number" invisible="context.get('journal_type') == 'sale'"/>
+                    <field name="type"/>
+                </field>
+                <field name="agent_code" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </field>
             </field>
         </record>

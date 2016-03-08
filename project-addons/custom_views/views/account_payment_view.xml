@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="payment_mode_form_custom_reports" model="ir.ui.view">
+            <field name="name">Custom views - Banking mandate needed</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="payment_order_type" position="after">
+                    <field name="banking_mandate_needed"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

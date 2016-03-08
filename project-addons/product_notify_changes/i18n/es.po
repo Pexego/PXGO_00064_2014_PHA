@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_notify_changes
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-18 08:21+0000\n"
+"PO-Revision-Date: 2016-02-18 09:22+0100\n"
+"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: product_notify_changes
+#: code:addons/product_notify_changes/models/product.py:0
+#, python-format
+msgid "(no data)"
+msgstr "(vacío)"
+
+#. module: product_notify_changes
+#: code:addons/product_notify_changes/models/product.py:0
+#, python-format
+msgid "(new binary data)"
+msgstr "(nuevos datos binarios)"
+
+#. module: product_notify_changes
+#: code:addons/product_notify_changes/models/product.py:0
+#, python-format
+msgid "(old binary data)"
+msgstr "(viejos datos binarios)"
+
+#. module: product_notify_changes
+#: code:addons/product_notify_changes/models/product.py:0
+#, python-format
+msgid "Modified fields: "
+msgstr "Campos modificados: "
+
+#. module: product_notify_changes
+#: model:ir.model,name:product_notify_changes.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_notify_changes
+#: code:addons/product_notify_changes/models/product.py:0
+#, python-format
+msgid "string"
+msgstr "string"

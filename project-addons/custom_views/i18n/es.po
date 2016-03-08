@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-25 12:50+0000\n"
-"PO-Revision-Date: 2016-01-25 13:51+0100\n"
+"POT-Creation-Date: 2016-03-02 12:56+0000\n"
+"PO-Revision-Date: 2016-03-02 13:58+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -52,6 +52,11 @@ msgid "Agents/Consultancy"
 msgstr "Comisionistas"
 
 #. module: custom_views
+#: field:payment.mode,banking_mandate_needed:0
+msgid "Banking mandate needed?"
+msgstr "¿Necesita mandato SEPA?"
+
+#. module: custom_views
 #: view:product.product:custom_views.product_kanban_view
 msgid "CN:"
 msgstr "CN:"
@@ -86,24 +91,19 @@ msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: custom_views
+#: model:ir.model,name:custom_views.model_account_invoice_confirm
+msgid "Confirm the selected invoices"
+msgstr "Confirmar las facturas seleccionadas"
+
+#. module: custom_views
 #: field:stock.picking,address_country:0
 msgid "Country Name"
 msgstr "País"
 
-#. module: stock
-#: field:stock.quant,create_date:0
-msgid "Creation Date"
-msgstr "Fecha movimiento"
-
-#. module: stock
-#: field:stock.quant,lot_state:0
-msgid "Lot state"
-msgstr "Estado"
-
 #. module: custom_views
 #: view:res.partner:custom_views.view_partner_form_add_vat_required
-msgid "Debe introducir el codigo del país antes del NIF/CIF. Para un cliente de España: ES antes del NIF/CIF, ejemplo: ES93952134D"
-msgstr "Debe introducir el codigo del país antes del NIF/CIF. Para un cliente de España: ES antes del NIF/CIF, ejemplo: ES93952134D"
+msgid "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
+msgstr "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
 
 #. module: custom_views
 #: code:addons/custom_views/models/stock_quant.py:32
@@ -142,14 +142,29 @@ msgid "Invoice Line"
 msgstr "Línea de factura"
 
 #. module: custom_views
-#: field:res.partner,message_latest:0
-msgid "Last message date"
-msgstr "Fecha último mensaje"
+#: view:account.invoice:custom_views.custom_views_invoice_supplier_form
+msgid "Invoice lines"
+msgstr "Líneas de factura"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_account_move_line
+msgid "Journal Items"
+msgstr "Apuntes contables"
 
 #. module: custom_views
 #: field:account.invoice,latest_calculations:0
 msgid "Latest date and time when amounts were calculated"
 msgstr "Última fecha/hora en que se calcularon los importes"
+
+#. module: custom_views
+#: view:stock.move:custom_views.custom_views_move_search
+msgid "Lot"
+msgstr "Lote"
+
+#. module: custom_views
+#: field:stock.move,lots_string:0
+msgid "Lots"
+msgstr "Lotes"
 
 #. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
@@ -179,9 +194,15 @@ msgid "Order reference"
 msgstr "Referencia de pedido"
 
 #. module: custom_views
+#: field:account.invoice.line,partner_id:0
 #: model:ir.model,name:custom_views.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_payment_mode
+msgid "Payment Mode"
+msgstr "Modo de pago"
 
 #. module: custom_views
 #: help:res.partner,picking_policy:0
@@ -237,9 +258,24 @@ msgid "Shipping Policy"
 msgstr "Política de facturación"
 
 #. module: custom_views
+#: model:ir.model,name:custom_views.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: custom_views
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
 msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
+
+#. module: custom_views
+#: code:addons/custom_views/models/account_invoice_state.py:43
+#, python-format
+msgid ""
+"The following invoices do not have the needed mandates assigned:\n"
+"%s"
+msgstr ""
+"Las siguientes facturas no tienen los mandatos necesarios asignados:\n"
+"%s"
 
 #. module: custom_views
 #: help:stock.picking,address_country:0
@@ -258,9 +294,25 @@ msgid "Zip"
 msgstr "Código postal"
 
 #. module: custom_views
+#: view:account.invoice:custom_views.custom_views_invoice_form
+msgid "['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]"
+msgstr "['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]"
+
+#. module: custom_views
 #: view:sale.order:custom_views.view_order_form_custom_view
 msgid "[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]"
 msgstr "[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "[('is_in_current_pricelist', '=', True)]"
+msgstr "[('is_in_current_pricelist', '=', True)]"
+
+#. module: custom_views
+#: view:hr.expense.expense:custom_views.view_expenses_form_custom_view
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "base.group_system"
+msgstr "base.group_system"
 
 #. module: custom_views
 #: view:stock.production.lot:custom_views.custom_views_production_lot_tree
@@ -305,29 +357,35 @@ msgstr "{'concatenate_name_comercial': not id, 'search_default_customer': 1, 'sh
 
 #. module: custom_views
 #: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
-msgstr "{'limit': 12, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+msgid "{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}"
+msgstr "{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "{'is_a_sample_order': sample}"
+msgstr "{'is_a_sample_order': sample}"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_add_stock_form
+msgid "{'limit': 10, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+msgstr "{'limit': 10, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
+msgid "{'limit': 2, 'create': True, 'create_edit':True}"
+msgstr "{'limit': 2, 'create': True, 'create_edit':True}"
+
+#. module: custom_views
+#: view:account.invoice:custom_views.custom_views_invoice_form
+msgid "{'required': [('banking_mandate_needed', '=', True)]}"
+msgstr "{'required': [('banking_mandate_needed', '=', True)]}"
+
+#. module: custom_views
+#: view:account.invoice:custom_views.custom_views_invoice_supplier_form
+msgid "{'required': [('invoice_type', '=', 'in_invoice')]}"
+msgstr "{'required': [('invoice_type', '=', 'in_invoice')]}"
 
 #. module: custom_views
 #: view:res.partner:custom_views.view_partner_form_custom_view
 msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
 msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
-
-#. modules: portal_sale, sale
-#: model:ir.ui.menu,name:portal_sale.portal_sales_orders
-#: view:crm.case.section:sale.crm_case_section_salesteams_view_kanban
-#: model:ir.actions.act_window,name:sale.action_orders
-#: model:ir.actions.act_window,name:sale.action_orders_salesteams
-#: model:ir.ui.menu,name:sale.menu_sale_order
-#: view:sale.order:sale.view_order_tree
-#: view:sale.order:sale.view_sale_order_calendar
-#: view:sale.order:sale.view_sale_order_graph
-msgid "Sales Orders"
-msgstr "Pedidos directos"
-
-
-#. module: base
-#: code:addons/base/res/res_company.py:167 field:res.partner,vat:0
-#, python-format
-msgid "TIN"
-msgstr "NIF/CIF"

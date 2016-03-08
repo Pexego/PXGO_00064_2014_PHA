@@ -5,12 +5,16 @@
             <field name="name">Warehouse Shipping Light - Picking form</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority">17</field>
             <field name="arch" type="xml">
                 <field name="number_of_packages" position="after">
                     <field name="real_weight"/>
                 </field>
                 <field name="carrier_id" position="attributes">
                     <attribute name="attrs">{'required': [('picking_type_code','=','outgoing')]}</attribute>
+                </field>
+                <field name="carrier_tracking_ref" position="after">
+                    <field name="carrier_note"/>
                 </field>
             </field>
         </record>

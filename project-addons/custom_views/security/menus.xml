@@ -25,5 +25,10 @@
             <record id="stock.menu_quants" model="ir.ui.menu">
                 <field name="groups_id" eval="[(6, 0, [ref('stock.group_stock_user')])]"/>
             </record>
+
+            <!-- Sale pricelist -->
+            <menuitem id="product.menu_product_pricelist_main"
+              parent="base.menu_sales"
+              sequence="70"/>
     </data>
 </openerp>
