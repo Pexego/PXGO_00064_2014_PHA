@@ -233,26 +233,32 @@
                             <td style="min-width: 40%;">
                                 <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
                                 <br/>
-                                <table t-if="l.move_id">
+                                <table t-if="l.move_id and l.move_id.linked_move_operation_ids">
                                     <tbody>
-                                        <tr t-foreach="l.move_id.lot_ids" t-as="lot">
-                                            <td><span t-field="lot.name"/></td>
-                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
-                                            <td>
-                                                <span t-if="lot.acceptance_date" t-field="lot.acceptance_date"/>
-                                                <span t-if="not lot.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
-                                            </td>
-                                            <td><![CDATA[&nbsp;|&nbsp;]]></td>
-                                            <td>
-                                                <t t-set="u_date" t-value="lot.use_date"/>
-                                                <t t-if="u_date">
-                                                    <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
-                                                </t>
-                                                <t t-if="not u_date">
-                                                    <span>(Unspecified)</span>
-                                                </t>
-                                            </td>
-                                        </tr>
+                                        <t t-foreach="l.move_id.linked_move_operation_ids" t-as="mo">
+                                            <t t-foreach="mo.operation_id" t-as="po">
+                                                <tr>
+                                                    <td><span t-field="po.lot_id.name"/></td>
+                                                    <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                    <td>
+                                                        <span t-if="po.lot_id.acceptance_date" t-field="po.lot_id.acceptance_date"/>
+                                                        <span t-if="not po.lot_id.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
+                                                    </td>
+                                                    <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                    <td>
+                                                        <t t-set="u_date" t-value="po.lot_id.use_date"/>
+                                                        <t t-if="u_date">
+                                                            <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                        </t>
+                                                        <t t-if="not u_date">
+                                                            <span>(Unspecified)</span>
+                                                        </t>
+                                                    </td>
+                                                    <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                    <td><span t-esc="'%g %s' % (po.product_qty, po.product_uom_id.name)"/></td>
+                                                </tr>
+                                            </t>
+                                        </t>
                                     </tbody>
                                 </table>
                             </td>
