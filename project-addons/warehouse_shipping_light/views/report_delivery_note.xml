@@ -225,8 +225,8 @@
                                 <br/>
                                 <table>
                                     <tbody>
-                                        <t t-foreach="o.pack_operation_ids" t-as="po">
-                                            <t t-if="po.product_id == m.product_id">
+                                        <t t-foreach="m.linked_move_operation_ids" t-as="mo">
+                                            <t t-foreach="mo.operation_id" t-as="po">
                                                 <tr>
                                                     <td><span t-field="po.lot_id.name"/></td>
                                                     <td><![CDATA[&nbsp;|&nbsp;]]></td>
