@@ -125,9 +125,9 @@ msgid "Supplier delivery note"
 msgstr "Albarán de proveedor"
 
 #. module: stock_reception
-#: field:stock.move,real_partner_id:0
-msgid "Real partner"
-msgstr "Proveedor"
+#: view:stock.move:stock_reception.stock_reception_move_search
+msgid "Supplier/Customer"
+msgstr "Proveedor/Cliente"
 
 #. module: stock_reception
 #: field:stock.production.lot,uom_id:0
