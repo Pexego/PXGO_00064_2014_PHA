@@ -22,6 +22,13 @@
 from openerp import models, fields, api
 
 
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    finished_product_location = fields.Boolean('Is a finished product location?',
+                                               default=False)
+
+
 class StockPickingType(models.Model):
     _inherit = 'stock.picking.type'
 
