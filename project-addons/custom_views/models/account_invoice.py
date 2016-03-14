@@ -18,8 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api, fields
+from openerp import models, api, fields, _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
+from openerp.exceptions import Warning
 import datetime
 
 
@@ -33,6 +34,10 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
+        # Check for unique supplier reference
+        self._check_unique_reference(vals.get('reference'),
+                                     vals.get('partner_id'))
+
         res = super(AccountInvoice, self).create(vals)
         # Trigger write event to force re-calculations after create and to
         # check if payment mode need a banking mandate, to assign it
@@ -42,6 +47,12 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def write(self, vals):
+        # Check for unique supplier reference
+        for invoice in self:
+            reference = vals.get('reference', invoice.reference)
+            partner = vals.get('partner_id', invoice.partner_id.id)
+            self._check_unique_reference(reference, partner)
+
         # Check if banking mandate is needed and populate it if the partner has
         # one and only one. If the partner has several mandates, the view will
         # force the user to choose one.
@@ -95,6 +106,19 @@ class AccountInvoice(models.Model):
             res = super(AccountInvoice, self).write(vals)
 
         return res
+
+    @api.onchange('partner_id', 'reference')
+    def onchange_reference(self):
+        self._check_unique_reference(self.reference, self.partner_id.id)
+
+    def _check_unique_reference(self, reference, partner_id):
+        if reference and self.env['account.invoice'].search(
+                [
+                    ('partner_id', '=', partner_id),
+                    ('reference', '=', reference.strip())
+                ]):
+            raise Warning(_('Already exists an invoice with this supplier and '
+                            'reference'))
 
 
 class AccountInvoiceLine(models.Model):

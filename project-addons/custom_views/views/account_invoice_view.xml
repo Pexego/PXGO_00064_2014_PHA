@@ -49,6 +49,7 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="partner_shipping_id" groups="base.group_user"/>
+                    <field name="reference" invisible="context.get('journal_type') == 'sale'"/>
                     <field name="supplier_invoice_number" invisible="context.get('journal_type') == 'sale'"/>
                     <field name="type"/>
                 </field>
