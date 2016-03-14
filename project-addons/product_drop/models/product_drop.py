@@ -108,9 +108,14 @@ class product_drop_details(models.Model):
 
     def _create_stock_move(self, lot, prod, qty):
         company = self.env.user.company_id.id
-        location = self.env['stock.warehouse'].search(
-                [('company_id', '=', company)]
-            ).lot_stock_id
+        # Search for a quant location with sufficient stock to satisfy the
+        # required quantity.
+        # Previously, we have verified the existence of a minimal quantity
+        # for this lot.
+        for quant in lot.quant_ids:
+            if quant.qty >= qty:
+                location = quant.location_id
+                break
         dest_id = self.env.ref('product_drop.consumption_for_internal_use_location')
         wh = self.env['stock.location'].get_warehouse(location)
 
