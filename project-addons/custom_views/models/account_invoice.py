@@ -82,9 +82,7 @@ class AccountInvoice(models.Model):
                     then = now - datetime.timedelta(days=1)
 
                 diff = now - then
-                re_calculate = re_calculate or \
-                               diff.days > 0 or \
-                               diff.seconds > 10
+                re_calculate = re_calculate or diff.total_seconds() > 10
                 type_is_out_invoice = type_is_out_invoice and \
                                       (rec.type == 'out_invoice')
 
