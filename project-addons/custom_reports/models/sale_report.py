@@ -25,6 +25,7 @@ from openerp import fields, models
 class SaleReport(models.Model):
     _inherit = 'sale.report'
 
+    cooperative_parent_id = fields.Many2one('res.partner', 'Parent cooperative')
     notified_partner_id = fields.Many2one('res.partner', 'Cooperative')
     sale_type = fields.Selection(selection=[('normal', 'Normal'),
                                             ('sample', 'Sample'),
@@ -49,6 +50,10 @@ class SaleReport(models.Model):
 
     def _select(self):
         select_str = """,
+            case
+                when cp.parent_id is null then s.notified_partner_id
+                else cp.parent_id
+            end as cooperative_parent_id,
             s.notified_partner_id as notified_partner_id,
             s.sale_type as sale_type,
             s.sale_channel_id as sale_channel_id,
@@ -81,6 +86,7 @@ class SaleReport(models.Model):
 
     def _from(self):
         from_str = """
+            left join res_partner cp on cp.id = s.notified_partner_id
             left join res_partner pa
                    on (pa.id = s.partner_id and pa.company_id = s.company_id)
             left join res_partner_category parent_rpc on parent_rpc.id = (
@@ -116,6 +122,7 @@ class SaleReport(models.Model):
 
     def _group_by(self):
         group_by_str = """,
+            cooperative_parent_id,
             s.notified_partner_id,
             s.sale_type,
             s.sale_channel_id,
