@@ -497,6 +497,12 @@ msgid "Page:"
 msgstr "Página:"
 
 #. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+#: field:sale.report,cooperative_parent_id:0
+msgid "Parent cooperative"
+msgstr "Cooperativa padre"
+
+#. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,partner_category:0
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
