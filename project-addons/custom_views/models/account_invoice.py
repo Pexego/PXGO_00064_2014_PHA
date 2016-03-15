@@ -34,7 +34,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        # Check for unique supplier reference
+        # Check for unique supplier reference, before create invoice
         self._check_unique_reference(vals.get('reference'),
                                      vals.get('partner_id'))
 
@@ -120,6 +120,27 @@ class AccountInvoice(models.Model):
             raise Warning(_('Already exists an invoice with this supplier and '
                             'reference'))
 
+    @api.multi
+    def action_date_assign(self):
+        # This is the first step in workflow before invoice validation
+        # Check if all invoice lines have tax field set
+        invoices = []
+        for invoice in self:
+            for line in invoice.invoice_line:
+                if (not line.invoice_line_tax_id) and (invoice not in invoices):
+                    invoices.append(invoice)
+        if len(invoices) > 0:
+            msg = _('The following invoices have detail lines without tax set:')
+            msg += '\n'
+            for invoice in invoices:
+                if invoice.number:
+                    msg += '\n- ' + _('Invoice number: ') + invoice.number
+                else:
+                    msg += '\n- ' + _('Origin document: ') + invoice.origin
+            raise Warning(msg)
+        else:
+            return super(AccountInvoice, self).action_date_assign()
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -130,6 +151,7 @@ class AccountInvoiceLine(models.Model):
             ('out_refund','Customer Refund'),
             ('in_refund','Supplier Refund'),
         ], related='invoice_id.type')
+    invoice_line_tax_id = fields.Many2many(required=True)  # Inherited field
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',
