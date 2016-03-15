@@ -18,11 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api
+from openerp import models, api, fields
 
 
 class stock_transfer_details(models.TransientModel):
     _inherit = 'stock.transfer_details'
+
 
     @api.model
     def default_get(self, fields):
@@ -33,10 +34,37 @@ class stock_transfer_details(models.TransientModel):
             for item in res.get('item_ids', []):
                 if not item['product_id'] or item['lot_id']:
                     continue
-                prodlot_id = self.env['stock.production.lot'].with_context(
-                    {'product_id': item['product_id'],
-                     'partner_id': picking.partner_id.id}).create(
-                    {'product_id': item['product_id'],
-                     'partner_id': picking.partner_id.id})
-                item['lot_id'] = prodlot_id.id
+                seq_obj = self.env['ir.sequence']
+                product = self.env['product.product'].browse(item['product_id'])
+                sequence = False
+                if product and product.sequence_id:
+                    sequence = product.sequence_id
+                else:
+                    sequence = self.env.ref('stock.sequence_production_lots')
+                if sequence:
+                    d = sequence._interpolation_dict()
+                    prefix = sequence.prefix and sequence.prefix % d or ''
+                    suffix = sequence.suffix and sequence.suffix % d or ''
+                    next_seq = prefix + '%%0%sd' % sequence.padding % sequence.number_next_actual + suffix
+                    item['assigned_lot'] = next_seq
         return res
+
+
+class StockTransferDetailsItems(models.TransientModel):
+
+    _inherit = 'stock.transfer_details_items'
+
+    assigned_lot = fields.Char('Assigned lot')
+
+    @api.multi
+    def create_lot(self):
+        if self.transfer_id.picking_id.picking_type_code == 'incoming':
+                if not self.product_id or self.lot_id:
+                    return self.transfer_id.wizard_view()
+                prodlot_id = self.env['stock.production.lot'].with_context(
+                    {'product_id': self.product_id.id,
+                     'partner_id': self.transfer_id.picking_id.partner_id.id}).create(
+                    {'product_id': self.product_id.id,
+                     'partner_id': self.transfer_id.picking_id.partner_id.id})
+                self.write({'lot_id': prodlot_id.id, 'assigned_lot': False})
+        return self.transfer_id.wizard_view()

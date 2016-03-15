@@ -26,7 +26,7 @@
     'description': """Se asigna automaticamente un nuevo lote a los productos que entran en almacén""",
     'author': 'Pexego',
     'website': '',
-    "depends": ['stock', 'lot_states'],
-    "data": [],
+    "depends": ['stock', 'product_lot_sequence', 'lot_states', 'warehouse_shipping_light'],
+    "data": ['stock.xml'],
     "installable": True
 }
