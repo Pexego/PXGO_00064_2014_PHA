@@ -149,7 +149,7 @@
                     </t>
                     <div class="col-xs-3">
                         <p t-if="s and s.partner_id.ref"><strong>Client code:</strong> <span t-field="s.partner_id.ref"/></p>
-                        <p t-if="s and s.partner_id.customer_payment_mode and not s.replacement">
+                        <p t-if="s and s.partner_id.customer_payment_mode and not s.replacement and not s.sample">
                             <strong>Payment mode:</strong><br/>
                             <span t-field="s.partner_id.customer_payment_mode.name"/><br/>
                             <t t-if="not s.partner_id.customer_payment_mode.hide_account_at_invoice">
@@ -170,7 +170,7 @@
                             </t>
                             <p t-esc="time.strftime('%d/%m/%Y', time.strptime(delivery_date, '%Y-%m-%d %H:%M:%S'))"/>
                         </div>
-                        <div t-if="s and s.payment_term and not s.replacement">
+                        <div t-if="s and s.payment_term and not s.replacement and not s.sample">
                             <strong>Closing date:</strong>
                             <p>
                                 <span t-field="s.closing_date"/>
