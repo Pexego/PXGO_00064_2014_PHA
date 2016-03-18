@@ -161,10 +161,11 @@ class sale_order_line(models.Model):
         line_ids = [i[0] for i in cr.fetchall()]
         for line in self.pool.get('sale.order.line').browse(cr, uid, line_ids,
                                                             context):
-            cr.execute("""SELECT sol.id from sale_order_line sol where
-                          sol.product_id = %s and sol.orig_sale = %s""",
-                       (line.product_id.id, line.order_id.id))
-            line_ids += [i[0] for i in cr.fetchall()]
+            if line.product_id:
+                cr.execute("""SELECT sol.id from sale_order_line sol where
+                              sol.product_id = %s and sol.orig_sale = %s""",
+                           (line.product_id.id, line.order_id.id))
+                line_ids += [i[0] for i in cr.fetchall()]
         return line_ids
 
     _columns = {
