@@ -20,14 +20,16 @@
 ##############################################################################
 
 from openerp import models, api
-import time
+import time, logging
 
 
 class AccountConfigSettings(models.Model):
     _inherit = 'account.config.settings'
 
-    @api.one
+    @api.multi
     def create_banking_mandates(self):
+        logger = logging.getLogger(__name__)
+        logger.info('Searching for banking accounts without mandates...')
         company_ids = self.env['res.company'].search([])
         company_partner_ids = [c.partner_id.id for c in company_ids]
         partner_ids = self.env['res.partner'].\
@@ -43,6 +45,8 @@ class AccountConfigSettings(models.Model):
 
         banking_mandate = self.env['account.banking.mandate']
         for bank in bank_ids:
+            logger.info('Creating new mandate for %s\'s bank %s',
+                        bank.partner_id.name, bank.bank_name)
             banking_mandate.create({
                 'company_id': bank.partner_id.company_id.id,
                 'partner_bank_id': bank.id,
@@ -51,4 +55,6 @@ class AccountConfigSettings(models.Model):
                 'state': 'valid',
                 'recurrent_sequence_type': 'recurring'
             })
-        return self
+
+        logger.info('Now all banking accounts have at least one mandate...')
+        return True

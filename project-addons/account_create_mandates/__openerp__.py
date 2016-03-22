@@ -32,6 +32,7 @@
     'data' : [
         'security/ir.model.access.csv',
         'views/account_config_settings.xml',
+        'data/create_mandates_cron.xml',
     ],
     'installable': True
 }
