@@ -18,7 +18,7 @@ msgstr ""
 #. module: picking_in_auomatic_lot
 #: field:stock.transfer_details_items,assigned_lot:0
 msgid "Assigned lot"
-msgstr "Lote asignado"
+msgstr "Lote sugerido"
 
 #. module: picking_in_auomatic_lot
 #: model:ir.model,name:picking_in_auomatic_lot.model_stock_transfer_details

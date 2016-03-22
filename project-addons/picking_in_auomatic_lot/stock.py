@@ -34,20 +34,17 @@ class stock_transfer_details(models.TransientModel):
             for item in res.get('item_ids', []):
                 if not item['product_id'] or item['lot_id']:
                     continue
-                seq_obj = self.env['ir.sequence']
                 product = self.env['product.product'].browse(item['product_id'])
-                sequence = False
-                if product and product.sequence_id:
-                    sequence = product.sequence_id
-                else:
-                    sequence = self.env.ref('stock.sequence_production_lots')
-                if sequence:
-                    d = sequence._interpolation_dict()
-                    prefix = sequence.prefix and sequence.prefix % d or ''
-                    suffix = sequence.suffix and sequence.suffix % d or ''
-                    next_seq = prefix + '%%0%sd' % sequence.padding % sequence.number_next_actual + suffix
-                    item['assigned_lot'] = next_seq
+                item['assigned_lot'] = self.env['stock.transfer_details_items'].get_assigned_lot(product)
         return res
+
+    @api.multi
+    def wizard_view(self):
+        if self.picking_id.picking_type_code == 'incoming':
+            for line in self.item_ids:
+                if not line.lot_id:
+                    line.assigned_lot = self.env['stock.transfer_details_items'].get_assigned_lot(line.product_id)
+        return super(stock_transfer_details, self).wizard_view()
 
 
 class StockTransferDetailsItems(models.TransientModel):
@@ -68,3 +65,18 @@ class StockTransferDetailsItems(models.TransientModel):
                      'partner_id': self.transfer_id.picking_id.partner_id.id})
                 self.write({'lot_id': prodlot_id.id, 'assigned_lot': False})
         return self.transfer_id.wizard_view()
+
+    @api.model
+    def get_assigned_lot(self, product):
+        sequence = False
+        if product and product.sequence_id:
+            sequence = product.sequence_id
+        else:
+            sequence = self.env.ref('stock.sequence_production_lots')
+        if sequence:
+            d = sequence._interpolation_dict()
+            prefix = sequence.prefix and sequence.prefix % d or ''
+            suffix = sequence.suffix and sequence.suffix % d or ''
+            next_seq = prefix + '%%0%sd' % sequence.padding % sequence.number_next_actual + suffix
+            return next_seq
+        return False
