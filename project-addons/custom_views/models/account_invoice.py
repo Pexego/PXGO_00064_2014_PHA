@@ -107,18 +107,17 @@ class AccountInvoice(models.Model):
 
         return res
 
-    @api.onchange('partner_id', 'reference')
-    def onchange_reference(self):
-        self._check_unique_reference(self.reference, self.partner_id.id)
-
     def _check_unique_reference(self, reference, partner_id):
-        if reference and self.env['account.invoice'].search(
+        if reference and partner_id:
+            invoice = self.env['account.invoice'].search(
                 [
                     ('partner_id', '=', partner_id),
                     ('reference', '=', reference.strip())
-                ]):
-            raise Warning(_('Already exists an invoice with this supplier and '
-                            'reference'))
+                ])
+            if invoice and (invoice not in self):
+                raise Warning(_('Already exists an invoice for %s with '
+                                'this reference %s') %
+                              (invoice.partner_id.name, reference))
 
     @api.multi
     def action_date_assign(self):
