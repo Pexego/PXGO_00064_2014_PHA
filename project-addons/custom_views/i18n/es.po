@@ -52,10 +52,10 @@ msgid "Agents/Consultancy"
 msgstr "Comisionistas"
 
 #. module: custom_views
-#: code:addons/custom_views/models/account_invoice.py:120
+#: code:addons/custom_views/models/account_invoice.py:0
 #, python-format
-msgid "Already exists an invoice with this supplier and reference"
-msgstr "Ya existe una factura con esta referencia de este proveedor"
+msgid "Already exists an invoice for %s with this reference %s"
+msgstr "Ya existe una factura de %s con esta referencia %s"
 
 #. module: custom_views
 #: field:payment.mode,banking_mandate_needed:0
