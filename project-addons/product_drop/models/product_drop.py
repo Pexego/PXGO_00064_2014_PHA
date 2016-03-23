@@ -19,7 +19,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
 class product_drop(models.Model):
@@ -106,11 +107,15 @@ class product_drop_details(models.Model):
         # required quantity.
         # Previously, we have verified the existence of a minimal quantity
         # for this lot.
+        location = False
         for quant in lot.quant_ids:
             if quant.location_id.finished_product_location and \
                             quant.qty >= qty:
                 location = quant.location_id
                 break
+        if not location:
+            raise Warning(_('It is necessary to specify a lot for every '
+                            'product to drop'))
         dest_id = self.env.ref('product_drop.consumption_for_internal_use_location')
         wh = self.env['stock.location'].get_warehouse(location)
 
