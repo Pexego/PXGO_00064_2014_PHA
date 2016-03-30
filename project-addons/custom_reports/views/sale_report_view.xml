@@ -34,6 +34,7 @@
                     <filter name="Replacements" string="Replacements" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'replacement')]"/>
                     <filter name="Intermediary" string="Intermediary" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'intermediary')]"/>
                     <filter name="Sales" string="Sales" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'normal')]"/>
+                    <filter name="ZeroCost" string="Zero cost" domain="[('price_total', '=', 0.0), ('is_delivery', '=', False)]"/>
                 </filter>
                 <filter string="Customer" position="after">
                     <filter string="Sale channel" domain="[]" context="{'group_by':'sale_channel_id'}"/>
