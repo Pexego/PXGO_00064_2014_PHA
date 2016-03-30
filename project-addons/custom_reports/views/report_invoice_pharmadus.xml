@@ -233,10 +233,16 @@
                             <td style="min-width: 40%;">
                                 <span t-field="l.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="l.product_id.ean13"/>
                                 <br/>
-                                <table t-if="l.move_id and l.move_id.linked_move_operation_ids">
+                                <table t-if="l.move_id">
                                     <tbody>
-                                        <t t-foreach="l.move_id.linked_move_operation_ids" t-as="mo">
-                                            <t t-foreach="mo.operation_id" t-as="po">
+                                        <t t-foreach="l.move_id" t-as="m">
+                                            <t t-set="pack_operations" t-value="[]"/>
+                                            <t t-foreach="m.linked_move_operation_ids" t-as="mo">
+                                                <t t-if="mo.operation_id not in pack_operations">
+                                                    <t t-set="pack_operations" t-value="pack_operations + [mo.operation_id]"/>
+                                                </t>
+                                            </t>
+                                            <t t-foreach="pack_operations" t-as="po">
                                                 <tr>
                                                     <td><span t-field="po.lot_id.name"/></td>
                                                     <td><![CDATA[&nbsp;|&nbsp;]]></td>
@@ -255,7 +261,7 @@
                                                         </t>
                                                     </td>
                                                     <td><![CDATA[&nbsp;|&nbsp;]]></td>
-                                                    <td><span t-esc="'%g %s' % (po.product_qty, po.product_uom_id.name)"/></td>
+                                                    <td><span t-esc="'%g %s' % (po.move_quants_qty(m), po.product_uom_id.name)"/></td>
                                                 </tr>
                                             </t>
                                         </t>

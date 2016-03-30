@@ -47,6 +47,7 @@ class SaleReport(models.Model):
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    is_delivery = fields.Boolean()  # Is a delivery carrier line?
 
     def _select(self):
         select_str = """,
@@ -80,7 +81,8 @@ class SaleReport(models.Model):
             t.subline as product_subline,
             t.container_id as product_container,
             t.base_form_id as product_form,
-            t.clothing as product_clothing
+            t.clothing as product_clothing,
+            l.is_delivery
             """
         return super(SaleReport, self)._select() + select_str
 
@@ -136,6 +138,7 @@ class SaleReport(models.Model):
             t.subline,
             t.container_id,
             t.base_form_id,
-            t.clothing
+            t.clothing,
+            l.is_delivery
             """
         return super(SaleReport, self)._group_by() + group_by_str
