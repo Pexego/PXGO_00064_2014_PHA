@@ -46,7 +46,7 @@ msgstr "(Estimado:"
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "(Unspecified)"
-msgstr "(Sin especificar)"
+msgstr "&nbsp;&nbsp;&nbsp;"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_container_labels

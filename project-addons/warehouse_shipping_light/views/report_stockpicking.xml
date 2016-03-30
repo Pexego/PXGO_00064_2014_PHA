@@ -478,8 +478,15 @@
                                 </t>
                             </t>
                         </div>
+                        <div style="position: absolute; top: 4px; right: 0;">
+                            <t t-foreach="company.header_image" t-as="h_image">
+                                <t t-if="h_image.name[:18] == 'footer_right_image'">
+                                    <span t-field="h_image.img" t-field-options='{"widget": "image"}'/>
+                                </t>
+                            </t>
+                        </div>
                         <div style="margin-left: 80px;">
-                            <p style="font-size: 8px; margin: 0; padding: 0;">
+                            <p style="font-size: 8px; margin: 0 90px 0 0; padding: 0;">
                                 Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,
                                 Volume <span t-field="company.partner_id.es_tomo"/>,
                                 Registration <span t-field="company.partner_id.es_seccion"/>,
@@ -487,7 +494,7 @@
                                 Sheet Number <span t-field="company.partner_id.es_hoja"/>,
                                 TIN <span t-field="company.partner_id.vat"/>
                             </p>
-                            <p style="font-size: 8px; margin: 0; padding: 0;">
+                            <p style="font-size: 8px; margin: 0 90px 0 0; padding: 0;">
                                 In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated.
                             </p>
                             <p style="font-size: 8px; margin: 0; padding: 0;">
