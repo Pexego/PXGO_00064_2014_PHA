@@ -84,7 +84,9 @@ class SaleReport(models.Model):
             t.clothing as product_clothing,
             l.is_delivery
             """
-        return super(SaleReport, self)._select() + select_str
+        res = super(SaleReport, self)._select() + select_str
+        res = res.replace(' min(l.id) as id,', ' l.id as id,')
+        return res
 
     def _from(self):
         from_str = """
@@ -141,4 +143,6 @@ class SaleReport(models.Model):
             t.clothing,
             l.is_delivery
             """
-        return super(SaleReport, self)._group_by() + group_by_str
+        res = super(SaleReport, self)._group_by() + group_by_str
+        res = res.replace(' l.product_id,', ' l.id, l.product_id,')
+        return res
