@@ -64,14 +64,3 @@ class StockTransferDetails(models.TransientModel):
             if errors:
                 raise exceptions.Warning(_('Field error'), _('Lots without reception data: %s') % ', '.join(lot_errors))
         return super(StockTransferDetails, self).do_detailed_transfer()
-
-
-class StockTransferDetailsItems(models.TransientModel):
-
-    _inherit = 'stock.transfer_details_items'
-
-    is_incoming = fields.Boolean('Is incoming picking', compute='_get_incoming')
-
-    @api.one
-    def _get_incoming(self):
-        self.is_incoming = self.transfer_id.picking_id.purchase_order and True or False

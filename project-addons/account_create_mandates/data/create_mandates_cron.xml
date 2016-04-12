@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="create_mandates_cron" model="ir.cron">
+            <field name="name">Automatic creation of missing SEPA mandates</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'account.config.settings'"/>
+            <field name="function" eval="'create_banking_mandates'" />
+            <field name="args" eval="'(None, )'"/>
+        </record>
+    </data>
+</openerp>

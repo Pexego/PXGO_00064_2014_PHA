@@ -31,6 +31,7 @@
         'sale',
         'stock',
         'delivery',
+        'stock_reception',
         'custom_reports',
     ],
     'data' : [

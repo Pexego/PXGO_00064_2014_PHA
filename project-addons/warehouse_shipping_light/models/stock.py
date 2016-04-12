@@ -288,7 +288,7 @@ class StockExpeditions(models.Model):
     @api.depends('date_done')
     def _compute_day_done(self):
         day = self.date_done if self.date_done else self.date
-        self.date_done_day = time.strftime('%d %B',
+        self.date_done_day = time.strftime('%Y/%m, día %d',
                                         time.strptime(day, '%Y-%m-%d %H:%M:%S'))
         self.date_done_hour = time.strftime('%H:%M:%S',
                                         time.strptime(day, '%Y-%m-%d %H:%M:%S'))

@@ -12,5 +12,16 @@
                 </field>
             </field>
         </record>
+
+        <record id="product_drop_stock_location_form" model="ir.ui.view">
+            <field name="name">Product drop - Stock location form</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <field name="scrap_location" position="after">
+                    <field name="finished_product_location"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

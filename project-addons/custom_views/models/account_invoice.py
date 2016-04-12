@@ -18,8 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api, fields
+from openerp import models, api, fields, _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
+from openerp.exceptions import Warning
 import datetime
 
 
@@ -31,32 +32,50 @@ class AccountInvoice(models.Model):
     banking_mandate_needed = fields.Boolean(
             related='payment_mode_id.banking_mandate_needed')
 
-    @api.model
-    def create(self, vals):
-        res = super(AccountInvoice, self).create(vals)
-        # Trigger write event to force re-calculations after create and to
-        # check if payment mode need a banking mandate, to assign it
-        # automatically if it is possible.
-        res.state = res.state
+    @api.multi
+    def onchange_partner_id(self, type, partner_id, date_invoice=False,
+            payment_term=False, partner_bank_id=False, company_id=False):
+        res = super(AccountInvoice, self).onchange_partner_id(type, partner_id,
+                date_invoice, payment_term, partner_bank_id, company_id)
+        payment_mode_id = res['value'].get('payment_mode_id')
+        if payment_mode_id:
+            payment_mode = self.env['payment.mode'].browse(payment_mode_id)
+            if payment_mode.banking_mandate_needed:
+                partner = self.env['res.partner'].browse(partner_id)
+                if not partner.bank_ids and partner.parent_id.bank_ids:
+                    banks = partner.parent_id.bank_ids
+                else:
+                    banks = partner.bank_ids
+                if banks:
+                    mandates = []
+                    for bank in banks:
+                        for mandate in bank.mandate_ids:
+                            mandates.append(mandate)
+                    if len(mandates) == 1:
+                        mandate_id = mandates[0].id
+                    else:
+                        mandate_id = False
+                else:
+                    mandate_id = False
+            else:
+                mandate_id = False
+        else:
+            mandate_id = False
+        res['value'].update({'mandate_id': mandate_id})
         return res
 
     @api.multi
-    def write(self, vals):
+    @api.onchange('payment_mode_id')
+    def _search_banking_mandate(self):
         # Check if banking mandate is needed and populate it if the partner has
         # one and only one. If the partner has several mandates, the view will
         # force the user to choose one.
         for invoice in self:
             if invoice.payment_mode_id and \
-               invoice.payment_mode_id.banking_mandate_needed and \
-               not vals.get('mandate_id', invoice.mandate_id.id):
-                partner_id = vals.get('partner_id', False)
-                if partner_id:
-                    partner = self.env['partner_id'].browse(partner_id)
-                else:
-                    partner = invoice.partner_id
-
+               invoice.payment_mode_id.banking_mandate_needed:
                 # If the partner has not a bank and has a parent partner,
-                # assign parent bank(s) instead
+                # check parent's bank(s) instead
+                partner = invoice.partner_id
                 if not partner.bank_ids and partner.parent_id.bank_ids:
                     banks = partner.parent_id.bank_ids
                 else:
@@ -68,6 +87,31 @@ class AccountInvoice(models.Model):
                             mandates.append(mandate)
                     if len(mandates) == 1:
                         invoice.mandate_id = mandates[0]
+                    else:
+                        invoice.mandate_id = False
+                else:
+                    invoice.mandate_id = False
+            else:
+                invoice.mandate_id = False
+
+    @api.model
+    def create(self, vals):
+        # Check for unique supplier reference, before create invoice
+        self._check_unique_reference(vals.get('reference'),
+                                     vals.get('partner_id'))
+        res = super(AccountInvoice, self).create(vals)
+        # Search if it needs automatic assignment of banking mandates and
+        # triggers write event to force re-calculations after invoice creation
+        res._search_banking_mandate()
+        return res
+
+    @api.multi
+    def write(self, vals):
+        # Check for unique supplier reference
+        for invoice in self:
+            reference = vals.get('reference', invoice.reference)
+            partner = vals.get('partner_id', invoice.partner_id.id)
+            self._check_unique_reference(reference, partner)
 
         # Force re-calculations on save
         re_calculate = False
@@ -82,9 +126,7 @@ class AccountInvoice(models.Model):
                     then = now - datetime.timedelta(days=1)
 
                 diff = now - then
-                re_calculate = re_calculate or \
-                               diff.days > 0 or \
-                               diff.seconds > 10
+                re_calculate = re_calculate or diff.total_seconds() > 10
                 type_is_out_invoice = type_is_out_invoice and \
                                       (rec.type == 'out_invoice')
 
@@ -98,6 +140,39 @@ class AccountInvoice(models.Model):
 
         return res
 
+    def _check_unique_reference(self, reference, partner_id):
+        if reference and partner_id:
+            invoice = self.env['account.invoice'].search(
+                [
+                    ('partner_id', '=', partner_id),
+                    ('reference', '=', reference.strip())
+                ])
+            if invoice and (invoice not in self):
+                raise Warning(_('Already exists an invoice for %s with '
+                                'this reference %s') %
+                              (invoice.partner_id.name, reference))
+
+    @api.multi
+    def action_date_assign(self):
+        # This is the first step in workflow before invoice validation
+        # Check if all invoice lines have tax field set
+        invoices = []
+        for invoice in self:
+            for line in invoice.invoice_line:
+                if (not line.invoice_line_tax_id) and (invoice not in invoices):
+                    invoices.append(invoice)
+        if len(invoices) > 0:
+            msg = _('The following invoices have detail lines without tax set:')
+            msg += '\n'
+            for invoice in invoices:
+                if invoice.number:
+                    msg += '\n- ' + _('Invoice number: ') + invoice.number
+                else:
+                    msg += '\n- ' + _('Origin document: ') + invoice.origin
+            raise Warning(msg)
+        else:
+            return super(AccountInvoice, self).action_date_assign()
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -108,6 +183,7 @@ class AccountInvoiceLine(models.Model):
             ('out_refund','Customer Refund'),
             ('in_refund','Supplier Refund'),
         ], related='invoice_id.type')
+    invoice_line_tax_id = fields.Many2many(required=True)  # Inherited field
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',

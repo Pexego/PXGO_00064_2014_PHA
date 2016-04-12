@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 09:23+0000\n"
-"PO-Revision-Date: 2016-02-24 10:24+0100\n"
+"POT-Creation-Date: 2016-04-08 08:15+0000\n"
+"PO-Revision-Date: 2016-04-08 10:15+0200\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "(Estimado:"
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "(Unspecified)"
-msgstr "(Sin especificar)"
+msgstr "&nbsp;&nbsp;&nbsp;"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_container_labels
@@ -269,7 +269,6 @@ msgstr "Transportista no asignado."
 
 #. module: warehouse_shipping_light
 #: field:sale.order,carrier_note:0
-#: field:stock.picking,carrier_note:0
 msgid "Carrier note"
 msgstr "Nota para transportista"
 
@@ -590,8 +589,8 @@ msgstr "Lote"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
-msgid "Lot | Approved | Best before"
-msgstr "Lote | Aprobado | Caducidad"
+msgid "Lot | Approved | Best before | Quantity"
+msgstr "Lote | Aprobado | Caducidad | Cantidad"
 
 #. module: warehouse_shipping_light
 #: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details

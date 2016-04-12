@@ -149,7 +149,7 @@
                     </t>
                     <div class="col-xs-3">
                         <p t-if="s and s.partner_id.ref"><strong>Client code:</strong> <span t-field="s.partner_id.ref"/></p>
-                        <p t-if="s and s.partner_id.customer_payment_mode and not s.replacement">
+                        <p t-if="s and s.partner_id.customer_payment_mode and not s.replacement and not s.sample">
                             <strong>Payment mode:</strong><br/>
                             <span t-field="s.partner_id.customer_payment_mode.name"/><br/>
                             <t t-if="not s.partner_id.customer_payment_mode.hide_account_at_invoice">
@@ -170,7 +170,7 @@
                             </t>
                             <p t-esc="time.strftime('%d/%m/%Y', time.strptime(delivery_date, '%Y-%m-%d %H:%M:%S'))"/>
                         </div>
-                        <div t-if="s and s.payment_term and not s.replacement">
+                        <div t-if="s and s.payment_term and not s.replacement and not s.sample">
                             <strong>Closing date:</strong>
                             <p>
                                 <span t-field="s.closing_date"/>
@@ -207,7 +207,7 @@
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Product | EAN13<br/>Lot | Approved | Best before</th>
+                            <th>Product | EAN13<br/>Lot | Approved | Best before | Quantity</th>
                             <th class="text-right">Qty</th>
                             <th class="text-right">Unit price</th>
                             <th class="text-right">Disc.(%)</th>
@@ -225,17 +225,23 @@
                                 <br/>
                                 <table>
                                     <tbody>
-                                        <t>
-                                            <tr t-foreach="m.lot_ids" t-as="lot">
-                                                <td><span t-field="lot.name"/></td>
+                                        <t t-set="pack_operations" t-value="[]"/>
+                                        <t t-foreach="m.linked_move_operation_ids" t-as="mo">
+                                            <t t-if="mo.operation_id not in pack_operations">
+                                                <t t-set="pack_operations" t-value="pack_operations + [mo.operation_id]"/>
+                                            </t>
+                                        </t>
+                                        <t t-foreach="pack_operations" t-as="po">
+                                            <tr>
+                                                <td><span t-field="po.lot_id.name"/></td>
                                                 <td><![CDATA[&nbsp;|&nbsp;]]></td>
                                                 <td>
-                                                    <span t-if="lot.acceptance_date" t-field="lot.acceptance_date"/>
-                                                    <span t-if="not lot.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
+                                                    <span t-if="po.lot_id.acceptance_date" t-field="po.lot_id.acceptance_date"/>
+                                                    <span t-if="not po.lot_id.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
                                                 </td>
                                                 <td><![CDATA[&nbsp;|&nbsp;]]></td>
                                                 <td>
-                                                    <t t-set="u_date" t-value="lot.use_date"/>
+                                                    <t t-set="u_date" t-value="po.lot_id.use_date"/>
                                                     <t t-if="u_date">
                                                         <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
                                                     </t>
@@ -243,6 +249,8 @@
                                                         <span>(Unspecified)</span>
                                                     </t>
                                                 </td>
+                                                <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                <td><span t-esc="'%g %s' % (po.move_quants_qty(m), po.product_uom_id.name)"/></td>
                                             </tr>
                                         </t>
                                     </tbody>
@@ -404,11 +412,18 @@
                             </t>
                         </t>
                     </div>
+                    <div style="position: absolute; top: 4px; right: 0;">
+                        <t t-foreach="company.header_image" t-as="h_image">
+                            <t t-if="h_image.name[:18] == 'footer_right_image'">
+                                <span t-field="h_image.img" t-field-options='{"widget": "image"}'/>
+                            </t>
+                        </t>
+                    </div>
                     <div style="margin-left: 80px;">
-                        <p style="font-size: 12px; margin: 5px 0; padding: 0;">
+                        <p style="font-size: 12px; margin: 5px 90px 5px 0; padding: 0;">
                             For any doubt or explanation, be contacted with Sales Dept. in the number <b><span t-field="company.phone"/></b>, or by e-mail at ventas@pharmadus.com
                         </p>
-                        <p style="font-size: 8px; margin: 0; padding: 0;">
+                        <p style="font-size: 8px; margin: 0 90px 0 0; padding: 0;">
                             Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,
                             Volume <span t-field="company.partner_id.es_tomo"/>,
                             Registration <span t-field="company.partner_id.es_seccion"/>,

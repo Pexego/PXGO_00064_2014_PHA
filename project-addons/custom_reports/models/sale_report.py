@@ -25,6 +25,7 @@ from openerp import fields, models
 class SaleReport(models.Model):
     _inherit = 'sale.report'
 
+    cooperative_parent_id = fields.Many2one('res.partner', 'Parent cooperative')
     notified_partner_id = fields.Many2one('res.partner', 'Cooperative')
     sale_type = fields.Selection(selection=[('normal', 'Normal'),
                                             ('sample', 'Sample'),
@@ -46,9 +47,14 @@ class SaleReport(models.Model):
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    is_delivery = fields.Boolean()  # Is a delivery carrier line?
 
     def _select(self):
         select_str = """,
+            case
+                when cp.parent_id is null then s.notified_partner_id
+                else cp.parent_id
+            end as cooperative_parent_id,
             s.notified_partner_id as notified_partner_id,
             s.sale_type as sale_type,
             s.sale_channel_id as sale_channel_id,
@@ -75,12 +81,16 @@ class SaleReport(models.Model):
             t.subline as product_subline,
             t.container_id as product_container,
             t.base_form_id as product_form,
-            t.clothing as product_clothing
+            t.clothing as product_clothing,
+            l.is_delivery
             """
-        return super(SaleReport, self)._select() + select_str
+        res = super(SaleReport, self)._select() + select_str
+        res = res.replace(' min(l.id) as id,', ' l.id as id,')
+        return res
 
     def _from(self):
         from_str = """
+            left join res_partner cp on cp.id = s.notified_partner_id
             left join res_partner pa
                    on (pa.id = s.partner_id and pa.company_id = s.company_id)
             left join res_partner_category parent_rpc on parent_rpc.id = (
@@ -116,6 +126,7 @@ class SaleReport(models.Model):
 
     def _group_by(self):
         group_by_str = """,
+            cooperative_parent_id,
             s.notified_partner_id,
             s.sale_type,
             s.sale_channel_id,
@@ -129,6 +140,9 @@ class SaleReport(models.Model):
             t.subline,
             t.container_id,
             t.base_form_id,
-            t.clothing
+            t.clothing,
+            l.is_delivery
             """
-        return super(SaleReport, self)._group_by() + group_by_str
+        res = super(SaleReport, self)._group_by() + group_by_str
+        res = res.replace(' l.product_id,', ' l.id, l.product_id,')
+        return res

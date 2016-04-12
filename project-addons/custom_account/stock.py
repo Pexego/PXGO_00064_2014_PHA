@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2016 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,6 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models
 
-import product, account_payment, account, sale_report, account_invoice_report, \
-       stock
+
+class StockMove(models.Model):
+
+    _inherit = 'stock.move'
+
+    def _create_invoice_line_from_vals(self, cr, uid, move, invoice_line_vals, context=None):
+        res = super(StockMove, self)._create_invoice_line_from_vals(cr, uid, move, invoice_line_vals, context)
+        if move.purchase_line_id:
+            self.pool.get('account.invoice.line').write(cr, uid, res, {'analytics_id': move.purchase_line_id.analytics_id.id})
+        return res

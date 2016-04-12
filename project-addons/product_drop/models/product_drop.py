@@ -19,13 +19,14 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
-from datetime import date, datetime
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
 class product_drop(models.Model):
     _name = 'product.drop'
     _description = 'Internal use consumption'
+    _order = 'date desc'
 
     name = fields.Many2one(
         string='User',
@@ -37,7 +38,7 @@ class product_drop(models.Model):
     )
     date = fields.Datetime(
         string='Date',
-        default=datetime.now()
+        default=fields.Datetime.now()
     )
     state = fields.Selection(
         string='State',
@@ -77,19 +78,13 @@ class product_drop_details(models.Model):
     def on_change_name_qty(self):
         current_product = self.env.context.get('product_id')
         current_qty = self.env.context.get('product_qty')
-        # Company's main stock location
-#        location = self.env['stock.warehouse'].search(
-#                [('company_id', '=', self.env.user.company_id.id)]
-#            ).lot_stock_id.id
-        # Physical Locations / CY01 / Existencias / Producto terminado
-        location = self.env.ref('__export__.stock_location_22').id
 
-        # Search for lots of this product in main company stock.
+        # Search for lots of this product in "finished product" stock locations.
         # Discards those that does not met minimum quantity needed and
         # are reserved
         lots_ids = self.env['stock.quant'].search([
                 ('lot_id.product_id', '=', current_product),
-                ('location_id.location_id', '=', location), # Parent's location
+                ('location_id.finished_product_location', '=', True),
                 ('reservation_id', '=', False),
                 ('qty', '>=', current_qty)
             ]).mapped('lot_id.id')
@@ -108,9 +103,19 @@ class product_drop_details(models.Model):
 
     def _create_stock_move(self, lot, prod, qty):
         company = self.env.user.company_id.id
-        location = self.env['stock.warehouse'].search(
-                [('company_id', '=', company)]
-            ).lot_stock_id
+        # Search for a quant location with sufficient stock to satisfy the
+        # required quantity.
+        # Previously, we have verified the existence of a minimal quantity
+        # for this lot.
+        location = False
+        for quant in lot.quant_ids:
+            if quant.location_id.finished_product_location and \
+                            quant.qty >= qty:
+                location = quant.location_id
+                break
+        if not location:
+            raise Warning(_('It is necessary to specify a lot for every '
+                            'product to drop'))
         dest_id = self.env.ref('product_drop.consumption_for_internal_use_location')
         wh = self.env['stock.location'].get_warehouse(location)
 
@@ -133,7 +138,7 @@ class product_drop_details(models.Model):
         picking_vals = {
             'picking_type_id': picking_type_id,
             'partner_id': company,
-            'date': date.today(),
+            'date': fields.Datetime.now(),
             'origin': lot.name
         }
         picking_id = self.env['stock.picking'].create(picking_vals)
@@ -145,8 +150,8 @@ class product_drop_details(models.Model):
             'product_uos': prod.uos_id.id if prod.uom_id else False,
             'restrict_lot_id': lot.id,
             'product_uom_qty': qty,
-            'date': date.today(),
-            'date_expected': datetime.now(),
+            'date': fields.Datetime.now(),
+            'date_expected': fields.Datetime.now(),
             'location_id': location.id,
             'location_dest_id': dest_id.id,
             'move_dest_id': False,

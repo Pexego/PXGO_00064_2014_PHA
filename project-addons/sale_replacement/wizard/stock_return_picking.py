@@ -93,15 +93,15 @@ class stock_return_picking(models.TransientModel):
                     for line in move.picking_id.sale_id.order_line:
                         if line.product_id.id == data_get.product_id.id and \
                             new_qty <= (line.product_uom_qty -
-                                        line.qty_replacement):
+                                        line.qty_replaced):
                             used_sale_line = line
                     if not used_sale_line:
                         raise exceptions.except_orm(_('Replacement Error !'),
                                                     _("Error in the quantity"
                                                       "of replacement."))
-                    qty_replacement = used_sale_line.qty_replacement + new_qty
+                    replaced_returned_qty = used_sale_line.replaced_returned_qty + new_qty
                     sale_line_obj.write(cr, uid, [used_sale_line.id],
-                                        {'qty_replacement': qty_replacement},
+                                        {'replaced_returned_qty': replaced_returned_qty},
                                         context)
                 returned_lines += 1
                 move_obj.copy(cr, uid, move.id, {

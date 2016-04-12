@@ -124,7 +124,7 @@
             </field>
         </record>
 
-        <!-- date - product_id - real_partner_id - product_uom_qty - product_uom - origin - state-->
+        <!-- date - product_id - real_partner - product_uom_qty - product_uom - origin - state-->
         <record id="view_move_tree_receipt_picking" model="ir.ui.view">
             <field name="name">stock.move.tree</field>
             <field name="model">stock.move</field>
@@ -138,8 +138,24 @@
                     <field name="origin"/>
                 </button>
                 <field name="partner_id" position="replace">
-                    <field name="real_partner_id"/>
+                    <field name="real_partner"/>
                 </field>
+            </field>
+        </record>
+
+        <record id="stock_reception_move_search" model="ir.ui.view">
+            <field name="name">Stock reception - Move search</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_search"/>
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <filter name="by_product" position="after">
+                    <filter string="Supplier/Customer"
+                            name="by_real_partner"
+                            icon="terp-accessories-archiver"
+                            domain="[]"
+                            context="{'group_by': 'real_partner'}"/>
+                </filter>
             </field>
         </record>
 

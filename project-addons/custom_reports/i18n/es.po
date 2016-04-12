@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 09:06+0000\n"
-"PO-Revision-Date: 2016-02-24 10:06+0100\n"
+"POT-Creation-Date: 2016-03-29 09:29+0000\n"
+"PO-Revision-Date: 2016-03-29 11:30+0200\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "&nbsp;|&nbsp;"
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "(Unspecified)"
-msgstr "(Sin especificar)"
+msgstr "&nbsp;&nbsp;&nbsp;"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -420,6 +420,11 @@ msgid "Is an account for simplified invoices?"
 msgstr "¿Se usa para emitir facturas simplificadas?"
 
 #. module: custom_reports
+#: field:sale.report,is_delivery:0
+msgid "Is delivery"
+msgstr "Is delivery"
+
+#. module: custom_reports
 #: model:ir.model,name:custom_reports.model_account_journal
 msgid "Journal"
 msgstr "Diario"
@@ -495,6 +500,12 @@ msgstr "PRO-FORMA"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Page:"
 msgstr "Página:"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+#: field:sale.report,cooperative_parent_id:0
+msgid "Parent cooperative"
+msgstr "Cooperativa padre"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -867,7 +878,7 @@ msgstr "Precio ud."
 #. module: custom_reports
 #: view:website:custom_reports.report_shipping_address
 msgid "VARIABLE \"shipadd\" NOT DEFINED IN TEMPLATE"
-msgstr "VARIABLE \"shipadd\" NOT DEFINED IN TEMPLATE"
+msgstr "VARIABLE \"shipadd\" NO DEFINIDA EN PLANTILLA"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -878,7 +889,12 @@ msgstr "Validado por:"
 #. module: custom_reports
 #: view:website:custom_reports.report_shipping_address
 msgid "WARNING: UNKNOWN ADDRESS!!"
-msgstr "WARNING: UNKNOWN ADDRESS!!"
+msgstr "ALERTA: DIRECCIÓN DESCONOCIDA!!"
+
+#. module: custom_reports
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Zero cost"
+msgstr "Coste cero"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud

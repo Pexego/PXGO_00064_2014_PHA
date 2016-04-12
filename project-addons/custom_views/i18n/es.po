@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 12:56+0000\n"
-"PO-Revision-Date: 2016-03-02 13:58+0100\n"
+"POT-Creation-Date: 2016-03-15 12:48+0000\n"
+"PO-Revision-Date: 2016-03-15 13:51+0100\n"
 "Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -52,9 +52,15 @@ msgid "Agents/Consultancy"
 msgstr "Comisionistas"
 
 #. module: custom_views
+#: code:addons/custom_views/models/account_invoice.py:0
+#, python-format
+msgid "Already exists an invoice for %s with this reference %s"
+msgstr "Ya existe una factura de %s con esta referencia %s"
+
+#. module: custom_views
 #: field:payment.mode,banking_mandate_needed:0
 msgid "Banking mandate needed?"
-msgstr "¿Necesita mandato SEPA?"
+msgstr "¿Necesita mandato bancario?"
 
 #. module: custom_views
 #: view:product.product:custom_views.product_kanban_view
@@ -132,6 +138,11 @@ msgid "EAN13:"
 msgstr "EAN13:"
 
 #. module: custom_views
+#: model:stock.picking,address_country:0
+msgid "España"
+msgstr "España"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
@@ -147,6 +158,12 @@ msgid "Invoice lines"
 msgstr "Líneas de factura"
 
 #. module: custom_views
+#: code:addons/custom_views/models/account_invoice.py:137
+#, python-format
+msgid "Invoice number: "
+msgstr "Factura Nº: "
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_move_line
 msgid "Journal Items"
 msgstr "Apuntes contables"
@@ -154,7 +171,7 @@ msgstr "Apuntes contables"
 #. module: custom_views
 #: field:account.invoice,latest_calculations:0
 msgid "Latest date and time when amounts were calculated"
-msgstr "Última fecha/hora en que se calcularon los importes"
+msgstr "Última fecha y hora en que las cantidades fueron calculadas"
 
 #. module: custom_views
 #: view:stock.move:custom_views.custom_views_move_search
@@ -192,6 +209,12 @@ msgstr "Ordenar por mes"
 #: view:sale.order:custom_views.view_order_form_custom_view
 msgid "Order reference"
 msgstr "Referencia de pedido"
+
+#. module: custom_views
+#: code:addons/custom_views/models/account_invoice.py:139
+#, python-format
+msgid "Origin document: "
+msgstr "Documento origen: "
 
 #. module: custom_views
 #: field:account.invoice.line,partner_id:0
@@ -278,6 +301,12 @@ msgstr ""
 "%s"
 
 #. module: custom_views
+#: code:addons/custom_views/models/account_invoice.py:133
+#, python-format
+msgid "The following invoices have detail lines without tax set:"
+msgstr "Las siguientes facturas tienen líneas de detalle sin el impuesto correspondiente:"
+
+#. module: custom_views
 #: help:stock.picking,address_country:0
 msgid "The full name of the country."
 msgstr "Nombre completo del país."
@@ -357,6 +386,11 @@ msgstr "{'concatenate_name_comercial': not id, 'search_default_customer': 1, 'sh
 
 #. module: custom_views
 #: view:sale.order:custom_views.view_order_form_custom_view
+msgid "{'create': False, 'create_edit':False}"
+msgstr "{'create': False, 'create_edit':False}"
+
+#. module: custom_views
+#: view:sale.order:custom_views.view_order_form_custom_view
 msgid "{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}"
 msgstr "{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}"
 
@@ -369,11 +403,6 @@ msgstr "{'is_a_sample_order': sample}"
 #: view:sale.order:custom_views.view_order_add_stock_form
 msgid "{'limit': 10, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
 msgstr "{'limit': 10, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'limit': 2, 'create': True, 'create_edit':True}"
-msgstr "{'limit': 2, 'create': True, 'create_edit':True}"
 
 #. module: custom_views
 #: view:account.invoice:custom_views.custom_views_invoice_form

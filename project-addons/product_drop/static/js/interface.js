@@ -313,13 +313,12 @@ function ajustaCantidad(variacion) {
 }
 
 function comprobarLotes() {
-    var location_id = $('span#usuario').data('location_id');
     var product_id  = $('div#producto span.lista span.activa').data('id');
     var qty         = $('#inputCantidad').val();
 
     odooObj.search_read('stock.quant', [
             ['lot_id.product_id', '=', product_id],
-            ['location_id.location_id', '=', location_id], // Ubicación de almacén padre
+            ['location_id.finished_product_location', '=', true],
             ['reservation_id', '=', false],
             ['qty', '>=', qty]
         ], {fields: ['lot_id'], order: 'lot_id'}, function (lotes) {
@@ -502,7 +501,6 @@ function activarUsuario(partner_id, uid, company_id, nombre, imagen) {
         }
     );
 */
-    $('span#usuario').data('location_id', 22); // Physical Locations / CY01 / Existencias / Producto terminado
 }
 
 function seleccionarUsuario() {

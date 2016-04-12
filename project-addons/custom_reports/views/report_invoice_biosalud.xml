@@ -377,10 +377,10 @@
                         </t>
                     </div>
                     <div style="margin-left: 70px;">
-                        <p style="font-size: 12px; margin: 5px 110px 5px 0; padding: 0;">
+                        <p style="font-size: 12px; margin: 5px 125px 5px 0; padding: 0;">
                             For any doubt or explanation of the invoice, be contacted with Administration Dept. in the number <b><span t-field="company.phone"/></b> , or by e-mail at <b>administracion@laboratoriobiosalud.com</b>
                         </p>
-                        <p style="font-size: 8px; margin: 0 110px 0 0; padding: 0;">
+                        <p style="font-size: 8px; margin: 0 125px 0 0; padding: 0;">
                             Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,
                             Volume <span t-field="company.partner_id.es_tomo"/>,
                             Registration <span t-field="company.partner_id.es_seccion"/>,
