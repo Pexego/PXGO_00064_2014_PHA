@@ -99,11 +99,10 @@ class AccountInvoice(models.Model):
         # Check for unique supplier reference, before create invoice
         self._check_unique_reference(vals.get('reference'),
                                      vals.get('partner_id'))
-
         res = super(AccountInvoice, self).create(vals)
-        # Search for banking mandate when invoice is automatically created
-        # and triggers write event to force re-calculations after create
-        self._search_banking_mandate()
+        # Search if it needs automatic assignment of banking mandates and
+        # triggers write event to force re-calculations after invoice creation
+        res._search_banking_mandate()
         return res
 
     @api.multi
