@@ -10,7 +10,7 @@
             <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>
             <field name="model" eval="'account.config.settings'"/>
-            <field name="function" eval="'create_banking_mandates'" />
+            <field name="function" eval="'auto_create_banking_mandates'" />
             <field name="args" eval="'(None, )'"/>
         </record>
     </data>

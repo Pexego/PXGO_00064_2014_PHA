@@ -150,7 +150,7 @@ class AccountInvoice(models.Model):
             if invoice and (invoice not in self):
                 raise Warning(_('Already exists an invoice for %s with '
                                 'this reference %s') %
-                              (invoice.partner_id.name, reference))
+                              (invoice[0].partner_id.name, reference))
 
     @api.multi
     def action_date_assign(self):
