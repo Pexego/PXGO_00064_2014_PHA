@@ -99,6 +99,31 @@ for invoice in invoice_obj.browse(cr, uid, ctx['active_ids']):
         'col2': '4'
     }
     data[filename].append(edi._create_line_csv(CUX,structs))
+    fin_seq = 1
+    if invoice.commercial_discount_amount > 0.0:
+        fin_seq = 2
+        ALC = {
+            'lineId': 'ALC',
+            'col1': 'A',
+            'col2': '1',
+            'col3': 'TD',
+            'col4': invoice.commercial_discount_input,
+            'col5': invoice.commercial_discount_amount,
+
+        }
+        data[filename].append(edi._create_line_csv(ALC, structs))
+    if invoice.financial_discount_amount > 0.0:
+
+        ALC = {
+            'lineId': 'ALC',
+            'col1': 'A',
+            'col2': str(fin_seq),
+            'col3': 'TD',
+            'col4': invoice.financial_discount_input,
+            'col5': invoice.financial_discount_amount,
+
+        }
+        data[filename].append(edi._create_line_csv(ALC, structs))
     for line in invoice.invoice_line:
         LIN = {
             'lineId': 'LIN',
@@ -140,6 +165,17 @@ for invoice in invoice_obj.browse(cr, uid, ctx['active_ids']):
                 'col3': line.price_subtotal * tax.amount,
             }
             data[filename].append(edi._create_line_csv(TAXLIN,structs))
+        if line.discount:
+            ALCLIN = {
+                'lineId': 'ALCLIN',
+                'col1': 'A',
+                'col2': '1',
+                'col3': 'TD',
+                'col4': '',
+                'col5': line.discount,
+                'col6': line.discounted_amount,
+            }
+            data[filename].append(edi._create_line_csv(ALCLIN, structs))
     CNTRES = {
         'lineId': 'CNTRES',
         'col1': '2'
@@ -211,16 +247,16 @@ for invoice in invoice_obj.browse(cr, uid, ctx['active_ids']):
             <field name="type">char</field>
         </record>
 
-        <record forcecreate="True" id="edi_invoice_field_6" model="edi.edi.csv.field">
+        <record forcecreate="True" id="edi_invoice_field_7" model="edi.edi.csv.field">
             <field name="name">col6</field>
-            <field name="sequence" eval="6" />
+            <field name="sequence" eval="7" />
             <field name="edi" ref="edi_invoic" />
             <field name="type">char</field>
         </record>
 
-        <record forcecreate="True" id="edi_invoice_field_7" model="edi.edi.csv.field">
+        <record forcecreate="True" id="edi_invoice_field_8" model="edi.edi.csv.field">
             <field name="name">col7</field>
-            <field name="sequence" eval="7" />
+            <field name="sequence" eval="8" />
             <field name="edi" ref="edi_invoic" />
             <field name="type">char</field>
         </record>
