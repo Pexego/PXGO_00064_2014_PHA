@@ -18,43 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import models, fields
-
-
-class SaleOrder(models.Model):
-
-    _inherit = "sale.order"
-
-    urgent = fields.Boolean("Urgent")
-    top_date = fields.Date("Limit date")
-
-
-class ProductUom(models.Model):
-
-    _inherit = "product.uom"
-
-    edi_code = fields.Char("Edi code")
-
-
-class ResPartner(models.Model):
-
-    _inherit = "res.partner"
-
-    gln = fields.Char("GLN")
-
-
-class PaymentMode(models.Model):
-
-    _inherit = "payment.mode"
-
-    edi_code = fields.Char("Edi code")
-
-class ResCompany(models.Model):
-
-    _inherit = 'res.company'
-
-    aecoc_code = fields.Char('AECOC Code', size=7)
 
 
 class StockPackOperation(models.Model):

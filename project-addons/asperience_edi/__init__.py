@@ -19,10 +19,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import edi
-import ir
 from . import models
 from . import wizard
-from . import edi_parser
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
