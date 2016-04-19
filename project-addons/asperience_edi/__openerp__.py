@@ -49,7 +49,8 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "docs/export_invoic.xml",
         "docs/export_desadv.xml",
         "docs/import_recadv.xml",
-        "wizard/export_edi_view.xml"
+        "wizard/export_edi_view.xml",
+        "data/sscc_sequence.xml"
     ],
     "images": [
         "images/asperience.png",

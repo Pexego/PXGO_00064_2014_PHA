@@ -17,7 +17,7 @@
             <field name="quotechar"></field>
             <field name="eval_out" >
 data = self.pool.get('edi.parser').parse_desadv(cr2, uid, edi, data, ctx, _logger, structs)
-</field>
+            </field>
         </record>
 
         <record forcecreate="True" id="edi_desadv_field_1" model="edi.edi.csv.field">
@@ -58,6 +58,27 @@ data = self.pool.get('edi.parser').parse_desadv(cr2, uid, edi, data, ctx, _logge
         <record forcecreate="True" id="edi_desadv_field_6" model="edi.edi.csv.field">
             <field name="name">col5</field>
             <field name="sequence" eval="6" />
+            <field name="edi" ref="edi_desadv" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_desadv_field_7" model="edi.edi.csv.field">
+            <field name="name">col6</field>
+            <field name="sequence" eval="7" />
+            <field name="edi" ref="edi_desadv" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_desadv_field_8" model="edi.edi.csv.field">
+            <field name="name">col7</field>
+            <field name="sequence" eval="8" />
+            <field name="edi" ref="edi_desadv" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_desadv_field_9" model="edi.edi.csv.field">
+            <field name="name">col8</field>
+            <field name="sequence" eval="9" />
             <field name="edi" ref="edi_desadv" />
             <field name="type">char</field>
         </record>

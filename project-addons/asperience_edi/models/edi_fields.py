@@ -49,3 +49,16 @@ class PaymentMode(models.Model):
     _inherit = "payment.mode"
 
     edi_code = fields.Char("Edi code")
+
+class ResCompany(models.Model):
+
+    _inherit = 'res.company'
+
+    aecoc_code = fields.Char('AECOC Code', size=7)
+
+
+class StockPackOperation(models.Model):
+
+    _inherit = 'stock.pack.operation'
+
+    sscc = fields.Char('SSCC')
