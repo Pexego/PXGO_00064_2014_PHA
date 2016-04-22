@@ -25,6 +25,9 @@ from openerp import fields, models
 class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
+    partner_id = fields.Many2one(string='Partner (invoice send address)')
+    commercial_partner_id = fields.Many2one(string='Partner (invoicing address)')
+    commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
@@ -41,6 +44,7 @@ class AccountInvoiceReport(models.Model):
 
     def _select(self):
         select_str = """,
+            commercial_name,
             partner_parent_category,
             partner_category,
             commission_category,
@@ -58,6 +62,7 @@ class AccountInvoiceReport(models.Model):
 
     def _sub_select(self):
         select_str = """,
+            partner.comercial as commercial_name,
             case
                 when parent_rpc.name is null then '(Sin categoría)'
                 else parent_rpc.name
@@ -122,6 +127,7 @@ class AccountInvoiceReport(models.Model):
 
     def _group_by(self):
         group_by_str = """,
+            commercial_name,
             partner_parent_category,
             partner_category,
             commission_category,

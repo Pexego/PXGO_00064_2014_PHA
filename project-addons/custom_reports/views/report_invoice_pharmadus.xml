@@ -386,12 +386,12 @@
 
                 <p>
                     <strong>Comment:</strong>
-                    <t t-if="o.sale_ids">
+                    <!--t t-if="o.sale_ids">
                         <t t-foreach="o.sale_ids" t-as="sale">
                             <span t-field="sale.note"/>
                             <![CDATA[&nbsp;]]>
                         </t>
-                    </t>
+                    </t-->
                     <span t-field="o.comment"/>
                 </p>
                 <p t-if="o.payment_term.note">
