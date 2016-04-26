@@ -55,6 +55,7 @@
               'views/account_report.xml',
               'views/product_view.xml',
               'views/css_custom.xml',
+              'views/account_analytic_plans.xml',
               'security/record_rules.xml',
               'security/menus.xml',
               'security/ir.model.access.csv'],
