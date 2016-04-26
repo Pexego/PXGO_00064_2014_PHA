@@ -104,5 +104,11 @@
             <field name="perm_unlink" eval="True"/>
             <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
         </record>
+
+        <record model="ir.rule" id="res_partner_category_comp_rule">
+            <field name="name">res.partner.category company</field>
+            <field name="model_id" ref="base.model_res_partner_category"/>
+            <field name="domain_force">['|','|',('company_id.child_ids','child_of',[user.company_id.id]),('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
     </data>
 </openerp>
