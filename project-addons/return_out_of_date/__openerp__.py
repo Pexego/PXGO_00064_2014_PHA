@@ -27,6 +27,6 @@
     'author': 'Comunitea',
     'website': '',
     "depends": ['base', 'stock'],
-    "data": ['data/stock.xml', 'wizard/return_product.xml'],
+    "data": ['views/stock.xml', 'wizard/return_product.xml'],
     "installable": True
 }

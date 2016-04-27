@@ -41,6 +41,7 @@
                  'portal_sale',
                  'sale_channel',
                  'project',
+                 'return_out_of_date',
                  'sale_transfer_sample_rel',
                  'crm_claim'],
     'data' : ['security/groups.xml',

@@ -39,6 +39,6 @@
             string="Return out of date"
             action="return_out_of_date_action"
             parent="stock.menu_stock_inventory_control"/>
+
     </data>
 </openerp>
-
