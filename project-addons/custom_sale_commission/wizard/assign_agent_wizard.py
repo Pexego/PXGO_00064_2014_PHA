@@ -23,11 +23,11 @@
 from openerp import models, api
 
 
-class assign_agent_by_zip(models.TransientModel):
+class AssignAgentByZip(models.TransientModel):
 
     _name = "assign.agent.zip.wizard"
 
-    @api.one
+    @api.multi
     def assign(self):
         partner_ids = self.env.context.get('active_ids', [])
         for partner in self.env['res.partner'].browse(partner_ids):

@@ -22,22 +22,24 @@
 from openerp import models, fields, api
 
 
-class res_partner(models.Model):
+class ResPartner(models.Model):
 
     _inherit = 'res.partner'
 
     @api.one
     def assign_agent(self):
         self.commission_ids.filtered(lambda x: x.auto).unlink()
-        if not self.zip_id or not self.zip_id.agent_ids or not self.category_id:
+        if not self.zip_id or not self.zip_id.agent_ids or not \
+                self.category_id:
             return
         for agent in self.zip_id.agent_ids:
-            all_categ = self.env['res.partner.category'].search([('id', 'child_of', agent.category_id._ids)])
+            all_categ = self.env['res.partner.category'].search(
+                [('id', 'child_of', agent.category_id._ids)])
             if all_categ & self.category_id:
                 self.user_id = agent.agent_id.get_user()
 
 
-class res_partner_agent(models.Model):
+class ResPartnerAgent(models.Model):
 
     _inherit = 'res.partner.agent'
 
@@ -46,4 +48,4 @@ class res_partner_agent(models.Model):
     @api.multi
     def write(self, vals):
         vals['auto'] = vals.get('auto', False)
-        return super(res_partner_agent, self).write(vals)
+        return super(ResPartnerAgent, self).write(vals)

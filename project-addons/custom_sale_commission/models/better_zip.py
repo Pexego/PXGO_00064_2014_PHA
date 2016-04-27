@@ -26,9 +26,10 @@ class LocationAgentCategoryRel(models.Model):
 
     _name = 'location.agent.category.rel'
 
-    agent_id = fields.Many2one('sale.agent', 'Agent')
-    zip_id = fields.Many2one('res.better.zip', 'Zip')
-    category_id = fields.Many2one('res.partner.category', 'Category')
+    agent_id = fields.Many2one('sale.agent', 'Agent', required=True)
+    zip_id = fields.Many2one('res.better.zip', 'Zip', required=True)
+    category_id = fields.Many2one('res.partner.category', 'Category',
+                                  required=True)
 
 
 class BetterZip(models.Model):

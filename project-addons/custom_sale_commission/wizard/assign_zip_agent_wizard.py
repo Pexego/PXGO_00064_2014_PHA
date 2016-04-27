@@ -18,12 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 from openerp import models, fields, api
 
 
-class assign_zip_agent_wizard(models.TransientModel):
+class AssignZipAgentWizard(models.TransientModel):
 
     _name = 'assign.zip.agent.wizard'
 
@@ -32,17 +30,22 @@ class assign_zip_agent_wizard(models.TransientModel):
                                     string='Categories', required=True)
     agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
 
-    @api.one
+    @api.multi
     def _get_agent(self):
-        self.agent_id = self.env.context.get('active_id', False)
+        for wiz in self:
+            wiz.agent_id = self.env.context.get('active_id', False)
 
     @api.multi
     def assign(self):
         self.ensure_one()
         zip_list = self.zip.replace(' ', '').split(',')
+        all_location_ids = []
         for zip in zip_list:
-            locations = self.env['res.better.zip'].search([('name', '=', zip)])
+            locations = self.env['res.better.zip'].search(
+                [('name', '=', zip),
+                 ('country_id', '=', self.agent_id.partner_id.country_id.id)])
             for location in locations:
+                all_location_ids.append(location.id)
                 for category in self.category_ids:
                     location_agents = location.agent_ids.filtered(
                         lambda record: record.category_id.id == category.id)
@@ -50,9 +53,12 @@ class assign_zip_agent_wizard(models.TransientModel):
                     location_agents.create({'zip_id': location.id,
                                             'agent_id': self.agent_id.id,
                                             'category_id': category.id})
+        update_partners = self.env['res.partner'].search(
+            [('customer', '=', True), ('zip_id', 'in', all_location_ids)])
+        update_partners.assign_agent()
 
     @api.multi
     def delete_all(self):
         self.ensure_one()
         for zip in self.agent_id.related_zip_ids:
-            zip.agent_id = False
+            zip.unlink()
