@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* custom_sale_commission
+#   * custom_sale_commission
 #
 msgid ""
 msgstr ""
@@ -21,7 +21,8 @@ msgid " City/locations completion object"
 msgstr " Objeto de completado de ciudad/ubicación"
 
 #. module: custom_sale_commission
-#: view:res.better.zip:custom_sale_commission.view_better_zip_filter_add_agent
+#: field:assign.zip.agent.wizard,from_agent_id:0
+#: field:location.agent.category.rel,agent_id:0
 msgid "Agent"
 msgstr "Agente"
 
@@ -45,7 +46,7 @@ msgstr "Comisiones aplicadas"
 #: view:assign.agent.zip.wizard:custom_sale_commission.assign_agent_zip_wizard_view
 #: view:assign.zip.agent.wizard:custom_sale_commission.assign_zip_agent_wizard_view
 msgid "Assign"
-msgstr "Assignar"
+msgstr "Asignar"
 
 #. module: custom_sale_commission
 #: view:sale.agent:custom_sale_commission.sale_agent_modify_partner_form
@@ -163,6 +164,31 @@ msgid "Product Category"
 msgstr "Categoría de producto"
 
 #. module: custom_sale_commission
+#: field:assign.zip.agent.wizard,category_ids:0
+msgid "Categories"
+msgstr "Categorías"
+
+#. module: custom_sale_commission
+#: field:location.agent.category.rel,category_id:0
+msgid "Category"
+msgstr "Categoría"
+
+#. module: custom_sale_commission
+#: field:assign.zip.agent.wizard,country_id:0
+msgid "Country"
+msgstr "País"
+
+#. module: custom_sale_commission
+#: field:assign.zip.agent.wizard,zip:0
+msgid "Zip code"
+msgstr "Códigos postales"
+
+#. module: custom_sale_commission
+#: field:location.agent.category.rel,zip_id:0
+msgid "Zip"
+msgstr "C.P."
+
+#. module: custom_sale_commission
 #: field:sale.agent.relateds,related_agent_id:0
 msgid "Related agent"
 msgstr "Agente relacionado"
@@ -212,4 +238,3 @@ msgstr "product.category"
 #: view:assign.zip.agent.wizard:custom_sale_commission.assign_zip_agent_wizard_view
 msgid "remove all zip assigned"
 msgstr "Eliminar todos los CP asignados"
-
