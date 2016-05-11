@@ -19,6 +19,14 @@
 #
 ##############################################################################
 
-import res_partner, product, account_invoice, stock_quant, \
-       stock_transfer_details, sale, stock, account_payment, \
-       account_invoice_state, hr_holidays
+from openerp import models, fields, api
+
+
+class HrHolidays(models.Model):
+    _inherit = 'hr.holidays'
+
+    number_of_days_aux = fields.Float(readonly=True)
+
+    @api.onchange('number_of_days_temp')
+    def onchange_number_of_days(self):
+        self.number_of_days_aux = self.number_of_days_temp
