@@ -338,6 +338,12 @@ class edi_parser(models.Model):
                         'col2': 1
                     }
                     data[filename].append(edi._create_line_csv(CPS, structs))
+
+                    PAC = {
+                        'lineId': 'PAC',
+                        'col1': '201'
+                    }
+                    data[filename].append(edi._create_line_csv(PAC, structs))
                     if not line.sscc:
                         curr_sscc = self.make_sscc(cr, uid, context)
                         line.write({'sscc': curr_sscc})
