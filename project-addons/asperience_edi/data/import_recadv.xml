@@ -14,67 +14,7 @@
             <field name="charset" eval="'ISO-8859-1'" />
             <field name="delimiter">|</field>
             <field name="eval_in" >
-pick_obj = self.pool.get('stock.picking')
-move_obj = self.pool.get('stock.move')
-partner_obj = self.pool.get('res.partner')
-product_obj = self.pool.get('product.product')
-uom_obj = self.pool.get('product.uom')
-vals = {}
-old_pick_id = False
-new_pick_id = False
-possible_move_ids = []
-visited_moves = []
-return_moves = []
-for line in data[filename]:
-        if line and line[0] == 'BGM':
-                vals = {}
-                vals['origin'] = line[1]['numdoc']
-        if line and line[0] == 'DTM':
-                vals['date'] = line[1]['date'] and datetime.strftime(datetime.strptime(line[1]['date'], "%Y%m%d"), '%Y-%m-%d %H:%M:%S') or time.strftime('%Y-%m-%d %H:%M:%S')
-                vals['min_date'] = line[1]['min_date'] and datetime.strftime(datetime.strptime(line[1]['min_date'], "%Y%m%d"), '%Y-%m-%d %H:%M:%S') or time.strftime('%Y-%m-%d %H:%M:%S')
-        if line and line[0] == 'RFF':
-                old_pick_id = pick_obj.search(cr, uid, [('name', '=', line[1]['ref'])])
-                if not old_pick_id:
-                        raise Exception("No se ha encontrado el albarán referenciado %s" % line[1]['ref'])
-                else:
-                        old_pick_id = old_pick_id[0]
-        if line and line[0] == 'NADMS':
-                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['emisor'])])
-                if not partner_id:
-                        raise Exception("El emisor con gln %s no se ha encontrado" % (line[1]['emisor']))
-                else:
-                        vals['partner_id'] = partner_id[0]
-        if line and line[0] == 'NADDP':
-                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['destino'])])
-                if not partner_id:
-                        raise Exception("El destinatario con gln %s no se ha encontrado" % (line[1]['destino']))
-                else:
-                        vals['partner_id'] = partner_id[0]
-        if line and 'LIN' in line[0]:
-                if line[0] == 'LIN':
-                        possible_move_ids = move_obj.search(cr, uid, [('picking_id', '=', old_pick_id),('product_id.ean13', '=', line[1]['ean13'][:13]),('id', 'not in', visited_moves)])
-                        if not possible_move_ids:
-                                raise Exception("No se ha encontrado el producto con ean13 %s en el albaran con id %s" % (line[1]['ean13'][:13], old_pick_id))
-                elif line[0] == 'QTYLIN' and possible_move_ids:
-                        move = False
-                        for pos_move in move_obj.browse(cr, uid, possible_move_ids):
-                                if pos_move.product_uom_qty == float(line[1]['enviadas']):
-                                        visited_moves.append(pos_move.id)
-                                        move = pos_move
-                                        break
-                        if move.product_uom_qty != float(line[1]['aceptadas']):
-                                return_moves.append((move, move.product_uom_qty - float(line[1]['aceptadas'])))
-
-if return_moves:
-        return_wzd = self.pool.get('stock.return.picking').create(cr, uid, {'invoice_state': '2binvoiced'})
-        for move_data in return_moves:
-                self.pool.get('stock.return.picking.line').create(cr, uid, {'product_id': move_data[0].product_id.id,
-                                                                            'quantity': move_data[1],
-                                                                            'wizard_id': return_wzd,
-                                                                            'move_id': move_data[0].id})
-        return_view = self.pool.get('stock.return.picking').create_returns(cr, uid, [return_wzd], {'active_ids': [old_pick_id], 'active_id': old_pick_id})
-        new_pick_id = eval(return_view['domain'])[0][2]
-        pick_obj.write(cr, uid, new_pick_id, vals)
+data = self.pool.get('edi.parser').parse_recadv(cr2, uid, edi, data, filename)
                 </field>
         </record>
 
@@ -185,6 +125,7 @@ if return_moves:
             <field name="sequence" eval="18" />
             <field name="edi" ref="edi_edi_recadv" />
         </record>
+
 
         <record forcecreate="True" id="edi_edi_recadv_line_1_field_1" model="edi.edi.line.csv.field">
             <field name="name">lineId</field>

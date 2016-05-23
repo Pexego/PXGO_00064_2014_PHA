@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2016 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,25 +19,11 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields
 
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
+class ProductUom(models.Model):
 
-    @api.model
-    def create(self, vals):
-        salesmangroup_id = self.env.ref('custom_permissions.group_salesman_ph')
-        if self.env.user in salesmangroup_id.users:
-            vals['user_id'] = self.env.user.id
-        return super(ResPartner, self).create(vals)
+    _inherit = "product.uom"
 
-
-class ResPartnerCategory(models.Model):
-
-    _inherit = 'res.partner.category'
-
-    def _get_company(self):
-        return self.env.user.company_id
-
-    company_id = fields.Many2one('res.company', 'Company', default=_get_company)
+    edi_code = fields.Char("Edi code")

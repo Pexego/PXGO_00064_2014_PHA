@@ -61,7 +61,8 @@ class sale_order_line(models.Model):
 
     _inherit = 'sale.order.line'
 
-    sample_rel = fields.Boolean('Sample', related='order_id.sample')
+    sample_rel = fields.Boolean('Sample', related='order_id.sample',
+                                readonly=True)
 
     @api.onchange('price_unit')
     def onchange_price_unit(self):

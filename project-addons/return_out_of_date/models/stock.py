@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api
+from openerp import models, api, fields, _
 
 
 class StockMove(models.Model):
@@ -55,3 +55,40 @@ class StockQuant(models.Model):
         if self.env.context.get('no_track', False) and not lot_in_domain:
             res = [(None, x[1]) for x in res]
         return res
+
+
+class StockWarehouse(models.Model):
+
+    _inherit = "stock.warehouse"
+
+    out_of_date_type_id = fields.Many2one('stock.picking.type',
+                                          'Out of date Type')
+
+    @api.model
+    def create(self, vals):
+        seq_obj = self.env['ir.sequence']
+        warehouse = super(StockWarehouse, self).create(vals)
+        ood_loc = self.env['stock.location'].create({
+            'name': 'Out of date',
+            'location_id':
+            self.env.ref('stock.stock_location_locations_partner').id,
+            'usage': 'customer',
+            'active': True
+        })
+        ood_seq = seq_obj.sudo().create(
+            {'name': warehouse.name + _(' Sequence out of date'),
+             'prefix': warehouse.code + '/OOD/', 'padding': 5})
+        max_sequence = self.env['stock.picking.type'].search_read(
+            [], ['sequence'], order='sequence desc')
+        max_sequence = max_sequence and max_sequence[0]['sequence'] or 0
+        ood_type_id = self.env['stock.picking.type'].create({
+            'name': _('Out of date'),
+            'warehouse_id': warehouse.id,
+            'code': 'internal',
+            'sequence_id': ood_seq.id,
+            'default_location_src_id':
+            self.env.ref('stock.stock_location_customers').id,
+            'default_location_dest_id': ood_loc.id,
+            'sequence': max_sequence + 1})
+        warehouse.write({'out_of_date_type_id': ood_type_id.id})
+        return warehouse

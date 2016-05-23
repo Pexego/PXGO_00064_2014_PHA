@@ -21,6 +21,30 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: return_out_of_date
+#: code:addons/return_out_of_date/models/stock.py:79
+#, python-format
+msgid " Sequence out of date"
+msgstr " Secuencia caducado"
+
+
+#. module: return_out_of_date
+#: field:stock.warehouse,out_of_date_type_id:0
+msgid "Out of date Type"
+msgstr "Tipo de albarán producto caducado"
+
+#. module: return_out_of_date
+#: code:addons/return_out_of_date/wizard/return_product.py:53
+#, python-format
+msgid "The warehouse not have a out of date picking type"
+msgstr "El almacén no tiene tipo de albarán para retirada de producto caducado"
+
+#. module: return_out_of_date
+#: code:addons/return_out_of_date/wizard/return_product.py:53
+#, python-format
+msgid "Configuration error"
+msgstr "Error de configuración"
+
+#. module: return_out_of_date
 #: field:return.out.date,create_uid:0
 #: field:return.out.date.line,create_uid:0
 msgid "Created by"
@@ -115,4 +139,3 @@ msgstr "UdM"
 #: field:return.out.date.line,wizard_id:0
 msgid "Wizard"
 msgstr "Asistente"
-

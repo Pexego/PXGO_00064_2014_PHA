@@ -19,3 +19,4 @@
 #
 ##############################################################################
 from . import sale, res_groups, res_partner
+from . import account_analytic_plans

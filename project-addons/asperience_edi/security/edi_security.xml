@@ -10,6 +10,6 @@
         <field name="name">EDI Manager</field>
         <field name="category_id" ref="module_category_edi"/>
         <field name="implied_ids" eval="[(4, ref('group_edi_user'))]"/>
-    </record>    
+    </record>
 </data>
 </openerp>

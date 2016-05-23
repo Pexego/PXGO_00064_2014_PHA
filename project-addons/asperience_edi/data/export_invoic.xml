@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+       <record id="edi_invoic" model="edi.edi">
+            <field name="name">Export invoices example</field>
+            <field name="code">INVOIC</field>
+            <field name="type">csv</field>
+            <field name="charset" eval="'ISO-8859-1'" />
+            <field name="end_line" eval="'simple'" />
+            <field name="file_template" eval="'FACTURA_number_fecha+hora'" />
+            <field name="start_identifier" eval="-1" />
+            <field name="stop_identifier" eval="-1" />
+            <field name="float_separator" eval="','" />
+            <field name="delimiter" eval="'|'" />
+            <field name="skip_first" eval="0"/>
+            <field name="quotechar"></field>
+            <field name="eval_out" >
+data = self.pool.get('edi.parser').parse_invoic(cr2, uid, edi, data, ctx, _logger, structs)
+            </field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_1" model="edi.edi.csv.field">
+            <field name="name">lineId</field>
+            <field name="sequence" eval="1" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_2" model="edi.edi.csv.field">
+            <field name="name">col1</field>
+            <field name="sequence" eval="2" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_3" model="edi.edi.csv.field">
+            <field name="name">col2</field>
+            <field name="sequence" eval="3" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_4" model="edi.edi.csv.field">
+            <field name="name">col3</field>
+            <field name="sequence" eval="4" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_5" model="edi.edi.csv.field">
+            <field name="name">col4</field>
+            <field name="sequence" eval="5" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_6" model="edi.edi.csv.field">
+            <field name="name">col5</field>
+            <field name="sequence" eval="6" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_7" model="edi.edi.csv.field">
+            <field name="name">col6</field>
+            <field name="sequence" eval="7" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_8" model="edi.edi.csv.field">
+            <field name="name">col7</field>
+            <field name="sequence" eval="8" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        <record forcecreate="True" id="edi_invoice_field_9" model="edi.edi.csv.field">
+            <field name="name">col8</field>
+            <field name="sequence" eval="9" />
+            <field name="edi" ref="edi_invoic" />
+            <field name="type">char</field>
+        </record>
+
+        </data>
+</openerp>

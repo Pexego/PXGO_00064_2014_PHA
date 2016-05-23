@@ -18,41 +18,71 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 from openerp import models, fields, api
 
 
-class assign_zip_agent_wizard(models.TransientModel):
+class AssignZipAgentWizard(models.TransientModel):
 
     _name = 'assign.zip.agent.wizard'
 
     zip = fields.Char('Zip code')
     category_ids = fields.Many2many('res.partner.category',
-                                    string='Categories', required=True)
+                                    string='Categories')
+    from_agent_id = fields.Many2one('sale.agent', 'Agent')
+    country_id = fields.Many2one('res.country', 'Country')
     agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
 
-    @api.one
+    @api.multi
     def _get_agent(self):
-        self.agent_id = self.env.context.get('active_id', False)
+        for wiz in self:
+            wiz.agent_id = self.env.context.get('active_id', False)
 
     @api.multi
     def assign(self):
         self.ensure_one()
-        zip_list = self.zip.replace(' ', '').split(',')
-        for zip in zip_list:
-            locations = self.env['res.better.zip'].search([('name', '=', zip)])
-            for location in locations:
-                for category in self.category_ids:
-                    location_agents = location.agent_ids.filtered(
-                        lambda record: record.category_id.id == category.id)
-                    location_agents.unlink()
-                    location_agents.create({'zip_id': location.id,
-                                            'agent_id': self.agent_id.id,
-                                            'category_id': category.id})
+        update_partner_vals = [('customer', '=', True)]
+        categ_vals = []
+        if self.category_ids:
+            categories = self.category_ids
+        else:
+            categories = self.env['res.partner.category'].search(categ_vals)
+
+        update_partner_vals.append(('category_id', 'in', categories.ids))
+        if not self.zip:
+            zip_list = []
+        else:
+            zip_list = self.zip.replace(' ', '').split(',')
+        zip_vals = []
+        if zip_list:
+            zip_vals.append(('name', 'in', zip_list))
+        if self.country_id:
+            zip_vals.append(('country_id', '=', self.country_id.id))
+        zips = self.env['res.better.zip'].search(zip_vals)
+
+        update_partner_vals.append(('zip_id', 'in', zips.ids))
+
+        agent_cat_rel_vals = [('category_id', 'in', categories.ids),
+                              ('zip_id', 'in', zips.ids)]
+        if self.from_agent_id:
+            update_partner_vals.append(('user_id', '=', self.from_agent_id.id))
+            agent_cat_rel_vals.append(('agent_id', '=', self.from_agent_id.id))
+
+        agent_cat_rel = self.env['location.agent.category.rel'].search(agent_cat_rel_vals)
+        if self.from_agent_id:
+            agent_cat_rel.write({'agent_id': self.agent_id.id})
+        else:
+            agent_cat_rel.unlink()
+            for zip in zips:
+                for category in categories:
+                    self.env['location.agent.category.rel'].create(
+                        {'agent_id': self.agent_id.id,
+                         'zip_id': zip.id,
+                         'category_id': category.id})
+        update_partners = self.env['res.partner'].search(update_partner_vals)
+        update_partners.assign_agent()
 
     @api.multi
     def delete_all(self):
         self.ensure_one()
         for zip in self.agent_id.related_zip_ids:
-            zip.agent_id = False
+            zip.unlink()

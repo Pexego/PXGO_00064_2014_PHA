@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_analytic_plan_form" model="ir.ui.view">
+        <field name="name">account.analytic.plan.form</field>
+        <field name="model">account.analytic.plan</field>
+            <field name="inherit_id" ref="account_analytic_plans.account_analytic_plan_form"/>
+            <field name="arch" type="xml">
+                <field name="default_instance_id" position="after">
+                    <field name="company_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

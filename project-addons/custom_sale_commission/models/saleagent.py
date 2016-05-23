@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, exceptions, _
+from openerp import models, fields, api
 
 
 class SaleAgentRelateds(models.Model):
@@ -56,8 +56,9 @@ established in settlement')
         self.ensure_one()
         related_commissions = []
         for related in self.related_agent_ids:
+            related_agent = related.related_agent_id
             related_commissions.append(
-                {'agent_id': related.related_agent_id.id,
+                {'agent_id': related_agent.id,
                  'commission_id': related.commission_id.id})
-            related_commissions += related.related_agent_id.get_related_commissions()
+            related_commissions += related_agent.get_related_commissions()
         return related_commissions
