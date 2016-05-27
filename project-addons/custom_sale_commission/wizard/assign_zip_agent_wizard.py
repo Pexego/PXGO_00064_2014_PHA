@@ -64,7 +64,7 @@ class AssignZipAgentWizard(models.TransientModel):
         agent_cat_rel_vals = [('category_id', 'in', categories.ids),
                               ('zip_id', 'in', zips.ids)]
         if self.from_agent_id:
-            update_partner_vals.append(('user_id', '=', self.from_agent_id.id))
+            update_partner_vals.append(('user_id', '=', self.from_agent_id.user_id.id))
             agent_cat_rel_vals.append(('agent_id', '=', self.from_agent_id.id))
 
         agent_cat_rel = self.env['location.agent.category.rel'].search(agent_cat_rel_vals)
