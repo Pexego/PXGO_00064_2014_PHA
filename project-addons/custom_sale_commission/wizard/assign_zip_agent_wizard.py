@@ -28,7 +28,7 @@ class AssignZipAgentWizard(models.TransientModel):
     zip = fields.Char('Zip code')
     category_ids = fields.Many2many('res.partner.category',
                                     string='Categories')
-    from_agent_id = fields.Many2one('sale.agent', 'Agent')
+    from_user_id = fields.Many2one('res.users', 'Agent')
     country_id = fields.Many2one('res.country', 'Country')
     agent_id = fields.Many2one('sale.agent', 'Agent', compute="_get_agent")
 
@@ -63,12 +63,20 @@ class AssignZipAgentWizard(models.TransientModel):
 
         agent_cat_rel_vals = [('category_id', 'in', categories.ids),
                               ('zip_id', 'in', zips.ids)]
-        if self.from_agent_id:
-            update_partner_vals.append(('user_id', '=', self.from_agent_id.user_id.id))
-            agent_cat_rel_vals.append(('agent_id', '=', self.from_agent_id.id))
+        if self.from_user_id:
+            update_partner_vals.append(('user_id', '=', self.from_user_id.id))
+            from_agent = self.env['sale.agent'].search(
+                [('user_id', '=', self.from_user_id.id)])
+            if not from_agent:
+                update_partners = self.env['res.partner'].search(
+                    update_partner_vals)
+                update_partners.write({'user_id': self.agent_id.user_id.id})
+                return
+            agent_cat_rel_vals.append(('agent_id', '=', from_agent.id))
 
-        agent_cat_rel = self.env['location.agent.category.rel'].search(agent_cat_rel_vals)
-        if self.from_agent_id:
+        agent_cat_rel = self.env['location.agent.category.rel'].search(
+            agent_cat_rel_vals)
+        if self.from_user_id:
             agent_cat_rel.write({'agent_id': self.agent_id.id})
         else:
             agent_cat_rel.unlink()
