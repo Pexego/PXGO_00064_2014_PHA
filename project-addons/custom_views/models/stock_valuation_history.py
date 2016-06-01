@@ -18,7 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-import res_partner, product, account_invoice, stock_quant, \
-       stock_transfer_details, sale, stock, account_payment, \
-       account_invoice_state, hr_holidays, stock_valuation_history
+
+class StockHistory(models.Model):
+    _inherit = 'stock.history'
+
+    active = fields.Boolean(related='product_id.active')
