@@ -30,7 +30,8 @@
 
                                 <div t-if="res_company.logo"
                                      style="display: inline-block; float: right; margin: -20px 10px 0 0;">
-                                    <span t-field="res_company.logo" t-field-options='{"widget": "image"}'/>
+                                    <!--span t-field="res_company.logo" t-field-options='{"widget": "image"}'/-->
+                                    <img t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
                                 </div>
                                 <div style="clear: both;"/>
                             </div>
@@ -63,7 +64,7 @@
                                 }
                             </style>
                             <div class="row">
-                                <div class="line" t-esc="partner.display_name" style="font-size: 30px; font-weight: bold;"/>
+                                <div class="line" t-field="partner.display_name" style="font-size: 30px; font-weight: bold;"/>
                                 <t t-if="partner.parent_id">
                                     <div class="line" t-field="partner.parent_id.comercial" style="font-size: 24px;"/>
                                 </t>

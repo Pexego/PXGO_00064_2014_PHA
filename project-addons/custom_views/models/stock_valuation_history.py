@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Comunitea All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,15 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-{
-    'name': 'Stock transfer only available products',
-    'version': '1.0',
-    'category': 'stock',
-    'description': """prevents transfer stock unavailable""",
-    'author': 'Comunitea',
-    'website': '',
-    "depends": ['stock'],
-    "data": ['wizard/stock_transfer_details.xml'],
-    "installable": True
-}
+
+class StockHistory(models.Model):
+    _inherit = 'stock.history'
+
+    active = fields.Boolean(related='product_id.active')

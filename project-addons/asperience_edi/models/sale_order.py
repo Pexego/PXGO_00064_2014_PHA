@@ -18,4 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import stock_transfer_details
+from openerp import models, fields
+
+
+class SaleOrder(models.Model):
+
+    _inherit = "sale.order"
+
+    urgent = fields.Boolean("Urgent")
+    top_date = fields.Date("Limit date")

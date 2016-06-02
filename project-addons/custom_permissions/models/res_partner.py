@@ -31,3 +31,13 @@ class ResPartner(models.Model):
         if self.env.user in salesmangroup_id.users:
             vals['user_id'] = self.env.user.id
         return super(ResPartner, self).create(vals)
+
+
+class ResPartnerCategory(models.Model):
+
+    _inherit = 'res.partner.category'
+
+    def _get_company(self):
+        return self.env.user.company_id
+
+    company_id = fields.Many2one('res.company', 'Company', default=_get_company)

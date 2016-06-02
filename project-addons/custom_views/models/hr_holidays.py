@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Comunitea All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,4 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import stock
+
+from openerp import models, fields, api
+
+
+class HrHolidays(models.Model):
+    _inherit = 'hr.holidays'
+
+    number_of_days_aux = fields.Float(readonly=True)
+
+    @api.onchange('number_of_days_temp')
+    def onchange_number_of_days(self):
+        self.number_of_days_aux = self.number_of_days_temp

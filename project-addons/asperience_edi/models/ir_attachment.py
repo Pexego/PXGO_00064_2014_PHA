@@ -19,13 +19,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models
 import time
-from openerp.osv import fields,osv
-from openerp.tools import config
 
-class ir_attachment(osv.osv):
+
+class IrAttachment(models.Model):
     _inherit = 'ir.attachment'
-    
+
     _order = 'create_date desc,name desc'
-ir_attachment()
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

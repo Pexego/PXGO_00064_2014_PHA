@@ -165,6 +165,13 @@
                     action="action_products"
                     parent="menu_custom_salesmanph"
                     sequence="55"/>
+        <menuitem id="menu_return_out_date_salesman"
+                    name="Return out of date"
+                    string="Return out of date"
+                    action="return_out_of_date.return_out_of_date_action"
+                    parent="menu_custom_salesmanph"
+                    sequence="60"
+                />
         <menuitem id="menu_custom_restricted_customers_salesmanph"
                   parent="custom_permissions.menu_crm_custom_salesmanph"
                   action="custom_permissions.action_restricted_customer_form"

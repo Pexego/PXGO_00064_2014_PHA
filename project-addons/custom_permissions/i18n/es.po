@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* custom_permissions
+#   * custom_permissions
 #
 msgid ""
 msgstr ""
@@ -24,6 +24,11 @@ msgstr "Confirmar venta"
 #: view:res.partner:custom_permissions.view_partner_form_salesmanph
 msgid "Agents/Consultancy"
 msgstr "Comisionistas"
+
+#. module: custom_permissions
+#: model:ir.ui.menu,name:custom_permissions.menu_return_out_date_salesman
+msgid "Return out of date"
+msgstr "Retirar producto caducado"
 
 #. module: custom_permissions
 #: model:res.groups,name:custom_permissions.group_show_menu_hr

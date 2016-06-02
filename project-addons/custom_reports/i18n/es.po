@@ -508,6 +508,22 @@ msgid "Parent cooperative"
 msgstr "Cooperativa padre"
 
 #. module: custom_reports
+#: field:account.invoice.report,partner_id:0
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+msgid "Partner (invoice send address)"
+msgstr "Empresa (dir. envío factura)"
+
+#. module: custom_reports
+#: field:account.invoice.report,commercial_partner_id:0
+msgid "Partner (invoicing address)"
+msgstr "Empresa (dir. facturación)"
+
+#. module: custom_reports
+#: field:account.invoice.report,commercial_name:0
+msgid "Partner (commercial name)"
+msgstr "Empresa (nombre comercial)"
+
+#. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,partner_category:0
 #: view:sale.report:custom_reports.sale_report_search_custom_reports

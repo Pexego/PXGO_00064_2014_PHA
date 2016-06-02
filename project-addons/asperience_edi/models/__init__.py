@@ -18,5 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from . import edi_fields
+from . import edi
+from . import edi_parser
+from . import ir_attachment
+from . import payment_mode
+from . import product
+from . import res_company
+from . import res_partner
+from . import sale_order
+from . import stock

@@ -137,7 +137,7 @@
                 <button name="%(stock.move_scrap)d" position="after">
                     <field name="origin"/>
                 </button>
-                <field name="partner_id" position="replace">
+                <field name="origin" position="after">
                     <field name="real_partner"/>
                 </field>
             </field>

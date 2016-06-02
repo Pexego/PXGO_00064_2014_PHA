@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Comunitea Servicios Tecnológicos All Rights Reserved
-#    $Omar Castiñeira Saaevdra <omar@comunitea.com>$
+#    Copyright (C) 2016 Comunitea All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,30 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp import models, fields
-
-
-class SaleOrder(models.Model):
-
-    _inherit = "sale.order"
-
-    urgent = fields.Boolean("Urgent")
-    top_date = fields.Date("Limit date")
-
-
-class ProductUom(models.Model):
-
-    _inherit = "product.uom"
-
-    edi_code = fields.Char("Edi code")
-
-
-class ResPartner(models.Model):
-
-    _inherit = "res.partner"
-
-    gln = fields.Char("GLN")
 
 
 class PaymentMode(models.Model):

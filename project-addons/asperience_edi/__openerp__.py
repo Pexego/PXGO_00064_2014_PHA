@@ -28,7 +28,7 @@
     "certificate": "",
     "license": "",
     "depends": ["board", "account_payment_sale", "sale",
-                "stock_valued_picking"],
+                "stock_picking_valued", 'commercial_and_financial_discount'],
     "category": "Generic Modules/EDI",
     "complexity": "easy",
     "description": """
@@ -38,18 +38,19 @@ Shares in the background or not, with the possibility of planning by cron.
 WARNING: folders tree and folders management is not fully secured. This must NOT be used by novice users
     """,
     "data": [
-        "edi.xml",
-        "edi_data.xml",
-        "edi_board.xml",
-        "edi_menu.xml",
+        "views/edi.xml",
+        "data/edi_data.xml",
+        "views/edi_board.xml",
+        "views/edi_menu.xml",
         "security/edi_security.xml",
         "security/ir.model.access.csv",
         "views/edi_fields_view.xml",
-        "docs/import_orders.xml",
-        "docs/export_invoic.xml",
-        "docs/export_desadv.xml",
-        "docs/import_recadv.xml",
-        "wizard/export_edi_view.xml"
+        "data/import_orders.xml",
+        "data/export_invoic.xml",
+        "data/export_desadv.xml",
+        "data/import_recadv.xml",
+        "wizard/export_edi_view.xml",
+        "data/sscc_sequence.xml"
     ],
     "images": [
         "images/asperience.png",
@@ -64,4 +65,3 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
     "application": True,
 
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

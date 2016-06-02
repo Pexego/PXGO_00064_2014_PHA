@@ -1,0 +1,944 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * asperience_edi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-20 09:03+0000\n"
+"PO-Revision-Date: 2016-04-20 09:03+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:639
+#: code:addons/asperience_edi/models/edi.py:641
+#: code:addons/asperience_edi/models/edi.py:643
+#, python-format
+msgid "%s Not Found with filter %s"
+msgstr "%s No encontrado con filtro %s"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:617
+#, python-format
+msgid "%s not found in CSV structured structure"
+msgstr "%s no encontrado en la estructura CSV"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:590
+#, python-format
+msgid "%s not found in EDI structure"
+msgstr "%s no encontrado en la estructura EDI"
+
+#. module: asperience_edi
+#: field:res.company,aecoc_code:0
+msgid "AECOC Code"
+msgstr "Código AECOC"
+
+#. module: asperience_edi
+#: field:edi.edi.line.edi.field,align:0
+msgid "Align"
+msgstr "Align"
+
+#. module: asperience_edi
+#: view:export.edi.wzd:asperience_edi.export_edi_wzd_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: asperience_edi
+#: field:edi.edi.csv.field,cast:0
+#: field:edi.edi.line.csv.field,cast:0
+#: field:edi.edi.line.edi.field,cast:0
+#: field:edi.edi.xml.field,cast:0
+msgid "Cast"
+msgstr "Cast"
+
+#. module: asperience_edi
+#: field:edi.edi,charset:0
+msgid "Charset"
+msgstr "Charset"
+
+#. module: asperience_edi
+#: field:edi.edi,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: asperience_edi
+#: field:edi.edi,copy_out:0
+msgid "Copy after export"
+msgstr "Copiar después de exportar"
+
+#. module: asperience_edi
+#: field:edi.edi,copy_in:0
+msgid "Copy before import"
+msgstr "Copiar antes de importar"
+
+#. module: asperience_edi
+#: field:edi.edi,create_uid:0
+#: field:edi.edi.csv.field,create_uid:0
+#: field:edi.edi.line.csv,create_uid:0
+#: field:edi.edi.line.csv.field,create_uid:0
+#: field:edi.edi.line.edi,create_uid:0
+#: field:edi.edi.line.edi.field,create_uid:0
+#: field:edi.edi.log,create_uid:0
+#: field:edi.edi.result,create_uid:0
+#: field:edi.edi.xml.field,create_uid:0
+#: field:edi.parser,create_uid:0
+#: field:export.edi.wzd,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: asperience_edi
+#: field:edi.edi,create_date:0
+#: field:edi.edi.csv.field,create_date:0
+#: field:edi.edi.line.csv,create_date:0
+#: field:edi.edi.line.csv.field,create_date:0
+#: field:edi.edi.line.edi,create_date:0
+#: field:edi.edi.line.edi.field,create_date:0
+#: field:edi.edi.log,create_date:0
+#: field:edi.edi.result,create_date:0
+#: field:edi.edi.xml.field,create_date:0
+#: field:edi.parser,create_date:0
+#: field:export.edi.wzd,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: asperience_edi
+#: view:edi.edi.line.csv.field:asperience_edi.view_edi_edi_line_csv_field_form
+#: view:edi.edi.line.csv.field:asperience_edi.view_edi_edi_line_csv_field_tree
+msgid "Csv field"
+msgstr "Campo CSV"
+
+#. module: asperience_edi
+#: view:edi.edi.line.csv:asperience_edi.view_edi_edi_line_csv_form
+#: view:edi.edi.line.csv:asperience_edi.view_edi_edi_line_csv_tree
+msgid "Csv line"
+msgstr "Linea CSV"
+
+#. module: asperience_edi
+#: field:edi.edi.log,date:0
+#: field:edi.edi.result,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: asperience_edi
+#: field:edi.edi,delimiter:0
+msgid "Delimiter"
+msgstr "Delimitador"
+
+#. module: asperience_edi
+#: field:edi.edi.csv.field,description:0
+#: field:edi.edi.line.csv,description:0
+#: field:edi.edi.line.csv.field,description:0
+#: field:edi.edi.line.edi.field,description:0
+#: field:edi.edi.xml.field,description:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: asperience_edi
+#: field:edi.edi.line.csv,dict:0
+#: field:edi.edi.line.edi,dict:0
+msgid "Dict to put in eval"
+msgstr "Dict to put in eval"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi_parser.py:140
+#: code:addons/asperience_edi/models/edi_parser.py:332
+#, python-format
+msgid "EAN Error"
+msgstr "Error EAN"
+
+#. module: asperience_edi
+#: view:board.board:asperience_edi.board_edi_form
+#: model:ir.module.category,name:asperience_edi.module_category_edi
+#: model:ir.ui.menu,name:asperience_edi.menu_edi_root
+msgid "EDI"
+msgstr "EDI"
+
+#. module: asperience_edi
+#: model:ir.actions.act_window,name:asperience_edi.action_board_edi_form
+#: model:ir.ui.menu,name:asperience_edi.menu_dashboard
+msgid "EDI Dashboard"
+msgstr "Tablero EDI"
+
+#. module: asperience_edi
+#: model:res.groups,name:asperience_edi.group_edi_manager
+msgid "EDI Manager"
+msgstr "EDI Manager"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_edi_edi
+msgid "EDI Subsystem"
+msgstr "Subsitema EDI"
+
+#. module: asperience_edi
+#: model:res.groups,name:asperience_edi.group_edi_user
+msgid "EDI User"
+msgstr "Usuario EDI"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:1225
+#, python-format
+msgid "EXPORT CSV STRUCT NOT IMPLEMENTED"
+msgstr "EXPORT CSV STRUCT NOT IMPLEMENTED"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:1220
+#, python-format
+msgid "EXPORT CSV STRUCT THREAD NOT IMPLEMENTED"
+msgstr "EXPORT CSV STRUCT THREAD NOT IMPLEMENTED"
+
+#. module: asperience_edi
+#: field:edi.edi.csv.field,edi:0
+#: field:edi.edi.log,edi:0
+#: field:edi.edi.result,edi:0
+#: field:edi.edi.xml.field,edi:0
+msgid "Edi"
+msgstr "Edi"
+
+#. module: asperience_edi
+#: field:payment.mode,edi_code:0
+#: field:product.uom,edi_code:0
+msgid "Edi code"
+msgstr "Código EDI"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_tree
+msgid "Edi edi"
+msgstr "Edi edi"
+
+#. module: asperience_edi
+#: view:edi.edi.result:asperience_edi.view_edi_edi_result_form
+#: view:edi.edi.result:asperience_edi.view_edi_edi_result_tree
+msgid "Edi edi Result"
+msgstr "Edi edi Result"
+
+#. module: asperience_edi
+#: view:edi.edi.csv.field:asperience_edi.view_edi_edi_csv_field_form
+#: view:edi.edi.csv.field:asperience_edi.view_edi_edi_csv_field_tree
+#: view:edi.edi.line.edi.field:asperience_edi.view_edi_edi_line_edi_field_form
+#: view:edi.edi.line.edi.field:asperience_edi.view_edi_edi_line_edi_field_tree
+#: view:edi.edi.xml.field:asperience_edi.view_edi_edi_xml_field_form
+#: view:edi.edi.xml.field:asperience_edi.view_edi_edi_xml_field_tree
+msgid "Edi field"
+msgstr "Edi field"
+
+#. module: asperience_edi
+#: model:ir.actions.act_window,name:asperience_edi.action_edi_edi
+msgid "Edi flow"
+msgstr "Edi flow"
+
+#. module: asperience_edi
+#: model:ir.ui.menu,name:asperience_edi.menu_action_edi_edi
+msgid "Edi flows"
+msgstr "Flujo EDI"
+
+#. module: asperience_edi
+#: view:edi.edi.line.edi:asperience_edi.view_edi_edi_line_edi_form
+#: view:edi.edi.line.edi:asperience_edi.view_edi_edi_line_edi_tree
+msgid "Edi line"
+msgstr "Edi line"
+
+#. module: asperience_edi
+#: model:ir.actions.act_window,name:asperience_edi.action_edi_edi_log
+msgid "Edi log"
+msgstr "Log EDI"
+
+#. module: asperience_edi
+#: view:edi.edi.log:asperience_edi.view_edi_edi_log_form
+#: view:edi.edi.log:asperience_edi.view_edi_edi_log_tree
+#: model:ir.ui.menu,name:asperience_edi.menu_action_edi_edi_log
+msgid "Edi logs"
+msgstr "Logs EDI"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Edi process"
+msgstr "Edi process"
+
+#. module: asperience_edi
+#: field:edi.edi,end_line:0
+msgid "End line"
+msgstr "End line"
+
+#. module: asperience_edi
+#: view:board.board:asperience_edi.board_edi_form
+#: model:ir.actions.act_window,name:asperience_edi.action_edi_errors_board
+msgid "Errors"
+msgstr "Errores"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+#: view:export.edi.wzd:asperience_edi.export_edi_wzd_form
+msgid "Export"
+msgstr "Exportar"
+
+#. module: asperience_edi
+#: model:ir.actions.act_window,name:asperience_edi.act_export_desadv_file_form
+#: model:ir.actions.act_window,name:asperience_edi.act_export_invoic_file_form
+msgid "Export Edi"
+msgstr "Export Edi"
+
+#. module: asperience_edi
+#: view:export.edi.wzd:asperience_edi.export_edi_wzd_form
+msgid "Export Edi file"
+msgstr "Exportar fichero EDI"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export csv"
+msgstr "Exportar csv"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export csv Background"
+msgstr "Export csv Background"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export csv struct"
+msgstr "Export csv struct"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export csv struct Background"
+msgstr "Export csv struct Background"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export edi"
+msgstr "Export edi"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export edi Background"
+msgstr "Export edi Background"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export xml"
+msgstr "Export xml"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Export xml Background"
+msgstr "Export xml Background"
+
+#. module: asperience_edi
+#: view:board.board:asperience_edi.board_edi_form
+#: model:ir.actions.act_window,name:asperience_edi.action_edi_attachment_board_exports
+msgid "Exports"
+msgstr "Exportaciones"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "FTP"
+msgstr "FTP"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:414
+#: code:addons/asperience_edi/models/edi.py:456
+#: code:addons/asperience_edi/models/edi.py:489
+#, python-format
+msgid "FTP export failed"
+msgstr "FTP export failed"
+
+#. module: asperience_edi
+#: field:edi.edi,fields_ids:0
+#: field:edi.edi,fields_xml_ids:0
+#: field:edi.edi.line.csv,fields_ids:0
+#: field:edi.edi.line.edi,fields_ids:0
+msgid "Fields"
+msgstr "Fields"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_edi_edi_line_csv_field
+msgid "Fields for structured CSV lines"
+msgstr "Fields for structured CSV lines"
+
+#. module: asperience_edi
+#: field:edi.edi,float_separator:0
+msgid "Float Separator"
+msgstr "Float Separator"
+
+#. module: asperience_edi
+#: field:edi.edi,force:0
+msgid "Force"
+msgstr "Forzar"
+
+#. module: asperience_edi
+#: field:res.partner,gln:0
+msgid "GLN"
+msgstr "GLN"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi_parser.py:267
+#: code:addons/asperience_edi/models/edi_parser.py:269
+#: code:addons/asperience_edi/models/edi_parser.py:271
+#, python-format
+msgid "GLN Error"
+msgstr "GLN Error"
+
+#. module: asperience_edi
+#: field:edi.edi,header_xml:0
+msgid "Header XML"
+msgstr "Header XML"
+
+#. module: asperience_edi
+#: model:ir.module.category,description:asperience_edi.module_category_edi
+msgid "Helps you manage edi processes."
+msgstr "Helps you manage edi processes."
+
+#. module: asperience_edi
+#: field:edi.edi.csv.field,id:0
+#: field:edi.edi.line.csv,id:0
+#: field:edi.edi.line.csv.field,id:0
+#: field:edi.edi.line.edi,id:0
+#: field:edi.edi.line.edi.field,id:0
+#: field:edi.edi.log,id:0
+#: field:edi.edi.result,id:0
+#: field:edi.edi.xml.field,id:0
+#: field:edi.parser,id:0
+#: field:export.edi.wzd,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: asperience_edi
+#: field:edi.edi,eval_in:0
+msgid "IN"
+msgstr "IN"
+
+#. module: asperience_edi
+#: selection:edi.edi,charset:0
+msgid "ISO-8859-1"
+msgstr "ISO-8859-1"
+
+#. module: asperience_edi
+#: selection:edi.edi,charset:0
+msgid "ISO-8859-2"
+msgstr "ISO-8859-2"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import"
+msgstr "Import"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import csv"
+msgstr "Import csv"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import csv Background"
+msgstr "Import csv Background"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import csv struct"
+msgstr "Import csv struct"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import csv struct Background"
+msgstr "Import csv struct Background"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import edi"
+msgstr "Import edi"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import edi Background"
+msgstr "Import edi Background"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import xml"
+msgstr "Import xml"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import xml Background"
+msgstr "Import xml Background"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Import/Export"
+msgstr "Import/Export"
+
+#. module: asperience_edi
+#: view:board.board:asperience_edi.board_edi_form
+#: model:ir.actions.act_window,name:asperience_edi.action_edi_attachment_board_imports
+msgid "Imports"
+msgstr "Importaciones"
+
+#. module: asperience_edi
+#: constraint:edi.edi.line.csv:0
+#: constraint:edi.edi.line.edi:0
+msgid "Invalid length for name"
+msgstr "Invalid length for name"
+
+#. module: asperience_edi
+#: constraint:edi.edi.line.edi.field:0
+msgid "Invalid start stop"
+msgstr "Invalid start stop"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/wizard/export_edi.py:35
+#, python-format
+msgid "Invoice must be opened or done"
+msgstr "Invoice must be opened or done"
+
+#. module: asperience_edi
+#: field:edi.edi,write_uid:0
+#: field:edi.edi.csv.field,write_uid:0
+#: field:edi.edi.line.csv,write_uid:0
+#: field:edi.edi.line.csv.field,write_uid:0
+#: field:edi.edi.line.edi,write_uid:0
+#: field:edi.edi.line.edi.field,write_uid:0
+#: field:edi.edi.log,write_uid:0
+#: field:edi.edi.result,write_uid:0
+#: field:edi.edi.xml.field,write_uid:0
+#: field:edi.parser,write_uid:0
+#: field:export.edi.wzd,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: asperience_edi
+#: field:edi.edi,write_date:0
+#: field:edi.edi.csv.field,write_date:0
+#: field:edi.edi.line.csv,write_date:0
+#: field:edi.edi.line.csv.field,write_date:0
+#: field:edi.edi.line.edi,write_date:0
+#: field:edi.edi.line.edi.field,write_date:0
+#: field:edi.edi.log,write_date:0
+#: field:edi.edi.result,write_date:0
+#: field:edi.edi.xml.field,write_date:0
+#: field:edi.parser,write_date:0
+#: field:export.edi.wzd,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: asperience_edi
+#: field:edi.edi.line.edi.field,length:0
+msgid "Length"
+msgstr "Length"
+
+#. module: asperience_edi
+#: field:edi.edi,length_identifier:0
+msgid "Length identifier"
+msgstr "Length identifier"
+
+#. module: asperience_edi
+#: field:sale.order,top_date:0
+msgid "Limit date"
+msgstr "Limit date"
+
+#. module: asperience_edi
+#: field:edi.edi.line.csv,edi:0
+#: field:edi.edi.line.csv.field,line:0
+#: field:edi.edi.line.edi,edi:0
+#: field:edi.edi.line.edi.field,line:0
+msgid "Line"
+msgstr "Line"
+
+#. module: asperience_edi
+#: field:edi.edi,line_edi_ids:0
+msgid "Line Edi"
+msgstr "Line Edi"
+
+#. module: asperience_edi
+#: field:edi.edi,line_csv_ids:0
+msgid "Line Structured CSV"
+msgstr "Line Structured CSV"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_edi_edi_line_csv
+msgid "Lines for structured CSV"
+msgstr "Lines for structured CSV"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+#: field:edi.edi,log_ids:0
+msgid "Log"
+msgstr "Log"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_login_in:0
+msgid "Login In"
+msgstr "Login In"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_login_out:0
+msgid "Login Out"
+msgstr "Login Out"
+
+#. module: asperience_edi
+#: view:board.board:asperience_edi.board_edi_form
+#: model:ir.actions.act_window,name:asperience_edi.action_edi_log_board
+msgid "Logs"
+msgstr "Logs"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:646
+#: code:addons/asperience_edi/models/edi.py:648
+#: code:addons/asperience_edi/models/edi.py:650
+#, python-format
+msgid "Many %s with filter %s"
+msgstr "Many %s with filter %s"
+
+#. module: asperience_edi
+#: field:edi.edi,name:0
+#: field:edi.edi.csv.field,name:0
+#: field:edi.edi.line.csv,name:0
+#: field:edi.edi.line.csv.field,name:0
+#: field:edi.edi.line.edi,name:0
+#: field:edi.edi.line.edi.field,name:0
+#: field:edi.edi.log,name:0
+#: field:edi.edi.result,name:0
+#: field:edi.edi.xml.field,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: asperience_edi
+#: field:edi.edi,no_empty_file:0
+msgid "No Empty File"
+msgstr "No Empty File"
+
+#. module: asperience_edi
+#: field:edi.edi,eval_out:0
+msgid "OUT"
+msgstr "OUT"
+
+#. module: asperience_edi
+#: field:edi.edi.log,object_id:0
+msgid "Object"
+msgstr "Objeto"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_stock_pack_operation
+msgid "Packing Operation"
+msgstr "Operación de empaquetado"
+
+#. module: asperience_edi
+#: view:edi.edi:asperience_edi.view_edi_edi_form
+msgid "Parameters"
+msgstr "Parametros"
+
+#. module: asperience_edi
+#: field:edi.edi.xml.field,parent:0
+msgid "Parent"
+msgstr "Parent"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_password_out:0
+msgid "Password Out"
+msgstr "Password Out"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_path_in:0
+#: field:edi.edi,path_in:0
+msgid "Path In"
+msgstr "Ruta lectura"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_path_in_archive:0
+msgid "Path In Archive"
+msgstr "Ruta lectura a mover"
+
+#. module: asperience_edi
+#: field:edi.edi,path_in_move:0
+msgid "Path In Move"
+msgstr "Path In Move"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_path_out:0
+#: field:edi.edi,path_out:0
+msgid "Path Out"
+msgstr "Ruta escritura"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_payment_mode
+msgid "Payment Mode"
+msgstr "Modo de pago"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/wizard/export_edi.py:43
+#, python-format
+msgid "Picking must be done"
+msgstr "El albarán debe de estar finalizado"
+
+#. module: asperience_edi
+#: model:ir.ui.menu,name:asperience_edi.menu_edi_process
+msgid "Processes"
+msgstr "Processes"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_product_uom
+msgid "Product Unit of Measure"
+msgstr "Unidad de medida del producto"
+
+#. module: asperience_edi
+#: field:edi.edi,thread:0
+msgid "Progress"
+msgstr "Progreso"
+
+#. module: asperience_edi
+#: field:edi.edi,quotechar:0
+msgid "Quotechar"
+msgstr "Quotechar"
+
+#. module: asperience_edi
+#: field:edi.edi.log,ref:0
+msgid "Ref"
+msgstr "Ref"
+
+#. module: asperience_edi
+#: field:edi.edi,result_ids:0
+msgid "Result"
+msgstr "Result"
+
+#. module: asperience_edi
+#: field:stock.pack.operation,sscc:0
+msgid "SSCC"
+msgstr "SSCC"
+
+#. module: asperience_edi
+#: model:ir.model,name:asperience_edi.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: asperience_edi
+#: field:edi.edi.csv.field,sequence:0
+#: field:edi.edi.line.csv,sequence:0
+#: field:edi.edi.line.csv.field,sequence:0
+#: field:edi.edi.line.edi,sequence:0
+#: field:edi.edi.xml.field,sequence:0
+msgid "Sequence"
+msgstr "Sequence"
+
+#. module: asperience_edi
+#: field:edi.edi,skip_first:0
+msgid "Skip the First"
+msgstr "Skip the First"
+
+#. module: asperience_edi
+#: field:edi.edi.line.edi.field,start:0
+msgid "Start"
+msgstr "Start"
+
+#. module: asperience_edi
+#: field:edi.edi,start_identifier:0
+msgid "Start identifier"
+msgstr "Start identifier"
+
+#. module: asperience_edi
+#: field:edi.edi,line_start:0
+msgid "Start line"
+msgstr "Start line"
+
+#. module: asperience_edi
+#: field:edi.edi.line.edi.field,stop:0
+msgid "Stop"
+msgstr "Stop"
+
+#. module: asperience_edi
+#: field:edi.edi,stop_identifier:0
+msgid "Stop identifier"
+msgstr "Stop identifier"
+
+#. module: asperience_edi
+#: field:edi.edi,line_stop:0
+msgid "Stop line"
+msgstr "Stop line"
+
+#. module: asperience_edi
+#: field:edi.edi,file_template:0
+msgid "Template File (Regular Expression)"
+msgstr "Nombre fichero (Expresión regular)"
+
+#. module: asperience_edi
+#: constraint:edi.edi.csv.field:0
+#: constraint:edi.edi.line.csv.field:0
+#: constraint:edi.edi.line.edi.field:0
+#: constraint:edi.edi.xml.field:0
+msgid "The name must be unique !"
+msgstr "El nombre debe ser único !"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi_parser.py:267
+#: code:addons/asperience_edi/models/edi_parser.py:269
+#: code:addons/asperience_edi/models/edi_parser.py:271
+#, python-format
+msgid "The partner %s does not have GLN configured"
+msgstr "The partner %s does not have GLN configured"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi_parser.py:140
+#: code:addons/asperience_edi/models/edi_parser.py:332
+#, python-format
+msgid "The product %s not has an EAN"
+msgstr "The product %s not has an EAN"
+
+#. module: asperience_edi
+#: constraint:edi.edi.csv.field:0
+#: constraint:edi.edi.line.csv.field:0
+msgid "The sequence must be unique !"
+msgstr "The sequence must be unique !"
+
+#. module: asperience_edi
+#: field:edi.edi,type:0
+#: field:edi.edi.csv.field,type:0
+#: field:edi.edi.line.csv.field,type:0
+#: field:edi.edi.line.edi.field,type:0
+#: field:edi.edi.log,type:0
+#: field:edi.edi.xml.field,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: asperience_edi
+#: selection:edi.edi,charset:0
+msgid "UTF-8"
+msgstr "UTF-8"
+
+#. module: asperience_edi
+#: selection:edi.edi,end_line:0
+msgid "Unix/Linux"
+msgstr "Unix/Linux"
+
+#. module: asperience_edi
+#: field:sale.order,urgent:0
+msgid "Urgent"
+msgstr "Urgent"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_url_in:0
+msgid "Url In"
+msgstr "Url In"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_url_out:0
+msgid "Url Out"
+msgstr "Url Out"
+
+#. module: asperience_edi
+#: field:edi.edi.result,value:0
+msgid "Value"
+msgstr "Valor"
+
+#. module: asperience_edi
+#: selection:edi.edi,end_line:0
+msgid "Windows"
+msgstr "Windows"
+
+#. module: asperience_edi
+#: field:edi.edi.log,write_access:0
+msgid "Write access"
+msgstr "Write access"
+
+#. module: asperience_edi
+#: code:addons/asperience_edi/models/edi.py:1292
+#, python-format
+msgid "Write access false: %s"
+msgstr "Write access false: %s"
+
+#. module: asperience_edi
+#: selection:edi.edi.csv.field,type:0
+#: selection:edi.edi.line.csv.field,type:0
+#: selection:edi.edi.line.edi.field,type:0
+#: selection:edi.edi.xml.field,type:0
+msgid "char"
+msgstr "char"
+
+#. module: asperience_edi
+#: selection:edi.edi,type:0
+msgid "csv"
+msgstr "csv"
+
+#. module: asperience_edi
+#: selection:edi.edi,type:0
+msgid "csv structured"
+msgstr "CSV estructurado"
+
+#. module: asperience_edi
+#: selection:edi.edi,type:0
+msgid "edi"
+msgstr "edi"
+
+#. module: asperience_edi
+#: selection:edi.edi.log,type:0
+msgid "export"
+msgstr "export"
+
+#. module: asperience_edi
+#: selection:edi.edi.csv.field,type:0
+#: selection:edi.edi.line.csv.field,type:0
+#: selection:edi.edi.line.edi.field,type:0
+#: selection:edi.edi.xml.field,type:0
+msgid "float"
+msgstr "float"
+
+#. module: asperience_edi
+#: selection:edi.edi.log,type:0
+msgid "import"
+msgstr "importar"
+
+#. module: asperience_edi
+#: selection:edi.edi.csv.field,type:0
+#: selection:edi.edi.line.csv.field,type:0
+#: selection:edi.edi.line.edi.field,type:0
+#: selection:edi.edi.xml.field,type:0
+msgid "int"
+msgstr "int"
+
+#. module: asperience_edi
+#: selection:edi.edi.line.edi.field,align:0
+msgid "left"
+msgstr "left"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_password_in:0
+msgid "password"
+msgstr "password"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_port_in:0
+msgid "port In"
+msgstr "port In"
+
+#. module: asperience_edi
+#: field:edi.edi,ftp_port_out:0
+msgid "port Out"
+msgstr "port Out"
+
+#. module: asperience_edi
+#: selection:edi.edi.line.edi.field,align:0
+msgid "right"
+msgstr "right"
+
+#. module: asperience_edi
+#: selection:edi.edi,type:0
+msgid "xml"
+msgstr "xml"
+
+#. module: asperience_edi
+#: selection:edi.edi.line.edi.field,align:0
+msgid "zero"
+msgstr "zero"

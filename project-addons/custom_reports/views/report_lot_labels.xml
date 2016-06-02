@@ -28,7 +28,8 @@
                                                                 LOT
                                                             </div>
                                                             <div t-if="res_company.logo" style="display: inline-block; float: right; margin-right: 10px;">
-                                                                <span t-field="res_company.logo" t-field-options='{"widget": "image"}'/>
+                                                                <!--span t-field="res_company.logo" t-field-options='{"widget": "image"}'/-->
+                                                                <img t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
                                                             </div>
                                                             <div style="clear: both;"></div>
                                                         </div>

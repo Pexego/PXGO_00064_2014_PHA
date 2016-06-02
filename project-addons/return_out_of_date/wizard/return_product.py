@@ -46,8 +46,13 @@ class ReturnOutDate(models.TransientModel):
 
     @api.multi
     def return_product(self):
-        location = self.env.ref('stock.stock_location_customers')
-        location_dest = self.env.ref('return_out_of_date.stock_location_out_date')
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)])
+        warehouse = warehouse and warehouse[0]
+        picking_type = warehouse.out_of_date_type_id
+        if not picking_type:
+            raise exceptions.Warning(_('Configuration error'), _('The warehouse not have a out of date picking type'))
+        location = picking_type.default_location_src_id
+        location_dest = picking_type.default_location_dest_id
         moves = self.env['stock.move']
         for line in self.return_lines:
             move_vals = {
@@ -60,8 +65,7 @@ class ReturnOutDate(models.TransientModel):
                 'restrict_lot_id': line.lot_id.id
             }
             moves += self.env['stock.move'].create(move_vals)
-        picking_type = self.env['stock.picking.type'].search([('code', '=',
-                                                               'internal')])
+
         picking_vals = {
             'partner_id': self.partner_id.id,
             'picking_type_id': picking_type.id,
