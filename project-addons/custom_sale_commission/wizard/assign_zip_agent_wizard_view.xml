@@ -11,7 +11,7 @@
                 <form string="Assign zip to agent">
                     <group>
                         <field name="agent_id" invisible="1"/>
-                        <field name="from_agent_id"/>
+                        <field name="from_user_id"/>
                         <field name="category_ids" widget="many2many_tags"/>
                         <field name="country_id"/>
                         <field name="zip"/>
