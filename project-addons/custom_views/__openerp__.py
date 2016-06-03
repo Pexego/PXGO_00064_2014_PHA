@@ -39,6 +39,7 @@
         'partner_prospect',
         'stock',
         'custom_permissions',
+        'return_out_of_date',
     ],
     'data' : [
         'views/sale_view.xml',
@@ -55,6 +56,7 @@
         'views/account_payment_view.xml',
         'views/hr_holidays_view.xml',
         'wizard/payment_order_create_view.xml',
+        'wizard/return_product.xml',
         'data/wizards_units_precision.xml',
         'security/menus.xml',
     ],
