@@ -25,8 +25,8 @@ from openerp import fields, models
 class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
-    partner_id = fields.Many2one(string='Partner (invoice send address)')
-    commercial_partner_id = fields.Many2one(string='Partner (invoicing address)')
+    partner_id = fields.Many2one('res.partner', 'Partner (invoice send address)')
+    commercial_partner_id = fields.Many2one('res.partner', 'Partner (invoicing address)')
     commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
@@ -41,6 +41,7 @@ class AccountInvoiceReport(models.Model):
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    product_cost = fields.Float('Product cost')
 
     def _select(self):
         select_str = """,
@@ -56,7 +57,8 @@ class AccountInvoiceReport(models.Model):
             product_subline,
             product_container,
             product_form,
-            product_clothing
+            product_clothing,
+            product_cost
             """
         return super(AccountInvoiceReport, self)._select() + select_str
 
@@ -86,7 +88,12 @@ class AccountInvoiceReport(models.Model):
             pt.subline as product_subline,
             pt.container_id as product_container,
             pt.base_form_id as product_form,
-            pt.clothing as product_clothing
+            pt.clothing as product_clothing,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity / u.factor * u2.factor * ip.value_float
+            ) as product_cost
             """
         return super(AccountInvoiceReport, self)._sub_select() + select_str
 
@@ -122,6 +129,8 @@ class AccountInvoiceReport(models.Model):
                 and spa.company_id = ai.company_id
             left join res_country_state ics on ics.id = partner.state_id
             left join res_country_state scs on scs.id = spa.state_id
+            left join ir_model_fields imf on imf.model = 'product.template' and imf.name = 'standard_price'
+            left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || pt.id::text
             """
         return super(AccountInvoiceReport, self)._from() + from_str
 

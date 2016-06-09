@@ -493,6 +493,11 @@ msgid "PRO-FORMA"
 msgstr "PRO-FORMA"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_cost:0
+msgid "Product cost"
+msgstr "Coste de producto"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document

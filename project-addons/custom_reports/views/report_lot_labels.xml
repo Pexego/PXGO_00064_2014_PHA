@@ -37,7 +37,7 @@
                                                         <p t-field="m.name" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
                                                         <p t-field="p.partner_id" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
                                                         <p>
-                                                            <div t-field="docs.supplier_delivery_note"
+                                                            <div t-field="l.supplier_lot"
                                                                  style="display: inline-block; float: left; font-size: 24px; font-weight: bold; line-height: 25px;"/>
                                                             <div style="display: inline-block; float: right; position: relative;">
                                                                 <!-- Barcode reader uses english keyboard layout -->
