@@ -73,3 +73,9 @@ class ProductTemplate(models.Model):
                 for pricelist in seller.pricelist_ids:
                     ids.append(pricelist.id)
         self.suppliers_pricelists = ids
+
+
+class PricelistPartnerinfo(models.Model):
+    _inherit = 'pricelist.partnerinfo'
+
+    sequence = fields.Integer(related='suppinfo_id.sequence')

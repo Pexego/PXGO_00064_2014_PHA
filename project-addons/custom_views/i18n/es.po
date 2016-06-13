@@ -271,6 +271,11 @@ msgid "Sales Order"
 msgstr "Pedido de venta"
 
 #. module: custom_views
+#: field:pricelist.partnerinfo,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: custom_views
 #: view:sale.order:custom_views.custom_views_sale_order_search
 msgid "Shipping Addr."
 msgstr "Dirección envío"

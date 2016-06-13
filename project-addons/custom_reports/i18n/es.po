@@ -493,6 +493,11 @@ msgid "PRO-FORMA"
 msgstr "PRO-FORMA"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_cost:0
+msgid "Product cost"
+msgstr "Coste de producto"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
@@ -530,6 +535,11 @@ msgstr "Empresa (nombre comercial)"
 #: field:sale.report,partner_category:0
 msgid "Partner category"
 msgstr "Categoría de empresa"
+
+#. module: account
+#: field:account.invoice.report,commercial_partner_id:0
+msgid "Partner Company"
+msgstr "Empresa (dir. facturación)"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search

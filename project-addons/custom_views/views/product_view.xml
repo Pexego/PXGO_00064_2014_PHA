@@ -127,6 +127,7 @@
             <field name="model">pricelist.partnerinfo</field>
             <field name="arch" type="xml">
                 <tree string="Supplier pricelist">
+                    <field name="sequence"/>
                     <field name="suppinfo_id"/>
                     <field name="min_quantity"/>
                     <field name="price"/>
