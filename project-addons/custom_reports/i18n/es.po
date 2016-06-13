@@ -536,6 +536,11 @@ msgstr "Empresa (nombre comercial)"
 msgid "Partner category"
 msgstr "Categoría de empresa"
 
+#. module: account
+#: field:account.invoice.report,commercial_partner_id:0
+msgid "Partner Company"
+msgstr "Empresa (dir. facturación)"
+
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,partner_parent_category:0
