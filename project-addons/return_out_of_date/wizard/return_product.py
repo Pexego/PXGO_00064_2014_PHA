@@ -25,16 +25,18 @@ class ReturnOutDateLine(models.TransientModel):
 
     _name = 'return.out.date.line'
 
-    def _get_uom(self):
-        return self.env.ref('product.product_uom_unit').id
-
     product_id = fields.Many2one('product.product', 'Product', required=True)
     quantity = fields.Float('Quantity', required=True)
-    uom_id = fields.Many2one('product.uom', 'UoM', required=True,
-                             default=_get_uom)
+    uom_id = fields.Many2one('product.uom', 'UoM', required=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
     wizard_id = fields.Many2one('return.out.date', 'Wizard')
 
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        if self.product_id:
+            self.uom_id = self.product_id.uom_id
+        else:
+            self.uom_id = False
 
 class ReturnOutDate(models.TransientModel):
 
