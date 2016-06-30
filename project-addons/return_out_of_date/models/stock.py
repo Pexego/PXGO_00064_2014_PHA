@@ -84,7 +84,7 @@ class StockWarehouse(models.Model):
         ood_type_id = self.env['stock.picking.type'].create({
             'name': _('Out of date'),
             'warehouse_id': warehouse.id,
-            'code': 'internal',
+            'code': 'incoming',
             'sequence_id': ood_seq.id,
             'default_location_src_id':
             self.env.ref('stock.stock_location_customers').id,
