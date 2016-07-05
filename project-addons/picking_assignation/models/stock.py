@@ -26,3 +26,11 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     assigned_user_id = fields.Many2one('res.users', 'Assigned user')
+
+    @api.multi
+    def action_assign(self):
+        res = super(StockPicking, self).action_assign()
+        for picking in self:
+            if not picking.assigned_user_id:
+                picking.assigned_user_id = self.env.user
+        return res
