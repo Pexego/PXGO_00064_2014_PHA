@@ -498,6 +498,21 @@ msgid "Product cost"
 msgstr "Coste de producto"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_cost_rm:0
+msgid "Product cost raw material"
+msgstr "Coste de producto M.P."
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_components:0
+msgid "Product cost components"
+msgstr "Coste de producto componentes"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_dl:0
+msgid "Product cost direct labor"
+msgstr "Coste de producto M.O.D."
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
@@ -602,6 +617,16 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_reference:0
+msgid "Product reference"
+msgstr "Producto - Referencia"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_with_reference:0
+msgid "Product with reference"
+msgstr "Producto con referencia"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Product / EAN13"
 msgstr "Producto / EAN13"
@@ -638,6 +663,16 @@ msgstr "Producto - Línea"
 #: field:sale.report,product_subline:0
 msgid "Product subline"
 msgstr "Producto - Sublínea"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_gross_weight:0
+msgid = 'Product gross weight'
+msgstr = 'Producto - Peso bruto'
+
+#. module: custom_reports
+#: field:account.invoice.report,product_net_weight:0
+msgid = 'Product net weight'
+msgstr = 'Producto - Peso neto'
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
