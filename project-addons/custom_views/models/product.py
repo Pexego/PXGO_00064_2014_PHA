@@ -63,6 +63,9 @@ class ProductTemplate(models.Model):
 
     suppliers_pricelists = fields.One2many('pricelist.partnerinfo',
                                            compute="_suppliers_pricelists")
+    cost_price_rm = fields.Float('Raw material cost price')
+    cost_price_components = fields.Float('Components cost price')
+    cost_price_dl = fields.Float('Direct labor cost price')
 
     @api.one
     @api.depends('seller_ids')
