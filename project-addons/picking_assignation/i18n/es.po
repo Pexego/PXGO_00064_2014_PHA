@@ -16,6 +16,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: picking_assignation
+#: view:stock.picking:picking_assignation.picking_assignation_view_picking_form
+msgid "Assign me"
+msgstr "Asignarme albarán"
+
+#. module: picking_assignation
 #: view:stock.picking:picking_assignation.picking_assignation_view_picking_search
 #: field:stock.picking,assigned_user_id:0
 msgid "Assigned user"

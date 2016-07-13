@@ -34,3 +34,7 @@ class StockPicking(models.Model):
             if not picking.assigned_user_id:
                 picking.assigned_user_id = self.env.user
         return res
+
+    @api.multi
+    def assign_me(self):
+        self.assigned_user_id = self.env.user
