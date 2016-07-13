@@ -19,4 +19,15 @@
 #
 ##############################################################################
 
-import account_move_line, product_stock_unsafety
+from openerp import models, api
+
+
+class product_stock_unsafety_cancel_warnings(models.TransientModel):
+    _name = 'product.stock.unsafety.cancel.warnings'
+
+    @api.multi
+    def cancel_warnings(self):
+        warning_ids = self.env.context.get('active_ids', False)
+        warnings = self.env['product.stock.unsafety'].browse(warning_ids)
+        warnings.write({'state': 'cancelled'})
+        return True
