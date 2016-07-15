@@ -583,6 +583,11 @@ msgid "Payment mode:"
 msgstr "Forma de pago:"
 
 #. module: custom_reports
+#: field:account.invoice,picking_ids:0
+msgid "Picking ids"
+msgstr "Picking ids"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 msgid "Planned Date:"
@@ -850,6 +855,11 @@ msgstr "Factura rectificativa de proveedor"
 #: view:website:custom_reports.report_purchasequotation_document
 msgid "Supplier code:"
 msgstr "Código proveedor:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "Supplier delivery note:"
+msgstr "Albarán de proveedor:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
