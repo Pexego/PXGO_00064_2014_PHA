@@ -26,7 +26,7 @@
     'description': """Manage the return of out of date sold products""",
     'author': 'Comunitea',
     'website': '',
-    "depends": ['base', 'stock'],
+    "depends": ['base', 'stock', 'stock_reception'],
     "data": ['views/stock.xml', 'wizard/return_product.xml'],
     "installable": True
 }

@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import account_move_line
+import account_move_line, product_stock_unsafety

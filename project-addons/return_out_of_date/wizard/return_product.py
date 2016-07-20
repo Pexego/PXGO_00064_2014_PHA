@@ -43,6 +43,7 @@ class ReturnOutDate(models.TransientModel):
     _name = 'return.out.date'
 
     partner_id = fields.Many2one('res.partner', 'Customer', required=True)
+    supplier_delivery_note = fields.Char('Supplier picking')
     return_lines = fields.One2many('return.out.date.line', 'wizard_id',
                                    'Lines')
 
@@ -71,7 +72,8 @@ class ReturnOutDate(models.TransientModel):
         picking_vals = {
             'partner_id': self.partner_id.id,
             'picking_type_id': picking_type.id,
-            'move_lines': [(4, x.id) for x in moves]
+            'move_lines': [(4, x.id) for x in moves],
+            'supplier_delivery_note': self.supplier_delivery_note
         }
         picking = self.env['stock.picking'].create(picking_vals)
         picking.action_confirm()

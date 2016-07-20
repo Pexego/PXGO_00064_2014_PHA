@@ -40,6 +40,7 @@
         'stock',
         'custom_permissions',
         'return_out_of_date',
+        'product_stock_unsafety',
     ],
     'data' : [
         'views/sale_view.xml',
@@ -57,8 +58,10 @@
         'views/hr_holidays_view.xml',
         'wizard/payment_order_create_view.xml',
         'wizard/return_product.xml',
+        'wizard/product_stock_unsafety_view.xml',
         'data/wizards_units_precision.xml',
         'security/menus.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True
 }

@@ -11,6 +11,7 @@
                 <form string="Return of out of date products">
                     <group>
                         <field name="partner_id"/>
+                        <field name="supplier_delivery_note"/>
                         <field name="return_lines">
                             <tree editable="top">
                                 <field name="product_id" domain="[('sale_ok', '=', True)]"/>

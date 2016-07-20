@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 ##############################################################################
+#
 
-import product, account_payment, account, sale_report, account_invoice_report, \
-       stock, account_invoice
+import product_product
