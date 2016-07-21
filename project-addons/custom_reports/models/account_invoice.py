@@ -32,6 +32,9 @@ class AccountInvoice(models.Model):
     @api.one
     def _compute_picking_ids(self):
         origin = self.origin
-        origin = origin.replace(' ', '')
-        self.picking_ids = self.env['stock.picking']\
-            .search([('name', 'in', origin.split())])
+        if origin:
+            origin = origin.replace(' ', '')
+            self.picking_ids = self.env['stock.picking']\
+                .search([('name', 'in', origin.split())])
+        else:
+            self.picking_ids = False
