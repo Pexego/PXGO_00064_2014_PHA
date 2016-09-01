@@ -8,9 +8,9 @@
             <field name="arch" type="xml">
                 <filter name="in_progress" position="after">
                     <separator/>
-                    <filter string="Can be sold" domain="[('sale_ok','=',True)]"/>
+                    <filter string="Can be Sold" domain="[('sale_ok','=',True)]"/>
                     <separator/>
-                    <filter string="Can be purchased" domain="[('purchase_ok','=',True)]"/>
+                    <filter string="Can be Purchased" domain="[('purchase_ok','=',True)]"/>
                 </filter>
             </field>
         </record>
