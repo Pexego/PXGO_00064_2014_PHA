@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,5 +19,19 @@
 #
 ##############################################################################
 
-import product, account_payment, account, sale_report, account_invoice_report, \
-       stock, account_invoice
+{
+    'name': 'Picking assignation',
+    'version': '1.0',
+    'category': 'Warehouse',
+    'summary' : 'Assign a picking to a warehouse user',
+    'description': 'Assign a picking to a warehouse user',
+    'author': 'Pharmadus I+D+i',
+    'website': 'www.pharmadus.com',
+    'depends' : [
+        'stock',
+    ],
+    'data' : [
+        'views/stock_view.xml',
+    ],
+    'installable': True
+}

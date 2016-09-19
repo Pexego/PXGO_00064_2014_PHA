@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
 #    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,5 +19,15 @@
 #
 ##############################################################################
 
-import product, account_payment, account, sale_report, account_invoice_report, \
-       stock, account_invoice
+from openerp import models, api
+
+
+class product_stock_unsafety_cancel_warnings(models.TransientModel):
+    _name = 'product.stock.unsafety.cancel.warnings'
+
+    @api.multi
+    def cancel_warnings(self):
+        warning_ids = self.env.context.get('active_ids', False)
+        warnings = self.env['product.stock.unsafety'].browse(warning_ids)
+        warnings.write({'state': 'cancelled'})
+        return True

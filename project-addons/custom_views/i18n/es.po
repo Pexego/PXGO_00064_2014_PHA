@@ -85,6 +85,17 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: custom_views
+#: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form
+msgid "Cancel stock unsafety warnings"
+msgstr "Cancelar avisos de stock bajo mínimos"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_stock_unsafety_cancel_warnings
+#: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form
+msgid "Cancel warnings"
+msgstr "Cancelar avisos"
+
+#. module: custom_views
 #: field:stock.picking,address_city:0
 msgid "City"
 msgstr "Ciudad"
@@ -105,6 +116,21 @@ msgstr "Confirmar las facturas seleccionadas"
 #: field:stock.picking,address_country:0
 msgid "Country Name"
 msgstr "País"
+
+#. module: custom_views
+#: field:product.template,cost_price_rm:0
+msgid "Raw material cost price"
+msgstr "Precio de coste M.P."
+
+#. module: custom_views
+#: field:product.template,cost_price_components:0
+msgid "Components cost price"
+msgstr "Precio de coste componentes"
+
+#. module: custom_views
+#: field:product.template,cost_price_dl:0
+msgid "Direct labor cost price"
+msgstr "Precio de coste M.O.D."
 
 #. module: custom_views
 #: view:res.partner:custom_views.view_partner_form_add_vat_required
@@ -423,3 +449,8 @@ msgstr "{'required': [('invoice_type', '=', 'in_invoice')]}"
 #: view:res.partner:custom_views.view_partner_form_custom_view
 msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
 msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
+
+#. module: custom_views
+#: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form
+msgid "¿Do you want to cancel the selected warnings?"
+msgstr "¿Quiere cancelar los avisos seleccionados?"

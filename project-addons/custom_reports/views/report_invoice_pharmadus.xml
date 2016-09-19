@@ -190,6 +190,15 @@
                                 </t>
                             </p>
                         </div>
+                        <div t-if="o.picking_ids and o.picking_ids.supplier_delivery_note">
+                            <p>
+                                <strong>Supplier delivery note:</strong>
+                                <t t-foreach="o.picking_ids" t-as="picking">
+                                    <t t-if="picking_index > 0">, </t>
+                                    <span t-field="picking.supplier_delivery_note"/>
+                                </t>
+                            </p>
+                        </div>
                         <div t-if="o.name">
                             <p><strong>Client quotation ref.:</strong> <span t-field="o.name"/></p>
                         </div>
