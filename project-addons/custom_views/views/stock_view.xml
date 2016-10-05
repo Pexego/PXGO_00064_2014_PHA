@@ -133,5 +133,12 @@
                 </field>
             </field>
         </record-->
+
+        <!-- Move option to inventory control submenu and add group permissions -->
+        <menuitem action="stock.action_orderpoint_form"
+                  id="stock.menu_stock_order_points"
+                  parent="stock.menu_stock_inventory_control"
+                  groups="stock.group_stock_manager"
+                  sequence="10"/>
     </data>
 </openerp>
