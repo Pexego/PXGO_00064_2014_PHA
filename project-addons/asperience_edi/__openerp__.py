@@ -28,7 +28,7 @@
     "certificate": "",
     "license": "",
     "depends": ["board", "account_payment_sale", "sale",
-                "stock_picking_valued", 'commercial_and_financial_discount'],
+                'commercial_and_financial_discount'],
     "category": "Generic Modules/EDI",
     "complexity": "easy",
     "description": """
@@ -38,12 +38,12 @@ Shares in the background or not, with the possibility of planning by cron.
 WARNING: folders tree and folders management is not fully secured. This must NOT be used by novice users
     """,
     "data": [
-        "views/edi.xml",
         "data/edi_data.xml",
-        "views/edi_board.xml",
-        "views/edi_menu.xml",
         "security/edi_security.xml",
         "security/ir.model.access.csv",
+        "views/edi.xml",
+        "views/edi_board.xml",
+        "views/edi_menu.xml",
         "views/edi_fields_view.xml",
         "data/import_orders.xml",
         "data/export_invoic.xml",

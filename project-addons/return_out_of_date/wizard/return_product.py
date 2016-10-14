@@ -25,22 +25,25 @@ class ReturnOutDateLine(models.TransientModel):
 
     _name = 'return.out.date.line'
 
-    def _get_uom(self):
-        return self.env.ref('product.product_uom_unit').id
-
     product_id = fields.Many2one('product.product', 'Product', required=True)
     quantity = fields.Float('Quantity', required=True)
-    uom_id = fields.Many2one('product.uom', 'UoM', required=True,
-                             default=_get_uom)
+    uom_id = fields.Many2one('product.uom', 'UoM')
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
     wizard_id = fields.Many2one('return.out.date', 'Wizard')
 
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        if self.product_id:
+            self.uom_id = self.product_id.uom_id
+        else:
+            self.uom_id = False
 
 class ReturnOutDate(models.TransientModel):
 
     _name = 'return.out.date'
 
     partner_id = fields.Many2one('res.partner', 'Customer', required=True)
+    supplier_delivery_note = fields.Char('Supplier picking')
     return_lines = fields.One2many('return.out.date.line', 'wizard_id',
                                    'Lines')
 
@@ -61,7 +64,7 @@ class ReturnOutDate(models.TransientModel):
                 'product_id': line.product_id.id,
                 'name': line.product_id.name,
                 'product_uom_qty': line.quantity,
-                'product_uom': line.uom_id.id,
+                'product_uom': line.product_id.uom_id.id,
                 'restrict_lot_id': line.lot_id.id
             }
             moves += self.env['stock.move'].create(move_vals)
@@ -69,7 +72,8 @@ class ReturnOutDate(models.TransientModel):
         picking_vals = {
             'partner_id': self.partner_id.id,
             'picking_type_id': picking_type.id,
-            'move_lines': [(4, x.id) for x in moves]
+            'move_lines': [(4, x.id) for x in moves],
+            'supplier_delivery_note': self.supplier_delivery_note
         }
         picking = self.env['stock.picking'].create(picking_vals)
         picking.action_confirm()

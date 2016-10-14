@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="return_out_date_form" model="ir.ui.view">
+            <field name="name">Custom views - Return out of date wizard</field>
+            <field name="model">return.out.date</field>
+            <field name="inherit_id" ref="return_out_of_date.return_out_date_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="product_id" position="attributes">
+                    <attribute name="domain">[('sale_ok', '=', True)]</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

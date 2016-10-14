@@ -28,6 +28,11 @@ msgstr " Secuencia caducado"
 
 
 #. module: return_out_of_date
+#: field:return.out.date,supplier_delivery_note:0
+msgid "Supplier picking"
+msgstr "Albarán de proveedor"
+
+#. module: return_out_of_date
 #: field:stock.warehouse,out_of_date_type_id:0
 msgid "Out of date Type"
 msgstr "Tipo de albarán producto caducado"

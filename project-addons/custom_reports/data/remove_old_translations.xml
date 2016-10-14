@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <delete model="ir.translation"
+                search="[('name','=','account.invoice.report,commercial_partner_id'),('lang','=','es_ES'),('type','=','field')]"/>
+    </data>
+</openerp>

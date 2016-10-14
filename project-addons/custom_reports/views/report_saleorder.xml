@@ -258,7 +258,7 @@
                                 <span t-field="l.product_id.cn_code"/>
                             </td>
                             <td>
-                                <span t-field="l.product_id.name_template"/><br/>
+                                <span t-field="l.name"/><br/>
                                 <span t-field="l.product_id.ean13"/>
                             </td>
                             <td>

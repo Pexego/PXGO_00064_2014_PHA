@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Comunitea All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
+#    Copyright (C) 2016 Pharmadus. All Rights Reserved
+#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,4 +18,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import stock
+
+from openerp import models, fields, api
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    assigned_user_id = fields.Many2one('res.users', 'Assigned user')
+
+    @api.multi
+    def action_assign(self):
+        res = super(StockPicking, self).action_assign()
+        for picking in self:
+            if not picking.assigned_user_id:
+                picking.assigned_user_id = self.env.user
+        return res
+
+    @api.multi
+    def assign_me(self):
+        self.assigned_user_id = self.env.user

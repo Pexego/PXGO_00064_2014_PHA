@@ -3,6 +3,7 @@ parts/
 lib/
 include/
 eggs/
+eggs-custom/
 develop-eggs/
 downloads/
 /data/

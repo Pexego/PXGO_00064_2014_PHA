@@ -11,12 +11,13 @@
                 <form string="Return of out of date products">
                     <group>
                         <field name="partner_id"/>
+                        <field name="supplier_delivery_note"/>
                         <field name="return_lines">
                             <tree editable="top">
-                                <field name="product_id"/>
+                                <field name="product_id" domain="[('sale_ok', '=', True)]"/>
                                 <field name="quantity"/>
-                                <field name="uom_id" groups="product.group_uom"/>
-                                <field name="lot_id"/>
+                                <field name="uom_id" groups="product.group_uom" readonly="True"/>
+                                <field name="lot_id" domain="[('product_id', '=', product_id)]"/>
                             </tree>
                         </field>
                     </group>

@@ -20,6 +20,7 @@
 ##############################################################################
 
 from openerp import models, fields, api
+import openerp.addons.decimal_precision as dp
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -62,7 +63,13 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     suppliers_pricelists = fields.One2many('pricelist.partnerinfo',
-                                           compute="_suppliers_pricelists")
+                                 compute='_suppliers_pricelists')
+    cost_price_rm = fields.Float('Raw material cost price',
+                                 digits=dp.get_precision('Product Price'))
+    cost_price_components = fields.Float('Components cost price',
+                                 digits=dp.get_precision('Product Price'))
+    cost_price_dl = fields.Float('Direct labor cost price',
+                                 digits=dp.get_precision('Product Price'))
 
     @api.one
     @api.depends('seller_ids')
@@ -73,3 +80,9 @@ class ProductTemplate(models.Model):
                 for pricelist in seller.pricelist_ids:
                     ids.append(pricelist.id)
         self.suppliers_pricelists = ids
+
+
+class PricelistPartnerinfo(models.Model):
+    _inherit = 'pricelist.partnerinfo'
+
+    sequence = fields.Integer(related='suppinfo_id.sequence')

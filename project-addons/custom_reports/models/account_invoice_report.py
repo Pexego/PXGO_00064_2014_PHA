@@ -25,6 +25,9 @@ from openerp import fields, models
 class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
+    partner_id = fields.Many2one('res.partner', 'Partner (invoice send address)')
+    commercial_partner_id = fields.Many2one('res.partner', 'Partner (invoicing address)')
+    commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
@@ -32,15 +35,25 @@ class AccountInvoiceReport(models.Model):
     shipping_country_id = fields.Many2one('res.country', 'Shipping country')
     invoicing_state_id = fields.Many2one('res.country.state', 'Invoicing state')
     shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
+    product_reference = fields.Char('Product reference')
+    product_with_reference = fields.Char('Product with reference')
     product_line = fields.Many2one('product.line', 'Product line')
     product_subline = fields.Many2one('product.subline', 'Product subline')
     product_container = fields.Many2one('product.container', 'Product container')
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    product_cost = fields.Float('Product cost')
+    product_cost_rm = fields.Float('Product cost raw material')
+    product_cost_components = fields.Float('Product cost components')
+    product_cost_dl = fields.Float('Product cost direct labor')
+    product_gross_weight = fields.Float('Product gross weight')
+    product_net_weight = fields.Float('Product net weight')
+    number = fields.Char('Invoice number')
 
     def _select(self):
-        select_str = """,
+        select_str = super(AccountInvoiceReport, self)._select() + """,
+            commercial_name,
             partner_parent_category,
             partner_category,
             commission_category,
@@ -48,16 +61,26 @@ class AccountInvoiceReport(models.Model):
             shipping_country_id,
             invoicing_state_id,
             shipping_state_id,
+            product_reference,
+            product_with_reference,
             product_line,
             product_subline,
             product_container,
             product_form,
-            product_clothing
+            product_clothing,
+            product_cost,
+            product_cost_rm,
+            product_cost_components,
+            product_cost_dl,
+            product_gross_weight,
+            product_net_weight,
+            sub.number
             """
-        return super(AccountInvoiceReport, self)._select() + select_str
+        return select_str
 
     def _sub_select(self):
-        select_str = """,
+        select_str = super(AccountInvoiceReport, self)._sub_select() + """,
+            partner.comercial as commercial_name,
             case
                 when parent_rpc.name is null then '(Sin categoría)'
                 else parent_rpc.name
@@ -77,16 +100,49 @@ class AccountInvoiceReport(models.Model):
             spa.country_id as shipping_country_id,
             ics.id as invoicing_state_id,
             scs.id as shipping_state_id,
+            pt.default_code as product_reference,
+            '[' || pt.default_code || '] ' || pt.name as product_with_reference,
             pt.line as product_line,
             pt.subline as product_subline,
             pt.container_id as product_container,
             pt.base_form_id as product_form,
-            pt.clothing as product_clothing
+            pt.clothing as product_clothing,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity / u.factor * u2.factor * ip.value_float
+            ) as product_cost,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.cost_price_rm
+            ) as product_cost_rm,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.cost_price_components
+            ) as product_cost_components,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.cost_price_dl
+            ) as product_cost_dl,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.weight
+            ) as product_gross_weight,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.weight_net
+            ) as product_net_weight,
+            ai.number
             """
-        return super(AccountInvoiceReport, self)._sub_select() + select_str
+        return select_str
 
     def _from(self):
-        from_str = """
+        from_str = super(AccountInvoiceReport, self)._from() + """
             left join res_partner_category parent_rpc on parent_rpc.id = (
                     select
                         case
@@ -117,11 +173,14 @@ class AccountInvoiceReport(models.Model):
                 and spa.company_id = ai.company_id
             left join res_country_state ics on ics.id = partner.state_id
             left join res_country_state scs on scs.id = spa.state_id
+            left join ir_model_fields imf on imf.model = 'product.template' and imf.name = 'standard_price'
+            left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || pt.id::text
             """
-        return super(AccountInvoiceReport, self)._from() + from_str
+        return from_str
 
     def _group_by(self):
-        group_by_str = """,
+        group_by_str = super(AccountInvoiceReport, self)._group_by() + """,
+            commercial_name,
             partner_parent_category,
             partner_category,
             commission_category,
@@ -129,10 +188,13 @@ class AccountInvoiceReport(models.Model):
             spa.country_id,
             ics.id,
             scs.id,
+            pt.default_code,
+            '[' || pt.default_code || '] ' || pt.name,
             pt.line,
             pt.subline,
             pt.container_id,
             pt.base_form_id,
-            pt.clothing
+            pt.clothing,
+            ai.number
             """
-        return super(AccountInvoiceReport, self)._group_by() + group_by_str
+        return group_by_str

@@ -493,6 +493,26 @@ msgid "PRO-FORMA"
 msgstr "PRO-FORMA"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_cost:0
+msgid "Product cost"
+msgstr "Coste de producto"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_rm:0
+msgid "Product cost raw material"
+msgstr "Coste de producto M.P."
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_components:0
+msgid "Product cost components"
+msgstr "Coste de producto componentes"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_dl:0
+msgid "Product cost direct labor"
+msgstr "Coste de producto M.O.D."
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
@@ -508,12 +528,33 @@ msgid "Parent cooperative"
 msgstr "Cooperativa padre"
 
 #. module: custom_reports
+#: field:account.invoice.report,partner_id:0
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+msgid "Partner (invoice send address)"
+msgstr "Empresa (dir. envío factura)"
+
+#. module: custom_reports
+#: field:account.invoice.report,commercial_partner_id:0
+msgid "Partner (invoicing address)"
+msgstr "Empresa (dir. facturación)"
+
+#. module: custom_reports
+#: field:account.invoice.report,commercial_name:0
+msgid "Partner (commercial name)"
+msgstr "Empresa (nombre comercial)"
+
+#. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,partner_category:0
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 #: field:sale.report,partner_category:0
 msgid "Partner category"
 msgstr "Categoría de empresa"
+
+#. module: account
+#: field:account.invoice.report,commercial_partner_id:0
+msgid "Partner Company"
+msgstr "Empresa (dir. facturación)"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -540,6 +581,11 @@ msgstr "Plazo de pago:"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Payment mode:"
 msgstr "Forma de pago:"
+
+#. module: custom_reports
+#: field:account.invoice,picking_ids:0
+msgid "Picking ids"
+msgstr "Picking ids"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -574,6 +620,16 @@ msgstr "Imprimir etiquetas de lotes"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Product"
 msgstr "Producto"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_reference:0
+msgid "Product reference"
+msgstr "Producto - Referencia"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_with_reference:0
+msgid "Product with reference"
+msgstr "Producto con referencia"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
@@ -612,6 +668,16 @@ msgstr "Producto - Línea"
 #: field:sale.report,product_subline:0
 msgid "Product subline"
 msgstr "Producto - Sublínea"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_gross_weight:0
+msgid = 'Product gross weight'
+msgstr = 'Producto - Peso bruto'
+
+#. module: custom_reports
+#: field:account.invoice.report,product_net_weight:0
+msgid = 'Product net weight'
+msgstr = 'Producto - Peso neto'
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
@@ -789,6 +855,11 @@ msgstr "Factura rectificativa de proveedor"
 #: view:website:custom_reports.report_purchasequotation_document
 msgid "Supplier code:"
 msgstr "Código proveedor:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "Supplier delivery note:"
+msgstr "Albarán de proveedor:"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud

@@ -42,6 +42,9 @@
                     <filter string="Shipping country" context="{'group_by': 'shipping_country_id'}"/>
                     <filter string="Third parties" context="{'group_by': 'third_parties'}"/>
                 </filter>
+                <filter name="partner_id" position="attributes">
+                    <attribute name="string">Partner (invoice send address)</attribute>
+                </filter>
             </field>
         </record>
     </data>

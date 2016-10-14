@@ -28,6 +28,7 @@ class AccountConfigSettings(models.Model):
 
     @api.multi
     def create_banking_mandates(self):
+        # Only check partners of current user's company
         logger = logging.getLogger(__name__)
         logger.info('Searching for banking accounts without mandates...')
         company_ids = self.env['res.company'].search([])
@@ -35,6 +36,38 @@ class AccountConfigSettings(models.Model):
         partner_ids = self.env['res.partner'].\
             search([('company_id', '=', self.company_id.id),
                     ('id', 'not in', company_partner_ids),
+                    ('bank_ids', '!=', False)])
+        partner_with_bank_account_ids = [p.id for p in partner_ids]
+        bank_ids = self.env['res.partner.bank'].\
+            search([('partner_id', 'in', partner_with_bank_account_ids),
+                    ('mandate_ids', '=', False)])
+
+        current_date = time.strftime('%Y-%m-%d', time.localtime())
+
+        banking_mandate = self.env['account.banking.mandate']
+        for bank in bank_ids:
+            logger.info('Creating new mandate for %s\'s bank %s',
+                        bank.partner_id.name, bank.bank_name)
+            banking_mandate.create({
+                'company_id': bank.partner_id.company_id.id,
+                'partner_bank_id': bank.id,
+                'type': 'recurrent',
+                'signature_date': current_date,
+                'state': 'valid',
+                'recurrent_sequence_type': 'recurring'
+            })
+
+        logger.info('Now all banking accounts have at least one mandate...')
+        return True
+
+    @api.multi
+    def auto_create_banking_mandates(self):
+        logger = logging.getLogger(__name__)
+        logger.info('Searching for banking accounts without mandates...')
+        company_ids = self.env['res.company'].search([])
+        company_partner_ids = [c.partner_id.id for c in company_ids]
+        partner_ids = self.env['res.partner'].\
+            search([('id', 'not in', company_partner_ids),
                     ('bank_ids', '!=', False)])
         partner_with_bank_account_ids = [p.id for p in partner_ids]
         bank_ids = self.env['res.partner.bank'].\
