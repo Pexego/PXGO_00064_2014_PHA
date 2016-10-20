@@ -25,4 +25,4 @@ class ResCompany(models.Model):
 
     _inherit = 'res.company'
 
-    aecoc_code = fields.Char('AECOC Code', size=7)
+    aecoc_code = fields.Char('AECOC Code', size=10)
