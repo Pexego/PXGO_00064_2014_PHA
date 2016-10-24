@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -19,7 +19,11 @@
 #
 ##############################################################################
 
-import res_partner, product, account_invoice, stock_quant, \
-       stock_transfer_details, sale, stock, account_payment, \
-       account_invoice_state, hr_holidays, stock_valuation_history, \
-       product_stock_unsafety
+from openerp import models, fields
+
+
+class ProductStockUnsafety(models.TransientModel):
+    _inherit = 'product.stock.unsafety'
+
+    sale_ok = fields.Boolean(related='product_id.sale_ok')
+    purchase_ok = fields.Boolean(related='product_id.purchase_ok')
