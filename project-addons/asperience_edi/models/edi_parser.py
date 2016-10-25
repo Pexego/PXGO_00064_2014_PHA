@@ -249,7 +249,7 @@ class edi_parser(models.Model):
         return "%s%s" % (sscc, iCheckSum)
 
     def make_sscc(self, cr, uid, context=None):
-        """Método con el que se calcula el sscc a partir del 1+ aecoc + una sequencia de 9 caracteres + 1 digito checksum
+        """Método con el que se calcula el sscc a partir del 1+ aecoc + una sequencia de 6 caracteres + 1 digito checksum
         para escribir en el name del paquete"""
         sequence = self.pool.get('ir.sequence').get(cr, uid, 'scc.tracking.sequence') #sequencia definida en sscc_sequence.tracking
         aecoc = self.pool.get('res.users').browse(cr,uid,uid).company_id.aecoc_code

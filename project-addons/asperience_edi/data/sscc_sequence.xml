@@ -11,7 +11,7 @@
             <field name="name">Tracking Packs</field>
             <field name="code">scc.tracking.sequence</field>
             <field name="prefix"></field>
-            <field name="padding">9</field>
+            <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="company_id" eval="False"/>

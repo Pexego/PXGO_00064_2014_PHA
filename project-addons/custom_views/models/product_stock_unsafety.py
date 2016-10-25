@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Comunitea All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,11 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp import models, fields
 
 
-class ResCompany(models.Model):
+class ProductStockUnsafety(models.TransientModel):
+    _inherit = 'product.stock.unsafety'
 
-    _inherit = 'res.company'
-
-    aecoc_code = fields.Char('AECOC Code', size=10)
+    sale_ok = fields.Boolean(related='product_id.sale_ok')
+    purchase_ok = fields.Boolean(related='product_id.purchase_ok')
