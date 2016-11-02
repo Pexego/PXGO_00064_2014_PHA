@@ -39,55 +39,7 @@ msgid "(Unspecified)"
 msgstr "&nbsp;&nbsp;&nbsp;"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid ""
-",\n"
-"                                Folio"
-msgstr ""
-",\n"
-"                                Folio"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid ""
-",\n"
-"                                Registration"
-msgstr ""
-",\n"
-"                                Inscripción"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid ""
-",\n"
-"                                Sheet Number"
-msgstr ""
-",\n"
-"                                Hoja"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid ""
-",\n"
-"                                TIN"
-msgstr ""
-",\n"
-"                                NIF"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid ""
-",\n"
-"                                Volume"
-msgstr ""
-",\n"
-"                                Tomo"
-
-#. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
 "                            Folio"
@@ -97,9 +49,6 @@ msgstr ""
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
 "                            Registration"
@@ -109,9 +58,6 @@ msgstr ""
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
 "                            Sheet Number"
@@ -121,9 +67,6 @@ msgstr ""
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
 "                            TIN"
@@ -133,9 +76,6 @@ msgstr ""
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
 msgid ""
 ",\n"
 "                            Volume"
@@ -144,21 +84,10 @@ msgstr ""
 "                            Tomo"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_footer
 #: view:website:custom_reports.report_invoice_biosalud
 msgid ", or by e-mail at"
 msgstr ", o en el e-mail"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_purchasequotation_document
-msgid ", or by e-mail at info@pharmadus.com"
-msgstr ", o al e-mail info@pharmadus.com"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_saleorder_document
-msgid ", or by e-mail at ventas@pharmadus.com"
-msgstr ", o al e-mail ventas@pharmadus.com"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -328,36 +257,13 @@ msgid "For any doubt or explanation of the invoice, be contacted with Administra
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Administración en el número"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_purchasequotation_document
-msgid "For any doubt or explanation, be contacted with Purchases Dept. in the number"
-msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Compras en el número"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_saleorder_document
-msgid "For any doubt or explanation, be contacted with Sales Dept. in the number"
-msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Ventas en el número"
-
-#. module: custom_reports
 #: field:payment.mode,hide_account_at_invoice:0
 msgid "Hide bank account when payment mode shown in an invoice"
 msgstr "Oculta la cuenta bancaria cuando se muestra el modo de pago en una factura"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
-msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
-msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
-
-#. module: custom_reports
+#: view:website:custom_reports.report_footer
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
 msgid "In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated."
 msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
@@ -725,11 +631,8 @@ msgid "Real qty."
 msgstr "Cantidad real"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_footer
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-#: view:website:custom_reports.report_purchaseorder_document
-#: view:website:custom_reports.report_purchasequotation_document
-#: view:website:custom_reports.report_saleorder_document
 msgid "Recorded in the Companies Registry of"
 msgstr "Inscrita en el Registro Mercantil de"
 
@@ -971,3 +874,68 @@ msgstr "Coste cero"
 #: view:website:custom_reports.report_invoice_biosalud
 msgid "administracion@laboratoriobiosalud.com"
 msgstr "administracion@laboratoriobiosalud.com"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ",\n"
+"                        Folio"
+msgstr ",\n"
+"                        Folio"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ",\n"
+"                        Registration"
+msgstr ",\n"
+"                        Inscripción"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ",\n"
+"                        Sheet Number"
+msgstr ",\n"
+"                        Hoja"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ",\n"
+"                        TIN"
+msgstr ",\n"
+"                        NIF"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ",\n"
+"                        Volume"
+msgstr ",\n"
+"                        Tomo"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ", or by e-mail at info@pharmadus.com"
+msgstr ", o al e-mail info@pharmadus.com"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid "in the number"
+msgstr "en el teléfono"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid "Purchases Dept."
+msgstr "Dpto. de Compras"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid "Sales Dept."
+msgstr "Dpto. de Ventas"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid "For any doubt or explanation, be contacted with"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con el"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
+msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
