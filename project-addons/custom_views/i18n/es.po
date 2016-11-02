@@ -253,6 +253,16 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_res_partner_special
+msgid "Partners"
+msgstr "Empresas"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_res_partner_special
+msgid "Partners special form"
+msgstr "Edición especial de clientes y proveedores"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_payment_mode
 msgid "Payment Mode"
 msgstr "Modo de pago"
@@ -314,6 +324,16 @@ msgstr "Dirección envío"
 #: field:res.partner,picking_policy:0
 msgid "Shipping Policy"
 msgstr "Política de facturación"
+
+#. module: custom_views
+#: view:res.partner:custom_views.view_partner_special_form
+msgid "Special form"
+msgstr "Formulario especial"
+
+#. module: custom_views
+#: view:res.partner:custom_views.view_partner_special_form
+msgid "Special form to edit fields without validations"
+msgstr "Formulario especial para editar campos sin validaciones"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_move

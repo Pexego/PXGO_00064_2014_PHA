@@ -52,6 +52,17 @@ class ResPartner(models.Model):
         return super(ResPartner, self).create(vals)
 
     @api.multi
+    def write(self, vals):
+        if self.env.context.get('partner_special_form', False)\
+                and (len(self.ids) == 1):
+            sql = """update res_partner set vat = '{vat}' where id = {id};"""\
+                .format(id = self.id, vat = vals['vat'])
+            self.env.cr.execute(sql)
+            return True
+        else:
+            return super(ResPartner, self).write(vals)
+
+    @api.multi
     def name_get(self):
         key = 'concatenate_name_comercial'
 
