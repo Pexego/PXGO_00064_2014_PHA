@@ -105,7 +105,7 @@ msgid ""
 "                            Registration"
 msgstr ""
 ",\n"
-"                            Registro"
+"                            Inscripción"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud

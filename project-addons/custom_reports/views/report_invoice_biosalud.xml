@@ -376,8 +376,8 @@
                             </t>
                         </t>
                     </div>
-                    <div style="margin-left: 70px;">
-                        <p style="font-size: 12px; margin: 5px 125px 5px 0; padding: 0;">
+                    <div>
+                        <p style="font-size: 12px; margin: 7px 125px 8px 105px; padding: 0;">
                             For any doubt or explanation of the invoice, be contacted with Administration Dept. in the number <b><span t-field="company.phone"/></b> , or by e-mail at <b>administracion@laboratoriobiosalud.com</b>
                         </p>
                         <p style="font-size: 8px; margin: 0 125px 0 0; padding: 0;">
