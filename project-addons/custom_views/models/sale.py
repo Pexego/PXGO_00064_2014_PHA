@@ -18,11 +18,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, api
+from lxml import etree
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False,
+                        submenu=False):
+        # If current user is a member of SalesmanPH, show only his/her clients,
+        # otherwise, show all clients
+        res = super(SaleOrder, self).fields_view_get(view_id=view_id,
+                                                     view_type=view_type,
+                                                     toolbar=toolbar,
+                                                     submenu=submenu)
+        if view_type == 'form' and res['model'] == 'sale.order':
+            doc = etree.XML(res['arch'])
+            if self.env.user not in \
+                    self.env.ref('custom_permissions.group_salesman_ph').users:
+                for node in doc.xpath("/form/sheet/group/group/field[@name='partner_id']"):
+                    domain = node.get('domain')
+                    domain = domain.replace(",('user_id','=',uid)", "")
+                    node.set('domain', domain)
+            res['arch'] = etree.tostring(doc)
+        return res
+
 
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         res = super(SaleOrder, self).onchange_partner_id(cr, uid, ids, part, context)
