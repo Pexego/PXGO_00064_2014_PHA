@@ -353,7 +353,7 @@ msgstr "LOTE"
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Lot | Approved | Best before"
-msgstr "Lote | Aprobado | Caducidad"
+msgstr "Lote | Aprobado | Cons. preferente"
 
 #. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_report_lot_labels
