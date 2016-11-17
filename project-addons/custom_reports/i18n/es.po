@@ -191,6 +191,12 @@ msgid "Commissions parent category"
 msgstr "Categoría padre comisiones"
 
 #. module: custom_reports
+#: field:account.invoice.report,categ_ids:0
+#: field:sale.report,categ_ids:0
+msgid "Product Categories"
+msgstr "Categoría extra de producto"
+
+#. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Company"
 msgstr "Compañía"
