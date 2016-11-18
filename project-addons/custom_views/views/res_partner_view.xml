@@ -198,7 +198,7 @@
         </record>
 
         <record id="view_partner_special_tree" model="ir.ui.view">
-            <field name="name">res.partner.tree</field>
+            <field name="name">Custom views - Partner tree</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="custom_views.view_partner_tree_custom_view"/>
             <field name="priority">17</field>
@@ -210,7 +210,7 @@
         </record>
 
         <record id="action_res_partner_special" model="ir.actions.act_window">
-            <field name="name">Partners special form</field>
+            <field name="name">Custom views - Partners special form</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>

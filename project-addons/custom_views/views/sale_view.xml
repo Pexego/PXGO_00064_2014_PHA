@@ -13,7 +13,7 @@
                     </attribute>
                     <attribute name="options">{'create': False, 'create_edit':False}</attribute>
                     <attribute name="width">70%</attribute>
-                    <attribute name="domain">[('customer','=',True),('pre_customer','=',False),('parent_id','=',False),('user_id','=',uid)]</attribute>
+                    <attribute name="domain">[('customer','=',True),('pre_customer','=',sample),('parent_id','=',False),('user_id','=',uid)]</attribute>
                 </field>
                 <field name="partner_invoice_id" position="attributes">
                     <attribute name="context">{'concatenate_name_comercial': not id, 'default_type': 'invoice'}</attribute>

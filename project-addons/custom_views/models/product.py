@@ -18,9 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 import openerp.addons.decimal_precision as dp
+import datetime
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -28,6 +29,16 @@ class ProductProduct(models.Model):
     is_in_current_pricelist = fields.Boolean(
             compute='_compute_is_in_current_pricelist',
             search='_search_is_in_current_pricelist')
+    year_appearance = fields.Integer('Year of appearance',
+                                     default=datetime.datetime.now().year)
+
+    @api.one
+    @api.constrains('year_appearance')
+    def _check_year_of_appearance(self):
+        current_year = datetime.datetime.now().year
+        if 1956 >= self.year_appearance <= current_year:
+            raise Warning(_('Year must be between 1956 and %s.') %
+                          (current_year,))
 
     @api.multi
     def name_get(self): # Hide default_code by default

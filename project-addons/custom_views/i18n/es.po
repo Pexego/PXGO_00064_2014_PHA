@@ -407,6 +407,17 @@ msgid "Warning message"
 msgstr "Mensaje de aviso"
 
 #. module: custom_views
+#: code:addons/custom_views/models/product.py:0
+#, python-format
+msgid "Year must be between 1956 and %s."
+msgstr "Year must be between 1956 and %s."
+
+#. module: custom_views
+#: field:product.product,year_appearance:0
+msgid "Year of appearance"
+msgstr "Year of appearance"
+
+#. module: custom_views
 #: field:stock.picking,address_zip:0
 msgid "Zip"
 msgstr "Código postal"
