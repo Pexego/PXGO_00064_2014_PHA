@@ -396,6 +396,12 @@ msgid "True"
 msgstr "True"
 
 #. module: custom_views
+#: field:product.product,virtual_conservative:0
+#: field:product.template,virtual_conservative:0
+msgid "Virtual stock conservative"
+msgstr "Stock virtual conservador"
+
+#. module: custom_views
 #: code:addons/custom_views/models/stock.py:0
 #, python-format
 msgid "WARNING: There are stock reservations that do not match!"

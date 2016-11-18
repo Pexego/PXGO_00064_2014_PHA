@@ -81,6 +81,10 @@ class ProductTemplate(models.Model):
                                  digits=dp.get_precision('Product Price'))
     cost_price_dl = fields.Float('Direct labor cost price',
                                  digits=dp.get_precision('Product Price'))
+    virtual_conservative = fields.Float('Virtual stock conservative',
+                           compute='_virtual_conservative',
+                           digits = dp.get_precision('Product Unit of Measure'),
+                           readonly=True)
 
     @api.one
     @api.depends('seller_ids')
@@ -91,6 +95,11 @@ class ProductTemplate(models.Model):
                 for pricelist in seller.pricelist_ids:
                     ids.append(pricelist.id)
         self.suppliers_pricelists = ids
+
+    @api.one
+    @api.depends('qty_available', 'outgoing_qty')
+    def _virtual_conservative(self):
+        self.virtual_conservative = self.qty_available - self.outgoing_qty
 
 
 class PricelistPartnerinfo(models.Model):
