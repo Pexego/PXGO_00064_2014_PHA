@@ -112,6 +112,18 @@ msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: custom_views
+#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
+msgid "Confirm cancellation"
+msgstr "Confirmar cancelación"
+
+#. module: custom_views
+#: code:addons/custom_views/models/stock.py:0
+#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
+#, python-format
+msgid "Confirm picking cancellation"
+msgstr "Confirme la cancelación del albarán"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice_confirm
 msgid "Confirm the selected invoices"
 msgstr "Confirmar las facturas seleccionadas"
@@ -288,6 +300,11 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: custom_views
+#: field:stock.history,categ_ids:0
+msgid "Product Categories"
+msgstr "Categoría extra de producto"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
@@ -341,6 +358,12 @@ msgid "Stock Move"
 msgstr "Movimiento de existencias"
 
 #. module: custom_views
+#: code:addons/custom_views/models/stock.py:0
+#, python-format
+msgid "Stock assignment warning"
+msgstr "Alerta de reserva de stock"
+
+#. module: custom_views
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
 msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
@@ -371,6 +394,17 @@ msgstr "Nombre completo del país."
 #: view:sale.order:custom_views.view_order_form_custom_view
 msgid "True"
 msgstr "True"
+
+#. module: custom_views
+#: code:addons/custom_views/models/stock.py:0
+#, python-format
+msgid "WARNING: There are stock reservations that do not match!"
+msgstr "ATENCIÓN: Las cantidades de producto del albarán no coinciden con la reserva. ¡Revise el albarán antes de continuar!"
+
+#. module: custom_views
+#: view:custom.views.warning:custom_views.custom_views_warning_form
+msgid "Warning message"
+msgstr "Mensaje de aviso"
 
 #. module: custom_views
 #: field:stock.picking,address_zip:0
@@ -473,6 +507,11 @@ msgstr "{'required': [('invoice_type', '=', 'in_invoice')]}"
 #: view:res.partner:custom_views.view_partner_form_custom_view
 msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
 msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
+
+#. module: custom_views
+#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
+msgid "Are you sure that you really want to cancel this picking?"
+msgstr "¿Desea realmente cancelar este albarán?"
 
 #. module: custom_views
 #: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form

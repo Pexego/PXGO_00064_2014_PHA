@@ -59,6 +59,8 @@
         'wizard/payment_order_create_view.xml',
         'wizard/return_product.xml',
         'wizard/product_stock_unsafety_view.xml',
+        'wizard/warning_message.xml',
+        'wizard/cancel_picking_confirmation_view.xml',
         'data/wizards_units_precision.xml',
         'security/menus.xml',
         'security/ir.model.access.csv',

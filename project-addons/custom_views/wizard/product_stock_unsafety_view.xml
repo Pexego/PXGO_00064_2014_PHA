@@ -16,20 +16,20 @@
         </record>
 
         <record id="custom_views_cancel_warnings_form" model="ir.ui.view">
-          <field name="name">Custom views - Cancel stock unsafety warnings</field>
-          <field name="model">product.stock.unsafety.cancel.warnings</field>
-          <field name="arch" type="xml">
-            <form string="Cancel stock unsafety warnings">
-              <span>¿Do you want to cancel the selected warnings?</span>
-              <footer>
-                <button name="cancel_warnings"
-                        string="Cancel warnings"
-                        type="object"
-                        class="oe_read_only oe_highlight"
-                        icon="gtk-apply"/>
-              </footer>
-            </form>
-          </field>
+            <field name="name">Custom views - Cancel stock unsafety warnings</field>
+            <field name="model">product.stock.unsafety.cancel.warnings</field>
+            <field name="arch" type="xml">
+                <form string="Cancel stock unsafety warnings">
+                    <span>¿Do you want to cancel the selected warnings?</span>
+                    <footer>
+                        <button name="cancel_warnings"
+                                string="Cancel warnings"
+                                type="object"
+                                class="oe_read_only oe_highlight"
+                                icon="gtk-apply"/>
+                    </footer>
+                </form>
+            </field>
         </record>
 
         <act_window name="Cancel warnings"
