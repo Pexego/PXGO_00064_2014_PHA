@@ -68,12 +68,16 @@ msgid "CN:"
 msgstr "CN:"
 
 #. module: custom_views
+#: field:product.product,purchase_ok:0
 #: view:stock.production.lot:custom_views.custom_views_search_product_lot
+#: view:product.stock.unsafety:custom_views.custom_views_product_stock_unsafety_filter
 msgid "Can be Purchased"
 msgstr "Puede ser comprado"
 
 #. module: custom_views
+#: field:product.product,sale_ok:0
 #: view:stock.production.lot:custom_views.custom_views_search_product_lot
+#: view:product.stock.unsafety:custom_views.custom_views_product_stock_unsafety_filter
 msgid "Can be Sold"
 msgstr "Puede ser vendido"
 

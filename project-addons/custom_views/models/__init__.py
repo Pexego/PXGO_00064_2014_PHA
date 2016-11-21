@@ -21,4 +21,5 @@
 
 import res_partner, product, account_invoice, stock_quant, \
        stock_transfer_details, sale, stock, account_payment, \
-       account_invoice_state, hr_holidays, stock_valuation_history
+       account_invoice_state, hr_holidays, stock_valuation_history, \
+       product_stock_unsafety

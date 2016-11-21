@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <record id="view_cancel_warnings_form" model="ir.ui.view">
+        <record id="custom_views_product_stock_unsafety_filter" model="ir.ui.view">
+            <field name="name">Custom views - Product stock unsafety filter</field>
+            <field name="model">product.stock.unsafety</field>
+            <field name="inherit_id" ref="product_stock_unsafety.view_product_stock_unsafety_filter"/>
+            <field name="arch" type="xml">
+                <filter name="in_progress" position="after">
+                    <separator/>
+                    <filter string="Can be Sold" domain="[('sale_ok','=',True)]"/>
+                    <separator/>
+                    <filter string="Can be Purchased" domain="[('purchase_ok','=',True)]"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="custom_views_cancel_warnings_form" model="ir.ui.view">
           <field name="name">Custom views - Cancel stock unsafety warnings</field>
           <field name="model">product.stock.unsafety.cancel.warnings</field>
           <field name="arch" type="xml">
@@ -21,7 +35,7 @@
         <act_window name="Cancel warnings"
             res_model="product.stock.unsafety.cancel.warnings"
             src_model="product.stock.unsafety"
-            view_id="view_cancel_warnings_form"
+            view_id="custom_views_cancel_warnings_form"
             view_mode="form"
             target="new"
             key2="client_action_multi"

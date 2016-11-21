@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Pharmadus I+D+i All Rights Reserved
-#    $Iván Alvarez <informatica@pharmadus.com>$
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -11,27 +11,19 @@
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
-{
-    'name': "Sales intermediary",
-    'version': '1.0',
-    'category': 'sale',
-    'description': " //static/description/index.html//",
-    'icon': '/sale_intermediary/static/description/icon.png',
-    'author': 'Pharmadus I+D+i',
-    'website': 'www.pharmadus.com',
-    "depends": ['sale',
-        'sale_stock',
-        'account',
-        'stock'],
-    "data": ['views/sale_intermediary_view.xml',
-        'data/initialization.xml'],
-    "installable": True,
-}
+from openerp import models, fields
+
+
+class ProductStockUnsafety(models.TransientModel):
+    _inherit = 'product.stock.unsafety'
+
+    sale_ok = fields.Boolean(related='product_id.sale_ok')
+    purchase_ok = fields.Boolean(related='product_id.purchase_ok')
