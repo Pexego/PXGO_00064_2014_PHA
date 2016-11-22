@@ -93,12 +93,5 @@ class SaleOrder(models.Model):
             partner_id = self.env['res.partner'].browse(partner)
             if partner_id.picking_policy:
                 res['value']['picking_policy'] = partner_id.picking_policy
-            else:
-                ir_values = self.env['ir.values']
-                picking_policy = ir_values.get_default(self.env.cr,
-                                                       self.env.user.id,
-                                                       'sale.order',
-                                                       'picking_policy')
-                res['value']['picking_policy'] = picking_policy
 
         return res
