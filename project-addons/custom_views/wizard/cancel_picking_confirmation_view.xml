@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="custom_views_picking_cancel_confirm_form" model="ir.ui.view">
+            <field name="name">Custom views - Cancel picking confirmation</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <form string="Confirm picking cancellation">
+                    <span>Are you sure that you really want to cancel this picking?</span>
+                    <footer>
+                        <button string="Confirm cancellation" name="action_cancel" type="object" icon="gtk-ok"/>
+                        <button string="NO" special="cancel" icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

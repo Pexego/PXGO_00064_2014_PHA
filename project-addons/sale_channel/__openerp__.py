@@ -27,7 +27,7 @@
     'icon': '/sale_channel/static/src/img/icon.png',
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
-    "depends": ['sale', 'stock', 'delivery'],
+    "depends": ['sale', 'stock', 'delivery', 'account'],
     "data": [
         'sale_channel_view.xml',
         'sale_channel_extra_view.xml',
@@ -37,4 +37,3 @@
     ],
     "installable": True
 }
-

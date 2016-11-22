@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -45,35 +45,35 @@ class SaleOrder(models.Model):
             res['arch'] = etree.tostring(doc)
         return res
 
-
-    def onchange_partner_id(self, cr, uid, ids, part, context=None):
-        res = super(SaleOrder, self).onchange_partner_id(cr, uid, ids, part, context)
-        intermediary = context.get('intermediary', False)
+    @api.multi
+    def onchange_partner_id(self, partner):
+        res = super(SaleOrder, self).onchange_partner_id(partner)
+        intermediary = self.env.context.get('intermediary', False)
 
         # Dynamic filters for invoice and shipping combos
-        if part and intermediary:
+        if partner and intermediary:
             res['domain'] = {
                 'partner_invoice_id': [
                     ('customer', '=', True),
                     ('pre_customer', '=', False),
-                    '|', ('parent_id', '=', part), ('id', '=', part)
+                    '|', ('parent_id', '=', partner), ('id', '=', partner)
                 ],
                 'partner_shipping_id': [
                     ('customer', '=', True),
                     ('pre_customer', '=', False)
                 ]
             }
-        elif part and not intermediary:
+        elif partner and not intermediary:
             res['domain'] = {
                 'partner_invoice_id': [
                     ('customer', '=', True),
                     ('pre_customer', '=', False),
-                    '|', ('parent_id', '=', part), ('id', '=', part)
+                    '|', ('parent_id', '=', partner), ('id', '=', partner)
                 ],
                 'partner_shipping_id': [
                     ('customer', '=', True),
                     ('pre_customer', '=', False),
-                    '|', ('parent_id', '=', part), ('id', '=', part)
+                    '|', ('parent_id', '=', partner), ('id', '=', partner)
                 ]
             }
         else:
@@ -89,13 +89,15 @@ class SaleOrder(models.Model):
             }
 
         # Recover default partner picking policy
-        if part:
-            partner_id = self.pool.get('res.partner').browse(cr, uid, part)
+        if partner:
+            partner_id = self.env['res.partner'].browse(partner)
             if partner_id.picking_policy:
                 res['value']['picking_policy'] = partner_id.picking_policy
             else:
-                ir_values = self.pool.get('ir.values')
-                picking_policy = ir_values.get_default(cr, uid, 'sale.order',
+                ir_values = self.env['ir.values']
+                picking_policy = ir_values.get_default(self.env.cr,
+                                                       self.env.user.id,
+                                                       'sale.order',
                                                        'picking_policy')
                 res['value']['picking_policy'] = picking_policy
 

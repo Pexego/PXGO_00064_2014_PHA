@@ -31,6 +31,7 @@
     'website': 'www.pexego.es',
     "depends" : ['base',
                  'sale',
+                 'account',
                  'analytic'],
     "data" : ['account_view.xml',
               'sale_view.xml',

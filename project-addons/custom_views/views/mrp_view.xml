@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_mrp_bom_special_form" model="ir.ui.view">
+            <field name="name">Custom views - BoM special form</field>
+            <field name="model">mrp.bom</field>
+            <field name="arch" type="xml">
+                <form string="Special form" create="0">
+                    <sheet>
+                        <separator string="Special form to edit fields without validations"/>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_mrp_bom_special_tree" model="ir.ui.view">
+            <field name="name">Custom views - BoM tree</field>
+            <field name="model">mrp.bom</field>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <tree create="0">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="routing_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_mrp_bom_special" model="ir.actions.act_window">
+            <field name="name">BoM special form</field>
+            <field name="res_model">mrp.bom</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[
+                            (5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('custom_views.view_mrp_bom_special_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('custom_views.view_mrp_bom_special_form')}),
+                          ]"
+            />
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_mrp_bom_special" name="Bill of materials (BoM)" parent="base.menu_config"
+            sequence="16" action="action_mrp_bom_special"/>
+    </data>
+</openerp>

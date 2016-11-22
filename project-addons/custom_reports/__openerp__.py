@@ -52,6 +52,7 @@
         'views/report_invoice_biosalud.xml',
         'views/report_lot_labels.xml',
         'views/report_shipping_address.xml',
+        'views/report_footer.xml',
         'views/account_view.xml',
         'views/account_invoice_report_view.xml',
         'views/account_payment_view.xml',

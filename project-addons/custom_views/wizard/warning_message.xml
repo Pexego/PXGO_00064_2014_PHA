@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="custom_views_warning_form" model="ir.ui.view">
+            <field name="name">Custom views - Warning message</field>
+            <field name="model">custom.views.warning</field>
+            <field name="arch" type="xml">
+                <form string="Warning message">
+                    <field name="message" readonly="1"/>
+                    <footer>
+                        <button string="OK" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

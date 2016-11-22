@@ -31,6 +31,7 @@ class AccountInvoiceReport(models.Model):
     partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
+    categ_ids = fields.Many2many(related='product_id.categ_ids')
     third_parties = fields.Char('Third parties')
     shipping_country_id = fields.Many2one('res.country', 'Shipping country')
     invoicing_state_id = fields.Many2one('res.country.state', 'Invoicing state')

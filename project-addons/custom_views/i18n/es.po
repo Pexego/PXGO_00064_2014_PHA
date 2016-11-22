@@ -112,6 +112,18 @@ msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: custom_views
+#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
+msgid "Confirm cancellation"
+msgstr "Confirmar cancelación"
+
+#. module: custom_views
+#: code:addons/custom_views/models/stock.py:0
+#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
+#, python-format
+msgid "Confirm picking cancellation"
+msgstr "Confirme la cancelación del albarán"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice_confirm
 msgid "Confirm the selected invoices"
 msgstr "Confirmar las facturas seleccionadas"
@@ -253,6 +265,16 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_res_partner_special
+msgid "Partners"
+msgstr "Empresas"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_res_partner_special
+msgid "Partners special form"
+msgstr "Edición especial de clientes y proveedores"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_payment_mode
 msgid "Payment Mode"
 msgstr "Modo de pago"
@@ -276,6 +298,11 @@ msgstr "Elementos del asistente de albarán"
 #: model:ir.model,name:custom_views.model_product_product
 msgid "Product"
 msgstr "Producto"
+
+#. module: custom_views
+#: field:stock.history,categ_ids:0
+msgid "Product Categories"
+msgstr "Categoría extra de producto"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_product_template
@@ -316,9 +343,25 @@ msgid "Shipping Policy"
 msgstr "Política de facturación"
 
 #. module: custom_views
+#: view:res.partner:custom_views.view_partner_special_form
+msgid "Special form"
+msgstr "Formulario especial"
+
+#. module: custom_views
+#: view:res.partner:custom_views.view_partner_special_form
+msgid "Special form to edit fields without validations"
+msgstr "Formulario especial para editar campos sin validaciones"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
+
+#. module: custom_views
+#: code:addons/custom_views/models/stock.py:0
+#, python-format
+msgid "Stock assignment warning"
+msgstr "Alerta de reserva de stock"
 
 #. module: custom_views
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
@@ -351,6 +394,34 @@ msgstr "Nombre completo del país."
 #: view:sale.order:custom_views.view_order_form_custom_view
 msgid "True"
 msgstr "True"
+
+#. module: custom_views
+#: field:product.product,virtual_conservative:0
+#: field:product.template,virtual_conservative:0
+msgid "Virtual stock conservative"
+msgstr "Stock virtual conservador"
+
+#. module: custom_views
+#: code:addons/custom_views/models/stock.py:0
+#, python-format
+msgid "WARNING: There are stock reservations that do not match!"
+msgstr "ATENCIÓN: Las cantidades de producto del albarán no coinciden con la reserva. ¡Revise el albarán antes de continuar!"
+
+#. module: custom_views
+#: view:custom.views.warning:custom_views.custom_views_warning_form
+msgid "Warning message"
+msgstr "Mensaje de aviso"
+
+#. module: custom_views
+#: code:addons/custom_views/models/product.py:0
+#, python-format
+msgid "Year must be between 1956 and %s."
+msgstr "Year must be between 1956 and %s."
+
+#. module: custom_views
+#: field:product.product,year_appearance:0
+msgid "Year of appearance"
+msgstr "Year of appearance"
 
 #. module: custom_views
 #: field:stock.picking,address_zip:0
@@ -453,6 +524,11 @@ msgstr "{'required': [('invoice_type', '=', 'in_invoice')]}"
 #: view:res.partner:custom_views.view_partner_form_custom_view
 msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
 msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
+
+#. module: custom_views
+#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
+msgid "Are you sure that you really want to cancel this picking?"
+msgstr "¿Desea realmente cancelar este albarán?"
 
 #. module: custom_views
 #: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form

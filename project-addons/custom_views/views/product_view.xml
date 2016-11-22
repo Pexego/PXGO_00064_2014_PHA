@@ -35,7 +35,6 @@
             </field>
         </record>
 
-
         <!-- Sales: Products default to tree view -->
         <record id="product_template_action_tree_view_custom_view" model="ir.actions.act_window">
             <field name="name">Products</field>
@@ -104,7 +103,6 @@
                   sequence="1"
         />
 
-
         <!-- MRP: Products default to tree view -->
         <record id="product_template_action_mrp_custom_view" model="ir.actions.act_window">
             <field name="name">Products</field>
@@ -135,7 +133,6 @@
             </field>
         </record>
 
-
         <record id="product_template_form_view_custom_view" model="ir.ui.view">
             <field name="name">product.template.common.form</field>
             <field name="model">product.template</field>
@@ -164,14 +161,28 @@
             </field>
         </record>
 
-
-        <record id="view_stock_product_template_tree" model="ir.ui.view">
-            <field name="name">product.template.stock.tree.inherit.customview</field>
+        <record id="custom_views_stock_product_template_tree" model="ir.ui.view">
+            <field name="name">Custom views - Product template stock tree</field>
             <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="inherit_id" ref="stock.view_stock_product_template_tree"/>
+            <field name="priority">17</field>
             <field name="arch" type="xml">
+                <field name="uom_id" position="replace"></field>
                 <field name="virtual_available" position="after">
+                    <field name="virtual_conservative" style="max-width: 100px;"/>
                     <field name="uom_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="custom_views_product_normal_form" model="ir.ui.view">
+            <field name="name">Custom views - Product year of appearance form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">8</field>
+            <field name="arch" type="xml">
+                <field name="lst_price" position="after">
+                    <field name="year_appearance"/>
                 </field>
             </field>
         </record>

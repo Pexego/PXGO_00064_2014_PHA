@@ -590,7 +590,7 @@ msgstr "Lote"
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Lot | Approved | Best before | Quantity"
-msgstr "Lote | Aprobado | Caducidad | Cantidad"
+msgstr "Lote | Aprobado | Cons. preferente | Cantidad"
 
 #. module: warehouse_shipping_light
 #: view:stock.transfer_details:warehouse_shipping_light.view_stock_enter_transfer_shipping_details
