@@ -58,9 +58,20 @@ msgid "Already exists an invoice for %s with this reference %s"
 msgstr "Ya existe una factura de %s con esta referencia %s"
 
 #. module: custom_views
+#: field:account.invoice,banking_mandate_needed:0
 #: field:payment.mode,banking_mandate_needed:0
 msgid "Banking mandate needed?"
 msgstr "¿Necesita mandato bancario?"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Lista de materiales"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_mrp_bom_special
+msgid "Bill of materials (BoM)"
+msgstr "Listas de materiales (LdM)"
 
 #. module: custom_views
 #: view:product.product:custom_views.product_kanban_view

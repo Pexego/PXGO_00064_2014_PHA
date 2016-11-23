@@ -16,17 +16,29 @@
             </field>
         </record>
 
-        <record id="view_mrp_bom_special_tree" model="ir.ui.view">
+        <record id="view_mrp_bom_normal_tree" model="ir.ui.view">
             <field name="name">Custom views - BoM tree</field>
             <field name="model">mrp.bom</field>
-            <field name="priority">17</field>
+            <field name="mode">primary</field>
             <field name="arch" type="xml">
-                <tree create="0">
+                <tree>
                     <field name="name"/>
                     <field name="code"/>
                     <field name="product_id"/>
                     <field name="product_qty"/>
                     <field name="routing_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mrp_bom_special_tree" model="ir.ui.view">
+            <field name="name">Custom views - BoM special tree</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="custom_views.view_mrp_bom_normal_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">0</attribute>
                 </tree>
             </field>
         </record>
