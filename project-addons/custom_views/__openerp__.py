@@ -64,6 +64,8 @@
         'wizard/warning_message.xml',
         'wizard/cancel_picking_confirmation_view.xml',
         'data/wizards_units_precision.xml',
+        'data/ir.actions.act_window.xml',
+        'data/ir.actions.act_window.csv',
         'security/menus.xml',
         'security/ir.model.access.csv',
     ],

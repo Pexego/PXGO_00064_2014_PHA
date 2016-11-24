@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <delete model="ir.actions.act_window" id="mrp.product_open_bom"/>
+        <delete model="ir.actions.act_window" id="mrp.mrp_bom_form_action"/>
+        <delete model="ir.actions.act_window" id="mrp.template_open_bom"/>
+    </data>
+</openerp>

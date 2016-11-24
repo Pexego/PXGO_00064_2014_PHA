@@ -278,7 +278,7 @@ msgstr "Empresa"
 #. module: custom_views
 #: model:ir.ui.menu,name:custom_views.menu_res_partner_special
 msgid "Partners"
-msgstr "Empresas"
+msgstr "Clientes"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_res_partner_special

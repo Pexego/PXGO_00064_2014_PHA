@@ -54,7 +54,6 @@ class ResPartner(models.Model):
         orig_values = {}
         attrs = self.fields_get()
         for partner in self:
-            fields = ''
             orig_values[partner.id] = {}
             for field in vals:
                 field_value = eval('partner.' + field)
@@ -92,6 +91,7 @@ class ResPartner(models.Model):
 
         # Recover new fields values and post messages with changed data
         for partner in self:
+            fields = ''
             for field in vals:
                 field_value = eval('partner.' + field)
                 field_type = attrs[field]['type']
