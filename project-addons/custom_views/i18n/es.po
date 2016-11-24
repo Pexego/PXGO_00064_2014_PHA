@@ -359,6 +359,7 @@ msgid "Special form"
 msgstr "Formulario especial"
 
 #. module: custom_views
+#: view:mrp.bom:custom_views.view_mrp_bom_special_form
 #: view:res.partner:custom_views.view_partner_special_form
 msgid "Special form to edit fields without validations"
 msgstr "Formulario especial para editar campos sin validaciones"
