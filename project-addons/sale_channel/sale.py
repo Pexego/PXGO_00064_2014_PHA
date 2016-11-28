@@ -26,8 +26,8 @@ from openerp import models, api
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.one
-    def _prepare_invoice(self, lines):
-        result = super(SaleOrder, self)._prepare_invoice(lines)
-        result['sale_channel_id'] = self.sale_channel_id.id
+    @api.model
+    def _prepare_invoice(self, order, lines):
+        result = super(SaleOrder, self)._prepare_invoice(order, lines)
+        result['sale_channel_id'] = order.sale_channel_id.id
         return result
