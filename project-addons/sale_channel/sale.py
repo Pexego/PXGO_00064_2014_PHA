@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2014 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
 #
@@ -18,16 +20,14 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, api
 
 
-from openerp.osv import osv
-
-
-class sale_order(osv.Model):
-
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def _prepare_invoice(self, cr, uid, order, lines, context=None):
-        result = super(sale_order, self)._prepare_invoice(cr, uid, order, lines, context=context)
-        result['sale_channel_id'] = order.sale_channel_id.id
+    @api.one
+    def _prepare_invoice(self, lines):
+        result = super(SaleOrder, self)._prepare_invoice(lines)
+        result['sale_channel_id'] = self.sale_channel_id.id
         return result

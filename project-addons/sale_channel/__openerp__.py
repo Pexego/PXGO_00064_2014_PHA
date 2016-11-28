@@ -33,7 +33,7 @@
         'sale_channel_extra_view.xml',
         'sale_channel_invoice_report.xml',
         'stock_view.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
     ],
     "installable": True
 }

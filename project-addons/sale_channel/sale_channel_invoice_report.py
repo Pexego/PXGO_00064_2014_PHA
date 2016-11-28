@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2014 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
 #
@@ -18,24 +20,21 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields,osv
+from openerp import models, fields
 
 
-class my_account_invoice_report(osv.osv):
-
+class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
-    _columns = {
-        'sale_channel_id': fields.many2one('sale_channel', 'Canal de venta'),
-    }
-    _depends = {
-        'account.invoice': ['sale_channel_id'],
-    }
+    sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
 
     def _select(self):
-        return  super(my_account_invoice_report, self)._select() + ", sub.sale_channel_id as sale_channel_id"
+        return  super(AccountInvoiceReport, self)._select() + \
+                ", sub.sale_channel_id as sale_channel_id"
 
     def _sub_select(self):
-        return  super(my_account_invoice_report, self)._sub_select() + ", ai.sale_channel_id as sale_channel_id"
+        return  super(AccountInvoiceReport, self)._sub_select() + \
+                ", ai.sale_channel_id as sale_channel_id"
 
     def _group_by(self):
-        return super(my_account_invoice_report, self)._group_by() + ", ai.sale_channel_id"
+        return super(AccountInvoiceReport, self)._group_by() +\
+               ", ai.sale_channel_id"
