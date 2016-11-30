@@ -428,12 +428,12 @@ msgstr "Mensaje de aviso"
 #: code:addons/custom_views/models/product.py:0
 #, python-format
 msgid "Year must be between 1956 and %s."
-msgstr "Year must be between 1956 and %s."
+msgstr "El año debe estar comprendido entre 1956 y %s."
 
 #. module: custom_views
 #: field:product.product,year_appearance:0
 msgid "Year of appearance"
-msgstr "Year of appearance"
+msgstr "Año de aparición"
 
 #. module: custom_views
 #: field:stock.picking,address_zip:0
