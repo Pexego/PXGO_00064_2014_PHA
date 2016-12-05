@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data noupdate="1">
+
+        <record forcecreate="True" id="ir_cron_import_edi" model="ir.cron">
+            <field name="name">Import edi files</field>
+            <field eval="True" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field eval="'edi.edi'" name="model" />
+            <field eval="'import_files'" name="function" />
+        </record>
+
+    </data>
+</openerp>

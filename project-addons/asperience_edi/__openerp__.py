@@ -50,7 +50,8 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "data/export_desadv.xml",
         "data/import_recadv.xml",
         "wizard/export_edi_view.xml",
-        "data/sscc_sequence.xml"
+        "data/sscc_sequence.xml",
+        "data/ir_cron.xml"
     ],
     "images": [
         "images/asperience.png",
