@@ -144,6 +144,19 @@ class edi_parser(models.Model):
                     'col2': "EN"
                 }
                 data[filename].append(edi._create_line_csv(LIN,structs))
+                if line.lot_id:
+                    PIALIN = {
+                        'lineId': 'PIALIN',
+                        'col1': '',
+                        'col2': '',
+                        'col3': '',
+                        'col4': '',
+                        'col5': line.lot_id.name,
+                        'col6': '',
+                        'col7': '',
+                        'col8': '',
+                    }
+                    data[filename].append(edi._create_line_csv(PIALIN, structs))
                 IMDLIN = {
                     'lineId': 'IMDLIN',
                     'col1': line.name,
@@ -290,6 +303,13 @@ class edi_parser(models.Model):
             }
             data[filename].append(edi._create_line_csv(DTM,structs))
 
+            MOA = {
+                'lineId': 'MOA',
+                'col1': str(pick.amount_gross),
+                'col2': str(pick.amount_untaxed),
+            }
+            data[filename].append(edi._create_line_csv(MOA,structs))
+
             ALI = {
                 'lineId': 'ALI',
                 'col1': 'X7',
@@ -379,6 +399,13 @@ class edi_parser(models.Model):
                     'col3': line.product_uom_id.edi_code or 'PCE'
                 }
                 data[filename].append(edi._create_line_csv(QTYLIN,structs))
+                MOALIN = {
+                    'lineId': 'MOALIN',
+                    'col1': str(line.price_subtotal),
+                    'col2': str(line.price_subtotal_net),
+                    'col3': str(line.price_total),
+                }
+                data[filename].append(edi._create_line_csv(MOALIN,structs))
 
                 LOCLIN = {
                     'lineId': 'LOCLIN',
