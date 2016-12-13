@@ -75,7 +75,8 @@ class StockPicking(models.Model):
                     sum = 0
                     for quant in move.reserved_quant_ids:
                         sum += quant.qty
-                    unmatched_quantities_found = (sum not in (0, move.product_qty))
+                    diff = abs(sum - move.product_qty)
+                    unmatched_quantities_found = diff > 0.001
 
         if unmatched_quantities_found:
             return self.env['custom.views.warning'].show_message(

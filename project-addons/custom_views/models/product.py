@@ -31,6 +31,10 @@ class ProductProduct(models.Model):
             search='_search_is_in_current_pricelist')
     year_appearance = fields.Integer('Year of appearance',
                                      default=datetime.datetime.now().year)
+    manufacture_protocol = fields.Char('Manufacture protocol')
+    manufacture_proto_ver = fields.Char('Manufacture protocol version')
+    second_conditioning_protocol = fields.Char('Secondary conditioning protocol')
+    second_conditioning_proto_ver = fields.Char('Sec. conditioning proto. version')
 
     @api.one
     @api.constrains('year_appearance')

@@ -118,5 +118,19 @@
               </p>
             </field>
         </record>
+
+        <record id="view_mrp_routing_form" model="ir.ui.view">
+            <field name="name">Custom views - MRP routing form</field>
+            <field name="model">mrp.routing</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_form_view"/>
+            <field name="arch" type="xml">
+                <notebook position="before">
+                    <group col="2" colspan="2">
+                        <field name="protocol" style="max-width: 30%;"/>
+                        <field name="protocol_version" style="max-width: 30%;"/>
+                    </group>
+                </notebook>
+            </field>
+        </record>
     </data>
 </openerp>

@@ -18,9 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models
+from openerp import models, fields
 
 
 class MrpBom(models.Model):
     _inherit = 'mrp.bom'
     _order = 'name'
+
+
+class MrpRouting(models.Model):
+    _inherit = 'mrp.routing'
+
+    protocol = fields.Char('Protocol')
+    protocol_version = fields.Char('Protocol version')

@@ -25,6 +25,9 @@
                     <field name="address_zip"/>
                     <field name="address_country"/>
                 </field>
+                <field name="state" position="after">
+                    <field name="date_done"/>
+                </field>
             </field>
         </record>
 

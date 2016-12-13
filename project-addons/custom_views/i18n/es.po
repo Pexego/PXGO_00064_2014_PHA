@@ -237,6 +237,16 @@ msgid "Lots"
 msgstr "Lotes"
 
 #. module: custom_views
+#: field:product.product,manufacture_protocol:0
+msgid "Manufacture protocol"
+msgstr "Protocolo fabricación"
+
+#. module: custom_views
+#: field:product.product,manufacture_proto_ver:0
+msgid "Manufacture protocol version"
+msgstr "Versión protocolo fabric."
+
+#. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
 msgid "My Purchases"
 msgstr "Mis compras"
@@ -329,6 +339,16 @@ msgid "Products"
 msgstr "Productos"
 
 #. module: custom_views
+#: field:mrp.routing,protocol:0
+msgid "Protocol"
+msgstr "Protocolo"
+
+#. module: custom_views
+#: field:mrp.routing,protocol_version:0
+msgid "Protocol version"
+msgstr "Versión del protocolo"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_quant
 msgid "Quants"
 msgstr "Quants"
@@ -337,6 +357,16 @@ msgstr "Quants"
 #: model:ir.model,name:custom_views.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
+
+#. module: custom_views
+#: field:product.product,second_conditioning_proto_ver:0
+msgid "Sec. conditioning proto. version"
+msgstr "Versión protocolo acond. sec."
+
+#. module: custom_views
+#: field:product.product,second_conditioning_protocol:0
+msgid "Secondary conditioning protocol"
+msgstr "Protocolo acondic. secundario"
 
 #. module: custom_views
 #: field:pricelist.partnerinfo,sequence:0
