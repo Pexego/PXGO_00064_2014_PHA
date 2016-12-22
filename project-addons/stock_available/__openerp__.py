@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2015 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
 #
@@ -20,15 +22,20 @@
 ##############################################################################
 
 {
-    'name': "MRP stock available",
+    'name': 'MRP stock available',
     'version': '1.0',
     'category': 'mrp',
     'summary' : ' Returns stock available ',
     'description': " //static/description/index.html//",
-    'icon': '/stock_available/static/src/img/icon.jpg',
+    'icon': '//static/src/img/icon.jpg//',
     'author': 'Pharmadus I+D+i',
     'website': 'www.pharmadus.com',
-    "depends": ['mrp'],
-    "data": ['views/stock.xml'],
-    "installable": True
+    'depends': ['mrp', 'custom_views'],
+    'data': [
+        'views/stock_view.xml',
+        'views/product_view.xml',
+        'data/initialization.xml',
+        'security/ir.model.access.csv',
+    ],
+    'installable': True
 }

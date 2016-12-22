@@ -3,8 +3,6 @@
 #
 #    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
 #    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
-#    Copyright (C) 2015 Pharmadus I+D+i All Rights Reserved
-#    $Iván Alvarez <informatica@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -13,12 +11,21 @@
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-import stock, previsional, product
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    routing_ids = fields.Many2many(string='Production lines',
+                                   comodel_name='mrp.routing',
+                                   relation='product_mrp_routing_rel',
+                                   column1='product_id',
+                                   column2='routing_id')
