@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* quality_protocol_report
+#   * quality_protocol_report
 #
 msgid ""
 msgstr ""
@@ -1265,7 +1265,7 @@ msgstr "Protocolos de calidad"
 #. module: quality_protocol_report
 #: model:ir.ui.menu,name:quality_protocol_report.menu_quality_protocol_reports
 msgid "Quality protocols reports"
-msgstr "Quality protocols reports"
+msgstr "Gestión de protocolos"
 
 #. module: quality_protocol_report
 #: field:mrp.wrap.comprobations,quality_sample:0

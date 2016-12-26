@@ -28,6 +28,12 @@ msgid "Analysis"
 msgstr "Análisis"
 
 #. module: product_analysis
+#: model:ir.actions.act_window,name:product_analysis.product_analysis_action
+#: model:ir.ui.menu,name:product_analysis.menu_product_analysis
+msgid "Product analysis"
+msgstr "Análisis de producto"
+
+#. module: product_analysis
 #: model:ir.actions.report.xml,name:product_analysis.report_lot_analysis_certificate
 #: model:ir.ui.menu,name:product_analysis.quality_lot_menus
 msgid "Analysis certificate"
@@ -397,4 +403,3 @@ msgstr "Firma y fecha"
 #, python-format
 msgid "the consignment has not passed all analysis"
 msgstr "El lote no ha pasado todos los análisis"
-
