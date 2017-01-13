@@ -291,8 +291,11 @@
                                     t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                             </td>
                             <td class="text-right">
-                                <span t-field="l.gross_amount"
-                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                <t t-if="l.gross_amount == 0">PROMO</t>
+                                <t t-if="l.gross_amount != 0">
+                                    <span t-field="l.gross_amount"
+                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                </t>
                             </td>
                         </tr>
                     </tbody>
