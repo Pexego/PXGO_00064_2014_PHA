@@ -26,6 +26,7 @@ class StockMove(models.Model):
 
     lots_string = fields.Char(string='Lots', readonly=True, index=True)
     categ_ids = fields.Many2many(related='product_id.categ_ids')
+    purchase_amount = fields.Float(related='purchase_line_id.gross_amount')
 
     @api.multi
     def _get_related_lots_str(self):

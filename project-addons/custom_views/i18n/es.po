@@ -196,6 +196,11 @@ msgid "España"
 msgstr "España"
 
 #. module: custom_views
+#: field:stock.move,purchase_amount:0
+msgid "Gross amount"
+msgstr "Importe compra"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
