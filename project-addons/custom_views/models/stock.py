@@ -18,13 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, SUPERUSER_ID, _
+from openerp import models, fields, api, SUPERUSER_ID, _, exceptions
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
     lots_string = fields.Char(string='Lots', readonly=True, index=True)
+    categ_ids = fields.Many2many(related='product_id.categ_ids')
 
     @api.multi
     def _get_related_lots_str(self):
@@ -109,6 +110,19 @@ class StockPicking(models.Model):
             'target': 'new',
             'res_id': self.id,
         }
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    lot_state = fields.Selection(string='Lot state', related='lot_id.state')
+
+    @api.multi
+    def unlink(self):
+        if self._context.get('nodelete', False):
+            raise exceptions.Warning(_('Deletion avoided'),
+                                     _('Quants erasing is not allowed'))
+        return super(StockQuant, self).unlink()
 
 
 class StockHistory(models.Model):

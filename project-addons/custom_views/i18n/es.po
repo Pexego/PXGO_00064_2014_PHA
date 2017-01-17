@@ -165,9 +165,9 @@ msgid "Debe introducir el codigo del país antes del NIF. Para un cliente de Esp
 msgstr "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
 
 #. module: custom_views
-#: code:addons/custom_views/models/stock_quant.py:32
+#: code:addons/custom_views/models/stock.py:0
 #, python-format
-msgid "Deletion aviod"
+msgid "Deletion avoided"
 msgstr "Borrado evitado"
 
 #. module: custom_views
@@ -321,7 +321,13 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: custom_views
+#: field:product.product,alert_time:0
+msgid "Product Alert Time"
+msgstr "Tiempo de alerta producto"
+
+#. module: custom_views
 #: field:stock.history,categ_ids:0
+#: field:stock.move,categ_ids:0
 msgid "Product Categories"
 msgstr "Categoría extra de producto"
 
@@ -507,9 +513,9 @@ msgid "min-height: 100px;"
 msgstr "min-height: 100px;"
 
 #. module: custom_views
-#: code:addons/custom_views/models/stock_quant.py:33
+#: code:addons/custom_views/models/stock.py:0
 #, python-format
-msgid "quants erasing is not allowed"
+msgid "Quants erasing is not allowed"
 msgstr "No está permitido borrar quants"
 
 #. module: custom_views

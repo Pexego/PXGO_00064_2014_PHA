@@ -189,8 +189,8 @@
                         <separator string="Protocols"/>
                         <group col="4">
                             <field name="manufacture_protocol"/>
-                            <field name="second_conditioning_protocol"/>
                             <field name="manufacture_proto_ver"/>
+                            <field name="second_conditioning_protocol"/>
                             <field name="second_conditioning_proto_ver"/>
                         </group>
                     </page>
