@@ -54,6 +54,7 @@ class StockPrevisionalOrders(models.Model):
     stock_available = fields.Boolean(string='Stock available', default=True)
     production_order = fields.Many2one(comodel_name='mrp.production',
                                        readonly=True)
+    note = fields.Char(string='Note for production')
     active = fields.Boolean(default=True)
 
     @api.multi
@@ -99,6 +100,7 @@ class StockPrevisionalOrders(models.Model):
             'user_id': self.env.user.id,
             'origin': _('Previsional order Nº %s') % (self.id)
         })
+        order.message_post(body=self.note)
         self.production_order = order
 
         return {

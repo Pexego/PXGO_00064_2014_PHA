@@ -58,6 +58,7 @@
                                 <field name="product_id" domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
                                 <field name="bom_id"/>
                                 <field name="line_id"/>
+                                <field name="note"/>
                                 <field name="product_qty"/>
                                 <field name="stock_available" invisible="1"/>
                                 <button string="Create production order"
