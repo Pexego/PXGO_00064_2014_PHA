@@ -27,29 +27,26 @@ class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
 
     sscc = fields.Char('SSCC')
-    price_subtotal = fields.Float(
-        compute='_get_subtotal', string="Subtotal",
-        digits=dp.get_precision('Account'), readonly=True,
-        store=True, multi=True)
-    price_subtotal_net = fields.Float(
-        compute='_get_subtotal', string="Net subtotal",
+
+
+class StockMove(models.Model):
+
+    _inherit = 'stock.move'
+
+    price_subtotal_gross = fields.Float(
+        compute='_get_total', string="Subtotal gross",
         digits=dp.get_precision('Account'), readonly=True,
         store=True, multi=True)
     price_total = fields.Float(
-        compute='_get_subtotal', string="Total",
+        compute='_get_total', string="Total",
         digits=dp.get_precision('Account'), readonly=True,
         store=True, multi=True)
 
     @api.multi
-    @api.depends('product_id', 'product_qty')
-    def _get_subtotal(self):
+    @api.depends('product_id', 'product_uom_qty', 'procurement_id.sale_line_id')
+    def _get_total(self):
 
-        for op in self:
-            # con parche solo hay 1 movimiento enlazado
-            move = op.mapped('linked_move_operation_ids.move_id')
-            if len(move) != 1:
-                continue
-
+        for move in self:
             price_unit = 0.0
             price_unit_net = 0.0
             if move.procurement_id.sale_line_id:
@@ -61,13 +58,11 @@ class StockPackOperation(models.Model):
             else:
                 continue
 
-            op.price_subtotal = price_unit * op.product_qty
-            op.price_subtotal_net = price_unit_net * op.product_qty
+            move.price_subtotal_gross = price_unit * move.product_uom_qty
             taxes = move.procurement_id.sale_line_id.tax_id.compute_all(
-                price_unit_net, op.product_qty, op.product_id,
+                price_unit_net, move.product_uom_qty, move.product_id,
                 move.procurement_id.sale_line_id.order_id.partner_id)
-            op.price_total = taxes['total_included']
-
+            move.price_total = taxes['total_included']
 
 class StockPicking(models.Model):
 
