@@ -63,6 +63,7 @@
         'wizard/warning_message.xml',
         'wizard/cancel_picking_confirmation_view.xml',
         'data/wizards_units_precision.xml',
+        'data/mrp_procedure_type.xml',
         'security/menus.xml',
         'security/ir.model.access.csv',
     ],

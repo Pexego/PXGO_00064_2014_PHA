@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <openerp>
     <data>
         <record id="custom_views_stock_receipt_picking_tree" model="ir.ui.view">
@@ -7,6 +11,12 @@
             <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="purchase_expected_date"/>
+                </field>
+                <tree position="attributes">
+                    <attribute name="colors">grey:state == 'cancel';red:purchase_expected_date &lt; current_date</attribute>
+                </tree>
                 <button string="Scrap Products" position="after">
                     <field name="purchase_amount"/>
                 </button>

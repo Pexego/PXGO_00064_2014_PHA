@@ -1,23 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2017 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 import openerp.addons.decimal_precision as dp
@@ -31,10 +14,12 @@ class ProductProduct(models.Model):
             search='_search_is_in_current_pricelist')
     year_appearance = fields.Integer('Year of appearance',
                                      default=datetime.datetime.now().year)
-    manufacture_protocol = fields.Char('Manufacture protocol')
-    manufacture_proto_ver = fields.Char('Manufacture protocol version')
-    second_conditioning_protocol = fields.Char('Secondary conditioning protocol')
-    second_conditioning_proto_ver = fields.Char('Sec. conditioning proto. version')
+    manufacturing_procedure_id = fields.Many2one(comodel_name='mrp.procedure',
+                              domain="[('type_id.code', '=', 'product_manufacturing')]",
+                              string='Manufacturing procedure')
+    packaging_procedure_id = fields.Many2one(comodel_name='mrp.procedure',
+                                  domain="[('type_id.code', '=', 'product_packaging')]",
+                                  string='Packaging procedure')
 
     @api.one
     @api.constrains('year_appearance')
