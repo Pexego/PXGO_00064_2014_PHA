@@ -242,6 +242,11 @@ msgid "Gross amount"
 msgstr "Importe compra"
 
 #. module: custom_views
+#: view:mrp.procedure:custom_views.view_mrp_procedure_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: custom_views
 #: field:mrp.routing,sop_handling_id:0
 msgid "Handling procedure"
 msgstr "Procedimiento de manipulación"
@@ -469,16 +474,6 @@ msgid "Search MRP procedures"
 msgstr "Búsqueda de procedimientos (PNT)"
 
 #. module: custom_views
-#: field:product.product,second_conditioning_proto_ver:0
-msgid "Sec. conditioning proto. version"
-msgstr "Versión protocolo acond. sec."
-
-#. module: custom_views
-#: field:product.product,second_conditioning_protocol:0
-msgid "Secondary conditioning protocol"
-msgstr "Protocolo acondic. secundario"
-
-#. module: custom_views
 #: field:pricelist.partnerinfo,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
@@ -577,7 +572,7 @@ msgstr "True"
 #: field:mrp.procedure,type_id:0
 #: field:mrp.procedure.type,name:0
 msgid "Type of procedure"
-msgstr "Tipo de protocolo"
+msgstr "Tipo de procedimiento"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_mrp_procedure_type
