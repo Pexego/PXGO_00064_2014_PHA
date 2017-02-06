@@ -15,5 +15,42 @@
                 </field>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="view_hr_holidays_management_form">
+            <field name="name">Custom views - HR Holidays management form</field>
+            <field name="model">hr.holidays.management</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group name="holidays_management">
+                        <div style="width: 300px;">
+                            <label for="holidays_status_id"
+                                   string="Holidays status"/>
+                            <field name="holidays_status_id"/>
+                            <button name="set_remaining_leaves_to_zero"
+                                    string="Set remaining leaves to zero"
+                                    type="object"/>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_holidays_management" model="ir.actions.act_window">
+            <field name="name">Holidays management</field>
+            <field name="res_model">hr.holidays.management</field>
+            <field name="view_type">form</field>
+            <field name="view_ids"
+                   eval="[
+                            (5, 0, 0),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('custom_views.view_hr_holidays_management_form')}),
+                          ]"
+            />
+        </record>
+
+        <menuitem id="menu_hr_holidays_management"
+                  name="Holidays management"
+                  parent="base.menu_config"
+                  sequence="15"
+                  action="action_hr_holidays_management"/>
     </data>
 </openerp>
