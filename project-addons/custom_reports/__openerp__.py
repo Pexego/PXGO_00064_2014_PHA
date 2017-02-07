@@ -29,6 +29,7 @@
     'website': 'www.pharmadus.com',
     'depends' : [
         'account',
+        'account_payment',
         'sale',
         'purchase',
         'report_webkit',
