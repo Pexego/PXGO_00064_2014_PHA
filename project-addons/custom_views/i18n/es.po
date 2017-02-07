@@ -609,6 +609,12 @@ msgid "The full name of the country."
 msgstr "Nombre completo del país."
 
 #. module: custom_views
+#: code:addons/custom_views/models/hr_holidays.py:48
+#, python-format
+msgid "There are more than one holidays status active"
+msgstr "¡CUIDADO! Hay más de un tipo de ausencia para vacaciones activo"
+
+#. module: custom_views
 #: help:stock.move,purchase_expected_date:0
 msgid "This is computed as the minimum scheduled date of all purchase order lines' products."
 msgstr "Esta fecha se calcula a partir de la fecha prevista de todas las líneas de la orden de compra."
