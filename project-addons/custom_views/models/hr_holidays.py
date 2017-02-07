@@ -27,8 +27,25 @@ class HrHolidaysManagement(models.TransientModel):
     _name = 'hr.holidays.management'
     _rec_name = 'holidays_status_id'
 
-    holidays_status_id = fields.Many2one(comodel_name='hr.holidays.status',
-                                         string='Holidays status')
+    holidays_status_id = fields.Many2one(
+        comodel_name='hr.holidays.status',
+        domain="[('limit', '=', False)]",
+        string='Holidays status')
+    current_holidays_status_id = fields.Many2one(
+        comodel_name='hr.holidays.status',
+        compute='_get_current_holidays_status',
+        string='Current holidays status')
+    remaining_days = fields.Integer(
+        string='Remaining days to set',
+        default=22)
+
+    @api.one
+    @api.depends('holidays_status_id')
+    def _get_current_holidays_status(self):
+        status_ids = self.env['hr.holidays.status'].search([('limit', '=', False)])
+        self.current_holidays_status_id = status_ids and status_ids[0] or False
+        if len(status_ids) > 1:
+            raise Warning(_('There are more than one holidays status active'))
 
     @api.multi
     def set_remaining_leaves_to_zero(self):
@@ -47,10 +64,34 @@ class HrHolidaysManagement(models.TransientModel):
                     ('type', '=', 'add')])
                 for holiday in holidays:
                     if leaves > 0:
-                        if holiday.number_of_days > leaves:
-                            leaves = leaves - holiday.number_of_days
-                            holiday.number_of_days = holiday.number_of_days - leaves
+                        remaining_days = holiday.number_of_days
+                        if remaining_days > leaves:
+                            holiday.number_of_days_temp -= leaves
                         else:
-                            leaves = leaves - holiday.number_of_days
-                            holiday.number_of_days = 0
+                            holiday.number_of_days_temp = 0
+                        leaves = leaves - remaining_days
+        return True
+
+    @api.multi
+    def set_remaining_days(self):
+        status_ids = self.env['hr.holidays.status'].search([('limit', '=', False)])
+        if len(status_ids) != 1:
+            raise Warning(_("The feature behind the field 'Remaining Legal Leaves' "
+                            "can only be used when there is only one leave type "
+                            "with the option 'Allow to Override Limit' unchecked. "
+                            "(%s Found). Otherwise, the update is ambiguous as "
+                            "we cannot decide on which leave type the update has "
+                            "to be done. \nYou may prefer to use the classic menus "
+                            "'Leave Requests' and 'Allocation Requests' located "
+                            "in 'Human Resources \ Leaves' to manage the leave days "
+                            "of the employees if the configuration does not allow "
+                            "to use this field.") % (len(status_ids)))
+
+        if not self.remaining_days or self.remaining_days < 1:
+            raise Warning(_('You must specify the number of remaining days'))
+
+        employees = self.env['hr.employee'].\
+            search([('company_id', '=', self.env.user.company_id.id)])
+        for employee in employees:
+            employee.remaining_leaves = self.remaining_days
         return True

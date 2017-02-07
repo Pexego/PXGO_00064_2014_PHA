@@ -21,7 +21,7 @@
             <field name="model">hr.holidays.management</field>
             <field name="arch" type="xml">
                 <form string="Holidays management" class="oe_form_configuration">
-                    <separator string="Holidays management"/>
+                    <separator string="Holidays reset"/>
                     <group name="holidays_management">
                         <div style="width: 300px;">
                             <label for="holidays_status_id"
@@ -29,6 +29,20 @@
                             <field name="holidays_status_id"/>
                             <button name="set_remaining_leaves_to_zero"
                                     string="Set remaining leaves to zero"
+                                    type="object"/>
+                        </div>
+                    </group>
+                    <separator string="Remaining days set"/>
+                    <group name="remaining_days_set">
+                        <div style="width: 300px;">
+                            <label for="current_holidays_status_id"
+                                   string="Current holidays status"/>
+                            <field name="current_holidays_status_id"/>
+                            <label for="remaining_days"
+                                   string="Remaining days to set"/>
+                            <field name="remaining_days"/>
+                            <button name="set_remaining_days"
+                                    string="Set remaining days"
                                     type="object"/>
                         </div>
                     </group>

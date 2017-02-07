@@ -166,14 +166,15 @@ msgid "Country Name"
 msgstr "País"
 
 #. module: custom_views
-#: field:product.template,cost_price_rm:0
-msgid "Raw material cost price"
-msgstr "Precio de coste M.P."
-
-#. module: custom_views
 #: field:product.template,cost_price_components:0
 msgid "Components cost price"
 msgstr "Precio de coste componentes"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+#: field:hr.holidays.management,current_holidays_status_id:0
+msgid "Current holidays status"
+msgstr "Tipo de ausencia actual"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_mrp_machinery
@@ -255,6 +256,24 @@ msgstr "Agrupar por"
 #: field:mrp.routing,sop_handling_id:0
 msgid "Handling procedure"
 msgstr "Procedimiento de manipulación"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+#: model:ir.actions.act_window,name:custom_views.action_hr_holidays_management
+#: model:ir.ui.menu,name:custom_views.menu_hr_holidays_management
+msgid "Holidays management"
+msgstr "Administración de vacaciones"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Holidays reset"
+msgstr "Vaciar vacaciones"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+#: field:hr.holidays.management,holidays_status_id:0
+msgid "Holidays status"
+msgstr "Tipo de ausencia"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice
@@ -469,6 +488,22 @@ msgid "Quants"
 msgstr "Quants"
 
 #. module: custom_views
+#: field:product.template,cost_price_rm:0
+msgid "Raw material cost price"
+msgstr "Precio de coste M.P."
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Remaining days set"
+msgstr "Carga de días de vacaciones"
+
+#. module: custom_views
+#: field:hr.holidays.management,remaining_days:0
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Remaining days to set"
+msgstr "Días restantes a cargar"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
@@ -482,6 +517,16 @@ msgstr "Búsqueda de procedimientos (PNT)"
 #: field:pricelist.partnerinfo,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Set remaining days"
+msgstr "Cargar días restantes"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Set remaining leaves to zero"
+msgstr "Vaciar días restantes"
 
 #. module: custom_views
 #: view:sale.order:custom_views.custom_views_sale_order_search
