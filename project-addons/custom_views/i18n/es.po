@@ -581,6 +581,13 @@ msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
 
 #. module: custom_views
+#: code:addons/custom_views/models/hr_holidays.py:79
+#, python-format
+msgid "The feature behind the field 'Remaining Legal Leaves' can only be used when there is only one leave type with the option 'Allow to Override Limit' unchecked. (%s Found). Otherwise, the update is ambiguous as we cannot decide on which leave type the update has to be done. \n"
+"You may prefer to use the classic menus 'Leave Requests' and 'Allocation Requests' located in 'Human Resources \\ Leaves' to manage the leave days of the employees if the configuration does not allow to use this field."
+msgstr "La dinámica tras el campo 'Días restantes a cargar' sólo puede ser usada cuando solo hay un tipo de ausencia sin límite en los días a gastar activa (se encontraron %s). En este caso, no sabríamos a qué tipo de ausencia cargar esos días restantes."
+
+#. module: custom_views
 #: code:addons/custom_views/models/account_invoice_state.py:43
 #, python-format
 msgid ""
