@@ -18,7 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
+from openerp import models, fields, api
+import openerp.addons.decimal_precision as dp
 
 
 class StockPackOperation(models.Model):
@@ -26,3 +27,76 @@ class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
 
     sscc = fields.Char('SSCC')
+
+
+class StockMove(models.Model):
+
+    _inherit = 'stock.move'
+
+    price_subtotal_gross = fields.Float(
+        compute='_get_total', string="Subtotal gross",
+        digits=dp.get_precision('Account'), readonly=True,
+        store=True, multi=True)
+    price_total = fields.Float(
+        compute='_get_total', string="Total",
+        digits=dp.get_precision('Account'), readonly=True,
+        store=True, multi=True)
+
+    @api.multi
+    @api.depends('product_id', 'product_uom_qty', 'procurement_id.sale_line_id')
+    def _get_total(self):
+
+        for move in self:
+            price_unit = 0.0
+            price_unit_net = 0.0
+            if move.procurement_id.sale_line_id:
+                price_unit = move.procurement_id.sale_line_id.price_unit
+                price_unit_net = (
+                    move.procurement_id.sale_line_id.price_unit *
+                    (1-(move.procurement_id.sale_line_id.discount or
+                        0.0) / 100.0))
+            else:
+                continue
+
+            move.price_subtotal_gross = price_unit * move.product_uom_qty
+            taxes = move.procurement_id.sale_line_id.tax_id.compute_all(
+                price_unit_net, move.product_uom_qty, move.product_id,
+                move.procurement_id.sale_line_id.order_id.partner_id)
+            move.price_total = taxes['total_included']
+
+class StockPicking(models.Model):
+
+    _inherit = 'stock.picking'
+
+    @api.model
+    def _invoice_create_line(self, moves, journal_id, inv_type='out_invoice'):
+        res = super(StockPicking, self)._invoice_create_line(
+            moves, journal_id, inv_type)
+        if self.env.context.get('split_invoice_lines', False):
+            for invoice in self.env['account.invoice'].browse(res):
+                for line in invoice.invoice_line:
+                    if line.move_id.linked_move_operation_ids:
+                        if len(line.move_id.linked_move_operation_ids) > 1:
+                            for operation in \
+                                    line.move_id.mapped(
+                                    'linked_move_operation_ids.operation_id'):
+                                line.copy({'quantity': operation.product_qty,
+                                           'lot_id': operation.lot_id.id})
+                            line.unlink()
+                        else:
+                            line.lot_id = line.move_id.linked_move_operation_ids.operation_id.lot_id.id
+        return res
+
+
+class StockInvoiceOnshipping(models.TransientModel):
+
+    _inherit = 'stock.invoice.onshipping'
+
+    split_invoice_lines = fields.Boolean()
+
+    @api.multi
+    def create_invoice(self):
+        return super(
+            StockInvoiceOnshipping,
+            self.with_context(
+                split_invoice_lines=self.split_invoice_lines)).create_invoice()

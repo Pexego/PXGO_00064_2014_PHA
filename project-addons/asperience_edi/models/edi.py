@@ -273,6 +273,7 @@ class edi_edi (osv.osv):
         'ftp_port_out':fields.integer('port Out'),
         'ftp_login_out':fields.char('Login Out', size=128),
         'ftp_password_out':fields.char('Password Out', size=128),
+        'auto_import': fields.boolean('Import automatically')
     }
     _defaults = {
         'path_in': lambda *a: './addons/asperience_edi/data_import/',
@@ -1261,7 +1262,11 @@ class edi_edi (osv.osv):
         message = "%s edi %s : %s %s" % (vals['type'],vals['name'],vals['object_id'],vals['write_access'])
         self.log(cr, uid, ids[0], message)
         log_obj.create(cr,uid,vals)
-edi_edi()
+
+    def import_files(self, cr, uid, context={}):
+        edi = self.search(cr, uid, [('auto_import', '=', True)], context=context)
+        self.import_csv_struct_thread(cr, uid, edi, context)
+        return True
 
 class edi_edi_log (osv.osv):
     _name = 'edi.edi.log'

@@ -13,6 +13,7 @@
                             <field name="code" />
                             <field name="type" />
                             <field name="thread" />
+                            <field name="auto_import" />
                             <notebook colspan="4">
                                 <page string="Parameters">
                                     <group colspan="4">
