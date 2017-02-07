@@ -8,6 +8,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <record id="view_mrp_bom_special_form" model="ir.ui.view">
             <field name="name">Custom views - BoM special form</field>
             <field name="model">mrp.bom</field>
+            <field name="priority">17</field>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <form string="Special form" create="0">
