@@ -32,6 +32,8 @@
         'sale',
         'purchase',
         'purchase_analytic_plans',
+        'account_payment',
+        'sale_channel',
         'sale_commission',
         'sale_samples',
         'newclient_review',

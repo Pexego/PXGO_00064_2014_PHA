@@ -198,6 +198,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <group col="2">
                             <field name="name"/>
                         </group>
+                        <group col="2">
+                            <field name="accept_more_than_one_raw_material"/>
+                        </group>
                     </group>
                     <separator string="Standard Operating Procedures"/>
                     <group col="4">

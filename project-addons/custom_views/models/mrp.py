@@ -65,6 +65,9 @@ class MrpMachinery(models.Model):
     _description = 'Production machinery'
 
     name = fields.Char('Machine', required=True)
+    accept_more_than_one_raw_material = fields.Boolean(
+        string='Accept more than one raw material?',
+        default=False)
     sop_cleaning_product_campaign_id = fields.Many2one(
         comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'machine_cleaning_product_campaign')]",
