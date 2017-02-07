@@ -75,7 +75,7 @@ class SurveyLabel(models.Model):
 
     @api.model
     def create(self, vals):
-        res = super(SurveyQuestion, self).create(vals)
+        res = super(SurveyLabel, self).create(vals)
         res.quality_survey = res.question_id.quality_survey
         return res
 

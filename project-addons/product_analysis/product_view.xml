@@ -56,5 +56,27 @@
             </field>
         </record>
 
+        <record id="product_analysis_view_search" model="ir.ui.view">
+            <field name="name">product.analysis.search</field>
+            <field name="model">product.analysis</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="">
+                   <field name="name"/>
+               </search>
+            </field>
+        </record>
+
+        <record id="product_analysis_action" model="ir.actions.act_window">
+            <field name="name">Product analysis</field>
+            <field name="res_model">product.analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_analysis_tree"/>
+            <field name="search_view_id" ref="product_analysis_view_search"/>
+        </record>
+
+        <menuitem name="Product analysis" parent="quality_management_menu.menu_quality_management_config" action="product_analysis_action" id="menu_product_analysis"/>
+
     </data>
 </openerp>

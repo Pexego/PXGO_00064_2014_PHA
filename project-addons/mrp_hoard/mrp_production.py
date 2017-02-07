@@ -25,7 +25,7 @@ class MrpProduction(models.Model):
 
     _inherit = "mrp.production"
 
-    hoard_id = fields.Many2one('stock.picking', string='hoard',
+    hoard_ids = fields.Many2many('stock.picking', string='hoard',
                                 compute='_get_hoard_picking')
     hoard_len = fields.Integer('hoard len', compute='_get_hoard_len')
     return_operation_ids = fields.One2many('stock.move.return.operations',
@@ -46,7 +46,7 @@ class MrpProduction(models.Model):
         pickings = self.env['stock.picking']
         pickings += self.mapped('move_lines.move_orig_ids.picking_id').sorted() \
             | self.mapped('move_lines2.move_orig_ids.picking_id').sorted()
-        self.hoard_id = pickings and pickings[0] or False
+        self.hoard_ids = pickings or False
 
     @api.multi
     def get_hoard(self):
@@ -54,9 +54,12 @@ class MrpProduction(models.Model):
         if not action:
             return
         action = action.read()[0]
-        res = self.env.ref('stock.view_picking_form')
-        action['views'] = [(res.id, 'form')]
-        action['res_id'] = self.hoard_id.id
+        if len(self.hoard_ids) > 1:
+            action['domain'] = "[('id','in',[" + ','.join(map(str, self.hoard_ids.ids)) + "])]"
+        else:
+            res = self.env.ref('stock.view_picking_form')
+            action['views'] = [(res.id, 'form')]
+            action['res_id'] = self.hoard_ids.id
         action['context'] = False
         return action
 
