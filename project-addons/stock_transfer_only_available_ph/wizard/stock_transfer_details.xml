@@ -3,7 +3,6 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <openerp>
     <data>
-
         <record id="view_stock_enter_transfer_details_change_context" model="ir.ui.view">
             <field name="name">stock.transfer_details.form</field>
             <field name="model">stock.transfer_details</field>
@@ -14,6 +13,5 @@
                 </field>
             </field>
         </record>
-
     </data>
 </openerp>

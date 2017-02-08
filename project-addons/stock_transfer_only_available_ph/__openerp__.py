@@ -10,6 +10,9 @@
     'author': 'Comunitea & Pharmadus I.T.',
     'website': '',
     "depends": ['stock'],
-    "data": ['wizard/stock_transfer_details.xml'],
+    "data": [
+        'views/stock_view.xml',
+        'wizard/stock_transfer_details.xml',
+    ],
     "installable": True
 }

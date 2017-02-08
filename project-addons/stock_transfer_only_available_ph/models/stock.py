@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 # © 2017 Comunitea & Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from openerp import models, api
+from openerp import models, fields, api
+
+
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    disable_availability_control = fields.Boolean(
+        string='Disable availability control (PH)?', default=False)
 
 
 class StockProductionLot(models.Model):
@@ -18,8 +25,9 @@ class StockProductionLot(models.Model):
 #                         for x in self.env['stock.warehouse'].search([])]
 #            is_stock = self.env['stock.location'].search(
 #                [('id', 'child_of', stock_ids), ('id', '=', location)])
-            is_stock = self.env['stock.location'].search(
-                [('usage', '=', 'internal'), ('id', '=', location)])
+            is_stock = self.env['stock.location'].search([
+                ('disable_availability_control', '=', False),
+                ('id', '=', location)])
             if is_stock:
                 quants = self.env['stock.quant'].search(
                     [('location_id', '=', self._context.get('location_id')),

@@ -6,7 +6,6 @@ from openerp.tools.float_utils import float_compare
 
 
 class StockTransferDetails(models.TransientModel):
-
     _inherit = 'stock.transfer_details'
 
     @api.one
@@ -19,7 +18,7 @@ class StockTransferDetails(models.TransientModel):
             if line.product_id.type == 'product':
 #                if line.sourceloc_id.id not in location_obj.search(
 #                        [('id', 'child_of', stock_loc_id)])._ids:
-                if line.sourceloc_id.usage != 'internal':
+                if line.sourceloc_id.disable_availability_control:
                     continue
                 if line.product_id.id not in totals:
                     totals[line.product_id.id] = {}
