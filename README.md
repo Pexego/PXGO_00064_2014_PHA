@@ -98,7 +98,7 @@ postgres_port = 5434        (5432 default postgres)
 
 # Contributors
 
-IT PH
+IT (PH)
 
 ## Creators
 
