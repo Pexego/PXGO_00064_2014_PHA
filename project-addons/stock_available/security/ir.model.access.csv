@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_previsional,access_stock_previsional,model_stock_previsional,,1,1,0,0
+access_stock_previsional_orders,access_stock_previsional_orders,model_stock_previsional_orders,,1,1,1,1
+access_stock_previsional_materials,access_stock_previsional_materials,model_stock_previsional_materials,,1,1,1,1

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="stock_available_form_view" model="ir.ui.view">
+            <field name="name">stock.available.form</field>
+            <field name="model">stock.available</field>
+            <field name="arch" type="xml">
+                <form string="Estimated quantity">
+                    <sheet class="oe_form_sheet_custom_width_screen">
+                        <group col="4">
+                            <field name="product_id" style="width:40%;" domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
+                            <newline/>
+                            <field name="bom_id" style="width:40%;"/>
+                            <newline/>
+                            <field name="product_qty"/>
+                            <newline/>
+                            <button name="action_compute"
+                                    string="Compute data"
+                                    type="object"
+                                    icon="terp-stock_format-scientific"/>
+                        </group>
+                        <div class="oe_title">
+                            <h1>Estimation</h1>
+                        </div>
+                        <field name="bom_lines" readonly="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_available_details_tree_view" model="ir.ui.view">
+            <field name="name">stock.available.details.tree</field>
+            <field name="model">stock.available.details</field>
+            <field name="arch" type="xml">
+                <tree string="Estimated consumption" create="false" delete="false" colors="red:qty_required > qty_vsc_available">
+                    <field name="product"/>
+                    <field name="default_code"/>
+                    <field name="qty_required"/>
+                    <field name="qty_vsc_available"/>
+                    <field name="uom"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_available_previsional_form_view" model="ir.ui.view">
+            <field name="name">Stock available previsional form</field>
+            <field name="model">stock.previsional</field>
+            <field name="arch" type="xml">
+                <form string="Previsional of stock needed to produce" create="false" delete="false">
+                    <sheet class="oe_form_sheet_custom_width_screen">
+                        <label for="orders" string="Orders to compute"/>
+                        <field name="orders" domain="[('active', '=', True)]">
+                            <tree string="Orders to compute" editable="top" colors="red:not stock_available">
+                                <field name="id"/>
+                                <field name="compute"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="product_id" domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
+                                <field name="bom_id"/>
+                                <field name="line_id"/>
+                                <field name="note"/>
+                                <field name="product_qty"/>
+                                <field name="stock_available" invisible="1"/>
+                                <button string="Create production order"
+                                        icon="gtk-redo"
+                                        name="generate_order_and_archive"
+                                        type="object"
+                                        class="oe_read_only"
+                                />
+                            </tree>
+                        </field>
+                        <separator string="" colspan="4"/>
+                        <label for="materials" string="Materials needed"/>
+                        <field name="materials">
+                            <tree string="Estimated consumption" create="false" delete="false" colors="red:qty_required > qty_vsc_available">
+                                <field name="product_id"/>
+                                <field name="default_code"/>
+                                <field name="qty_required"/>
+                                <field name="qty_vsc_available"/>
+                                <field name="uom"/>
+                                <field name="orders"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_available_previsional_order_form_view" model="ir.ui.view">
+            <field name="name">Stock available previsional orders tree</field>
+            <field name="model">stock.previsional.orders</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="product_id" domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
+                            <field name="bom_id"/>
+                            <field name="line_id"/>
+                            <field name="product_qty"/>
+                            <field name="production_order"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_available_previsional_filter" model="ir.ui.view">
+            <field name="name">Stock available previsional orders filter</field>
+            <field name="model">stock.previsional.orders</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Show all" domain="[]" context="{'active_test':False}"/>
+               </search>
+            </field>
+        </record>
+
+        <record id="stock_available_previsional_tree_view" model="ir.ui.view">
+            <field name="name">Stock available previsional orders tree</field>
+            <field name="model">stock.previsional.orders</field>
+            <field name="arch" type="xml">
+                <tree string="Orders to compute"
+                      create="true"
+                      edit="true"
+                      delete="false"
+                      editable="true">
+                    <field name="id"/>
+                    <field name="compute"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="product_id"/>
+                    <field name="bom_id"/>
+                    <field name="line_id"/>
+                    <field name="product_qty"/>
+                    <field name="production_order"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_available_previsional_calendar_view" model="ir.ui.view">
+            <field name="name">Stock available previsional orders calendar</field>
+            <field name="model">stock.previsional.orders</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Previsional orders"
+                          date_start="date_start" date_stop="date_end"
+                          color="line_id"
+                          quick_add="false"
+                          create="true"
+                          delete="false">
+                    <field name="name"/>
+                    <field name="production_order"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="stock_available_previsional_gantt_view" model="ir.ui.view">
+            <field name="name">Stock available previsional orders gantt</field>
+            <field name="model">stock.previsional.orders</field>
+            <field name="arch" type="xml">
+                <gantt date_start="date_start"
+                       date_stop="date_end"
+                       string="Previsional orders"
+                       create="true"
+                       delete="false">
+                </gantt>
+            </field>
+        </record>
+
+        <record id="stock_available_previsional_kanban_view" model="ir.ui.view">
+            <field name="name">Stock available previsional orders kanban</field>
+            <field name="model">stock.previsional.orders</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="line_id" create="false" delete="false">
+                    <field name="line_id" modifiers="{}"/>
+                    <field name="product_id" modifiers="{}"/>
+                    <field name="product_qty" modifiers="{}"/>
+                    <field name="production_order" modifiers="{}"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div>ID: <field name="id"/></div>
+                                    <div><b><field name="product_id"/></b></div>
+                                    <div><field name="product_qty"/></div>
+                                    <div><field name="date_start"/></div>
+                                    <div><field name="date_end"/></div>
+                                    <div><field name="production_order"/></div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_view_bom_stock" model="ir.actions.act_window">
+            <field name="name">Stock / BoM</field>
+            <field name="res_model">stock.available</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock_available_form_view"/>
+        </record>
+
+        <record id="action_view_bom_previsional" model="ir.actions.act_window">
+            <field name="name">Stock / BoM previsional</field>
+            <field name="res_model">stock.previsional</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock_available_previsional_form_view"/>
+            <field name="res_id">1</field>
+        </record>
+
+        <record id="action_view_bom_previsional_calendar" model="ir.actions.act_window">
+            <field name="name">Stock / BoM calendar</field>
+            <field name="res_model">stock.previsional.orders</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,gantt,kanban,tree</field>
+            <field name="view_ids"
+                   eval="[
+                            (5, 0, 0),
+                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_available.stock_available_previsional_calendar_view')}),
+                            (0, 0, {'view_mode': 'gantt', 'view_id': ref('stock_available.stock_available_previsional_gantt_view')}),
+                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('stock_available.stock_available_previsional_kanban_view')}),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_available.stock_available_previsional_tree_view')}),
+                          ]"
+            />
+        </record>
+
+        <menuitem id="menu_mrp_previsional"
+                  name="Previsional"
+                  parent="base.menu_mrp_root" sequence="3"/>
+
+        <menuitem id="menu_view_stock_available_form"
+                  parent="stock_available.menu_mrp_previsional"
+                  action="action_view_bom_stock" sequence="140"/>
+
+        <menuitem id="menu_view_stock_previsional_form"
+                  parent="stock_available.menu_mrp_previsional"
+                  action="action_view_bom_previsional" sequence="141"/>
+
+        <menuitem id="menu_view_stock_previsional_calendar"
+                  parent="stock_available.menu_mrp_previsional"
+                  action="action_view_bom_previsional_calendar" sequence="142"/>
+     </data>
+</openerp>

@@ -144,6 +144,19 @@ class edi_parser(models.Model):
                     'col2': "EN"
                 }
                 data[filename].append(edi._create_line_csv(LIN,structs))
+                if line.lot_id:
+                    PIALIN = {
+                        'lineId': 'PIALIN',
+                        'col1': '',
+                        'col2': '',
+                        'col3': '',
+                        'col4': '',
+                        'col5': line.lot_id.name,
+                        'col6': '',
+                        'col7': '',
+                        'col8': '',
+                    }
+                    data[filename].append(edi._create_line_csv(PIALIN, structs))
                 IMDLIN = {
                     'lineId': 'IMDLIN',
                     'col1': line.name,
@@ -290,6 +303,13 @@ class edi_parser(models.Model):
             }
             data[filename].append(edi._create_line_csv(DTM,structs))
 
+            MOA = {
+                'lineId': 'MOA',
+                'col1': str(pick.amount_gross),
+                'col2': str(pick.amount_untaxed),
+            }
+            data[filename].append(edi._create_line_csv(MOA,structs))
+
             ALI = {
                 'lineId': 'ALI',
                 'col1': 'X7',
@@ -328,75 +348,83 @@ class edi_parser(models.Model):
             curr_pal = False
             curr_sscc = False
             for line in sorted(pick.pack_operation_ids, key=lambda x: x.palet):
-                if not line.product_id.ean13:
-                    raise exceptions.Warning(_('EAN Error'), _('The product %s not has an EAN') % line.product_id.name)
-                if line.palet != curr_pal:
-                    curr_pal = line.palet
-                    CPS = {
-                        'lineId': 'CPS',
-                        'col1': line.palet + 1,
-                        'col2': 1
-                    }
-                    data[filename].append(edi._create_line_csv(CPS, structs))
+                for move_link in line.linked_move_operation_ids:
+                    if not line.product_id.ean13:
+                        raise exceptions.Warning(_('EAN Error'), _('The product %s not has an EAN') % line.product_id.name)
+                    if line.palet != curr_pal:
+                        curr_pal = line.palet
+                        CPS = {
+                            'lineId': 'CPS',
+                            'col1': line.palet + 1,
+                            'col2': 1
+                        }
+                        data[filename].append(edi._create_line_csv(CPS, structs))
 
-                    PAC = {
-                        'lineId': 'PAC',
-                        'col1': '201'
-                    }
-                    data[filename].append(edi._create_line_csv(PAC, structs))
-                    if not line.sscc:
-                        curr_sscc = self.make_sscc(cr, uid, context)
-                        line.write({'sscc': curr_sscc})
-                    else:
-                        curr_sscc = line.sscc
+                        PAC = {
+                            'lineId': 'PAC',
+                            'col1': '201'
+                        }
+                        data[filename].append(edi._create_line_csv(PAC, structs))
+                        if not line.sscc:
+                            curr_sscc = self.make_sscc(cr, uid, context)
+                            line.with_context(no_recompute=True).write({'sscc': curr_sscc})
+                        else:
+                            curr_sscc = line.sscc
 
-                    PCI = {
-                        'lineId': 'PCI',
-                        'col1': '33E',
-                        'col2': 'BJ',
-                        'col3': curr_sscc
+                        PCI = {
+                            'lineId': 'PCI',
+                            'col1': '33E',
+                            'col2': 'BJ',
+                            'col3': curr_sscc
+                        }
+                        data[filename].append(edi._create_line_csv(PCI, structs))
+                    # si la linea no tiene sscc se le escribe el actual
+                    elif not line.sscc:
+                        line.with_context(no_recompute=True).write({'sscc': curr_sscc})
+                    LIN = {
+                        'lineId': 'LIN',
+                        'col1': line.product_id.ean13,
+                        'col2': "EN"
                     }
-                    data[filename].append(edi._create_line_csv(PCI, structs))
-                # si la linea no tiene sscc se le escribe el actual
-                elif not line.sscc:
-                    line.write({'sscc': curr_sscc})
-                LIN = {
-                    'lineId': 'LIN',
-                    'col1': line.product_id.ean13,
-                    'col2': "EN"
-                }
-                data[filename].append(edi._create_line_csv(LIN,structs))
-                IMDLIN = {
-                    'lineId': 'IMDLIN',
-                    'col1': 'F',
-                    'col2': line.product_id.name
-                }
-                data[filename].append(edi._create_line_csv(IMDLIN,structs))
-                QTYLIN = {
-                    'lineId': 'QTYLIN',
-                    'col1': '12',
-                    'col2': line.product_qty,
-                    'col3': line.product_uom_id.edi_code or 'PCE'
-                }
-                data[filename].append(edi._create_line_csv(QTYLIN,structs))
+                    data[filename].append(edi._create_line_csv(LIN,structs))
+                    IMDLIN = {
+                        'lineId': 'IMDLIN',
+                        'col1': 'F',
+                        'col2': line.product_id.name
+                    }
+                    data[filename].append(edi._create_line_csv(IMDLIN,structs))
+                    QTYLIN = {
+                        'lineId': 'QTYLIN',
+                        'col1': '12',
+                        'col2': move_link.qty,
+                        'col3': line.product_uom_id.edi_code or 'PCE'
+                    }
+                    data[filename].append(edi._create_line_csv(QTYLIN,structs))
+                    MOALIN = {
+                        'lineId': 'MOALIN',
+                        'col1': str(move_link.move_id.price_subtotal_gross),
+                        'col2': str(move_link.move_id.price_subtotal),
+                        'col3': str(move_link.move_id.price_total),
+                    }
+                    data[filename].append(edi._create_line_csv(MOALIN,structs))
 
-                LOCLIN = {
-                    'lineId': 'LOCLIN',
-                    'col1': pick.partner_id.gln
-                }
-                data[filename].append(edi._create_line_csv(LOCLIN, structs))
-                PCILIN = {
-                    'lineId': 'PCILIN',
-                    'col1': '36E',
-                    'col2': line.lot_id.life_date and line.lot_id.life_date.split(" ")[0].replace("-","") or '',
-                    'col3': '',
-                    'col4': '',
-                    'col5': '',
-                    'col6': '',
-                    'col7': '',
-                    'col8': line.lot_id.name,
-                }
-                data[filename].append(edi._create_line_csv(PCILIN, structs))
+                    LOCLIN = {
+                        'lineId': 'LOCLIN',
+                        'col1': pick.partner_id.gln
+                    }
+                    data[filename].append(edi._create_line_csv(LOCLIN, structs))
+                    PCILIN = {
+                        'lineId': 'PCILIN',
+                        'col1': '36E',
+                        'col2': line.lot_id.life_date and line.lot_id.life_date.split(" ")[0].replace("-","") or '',
+                        'col3': '',
+                        'col4': '',
+                        'col5': '',
+                        'col6': '',
+                        'col7': '',
+                        'col8': line.lot_id.name,
+                    }
+                    data[filename].append(edi._create_line_csv(PCILIN, structs))
 
             CNTRES = {
                 'lineId': 'CNTRES',

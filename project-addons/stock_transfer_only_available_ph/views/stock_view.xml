@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea & Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="product_drop_stock_location_form" model="ir.ui.view">
+            <field name="name">Stock transfer only available (PH) - Stock location form</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <field name="scrap_location" position="after">
+                    <field name="disable_availability_control"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

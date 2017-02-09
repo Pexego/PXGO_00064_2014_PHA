@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="procedure_type_product_manufacturing" model="mrp.procedure.type">
+            <field name="name">Producto - Producción (INF)</field>
+            <field name="code">product_manufacturing</field>
+        </record>
+        <record id="procedure_type_product_packaging" model="mrp.procedure.type">
+            <field name="name">Producto - Acondicionamiento (AC2)</field>
+            <field name="code">product_packaging</field>
+        </record>
+        <record id="procedure_type_routing_manufacturing" model="mrp.procedure.type">
+            <field name="name">Línea - Fabricación</field>
+            <field name="code">routing_manufacturing</field>
+        </record>
+        <record id="procedure_type_routing_handling" model="mrp.procedure.type">
+            <field name="name">Línea - Manipulación</field>
+            <field name="code">routing_handling</field>
+        </record>
+        <record id="procedure_type_machine_cleaning_product_campaign" model="mrp.procedure.type">
+            <field name="name">Máquina - Limpieza por cambio de producto o campaña</field>
+            <field name="code">machine_cleaning_product_campaign</field>
+        </record>
+        <record id="procedure_type_machine_cleaning_maintenance" model="mrp.procedure.type">
+            <field name="name">Máquina - Limpieza y mantenimiento</field>
+            <field name="code">machine_cleaning_maintenance</field>
+        </record>
+        <record id="procedure_type_machine_operations" model="mrp.procedure.type">
+            <field name="name">Máquina - Operaciones</field>
+            <field name="code">machine_operations</field>
+        </record>
+        <record id="procedure_type_machine_maintenance" model="mrp.procedure.type">
+            <field name="name">Máquina - Mantenimiento</field>
+            <field name="code">machine_maintenance</field>
+        </record>
+        <record id="procedure_type_machine_extra_1" model="mrp.procedure.type">
+            <field name="name">Máquina - Extra 1</field>
+            <field name="code">machine_extra_1</field>
+        </record>
+    </data>
+</openerp>

@@ -28,7 +28,7 @@
     "certificate": "",
     "license": "",
     "depends": ["board", "account_payment_sale", "sale",
-                'commercial_and_financial_discount'],
+                "commercial_and_financial_discount", "stock_picking_valued"],
     "category": "Generic Modules/EDI",
     "complexity": "easy",
     "description": """
@@ -44,13 +44,15 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "views/edi.xml",
         "views/edi_board.xml",
         "views/edi_menu.xml",
+        "views/stock.xml",
         "views/edi_fields_view.xml",
         "data/import_orders.xml",
         "data/export_invoic.xml",
         "data/export_desadv.xml",
         "data/import_recadv.xml",
         "wizard/export_edi_view.xml",
-        "data/sscc_sequence.xml"
+        "data/sscc_sequence.xml",
+        "data/ir_cron.xml",
     ],
     "images": [
         "images/asperience.png",

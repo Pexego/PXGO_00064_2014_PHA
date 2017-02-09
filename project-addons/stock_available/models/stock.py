@@ -2,8 +2,8 @@
 ##############################################################################
 #
 #    Copyright (C) 2015 Pharmadus I+D+i All Rights Reserved
-#    $Iván Alvarez <informatica@pharmadus.com>$
 #    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
+#    $Iván Alvarez <informatica@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -47,8 +47,10 @@ class StockAvailableDetails(models.TransientModel):
     _rec_name = 'product'
 
     product = fields.Char(string='Product')
-    qty_required = fields.Float(string='Quantity required', digits=dp.get_precision('Product Unit of Measure'))
-    qty_available = fields.Float(string='Quantity On Hand', digits=dp.get_precision('Product Unit of Measure'))
+    default_code = fields.Char(string='Internal Reference')
+    qty_required = fields.Float(string='Quantity required', digits=(16,2))
+    qty_vsc_available = fields.Float(string='Virtual stock conservative',
+                                 digits=(16,2))
     uom = fields.Char(string='Unit of measure')
     bom_stock = fields.Many2one(comodel_name='stock.available', readonly=True)
 
@@ -65,8 +67,9 @@ class StockAvailable(models.TransientModel):
         for line in self.bom_id.bom_line_ids:
             self.bom_lines.create({
                 'product': line.product_id.name_template,
+                'default_code': line.product_id.default_code,
                 'qty_required': line.product_qty * self.product_qty,
-                'qty_available': line.product_id.qty_available,
+                'qty_vsc_available': line.product_id.virtual_conservative,
                 'uom': line.product_uom.name,
                 'bom_stock': self.id
             })

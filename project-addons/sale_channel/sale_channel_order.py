@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2014 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
 #
@@ -18,14 +20,11 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-from openerp.osv import fields, osv
 
-
-class sale_channel_order(osv.Model):
-
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    _columns = {
-        'sale_channel_id': fields.many2one('sale_channel', 'Sale channel', required=True),
-    }
+    sale_channel_id = fields.Many2one('sale.channel', 'Sale channel',
+                                      required=True)

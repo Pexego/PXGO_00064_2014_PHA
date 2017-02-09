@@ -24,6 +24,11 @@ msgid "%s Not Found with filter %s"
 msgstr "%s No encontrado con filtro %s"
 
 #. module: asperience_edi
+#: field:stock.invoice.onshipping,split_invoice_lines:0
+msgid "Split invoice lines"
+msgstr "Dividir lineas de factura por lote"
+
+#. module: asperience_edi
 #: code:addons/asperience_edi/models/edi.py:617
 #, python-format
 msgid "%s not found in CSV structured structure"

@@ -47,6 +47,17 @@ msgstr ""
 "            "
 
 #. module: custom_views
+#: field:mrp.machinery,accept_more_than_one_raw_material:0
+msgid "Accept more than one raw material?"
+msgstr "¿Aceptar más de una materia prima?"
+
+#. module: custom_views
+#: field:mrp.procedure,active:0
+#: field:stock.history,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: custom_views
 #: view:stock.picking:custom_views.view_picking_form_customview
 msgid "Agents/Consultancy"
 msgstr "Comisionistas"
@@ -58,9 +69,30 @@ msgid "Already exists an invoice for %s with this reference %s"
 msgstr "Ya existe una factura de %s con esta referencia %s"
 
 #. module: custom_views
+#: field:account.invoice,banking_mandate_needed:0
 #: field:payment.mode,banking_mandate_needed:0
 msgid "Banking mandate needed?"
 msgstr "¿Necesita mandato bancario?"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Lista de materiales"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_mrp_bom_special
+msgid "Bill of materials (BoM)"
+msgstr "Listas de materiales (LdM)"
+
+#. module: custom_views
+#: field:mrp.machinery,sop_cleaning_maintenance_id:0
+msgid "Cleaning and maintenance procedure"
+msgstr "Procedimiento de limpieza y mantenimiento"
+
+#. module: custom_views
+#: field:mrp.machinery,sop_cleaning_product_campaign_id:0
+msgid "Cleaning for product or campaign change procedure"
+msgstr "Procedimiento de limpieza por cambio de producto o campaña"
 
 #. module: custom_views
 #: view:product.product:custom_views.product_kanban_view
@@ -134,14 +166,30 @@ msgid "Country Name"
 msgstr "País"
 
 #. module: custom_views
-#: field:product.template,cost_price_rm:0
-msgid "Raw material cost price"
-msgstr "Precio de coste M.P."
-
-#. module: custom_views
 #: field:product.template,cost_price_components:0
 msgid "Components cost price"
 msgstr "Precio de coste componentes"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+#: field:hr.holidays.management,current_holidays_status_id:0
+msgid "Current holidays status"
+msgstr "Tipo de ausencia actual"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_mrp_machinery
+msgid "Custom views - MRP Machinery action"
+msgstr "Maquinaria de producción"
+
+#. module: custom_views
+#: field:mrp.procedure,date_authorized:0
+msgid "Date authorized"
+msgstr "Fecha autorización"
+
+#. module: custom_views
+#: field:mrp.procedure,date_validated:0
+msgid "Date validated"
+msgstr "Fecha validación"
 
 #. module: custom_views
 #: field:product.template,cost_price_dl:0
@@ -154,9 +202,9 @@ msgid "Debe introducir el codigo del país antes del NIF. Para un cliente de Esp
 msgstr "Debe introducir el codigo del país antes del NIF. Para un cliente de España: ES antes del NIF, ejemplo: ES93952134D"
 
 #. module: custom_views
-#: code:addons/custom_views/models/stock_quant.py:32
+#: code:addons/custom_views/models/stock.py:0
 #, python-format
-msgid "Deletion aviod"
+msgid "Deletion avoided"
 msgstr "Borrado evitado"
 
 #. module: custom_views
@@ -183,6 +231,49 @@ msgstr "EAN13:"
 #: model:stock.picking,address_country:0
 msgid "España"
 msgstr "España"
+
+#. module: custom_views
+#: field:stock.move,purchase_expected_date:0
+msgid "Expected Date"
+msgstr "Fecha prevista"
+
+#. module: custom_views
+#: field:mrp.machinery,sop_extra_1_id:0
+msgid "Extra 1 procedure"
+msgstr "Procedimiento extra 1"
+
+#. module: custom_views
+#: field:stock.move,purchase_amount:0
+msgid "Gross amount"
+msgstr "Importe compra"
+
+#. module: custom_views
+#: view:mrp.procedure:custom_views.view_mrp_procedure_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: custom_views
+#: field:mrp.routing,sop_handling_id:0
+msgid "Handling procedure"
+msgstr "Procedimiento de manipulación"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+#: model:ir.actions.act_window,name:custom_views.action_hr_holidays_management
+#: model:ir.ui.menu,name:custom_views.menu_hr_holidays_management
+msgid "Holidays management"
+msgstr "Administración de vacaciones"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Holidays reset"
+msgstr "Vaciar vacaciones"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+#: field:hr.holidays.management,holidays_status_id:0
+msgid "Holidays status"
+msgstr "Tipo de ausencia"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice
@@ -226,6 +317,58 @@ msgid "Lots"
 msgstr "Lotes"
 
 #. module: custom_views
+#: field:mrp.machinery,name:0
+msgid "Machine"
+msgstr "Máquina"
+
+#. module: custom_views
+#: field:mrp.routing,machinery_ids:0
+msgid "Machinery ids"
+msgstr "Máquinas"
+
+#. module: custom_views
+#: field:mrp.machinery,sop_maintenance_id:0
+msgid "Maintenance procedure"
+msgstr "Procedimiento de mantenimiento"
+
+#. module: custom_views
+#: field:mrp.routing,sop_manufacturing_id:0
+#: field:product.product,manufacturing_procedure_id:0
+msgid "Manufacturing procedure"
+msgstr "Procedimiento de fabricación"
+
+#. module: custom_views
+#: field:mrp.machinery,sop_operations_id:0
+msgid "Operations procedure"
+msgstr "Procedimiento de operaciones"
+
+#. module: custom_views
+#: field:product.product,packaging_procedure_id:0
+msgid "Packaging procedure"
+msgstr "Procedimiento de acondicionamiento"
+
+#. module: custom_views
+#: field:mrp.procedure,name:0
+msgid "Procedure (SOP)"
+msgstr "Procedimiento (PNT)"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_mrp_procedure_type
+msgid "Procedure (SOP) types"
+msgstr "Tipos de procedimientos (PNT)"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_mrp_procedure_type
+#: model:ir.ui.menu,name:custom_views.menu_mrp_procedure_type
+msgid "Procedures (SOP) types"
+msgstr "Tipos de procedimientos (PNT)"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_procedures_sop
+msgid "Procedures (SOP)"
+msgstr "Procedimientos (PNT)"
+
+#. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
 msgid "My Purchases"
 msgstr "Mis compras"
@@ -267,7 +410,7 @@ msgstr "Empresa"
 #. module: custom_views
 #: model:ir.ui.menu,name:custom_views.menu_res_partner_special
 msgid "Partners"
-msgstr "Empresas"
+msgstr "Clientes"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_res_partner_special
@@ -300,7 +443,13 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: custom_views
+#: field:product.product,alert_time:0
+msgid "Product Alert Time"
+msgstr "Tiempo de alerta producto"
+
+#. module: custom_views
 #: field:stock.history,categ_ids:0
+#: field:stock.move,categ_ids:0
 msgid "Product Categories"
 msgstr "Categoría extra de producto"
 
@@ -308,6 +457,22 @@ msgstr "Categoría extra de producto"
 #: model:ir.model,name:custom_views.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
+
+#. module: custom_views
+#: field:product.product,type:0
+msgid "Product Type"
+msgstr "Product Type"
+
+#. module: custom_views
+#: field:product.product,property_stock_production:0
+msgid "Production Location"
+msgstr "Ubicación de producción"
+
+#. module: custom_views
+#: model:ir.model,name:custom_views.model_mrp_machinery
+#: model:ir.ui.menu,name:custom_views.menu_mrp_machinery
+msgid "Production machinery"
+msgstr "Maquinaria de producción"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.product_normal_action_puchased_tree_view_custom_view
@@ -323,14 +488,45 @@ msgid "Quants"
 msgstr "Quants"
 
 #. module: custom_views
+#: field:product.template,cost_price_rm:0
+msgid "Raw material cost price"
+msgstr "Precio de coste M.P."
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Remaining days set"
+msgstr "Carga de días de vacaciones"
+
+#. module: custom_views
+#: field:hr.holidays.management,remaining_days:0
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Remaining days to set"
+msgstr "Días restantes a cargar"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
 
 #. module: custom_views
+#: view:mrp.procedure:custom_views.view_mrp_procedure_search
+msgid "Search MRP procedures"
+msgstr "Búsqueda de procedimientos (PNT)"
+
+#. module: custom_views
 #: field:pricelist.partnerinfo,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Set remaining days"
+msgstr "Cargar días restantes"
+
+#. module: custom_views
+#: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
+msgid "Set remaining leaves to zero"
+msgstr "Vaciar días restantes"
 
 #. module: custom_views
 #: view:sale.order:custom_views.custom_views_sale_order_search
@@ -348,9 +544,25 @@ msgid "Special form"
 msgstr "Formulario especial"
 
 #. module: custom_views
+#: view:mrp.bom:custom_views.view_mrp_bom_special_form
 #: view:res.partner:custom_views.view_partner_special_form
 msgid "Special form to edit fields without validations"
 msgstr "Formulario especial para editar campos sin validaciones"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_sop
+#: view:mrp.machinery:custom_views.view_mrp_machinery_form
+#: view:mrp.routing:custom_views.view_mrp_routing_form
+#: view:product.product:custom_views.custom_views_product_normal_form
+msgid "Standard Operating Procedures"
+msgstr "Procedimientos Normalizados de Trabajo (PNT)"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_mrp_procedure
+#: model:ir.model,name:custom_views.model_mrp_procedure
+#: field:mrp.procedure.type,procedure_ids:0
+msgid "Standard Operating Procedures (SOP)"
+msgstr "Procedimientos Normalizados de Trabajo (PNT)"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_move
@@ -367,6 +579,13 @@ msgstr "Alerta de reserva de stock"
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
 msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
+
+#. module: custom_views
+#: code:addons/custom_views/models/hr_holidays.py:79
+#, python-format
+msgid "The feature behind the field 'Remaining Legal Leaves' can only be used when there is only one leave type with the option 'Allow to Override Limit' unchecked. (%s Found). Otherwise, the update is ambiguous as we cannot decide on which leave type the update has to be done. \n"
+"You may prefer to use the classic menus 'Leave Requests' and 'Allocation Requests' located in 'Human Resources \\ Leaves' to manage the leave days of the employees if the configuration does not allow to use this field."
+msgstr "La dinámica tras el campo 'Días restantes a cargar' sólo puede ser usada cuando solo hay un tipo de ausencia sin límite en los días a gastar activa (se encontraron %s). En este caso, no sabríamos a qué tipo de ausencia cargar esos días restantes."
 
 #. module: custom_views
 #: code:addons/custom_views/models/account_invoice_state.py:43
@@ -390,10 +609,43 @@ msgid "The full name of the country."
 msgstr "Nombre completo del país."
 
 #. module: custom_views
+#: code:addons/custom_views/models/hr_holidays.py:48
+#, python-format
+msgid "There are more than one holidays status active"
+msgstr "¡CUIDADO! Hay más de un tipo de ausencia para vacaciones activo"
+
+#. module: custom_views
+#: help:stock.move,purchase_expected_date:0
+msgid "This is computed as the minimum scheduled date of all purchase order lines' products."
+msgstr "Esta fecha se calcula a partir de la fecha prevista de todas las líneas de la orden de compra."
+
+#. module: custom_views
+#: field:mrp.procedure,title:0
+msgid "Title"
+msgstr "Título"
+
+#. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_form_editable_list_custom
 #: view:sale.order:custom_views.view_order_form_custom_view
 msgid "True"
 msgstr "True"
+
+#. module: custom_views
+#: view:mrp.procedure:custom_views.view_mrp_procedure_search
+#: field:mrp.procedure,type_id:0
+#: field:mrp.procedure.type,name:0
+msgid "Type of procedure"
+msgstr "Tipo de procedimiento"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_mrp_procedure_type
+msgid "Types of Standard Operating Procedures"
+msgstr "Tipos de Procedimientos Normalizados de Trabajo"
+
+#. module: custom_views
+#: field:mrp.procedure,revision:0
+msgid "Version"
+msgstr "Revisión"
 
 #. module: custom_views
 #: field:product.product,virtual_conservative:0
@@ -416,12 +668,12 @@ msgstr "Mensaje de aviso"
 #: code:addons/custom_views/models/product.py:0
 #, python-format
 msgid "Year must be between 1956 and %s."
-msgstr "Year must be between 1956 and %s."
+msgstr "El año debe estar comprendido entre 1956 y %s."
 
 #. module: custom_views
 #: field:product.product,year_appearance:0
 msgid "Year of appearance"
-msgstr "Year of appearance"
+msgstr "Año de aparición"
 
 #. module: custom_views
 #: field:stock.picking,address_zip:0
@@ -465,9 +717,9 @@ msgid "min-height: 100px;"
 msgstr "min-height: 100px;"
 
 #. module: custom_views
-#: code:addons/custom_views/models/stock_quant.py:33
+#: code:addons/custom_views/models/stock.py:0
 #, python-format
-msgid "quants erasing is not allowed"
+msgid "Quants erasing is not allowed"
 msgstr "No está permitido borrar quants"
 
 #. module: custom_views
@@ -529,6 +781,16 @@ msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', F
 #: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
 msgid "Are you sure that you really want to cancel this picking?"
 msgstr "¿Desea realmente cancelar este albarán?"
+
+#. module: custom_views
+#: view:mrp.routing:custom_views.view_mrp_routing_form
+msgid "Associated machinery"
+msgstr "Maquinaria asociada"
+
+#. module: custom_views
+#: view:mrp.machinery:custom_views.view_mrp_machinery_form
+msgid "Associated routing lines"
+msgstr "Rutas de producción asociadas"
 
 #. module: custom_views
 #: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form

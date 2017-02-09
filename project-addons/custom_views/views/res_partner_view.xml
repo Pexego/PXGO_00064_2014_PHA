@@ -201,7 +201,7 @@
             <field name="name">Custom views - Partner tree</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="custom_views.view_partner_tree_custom_view"/>
-            <field name="priority">17</field>
+            <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <tree position="attributes">
                     <attribute name="create">0</attribute>

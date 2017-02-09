@@ -92,5 +92,22 @@
                 </filter>
             </field>
         </record>
+
+        <record id="action_edi_sale_orders" model="ir.actions.act_window">
+            <field name="name">EDI sale orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_order_tree"/>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('sale_channel_id.name', '=', 'EDI')]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
+
+        <menuitem id="menu_edi_sale_orders"
+                  name="EDI sale orders"
+                  parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="32"
+                  action="action_edi_sale_orders"/>
     </data>
 </openerp>

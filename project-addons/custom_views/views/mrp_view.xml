@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <openerp>
     <data>
         <record id="view_mrp_bom_special_form" model="ir.ui.view">
             <field name="name">Custom views - BoM special form</field>
             <field name="model">mrp.bom</field>
+            <field name="priority">17</field>
+            <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <form string="Special form" create="0">
                     <sheet>
@@ -16,17 +22,29 @@
             </field>
         </record>
 
-        <record id="view_mrp_bom_special_tree" model="ir.ui.view">
+        <record id="view_mrp_bom_normal_tree" model="ir.ui.view">
             <field name="name">Custom views - BoM tree</field>
             <field name="model">mrp.bom</field>
-            <field name="priority">17</field>
+            <field name="mode">primary</field>
             <field name="arch" type="xml">
-                <tree create="0">
+                <tree>
                     <field name="name"/>
                     <field name="code"/>
                     <field name="product_id"/>
                     <field name="product_qty"/>
                     <field name="routing_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mrp_bom_special_tree" model="ir.ui.view">
+            <field name="name">Custom views - BoM special tree</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="custom_views.view_mrp_bom_normal_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">0</attribute>
                 </tree>
             </field>
         </record>
@@ -48,5 +66,233 @@
 
         <menuitem id="menu_mrp_bom_special" name="Bill of materials (BoM)" parent="base.menu_config"
             sequence="16" action="action_mrp_bom_special"/>
+
+        <record id="mrp.template_open_bom" model="ir.actions.act_window">
+            <field name="context">{'default_product_tmpl_id': active_id, 'search_default_product_tmpl_id': active_id}</field>
+            <field name="name">Bill of Materials</field>
+            <field name="res_model">mrp.bom</field>
+            <field name="view_type">form</field>
+            <field name="view_ids"
+                   eval="[
+                            (5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('custom_views.view_mrp_bom_normal_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('mrp.mrp_bom_form_view')}),
+                          ]"
+            />
+        </record>
+
+        <record id="mrp.product_open_bom" model="ir.actions.act_window">
+            <field name="context">{'default_product_id': active_id, 'search_default_product_id': active_id}</field>
+            <field name="name">Bill of Materials</field>
+            <field name="res_model">mrp.bom</field>
+            <field name="domain">[]</field>
+            <field name="view_type">form</field>
+            <field name="view_ids"
+                   eval="[
+                            (5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('custom_views.view_mrp_bom_normal_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('mrp.mrp_bom_form_view')}),
+                          ]"
+            />
+        </record>
+
+        <record id="mrp.mrp_bom_form_action" model="ir.actions.act_window">
+            <field name="name">Bill of Materials</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.bom</field>
+            <field name="domain">[]</field>
+            <field name="view_type">form</field>
+            <field name="view_ids"
+                   eval="[
+                            (5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('custom_views.view_mrp_bom_normal_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('mrp.mrp_bom_form_view')}),
+                          ]"
+            />
+            <field name="search_view_id" ref="mrp.view_mrp_bom_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a bill of material.
+              </p><p>
+                Bills of Materials allow you to define the list of required raw
+                materials used to make a finished product; through a manufacturing
+                order or a pack of products.
+              </p><p>
+                Odoo uses these BoMs to automatically propose manufacturing
+                orders according to procurement needs.
+              </p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_procedure_search">
+            <field name="name">Custom views - MRP procedure search</field>
+            <field name="model">mrp.procedure</field>
+            <field name="arch" type="xml">
+                <search string="Search MRP procedures">
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_type" string="Type of procedure" domain="[]" context="{'group_by':'type_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_procedure_form">
+            <field name="name">Custom views - MRP procedure form</field>
+            <field name="model">mrp.procedure</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="2" colspan="1">
+                        <group col="2" style="width: 30%;">
+                            <field name="name"/>
+                            <field name="revision"/>
+                            <field name="type_id"/>
+                            <field name="date_authorized"/>
+                            <field name="date_validated"/>
+                            <field name="active"/>
+                            <field name="title"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_procedure_tree">
+            <field name="name">Custom views - MRP procedure tree</field>
+            <field name="model">mrp.procedure</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="revision"/>
+                    <field name="type_id"/>
+                    <field name="date_authorized"/>
+                    <field name="date_validated"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mrp_routing_form" model="ir.ui.view">
+            <field name="name">Custom views - MRP routing form</field>
+            <field name="model">mrp.routing</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_form_view"/>
+            <field name="arch" type="xml">
+                <notebook position="before">
+                    <separator string="Standard Operating Procedures"/>
+                    <group col="2" colspan="2">
+                        <field name="sop_manufacturing_id" style="width: 30%;"/>
+                        <field name="sop_handling_id" style="width: 30%;"/>
+                    </group>
+                    <separator string="Associated machinery"/>
+                    <field name="machinery_ids"/>
+                </notebook>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_machinery_form">
+            <field name="name">Custom views - MRP Machinery form</field>
+            <field name="model">mrp.machinery</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <group col="2">
+                            <field name="name"/>
+                        </group>
+                        <group col="2">
+                            <field name="accept_more_than_one_raw_material"/>
+                        </group>
+                    </group>
+                    <separator string="Standard Operating Procedures"/>
+                    <group col="4">
+                        <group col="2">
+                            <field name="sop_cleaning_product_campaign_id" style="width: 30%;"/>
+                            <field name="sop_cleaning_maintenance_id" style="width: 30%;"/>
+                            <field name="sop_operations_id" style="width: 30%;"/>
+                            <field name="sop_maintenance_id" style="width: 30%;"/>
+                            <field name="sop_extra_1_id" style="width: 30%;"/>
+                        </group>
+                    </group>
+                    <separator string="Associated routing lines"/>
+                    <field name="routing_ids"/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_machinery_tree">
+            <field name="name">Custom views - MRP Machinery tree</field>
+            <field name="model">mrp.machinery</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="sop_cleaning_product_campaign_id"/>
+                    <field name="sop_cleaning_maintenance_id"/>
+                    <field name="sop_operations_id"/>
+                    <field name="sop_maintenance_id"/>
+                    <field name="sop_extra_1_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_mrp_machinery">
+            <field name="name">Custom views - MRP Machinery action</field>
+            <field name="res_model">mrp.machinery</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_mrp_machinery"
+                  name="Production machinery"
+                  parent="quality_management_menu.menu_quality_management_config"
+                  sequence="16"
+                  action="action_mrp_machinery"/>
+
+        <record model="ir.actions.act_window" id="action_mrp_procedure">
+            <field name="name">Standard Operating Procedures (SOP)</field>
+            <field name="res_model">mrp.procedure</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="context">{'search_default_group_by_type':1}</field>
+        </record>
+
+        <menuitem name="Standard Operating Procedures"
+                  id="menu_sop"
+                  parent="quality_management_menu.menu_quality_management"
+                  sequence="11"/>
+
+        <menuitem id="menu_procedures_sop"
+                  name="Procedures (SOP)"
+                  parent="menu_sop"
+                  sequence="1"
+                  action="action_mrp_procedure"/>
+
+        <record model="ir.ui.view" id="view_mrp_procedure_type_tree">
+            <field name="name">Custom views - MRP procedure type tree</field>
+            <field name="model">mrp.procedure.type</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_mrp_procedure_type">
+            <field name="name">Types of Standard Operating Procedures</field>
+            <field name="res_model">mrp.procedure.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_mrp_procedure_type"
+                  name="Procedures (SOP) types"
+                  parent="quality_management_menu.menu_quality_management_config"
+                  sequence="18"
+                  action="action_mrp_procedure_type"/>
     </data>
 </openerp>

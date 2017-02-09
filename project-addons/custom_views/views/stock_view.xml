@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <openerp>
     <data>
+        <record id="custom_views_stock_receipt_picking_tree" model="ir.ui.view">
+            <field name="name">Custom views - Stock receipt picking tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="purchase_expected_date"/>
+                </field>
+                <tree position="attributes">
+                    <attribute name="colors">grey:state == 'cancel';red:purchase_expected_date &lt; current_date</attribute>
+                </tree>
+                <button string="Scrap Products" position="after">
+                    <field name="purchase_amount"/>
+                </button>
+            </field>
+        </record>
+
         <record id="view_picking_form_customview" model="ir.ui.view">
             <field name="name">stock.picking.form.customview</field>
             <field name="model">stock.picking</field>
@@ -24,6 +46,9 @@
                     <field name="address_city"/>
                     <field name="address_zip"/>
                     <field name="address_country"/>
+                </field>
+                <field name="state" position="after">
+                    <field name="date_done"/>
                 </field>
             </field>
         </record>
@@ -117,26 +142,20 @@
             </field>
         </record>
 
-        <!--record id="custom_views_stock_quant_form" model="ir.ui.view">
-            <field name="name">Custom views - Stock quant form</field>
-            <field name="model">stock.quant</field>
-            <field name="inherit_id" ref="stock.view_stock_quant_form"/>
-            <field name="arch" type="xml">
-                <field name="reservation_id" position="after">
-                    <field name="create_date"/>
-                </field>
-            </field>
-        </record>
-        <record id="custom_views_stock_quant_tree" model="ir.ui.view">
-            <field name="name">Custom views - Stock quant tree</field>
+        <record id="view_stock_quant_tree_custom_view" model="ir.ui.view">
+            <field name="name">stock.quant.tree.customview</field>
             <field name="model">stock.quant</field>
             <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
             <field name="arch" type="xml">
-                <field name="in_date" position="after">
-                    <field name="create_date"/>
+                <field name="lot_id" position="after">
+                    <field name="lot_state"/>
                 </field>
             </field>
-        </record-->
+        </record>
+
+        <record id="stock.quantsact" model="ir.actions.act_window">
+            <field name="context">{'search_default_internal_loc': 1, 'nodelete': True}</field>
+        </record>
 
         <!-- Move option to inventory control submenu and add group permissions -->
         <menuitem action="stock.action_orderpoint_form"

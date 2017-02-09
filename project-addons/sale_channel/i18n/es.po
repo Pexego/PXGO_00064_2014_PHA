@@ -33,12 +33,12 @@ msgid "Canales de venta"
 msgstr "Canales de venta"
 
 #. module: sale_channel
-#: field:sale_channel,create_uid:0
+#: field:sale.channel,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: sale_channel
-#: field:sale_channel,create_date:0
+#: field:sale.channel,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -54,7 +54,7 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: sale_channel
-#: field:sale_channel,id:0
+#: field:sale.channel,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -69,17 +69,17 @@ msgid "Invoices Statistics"
 msgstr "Estadísticas de facturas"
 
 #. module: sale_channel
-#: field:sale_channel,write_uid:0
+#: field:sale.channel,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actuación por"
 
 #. module: sale_channel
-#: field:sale_channel,write_date:0
+#: field:sale.channel,write_date:0
 msgid "Last Updated on"
 msgstr "Última actuación"
 
 #. module: sale_channel
-#: field:sale_channel,name:0
+#: field:sale.channel,name:0
 msgid "Name"
 msgstr "Nombre"
 

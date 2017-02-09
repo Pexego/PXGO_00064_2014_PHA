@@ -29,7 +29,6 @@ class ProductProduct(models.Model):
         orig_values = {}
         attrs = self.fields_get()
         for product in self:
-            fields = ''
             orig_values[product.id] = {}
             for field in vals:
                 field_value = eval('product.' + field)
@@ -44,6 +43,7 @@ class ProductProduct(models.Model):
         res = super(ProductProduct, self).write(vals)
 
         for product in self:
+            fields = ''
             for field in vals:
                 field_value = eval('product.' + field)
                 field_type = attrs[field]['type']

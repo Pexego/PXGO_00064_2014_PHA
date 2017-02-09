@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_psue_compute_sbd_wizard" model="ir.ui.view">
+            <field name="name">Product stock unsafety extended, compute stock by day wizard</field>
+            <field name="model">product.stock.by.day</field>
+            <field name="arch" type="xml">
+                <form string="Compute stock by day">
+                    <group>
+                        <label string="Wizard computes stock by day for all products."/>
+                    </group>
+                    <footer>
+                        <button name="compute_stock_by_day"
+                                string="Compute stock by day"
+                                type="object"
+                                class="oe_read_only oe_highlight"
+                                icon="terp-stock_format-scientific"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Compute stock by day"
+            res_model="product.stock.by.day"
+            src_model="product.product"
+            view_mode="form"
+            view_id="view_psue_compute_sbd_wizard"
+            target="new"
+            key2="client_action_multi"
+            id="action_psue_compute_sbd_wizard"/>
+
+        <menuitem id="menu_psue_compute_sbd_wizard"
+                  parent="stock.menu_stock_sched"
+                  action="action_psue_compute_sbd_wizard" sequence="61"/>
+    </data>
+</openerp>

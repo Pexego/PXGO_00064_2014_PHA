@@ -1,30 +1,16 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
-#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-from openerp import models, fields, api, SUPERUSER_ID, _
+# © 2017 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from openerp import models, fields, api, SUPERUSER_ID, _, exceptions
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
     lots_string = fields.Char(string='Lots', readonly=True, index=True)
+    categ_ids = fields.Many2many(related='product_id.categ_ids')
+    purchase_amount = fields.Float(related='purchase_line_id.gross_amount')
+    purchase_expected_date = fields.Date(related='picking_id.purchase_order.minimum_planned_date')
 
     @api.multi
     def _get_related_lots_str(self):
@@ -75,7 +61,8 @@ class StockPicking(models.Model):
                     sum = 0
                     for quant in move.reserved_quant_ids:
                         sum += quant.qty
-                    unmatched_quantities_found = (sum not in (0, move.product_qty))
+                    diff = abs(sum - move.product_qty)
+                    unmatched_quantities_found = diff > 0.001
 
         if unmatched_quantities_found:
             return self.env['custom.views.warning'].show_message(
@@ -108,6 +95,19 @@ class StockPicking(models.Model):
             'target': 'new',
             'res_id': self.id,
         }
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    lot_state = fields.Selection(string='Lot state', related='lot_id.state')
+
+    @api.multi
+    def unlink(self):
+        if self._context.get('nodelete', False):
+            raise exceptions.Warning(_('Deletion avoided'),
+                                     _('Quants erasing is not allowed'))
+        return super(StockQuant, self).unlink()
 
 
 class StockHistory(models.Model):
