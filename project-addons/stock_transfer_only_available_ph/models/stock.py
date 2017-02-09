@@ -12,7 +12,6 @@ class StockLocation(models.Model):
 
 
 class StockProductionLot(models.Model):
-
     _inherit = 'stock.production.lot'
 
     @api.model
@@ -21,10 +20,6 @@ class StockProductionLot(models.Model):
         if self._context.get('product_id', False) and \
                 self._context.get('location_id', False):
             location = self._context.get('location_id', False)
-#            stock_ids = [x.lot_stock_id.id
-#                         for x in self.env['stock.warehouse'].search([])]
-#            is_stock = self.env['stock.location'].search(
-#                [('id', 'child_of', stock_ids), ('id', '=', location)])
             is_stock = self.env['stock.location'].search([
                 ('disable_availability_control', '=', False),
                 ('id', '=', location)])

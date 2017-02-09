@@ -12,12 +12,9 @@ class StockTransferDetails(models.TransientModel):
     def do_detailed_transfer(self):
         picking = self.picking_id
         location_obj = self.env['stock.location']
-#        stock_loc_id = picking.picking_type_id.warehouse_id.lot_stock_id.id
         totals = {}
         for line in self.item_ids:
             if line.product_id.type == 'product':
-#                if line.sourceloc_id.id not in location_obj.search(
-#                        [('id', 'child_of', stock_loc_id)])._ids:
                 if line.sourceloc_id.disable_availability_control:
                     continue
                 if line.product_id.id not in totals:
