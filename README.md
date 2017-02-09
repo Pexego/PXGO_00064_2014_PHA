@@ -98,8 +98,7 @@ postgres_port = 5434        (5432 default postgres)
 
 # Contributors
 
-Marcos Ybarra - Pharmadus
-Pexego
+IT PH
 
 ## Creators
 
