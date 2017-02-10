@@ -2,6 +2,8 @@
 ###############################################################################
 #
 #    OpenERP, Open Source Management Solution
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2015 Pharmadus. All Rights Reserved
 #    $Marcos Ybarra <marcos.ybarra@pharmadus.com>$
 #
@@ -20,9 +22,9 @@
 #
 ###############################################################################
 
-from openerp import models, fields, _
+from openerp import models, fields
 
-class CustomGroup(models.Model):
+class ResGroups(models.Model):
     _inherit = 'res.groups'
 
-    default_sale_channel = fields.Many2one('sale_channel', 'Default sale channel')
+    default_sale_channel = fields.Many2one('sale.channel', 'Default sale channel')

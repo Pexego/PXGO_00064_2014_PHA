@@ -6,16 +6,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-03 12:20+0000\n"
-"PO-Revision-Date: 2015-09-03 14:25+0200\n"
-"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"POT-Creation-Date: 2016-10-24 12:30+0000\n"
+"PO-Revision-Date: 2016-10-24 14:39+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: stock_available
+#: field:stock.previsional.orders,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: stock_available
+#: view:product.product:stock_available.stock_available_product_normal_form
+msgid "Associated production lines"
+msgstr "Líneas de producción disponibles"
+
+#. module: stock_available
+#: view:stock.previsional.orders:stock_available.view_stock_available_orders_tree
+msgid "Create production order"
+msgstr "Crear orden de producción"
 
 #. module: stock_available
 #: model:ir.model,name:stock_available.model_stock_available
@@ -33,7 +48,7 @@ msgid "Bill of materials details"
 msgstr "Detalles de la lista de materiales"
 
 #. module: stock_available
-#: field:stock.available,bom_id:0
+#: field:stock.available,bom_id:0 field:stock.previsional.orders,bom_id:0
 msgid "Bills of materials"
 msgstr "Listas de materiales"
 
@@ -43,6 +58,11 @@ msgid "Bom stock"
 msgstr "Stock de lista de materiales"
 
 #. module: stock_available
+#: field:stock.previsional.orders,compute:0
+msgid "Compute"
+msgstr "Calcular"
+
+#. module: stock_available
 #: view:stock.available:stock_available.view_stock_available_form
 msgid "Compute data"
 msgstr "Calcular cantidades"
@@ -50,17 +70,38 @@ msgstr "Calcular cantidades"
 #. module: stock_available
 #: field:stock.available,create_uid:0
 #: field:stock.available.details,create_uid:0
+#: field:stock.previsional,create_uid:0
+#: field:stock.previsional.materials,create_uid:0
+#: field:stock.previsional.orders,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: stock_available
 #: field:stock.available,create_date:0
 #: field:stock.available.details,create_date:0
+#: field:stock.previsional,create_date:0
+#: field:stock.previsional.materials,create_date:0
+#: field:stock.previsional.orders,create_date:0
 msgid "Created on"
 msgstr "Creado el"
 
 #. module: stock_available
+#: field:stock.available,display_name:0
+#: field:stock.available.details,display_name:0
+#: field:stock.previsional,display_name:0
+#: field:stock.previsional.materials,display_name:0
+#: field:stock.previsional.orders,display_name:0
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: stock_available
+#: field:stock.previsional.orders,date_end:0
+msgid "End date"
+msgstr "Fecha fin"
+
+#. module: stock_available
 #: view:stock.available.details:stock_available.view_stock_available_details_tree
+#: view:stock.previsional.materials:stock_available.view_stock_available_materials_tree
 msgid "Estimated consumption"
 msgstr "Consumo estimado"
 
@@ -75,20 +116,122 @@ msgid "Estimation"
 msgstr "Estimación"
 
 #. module: stock_available
+#: field:stock.previsional.orders,product_id:0
+msgid "Final product"
+msgstr "Producto final"
+
+#. module: stock_available
 #: field:stock.available,id:0 field:stock.available.details,id:0
+#: field:stock.previsional.materials,id:0 field:stock.previsional.orders,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: stock_available
+#: field:stock.available.details,default_code:0
+#: field:stock.previsional.materials,default_code:0
+msgid "Internal Reference"
+msgstr "Referencia interna"
+
+#. module: stock_available
+#: field:stock.available,__last_update:0
+#: field:stock.available.details,__last_update:0
+#: field:stock.previsional,__last_update:0
+#: field:stock.previsional.materials,__last_update:0
+#: field:stock.previsional.orders,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación"
+
+#. module: stock_available
 #: field:stock.available,write_uid:0 field:stock.available.details,write_uid:0
+#: field:stock.previsional,write_uid:0
+#: field:stock.previsional.materials,write_uid:0
+#: field:stock.previsional.orders,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: stock_available
 #: field:stock.available,write_date:0
 #: field:stock.available.details,write_date:0
+#: field:stock.previsional,write_date:0
+#: field:stock.previsional.materials,write_date:0
+#: field:stock.previsional.orders,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización el"
+
+#. module: stock_available
+#: field:stock.previsional.orders,line_id:0
+msgid "Line"
+msgstr "Línea de producción"
+
+#. module: stock_available
+#: field:stock.previsional.materials,product_id:0
+msgid "Material"
+msgstr "Material"
+
+#. module: stock_available
+#: view:stock.previsional:stock_available.view_stock_available_previsional_form
+msgid "Materials needed"
+msgstr "Materiales necesarios"
+
+#. module: stock_available
+#: field:stock.previsional.orders,note:0
+msgid "Note for production"
+msgstr "Nota para producción"
+
+#. module: stock_available
+#: field:stock.previsional.orders,name:0
+msgid "Name"
+msgstr "Orden"
+
+#. module: stock_available
+#: field:stock.previsional.materials,orders:0
+#: field:stock.previsional.orders,materials:0
+msgid "Orders"
+msgstr "Órdenes"
+
+#. module: stock_available
+#: view:stock.previsional:stock_available.view_stock_available_previsional_form
+#: view:stock.previsional.orders:stock_available.view_stock_available_calendar_tree
+#: view:stock.previsional.orders:stock_available.view_stock_available_orders_tree
+msgid "Orders to compute"
+msgstr "Órdenes a calcular"
+
+#. module: stock_available
+#: model:ir.model,name:stock_available.model_stock_previsional_materials
+#: field:stock.previsional,materials:0
+msgid "Prevision of needed materials"
+msgstr "Previsión de materiales necesarios"
+
+#. module: stock_available
+#: model:ir.model,name:stock_available.model_stock_previsional_orders
+#: field:stock.previsional,orders:0
+msgid "Prevision of orders to produce"
+msgstr "Previsión de órdenes a producir"
+
+#. module: stock_available
+#: model:ir.ui.menu,name:stock_available.menu_mrp_previsional
+#: field:stock.previsional,name:0
+#: field:stock.previsional.materials,previsional:0
+#: field:stock.previsional.orders,previsional:0
+msgid "Previsional"
+msgstr "Previsor"
+
+#. module: stock_available
+#: model:ir.model,name:stock_available.model_stock_previsional
+#: view:stock.previsional:stock_available.view_stock_available_previsional_form
+msgid "Previsional of stock needed to produce"
+msgstr "Previsor de stock necesario para producir"
+
+#. module: stock_available
+#: code:addons/stock_available/models/previsional.py:0
+#, python-format
+msgid "Previsional order Nº %s"
+msgstr "Previsor, orden Nº %s"
+
+#. module: stock_available
+#: view:stock.previsional.orders:stock_available.view_stock_available_calendar_view
+msgid "Previsional orders"
+msgstr "Órdenes del previsor"
 
 #. module: stock_available
 #: field:stock.available,product_id:0 field:stock.available.details,product:0
@@ -96,12 +239,24 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: stock_available
-#: field:stock.available.details,qty_available:0
-msgid "Quantity On Hand"
-msgstr "Cantidad a mano"
+#: view:product.product:stock_available.stock_available_product_normal_form
+msgid "Production"
+msgstr "Producción"
+
+#. module: stock_available
+#: field:product.template,routing_ids:0
+msgid "Production lines"
+msgstr "Líneas de producción"
+
+#. module: stock_available
+#: field:stock.available.details,qty_vsc_available:0
+#: field:stock.previsional.materials,qty_vsc_available:0
+msgid "Virtual stock conservative"
+msgstr "Stock virtual conservador"
 
 #. module: stock_available
 #: field:stock.available.details,qty_required:0
+#: field:stock.previsional.materials,qty_required:0
 msgid "Quantity required"
 msgstr "Cantidad necesaria"
 
@@ -111,12 +266,61 @@ msgid "Quantity to calculate"
 msgstr "Cantidad a calcular"
 
 #. module: stock_available
-#: model:ir.actions.act_window,name:stock_available.action_view_bom_stock
-#: model:ir.ui.menu,name:stock_available.menu_view_stock_available_form
-msgid "Stock / LDM"
-msgstr "Stock / LDM"
+#: field:stock.previsional.orders,product_qty:0
+msgid "Quantity to predict"
+msgstr "Cantidad a prever"
 
 #. module: stock_available
-#: field:stock.available.details,uom:0
+#: field:stock.previsional.orders,production_order:0
+msgid "Production order"
+msgstr "Orden de producción"
+
+#. module: stock_available
+#: view:stock.previsional.orders:stock_available.stock_available_previsional_filter
+msgid "Show all"
+msgstr "Mostrar todo"
+
+#. module: stock_available
+#: field:stock.previsional.orders,date_start:0
+msgid "Start date"
+msgstr "Fecha inicio"
+
+#. module: stock_available
+#: model:ir.actions.act_window,name:stock_available.action_view_bom_stock
+#: model:ir.ui.menu,name:stock_available.menu_view_stock_available_form
+msgid "Stock / BoM"
+msgstr "Stock / LdM"
+
+#. module: stock_available
+#: model:ir.actions.act_window,name:stock_available.action_view_bom_previsional_calendar
+#: model:ir.ui.menu,name:stock_available.menu_view_stock_previsional_calendar
+msgid "Stock / BoM calendar"
+msgstr "Stock / LdM Calendario"
+
+#. module: stock_available
+#: model:ir.actions.act_window,name:stock_available.action_view_bom_previsional_lines
+#: model:ir.ui.menu,name:stock_available.menu_view_stock_previsional_lines_form
+msgid "Stock / BoM lines"
+msgstr "Stock / LdM Líneas"
+
+#. module: stock_available
+#: model:ir.actions.act_window,name:stock_available.action_view_bom_previsional
+#: model:ir.ui.menu,name:stock_available.menu_view_stock_previsional_form
+msgid "Stock / BoM previsional"
+msgstr "Stock / LdM Previsor"
+
+#. module: stock_available
+#: field:stock.previsional.orders,stock_available:0
+msgid "Stock available"
+msgstr "Stock disponible"
+
+#. module: stock_available
+#: code:addons/stock_available/models/previsional.py:0
+#, python-format
+msgid "The dates cannot be changed, there are an associated production order"
+msgstr "Las fechas no se pueden cambiar, ya que hay una orden de producción asociada"
+
+#. module: stock_available
+#: field:stock.available.details,uom:0 field:stock.previsional.materials,uom:0
 msgid "Unit of measure"
 msgstr "Unidad de medida"

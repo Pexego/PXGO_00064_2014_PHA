@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2014 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
 #
@@ -18,16 +20,11 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-from openerp.osv import fields, osv
 
+class SaleChannel(models.Model):
+    _name = 'sale.channel'
+    _description = 'Sale channels'
 
-class sale_channel(osv.Model):
-
-    _name = "sale_channel"
-
-    _description = "Sale channels"
-
-    _columns = {
-        'name': fields.char('Name', size=150, required=True, help=""),
-    }
+    name = fields.Char('Name', required=True)

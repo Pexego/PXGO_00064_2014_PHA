@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2014 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
 #
@@ -18,32 +20,25 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api
 
-from openerp.osv import fields, osv
 
-
-class sale_channel_invoice(osv.Model):
-
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    _columns = {
-        'sale_channel_id': fields.many2one('sale_channel', 'Sale channel', required=False),
-    }
+    sale_channel_id = fields.Many2one('sale.channel', 'Sale channel')
 
 
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
 
-class my_stock_picking(osv.osv):
-
-    _inherit = "stock.picking"
-
-    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move, context=None):
-        inv_vals = super(my_stock_picking, self)._get_invoice_vals(cr, uid, key, inv_type, journal_id, move, context=context)
+    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id, move,
+                          context=None):
+        inv_vals = super(StockPicking, self).\
+            _get_invoice_vals(cr, uid, key, inv_type, journal_id, move)
         sale = move.picking_id.sale_id
         if sale:
             inv_vals.update({
                 'sale_channel_id': sale.sale_channel_id.id,
             })
         return inv_vals
-
-
-

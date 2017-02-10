@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
+#    Copyright (C) 2016 Pharmadus I.T. All Rights Reserved
+#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #    Copyright (C) 2015 Pharmadus I+D+i All Rights Reserved
 #    $Iván Alvarez <informatica@pharmadus.com>$
 #
@@ -19,4 +21,4 @@
 #
 ##############################################################################
 
-import stock
+import stock, previsional, product
