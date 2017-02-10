@@ -37,9 +37,9 @@ class StockMove(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    address_city = fields.Char(related='partner_id.city', store=True)
-    address_zip = fields.Char(related='partner_id.zip', store=True)
-    address_country = fields.Char(related='partner_id.country_id.name', store=True)
+    address_city = fields.Char(related='partner_id.city')
+    address_zip = fields.Char(related='partner_id.zip')
+    address_country = fields.Char(related='partner_id.country_id.name')
     picking_type_desc = fields.Char(compute='_compute_picking_type_desc')
 
     @api.one
