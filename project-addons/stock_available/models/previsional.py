@@ -60,7 +60,7 @@ class StockPrevisionalOrders(models.Model):
     @api.multi
     def _compound_name(self):
         for order in self:
-            order.name =  '{} ({:d}) ID: {:d}'.\
+            order.name =  u'{} ({:d}) ID: {:d}'.\
                 format(order.product_id.name, order.product_qty, order.id)
 
     @api.onchange('product_id')
