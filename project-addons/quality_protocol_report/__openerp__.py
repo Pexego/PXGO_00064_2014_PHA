@@ -44,7 +44,6 @@
              'wizard/print_protocol_view.xml',
              'wizard/quality_print_all_protocols_view.xml',
              'views/quality_protocol_report_view.xml',
-             'views/quality_procedure_view.xml',
              'views/product_view.xml',
              'views/production_view.xml',
              'views/stock_view.xml',

@@ -1048,11 +1048,6 @@ msgid "Picking notes"
 msgstr "Notas de albarán"
 
 #. module: quality_protocol_report
-#: field:quality.protocol.report,first_procedure_id:0
-msgid "Primary procedure"
-msgstr "Procedimiento primario"
-
-#. module: quality_protocol_report
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
 #: view:quality.report.all:quality_protocol_report.quality_report_all_form
 msgid "Print"
@@ -1386,11 +1381,6 @@ msgstr "Scrap location not found."
 #: view:website:quality_protocol_report.mrp_wrap_control
 msgid "Se tomarán para control de calidad 3 muestras."
 msgstr "Se tomarán para control de calidad 3 muestras."
-
-#. module: quality_protocol_report
-#: field:quality.protocol.report,second_procedure_id:0
-msgid "Secondary procedure"
-msgstr "Procedimiento secundario"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report.line:quality_protocol_report.quality_protocol_report_line_form

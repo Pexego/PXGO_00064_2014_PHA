@@ -36,10 +36,6 @@ class QualityProtocolReport(models.Model):
     report_line_ids = fields.Many2many('quality.protocol.report.line',
                                        'quality_protocols_lines_rel',
                                        'line_id', 'protocol_id', 'Sections')
-    first_procedure_id = fields.Many2one('quality.procedure',
-                                         'Primary procedure')
-    second_procedure_id = fields.Many2one('quality.procedure',
-                                          'Secondary procedure')
     product_form_id = fields.Many2one('product.form', 'Form')
     product_container_id = fields.Many2one('product.container', 'Container')
 

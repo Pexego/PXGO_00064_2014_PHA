@@ -514,7 +514,7 @@
            <div class="quality_view">
                <div class="quality_row">
                    <ul>
-                       <li>
+                       <!--li>
                             <h4>Según procedimiento:</h4>
                             <table>
                                 <tr>
@@ -526,7 +526,7 @@
                                     <td>Edición: <span t-field='protocol.second_procedure_id.edition'/></td>
                                 </tr>
                             </table>
-                        </li>
+                        </li-->
                         <li>
                             <table>
                                 <tr>
