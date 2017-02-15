@@ -19,7 +19,6 @@
 #
 ##############################################################################
 from openerp import models, fields, api
-from datetime import date, datetime
 import openerp.addons.decimal_precision as dp
 
 
@@ -101,39 +100,38 @@ class StockMove(models.Model):
     def action_assign(self):
         """
             Se actualizan los registros de return operations unicamente si
-            los movimientos corresponden a una produccion.
+            los movimientos corresponden a una produccion, o si es un acopio.
         """
-
         super(StockMove, self).action_assign()
         if self.env.context.get('no_return_operations', False):
             return
         q_lot_ids = []
         for move in self:
-            if not move.raw_material_production_id:
-                continue
-            quants = self.env['stock.quant'].read_group(
-                [('reservation_id', '=', move.id)], ['lot_id', 'qty'],
-                ['lot_id'])
-            for quant in quants:
-                lot = quant['lot_id']
-                if lot:
-                    q_lot_ids.append(lot[0])
-                operation = self.env['stock.move.return.operations'].search(
-                    [('move_id', '=', move.id),
-                     ('lot_id', '=', lot and lot[0] or False)])
-                if operation:
-                    if operation.qty != quant['qty']:
-                        operation.qty = quant['qty']
-                    continue
-                operation_dict = {
-                    'product_id': move.product_id.id,
-                    'lot_id': lot and lot[0] or False,
-                    'qty': quant['qty'],
-                    'product_uom': move.product_uom.id,
-                    'move_id': move.id,
-                    'production_id': move.raw_material_production_id.id
-                }
-                self.env['stock.move.return.operations'].create(operation_dict)
-            for operation in move.return_operation_ids:
-                if operation.lot_id.id not in q_lot_ids:
-                    operation.unlink()
+            if move.raw_material_production_id or  \
+                    (move.move_dest_id and
+                     move.move_dest_id.raw_material_production_id):
+                op_move = move
+                if move.move_dest_id:
+                    op_move = move.move_dest_id
+                if op_move.return_operation_ids:
+                    op_move.return_operation_ids.unlink()
+
+                quants = self.env['stock.quant'].read_group(
+                    [('reservation_id', '=', move.id)], ['lot_id', 'qty'],
+                    ['lot_id'])
+                for quant in quants:
+                    lot = quant['lot_id']
+                    if lot:
+                        q_lot_ids.append(lot[0])
+                    operation = self.env['stock.move.return.operations'].search(
+                        [('move_id', '=', op_move.id),
+                         ('lot_id', '=', lot and lot[0] or False)])
+                    operation_dict = {
+                        'product_id': op_move.product_id.id,
+                        'lot_id': lot and lot[0] or False,
+                        'qty': quant['qty'],
+                        'product_uom': move.product_uom.id,
+                        'move_id': op_move.id,
+                        'production_id': op_move.raw_material_production_id.id
+                    }
+                    self.env['stock.move.return.operations'].create(operation_dict)
