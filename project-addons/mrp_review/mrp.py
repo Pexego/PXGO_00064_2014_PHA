@@ -146,7 +146,8 @@ class mrp_product_produce(models.TransientModel):
 
     @api.multi
     def do_produce(self):
-        production_id = self.env.context.get('active_id', False)
-        assert production_id, "Production Id should be specified in context as a Active ID."
-        self.env['mrp.production'].browse(production_id).signal_workflow('end_production')
+        if self.mode != 'only_produce':
+            production_id = self.env.context.get('active_id', False)
+            assert production_id, "Production Id should be specified in context as a Active ID."
+            self.env['mrp.production'].browse(production_id).signal_workflow('end_production')
         return super(mrp_product_produce,self).do_produce()

@@ -101,7 +101,7 @@ class MrpProductProduce(models.TransientModel):
                                      _('Scrap location not found.')
                                      )
         scrap_location = scrap_location[0]
-        if self.mode == 'consume_produce':
+        if self.mode in ('consume_produce', 'only_produce'):
             return super(
                 MrpProductProduce,
                 self.with_context(no_return_operations=True)).do_produce()

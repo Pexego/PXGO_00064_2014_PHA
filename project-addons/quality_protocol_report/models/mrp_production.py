@@ -31,15 +31,16 @@ class MrpProductProduce(models.TransientModel):
 
     @api.multi
     def do_produce(self):
-        production_id = self.env.context.get('active_id', False)
-        production = self.env['mrp.production'].browse(production_id)
-        docs_no_submited = []
-        for wkcenter_line in production.workcenter_lines:
-            if not wkcenter_line.doc_submited:
-                if wkcenter_line.workcenter_id.name not in docs_no_submited:
-                    docs_no_submited.append(wkcenter_line.workcenter_id.name)
-        if docs_no_submited:
-            raise exceptions.Warning(_('Document error'), _('Documents not submited: \n %s') % (','.join(docs_no_submited)))
+        if self.mode != 'only_produce':
+            production_id = self.env.context.get('active_id', False)
+            production = self.env['mrp.production'].browse(production_id)
+            docs_no_submited = []
+            for wkcenter_line in production.workcenter_lines:
+                if not wkcenter_line.doc_submited:
+                    if wkcenter_line.workcenter_id.name not in docs_no_submited:
+                        docs_no_submited.append(wkcenter_line.workcenter_id.name)
+            if docs_no_submited:
+                raise exceptions.Warning(_('Document error'), _('Documents not submited: \n %s') % (','.join(docs_no_submited)))
         return super(MrpProductProduce, self.with_context(no_return_operations=True)).do_produce()
 
 class MrpProduction(models.Model):
