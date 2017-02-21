@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="stock_move_manual_lot_form_view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form" />
+            <field name="arch" type="xml">
+                <button name="action_done" position="after">
+                    <button name="%(assign_manual_lots_action)d" type="action"
+                            string="Manual lot" class="oe_highlight"
+                            attrs="{'invisible':['|',('is_hoard_move','=',False),('state','not in',('confirmed','assigned'))]}"/>
+                    <field name="is_hoard_move" invisible="1"/>
+                </button>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_move_manual_lots_picking_form_view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form" />
+            <field name="arch" type="xml">
+                <button name="force_assign" position="after">
+                    <button name="%(assign_manual_lots_action)d" type="action"
+                            string="Manual lots" class="oe_highlight"
+                            attrs="{'invisible':['|',('is_hoard_move','=',False),('state','not in',('confirmed','assigned'))]}" />
+                    <field name="is_hoard_move" invisible="1"/>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>
