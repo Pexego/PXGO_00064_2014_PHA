@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+   
+    <template id="package_tag_report">
+
+     <style type="text/css">
+        #container{
+            height:100%;
+            width:100%;
+            display:table;
+        }
+        #t-column{
+            height: 25%;
+            width: 49.8%;
+            float: left;
+            display: table-cell;
+            margin-top:3px;
+        }
+        p{
+            font-size:22px;
+            line-height: 2px;
+        }
+    </style>
+
+        <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div id="container">
+                        <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                         <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                        <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                         <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                        <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                        <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                        <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                         <div id="t-column">
+                            <p><strong>SUCURSAL:    <span t-field="o.name"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.name"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                    </div>
+                </div>
+        </t>
+    </template>
+
+    </data>
+</openerp>

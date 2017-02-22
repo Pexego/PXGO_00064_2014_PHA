@@ -53,6 +53,9 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "wizard/export_edi_view.xml",
         "data/sscc_sequence.xml",
         "data/ir_cron.xml",
+        "report/report.xml",
+        "report/package_tag_report.xml",
+        "report/palet_tag_report.xml"
     ],
     "images": [
         "images/asperience.png",

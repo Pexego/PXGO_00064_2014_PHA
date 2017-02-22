@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- Custom paperformat, maybe margin will be 0 -->
+    <record id="my_paperformat_report" model="report.paperformat">
+          <field name="name">My paperformat report</field>
+          <field name="default" eval="True"/>
+          <field name="format">A4</field>
+          <field name="orientation">Portrait</field>
+          <field name="margin_top">3</field>
+          <field name="margin_bottom">3</field>
+          <field name="margin_left">3</field>
+          <field name="margin_right">3</field>
+    </record>
+
+    <!-- ASTRID 8 TAG REPORT -->
+    <report
+          string="Print Apli Tag of 8"
+          id="report_print_package_tag"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="asperience_edi.package_tag_report"
+          file="asperience_edi.package_tag_report"
+          menu="False"
+    />
+
+    <record id="report_print_package_tag" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record>
+
+    <!-- 4 TAG REPORT -->
+    <report
+          string="Print Tags of 4"
+          id="report_print_palet_tag"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="asperience_edi.palet_tag_report"
+          file="asperience_edi.palet_tag_report"
+          menu="False"
+    />
+
+    <record id="report_print_palet_tag" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record>
+
+
+    </data>
+</openerp>
