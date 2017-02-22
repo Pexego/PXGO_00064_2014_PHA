@@ -45,6 +45,7 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "views/edi_board.xml",
         "views/edi_menu.xml",
         "views/stock.xml",
+        "views/product.xml",
         "views/edi_fields_view.xml",
         "data/import_orders.xml",
         "data/export_invoic.xml",
