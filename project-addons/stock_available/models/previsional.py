@@ -38,17 +38,17 @@ class StockPrevisionalOrders(models.Model):
     date_start = fields.Datetime(string='Start date', default=fields.Date.today())
     date_end = fields.Datetime(string='End date', default=fields.Date.today())
     product_id = fields.Many2one(string='Final product',
-                                 comodel_name='product.template',
+                                 comodel_name='product.product',
                                  required=True)
     bom_id = fields.Many2one(string='Bills of materials',
                              comodel_name='mrp.bom',
-                             domain="[('product_tmpl_id', '=', product_id)]",
                              required=True)
     line_id = fields.Many2one(string='Line',
                               comodel_name='mrp.routing',
                               required=True)
     product_qty = fields.Integer(string='Quantity to predict')
     previsional = fields.Many2one(comodel_name='stock.previsional',
+                                  ondelete='cascade',
                                   readonly=True)
     compute = fields.Boolean(string='Compute', default=True)
     stock_available = fields.Boolean(string='Stock available', default=True)
@@ -66,10 +66,13 @@ class StockPrevisionalOrders(models.Model):
     @api.onchange('product_id')
     def update_bom(self):
         bom_ids = self.env['mrp.bom'].search(
-            [('product_tmpl_id', '=', self.product_id.id)])
+            [('product_tmpl_id', '=', self.product_id.product_tmpl_id.id)])
         self.bom_id = bom_ids[0] if bom_ids else False
         self.line_id = False
-        return {'domain': {'line_id': [('id', 'in', self.product_id.routing_ids.ids)]}}
+        return {'domain': {
+            'bom_id': [('product_tmpl_id', '=', self.product_id.product_tmpl_id.id)],
+            'line_id': [('id', 'in', self.product_id.routing_ids.ids)]}
+        }
 
     @api.onchange('date_start')
     def check_date_end(self):
@@ -100,8 +103,9 @@ class StockPrevisionalOrders(models.Model):
             'user_id': self.env.user.id,
             'origin': _('Previsional order Nº %s') % (self.id)
         })
-        order.message_post(body=self.note)
         self.production_order = order
+        if self.note:
+            order.message_post(body=self.note)
 
         return {
             'type': 'ir.actions.act_window',
@@ -147,7 +151,8 @@ class StockPrevisionalOrderMaterials(models.Model):
     uom = fields.Char(string='Unit of measure')
     orders = fields.Many2many(string='Orders',
                               comodel_name='stock.previsional.orders',
-                              relation='stock_previsional_ord_mat_rel')
+                              relation='stock_previsional_ord_mat_rel',
+                              ondelete='cascade')
     previsional = fields.Many2one(comodel_name='stock.previsional',
                                   readonly=True)
 
