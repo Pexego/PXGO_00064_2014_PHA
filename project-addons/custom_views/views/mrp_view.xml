@@ -129,6 +129,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="model">mrp.procedure</field>
             <field name="arch" type="xml">
                 <search string="Search MRP procedures">
+                    <field name="name" filter_domain="[('name', 'ilike' ,self)]"/>
                     <group expand="0" string="Group By">
                         <filter name="group_by_type" string="Type of procedure" domain="[]" context="{'group_by':'type_id'}"/>
                     </group>
