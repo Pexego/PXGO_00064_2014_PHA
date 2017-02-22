@@ -40,6 +40,7 @@ class StockPrevisionalOrders(models.Model):
     product_id = fields.Many2one(string='Final product',
                                  comodel_name='product.product',
                                  required=True)
+    default_code = fields.Char(related='product_id.default_code')
     bom_id = fields.Many2one(string='Bills of materials',
                              comodel_name='mrp.bom',
                              required=True)
@@ -60,8 +61,12 @@ class StockPrevisionalOrders(models.Model):
     @api.multi
     def _compound_name(self):
         for order in self:
-            order.name =  u'{} ({:d}) ID: {:d}'.\
-                format(order.product_id.name, order.product_qty, order.id)
+            if order.default_code == 'Gen0001':
+                order.name =  u'{} ({:d}) ID: {:d}'.\
+                    format(order.note, order.product_qty, order.id)
+            else:
+                order.name =  u'{} ({:d}) ID: {:d}'.\
+                    format(order.product_id.name, order.product_qty, order.id)
 
     @api.onchange('product_id')
     def update_bom(self):

@@ -90,13 +90,14 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group>
+                        <group readonly="1">
                             <field name="id"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
                             <field name="product_id" domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
                             <field name="bom_id"/>
                             <field name="line_id"/>
+                            <field name="note"/>
                             <field name="product_qty"/>
                             <field name="production_order"/>
                         </group>
@@ -129,6 +130,7 @@
                             <field name="product_id"/>
                             <field name="bom_id"/>
                             <field name="line_id"/>
+                            <field name="note"/>
                             <field name="product_qty"/>
                             <field name="production_order"/>
                         </group>
@@ -153,6 +155,7 @@
                     <field name="product_id"/>
                     <field name="bom_id"/>
                     <field name="line_id"/>
+                    <field name="note"/>
                     <field name="product_qty"/>
                     <field name="production_order"/>
                 </tree>
@@ -208,7 +211,15 @@
                             <div t-attf-class="oe_kanban_card oe_kanban_global_click">
                                 <div class="oe_kanban_content">
                                     <div>ID: <field name="id"/></div>
-                                    <div><b><field name="product_id"/></b></div>
+                                    <div>
+                                        <b>
+                                            <field name="default_code" invisible="1"/>
+                                            <field name="product_id"
+                                                   attrs="{'invisible':[('default_code','=','Gen0001')]}"/>
+                                            <field name="note"
+                                                   attrs="{'invisible':[('default_code','!=','Gen0001')]}"/>
+                                        </b>
+                                    </div>
                                     <div><field name="product_qty"/></div>
                                     <div><field name="date_start"/></div>
                                     <div><field name="date_end"/></div>
