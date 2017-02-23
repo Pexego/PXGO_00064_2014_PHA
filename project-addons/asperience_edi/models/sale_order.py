@@ -27,3 +27,14 @@ class SaleOrder(models.Model):
 
     urgent = fields.Boolean("Urgent")
     top_date = fields.Date("Limit date")
+    delivery_date = fields.Date()
+    season = fields.Char()
+    customer_branch = fields.Char()
+    customer_department = fields.Char()
+    customer_transmitter = fields.Many2one('res.partner')
+
+class SaleOrderLine(models.Model):
+
+    _inherit = 'sale.order.line'
+
+    units_per_package = fields.Integer()
