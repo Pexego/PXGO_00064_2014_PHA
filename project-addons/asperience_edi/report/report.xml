@@ -34,7 +34,7 @@
           string="Print Tags of 4"
           id="report_print_palet_tag"
           model="stock.picking"
-          report_type="qweb-pdf"
+          report_type="qweb-html"
           name="asperience_edi.palet_tag_report"
           file="asperience_edi.palet_tag_report"
           menu="False"
