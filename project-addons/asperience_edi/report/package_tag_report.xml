@@ -6,20 +6,30 @@
 
      <style type="text/css">
         #container{
-            height:100%;
+            height:343mm;
             width:100%;
-            display:table;
+            box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                -ms-box-sizing: border-box;
+            border: 1px solid #000;
         }
         #t-column{
             height: 25%;
-            width: 49.8%;
+            width: 50%;
             float: left;
-            display: table-cell;
-            margin-top:3px;
+            padding-top: 4px;
+            padding-left: 4px;
+            box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                -ms-box-sizing: border-box;
+            border: 1px solid #000;
         }
-        p{
+         #t-column p{
             font-size:22px;
-            line-height: 2px;
+            line-height: 15px;
+
         }
     </style>
 
