@@ -30,9 +30,6 @@
         .tag-table tr{
             height:33%;
         }
-        .tag-table tf{
-            height:33%;
-        }
         .tag-table td.td-head{
              vertical-align:top;
              padding:4px
@@ -68,10 +65,50 @@
             height:35%;
             display:table;
         }
-         .bc-center{
+        .bc-center{
             display:table-cell;
             vertical-align:middle;
             text-align:center;
+        }
+
+
+
+        .tag-table2{
+            width: 99%;
+            height:99%;
+            border-collapse: collapse;
+            border: 1px solid #000;
+        }
+        .tag-table2 tr.tr-1{
+            height:15%;
+        }
+        .tag-table2 tr.tr-2{
+            height:25%;
+        }
+        .tag-table2 tr.tr-3{
+            height:40%;
+        }
+        .tag-table2 tr.tr-4{
+            height:20%;
+        }
+        .tag-table2 td{
+             border: 1px solid #000;
+             vertical-align:middle;
+             text-align: center;
+        }
+        .tag-table2 td.td-left{
+             width: 80%;
+             border: 1px solid #000;
+             vertical-align:middle;
+             text-align: center;
+             padding:4px
+        }
+        .tag-table2 td.td-right{
+             width: 20%;
+             border: 1px solid #000;
+             vertical-align:middle;
+             text-align: center;
+             padding:4px
         }
 
     
@@ -96,10 +133,10 @@
                                     </tr>
                               
                                     <tr>
-                                       <td class="td-left">
+                                       <td class="td-left-top">
                                         <p><strong>DESCRIPCIÓN</strong></p>
                                         </td>
-                                       <td class="td-right">
+                                       <td class="td-right-top">
                                         <p>
                                         INF PLATAS ANTIOX. SPECIAL LINE ESTUCHE
                                         ESPECIAL LINE INFUSI´ON ANTIOXI
@@ -267,6 +304,226 @@
                                             <p>12/36</p>
                                        </td>
                                     </tr>
+                                </table>
+
+                            </div>
+                            <div class="barcode-content">
+                                <div class="bc-center">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:450px;height:130px"/>
+                                    <p class="text-center" t-field="o.name"></p>
+                                </div>  
+                            </div>
+                         
+                        </div>
+                </div>
+            </div>
+
+
+            <div class="page">
+                <div id="container">
+                        <div class="tag-block">
+                            <div class="table-content">
+
+                                <table class="tag-table2">
+
+                                    <tr class="tr-1">
+                                        <td class="td-head" colspan="2">
+                                            <p style="font-size:30px;"><strong>PROCESOS</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+                              
+                                    <tr class="tr-2">
+                                        <td class="td-head" colspan="2">
+                                            <p><strong>
+                                                P. IND. DE CAMPONARAYA SECTOR
+                                                2 PARCELA 3-23310
+                                                CAMPONARAYA (LEÓN)
+                                            </strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-3">
+                                        <td class="td-head" colspan="2">
+                                            <p style="text-align:left;vertical-align:top;padding:4px;"> LUGAR ENTREGA </p>
+                                            <p><strong>ALMACEN ECI VALDEMORO 1 050</strong></p>
+                                            <p>CTRA_ANDALUCIA K23, MARGEN IZQU;28340_VALDEMORO (Madrid)</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-4">
+                                        <td class="td-left">
+                                            <p><strong>Nº TOTAL DE BULTOS</strong></p>
+                                            <p style="font-size:30px;"><strong>1</strong></p>
+                                        </td>
+                                         <td class="td-right">
+                                            <p style="font-size:30px;"><strong>1/1</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="barcode-content">
+                                <div class="bc-center">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:450px;height:130px"/>
+                                    <p class="text-center" t-field="o.name"></p>
+                                </div>  
+                            </div>  
+
+                        </div>
+
+                         <div class="tag-block">
+
+                            <div class="table-content">
+
+                               <table class="tag-table2">
+
+                                    <tr class="tr-1">
+                                        <td class="td-head" colspan="2">
+                                            <p style="font-size:30px;"><strong>PROCESOS</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+                              
+                                    <tr class="tr-2">
+                                        <td class="td-head" colspan="2">
+                                            <p><strong>
+                                                P. IND. DE CAMPONARAYA SECTOR
+                                                2 PARCELA 3-23310
+                                                CAMPONARAYA (LEÓN)
+                                            </strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-3">
+                                        <td class="td-head" colspan="2">
+                                            <p style="text-align:left;vertical-align:top;padding:4px;"> LUGAR ENTREGA </p>
+                                            <p><strong>ALMACEN ECI VALDEMORO 1 050</strong></p>
+                                            <p>CTRA_ANDALUCIA K23, MARGEN IZQU;28340_VALDEMORO (Madrid)</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-4">
+                                        <td class="td-left">
+                                            <p><strong>Nº TOTAL DE BULTOS</strong></p>
+                                            <p style="font-size:30px;"><strong>1</strong></p>
+                                        </td>
+                                         <td class="td-right">
+                                            <p style="font-size:30px;"><strong>1/1</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="barcode-content">
+                                <div class="bc-center">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:450px;height:130px"/>
+                                    <p class="text-center" t-field="o.name"></p>
+                                </div>  
+                            </div>
+                            
+                        </div>
+                        <div class="tag-block">
+
+                            <div class="table-content">
+
+                               <table class="tag-table2">
+
+                                    <tr class="tr-1">
+                                        <td class="td-head" colspan="2">
+                                            <p style="font-size:30px;"><strong>PROCESOS</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+                              
+                                    <tr class="tr-2">
+                                        <td class="td-head" colspan="2">
+                                            <p><strong>
+                                                P. IND. DE CAMPONARAYA SECTOR
+                                                2 PARCELA 3-23310
+                                                CAMPONARAYA (LEÓN)
+                                            </strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-3">
+                                        <td class="td-head" colspan="2">
+                                            <p style="text-align:left;vertical-align:top;padding:4px;"> LUGAR ENTREGA </p>
+                                            <p><strong>ALMACEN ECI VALDEMORO 1 050</strong></p>
+                                            <p>CTRA_ANDALUCIA K23, MARGEN IZQU;28340_VALDEMORO (Madrid)</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-4">
+                                        <td class="td-left">
+                                            <p><strong>Nº TOTAL DE BULTOS</strong></p>
+                                            <p style="font-size:30px;"><strong>1</strong></p>
+                                        </td>
+                                         <td class="td-right">
+                                            <p style="font-size:30px;"><strong>1/1</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                            <div class="barcode-content">
+                                <div class="bc-center">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:450px;height:130px"/>
+                                    <p class="text-center" t-field="o.name"></p>
+                                </div>  
+                            </div>
+                        
+                        </div>
+                         <div class="tag-block">
+
+                            <div class="table-content">
+
+                               <table class="tag-table2">
+
+                                    <tr class="tr-1">
+                                        <td class="td-head" colspan="2">
+                                            <p style="font-size:30px;"><strong>PROCESOS</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+                              
+                                    <tr class="tr-2">
+                                        <td class="td-head" colspan="2">
+                                            <p><strong>
+                                                P. IND. DE CAMPONARAYA SECTOR
+                                                2 PARCELA 3-23310
+                                                CAMPONARAYA (LEÓN)
+                                            </strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-3">
+                                        <td class="td-head" colspan="2">
+                                            <p style="text-align:left;vertical-align:top;padding:4px;"> LUGAR ENTREGA </p>
+                                            <p><strong>ALMACEN ECI VALDEMORO 1 050</strong></p>
+                                            <p>CTRA_ANDALUCIA K23, MARGEN IZQU;28340_VALDEMORO (Madrid)</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-4">
+                                        <td class="td-left">
+                                            <p><strong>Nº TOTAL DE BULTOS</strong></p>
+                                            <p style="font-size:30px;"><strong>1</strong></p>
+                                        </td>
+                                         <td class="td-right">
+                                            <p style="font-size:30px;"><strong>1/1</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
                                 </table>
 
                             </div>
