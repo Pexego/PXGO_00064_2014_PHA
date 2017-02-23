@@ -8,11 +8,6 @@
         #container{
             height:343mm;
             width:100%;
-            box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                -webkit-box-sizing: border-box;
-                -ms-box-sizing: border-box;
-            border: 1px solid #000;
         }
         #t-column{
             height: 25%;
@@ -20,11 +15,7 @@
             float: left;
             padding-top: 4px;
             padding-left: 4px;
-            box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                -webkit-box-sizing: border-box;
-                -ms-box-sizing: border-box;
-            border: 1px solid #000;
+            margin-top: 3px;
         }
          #t-column p{
             font-size:22px;
