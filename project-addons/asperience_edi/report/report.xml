@@ -55,6 +55,10 @@
           file="asperience_edi.corte_ingles_report"
           menu="True"
     />
+    <record id="report_corte_ingles" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record>
+
 
 
     </data>
