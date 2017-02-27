@@ -56,7 +56,8 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "data/ir_cron.xml",
         "report/report.xml",
         "report/package_tag_report.xml",
-        "report/palet_tag_report.xml"
+        "report/palet_tag_report.xml",
+        "report/corte_ingles_report.xml"
     ],
     "images": [
         "images/asperience.png",

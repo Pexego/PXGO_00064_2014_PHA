@@ -604,7 +604,7 @@
             </div>
 
 
-            <!-- <div class="page">
+            <div class="page">
                 <div id="container">
                     <t t-foreach="palet_dic" t-as="palet">
                         <t t-set="palet_tag" t-value="palet_dic[palet]"/>
@@ -642,7 +642,7 @@
                                     <tr class="tr-4">
                                         <td class="td-left">
                                             <p><strong>Nº TOTAL DE BULTOS</strong></p>
-                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['place_dir']"/></strong></p>
+                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['num_packs']"/></strong></p>
                                         </td>
                                          <td class="td-right">
                                             <p style="font-size:30px;"><strong><t t-esc="palet_tag['palet_number']"/>/<t t-esc="num_palets"/></strong>
@@ -653,10 +653,10 @@
                                 </table>
                             </div>
                             <div class="barcode-content">
-                                <t t-set="barcode" t-value="palet_tag['barcode']"/>
+                                <t t-set="sscc_barcode" t-value="palet_tag['barcode']"/>
                                 <div class="bc-center">
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
-                                    <p class="text-center" t-field="barcode"></p>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sscc_barcode, 600, 100)" style="width:450px;height:130px"/>
+                                    <p class="text-center" t-esc="sscc_barcode"></p>
                                 </div>  
                             </div>  
 
@@ -697,7 +697,7 @@
                                     <tr class="tr-4">
                                         <td class="td-left">
                                             <p><strong>Nº TOTAL DE BULTOS</strong></p>
-                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['place_dir']"/></strong></p>
+                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['num_packs']"/></strong></p>
                                         </td>
                                          <td class="td-right">
                                             <p style="font-size:30px;"><strong><t t-esc="palet_tag['palet_number']"/>/<t t-esc="num_palets"/></strong>
@@ -711,14 +711,14 @@
                                 <t t-set="barcode" t-value="palet_tag['barcode']"/>
                                 <div class="bc-center">
                                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
-                                    <p class="text-center" t-field="barcode"></p>
+                                    <p class="text-center" t-esc="barcode"></p>
                                 </div>  
                             </div>  
 
                         </div>
                     </t>
                 </div>
-            </div> -->
+            </div>
         </t>
     </template>
 

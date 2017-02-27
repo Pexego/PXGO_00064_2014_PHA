@@ -19,9 +19,9 @@ class PaletTagParser(models.AbstractModel):
         if not data:
             raise except_orm(_('Error'),
                              _('You must print it from a wizard'))
-        # import ipdb; ipdb.set_trace()
         pick = pick_obj.browse(data['pick_id'])
-        package_dic = palet_dic = {}
+        package_dic = {}
+        palet_dic = {}
         num_palets = palet_number = 0
 
         for op in pick.pack_operation_ids:
@@ -68,6 +68,5 @@ class PaletTagParser(models.AbstractModel):
             'palet_dic': palet_dic,
             'num_palets': num_palets
         }
-        # import ipdb; ipdb.set_trace()
         print package_dic
         return report_obj.render(report_name, docargs)

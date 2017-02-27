@@ -45,5 +45,17 @@
     </record>
 
 
+    <!-- 4 TAG REPORT -->
+    <report
+          string="Corte Ingles Report"
+          id="report_corte_ingles"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="asperience_edi.corte_ingles_report"
+          file="asperience_edi.corte_ingles_report"
+          menu="True"
+    />
+
+
     </data>
 </openerp>

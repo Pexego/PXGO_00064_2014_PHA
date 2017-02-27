@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="corte_ingles_report">
+             <t t-foreach="docs" t-as="o">
+            <div class="header">
+                  <div class="row">
+                    <div class="col-xs-3">
+                        <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+                    </div>
+                    <div class="col-xs-6" style="font-size: 24px; padding-top: 10px;">
+                        <strong>
+                            Expeditions report of the day <span t-esc="time.strftime('%d/%m/%Y')"/>
+                        </strong>
+                    </div>
+                    <div class="list-inline pull-right" style="padding: 20px 10px 0 0;">
+                        <li>Page:</li>
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </div>
+                    <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="width: 100%; border-bottom: 1px solid black;"></div>
+                        <div style="font-size: 18px;">
+                            Agency: <strong t-field="o.carrier_id"/>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="page">
+                <h1>Hola</h1>
+            </div>
+
+            <div class="footer">
+                 <h1>Hola</h1>
+            </div>
+        </t>
+        </template>
+
+       
+    </data>
+</openerp>
