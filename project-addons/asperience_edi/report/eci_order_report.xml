@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="eci_order_report">
+         <style type="text/css">
+            #container{
+                height: 345mm;
+                width:100%;
+                position:relative;
+                border-style: solid 1px;
+            }
+            .eci_header{
+                height: 5%;
+                width: 100%;
+                border-bottom: solid 1px;
+            }
+            .eci_page{
+                height: 90%;
+                width: 100%;
+            }
+            .eci_logo{
+                height:100%;
+                width: 30%;
+                float:left;
+            }
+            .eci_tittle{
+                height:100%;
+                width: 70%;
+                float:left;
+            }
+            .row1{
+                width:100%;
+                height:9%;
+            }
+            .row2{
+                width:100%;
+                height:23%;
+            }
+            .row3{
+                width:100%;
+                height:67%;
+            }
+            th.t1{
+                border: 1px solid black;
+                background-color: #bdbdbd;
+                padding-left:2px;
+            }
+            td.t1{
+                border: 1px solid black;
+                padding-left:2px;
+                text-align: center;
+            }
+            .table_header_eci{
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid black;
+                table-layout: fixed;
+                text-align: left;
+                font-size: 11px;
+                margin-top:4px;
+
+            }
+            .table_edi_eci{
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid black;
+                font-size: 11px;
+                margin-top:4px;
+
+            }
+            .table_edi_eci th{
+                background-color: #bdbdbd;
+            }
+            .table_edi_eci tr{
+                border: 1px solid black;
+            }
+
+            .table_lines{
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid black;
+                table-layout: fixed;
+                text-align: left;
+                font-size: 10px;
+                margin-top:4px;
+
+            }
+            .table_lines th{
+                background-color: #bdbdbd;
+                border: 1px solid black;
+            }
+            .table_lines tr{
+                border: 1px solid black;
+            }
+            .table_lines tr:nth-child(even){background-color: #bdbdbd}
+            }
+            </style>
+            <!-- docs es una instancia siempre-->
+             <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <!-- Por cada palé hay una tabla, las tablas extras salen al principio de la nueva página
+                     ya que ocultamos los div con la clase first-page -->
+                    <div id="container">
+                        <div class="eci_header first-page">
+                         
+                            <div class="eci_logo">
+                                <img src="/asperience_edi/static/src/img/logo-vector-el-corte-ingles.jpg" style="height: 60px;width:180px"/>
+                            </div>
+                            <div class="eci_tittle" style="font-size: 14px; padding-top: 20px;">
+                                <strong>
+                                    Pedido abierto
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div class="eci_page">
+
+                            <!-- TABLA CABECERA -->
+                            <div class="row1 first-page">
+                                <table class="table_header_eci">
+                                    <tr>
+                                        <th class="t1" style="width:10%;">Nº Pedido</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['n_order']"/></td>
+                                        <th class="t1" style="width:15%;">Nº Reposición</th>
+                                        <td class="t1" style="width:15%;"><span t-esc="header_table['n_repo']"/></td>
+                                        <th class="t1" style="width:15%;">Nº Entrega</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['n_deliver']"/></td>
+                                        <th class="t1" style="width:15%;">Pedido Proveedor</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['supplier_order']"/></td>
+                                    </tr>
+                                </table>
+                                <table class="table_header_eci">
+                                    <tr>
+                                        <th class="t1" style="width:10%;">Fecha</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['date']"/></td>
+                                        <th class="t1" style="width:15%;">Fecha Entrega</th>
+                                        <td class="t1" style="width:15%;"><span t-esc="header_table['min_date']"/></td>
+                                        <th class="t1" style="width:15%;">F. Tope Entrega</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['top_min_date']"/></td>
+                                        <th class="t1" style="width:15%;">F. Valor liquidación</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['date_settle']"/></td>
+                                    </tr>
+                                </table>
+                                 <table class="table_header_eci">
+                                    <tr>
+                                        <th class="t1" style="width:10%;">Temporada</th>
+                                        <td class="t1" style="width:20%;"><span t-esc="header_table['temp']"/></td>
+                                        <th class="t1" style="width:10%;">Dpto. venta</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['sale_department']"/></td>
+                                        <th class="t1" style="width:10%;">Sucursal</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['customer_branch']"/></td>
+                                        <th class="t1" style="width:20%;">Lugar Adicional Entrega</th>
+                                        <td class="t1" style="width:10%;"><span t-esc="header_table['deliver_place']"/></td>
+                                    </tr>
+                                </table>
+                                <table class="table_header_eci">
+                                    <tr>
+                                        <th class="t1" style="width:30%;">Condiciones Especiales</th>
+                                        <td class="t1" style="width:40%;"><span t-esc="header_table['add_conditions']"/></td>
+                                        <th class="t1" style="width:20%;">Dpto. Compra</th>
+                                        <td class="t1" style="width:20%;"><span t-esc="header_table['purchase_department']"/></td>
+                                       
+                                    </tr>
+                                </table>
+                            </div>
+
+
+                            <!-- TABLA EDI -->
+                            <div class="row2 first-page">
+                                <table class="table_edi_eci table-condensed">
+                                        <tr>
+                                            <th colspan="2" style="width:55%;text-align:center;">Nombre</th>
+                                            <th style="width:5%;">Código</th>
+                                            <th style="width:35%;">Direccion</th>
+                                            <th style="width:5%;">C.P</th>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Agencia/O.Logistico</strong></td>
+                                            <td><span t-esc="edi_table['emisor']['name']"/> <span t-esc="edi_table['emisor']['vat']"/></td>
+                                            <td><span t-esc="edi_table['emisor']['gln']"/></td>
+                                            <td><span t-esc="edi_table['emisor']['street']"/><br/>
+                                                <span t-esc="edi_table['emisor']['city']"/> <span t-esc="edi_table['emisor']['state']"/>
+                                            </td>
+                                            <td><span t-esc="edi_table['emisor']['zip']"/></td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>Proveedor / A quién se Pide</strong></td>
+                                           <td><span t-esc="edi_table['supplier']['name']"/> <span t-esc="edi_table['supplier']['vat']"/></td>
+                                            <td><span t-esc="edi_table['supplier']['gln']"/></td>
+                                            <td><span t-esc="edi_table['supplier']['street']"/><br/>
+                                                <span t-esc="edi_table['supplier']['city']"/> <span t-esc="edi_table['supplier']['state']"/>
+                                            </td>
+                                            <td><span t-esc="edi_table['supplier']['zip']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Sucursal Destino que Pide</strong></td>
+                                            <td><span t-esc="edi_table['dest_branch']['name']"/> <span t-esc="edi_table['dest_branch']['vat']"/></td>
+                                            <td><span t-esc="edi_table['dest_branch']['gln']"/></td>
+                                            <td><span t-esc="edi_table['dest_branch']['street']"/><br/>
+                                                <span t-esc="edi_table['dest_branch']['city']"/> <span t-esc="edi_table['dest_branch']['state']"/>
+                                            </td>
+                                            <td><span t-esc="edi_table['dest_branch']['zip']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Receptor del Mensaje</strong></td>
+                                            <td><span t-esc="edi_table['msg_receptor']['name']"/> <span t-esc="edi_table['msg_receptor']['vat']"/></td>
+                                            <td><span t-esc="edi_table['msg_receptor']['gln']"/></td>
+                                            <td><span t-esc="edi_table['msg_receptor']['street']"/><br/>
+                                                <span t-esc="edi_table['msg_receptor']['city']"/> <span t-esc="edi_table['msg_receptor']['state']"/>
+                                            </td>
+                                            <td><span t-esc="edi_table['msg_receptor']['zip']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Sucursal de Entrega</strong></td>
+                                            <td><span t-esc="edi_table['delivery_branch']['name']"/> <span t-esc="edi_table['delivery_branch']['vat']"/></td>
+                                            <td><span t-esc="edi_table['delivery_branch']['gln']"/></td>
+                                            <td><span t-esc="edi_table['delivery_branch']['street']"/><br/>
+                                                <span t-esc="edi_table['delivery_branch']['city']"/> <span t-esc="edi_table['delivery_branch']['state']"/>
+                                            </td>
+                                            <td><span t-esc="edi_table['delivery_branch']['zip']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>A quién se Factura</strong></td>
+                                            <td><span t-esc="edi_table['invoice_entity']['name']"/> <span t-esc="edi_table['invoice_entity']['vat']"/></td>
+                                            <td><span t-esc="edi_table['invoice_entity']['gln']"/></td>
+                                            <td><span t-esc="edi_table['invoice_entity']['street']"/><br/>
+                                                <span t-esc="edi_table['invoice_entity']['city']"/> <span t-esc="edi_table['invoice_entity']['state']"/>
+                                            </td>
+                                            <td><span t-esc="edi_table['invoice_entity']['zip']"/></td>
+                                        </tr>
+                                        
+                                    </table>
+                            </div>
+
+
+                             <!-- TABLA LINEAS -->
+                            <div class="row3">
+                                <table class="table_lines table-condensed">
+                                        <tr>
+                                            <th style="width:10%;">EAN13</th>
+                                            <th style="width:10%;">DUN14</th>
+                                            <th style="width:10%;">Ref. ECI</th>
+                                            <th style="width:10%;">Descripción</th>
+                                            <th style="width:10%;">Prop?</th>
+                                            <th style="width:10%;">Cantidad</th>
+                                            <th style="width:10%;">UdM</th>
+                                            <th style="width:10%;">Uds.cons.exp</th>
+                                            <th style="width:5%;">% Dto.</th>
+                                            <th style="width:5%;">PVP</th>
+                                            <th style="width:10%;">Subtotal</th>
+                                        </tr>
+                                        <t t-foreach="lines_table" t-as="l">
+                                            <tr>
+                                                <td><span t-esc="lines_table[l]['ean13']"/></td>
+                                                <td><span t-esc="lines_table[l]['ean14']"/></td>
+                                                <td><span t-esc="lines_table[l]['ref_eci']"/></td>
+                                                <td><span t-esc="lines_table[l]['description']"/></td>
+                                                <td><span t-esc="lines_table[l]['property']"/></td>
+                                                <td><span t-esc="lines_table[l]['qty']"/></td>
+                                                <td><span t-esc="lines_table[l]['uom']"/></td>
+                                                <td><span t-esc="lines_table[l]['pack_units']"/></td>
+                                                <td><span t-esc="lines_table[l]['disc']"/></td>
+                                                <td><span t-esc="lines_table[l]['pvp']"/></td>
+                                                <td><span t-esc="lines_table[l]['subtotal']"/></td>
+                                            </tr>
+                                         </t>
+                                       
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+       
+    </data>
+</openerp>

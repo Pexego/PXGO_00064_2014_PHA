@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="product_normal_form_add_edi_data" model="ir.ui.view">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <field name="ean13" position="after">
+                    <field name="ean14"/>
+                </field>
+                <field name="default_code" position="after">
+                    <field name="eci_ref"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
