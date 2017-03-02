@@ -25,9 +25,10 @@
             <field name="arch" type="xml">
                 <button name="action_cancel" position="after">
                     <button name="print_package_tag_report" string="Print Astrid Tags of 8" type="object"
-                            icon="fa-file-text-o"/>
+                            icon="fa-fa-qphot"/>
                      <button name="print_palet_tag_report" string="Print Tags of 4" type="object"
-                            icon="fa-file-text-o"/>
+                            icon="fa-qrcode"/>
+                    <button name="print_eci_report" string="Print ECI report" type="object" icon="fa-print"/>
                 </button>
 
                 

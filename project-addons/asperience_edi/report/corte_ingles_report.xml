@@ -77,7 +77,7 @@
                 width: 100%;
                 border-collapse: collapse;
                 border: 1px solid black;
-                font-size: 11px;
+                font-size: 10px;
                 margin-top:4px;
 
             }
@@ -128,213 +128,177 @@
 
             }
             </style>
+            <!-- docs es una instancia siempre-->
              <t t-foreach="docs" t-as="o">
-                <div class="page">
-                    <div id="container">
-                        <div class="eci_header">
-                         
-                            <div class="eci_logo">
-                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
-                            </div>
-                            <div class="eci_tittle" style="font-size: 24px; padding-top: 10px;">
-                                <strong>
-                                    Aviso de Expedición de Mercancías
-                                </strong>
-                            </div>
-                    </div>
-
-                    <div class="eci_page">
-                        <div class="row1">
-                            <table class="table1">
-                                <tr>
-                                    <th class="t1" style="width:5em;">Empresa</th>
-                                    <td class="t1" style="width:2em;">50</td>
-                                    <th class="t1" style="width:6em;" >Sucursal Destino</th>
-                                    <td class="t1" style="width:3em;">0050</td>
-                                    <th class="t1" style="width:2em;" >Dpto.</th>
-                                    <td class="t1" style="width:2em;">207</td>
-                                    <th class="t1" style="width:5em;" >Proveedir ECI</th>
-                                    <td class="t1" style="width:5em;">0357954</td>
-                                </tr>
-                            </table>
-                            <table class="table1_2">
-                                <tr>
-                                    <th class="t1" style="width:5em;">Fecha</th>
-                                    <td class="t1" style="width:8em;">20/01/2017</td>
-                                    <th class="t1" style="width:5em;" >F. Prevista entrega</th>
-                                    <td class="t1" style="width:5em;">24/01/2017 00:00</td>
-                                    <th class="t1" style="width:4em;" >Nº Pedido</th>
-                                    <td class="t1" style="width:5em;">71787802</td>
-                                    <th class="t1" style="width:4em;" >Nº Albarán</th>
-                                    <td class="t1" style="width:4em;">09797</td>
-                                </tr>
-                            </table>
+                <t t-foreach="palet_tables" t-as="palet">
+                    <div class="page">
+                        <!-- Por cada palé hay una tabla, las tablas extras salen al principio de la nueva página
+                         ya que ocultamos los div con la clase first-page -->
+                        <div id="container">
+                            <div class="eci_header first-page">
+                             
+                                <div class="eci_logo">
+                                    <img src="/asperience_edi/static/src/img/logo-vector-el-corte-ingles.jpg" style="height: 60px;width:180px"/>
+                                </div>
+                                <div class="eci_tittle" style="font-size: 14px; padding-top: 20px;">
+                                    <strong>
+                                        Aviso de Expedición de Mercancías
+                                    </strong>
+                                </div>
                         </div>
-                        <div class="row2">
-                                <table class="table2 table-condensed">
+
+                        <div class="eci_page">
+                            <!-- TABLA CABECERA -->
+                            <div class="row1 first-page">
+                                <table class="table1">
                                     <tr>
-                                        <th colspan="2" style="width:50%;text-align:center;">Nombre</th>
-                                        <th style="width:10%;">Código</th>
-                                        <th style="width:35%;">Direccion</th>
-                                        <th style="width:5%;">C.P</th>
+                                        <th class="t1" style="width:5em;">Empresa</th>
+                                        <td class="t1" style="width:2em;"><t t-esc="header_table['enterprise']"/></td>
+                                        <th class="t1" style="width:6em;" >Sucursal Destino</th>
+                                        <td class="t1" style="width:3em;"><t t-esc="header_table['dest_branch']"/></td>
+                                        <th class="t1" style="width:2em;" >Dpto.</th>
+                                        <td class="t1" style="width:2em;"><t t-esc="header_table['department']"/></td>
+                                        <th class="t1" style="width:5em;" >Proveedor ECI</th>
+                                        <td class="t1" style="width:5em;"><t t-esc="header_table['eci_supplier']"/></td>
                                     </tr>
+                                </table>
+                                <table class="table1_2">
                                     <tr>
-                                        <td><strong>Agencia/O.Logistico</strong></td>
-                                        <td>PROCESOS FARMACEUTICOS INDUSTRIALES(b24470171)</td>
-                                        <td>8437008000008</td>
-                                        <td>P. IND, DE CAMPONARAYA SECTOR 2 
-                                            PARCELA 3 CAMPONARAYA (león)
-                                        </td>
-                                        <td>24110</td>
+                                        <th class="t1" style="width:5em;">Fecha</th>
+                                        <td class="t1" style="width:8em;"><t t-esc="header_table['date']"/></td>
+                                        <th class="t1" style="width:5em;" >F. Prevista entrega</th>
+                                        <td class="t1" style="width:5em;"><t t-esc="header_table['min_date']"/></td>
+                                        <th class="t1" style="width:4em;" >Nº Pedido</th>
+                                        <td class="t1" style="width:5em;"><t t-esc="header_table['order_number']"/></td>
+                                        <th class="t1" style="width:4em;" >Nº Albarán</th>
+                                        <td class="t1" style="width:4em;"><t t-esc="header_table['pick_number']"/></td>
                                     </tr>
-                                     <tr>
-                                        <td><strong>Agencia/O.Logistico</strong></td>
-                                        <td>PROCESOS FARMACEUTICOS INDUSTRIALES(b24470171)</td>
-                                        <td>8437008000008</td>
-                                        <td>P. IND, DE CAMPONARAYA SECTOR 2 
-                                            PARCELA 3 CAMPONARAYA (león)
-                                        </td>
-                                        <td>24110</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Agencia/O.Logistico</strong></td>
-                                        <td>PROCESOS FARMACEUTICOS INDUSTRIALES(b24470171)</td>
-                                        <td>8437008000008</td>
-                                        <td>P. IND, DE CAMPONARAYA SECTOR 2 
-                                            PARCELA 3 CAMPONARAYA (león)
-                                        </td>
-                                        <td>24110</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Agencia/O.Logistico</strong></td>
-                                        <td>PROCESOS FARMACEUTICOS INDUSTRIALES(b24470171)</td>
-                                        <td>8437008000008</td>
-                                        <td>P. IND, DE CAMPONARAYA SECTOR 2 
-                                            PARCELA 3 CAMPONARAYA (león)
-                                        </td>
-                                        <td>24110</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Agencia/O.Logistico</strong></td>
-                                        <td>PROCESOS FARMACEUTICOS INDUSTRIALES(b24470171)</td>
-                                        <td>8437008000008</td>
-                                        <td>P. IND, DE CAMPONARAYA SECTOR 2 
-                                            PARCELA 3 CAMPONARAYA (león)
-                                        </td>
-                                        <td>24110</td>
-                                    </tr>
-                                    
                                 </table>
                             </div>
+                            <!-- TABLA EDI -->
+                            <div class="row2 first-page">
+                                    <table class="table2 table-condensed">
+                                        <tr>
+                                            <th colspan="2" style="width:55%;text-align:center;">Nombre</th>
+                                            <th style="width:5%;">Código</th>
+                                            <th style="width:35%;">Direccion</th>
+                                            <th style="width:5%;">C.P</th>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Agencia/O.Logistico</strong></td>
+                                            <td><span t-esc="edi_table['agency']['name']"/> (<span t-esc="edi_table['agency']['vat']"/>)</td>
+                                            <td><span t-esc="edi_table['agency']['gln']"/></td>
+                                            <td><span t-esc="edi_table['agency']['street']"/><br/>
+                                                <span t-esc="edi_table['agency']['city']"/> (<span t-esc="edi_table['agency']['state']"/>)
+                                            </td>
+                                            <td><span t-esc="edi_table['agency']['zip']"/></td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>Proveedor / A quién se Pide</strong></td>
+                                           <td><span t-esc="edi_table['supplier']['name']"/> (<span t-esc="edi_table['supplier']['vat']"/>)</td>
+                                            <td><span t-esc="edi_table['supplier']['gln']"/></td>
+                                            <td><span t-esc="edi_table['supplier']['street']"/><br/>
+                                                <span t-esc="edi_table['supplier']['city']"/> (<span t-esc="edi_table['supplier']['state']"/>)
+                                            </td>
+                                            <td><span t-esc="edi_table['supplier']['zip']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Sucursal Destino que Pide</strong></td>
+                                            <td><span t-esc="edi_table['dest_branch']['name']"/> (<span t-esc="edi_table['dest_branch']['vat']"/>)</td>
+                                            <td><span t-esc="edi_table['dest_branch']['gln']"/></td>
+                                            <td><span t-esc="edi_table['dest_branch']['street']"/><br/>
+                                                <span t-esc="edi_table['dest_branch']['city']"/> (<span t-esc="edi_table['dest_branch']['state']"/>)
+                                            </td>
+                                            <td><span t-esc="edi_table['dest_branch']['zip']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Receptor del Mensaje</strong></td>
+                                            <td><span t-esc="edi_table['msg_receptor']['name']"/> (<span t-esc="edi_table['msg_receptor']['vat']"/>)</td>
+                                            <td><span t-esc="edi_table['msg_receptor']['gln']"/></td>
+                                            <td><span t-esc="edi_table['msg_receptor']['street']"/><br/>
+                                                <span t-esc="edi_table['msg_receptor']['city']"/> (<span t-esc="edi_table['msg_receptor']['state']"/>)
+                                            </td>
+                                            <td><span t-esc="edi_table['msg_receptor']['zip']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Sucursal de Entrega</strong></td>
+                                            <td><span t-esc="edi_table['delivery_branch']['name']"/> (<span t-esc="edi_table['delivery_branch']['vat']"/>)</td>
+                                            <td><span t-esc="edi_table['delivery_branch']['gln']"/></td>
+                                            <td><span t-esc="edi_table['delivery_branch']['street']"/><br/>
+                                                <span t-esc="edi_table['delivery_branch']['city']"/> (<span t-esc="edi_table['delivery_branch']['state']"/>)
+                                            </td>
+                                            <td><span t-esc="edi_table['delivery_branch']['zip']"/></td>
+                                        </tr>
+                                        
+                                    </table>
+                                </div>
 
-                            <div class="row3">
-                                <table class="table3">
+                                 <!-- TABLA PALÉ -->
+                                <div class="row3">
+                                    <table class="table3">
+                                        <tr>
+                                            <th class="t1">Tipo embalaje:</th>
+                                            <td class="t1">Palé ISO</td>
+                                            <th class="t1">SSCC:</th>
+                                            <td class="t1"><span t-esc="total_tables[palet]['sscc']"/></td>
+                                        </tr>
+                                    </table>
+                                    <table class="table4 table-condensed">
+                                        <tr>
+                                            <th style="width:10%;">Código EAN</th>
+                                            <th style="width:10%;">Ref. ECI</th>
+                                            <th style="width:5%;">Talla</th>
+                                            <th style="width:4%;">Serie</th>
+                                            <th style="width:6%;">Modelo</th>
+                                            <th style="width:35%;">Descripción</th>
+                                            <th style="width:10%;">Cant. en U.E.</th>
+                                            <th style="width:10%;">Cant. fact</th>
+                                            <th style="width:10%;">Cant. no fact</th>
+                                        </tr>
+                                        <t t-foreach="palet_tables[palet]" t-as="p_table">
+                                            <tr>
+                                                <td><span t-esc="p_table['ean13']"/></td>
+                                                <td><span t-esc="p_table['ref_eci']"/></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><span t-esc="p_table['description']"/></td>
+                                                <td style="text-align:right;"><span t-esc="p_table['cant_ue']"/></td>
+                                                <td style="text-align:right;"><span t-esc="p_table['cant_fact']"/></td>
+                                                <td><span t-esc="p_table['cant_no_fact']"/></td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td colspan="9"><span t-esc="p_table['ean14']"/></td>
+                                            </tr>
+                                         </t>
+                                       
+                                    </table>
+                                    <!-- TABLAS TOTALES -->
+                                     <table class="table8">
                                     <tr>
-                                        <th class="t1">Tipo embalaje:</th>
-                                        <td class="t1">Palé ISO</td>
-                                        <th class="t1">SSCC:</th>
-                                        <td class="t1">3845401548745487/7854578</td>
+                                        <th class="t1" style="width:5em;">Total cantidades:</th>
+                                        <td class="t1" style="width:2em;text-align:center"><span t-esc="total_tables[palet]['total_qty']"/></td>
                                     </tr>
-                                </table>
-                                <table class="table4 table-condensed">
+                                    </table>
+                                    <table class="table7">
                                     <tr>
-                                        <th style="width:10%;">Código EAN</th>
-                                        <th style="width:10%;">Ref. ECI</th>
-                                        <th style="width:5%;">Talla</th>
-                                        <th style="width:4%;">Serie</th>
-                                        <th style="width:6%;">Modelo</th>
-                                        <th style="width:35%;">Descripción</th>
-                                        <th style="width:10%;">Cant. en U.E.</th>
-                                        <th style="width:10%;">Cant. fact</th>
-                                        <th style="width:10%;">Cant. no fact.</th>
+                                         <th class="t1" style="width:5em;">Total líneas:</th>
+                                        <td class="t1" style="width:2em;text-align:center"><span t-esc="total_tables[palet]['total_lines']"/></td>
                                     </tr>
+                                     </table>
+                                    <table class="table6">
                                     <tr>
-                                        <td>8492544854525</td>
-                                        <td>208 0692</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>INF PLANTAS ANNTIOX. SPECIAL LINE ESTUCHE SPECIAL LINE INFIOSION ANTIOXI</td>
-                                        <td style="text-align:right;">12</td>
-                                        <td style="text-align:right;">36</td>
-                                        <td></td>
-                                        
+                                        <th class="t1" style="width:5em;">Total bultos:</th>
+                                        <td class="t1" style="width:2em;text-align:center"><span t-esc="total_tables[palet]['total_packs']"/></td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="9">EAN U.E 454549864545649489494894984489</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8492544854525</td>
-                                        <td>208 0692</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>INF PLANTAS ANNTIOX. SPECIAL LINE ESTUCHE SPECIAL LINE INFIOSION ANTIOXI</td>
-                                        <td style="text-align:right;">12</td>
-                                        <td style="text-align:right;">36</td>
-                                        <td></td>
-                                        
-                                    </tr>
-                                     <tr>
-                                        <td colspan="9">EAN U.E 454549864545649489494894984489</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8492544854525</td>
-                                        <td>208 0692</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>INF PLANTAS ANNTIOX. SPECIAL LINE ESTUCHE SPECIAL LINE INFIOSION ANTIOXI</td>
-                                        <td style="text-align:right;">12</td>
-                                        <td style="text-align:right;">36</td>
-                                        <td></td>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td colspan="9">EAN U.E 454549864545649489494894984489</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8492544854525</td>
-                                        <td>208 0692</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>INF PLANTAS ANNTIOX. SPECIAL LINE ESTUCHE SPECIAL LINE INFIOSION ANTIOXI</td>
-                                        <td style="text-align:right;">12</td>
-                                        <td style="text-align:right;">36</td>
-                                        <td></td>
-                                        
-                                    </tr>
-                                     <tr>
-                                        <td colspan="9">EAN U.E 454549864545649489494894984489</td>
-                                    </tr>
-                                </table>
-
-                                <table class="table6">
-                                <tr>
-                                    <th class="t1" style="width:5em;">Total bultos:</th>
-                                    <td class="t1" style="width:2em;text-align:center">1</td>
-                                </tr>
-                                 </table>
-                                <table class="table7">
-                                <tr>
-                                     <th class="t1" style="width:5em;">Total líneas:</th>
-                                    <td class="t1" style="width:2em;text-align:center">6</td>
-                                </tr>
-                                 </table>
-                                <table class="table8">
-                                <tr>
-                                    <th class="t1" style="width:5em;">Total cantidades:</th>
-                                    <td class="t1" style="width:2em;text-align:center">180</td>
-                                </tr>
-                                </table>
-                            </div>
-                    </div>
-
-                    <div class="eci_footer">
+                                     </table>
+                                   
+                                </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </t>
         </t>
         </template>
 

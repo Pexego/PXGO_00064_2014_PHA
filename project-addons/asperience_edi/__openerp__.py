@@ -28,7 +28,8 @@
     "certificate": "",
     "license": "",
     "depends": ["board", "account_payment_sale", "sale",
-                "commercial_and_financial_discount", "stock_picking_valued"],
+                "commercial_and_financial_discount", "stock_picking_valued",
+                "report_qweb_element_page_visibility"],
     "category": "Generic Modules/EDI",
     "complexity": "easy",
     "description": """

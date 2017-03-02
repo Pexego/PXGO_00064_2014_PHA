@@ -112,6 +112,17 @@ class StockPicking(models.Model):
         rep_action['data'] = custom_data
         return rep_action
 
+    @api.multi
+    def print_eci_report(self):
+        self.ensure_one()
+        custom_data = {
+            'pick_id': self.id,
+        }
+        rep_name = 'asperience_edi.corte_ingles_report'
+        rep_action = self.env["report"].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
+
 
 class StockInvoiceOnshipping(models.TransientModel):
 
