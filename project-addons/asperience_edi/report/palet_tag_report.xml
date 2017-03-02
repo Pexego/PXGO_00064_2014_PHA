@@ -115,6 +115,7 @@
     </style>
 
         <t t-foreach="docs" t-as="o">
+            <!-- ETIQUETAS DE BULTO -->
             <div class="page">
                 <div id="container">
                         <t t-foreach="package_dic" t-as="product">
@@ -173,7 +174,7 @@
                 </div>
             </div>
 
-
+            <!-- ETIQUETAS DE PALET -->
             <div class="page">
                 <div id="container">
                     <t t-foreach="palet_dic" t-as="palet">

@@ -45,9 +45,9 @@
     </record>
 
 
-    <!-- 4 TAG REPORT -->
+    <!-- ECI PICK REPORT -->
     <report
-          string="Corte Ingles Report"
+          string="ECI Expedition Report"
           id="report_corte_ingles"
           model="stock.picking"
           report_type="qweb-pdf"
@@ -56,6 +56,20 @@
           menu="False"
     />
     <record id="report_corte_ingles" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record>
+
+    <!-- ECI SALE REPORT -->
+    <report
+          string="ECI Order Report"
+          id="report_eci_order"
+          model="sale.order"
+          report_type="qweb-pdf"
+          name="asperience_edi.eci_order_report"
+          file="asperience_edi.eci_order_report"
+          menu="False"
+    />
+    <record id="report_eci_order" model="ir.actions.report.xml">
           <field name="paperformat_id" ref="my_paperformat_report"/>
     </record>
 

@@ -27,7 +27,5 @@ class PackageTagParser(models.AbstractModel):
             'doc_ids': [],
             'doc_model': 'stock.picking',
             'docs': pick,
-            'mi_string': "MI STRING",
-            'mi_string2': data['string2']
         }
         return report_obj.render(report_name, docargs)

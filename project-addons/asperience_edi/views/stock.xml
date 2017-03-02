@@ -23,12 +23,12 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
-                <button name="action_cancel" position="after">
-                    <button name="print_package_tag_report" string="Print Astrid Tags of 8" type="object"
-                            icon="fa-fa-qphot"/>
-                     <button name="print_palet_tag_report" string="Print Tags of 4" type="object"
-                            icon="fa-qrcode"/>
-                    <button name="print_eci_report" string="Print ECI report" type="object" icon="fa-print"/>
+                <button name="do_unreserve" position="after">
+                    <button name="print_package_tag_report" string="Print Astrid Tags of 8" type="object" states="done"
+                            icon="gtk-preferences"/>
+                     <button name="print_palet_tag_report" string="Print Tags of 4" type="object" states="done"
+                            icon="gtk-copy"/>
+                    <button name="print_eci_report" string="Print ECI report" type="object" states="done" icon="STOCK_PRINT"/>
                 </button>
 
                 

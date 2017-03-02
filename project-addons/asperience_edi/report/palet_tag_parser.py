@@ -31,12 +31,18 @@ class PaletTagParser(models.AbstractModel):
 
             num_packs = op.complete + (1 if op.package else 0)
             for i in range(2 * num_packs):
+                serie = op.product_id.ean13 and op.product_id.ean13[:-1] or ''
+                barcode = serie and \
+                    '1 ' + serie[0:2] + ' ' + serie[2:7] + ' ' + serie[7:]\
+                    + ' 9' or ''
+
                 dic = {
-                    'description': op.product_id.name,
-                    'serial_number': op.product_id.ean13,
+                    'description': op.product_id and
+                    op.product_id.name.upper() or '',
+                    'serial_number': serie,
                     'lot': op.lot_id.name if op.lot_id else '-',
-                    'num_units': '12/36',
-                    'barcode': '184 33329 03229 9',
+                    'num_units': '¿12/36?',
+                    'barcode': barcode
                 }
                 package_dic[op.product_id].append(dic)
 
@@ -47,9 +53,9 @@ class PaletTagParser(models.AbstractModel):
                 palet_number += 1
                 num_palets += 1
                 palet_dic[op.palet] = {
-                    'place': 'ALMACÉN VALDEMORO 1 050',
-                    'place_dir': 'CTRA ANDALUCÍA K23, MARGEN IZQ;\
-                                  28340_VALDEMORO\n(Madrid)',
+                    'place': '¿ALMACÉN VALDEMORO 1 050?',
+                    'place_dir': '¿CTRA ANDALUCÍA K23, MARGEN IZQ;\
+                                  28340_VALDEMORO\n(Madrid)?',
                     'num_packs': 0,
                     'palet_number': palet_number,
                     'barcode': '',
@@ -58,7 +64,7 @@ class PaletTagParser(models.AbstractModel):
             num_packs = op.complete + (1 if op.package else 0)
             palet_dic[op.palet]['num_packs'] += num_packs
             if op.sscc:
-                palet_dic[op.palet]['barcode'] += op.sscc
+                palet_dic[op.palet]['barcode'] += '(00)' + op.sscc
 
         docargs = {
             'doc_ids': [],

@@ -36,7 +36,8 @@
 Used for the communication with others proprietary ERP's.
 Ability to import and export files in CSV,XML and EDI.
 Shares in the background or not, with the possibility of planning by cron.
-WARNING: folders tree and folders management is not fully secured. This must NOT be used by novice users
+WARNING: folders tree and folders management is not fully secured.
+This must NOT be used by novice users
     """,
     "data": [
         "data/edi_data.xml",
@@ -46,6 +47,7 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "views/edi_board.xml",
         "views/edi_menu.xml",
         "views/stock.xml",
+        "views/sale.xml",
         "views/product.xml",
         "views/edi_fields_view.xml",
         "data/import_orders.xml",
@@ -58,7 +60,8 @@ WARNING: folders tree and folders management is not fully secured. This must NOT
         "report/report.xml",
         "report/package_tag_report.xml",
         "report/palet_tag_report.xml",
-        "report/corte_ingles_report.xml"
+        "report/corte_ingles_report.xml",
+        "report/eci_order_report.xml"
     ],
     "images": [
         "images/asperience.png",

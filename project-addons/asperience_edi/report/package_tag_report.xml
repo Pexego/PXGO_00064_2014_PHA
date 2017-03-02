@@ -17,67 +17,26 @@
             padding-left: 4px;
             margin-top: 3px;
         }
-         #t-column p{
+        #t-column p{
             font-size:22px;
             line-height: 15px;
-
         }
     </style>
 
-        <t t-foreach="docs" t-as="o">
-                <div class="page">
-                    <div id="container">
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:   <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:   <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:   <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
-                        <div id="t-column">
-                            <p><strong>SUCURSAL:   <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.name"/> </strong></p>
-                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
-                        </div>
+    <t t-foreach="docs" t-as="o">
+        <div class="page">
+            <div id="container">
+                <t t-foreach="range(8)" t-as="index">
+                    <div id="t-column">
+                        <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
+                        <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
+                        <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.client_order_ref"/> </strong></p>
+                        <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
                     </div>
-                </div>
-        </t>
+                </t>
+            </div>
+        </div>
+    </t>
     </template>
 
     </data>
