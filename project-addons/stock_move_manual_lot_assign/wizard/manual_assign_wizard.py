@@ -20,7 +20,8 @@ class StockMoveAssignManualLot(models.TransientModel):
     @api.depends('line_ids', 'line_ids.use_qty')
     def _compute_qties(self):
         move = self.env['stock.move'].browse(self.env.context['active_id'])
-        lines_qty = sum(self.line_ids.mapped('use_qty'))
+        lines_qty = sum(self.line_ids.filtered(
+            lambda r: r.use_qty > 0).mapped('use_qty'))
         self.lines_qty = lines_qty
         self.move_qty = move.product_uom_qty - lines_qty
 
@@ -111,4 +112,6 @@ class StockMoveAssignManualLotLine(models.TransientModel):
     @api.onchange('use_qty')
     def onchange_use_qty(self):
         if self.use_qty > self.available_qty:
-            raise exceptions.Warning(_('Quantity error'), _('Quantity is higher than the available'))
+            raise exceptions.Warning(
+                _('Quantity error'),
+                _('Quantity is higher than the available'))
