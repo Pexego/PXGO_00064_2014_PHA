@@ -31,6 +31,13 @@ class MrpProduction(models.Model):
     return_operation_ids = fields.One2many('stock.move.return.operations',
                                            'production_id',
                                            'Return operations')
+    accept_multiple_raw_material = fields.Boolean(
+        compute='_get_accept_multiple_raw_material')
+
+    @api.one
+    @api.depends('routing_id.machinery_ids.accept_more_than_one_raw_material')
+    def _get_accept_multiple_raw_material(self):
+        self.accept_multiple_raw_material = any(self.mapped('routing_id.machinery_ids.accept_more_than_one_raw_material'))
 
     @api.one
     @api.depends('move_lines.move_orig_ids', 'move_lines2.move_orig_ids')
