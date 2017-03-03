@@ -64,6 +64,7 @@ class StockMove(models.Model):
                 move.procurement_id.sale_line_id.order_id.partner_id)
             move.price_total = taxes['total_included']
 
+
 class StockPicking(models.Model):
 
     _inherit = 'stock.picking'
@@ -86,6 +87,41 @@ class StockPicking(models.Model):
                         else:
                             line.lot_id = line.move_id.linked_move_operation_ids.operation_id.lot_id.id
         return res
+
+    @api.multi
+    def print_package_tag_report(self):
+        self.ensure_one()
+        custom_data = {
+            'pick_id': self.id,
+            'string2': "MI STRING 2",
+        }
+        rep_name = 'asperience_edi.package_tag_report'
+        rep_action = self.env["report"].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
+
+    @api.multi
+    def print_palet_tag_report(self):
+        self.ensure_one()
+        custom_data = {
+            'pick_id': self.id,
+            'string2': "MI STRING 2",
+        }
+        rep_name = 'asperience_edi.palet_tag_report'
+        rep_action = self.env["report"].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
+
+    @api.multi
+    def print_eci_report(self):
+        self.ensure_one()
+        custom_data = {
+            'pick_id': self.id,
+        }
+        rep_name = 'asperience_edi.corte_ingles_report'
+        rep_action = self.env["report"].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
 
 
 class StockInvoiceOnshipping(models.TransientModel):
