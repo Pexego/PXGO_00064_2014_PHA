@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
 
 
@@ -134,4 +134,73 @@ class StockMove(models.Model):
                         'move_id': op_move.id,
                         'production_id': op_move.raw_material_production_id.id
                     }
-                    self.env['stock.move.return.operations'].create(operation_dict)
+                    self.env['stock.move.return.operations'].create(
+                        operation_dict)
+
+
+class StockPicking(models.Model):
+
+    _inherit = 'stock.picking'
+
+    is_hoard = fields.Boolean('Is hoard', related='move_lines.is_hoard_move')
+    accept_multiple_raw_material = fields.Boolean(
+        related='move_lines.raw_material_production_id.\
+accept_multiple_raw_material')
+
+    @api.multi
+    def do_transfer(self):
+        '''
+            Se controla el uso de materias primas en acopios de producción.
+        '''
+        for picking in self:
+            if picking.is_hoard and not picking.accept_multiple_raw_material:
+                if len(picking.mapped(
+                        'move_lines.product_id').filtered(lambda r: r.raw_material==True)) > 1:
+                    raise exceptions.Warning(
+                        _('Multiple raw material'),
+                        _('The route not accepts multiple raw material'))
+                for move in picking.move_lines:
+                    if move.product_id.raw_material:
+                        if len(move.mapped('linked_move_operation_ids.operation_id.lot_id')) > 1:
+                            raise exceptions.Warning(
+                                _('Multiple lot'),
+                                _('The production route only accepts one lot of raw material'))
+        return super(StockPicking, self).do_transfer()
+
+
+class StockQuant(models.Model):
+
+    _inherit = 'stock.quant'
+
+    @api.model
+    def _quants_get_order(self, location, product, quantity, domain=[],
+                          orderby='in_date'):
+        '''
+            Se controla la asignacion de materias primas para que no se asigne
+            mas de un lote para materia prima en albaranes de acopio
+            cuya ruta no tenga mezcladora.
+        '''
+        if product.raw_material:
+            if self._context.get('active_model', False) == 'stock.picking':
+                picking = self.env['stock.picking'].browse(
+                    self._context.get('active_id', False))
+                if picking.is_hoard and not \
+                        picking.accept_multiple_raw_material:
+                    available_quants = self.env['stock.quant'].search([
+                        ('location_id', 'child_of', location.id),
+                        ('product_id', '=', product.id),
+                        ('qty', '>', 0),
+                        ('reservation_id', '=', False)])
+                    lots = {}
+                    for quant in available_quants:
+                        if quant.lot_id.id not in lots:
+                            lots[quant.lot_id.id] = 0.0
+                        lots[quant.lot_id.id] += quant.qty
+                    available_lots = []
+                    for lot in lots.keys():
+                        if lots[lot] >= quantity:
+                            available_lots.append(lot)
+                    domain.append(['lot_id', 'in', available_lots])
+        return super(StockQuant, self)._quants_get_order(location, product,
+                                                         quantity, domain,
+                                                         orderby)

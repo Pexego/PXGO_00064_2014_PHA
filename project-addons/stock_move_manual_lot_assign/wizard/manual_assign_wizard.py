@@ -46,6 +46,10 @@ class StockMoveAssignManualLot(models.TransientModel):
             lots[quant.lot_id.id][0] += quant.qty
         lines = []
         for lot in lots.keys():
+            if move.product_id.raw_material and move.is_hoard_move and not \
+                    move.picking_id.accept_multiple_raw_material:
+                if lots[lot][0] < move.product_uom_qty:
+                    continue
             lines.append({
                 'lot_id': lot,
                 'available_qty': lots[lot][0],
@@ -68,6 +72,12 @@ class StockMoveAssignManualLot(models.TransientModel):
     def assign_lots(self):
         self.ensure_one()
         move = self.env['stock.move'].browse(self.env.context['active_id'])
+        if move.product_id.raw_material and move.is_hoard_move and not \
+                move.picking_id.accept_multiple_raw_material and \
+                len(self.line_ids.filtered(lambda r: r.use_qty > 0)) > 1:
+            raise exceptions.Warning(
+                _('Multiple lot'),
+                _('The production route only accepts one lot of raw material'))
         move.picking_id.mapped('pack_operation_ids').unlink()
         for quant_id in move.reserved_quant_ids.ids:
             move.write({'reserved_quant_ids': [[3, quant_id]]})

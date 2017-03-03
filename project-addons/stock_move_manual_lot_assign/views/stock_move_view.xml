@@ -27,7 +27,7 @@
                 <button name="force_assign" position="after">
                     <button name="%(assign_manual_lots_action)d" type="action"
                             string="Manual lots" class="oe_highlight"
-                            attrs="{'invisible':['|',('is_hoard_move','=',False),('state','not in',('confirmed','assigned'))]}" />
+                            attrs="{'invisible':['|',('is_hoard_move','=',False),('state','not in',('assigned'))]}" />
                     <field name="is_hoard_move" invisible="1"/>
                 </button>
             </field>
