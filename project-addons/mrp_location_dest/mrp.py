@@ -18,7 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
 class MrpRouting(models.Model):
@@ -36,3 +37,11 @@ class MrpProduction(models.Model):
     def onchange_routing_id(self):
         if self.routing_id.finished_dest_location_id:
             self.location_dest_id = self.routing_id.finished_dest_location_id
+
+    @api.multi
+    def action_confirm(self):
+        for prod in self:
+            if len(prod.location_dest_id.child_ids):
+                raise Warning(_('Location Error'), _('Location %s has child locations. \
+The movements should be at an end location') % prod.location_dest_id.name)
+        return super(MrpProduction, self).action_confirm()
