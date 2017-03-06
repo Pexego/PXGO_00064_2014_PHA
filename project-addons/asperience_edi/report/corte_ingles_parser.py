@@ -79,6 +79,7 @@ class CorteInglesParser(models.AbstractModel):
 
         p_table = {}
         first = True
+        palet_packs_dic = pick._get_num_packs_in_palets()
         for op in pick.pack_operation_ids:
             if not op.palet:
                 continue
@@ -86,9 +87,10 @@ class CorteInglesParser(models.AbstractModel):
             if op.palet not in palet_tables:
                 palet_tables[op.palet] = []
             if op.palet not in total_tables:
+                total_packs = palet_packs_dic.get(op.palet, 0)
                 total_tables[op.palet] = {'total_qty': 0.0,
                                           'total_lines': 0.0,
-                                          'total_packs': 0.0,
+                                          'total_packs': total_packs,
                                           'sscc': '',
                                           'first': first}
                 first = False
@@ -113,13 +115,9 @@ class CorteInglesParser(models.AbstractModel):
             }
             palet_tables[op.palet].append(p_table)
 
-            total_qty = op.product_qty
-            total_lines = 1
-            total_packs = 1
+            total_tables[op.palet]['total_qty'] += op.product_qty
+            total_tables[op.palet]['total_lines'] += 1
 
-            total_tables[op.palet]['total_qty'] += total_qty
-            total_tables[op.palet]['total_lines'] += total_lines
-            total_tables[op.palet]['total_packs'] += total_packs
             if op.sscc:
                 total_tables[op.palet]['sscc'] = op.sscc
 
