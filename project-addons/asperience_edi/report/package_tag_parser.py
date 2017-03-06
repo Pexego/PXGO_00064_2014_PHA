@@ -21,8 +21,6 @@ class PackageTagParser(models.AbstractModel):
                              _('You must print it from a wizard'))
 
         pick = pick_obj.browse(data['pick_id'])
-
-        print "ENTRO EN PARSER"
         docargs = {
             'doc_ids': [],
             'doc_model': 'stock.picking',
