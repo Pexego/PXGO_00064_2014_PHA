@@ -36,12 +36,20 @@ class PaletTagParser(models.AbstractModel):
                     '1 ' + serie[0:2] + ' ' + serie[2:7] + ' ' + serie[7:]\
                     + ' 9' or ''
 
+            cant_ue = ''
+            if op.linked_move_operation_ids:
+                if op.linked_move_operation_ids[0].move_id.procurement_id:
+                    move = op.linked_move_operation_ids[0].move_id
+                    if move.procurement_id:
+                        proc = move.procurement_id
+                        if proc.sale_line_id:
+                            cant_ue = proc.sale_line_id.units_per_package
                 dic = {
                     'description': op.product_id and
                     op.product_id.name.upper() or '',
                     'serial_number': serie,
                     'lot': op.lot_id.name if op.lot_id else '-',
-                    'num_units': '¿12/36?',
+                    'num_units': str(cant_ue) + '/' + str(op.product_qty),
                     'barcode': barcode
                 }
                 package_dic[op.product_id].append(dic)
@@ -53,9 +61,10 @@ class PaletTagParser(models.AbstractModel):
                 palet_number += 1
                 num_palets += 1
                 palet_dic[op.palet] = {
-                    'place': '¿ALMACÉN VALDEMORO 1 050?',
-                    'place_dir': '¿CTRA ANDALUCÍA K23, MARGEN IZQ;\
-                                  28340_VALDEMORO\n(Madrid)?',
+                    'place': pick.partner_id.street2 and
+                    pick.partner_id.street2 or '',
+                    'place_dir': pick.partner_id.street and
+                    pick.partner_id.street.upper() or '',
                     'num_packs': 0,
                     'palet_number': palet_number,
                     'barcode': '',
