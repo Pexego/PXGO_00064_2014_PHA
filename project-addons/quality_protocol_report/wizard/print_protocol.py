@@ -76,18 +76,16 @@ class PrintProtocol(models.TransientModel):
                     wkcenter_line = workcenter_line
             if not wkcenter_line:
                 raise exceptions.Warning(_('Not found'), _('Protocol not found for the route %s.') % obj.routing_id.name)
-        for protocol_link in obj.product_id.protocol_ids:
-            protocol = protocol_link.protocol
-            if protocol.type_id.id == self.protocol_type_id.id:
-                if obj.routing_id == protocol_link.route and obj.bom_id == protocol_link.bom:
-                    use_protocol = protocol
-                elif obj.routing_id == protocol_link.route or obj.bom_id == protocol_link.bom:
-                    use_protocol = protocol
-                elif not protocol_link.route and not protocol_link.bom:
-                    use_protocol = protocol
-
+        protocol_link = obj.product_id.protocol_ids.filtered(lambda r: r.protocol.type_id.id == self.protocol_type_id.id)
+        use_protocol = protocol_link.filtered(lambda r: obj.routing_id == r.route and obj.bom_id == r.bom)
+        if not use_protocol:
+            use_protocol = protocol_link.filtered(lambda r: obj.routing_id == r.route or obj.bom_id == r.bom)
+        if not use_protocol:
+            use_protocol = protocol_link.filtered(lambda r: not r.route and not r.bom)
         if not use_protocol:
             raise exceptions.Warning(_('Not found'), _('Protocol not found for the product %s.') % obj.product_id.name)
+        else:
+            use_protocol = use_protocol.protocol
         if not wkcenter_line.realized_ids:
             for line in use_protocol.report_line_ids:
                 if line.log_realization:
