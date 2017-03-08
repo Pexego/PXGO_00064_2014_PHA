@@ -6,3 +6,4 @@ access_product_protocol,access_product_protocol,model_product_protocol,base.grou
 access_protocol_type,access_protocol_type,model_protocol_type,base.group_user,1,1,1,1
 access_quality_realization,access_quality_realization,model_quality_realization,base.group_user,1,1,1,1
 access_mrp_indicators_base_report,mrp_indicators_base_report,model_mrp_indicators_base_report,mrp.group_mrp_manager,1,1,1,1
+access_product_protocol_link,product_protocol_link,model_product_protocol_link,base.group_user,1,1,1,1

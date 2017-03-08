@@ -68,7 +68,15 @@
                         </page>
 
                         <page string="Products">
-                            <field name="product_ids"/>
+                            <field name="product_ids">
+                                <tree editable="bottom">
+                                    <field name="product"/>
+                                    <field name="prod_tmpl_id" invisible="1"/>
+                                    <field name="product_route_ids" invisible="1"/>
+                                    <field name="route" domain="[('id', 'in', product_route_ids[0][2])]"/>
+                                    <field name="bom" domain="[('product_tmpl_id', '=', prod_tmpl_id)]"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>

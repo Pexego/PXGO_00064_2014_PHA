@@ -22,6 +22,20 @@ msgid "(Firma y fecha)"
 msgstr "(Firma y fecha)"
 
 #. module: quality_protocol_report
+#: field:product.category,raw_material:0
+#: field:product.product,raw_material:0
+#: field:product.template,raw_material:0
+msgid "Raw material"
+msgstr "Materia prima"
+
+
+#. module: quality_protocol_report
+#: field:product.product,lot_label:0
+msgid "Lot label"
+msgstr "Etiquetas de lote"
+
+
+#. module: quality_protocol_report
 #: view:website:quality_protocol_report.lot_check_print_sec
 msgid ""
 "*Comprobar que el primer estuche que sale de la impresora láser tiene la "
