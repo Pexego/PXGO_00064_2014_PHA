@@ -37,6 +37,7 @@
                 'mrp_hoard',
                 'lot_states',
                 'mrp_automatic_lot',
+                'mrp_location_dest',
                 'product_spec',
                 'quality_management_menu'],
     "data": ['wizard/mrp_release_all.xml',
