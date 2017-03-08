@@ -121,6 +121,7 @@
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default" name="button_submit" value="finish" id="send_form">Submit</button>
+                                <button type="button" class="btn" name="button_cancel" style="margin-left:15px" onclick="history.back()">Descartar</button>
                             </div>
                             <div class="js_errzone alert" id="general_info" style="display:none;"></div>
                         </div>
