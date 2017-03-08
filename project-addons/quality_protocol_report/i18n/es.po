@@ -361,6 +361,23 @@ msgid "Associated protocol"
 msgstr "Protocolo asociado"
 
 #. module: quality_protocol_report
+#: field:product.protocol.link,bom:0
+msgid "Bom"
+msgstr "LdM"
+
+#. module: quality_protocol_report
+#: field:product.protocol.link,route:0
+msgid "Route"
+msgstr "Ruta"
+
+
+#. module: quality_protocol_report
+#: field:product.protocol.link,protocol:0
+#: field:quality.duplicate.protocol,protocol_id:0
+msgid "Protocol"
+msgstr "Protocolo"
+
+#. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_filter
 msgid "Base form"
 msgstr "Forma base"
@@ -1121,6 +1138,7 @@ msgstr "Configuración de impresora"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_product_product
+#: field:product.protocol.link,product:0
 msgid "Product"
 msgstr "Producto"
 
