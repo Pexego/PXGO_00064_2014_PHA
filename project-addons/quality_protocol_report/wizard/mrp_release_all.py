@@ -45,5 +45,4 @@ class MrpReleaseAll(models.TransientModel):
         produce_wiz.consume_lines = False
         produce_wiz.with_context(ignore_child=True).do_produce()
         mrp.signal_workflow('button_produce_done')
-        mrp.final_lot_id.signal_workflow('direct_approved')
         return {'type': 'ir.actions.act_window_close'}
