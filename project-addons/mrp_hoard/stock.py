@@ -144,7 +144,7 @@ class StockPicking(models.Model):
 
     is_hoard = fields.Boolean('Is hoard', related='move_lines.is_hoard_move')
     accept_multiple_raw_material = fields.Boolean(
-        related='move_lines.raw_material_production_id.\
+        related='move_lines.move_dest_id.raw_material_production_id.\
 accept_multiple_raw_material')
 
     @api.multi
