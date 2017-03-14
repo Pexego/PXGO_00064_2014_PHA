@@ -7,6 +7,7 @@ from openerp.exceptions import Warning
 
 class HrHolidays(models.Model):
     _inherit = 'hr.holidays'
+#    _rec_name = 'employee_id'
 
     # Auxiliary field to make number_of_days_temp read only
     number_of_days_aux = fields.Float(readonly=True)
@@ -21,6 +22,13 @@ class HrHolidays(models.Model):
                          vals.get('number_of_days_temp', False))
         vals['number_of_days_aux'] = value or self.number_of_days_temp
         return super(HrHolidays, self).write(vals)
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for rec in self:  # Why we need sudo() when we have access rights to hr.employee?
+            res.append((rec.id, rec.sudo().employee_id.name))
+        return res
 
 
 class HrHolidaysManagement(models.TransientModel):

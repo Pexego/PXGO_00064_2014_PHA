@@ -50,6 +50,26 @@
             </field>
         </record>
 
+        <record id="hr_holidays_gantt_view" model="ir.ui.view">
+            <field name="name">Custom views - Holidays gantt view</field>
+            <field name="model">hr.holidays</field>
+            <field name="arch" type="xml">
+                <gantt date_start="date_from"
+                       date_stop="date_to"
+                       string="Employees holidays"
+                       create="false"
+                       delete="false">
+                </gantt>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_open_ask_holidays_gantt">
+            <field name="sequence" eval="4"/>
+            <field name="view_mode">gantt</field>
+            <field name="view_id" ref="hr_holidays_gantt_view"/>
+            <field name="act_window_id" ref="hr_holidays.open_ask_holidays"/>
+        </record>
+
         <record id="action_hr_holidays_management" model="ir.actions.act_window">
             <field name="name">Holidays management</field>
             <field name="res_model">hr.holidays.management</field>
