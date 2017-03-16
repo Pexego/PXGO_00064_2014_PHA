@@ -104,7 +104,7 @@ class StockMoveAssignManualLot(models.TransientModel):
                     break
         self.pool['stock.quant'].quants_reserve(
             self.env.cr, self.env.uid, quants, move, context=self.env.context)
-
+        move.create_return_operations()
         return {'type': 'ir.actions.act_window_close'}
 
 

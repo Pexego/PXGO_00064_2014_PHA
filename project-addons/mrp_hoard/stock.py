@@ -33,6 +33,7 @@ class StockMoveReturnOperations(models.Model):
     move_id = fields.Many2one('stock.move', 'Move')
     production_id = fields.Many2one('mrp.production', 'Production')
     product_uom = fields.Many2one('product.uom', 'UoM')
+    location_id = fields.Many2one('stock.location')
     """Informative fields"""
     served_qty = fields.Float('Served qty',
                               help="Quality system field, no data",
@@ -105,37 +106,41 @@ class StockMove(models.Model):
         super(StockMove, self).action_assign()
         if self.env.context.get('no_return_operations', False):
             return
+        return self.create_return_operations()
+
+    def create_return_operations(self):
         q_lot_ids = []
         for move in self:
-            if move.raw_material_production_id or  \
-                    (move.move_dest_id and
-                     move.move_dest_id.raw_material_production_id):
+            if (move.move_dest_id and
+                move.move_dest_id.raw_material_production_id):
                 op_move = move
                 if move.move_dest_id:
                     op_move = move.move_dest_id
                 if op_move.return_operation_ids:
                     op_move.return_operation_ids.unlink()
 
-                quants = self.env['stock.quant'].read_group(
-                    [('reservation_id', '=', move.id)], ['lot_id', 'qty'],
-                    ['lot_id'])
-                for quant in quants:
-                    lot = quant['lot_id']
-                    if lot:
-                        q_lot_ids.append(lot[0])
-                    operation = self.env['stock.move.return.operations'].search(
-                        [('move_id', '=', op_move.id),
-                         ('lot_id', '=', lot and lot[0] or False)])
-                    operation_dict = {
-                        'product_id': op_move.product_id.id,
-                        'lot_id': lot and lot[0] or False,
-                        'qty': quant['qty'],
-                        'product_uom': move.product_uom.id,
-                        'move_id': op_move.id,
-                        'production_id': op_move.raw_material_production_id.id
-                    }
-                    self.env['stock.move.return.operations'].create(
-                        operation_dict)
+                locations = move.reserved_quant_ids.mapped('location_id.id')
+                for location in locations:
+                    quants = self.env['stock.quant'].read_group(
+                        [('reservation_id', '=', move.id), ('location_id', '=', location)], ['lot_id', 'qty',], ['lot_id'])
+                    for quant in quants:
+                        lot = quant['lot_id']
+                        if lot:
+                            q_lot_ids.append(lot[0])
+                        operation = self.env['stock.move.return.operations'].search(
+                            [('move_id', '=', op_move.id),
+                             ('lot_id', '=', lot and lot[0] or False)])
+                        operation_dict = {
+                            'product_id': op_move.product_id.id,
+                            'lot_id': lot and lot[0] or False,
+                            'qty': quant['qty'],
+                            'product_uom': move.product_uom.id,
+                            'move_id': op_move.id,
+                            'production_id': op_move.raw_material_production_id.id,
+                            'location_id': location
+                        }
+                        self.env['stock.move.return.operations'].create(
+                            operation_dict)
 
 
 class StockPicking(models.Model):

@@ -1,23 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2017 Comunitea
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, api, _, exceptions
 from openerp.osv import fields
@@ -81,7 +64,7 @@ class MrpProduction(models.Model):
         return super(MrpProduction, self).copy(cr, uid, id, default, context)
 
     @api.multi
-    def action_finish_review(self):
+    def action_finish_prod(self):
         self.write({'state': 'wait_release'})
 
     @api.multi
@@ -104,6 +87,22 @@ class MrpProduction(models.Model):
                     'quality_review_date': date.today(),
                     'qual_review_ok': True})
 
+    @api.multi
+    def test_production_done_not_review(self):
+        res = self.test_production_done()
+        for production in self:
+            if production.product_id.categ_id.needs_mrp_review:
+                res = False
+        return res
+
+    @api.multi
+    def test_production_done_review(self):
+        res = self.test_production_done()
+        for production in self:
+            if not production.product_id.categ_id.needs_mrp_review:
+                res = False
+        return res
+
 
 class MrpProductionWorkcenterLine(models.Model):
 
@@ -122,7 +121,7 @@ class MrpProductionWorkcenterLine(models.Model):
                 prod_obj.signal_workflow('button_produce')
             elif prod_obj.state == 'ready':
                 prod_obj.signal_workflow('button_produce')
-            elif prod_obj.state == 'wait_release':
+            elif prod_obj.state in ('in_review', 'wait_release'):
                 return
             else:
                 raise exceptions.Warning(

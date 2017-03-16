@@ -603,11 +603,6 @@ msgid "Document error"
 msgstr "Document error"
 
 #. module: quality_protocol_report
-#: field:mrp.production.workcenter.line,doc_submited:0
-msgid "Document submited"
-msgstr "Document submited"
-
-#. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/mrp_production.py:58
 #: code:addons/quality_protocol_report/models/stock.py:70
 #, python-format
