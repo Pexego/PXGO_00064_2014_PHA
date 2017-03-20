@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* product_spec
+#   * product_spec
 #
 msgid ""
 msgstr ""
@@ -86,22 +86,22 @@ msgstr "Análisis"
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_action_weight:0
 msgid "Average filter weight max action"
-msgstr "Peso filtro promedio acción máx."
+msgstr "acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_alert_weight:0
 msgid "Average filter weight max alert"
-msgstr "Peso filtro promedio alerta máx."
+msgstr "alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_action_weight:0
 msgid "Average filter weight min action"
-msgstr "Peso filtro promedio acción mín."
+msgstr "acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_alert_weight:0
 msgid "Average filter weight min alert"
-msgstr "Peso filtro promedio alerta mín."
+msgstr "alerta mín."
 
 #. module: product_spec
 #: view:product.template:product_spec.product_search_form_view_extended_search
@@ -184,42 +184,42 @@ msgstr "Peso del filtro"
 #. module: product_spec
 #: field:product.quality.limits,filter_max_action_weight:0
 msgid "Filter weight max action"
-msgstr "Peso filtro acción máx."
+msgstr "acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_max_alert_weight:0
 msgid "Filter weight max alert"
-msgstr "Peso filtro alerta máx."
+msgstr "alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_action_weight:0
 msgid "Filter weight min action"
-msgstr "Peso filtro acción mín."
+msgstr "acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_alert_weight:0
 msgid "Filter weight min alert"
-msgstr "Peso filtro alerta mín."
+msgstr "alerta mín."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_action_weight:0
 msgid "Full case action max"
-msgstr "Estuche lleno acción máx."
+msgstr "acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_action_weight:0
 msgid "Full case action min"
-msgstr "Estuche lleno acción mín."
+msgstr "acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_alert_weight:0
 msgid "Full case alert max"
-msgstr "Estuche lleno alerta máx."
+msgstr "alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_alert_weight:0
 msgid "Full case alert min"
-msgstr "Estuche lleno alerta mín."
+msgstr "alerta mín."
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form

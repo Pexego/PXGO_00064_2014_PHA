@@ -21,6 +21,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api
+import openerp.addons.decimal_precision as dp
 
 
 class ProductLine(models.Model):
@@ -73,7 +74,7 @@ class product_quality_limits(models.Model):
 
     _name = "product.quality.limits"
 
-    name = fields.Char('Name', size=64, required=True)
+    name = fields.Many2one('product.product')
     # case_weight
     full_case_min_action_weight = fields.Float('Full case action min')
     full_case_max_action_weight = fields.Float('Full case action max')
@@ -93,8 +94,19 @@ class product_quality_limits(models.Model):
     filter_max_alert_weight = fields.Float('Filter weight max alert')
 
     loc_samples = fields.Integer('Loc Samples')
-    unit_weight = fields.Float('Unit weight')
+    unit_weight = fields.Float('Unit weight', compute='_get_unit_weight',
+                               store=True,
+                               digits=dp.get_precision('Stock Weight'))
     analysis = fields.Integer('Analysis')
+
+    _sql_constraints = [('name_unique', 'unique(name)',
+                         'Unique product')]
+
+    @api.depends('name.weight_net', 'name.qty')
+    def _get_unit_weight(self):
+        for spec in self:
+            if spec.name.qty != 0:
+                spec.unit_weight = spec.name.weight_net / spec.name.qty
 
 
 class ProductProduct(models.Model):

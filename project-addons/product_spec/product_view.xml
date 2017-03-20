@@ -13,7 +13,7 @@
                 <notebook position="inside">
                     <page string="Process control" attrs="{'invisible': [('process_control', '=', False)]}">
                         <group>
-                            <field name="quality_limits"/>
+                            <field name="quality_limits" context="{'default_name': active_id}" domain="[('name', '=', active_id)]"/>
                         </group>
                     </page>
                 </notebook>
@@ -472,48 +472,27 @@
                     <sheet>
                         <label class="oe_edit_only" for="name" string="Name"/>
                         <div>
-                            <h1><field name="name" class="oe_inline"/></h1>
+                            <h1><field name="name" class="oe_inline" readonly="1"/></h1>
                         </div>
                         <group>
                             <field name="unit_weight"/>
-                            <group string="Full case weight">
-                                <label for="full_case_min_action_weight" string="Action"/>
-                                <div>
-                                    <field name="full_case_min_action_weight" nolabel="1" class="oe_inline"/>-
-                                    <field name="full_case_max_action_weight" nolabel="1" class="oe_inline"/>
-                                </div>
-
-                                <label for="full_case_min_alert_weight" string="Alert"/>
-                                <div>
-                                    <field name="full_case_min_alert_weight" nolabel="1" class="oe_inline"/>-
-                                    <field name="full_case_max_alert_weight" nolabel="1" class="oe_inline"/>
-                                </div>
+                            <group string="Filter weight">
+                                <field name="filter_min_action_weight"/>
+                                <field name="filter_min_alert_weight"/>
+                                <field name="filter_max_action_weight"/>
+                                <field name="filter_max_alert_weight"/>
                             </group>
                             <group string="Filter Average weight">
-                                <label for="filter_av_min_action_weight" string="Action"/>
-                                <div>
-                                    <field name="filter_av_min_action_weight" nolabel="1" class="oe_inline"/>-
-                                    <field name="filter_av_max_action_weight" nolabel="1" class="oe_inline"/>
-                                </div>
-
-                                <label for="filter_av_min_alert_weight" string="Alert"/>
-                                <div>
-                                    <field name="filter_av_min_alert_weight" nolabel="1" class="oe_inline"/>-
-                                    <field name="filter_av_max_alert_weight" nolabel="1" class="oe_inline"/>
-                                </div>
+                                <field name="filter_av_min_action_weight" />
+                                <field name="filter_av_min_alert_weight" />
+                                <field name="filter_av_max_action_weight" />
+                                <field name="filter_av_max_alert_weight" />
                             </group>
-                            <group string="Filter weight">
-                                <label for="filter_min_action_weight" string="Action"/>
-                                <div>
-                                    <field name="filter_min_action_weight" nolabel="1" class="oe_inline"/>-
-                                    <field name="filter_max_action_weight" nolabel="1" class="oe_inline"/>
-                                </div>
-
-                                <label for="filter_min_alert_weight" string="Alert"/>
-                                <div>
-                                    <field name="filter_min_alert_weight" nolabel="1" class="oe_inline"/>-
-                                    <field name="filter_max_alert_weight" nolabel="1" class="oe_inline"/>
-                                </div>
+                            <group string="Full case weight">
+                                <field name="full_case_min_action_weight"/>
+                                <field name="full_case_min_alert_weight"/>
+                                <field name="full_case_max_action_weight"/>
+                                <field name="full_case_max_alert_weight"/>
                             </group>
                             <group string="Samples">
                                 <field name="loc_samples"/>

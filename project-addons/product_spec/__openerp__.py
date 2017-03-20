@@ -21,7 +21,7 @@
 
 {
     'name': 'Product spec',
-    'version': '1.0',
+    'version': '8.0.1.2.0',
     'category': 'Product',
     'description': """
         The following fields are added to products:
