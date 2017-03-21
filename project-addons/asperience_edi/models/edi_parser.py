@@ -664,7 +664,7 @@ class edi_parser(models.Model):
         if line_vals:
             line_vals['order_id'] = new_sale_id
             #taxes = fpos_obj.map_tax(cr,uid,vals['fiscal_position'],product.taxes_id)
-            product = product_object.browse(cr, uid, line_vals['product_id'])
+            product = product_obj.browse(cr, uid, line_vals['product_id'])
             taxes = fpos_obj.map_tax(cr,uid,vals_fiscal_position,product.taxes_id)
             line_vals['tax_id'] = [(6,0,taxes)]
             sale_line_obj.create(cr, uid, line_vals)
