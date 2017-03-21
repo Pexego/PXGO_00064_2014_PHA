@@ -9,15 +9,15 @@
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <div class="text-center">
-                        <h3 width="100%" style="background-color: grey"><span t-field="o.product_id.name"/></h3>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 350, 50)" style="width:350px;height:50px"/>
+                        <h2 width="100%" style="background-color: grey"><span t-field="o.product_id.name"/></h2>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 400, 50)" style="width:400px;height:50px"/>
                         <br/>
                         <small t-field="o.product_id.default_code"></small>
                     </div>
-                    <h4>LOTE</h4>
+
                     <div class="text-center">
-                        <h3><span t-field="o.final_lot_id.name"/></h3>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 600, 100)" style="width:350px;height:50px"/>
+                        <p><span style="font-size: 7em; font-weight:bold;" t-field="o.final_lot_id.name"/></p>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 400, 50)" style="width:400px;height:50px"/>
                         <br/>
                         <small t-field="o.final_lot_id.name"></small>
                     </div>
