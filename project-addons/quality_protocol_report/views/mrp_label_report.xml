@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <template id="report_mrp_label">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="text-center">
+                        <h3 width="100%" style="background-color: grey"><span t-field="o.product_id.name"/></h3>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 350, 50)" style="width:350px;height:50px"/>
+                        <br/>
+                        <small t-field="o.product_id.default_code"></small>
+                    </div>
+                    <h4>LOTE</h4>
+                    <div class="text-center">
+                        <h3><span t-field="o.final_lot_id.name"/></h3>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 600, 100)" style="width:350px;height:50px"/>
+                        <br/>
+                        <small t-field="o.final_lot_id.name"></small>
+                    </div>
+                    <div class="text-center">
+                        <h3><span t-esc="o.product_qty * 1"/> <span t-field="o.product_id.container_id.name"/></h3>
+                        <h3><span t-field="o.final_lot_id.use_date"/></h3>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+        <report
+            id="action_print_mrp_label"
+            model="mrp.production"
+            string="Mrp labels"
+            report_type="qweb-pdf"
+            name="quality_protocol_report.report_mrp_label"
+            attachment_use="False"
+
+        />
+
+        <record id="quality_protocol_report.action_print_mrp_label" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="quality_protocol_report.paperformat_mrp_labels"/>
+        </record>
+
+    </data>
+</openerp>
