@@ -69,6 +69,8 @@ class StockPicking(models.Model):
 
     _inherit = 'stock.picking'
 
+    channel_name = fields.Char('Channel name', related='sale_channel_id.name')
+
     @api.model
     def _invoice_create_line(self, moves, journal_id, inv_type='out_invoice'):
         res = super(StockPicking, self)._invoice_create_line(
@@ -93,7 +95,6 @@ class StockPicking(models.Model):
         self.ensure_one()
         custom_data = {
             'pick_id': self.id,
-            'string2': "MI STRING 2",
         }
         rep_name = 'asperience_edi.package_tag_report'
         rep_action = self.env["report"].get_action(self, rep_name)
@@ -105,12 +106,49 @@ class StockPicking(models.Model):
         self.ensure_one()
         custom_data = {
             'pick_id': self.id,
-            'string2': "MI STRING 2",
         }
         rep_name = 'asperience_edi.palet_tag_report'
         rep_action = self.env["report"].get_action(self, rep_name)
         rep_action['data'] = custom_data
         return rep_action
+
+    @api.multi
+    def print_eci_report(self):
+        self.ensure_one()
+        custom_data = {
+            'pick_id': self.id,
+        }
+        rep_name = 'asperience_edi.corte_ingles_report'
+        rep_action = self.env["report"].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
+
+    @api.multi
+    def _get_num_packs_in_palets(self):
+        """
+        Retuens a dic, key = palet number, value = num of bulks
+        """
+        res = {}
+        package_list = {}
+        self.ensure_one()
+        for op in self.pack_operation_ids:
+            # Skip if no palet
+            if not op.palet:
+                continue
+            # If not consider palet, init
+            if op.palet not in res.keys():
+                res[op.palet] = 0
+                package_list[op.palet] = []
+
+            num_new_packs = 0
+            if op.package > 0 and op.package not in package_list[op.palet]:
+                num_new_packs += 1
+                package_list[op.palet].append(op.package)
+            res[op.palet] += op.complete + num_new_packs
+
+        return res
+
+
 
 
 class StockInvoiceOnshipping(models.TransientModel):

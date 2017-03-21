@@ -23,11 +23,17 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
-                <button name="action_cancel" position="after">
-                    <button name="print_package_tag_report" string="Print Astrid Tags of 8" type="object"
-                            icon="fa-file-text-o"/>
+                <button name="do_unreserve" position="after">
+                    <field name="channel_name" invisible="1"/>
+                     <button name="print_package_tag_report" string="Print Astrid Tags of 8" type="object"
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
+                            icon="gtk-preferences"/>
                      <button name="print_palet_tag_report" string="Print Tags of 4" type="object"
-                            icon="fa-file-text-o"/>
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
+                            icon="gtk-copy"/>
+                    <button name="print_eci_report" string="Print ECI report" type="object"
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
+                            icon="STOCK_PRINT"/>
                 </button>
 
                 

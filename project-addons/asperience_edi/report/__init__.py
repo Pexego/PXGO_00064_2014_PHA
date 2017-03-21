@@ -20,3 +20,5 @@
 ##############################################################################
 import package_tag_parser
 import palet_tag_parser
+import corte_ingles_parser
+import eci_order_parser

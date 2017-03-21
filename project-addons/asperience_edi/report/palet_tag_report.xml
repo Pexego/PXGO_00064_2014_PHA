@@ -6,30 +6,63 @@
 
      <style type="text/css">
         #container{
-            height:100%;
+            height: 345mm;
             width:100%;
             position:relative;
             border-style: solid 1px;;
         }
         .tag-block{
             height: 50%;
-            width: 50%;
+            width: 49.7%;
             float: left;
-            box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                -webkit-box-sizing: border-box;
-                -ms-box-sizing: border-box;
-            border: 1px solid #000;
         }
         .table-content{
             width: 100%;
-            height:50%;
-            border: 1px solid #000;
+            height:65%;
             
+        }
+        .tag-table{
+            width: 99%;
+            height:99%;
+            border-collapse: collapse;
+            border: 1px solid #000;
+        }
+        .tag-table tr{
+            height:33%;
+        }
+        .tag-table td.td-head{
+             vertical-align:top;
+             padding:4px
+        }
+        .tag-table td.td-left-top{
+             width: 30%;
+             border: 1px solid #000;
+             vertical-align:top;
+             padding:4px
+        }
+        .tag-table td.td-left{
+             width: 30%;
+             border: 1px solid #000;
+             vertical-align:middle;
+             padding:4px
+        }
+        .tag-table td.td-right-top{
+             width: 70%;
+             border: 1px solid #000;
+             vertical-align:top;
+             text-align: center;
+             padding:4px
+        }
+        .tag-table td.td-right{
+             width: 70%;
+             border: 1px solid #000;
+             vertical-align:middle;
+             text-align: center;
+             padding:4px
         }
         .barcode-content{
             width: 100%;
-            height:50%;
+            height:35%;
             display:table;
         }
         .bc-center{
@@ -37,66 +70,224 @@
             vertical-align:middle;
             text-align:center;
         }
-        .tag-table{
-            width: 100%;
-            height:100%;
+
+
+
+        .tag-table2{
+            width: 99%;
+            height:99%;
             border-collapse: collapse;
+            border: 1px solid #000;
         }
-        .tag-table tr{
-            height:33%;
+        .tag-table2 tr.tr-1{
+            height:15%;
         }
-        .tag-table td.td-left{
-             width: 30%;
+        .tag-table2 tr.tr-2{
+            height:25%;
+        }
+        .tag-table2 tr.tr-3{
+            height:40%;
+        }
+        .tag-table2 tr.tr-4{
+            height:20%;
+        }
+        .tag-table2 td{
              border: 1px solid #000;
+             vertical-align:middle;
+             text-align: center;
         }
-        .tag-table td.td-right{
-             width: 70%;
+        .tag-table2 td.td-left{
+             width: 80%;
              border: 1px solid #000;
+             vertical-align:middle;
+             text-align: center;
+             padding:4px
         }
+        .tag-table2 td.td-right{
+             width: 20%;
+             border: 1px solid #000;
+             vertical-align:middle;
+             text-align: center;
+             padding:4px
+        }
+
     
     </style>
 
         <t t-foreach="docs" t-as="o">
+            <!-- ETIQUETAS DE BULTO -->
             <div class="page">
                 <div id="container">
+                        <t t-foreach="package_dic" t-as="product">
+                            <t t-foreach="package_dic[product]" t-as="pack_tag">
+                                <div class="tag-block">
+                                    <div class="table-content">
+
+                                        <table class="tag-table">
+
+                                            <tr>
+                                                <td class="td-head" colspan="2">
+                                                    <p><strong>
+                                                        PROCESOS FARMACEUTICOS INDUSTRIALES SL.
+                                                        P. INFO DE CAMPONARAYA SECTOR 2 PARCELA 3
+                                                        24410 CAMPONARAYA (LEÓN)</strong>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                      
+                                            <tr>
+                                               <td class="td-left-top">
+                                                <p><strong>DESCRIPCIÓN</strong></p>
+                                                </td>
+                                               <td class="td-right-top">
+                                                <p>
+                                                <t t-esc="pack_tag['description']"/>
+                                                </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                               <td class="td-left">
+                                                   <p><strong>Nº DE SERIE</strong></p>
+                                                   <p><strong>Nº DE LOTE</strong></p>
+                                                   <p><strong>Nº UNIDADES</strong></p>
+                                               </td>
+                                               <td class="td-right">
+                                                    <p><t t-esc="pack_tag['serial_number']"/></p>
+                                                    <p><t t-esc="pack_tag['lot']"/></p>
+                                                    <p><t t-esc="pack_tag['num_units']"/></p>
+                                               </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="barcode-content">
+                                        <div class="bc-center">
+                                            <t t-set="barcode" t-value="pack_tag['barcode']"/>
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
+                                            <p class="text-center" t-esc="barcode"></p>
+                                        </div>  
+                                    </div>  
+                                </div>
+                            </t>
+                        </t>
+
+                         
+                </div>
+            </div>
+
+            <!-- ETIQUETAS DE PALET -->
+            <div class="page">
+                <div id="container">
+                    <t t-foreach="palet_dic" t-as="palet">
+                        <t t-set="palet_tag" t-value="palet_dic[palet]"/>
                         <div class="tag-block">
                             <div class="table-content">
 
-                                <table class="tag-table">
+                                <table class="tag-table2">
 
-                                    <tr>
-                                        <td colspan="2">Primera fila</td>
+                                    <tr class="tr-1">
+                                        <td class="td-head" colspan="2">
+                                            <p style="font-size:30px;"><strong>PROCESOS</strong>
+                                            </p>
+                                        </td>
                                     </tr>
-          
                               
-                                    <tr>
-                                       <td class="td-left">1</td>
-                                       <td class="td-right">2</td>
+                                    <tr class="tr-2">
+                                        <td class="td-head" colspan="2">
+                                            <p><strong>
+                                                P. IND. DE CAMPONARAYA SECTOR
+                                                2 PARCELA 3-23310
+                                                CAMPONARAYA (LEÓN)
+                                            </strong>
+                                            </p>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                       <td class="td-left">3</td>
-                                       <td class="td-right">4</td>
-                                    </tr>
-                                </table>
 
+                                    <tr class="tr-3">
+                                        <td class="td-head" colspan="2">
+                                            <p style="text-align:left;vertical-align:top;padding:4px;"> LUGAR ENTREGA </p>
+                                            <p><strong><t t-esc="palet_tag['place']"/></strong></p>
+                                            <p><t t-esc="palet_tag['place_dir']"/></p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-4">
+                                        <td class="td-left">
+                                            <p><strong>Nº TOTAL DE BULTOS</strong></p>
+                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['num_packs']"/></strong></p>
+                                        </td>
+                                         <td class="td-right">
+                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['palet_number']"/>/<t t-esc="num_palets"/></strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
                             </div>
                             <div class="barcode-content">
+                                <t t-set="sscc_barcode" t-value="palet_tag['barcode']"/>
                                 <div class="bc-center">
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sscc_barcode, 600, 100)" style="width:450px;height:130px"/>
+                                    <p class="text-center" t-esc="sscc_barcode"></p>
                                 </div>  
                             </div>  
 
                         </div>
 
-                         <div class="tag-block">
-                            
-                        </div>
+                       
                         <div class="tag-block">
-                        
+                            <div class="table-content">
+
+                                <table class="tag-table2">
+
+                                    <tr class="tr-1">
+                                        <td class="td-head" colspan="2">
+                                            <p style="font-size:30px;"><strong>PROCESOS</strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+                              
+                                    <tr class="tr-2">
+                                        <td class="td-head" colspan="2">
+                                            <p><strong>
+                                                P. IND. DE CAMPONARAYA SECTOR
+                                                2 PARCELA 3-23310
+                                                CAMPONARAYA (LEÓN)
+                                            </strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-3">
+                                        <td class="td-head" colspan="2">
+                                            <p style="text-align:left;vertical-align:top;padding:4px;"> LUGAR ENTREGA </p>
+                                            <p><strong><t t-esc="palet_tag['place']"/></strong></p>
+                                            <p><t t-esc="palet_tag['place_dir']"/></p>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="tr-4">
+                                        <td class="td-left">
+                                            <p><strong>Nº TOTAL DE BULTOS</strong></p>
+                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['num_packs']"/></strong></p>
+                                        </td>
+                                         <td class="td-right">
+                                            <p style="font-size:30px;"><strong><t t-esc="palet_tag['palet_number']"/>/<t t-esc="num_palets"/></strong>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="barcode-content">
+                                <t t-set="barcode" t-value="palet_tag['barcode']"/>
+                                <div class="bc-center">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
+                                    <p class="text-center" t-esc="barcode"></p>
+                                </div>  
+                            </div>  
+
                         </div>
-                         <div class="tag-block">
-                         
-                        </div>
+                    </t>
                 </div>
             </div>
         </t>
