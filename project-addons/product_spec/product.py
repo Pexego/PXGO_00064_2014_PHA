@@ -74,7 +74,7 @@ class product_quality_limits(models.Model):
 
     _name = "product.quality.limits"
 
-    name = fields.Many2one('product.product')
+    name = fields.Many2one('product.template', required=True)
     # case_weight
     full_case_min_action_weight = fields.Float('Full case action min')
     full_case_max_action_weight = fields.Float('Full case action max')
@@ -107,6 +107,22 @@ class product_quality_limits(models.Model):
         for spec in self:
             if spec.name.qty != 0:
                 spec.unit_weight = spec.name.weight_net / spec.name.qty
+
+    @api.model
+    def create(self, vals):
+        res = super(product_quality_limits, self).create(vals)
+        if res.name:
+            res.name.quality_limits = res
+        return res
+
+    @api.multi
+    def write(self, vals):
+        if 'name' in vals:
+            self.name.quality_limits = False
+        res = super(product_quality_limits, self).write(vals)
+        if vals.get('name', False):
+            self.name.quality_limits = self
+        return res
 
 
 class ProductProduct(models.Model):
@@ -149,9 +165,10 @@ class ProductTemplate(models.Model):
     @api.model
     def create(self, vals):
         tmpl = super(ProductTemplate, self).create(vals)
-        if vals.get('cn_code'):
+        if vals.get('cn_code', False):
             tmpl.cn_code = vals['cn_code']
         return tmpl
+
 
 class product_extra_category(models.Model):
     _name = 'product.extra.category'
