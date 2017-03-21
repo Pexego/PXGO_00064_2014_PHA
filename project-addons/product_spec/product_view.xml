@@ -479,20 +479,20 @@
                             <group string="Filter weight">
                                 <field name="filter_min_action_weight"/>
                                 <field name="filter_min_alert_weight"/>
-                                <field name="filter_max_action_weight"/>
                                 <field name="filter_max_alert_weight"/>
+                                <field name="filter_max_action_weight"/>
                             </group>
                             <group string="Filter Average weight">
                                 <field name="filter_av_min_action_weight" />
                                 <field name="filter_av_min_alert_weight" />
-                                <field name="filter_av_max_action_weight" />
                                 <field name="filter_av_max_alert_weight" />
+                                <field name="filter_av_max_action_weight" />
                             </group>
                             <group string="Full case weight">
                                 <field name="full_case_min_action_weight"/>
                                 <field name="full_case_min_alert_weight"/>
-                                <field name="full_case_max_action_weight"/>
                                 <field name="full_case_max_alert_weight"/>
+                                <field name="full_case_max_action_weight"/>
                             </group>
                             <group string="Samples">
                                 <field name="loc_samples"/>
@@ -512,7 +512,7 @@
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="product_quality_limits_tree"/>
         </record>
-        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="quality_management_menu.menu_quality_management_config" action="action_product_quality_limits_form"/>
+        <menuitem name="Quality limits" id="menu_product_quality_limits" parent="quality_management_menu.menu_qc_products" action="action_product_quality_limits_form"/>
 
         <!-- Separate normal categories from extra categories -->
         <record id="product_category_action_extra_filtered" model="ir.actions.act_window">
