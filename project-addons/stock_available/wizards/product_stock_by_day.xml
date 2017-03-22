@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <openerp>
     <data>
-        <record id="view_psue_compute_sbd_wizard" model="ir.ui.view">
-            <field name="name">Product stock unsafety extended, compute stock by day wizard</field>
+        <record id="view_compute_sbd_wizard" model="ir.ui.view">
+            <field name="name">Stock available, compute stock by day wizard</field>
             <field name="model">product.stock.by.day</field>
             <field name="arch" type="xml">
                 <form string="Compute stock by day">
@@ -25,13 +29,13 @@
             res_model="product.stock.by.day"
             src_model="product.product"
             view_mode="form"
-            view_id="view_psue_compute_sbd_wizard"
+            view_id="view_compute_sbd_wizard"
             target="new"
             key2="client_action_multi"
-            id="action_psue_compute_sbd_wizard"/>
+            id="action_compute_sbd_wizard"/>
 
-        <menuitem id="menu_psue_compute_sbd_wizard"
+        <menuitem id="menu_compute_sbd_wizard"
                   parent="stock.menu_stock_sched"
-                  action="action_psue_compute_sbd_wizard" sequence="61"/>
+                  action="action_compute_sbd_wizard" sequence="61"/>
     </data>
 </openerp>

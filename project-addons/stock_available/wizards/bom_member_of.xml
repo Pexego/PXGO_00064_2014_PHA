@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="view_bom_member_of_wizard" model="ir.ui.view">
+            <field name="name">Stock available, "BoM member of" wizard</field>
+            <field name="model">bom.member.of</field>
+            <field name="arch" type="xml">
+                <form string="BoM member of">
+                    <group>
+                        <label string="Wizard shows all BoM that product is member of."/>
+                    </group>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="default_code"/>
+                    </group>
+                    <separator string="Lists of materials"/>
+                    <field name="bom_id">
+                        <tree default_order="stock_by_day_p">
+                            <field name="default_code"/>
+                            <field name="product_id" string="Bill of materials"/>
+                            <field name="qty_available"/>
+                            <field name="virtual_available"/>
+                            <field name="virtual_conservative"/>
+                            <field name="cons_by_day_p"/>
+                            <field name="cons_by_day_i"/>
+                            <field name="stock_by_day_p"/>
+                            <field name="stock_by_day_i"/>
+                        </tree>
+                    </field>
+                    <separator string="Summary"/>
+                    <h2><field name="product_summary"/></h2>
+                    <group col="3">
+                        <group>
+                            <field name="min_fixed"/>
+                            <field name="max_fixed"/>
+                            <br/><br/>
+                            <field name="qty_available"/>
+                            <field name="virtual_available"/>
+                            <field name="virtual_conservative"/>
+                            <br/><br/>
+                            <field name="production_planning_qty"/>
+                            <field name="production_qty"/>
+                            <field name="out_of_existences"/>
+                            <field name="real_incoming_qty"/>
+                        </group>
+                        <group>
+                            <field name="cons_by_day_p"/>
+                            <field name="cons_by_day_i"/>
+                            <br/><br/>
+                            <field name="cons_by_day_p_ind"/>
+                            <field name="cons_by_day_i_ind"/>
+                            <br/><br/>
+                            <field name="cons_by_day_p_total"/>
+                            <field name="cons_by_day_i_total"/>
+                        </group>
+                        <group>
+                            <field name="stock_by_day_p"/>
+                            <field name="stock_by_day_i"/>
+                            <br/><br/>
+                            <field name="stock_by_day_p_ind"/>
+                            <field name="stock_by_day_i_ind"/>
+                            <br/><br/>
+                            <field name="stock_by_day_p_total"/>
+                            <field name="stock_by_day_i_total"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="BoM member of"
+            res_model="bom.member.of"
+            view_mode="form"
+            view_id="view_bom_member_of_wizard"
+            target="new"
+            id="action_bom_member_of_wizard"/>
+    </data>
+</openerp>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="stock_available_product_stock_unsafety_tree" model="ir.ui.view">
+            <field name="name">Product stock unsafety tree view</field>
+            <field name="model">product.stock.unsafety</field>
+            <field name="inherit_id" ref="product_stock_unsafety.view_product_stock_unsafety_tree"/>
+            <field name="arch" type="xml">
+                <tree position="replace">
+                    <tree string="Product stock unsafety"
+                          colors="red:state=='exception';blue:state=='in_progress'">
+                        <field name="date"/>
+                        <field name="product_id"/>
+                        <field name="default_code"/>
+                        <field name="min_fixed"/>
+                        <field name="max_fixed"/>
+                        <field name="qty_available"/>
+                        <field name="virtual_available"/>
+                        <field name="virtual_conservative"/>
+                        <field name="stock_by_day_p"/>
+                        <field name="stock_by_day_i"/>
+                        <field name="stock_by_day_p_total"/>
+                        <field name="stock_by_day_i_total"/>
+                        <field name="production_planning_qty"/>
+                        <field name="production_qty"/>
+                        <field name="out_of_existences"/>
+                        <field name="real_incoming_qty"/>
+                        <field name="uom_id"/>
+                        <button name="cancel" type="object" string="Cancel" states='exception,in_progress' icon="STOCK_CANCEL"/>
+                        <field name="bom_member" invisible="1"/>
+                        <button name="stock_available.action_bom_member_of_wizard"
+                                string="BoM member of"
+                                type="action"
+                                icon="gtk-dnd-multiple"
+                                attrs="{'invisible': [('bom_member', '=', False)]}"
+                        />
+                        <field name="has_bom" invisible="1"/>
+                        <button name="create_production_planning_order"
+                                type="object"
+                                string="Create production planning order"
+                                icon="gtk-redo"
+                                attrs="{'invisible': [('has_bom', '=', False)]}"
+                        />
+                        <field name="stock_by_day_p_ind_min"/>
+                        <field name="state"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
