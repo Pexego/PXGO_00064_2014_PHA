@@ -492,7 +492,7 @@ msgstr "Formato packing producción"
 #. module: product_spec
 #: model:ir.ui.menu,name:product_spec.menu_product_quality_limits
 msgid "Quality limits"
-msgstr "Límites calidad"
+msgstr "Límites de controles en proceso"
 
 #. module: product_spec
 #: field:product.extra.category,parent_right:0
