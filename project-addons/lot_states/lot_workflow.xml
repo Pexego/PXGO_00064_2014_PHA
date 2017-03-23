@@ -86,6 +86,12 @@
             <field name="signal">rejected_draft</field>
         </record>
 
+        <record id="trans_approved_draft" model="workflow.transition">
+            <field name="act_from" ref="act_approved"/>
+            <field name="act_to" ref="act_draft"/>
+            <field name="signal">approved_draft</field>
+        </record>
+
         <record id="trans_rejected_in_rev" model="workflow.transition">
             <field name="act_from" ref="act_rejected"/>
             <field name="act_to" ref="act_in_rev"/>

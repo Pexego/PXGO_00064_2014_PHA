@@ -9,21 +9,24 @@
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <div class="text-center">
-                        <h2 width="100%" style="background-color: grey"><span t-field="o.product_id.name"/></h2>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 400, 50)" style="width:400px;height:50px"/>
+                        <h1><span t-field="o.product_id.name"/></h1>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 1000, 500)" style="width:1000px;height:100px"/>
                         <br/>
                         <small t-field="o.product_id.default_code"></small>
                     </div>
 
                     <div class="text-center">
-                        <p><span style="font-size: 7em; font-weight:bold;" t-field="o.final_lot_id.name"/></p>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 400, 50)" style="width:400px;height:50px"/>
+                        <span style="font-size: 10em; font-weight:bold;" t-field="o.final_lot_id.name"/>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 1000, 500)" style="width:1000px;height:100px;"/>
                         <br/>
                         <small t-field="o.final_lot_id.name"></small>
                     </div>
                     <div class="text-center">
-                        <h3><span t-esc="o.product_qty * 1"/> <span t-field="o.product_id.container_id.name"/></h3>
-                        <h3><span t-field="o.final_lot_id.use_date"/></h3>
+                        <h2><span t-esc="o.product_id.box_elements"/> <span t-field="o.product_id.container_id.name"/></h2>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 1000, 500)" style="width:1000px;height:100px"/>
+                        <br/>
+                        <small t-field="o.product_id.default_code"></small>
+                        <h2><span t-field="o.final_lot_id.use_date"/></h2>
                     </div>
                 </div>
             </t>

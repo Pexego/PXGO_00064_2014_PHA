@@ -393,7 +393,7 @@ msgstr "Líneas de producto"
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_tree
 msgid "Product Quality Limits"
-msgstr "Límites de calidad de producto"
+msgstr "Límites de controles en proceso"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_subline_form
@@ -471,7 +471,7 @@ msgstr "Packing base de producto"
 #: model:ir.actions.act_window,name:product_spec.action_product_quality_limits_form
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Product quality limits"
-msgstr "Límites de calidad de producto"
+msgstr "Límites de controles en proceso"
 
 #. module: product_spec
 #: view:product.subline:product_spec.product_subline_form
