@@ -9,24 +9,25 @@
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <div class="text-center">
-                        <h1><span t-field="o.product_id.name"/></h1>
+                        <span style="font-size:52px; font-weight:bold;" t-field="o.product_id.name"/>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 1000, 500)" style="width:1000px;height:100px"/>
                         <br/>
                         <small t-field="o.product_id.default_code"></small>
                     </div>
 
                     <div class="text-center">
-                        <span style="font-size: 10em; font-weight:bold;" t-field="o.final_lot_id.name"/>
+                        <span style="font-size: 140px; font-weight:bold;" t-field="o.final_lot_id.name"/>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 1000, 500)" style="width:1000px;height:100px;"/>
                         <br/>
                         <small t-field="o.final_lot_id.name"></small>
                     </div>
                     <div class="text-center">
-                        <h2><span t-esc="o.product_id.box_elements"/> <span t-field="o.product_id.container_id.name"/></h2>
+                        <span style="font-size:30px; font-weight:bold;">Contiene: <span t-esc="o.product_id.box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 1000, 500)" style="width:1000px;height:100px"/>
                         <br/>
                         <small t-field="o.product_id.default_code"></small>
-                        <h2><span t-field="o.final_lot_id.use_date"/></h2>
+                        <br/>
+                        <span style="font-size:30px; font-weight:bold;">Consumir preferentemente antes del fin de: <span t-field="o.final_lot_id.use_date"/></span>
                     </div>
                 </div>
             </t>
