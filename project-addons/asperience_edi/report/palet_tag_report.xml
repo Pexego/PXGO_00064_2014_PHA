@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-   
+
     <template id="palet_tag_report">
 
      <style type="text/css">
@@ -19,7 +19,7 @@
         .table-content{
             width: 100%;
             height:65%;
-            
+
         }
         .tag-table{
             width: 99%;
@@ -111,7 +111,13 @@
              padding:4px
         }
 
-    
+        .table-1 {
+            margin-right: 20px;
+        }
+        .table-2 {
+            margin-left: 20px;
+        }
+
     </style>
 
         <t t-foreach="docs" t-as="o">
@@ -123,7 +129,7 @@
                                 <div class="tag-block">
                                     <div class="table-content">
 
-                                        <table class="tag-table">
+                                        <table t-att-class="'tag-table ' + pack_tag['table-class']">
 
                                             <tr>
                                                 <td class="td-head" colspan="2">
@@ -134,7 +140,7 @@
                                                     </p>
                                                 </td>
                                             </tr>
-                                      
+
                                             <tr>
                                                <td class="td-left-top">
                                                 <p><strong>DESCRIPCIÓN</strong></p>
@@ -164,13 +170,13 @@
                                             <t t-set="barcode" t-value="pack_tag['barcode']"/>
                                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
                                             <p class="text-center" t-esc="barcode"></p>
-                                        </div>  
-                                    </div>  
+                                        </div>
+                                    </div>
                                 </div>
                             </t>
                         </t>
 
-                         
+
                 </div>
             </div>
 
@@ -182,7 +188,7 @@
                         <div class="tag-block">
                             <div class="table-content">
 
-                                <table class="tag-table2">
+                                <table class="tag-table2 table-1">
 
                                     <tr class="tr-1">
                                         <td class="td-head" colspan="2">
@@ -190,7 +196,7 @@
                                             </p>
                                         </td>
                                     </tr>
-                              
+
                                     <tr class="tr-2">
                                         <td class="td-head" colspan="2">
                                             <p><strong>
@@ -228,16 +234,16 @@
                                 <div class="bc-center">
                                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sscc_barcode, 600, 100)" style="width:450px;height:130px"/>
                                     <p class="text-center" t-esc="sscc_barcode"></p>
-                                </div>  
-                            </div>  
+                                </div>
+                            </div>
 
                         </div>
 
-                       
+
                         <div class="tag-block">
                             <div class="table-content">
 
-                                <table class="tag-table2">
+                                <table class="tag-table2 table-2">
 
                                     <tr class="tr-1">
                                         <td class="td-head" colspan="2">
@@ -245,7 +251,7 @@
                                             </p>
                                         </td>
                                     </tr>
-                              
+
                                     <tr class="tr-2">
                                         <td class="td-head" colspan="2">
                                             <p><strong>
@@ -283,8 +289,8 @@
                                 <div class="bc-center">
                                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
                                     <p class="text-center" t-esc="barcode"></p>
-                                </div>  
-                            </div>  
+                                </div>
+                            </div>
 
                         </div>
                     </t>
