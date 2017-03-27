@@ -23,6 +23,7 @@ class PaletTagParser(models.AbstractModel):
         package_dic = {}
         palet_dic = {}
         num_palets = palet_number = 0
+        pack_table_class = 1
 
         palet_packs_dic = pick._get_num_packs_in_palets()
         for op in pick.pack_operation_ids:
@@ -50,8 +51,13 @@ class PaletTagParser(models.AbstractModel):
                         'serial_number': serie,
                         'lot': op.lot_id.name if op.lot_id else '-',
                         'num_units': str(cant_ue) + '/' + str(op.product_qty),
-                        'barcode': barcode
+                        'barcode': barcode,
+                        'table-class': 'table-%s' % str(pack_table_class)
                     }
+                    if pack_table_class == 1:
+                        pack_table_class = 2
+                    else:
+                        pack_table_class = 1
                     package_dic[op.product_id].append(dic)
 
             # ETIQUETAS DE PALET
