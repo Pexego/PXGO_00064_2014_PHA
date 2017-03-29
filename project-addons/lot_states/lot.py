@@ -194,7 +194,8 @@ class StockProductionLot(models.Model):
     @api.multi
     def button_approved_to_draft(self):
         self.write({'state': 'draft'})
-        self.signal_workflow('approved_draft')
+        self.delete_workflow()
+        self.create_workflow()
         return True
 
     @api.multi
