@@ -10,11 +10,20 @@ class ProductGtin14(models.Model):
     _order = 'log_var'
 
     product_id = fields.Many2one(comodel_name='product.product',
-                                 ondelete='cascade')
-    log_var = fields.Integer('Logistic variable')
+                                 ondelete='cascade', readonly=True)
+    log_var = fields.Integer('Logistic variable', readonly=True)
     gtin14 = fields.Char('GTIN-14 code', readonly=True)
     units = fields.Integer('Units')
     used_for = fields.Char('Used for')
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for rec in self:
+            name = u'{} ({:d} uds) {}'.format(rec.gtin14, rec.units,
+                                           rec.used_for if rec.used_for else '')
+            res.append((rec.id, name))
+        return res
 
 
 class ProductProduct(models.Model):
@@ -25,6 +34,8 @@ class ProductProduct(models.Model):
     gtin14_ids = fields.One2many(comodel_name='product.gtin14',
                                  inverse_name='product_id',
                                  string='GTIN-14 codes')
+    gtin14_default = fields.Many2one(comodel_name='product.gtin14',
+                                     string="Default GTIN14")
 
     @api.model
     def create(self, vals):
@@ -82,6 +93,10 @@ class ProductProduct(models.Model):
                                     'gtin14': code,
                                 }))
                     p.write({'gtin14_ids': l})
+
+                    if not p.gtin14_default:
+                        p.gtin14_default = \
+                            p.gtin14_ids.filtered(lambda r: r.log_var == 8)
             elif p.gtin12:
                 p.gtin12 = False
                 p.gtin14_ids.unlink()

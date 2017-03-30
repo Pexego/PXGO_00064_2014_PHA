@@ -34,6 +34,11 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: product_gtin_codes
+#: field:product.product,gtin14_default:0
+msgid "Default GTIN14"
+msgstr "GTIN14 por defecto"
+
+#. module: product_gtin_codes
 #: field:product.gtin14,display_name:0
 msgid "Display Name"
 msgstr "Nombre a mostrar"
@@ -111,7 +116,7 @@ msgstr "Producto"
 #. module: product_gtin_codes
 #: field:product.gtin14,product_id:0
 msgid "Product id"
-msgstr "ID de producto"
+msgstr "Producto"
 
 #. module: product_gtin_codes
 #: field:product.gtin14,units:0

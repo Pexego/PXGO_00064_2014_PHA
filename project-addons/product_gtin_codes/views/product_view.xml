@@ -24,6 +24,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                     <field name="used_for" attrs="{'readonly': [('log_var', '=', 8)]}"/>
                                 </tree>
                             </field>
+                            <field name="id" invisible="1"/>
+                            <field name="gtin14_default" domain="[('product_id', '=', id)]"/>
                         </group>
                     </page>
                 </page>
