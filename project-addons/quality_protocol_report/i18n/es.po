@@ -16,6 +16,18 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: Poedit 1.5.4\n"
 
+
+#. module: quality_protocol_report
+#: field:mrp.production,date_end_planned:0
+msgid "Date end planned"
+msgstr "Feca programada de finalización"
+
+
+#. module: quality_protocol_report
+#: field:mrp.production,time_planned:0
+msgid "Time planned"
+msgstr "Tiempo estimado"
+
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_picking_notes
 msgid "(Firma y fecha)"

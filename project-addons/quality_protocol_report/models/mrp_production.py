@@ -33,6 +33,8 @@ class MrpProduction(models.Model):
     goods_return_date = fields.Date('Return date')
     picking_notes = fields.Text('Picking notes')
     workcenter_lines = fields.One2many(readonly=False)
+    date_end_planned = fields.Datetime()
+    time_planned = fields.Float()
 
     def _create_previous_move(self, cr, uid, move_id, product,
                               source_location_id, dest_location_id,

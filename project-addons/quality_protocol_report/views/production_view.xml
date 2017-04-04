@@ -32,6 +32,10 @@
                 <xpath expr="//field[@name='move_lines2']/tree" position="attributes">
                     <attribute name="editable"/>
                 </xpath>
+                <field name="date_planned" position="after">
+                    <field name="date_end_planned"/>
+                    <field name="time_planned" widget="float_time"/>
+                </field>
             </field>
         </record>
 
