@@ -999,8 +999,8 @@ msgid "Mrp speed"
 msgstr "Velocidad de fabricación"
 
 #. module: quality_protocol_report
-#: model:ir.actions.report.xml,name:quality_protocol_report.action_print_mrp_label
-msgid "Mrp labels"
+#: model:ir.actions.act_window,name:quality_protocol_report.print_mrp_labels_action
+msgid "Print mrp labels"
 msgstr "Etiquetas de cajones"
 
 #. module: quality_protocol_report

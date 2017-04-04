@@ -23,3 +23,4 @@ import product
 import stock
 import survey
 import mrp_production
+from . import mrp_label_report_parser

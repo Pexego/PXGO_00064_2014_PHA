@@ -45,6 +45,7 @@
              'wizard/mrp_release_all.xml',
              'wizard/duplicate_protocol_wizard.xml',
              'wizard/print_protocol_view.xml',
+             'wizard/print_mrp_labels_view.xml',
              'wizard/quality_print_all_protocols_view.xml',
              'views/quality_protocol_report_view.xml',
              'views/product_view.xml',
