@@ -24,6 +24,8 @@ class PrintMrpLabels(models.TransientModel):
 
     @api.multi
     def print_labels(self):
+        if not self.production_id.final_lot_id:
+            raise exceptions.Warning(_('Lot error'), _('Confirma la producción para que le asigne el lote final'))
         self.ensure_one()
         datas = {'ids': [self.production_id.id], 'gtin': self.gtin.gtin14}
         return self.env['report'].get_action(
