@@ -36,6 +36,7 @@
                 'mrp_operations',
                 'mrp_hoard',
                 'lot_states',
+                'product_gtin_codes',
                 'mrp_automatic_lot',
                 'mrp_location_dest',
                 'product_spec',
