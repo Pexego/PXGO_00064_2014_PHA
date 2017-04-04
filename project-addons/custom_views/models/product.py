@@ -70,6 +70,10 @@ class ProductTemplate(models.Model):
                                  digits=dp.get_precision('Product Price'))
     cost_price_dl = fields.Float('Direct labor cost price',
                                  digits=dp.get_precision('Product Price'))
+    internal_scrapped_qty = fields.Float('Stock at internal scrap location',
+                           compute = '_internal_scrapped',
+                           digits = dp.get_precision('Product Unit of Measure'),
+                           readonly = True)
     virtual_conservative = fields.Float('Virtual stock conservative',
                            compute='_virtual_conservative',
                            digits = dp.get_precision('Product Unit of Measure'),
@@ -85,10 +89,21 @@ class ProductTemplate(models.Model):
                     ids.append(pricelist.id)
         self.suppliers_pricelists = ids
 
+    @api.multi
+    def _internal_scrapped(self):
+        for product in self:
+            quants = self.env['stock.quant'].search([
+                ('product_id.product_tmpl_id', '=', product.id),
+                ('location_id.usage', '=', 'internal'),
+                ('location_id.scrap_location', '=', True)
+            ])
+            product.internal_scrapped_qty = sum(quant.qty for quant in quants)
+
     @api.one
-    @api.depends('qty_available', 'outgoing_qty')
+    @api.depends('qty_available', 'outgoing_qty', 'internal_scrapped_qty')
     def _virtual_conservative(self):
-        self.virtual_conservative = self.qty_available - self.outgoing_qty
+        self.virtual_conservative = self.qty_available - self.outgoing_qty - \
+                                    self.internal_scrapped_qty
 
 
 class PricelistPartnerinfo(models.Model):
