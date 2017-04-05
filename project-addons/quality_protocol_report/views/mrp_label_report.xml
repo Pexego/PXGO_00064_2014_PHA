@@ -22,7 +22,7 @@
                         <small t-field="o.final_lot_id.name"></small>
                     </div>
                     <div class="text-center">
-                        <span style="font-size:30px; font-weight:bold;">Contiene: <span t-esc="o.product_id.box_elements"/> <span t-field="o.product_id.container_id.name"/></span>q
+                        <span style="font-size:30px; font-weight:bold;">Contiene: <span t-esc="o.product_id.box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1000, 500)" style="width:1000px;height:100px"/>
                         <br/>
                         <small t-esc="gtin"></small>
