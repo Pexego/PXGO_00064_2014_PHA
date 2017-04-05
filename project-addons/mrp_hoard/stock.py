@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
+from datetime import date
 
 
 class StockMoveReturnOperations(models.Model):
@@ -103,10 +104,11 @@ class StockMove(models.Model):
             Se actualizan los registros de return operations unicamente si
             los movimientos corresponden a una produccion, o si es un acopio.
         """
-        super(StockMove, self).action_assign()
+        res = super(StockMove, self).action_assign()
         if self.env.context.get('no_return_operations', False):
-            return
-        return self.create_return_operations()
+            return res
+        self.create_return_operations()
+        return res
 
     def create_return_operations(self):
         q_lot_ids = []
@@ -171,6 +173,27 @@ accept_multiple_raw_material')
                                 _('Multiple lot'),
                                 _('The production route only accepts one lot of raw material'))
         return super(StockPicking, self).do_transfer()
+
+    @api.multi
+    def action_assign(self):
+        res = super(StockPicking, self).action_assign()
+        for picking in self:
+            if picking.is_hoard:
+                lot_errors = []
+                for lot in picking.mapped(
+                        'move_lines.reserved_quant_ids.lot_id'):
+                    if lot.alert_date and \
+                            fields.Datetime.from_string(lot.alert_date).date() \
+                            < date.today():
+                        lot_errors.append(
+                            'Fecha de alerta pasada: %s - %s' %
+                            (lot.name, lot.product_id.name))
+                if lot_errors:
+                    return self.env['custom.views.warning'].show_message(
+                        _('Alert date error'),
+                        _('\n'.join(lot_errors))
+                    )
+        return res
 
 
 class StockQuant(models.Model):

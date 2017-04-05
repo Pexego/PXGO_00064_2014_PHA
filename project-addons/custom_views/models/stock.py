@@ -69,12 +69,12 @@ class StockPicking(models.Model):
                 _('Stock assignment warning'),
                 _('WARNING: There are stock reservations that do not match!')
             )
-        return True
+        return False
 
     @api.multi
     def action_assign(self):
         res = super(StockPicking, self).action_assign()
-        return self._check_reserved_quantities() if res else res
+        return self._check_reserved_quantities() or res
 
     @api.multi
     def rereserve_pick(self):
