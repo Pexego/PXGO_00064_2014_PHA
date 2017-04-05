@@ -9,14 +9,14 @@
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <div class="text-center">
-                        <span style="font-size:52px; font-weight:bold;" t-field="o.product_id.name"/>
+                        <span t-att-style="'font-size:' + name_css_size + 'px; font-weight:bold; font-family: monospace;'" t-field="o.product_id.name"/>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 1000, 500)" style="width:1000px;height:100px"/>
                         <br/>
                         <small t-field="o.product_id.default_code"></small>
                     </div>
 
                     <div class="text-center">
-                        <span style="font-size: 140px; font-weight:bold;" t-field="o.final_lot_id.name"/>
+                        <span t-att-style="'font-size: ' + lot_css_size + 'px; font-weight:bold; font-family: monospace;'" t-field="o.final_lot_id.name"/>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 1000, 500)" style="width:1000px;height:100px;"/>
                         <br/>
                         <small t-field="o.final_lot_id.name"></small>

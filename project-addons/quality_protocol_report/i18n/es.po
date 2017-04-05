@@ -20,7 +20,7 @@ msgstr ""
 #. module: quality_protocol_report
 #: field:mrp.production,date_end_planned:0
 msgid "Date end planned"
-msgstr "Feca programada de finalización"
+msgstr "Fecha programada de finalización"
 
 
 #. module: quality_protocol_report
