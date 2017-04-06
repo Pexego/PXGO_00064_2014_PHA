@@ -2,5 +2,4 @@ id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_mrp_procedure_type,mrp.procedure.type,model_mrp_procedure_type,base.group_user,1,1,1,0
 access_mrp_procedure,mrp.procedure,model_mrp_procedure,base.group_user,1,1,1,1
 access_mrp_machinery,mrp.machinery,model_mrp_machinery,base.group_user,1,1,1,1
-access_product_stock_unsafety_cancel_warnings,product.stock.unsafety.cancel.warnings,model_product_stock_unsafety_cancel_warnings,base.group_user,1,1,1,1
 access_sale_channel,access_sale_channel_stock_users,sale_channel.model_sale_channel,stock.group_stock_user,1,0,0,0

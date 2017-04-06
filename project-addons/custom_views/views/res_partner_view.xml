@@ -225,7 +225,10 @@
             <field name="context">{'partner_special_form': True}</field>
         </record>
 
-        <menuitem id="menu_res_partner_special" name="Partners" parent="base.menu_config"
-            sequence="15" action="action_res_partner_special"/>
+        <menuitem id="menu_special_forms" name="Special forms"
+                  parent="base.menu_administration" sequence="2"/>
+
+        <menuitem id="menu_res_partner_special" name="Partners" parent="menu_special_forms"
+            sequence="1" action="action_res_partner_special"/>
     </data>
 </openerp>
