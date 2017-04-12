@@ -1,0 +1,394 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* custom_calendars
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-12 09:34+0000\n"
+"PO-Revision-Date: 2017-04-12 11:46+0200\n"
+"Last-Translator: <oscar.salvador@pharmadus.com>\n"
+"Language-Team: Pharmadus I.T.\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0\n"
+
+#. module: custom_calendars
+#: field:mrp.calendar.days,base_day:0
+msgid "Base day"
+msgstr "Día base"
+
+#. module: custom_calendars
+#: model:ir.model,name:custom_calendars.model_base_calendar
+msgid "Calendar"
+msgstr "Calendario"
+
+#. module: custom_calendars
+#: model:ir.model,name:custom_calendars.model_calendar_wizard
+msgid "Calendar wizard"
+msgstr "Asistente calendario"
+
+#. module: custom_calendars
+#: view:calendar.wizard:custom_calendars.custom_calendars_create_calendar_wizard
+#: view:calendar.wizard:custom_calendars.custom_calendars_fixed_shifts_wizard
+#: view:calendar.wizard:custom_calendars.custom_calendars_holidays_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: custom_calendars
+#. openerp-web
+#: code:addons/custom_calendars/static/src/xml/calendars.xml:11
+#: view:calendar.wizard:custom_calendars.custom_calendars_create_calendar_wizard
+#, python-format
+msgid "Create calendar"
+msgstr "Crear calendario"
+
+#. module: custom_calendars
+#: model:ir.model,name:custom_calendars.model_create_calendar_wizard
+msgid "Create calendar wizard"
+msgstr "Asistente para crear calendario"
+
+#. module: custom_calendars
+#: field:base.calendar,create_uid:0 field:base.calendar.days,create_uid:0
+#: field:calendar.wizard,create_uid:0
+#: field:calendar.wizard.holidays,create_uid:0
+#: field:mrp.calendar.days,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: custom_calendars
+#: field:base.calendar,create_date:0 field:base.calendar.days,create_date:0
+#: field:calendar.wizard,create_date:0
+#: field:calendar.wizard.holidays,create_date:0
+#: field:mrp.calendar.days,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: custom_calendars
+#: field:base.calendar.days,day:0 field:calendar.wizard.holidays,day:0
+#: field:mrp.calendar.days,day:0
+msgid "Day"
+msgstr "Día"
+
+#. module: custom_calendars
+#: field:base.calendar,days:0
+msgid "Days"
+msgstr "Días"
+
+#. module: custom_calendars
+#: field:base.calendar,display_name:0 field:base.calendar.days,display_name:0
+#: field:calendar.wizard,display_name:0
+#: field:calendar.wizard.holidays,display_name:0
+#: field:mrp.calendar.days,display_name:0
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: custom_calendars
+#: field:calendar.wizard,day_begin:0
+msgid "First day"
+msgstr "Primer día"
+
+#. module: custom_calendars
+#. openerp-web
+#: code:addons/custom_calendars/static/src/xml/calendars.xml:15
+#: view:calendar.wizard:custom_calendars.custom_calendars_fixed_shifts_wizard
+#, python-format
+msgid "Fixed shifts"
+msgstr "Turnos fijos"
+
+#. module: custom_calendars
+#: field:calendar.wizard,friday:0
+msgid "Friday"
+msgstr "Viernes"
+
+#. module: custom_calendars
+#: field:base.calendar.days,holiday:0 field:mrp.calendar.days,holiday:0
+msgid "Holiday?"
+msgstr "¿Festivo?"
+
+#. module: custom_calendars
+#: field:calendar.wizard,holidays:0
+msgid "Holidays"
+msgstr "Festivos"
+
+#. module: custom_calendars
+#: view:calendar.wizard:custom_calendars.custom_calendars_holidays_wizard
+msgid "Holidays of year"
+msgstr "Festivos del año"
+
+#. module: custom_calendars
+#: code:addons/custom_calendars/wizards/calendar_wizard.py:107
+#, python-format
+msgid "Holidays {}can not be established because there is no corresponding calendar ..."
+msgstr "Los festivos {}no pueden ser establecidos porque no hay calendario creado para esas fechas..."
+
+#. module: custom_calendars
+#: field:base.calendar,id:0 field:base.calendar.days,id:0
+#: field:calendar.wizard,id:0 field:calendar.wizard.holidays,id:0
+#: field:mrp.calendar.days,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: custom_calendars
+#: field:base.calendar,__last_update:0 field:base.calendar.days,__last_update:0
+#: field:calendar.wizard,__last_update:0
+#: field:calendar.wizard.holidays,__last_update:0
+#: field:mrp.calendar.days,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación"
+
+#. module: custom_calendars
+#: field:base.calendar,write_uid:0 field:base.calendar.days,write_uid:0
+#: field:calendar.wizard,write_uid:0 field:calendar.wizard.holidays,write_uid:0
+#: field:mrp.calendar.days,write_uid:0
+msgid "Last Updated by"
+msgstr "Última modificación por"
+
+#. module: custom_calendars
+#: field:base.calendar,write_date:0 field:base.calendar.days,write_date:0
+#: field:calendar.wizard,write_date:0
+#: field:calendar.wizard.holidays,write_date:0
+#: field:mrp.calendar.days,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización"
+
+#. module: custom_calendars
+#: field:calendar.wizard,day_end:0
+msgid "Last day"
+msgstr "Último día"
+
+#. module: custom_calendars
+#: model:ir.actions.act_window,name:custom_calendars.action_mrp_calendar
+#: model:ir.ui.menu,name:custom_calendars.menu_mrp_calendar
+msgid "MRP calendar"
+msgstr "Calendario producción"
+
+#. module: custom_calendars
+#: field:calendar.wizard,monday:0
+msgid "Monday"
+msgstr "Lunes"
+
+#. module: custom_calendars
+#: field:base.calendar.days,month:0 field:mrp.calendar.days,month:0
+msgid "Month"
+msgstr "Mes"
+
+#. module: custom_calendars
+#: field:base.calendar,mrp_days:0
+msgid "Mrp days"
+msgstr "Días producción"
+
+#. module: custom_calendars
+#: view:calendar.wizard:custom_calendars.custom_calendars_fixed_shifts_wizard
+msgid "Period to set"
+msgstr "Período a configurar"
+
+#. module: custom_calendars
+#: field:calendar.wizard,saturday:0
+msgid "Saturday"
+msgstr "Sábado"
+
+#. module: custom_calendars
+#: view:calendar.wizard:custom_calendars.custom_calendars_fixed_shifts_wizard
+msgid "Set fixed shifts"
+msgstr "Establecer turnos fijos"
+
+#. module: custom_calendars
+#. openerp-web
+#: code:addons/custom_calendars/static/src/xml/calendars.xml:13
+#: view:calendar.wizard:custom_calendars.custom_calendars_holidays_wizard
+#, python-format
+msgid "Set holidays"
+msgstr "Establecer festivos"
+
+#. module: custom_calendars
+#: field:calendar.wizard,s1_end:0 field:mrp.calendar.days,s1_end:0
+msgid "Shift 1 end"
+msgstr "Turno 1 - Fin"
+
+#. module: custom_calendars
+#: field:calendar.wizard,s1_start:0 field:mrp.calendar.days,s1_start:0
+msgid "Shift 1 start"
+msgstr "Turno 1 - Comienzo"
+
+#. module: custom_calendars
+#: field:calendar.wizard,s2_end:0 field:mrp.calendar.days,s2_end:0
+msgid "Shift 2 end"
+msgstr "Turno 2 - Fin"
+
+#. module: custom_calendars
+#: field:calendar.wizard,s2_start:0 field:mrp.calendar.days,s2_start:0
+msgid "Shift 2 start"
+msgstr "Turno 2 - Comienzo"
+
+#. module: custom_calendars
+#: field:calendar.wizard,s3_end:0 field:mrp.calendar.days,s3_end:0
+msgid "Shift 3 end"
+msgstr "Turno 3 - Fin"
+
+#. module: custom_calendars
+#: field:calendar.wizard,s3_start:0 field:mrp.calendar.days,s3_start:0
+msgid "Shift 3 start"
+msgstr "Turno 3 - Comienzo"
+
+#. module: custom_calendars
+#: field:calendar.wizard,sunday:0
+msgid "Sunday"
+msgstr "Domingo"
+
+#. module: custom_calendars
+#: field:calendar.wizard,thursday:0
+msgid "Thursday"
+msgstr "Jueves"
+
+#. module: custom_calendars
+#: field:calendar.wizard,tuesday:0
+msgid "Tuesday"
+msgstr "Martes"
+
+#. module: custom_calendars
+#: field:calendar.wizard,wednesday:0
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#. module: custom_calendars
+#: field:base.calendar.days,week:0 field:mrp.calendar.days,week:0
+msgid "Week"
+msgstr "Semana"
+
+#. module: custom_calendars
+#: field:base.calendar.days,weekday:0 field:mrp.calendar.days,weekday:0
+msgid "Weekday"
+msgstr "Día semana"
+
+#. module: custom_calendars
+#: field:calendar.wizard.holidays,wizard:0
+msgid "Wizard"
+msgstr "Asistente"
+
+#. module: custom_calendars
+#: view:calendar.wizard:custom_calendars.custom_calendars_fixed_shifts_wizard
+msgid "Working weekdays"
+msgstr "Días de la semana"
+
+#. module: custom_calendars
+#: field:base.calendar,year:0 field:base.calendar.days,year:0
+#: field:calendar.wizard,year:0 field:mrp.calendar.days,year:0
+msgid "Year"
+msgstr "Año"
+
+#. module: custom_calendars
+#: view:calendar.wizard:custom_calendars.custom_calendars_create_calendar_wizard
+msgid "Year of calendar to create"
+msgstr "Año del calendario a crear"
+
+#. module: custom_calendars
+#: code:addons/custom_calendars/wizards/calendar_wizard.py:84
+#, python-format
+msgid "Year {:d} out of range..."
+msgstr "Año {:d} fuera de rango..."
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "april"
+msgstr "abril"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "august"
+msgstr "agosto"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "december"
+msgstr "diciembre"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "february"
+msgstr "febrero"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,weekday:0
+msgid "friday"
+msgstr "viernes"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "january"
+msgstr "enero"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "july"
+msgstr "julio"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "june"
+msgstr "junio"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "march"
+msgstr "marzo"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "may"
+msgstr "mayo"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,weekday:0
+msgid "monday"
+msgstr "lunes"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "november"
+msgstr "noviembre"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "october"
+msgstr "octubre"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,weekday:0
+msgid "saturday"
+msgstr "sábado"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,month:0
+msgid "september"
+msgstr "septiembre"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,weekday:0
+msgid "sunday"
+msgstr "domingo"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,weekday:0
+msgid "thursday"
+msgstr "jueves"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,weekday:0
+msgid "tuesday"
+msgstr "martes"
+
+#. module: custom_calendars
+#: selection:base.calendar.days,weekday:0
+msgid "wednesday"
+msgstr "miércoles"
+
+#. module: custom_calendars
+#: code:addons/custom_calendars/wizards/calendar_wizard.py:76
+#, python-format
+msgid "¡Year {:d} has already been created!"
+msgstr "¡El año {:d} ya está creado!"

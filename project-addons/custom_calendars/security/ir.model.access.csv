@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_base_calendar,access_base_calendar,model_base_calendar,,1,1,1,1
+access_base_calendar_days,access_base_calendar_days,model_base_calendar_days,,1,1,1,1
+access_mrp_calendar_days,access_mrp_calendar_days,model_mrp_calendar_days,,1,1,1,1
