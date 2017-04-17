@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-12 09:34+0000\n"
-"PO-Revision-Date: 2017-04-12 11:46+0200\n"
-"Last-Translator: <oscar.salvador@pharmadus.com>\n"
-"Language-Team: Pharmadus I.T.\n"
+"POT-Creation-Date: 2017-04-17 14:56+0000\n"
+"PO-Revision-Date: 2017-04-17 16:59+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -94,7 +94,7 @@ msgstr "Primer día"
 
 #. module: custom_calendars
 #. openerp-web
-#: code:addons/custom_calendars/static/src/xml/calendars.xml:15
+#: code:addons/custom_calendars/static/src/xml/calendars.xml:13
 #: view:calendar.wizard:custom_calendars.custom_calendars_fixed_shifts_wizard
 #, python-format
 msgid "Fixed shifts"
@@ -199,7 +199,7 @@ msgstr "Establecer turnos fijos"
 
 #. module: custom_calendars
 #. openerp-web
-#: code:addons/custom_calendars/static/src/xml/calendars.xml:13
+#: code:addons/custom_calendars/static/src/xml/calendars.xml:15
 #: view:calendar.wizard:custom_calendars.custom_calendars_holidays_wizard
 #, python-format
 msgid "Set holidays"
@@ -208,37 +208,48 @@ msgstr "Establecer festivos"
 #. module: custom_calendars
 #: field:calendar.wizard,s1_end:0 field:mrp.calendar.days,s1_end:0
 msgid "Shift 1 end"
-msgstr "Turno 1 - Fin"
+msgstr "Turno 1: Fin"
 
 #. module: custom_calendars
 #: field:calendar.wizard,s1_start:0 field:mrp.calendar.days,s1_start:0
 msgid "Shift 1 start"
-msgstr "Turno 1 - Comienzo"
+msgstr "Turno 1: Inicio"
 
 #. module: custom_calendars
 #: field:calendar.wizard,s2_end:0 field:mrp.calendar.days,s2_end:0
 msgid "Shift 2 end"
-msgstr "Turno 2 - Fin"
+msgstr "Turno 2: Fin"
 
 #. module: custom_calendars
 #: field:calendar.wizard,s2_start:0 field:mrp.calendar.days,s2_start:0
 msgid "Shift 2 start"
-msgstr "Turno 2 - Comienzo"
+msgstr "Turno 2: Inicio"
 
 #. module: custom_calendars
 #: field:calendar.wizard,s3_end:0 field:mrp.calendar.days,s3_end:0
 msgid "Shift 3 end"
-msgstr "Turno 3 - Fin"
+msgstr "Turno 3: Fin"
 
 #. module: custom_calendars
 #: field:calendar.wizard,s3_start:0 field:mrp.calendar.days,s3_start:0
 msgid "Shift 3 start"
-msgstr "Turno 3 - Comienzo"
+msgstr "Turno 3: Inicio"
 
 #. module: custom_calendars
 #: field:calendar.wizard,sunday:0
 msgid "Sunday"
 msgstr "Domingo"
+
+#. module: custom_calendars
+#: code:addons/custom_calendars/models/mrp_calendar.py:40
+#, python-format
+msgid "There is no time lapse between start and end of shift {:d}"
+msgstr "No hay suficiente lapso de tiempo entre horas del turno {:d}"
+
+#. module: custom_calendars
+#: view:mrp.calendar.days:custom_calendars.custom_calendars_mrp_calendar_days_filter
+msgid "This year"
+msgstr "Este año"
 
 #. module: custom_calendars
 #: field:calendar.wizard,thursday:0
@@ -269,6 +280,26 @@ msgstr "Día semana"
 #: field:calendar.wizard.holidays,wizard:0
 msgid "Wizard"
 msgstr "Asistente"
+
+#. module: custom_calendars
+#: view:mrp.calendar.days:custom_calendars.custom_calendars_mrp_calendar_days_filter
+msgid "Working days without shift 1"
+msgstr "Días laborables sin turno 1"
+
+#. module: custom_calendars
+#: view:mrp.calendar.days:custom_calendars.custom_calendars_mrp_calendar_days_filter
+msgid "Working days without shift 2"
+msgstr "Días laborables sin turno 2"
+
+#. module: custom_calendars
+#: view:mrp.calendar.days:custom_calendars.custom_calendars_mrp_calendar_days_filter
+msgid "Working days without shift 3"
+msgstr "Días laborables sin turno 3"
+
+#. module: custom_calendars
+#: view:mrp.calendar.days:custom_calendars.custom_calendars_mrp_calendar_days_filter
+msgid "Working days without shifts"
+msgstr "Días laborables sin turnos"
 
 #. module: custom_calendars
 #: view:calendar.wizard:custom_calendars.custom_calendars_fixed_shifts_wizard
@@ -391,4 +422,4 @@ msgstr "miércoles"
 #: code:addons/custom_calendars/wizards/calendar_wizard.py:76
 #, python-format
 msgid "¡Year {:d} has already been created!"
-msgstr "¡El año {:d} ya está creado!"
+msgstr "¡El año {:d} ya estaba creado!"

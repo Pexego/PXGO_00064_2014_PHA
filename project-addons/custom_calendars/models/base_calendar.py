@@ -70,15 +70,13 @@ class BaseCalendar(models.Model):
                 'day': d,
                 'weekday': d.isoweekday(),
                 'week': d.isocalendar()[1],
-                'month': d.month,
+                'month': d.month
             }))
         res.write({'days': days})
 
         mrp_days = []
         for d in res.days.ids:
-            mrp_days.append((0, 0, {
-                'base_day': d
-            }))
+            mrp_days.append((0, 0, {'base_day': d}))
         res.write({'mrp_days': mrp_days})
 
         return res
