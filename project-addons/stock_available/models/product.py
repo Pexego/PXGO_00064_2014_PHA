@@ -5,6 +5,18 @@ from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
 
+class ProductTimeAdviser(models.Model):
+    _name = 'product.time.adviser'
+
+    product_tmpl_id = fields.Many2one(comodel_name='product.template')
+    type = fields.Selection([('fixed', 'Fixed time'),
+                             ('variable', 'Variable time')],
+                            string='Type', required=True)
+    time = fields.Float(string='Time (seconds)', digits=(16,4))
+    notes = fields.Char(string='Notes')
+    sequence = fields.Integer(default=1)
+
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
@@ -51,6 +63,8 @@ class ProductTemplate(models.Model):
         readonly=True)
     bom_member = fields.Boolean(string='BoM member?', compute='_bom_member')
     has_bom = fields.Boolean(compute='_has_bom')
+    time_adviser = fields.One2many(comodel_name='product.time.adviser',
+                                   inverse_name='product_tmpl_id')
 
     @api.multi
     def _has_bom(self):
@@ -126,7 +140,7 @@ class ProductTemplate(models.Model):
     def _bom_member(self):
         for p in self:
             bom_line_ids = self.env['mrp.bom.line'].search([
-                ('product_id', '=', p.id),
+                ('product_id', 'in', p.product_variant_ids.ids),
                 ('bom_id.active', '=', True),
                 ('bom_id.product_id.active', '=', True)
             ])

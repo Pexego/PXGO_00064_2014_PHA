@@ -173,7 +173,9 @@ msgid "Create production planning order"
 msgstr "Crear orden de previsor"
 
 #. module: stock_available
-#: field:bom.member.of,create_uid:0 field:product.stock.by.day,create_uid:0
+#: field:bom.member.of,create_uid:0
+#: field:product.stock.by.day,create_uid:0
+#: field:product.time.adviser,create_uid:0
 #: field:production.planning,create_uid:0
 #: field:production.planning.materials,create_uid:0
 #: field:production.planning.orders,create_uid:0
@@ -183,7 +185,9 @@ msgid "Created by"
 msgstr "Creado por"
 
 #. module: stock_available
-#: field:bom.member.of,create_date:0 field:product.stock.by.day,create_date:0
+#: field:bom.member.of,create_date:0
+#: field:product.stock.by.day,create_date:0
+#: field:product.time.adviser,create_date:0
 #: field:production.planning,create_date:0
 #: field:production.planning.materials,create_date:0
 #: field:production.planning.orders,create_date:0
@@ -212,7 +216,9 @@ msgid "Default Unit of Measure used for all stock operation."
 msgstr "Unidad de medida por defecto usada para todas las operaciones de stock."
 
 #. module: stock_available
-#: field:bom.member.of,display_name:0 field:product.stock.by.day,display_name:0
+#: field:bom.member.of,display_name:0
+#: field:product.stock.by.day,display_name:0
+#: field:product.time.adviser,display_name:0
 #: field:production.planning,display_name:0
 #: field:production.planning.materials,display_name:0
 #: field:production.planning.orders,display_name:0
@@ -239,6 +245,11 @@ msgid "Estimated quantity"
 msgstr "Cantidad estimada"
 
 #. module: stock_available
+#: field:production.planning.orders,estimated_time:0
+msgid "Esimated time"
+msgstr "Tiempo estimado"
+
+#. module: stock_available
 #: view:stock.available:stock_available.stock_available_form_view
 msgid "Estimation"
 msgstr "Estimación"
@@ -247,6 +258,11 @@ msgstr "Estimación"
 #: field:production.planning.orders,product_id:0
 msgid "Final product"
 msgstr "Producto final"
+
+#. module: stock_available
+#: selection:product.time.adviser,type:0
+msgid "Fixed time"
+msgstr "Tiempo fijo"
 
 #. module: stock_available
 #: field:product.stock.unsafety,virtual_available:0
@@ -278,6 +294,7 @@ msgstr "Tiene LdM"
 #: field:production.planning,id:0 field:production.planning.materials,id:0
 #: field:production.planning.orders,id:0 field:stock.available,id:0
 #: field:stock.available.details,id:0
+#: field:product.time.adviser,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -312,6 +329,7 @@ msgstr "Referencia interna"
 #: field:production.planning.orders,__last_update:0
 #: field:stock.available,__last_update:0
 #: field:stock.available.details,__last_update:0
+#: field:product.time.adviser,__last_update:0
 msgid "Last Modified on"
 msgstr "Última modificación"
 
@@ -321,6 +339,7 @@ msgstr "Última modificación"
 #: field:production.planning.materials,write_uid:0
 #: field:production.planning.orders,write_uid:0
 #: field:stock.available,write_uid:0 field:stock.available.details,write_uid:0
+#: field:product.time.adviser,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
@@ -331,6 +350,7 @@ msgstr "Última actualización por"
 #: field:production.planning.orders,write_date:0
 #: field:stock.available,write_date:0
 #: field:stock.available.details,write_date:0
+#: field:product.time.adviser,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización el"
 
@@ -396,6 +416,11 @@ msgid "Note for production"
 msgstr "Nota para producción"
 
 #. module: stock_available
+#: field:product.time.adviser,notes:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: stock_available
 #: field:production.planning.materials,orders:0
 #: field:production.planning.orders,materials:0
 msgid "Orders"
@@ -459,6 +484,11 @@ msgstr "Bajo Mínimos"
 #: field:bom.member.of,product_id:0
 msgid "Product that is part of the BoM"
 msgstr "Producto que forma parte de una LdM"
+
+#. module: stock_available
+#: field:product.time.adviser,product_tmpl_id:0
+msgid "Product tmpl id"
+msgstr "Producto"
 
 #. module: stock_available
 #: view:product.product:stock_available.stock_available_product_normal_form
@@ -581,6 +611,11 @@ msgid "Real incoming qty"
 msgstr "A recibir"
 
 #. module: stock_available
+#: field:production.planning.orders,recommended_time:0
+msgid "Recommended time"
+msgstr "Tiempo recomendado"
+
+#. module: stock_available
 #: view:production.planning.orders:stock_available.production_planning_new_order_form
 msgid "Save"
 msgstr "Guardar"
@@ -700,6 +735,24 @@ msgid "This product has no associated production line"
 msgstr "Este producto no tiene asociada una línea de producción"
 
 #. module: stock_available
+#: field:product.time.adviser,time:0
+msgid "Time (seconds)"
+msgstr "Tiempo (segundos)"
+
+#. module: stock_available
+#: field:bom.member.of,time_adviser:0
+#: view:product.product:stock_available.stock_available_product_normal_form
+#: field:product.product,time_adviser:0
+#: field:product.template,time_adviser:0
+msgid "Time adviser"
+msgstr "Recomendador de tiempos"
+
+#. module: stock_available
+#: field:product.time.adviser,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: stock_available
 #: field:product.stock.unsafety,uom_id:0
 msgid "Unit of Measure"
 msgstr "Unidad de medida"
@@ -709,6 +762,11 @@ msgstr "Unidad de medida"
 #: field:stock.available.details,uom:0
 msgid "Unit of measure"
 msgstr "Unidad de medida"
+
+#. module: stock_available
+#: selection:product.time.adviser,type:0
+msgid "Variable time"
+msgstr "Tiempo variable"
 
 #. module: stock_available
 #: field:mrp.bom,virtual_conservative:0

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="production_planning_form_view" model="ir.ui.view">
+            <field name="name">Production planning form</field>
+            <field name="model">production.planning</field>
+            <field name="arch" type="xml">
+                <form string="Production planning of needed products" create="false" delete="false">
+                    <label for="orders" string="Orders to compute"/>
+                    <field name="orders" domain="[('active', '=', True)]">
+                        <tree string="Orders to compute" editable="top"
+                              colors="red:stock_status=='no_stock';blue:stock_status=='incoming';green:stock_status=='out'">
+                            <field name="id" string="PR"/>
+                            <field name="compute"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="estimated_time" widget="float_time"/>
+                            <field name="recommended_time" widget="float_time"/>
+                            <field name="product_id" domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
+                            <field name="product_tmpl_id" invisible="1"/>
+                            <field name="bom_id"/>
+                            <field name="line_id"/>
+                            <field name="note"/>
+                            <field name="product_qty"/>
+                            <field name="stock_status" invisible="1"/>
+                            <button string="Materials needed"
+                                    icon="STOCK_JUSTIFY_FILL"
+                                    name="show_materials_needed"
+                                    type="object"
+                                    class="oe_read_only"/>
+                            <button string="Create production order"
+                                    icon="gtk-redo"
+                                    name="generate_order_and_archive"
+                                    type="object"
+                                    class="oe_read_only"/>
+                        </tree>
+                    </field>
+                    <separator string="" colspan="4"/>
+                    <label for="materials" string="Materials needed"/>
+                    <field name="materials" context="{'show_only_order_id': True}">
+                        <tree string="Estimated consumption" create="false" delete="false"
+                              colors="red:stock_status=='no_stock';blue:stock_status=='incoming';green:stock_status=='out'">
+                            <field name="product_id"/>
+                            <field name="default_code"/>
+                            <field name="qty_required"/>
+                            <field name="qty_vsc_available"/>
+                            <field name="out_of_existences"/>
+                            <field name="qty_incoming"/>
+                            <field name="uom"/>
+                            <field name="orders"/>
+                            <field name="stock_status" invisible="1"/>
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <record id="production_planning_filter" model="ir.ui.view">
+            <field name="name">Production planning orders filter</field>
+            <field name="model">production.planning.orders</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Show all" domain="[]" context="{'active_test':False}"/>
+               </search>
+            </field>
+        </record>
+
+        <record id="production_planning_order_form_view" model="ir.ui.view">
+            <field name="name">Production planning order form</field>
+            <field name="model">production.planning.orders</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <form>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="compute" readonly="1"/>
+                        <field name="date_start" readonly="1"/>
+                        <field name="date_end" readonly="1"/>
+                        <field name="estimated_time" widget="float_time"/>
+                        <field name="recommended_time" widget="float_time"/>
+                        <field name="bom_id" readonly="1"/>
+                        <field name="line_id" readonly="1"/>
+                        <field name="note" readonly="1"/>
+                    </group>
+                    <separator string="" colspan="4"/>
+                    <label for="materials" string="Materials needed"/>
+                    <field name="materials" readonly="1">
+                        <tree string="Estimated consumption" create="false" delete="false"
+                              colors="red:stock_status=='no_stock';blue:stock_status=='incoming';green:stock_status=='out'">
+                            <field name="product_id"/>
+                            <field name="default_code"/>
+                            <field name="qty_required"/>
+                            <field name="qty_vsc_available"/>
+                            <field name="out_of_existences"/>
+                            <field name="qty_incoming"/>
+                            <field name="uom"/>
+                            <field name="orders"/>
+                            <field name="stock_status" invisible="1"/>
+                        </tree>
+                    </field>
+                    <footer class="oe_right oe_button_box">
+                        <button string="OK" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="production_planning_new_order_form" model="ir.ui.view">
+            <field name="name">Production planning new order form</field>
+            <field name="model">production.planning.orders</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="compute"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="estimated_time" widget="float_time"/>
+                        <field name="recommended_time" widget="float_time"/>
+                        <field name="product_tmpl_id" invisible="1"/>
+                        <field name="bom_id"/>
+                        <field name="line_id"/>
+                        <field name="note"/>
+                        <field name="product_qty"/>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Save" name="save_order" type="object" icon="gtk-ok" class="oe_highlight"/>
+                        <button string="Cancel" name="cancel_order" type="object" icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="production_planning_tree_view" model="ir.ui.view">
+            <field name="name">Production planning orders tree</field>
+            <field name="model">production.planning.orders</field>
+            <field name="arch" type="xml">
+                <tree string="Orders to compute"
+                      create="true"
+                      edit="true"
+                      delete="false"
+                      editable="true">
+                    <field name="id"/>
+                    <field name="compute"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="estimated_time" widget="float_time"/>
+                    <field name="recommended_time" widget="float_time"/>
+                    <field name="product_id"/>
+                    <field name="bom_id"/>
+                    <field name="line_id"/>
+                    <field name="note"/>
+                    <field name="product_qty"/>
+                    <field name="production_order"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="production_planning_calendar_view" model="ir.ui.view">
+            <field name="name">Production planning orders calendar</field>
+            <field name="model">production.planning.orders</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Production planning orders"
+                          date_start="date_start" date_stop="date_end"
+                          event_open_popup="0"
+                          color="line_id"
+                          quick_add="false"
+                          create="true"
+                          delete="false">
+                    <field name="name"/>
+                    <field name="production_order"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="production_planning_gantt_view" model="ir.ui.view">
+            <field name="name">Production planning orders gantt</field>
+            <field name="model">production.planning.orders</field>
+            <field name="arch" type="xml">
+                <gantt date_start="date_start"
+                       date_stop="date_end"
+                       default_group_by="line_id"
+                       string="Production planning orders"
+                       create="false"
+                       delete="false">
+                </gantt>
+            </field>
+        </record>
+
+        <record id="production_planning_kanban_view" model="ir.ui.view">
+            <field name="name">Production planning orders kanban</field>
+            <field name="model">production.planning.orders</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="line_id"
+                        default_order="date_start"
+                        create="false"
+                        delete="false">
+                    <field name="line_id" modifiers="{}"/>
+                    <field name="product_id" modifiers="{}"/>
+                    <field name="product_qty" modifiers="{}"/>
+                    <field name="production_order" modifiers="{}"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div>ID: <field name="id"/></div>
+                                    <div>
+                                        <b>
+                                            <field name="default_code" invisible="1"/>
+                                            <field name="product_id"
+                                                   attrs="{'invisible':[('default_code','=','Gen0001')]}"/>
+                                            <field name="note"
+                                                   attrs="{'invisible':[('default_code','!=','Gen0001')]}"/>
+                                        </b>
+                                    </div>
+                                    <div><field name="product_qty"/></div>
+                                    <div><field name="date_start"/></div>
+                                    <div><field name="date_end"/></div>
+                                    <div><field name="production_order"/></div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_view_bom_production_planning" model="ir.actions.act_window">
+            <field name="name">Stock / BoM production planning</field>
+            <field name="res_model">production.planning</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="production_planning_form_view"/>
+            <field name="res_id">1</field>
+        </record>
+
+        <record id="action_view_bom_production_planning_calendar" model="ir.actions.act_window">
+            <field name="name">Stock / BoM calendar</field>
+            <field name="res_model">production.planning.orders</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,gantt,kanban,tree,form</field>
+            <field name="view_ids"
+                   eval="[
+                            (5, 0, 0),
+                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_available.production_planning_calendar_view')}),
+                            (0, 0, {'view_mode': 'gantt', 'view_id': ref('stock_available.production_planning_gantt_view')}),
+                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('stock_available.production_planning_kanban_view')}),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_available.production_planning_tree_view')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('stock_available.production_planning_order_form_view')}),
+                          ]"
+            />
+        </record>
+
+        <menuitem id="menu_view_stock_available_form"
+                  parent="stock_available.menu_mrp_production_planning"
+                  action="action_view_bom_stock" sequence="140"/>
+
+        <menuitem id="menu_view_stock_production_planning_form"
+                  parent="stock_available.menu_mrp_production_planning"
+                  action="action_view_bom_production_planning" sequence="141"/>
+
+        <menuitem id="menu_view_stock_production_planning_calendar"
+                  parent="stock_available.menu_mrp_production_planning"
+                  action="action_view_bom_production_planning_calendar" sequence="142"/>
+     </data>
+</openerp>

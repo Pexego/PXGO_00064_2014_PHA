@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+from datetime import datetime, timedelta
+from pytz import timezone
 
 
 class ProductionPlanning(models.Model):
@@ -21,6 +23,12 @@ class ProductionPlanningOrders(models.Model):
                                  default=lambda r: fields.Datetime.now())
     date_end = fields.Datetime(string='End date',
                                default=lambda r: fields.Datetime.now())
+    estimated_time = fields.Float(string='Esimated time',
+                                  compute='_estimated_time',
+                                  readonly=True)
+    recommended_time = fields.Float(string='Recommended time',
+                                    compute='_recommended_time',
+                                    readonly=True)
     product_id = fields.Many2one(string='Final product',
                                  comodel_name='product.product',
                                  required=True)
@@ -78,6 +86,66 @@ class ProductionPlanningOrders(models.Model):
         if self.date_start > self.date_end:
             self.date_start = self.date_end
 
+    @api.one
+    def _estimated_time(self):
+        date_start_utc = fields.Datetime.from_string(self.date_start)
+        date_end_utc = fields.Datetime.from_string(self.date_end)
+
+        # Localize dates to operate with it correctly because shifts
+        # are stored in local hours
+        tz = timezone(self._context.get('tz') or self.env.user.tz or 'UTC')
+        date_start = date_start_utc + tz.utcoffset(date_start_utc)
+        date_end = date_end_utc + tz.utcoffset(date_end_utc)
+
+        days = self.env['mrp.calendar.days'].search([
+            ('day', '>=', date_start_utc.strftime('%Y-%m-%d')),
+            ('day', '<=', date_end_utc.strftime('%Y-%m-%d')),
+            ('holiday', '=', False)
+        ], order='day')
+
+        class context:
+            date = date_start
+            elapsed = date_end - date_start
+            timewalker = date_start
+
+        def travel_hours(start, end):
+            if start != end:
+                moment = datetime.combine(context.date, datetime.min.time()) + \
+                         timedelta(seconds=start * 3600)
+                if moment > context.timewalker:
+                    context.elapsed -= moment - context.timewalker
+                    context.timewalker = moment
+
+                if end < start:
+                    context.date += timedelta(days=1)
+                moment = datetime.combine(context.date, datetime.min.time()) + \
+                         timedelta(seconds=end * 3600)
+                if context.timewalker < moment:
+                    context.timewalker = moment
+
+        for day in days:
+            context.date = fields.Date.from_string(day.day)
+            travel_hours(day.s1_start, day.s1_end)
+            travel_hours(day.s2_start, day.s2_end)
+            travel_hours(day.s3_start, day.s3_end)
+
+        if date_end > context.timewalker:
+            context.elapsed -= date_end - context.timewalker
+
+        self.estimated_time = context.elapsed.total_seconds() / 3600
+
+    @api.one
+    def _recommended_time(self):
+        fixed_time = 0
+        variable_time = 0
+        for ta in self.product_id.time_adviser:
+            if ta.type == 'fixed':
+                fixed_time += ta.time
+            else:
+                variable_time += ta.time
+        self.recommended_time = (fixed_time +  (self.product_qty *
+                                                variable_time)) / 3600
+
     @api.multi
     def generate_order_and_archive(self):
         # Update production planning order line and recompute requirements
@@ -94,6 +162,8 @@ class ProductionPlanningOrders(models.Model):
             'product_uom': self.product_id.uom_id.id,
             'routing_id': self.line_id.id,
             'date_planned': self.date_start,
+            'date_end_planned': self.date_end,
+            'time_planned': self.estimated_time,
             'user_id': self.env.user.id,
             'origin': _('Production planning order Nº %s') % (self.id)
         })
