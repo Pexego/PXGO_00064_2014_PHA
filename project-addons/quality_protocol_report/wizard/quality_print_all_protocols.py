@@ -62,10 +62,7 @@ class QualityReportAll(models.TransientModel):
                 use_protocol = protocol_link.filtered(
                     lambda r: not r.route and not r.bom)
             if not use_protocol:
-                raise exceptions.Warning(
-                    _('Not found'),
-                    _('Protocol not found for the product %s.') %
-                    obj.product_id.name)
+                continue
             else:
                 use_protocol = use_protocol.protocol
             if not workcenter_line.realized_ids:
