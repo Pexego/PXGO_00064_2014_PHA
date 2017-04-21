@@ -159,12 +159,12 @@ class QualityReportAll(models.TransientModel):
             'datas': base64.b64encode(repor),
             'res_model': self.env.context.get('active_model', False),
             'res_id': self.env.context.get('active_id', False),
-        }'''
+        }
         self.env['ir.attachment'].search(
             [('name', '=', attachment_data['name']),
              ('res_id', '=', attachment_data['res_id']),
              ('res_model', '=', attachment_data['res_model'])]).unlink()
-        self.env['ir.attachment'].create(attachment_data)
+        self.env['ir.attachment'].create(attachment_data)'''
         filenames.append(filepath)
         for my_file in filenames:
             os.remove(my_file)
