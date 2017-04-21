@@ -115,15 +115,18 @@ class QualityReportAll(models.TransientModel):
             raise exceptions.Warning(_(''), _(''))
         session_id = request.session.sid
         addons_url = self.env['ir.config_parameter'].get_param('addons_path')
+        print_urls = self._get_print_urls()
+        if not print_urls:
+            return
         phantom = [
             "phantomjs",
             addons_url +
             "/quality_protocol_report/static/src/js/phantom_url_to_pdf.js",
-            session_id, "/tmp"] + self._get_print_urls()
+            session_id, "/tmp"] + print_urls
         process = subprocess.Popen(phantom)
         process.communicate()
         filenames = []
-        for url in self._get_print_urls():
+        for url in print_urls:
             filenames.append('/tmp/' + url.replace('/', '').replace(':', '') +
                              '.pdf')
         filepath = self._merge_pdf(filenames)
