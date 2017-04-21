@@ -147,10 +147,9 @@ class QualityReportAll(models.TransientModel):
              ('res_id', '=', attachment_data['res_id']),
              ('res_model', '=', attachment_data['res_model'])]).unlink()
         self.env['ir.attachment'].create(attachment_data)
-
         mrp = self.env[self.env.context['active_model']].browse(
             self.env.context['active_id'])
-        repor = self.env['report'].get_pdf(
+        '''repor = self.env['report'].get_pdf(
             mrp, 'quality_protocol_report.report_mrp_label')
         attachment_data = {
             'name': 'etiquetas_cajoines' +
@@ -160,7 +159,7 @@ class QualityReportAll(models.TransientModel):
             'datas': base64.b64encode(repor),
             'res_model': self.env.context.get('active_model', False),
             'res_id': self.env.context.get('active_id', False),
-        }
+        }'''
         self.env['ir.attachment'].search(
             [('name', '=', attachment_data['name']),
              ('res_id', '=', attachment_data['res_id']),
