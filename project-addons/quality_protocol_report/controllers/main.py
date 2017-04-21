@@ -57,7 +57,7 @@ class WebsiteProtocol(http.Controller):
                     parts.append(('s',line.survey_id, user_input.token))
                     context.update({'exist': False})
                 else:
-                    response_id = user_input_obj.search(cr, uid, [('survey_id' ,'=', line.survey_id.id), ('partner_id' ,'=', user.partner_id.id), ('lot_id' ,'=', production.final_lot_id.id)], context=context2)
+                    response_id = user_input_obj.search(cr, uid, [('survey_id' ,'=', line.survey_id.id), ('lot_id' ,'=', production.final_lot_id.id)], context=context2)
                     response = user_input_obj.browse(cr, uid, response_id, context2)[0]
                     parts.append(('s',line.survey_id, response.token))
                     context.update({'exist': True})
