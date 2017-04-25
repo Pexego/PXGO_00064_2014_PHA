@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="product_preferential_consumption_form" model="ir.ui.view">
+            <field name="name">Product preferential consumption form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <group string="Dates" position="after">
+                    <group string="Dates (extra data)">
+                        <br/><br/>
+                        <field name="duration_type"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</openerp>
