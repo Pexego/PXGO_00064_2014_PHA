@@ -26,12 +26,20 @@ class StockProductionLot(models.Model):
         else:
             return False
 
+    @api.model
+    def _get_duration_type(self):
+        product_id = self.env.context.get('product_id', False)
+        if product_id:
+            return self.env['product.product'].browse(product_id).duration_type
+        else:
+            return False
+
     use_date = fields.Datetime(default=_get_use_date)
     duration_type = fields.Selection(selection=[
         ('exact', 'Exact'),
         ('end_month', 'End of month'),
         ('end_year', 'End of year')
-    ], default=lambda r: r.product_id.duration_type)
+    ], default=_get_duration_type)
 
     def init(self, cr):
         cr.execute("""update stock_production_lot set duration_type = 'exact'
