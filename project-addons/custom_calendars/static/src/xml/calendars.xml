@@ -5,8 +5,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <templates id="template" xml:space="preserve">
     <t t-extend="ListView.buttons">
-        <t t-jquery="button.oe_list_add" t-operation="replace">
-            <t t-if="widget.model == 'mrp.calendar.days'">
+        <t t-if="widget.model == 'mrp.calendar.days'">
+            <t t-jquery="button.oe_list_add" t-operation="replace">
                 <button class="oe_button oe_highlight oe_custom_calendars_create_calendar"
                         type="button">Create calendar</button>
                 <button class="oe_button oe_custom_calendars_fixed_shifts"
