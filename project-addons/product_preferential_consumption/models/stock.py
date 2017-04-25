@@ -27,3 +27,12 @@ class StockProductionLot(models.Model):
             return False
 
     use_date = fields.Datetime(default=_get_use_date)
+    duration_type = fields.Selection(selection=[
+        ('exact', 'Exact'),
+        ('end_month', 'End of month'),
+        ('end_year', 'End of year')
+    ], default=lambda r: r.product_id.duration_type)
+
+    def init(self, cr):
+        cr.execute("""update stock_production_lot set duration_type = 'exact'
+                      where duration_type is null;""")
