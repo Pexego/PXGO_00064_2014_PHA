@@ -8,12 +8,15 @@ openerp.custom_calendars = function(instance) {
             var self = this;
             this._super.apply(this, arguments);
             if (this.$buttons) {
-                this.$buttons.find('.oe_custom_calendars_create_calendar')
-                    .click(this.proxy('on_custom_calendars_create_calendar'));
-                this.$buttons.find('.oe_custom_calendars_set_holidays')
-                    .click(this.proxy('on_custom_calendars_set_holidays'));
-                this.$buttons.find('.oe_custom_calendars_fixed_shifts')
-                    .click(this.proxy('on_custom_calendars_fixed_shifts'));
+                if (this.model == 'mrp.calendar.days') {
+                    this.$buttons.find('.oe_list_add').hide();
+                    this.$buttons.find('.oe_custom_calendars_create_calendar')
+                        .click(this.proxy('on_custom_calendars_create_calendar'));
+                    this.$buttons.find('.oe_custom_calendars_set_holidays')
+                        .click(this.proxy('on_custom_calendars_set_holidays'));
+                    this.$buttons.find('.oe_custom_calendars_fixed_shifts')
+                        .click(this.proxy('on_custom_calendars_fixed_shifts'));
+                }
             }
         },
         on_custom_calendars_create_calendar: function () {
