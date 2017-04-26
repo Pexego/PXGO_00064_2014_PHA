@@ -12,7 +12,7 @@
     'website': 'www.pharmadus.com',
     'depends': [
         'product',
-        'stock'
+        'stock_available'
     ],
     'data': [
         'views/product_view.xml',
