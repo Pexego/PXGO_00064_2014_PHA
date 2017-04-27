@@ -195,7 +195,8 @@
                         <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Taxes</th>
+                                <!--th>Taxes</th-->
+                                <th>Supplier reference</th>
                                 <th class="text-right"><strong>Qty</strong></th>
                                 <th class="text-right">Unit price</th>
                                 <th class="text-right">Disc.(%)</th>
@@ -215,7 +216,8 @@
                                     </t>
                                 </td>
                                 <td>
-                                    <span t-esc="', '.join(map(lambda x: x.name, l.taxes_id))"/>
+                                    <!--span t-esc="', '.join(map(lambda x: x.name, l.taxes_id))"/-->
+                                    <span t-field="l.product_supplier_reference"/>
                                 </td>
                                 <td class="text-right">
                                     <span t-esc="'%g' % l.product_qty"/>

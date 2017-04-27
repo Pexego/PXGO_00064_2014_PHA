@@ -20,4 +20,4 @@
 ##############################################################################
 
 import product, account_payment, account, sale_report, account_invoice_report, \
-       stock, account_invoice
+       stock, account_invoice, purchase

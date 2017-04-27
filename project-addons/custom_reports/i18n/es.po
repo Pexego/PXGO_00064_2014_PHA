@@ -352,6 +352,18 @@ msgid "Journal invoices with period in last 7 days"
 msgstr "Facturas de los últimos 7 días"
 
 #. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Journal invoices with period in past year"
+msgstr "Facturas del año anterior"
+
+#. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: view:sale.report:custom_reports.sale_report_search_custom_reports
+msgid "Last Year"
+msgstr "Año anterior"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_lot_labels
 msgid "LOT"
 msgstr "LOTE"
@@ -406,21 +418,25 @@ msgstr "PRO-FORMA"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_cost:0
+#: field:sale.report,product_cost:0
 msgid "Product cost"
 msgstr "Coste de producto"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_cost_rm:0
+#: field:sale.report,product_cost_rm:0
 msgid "Product cost raw material"
 msgstr "Coste de producto M.P."
 
 #. module: custom_reports
 #: field:account.invoice.report,product_cost_components:0
+#: field:sale.report,product_cost_components:0
 msgid "Product cost components"
 msgstr "Coste de producto componentes"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_cost_dl:0
+#: field:sale.report,product_cost_dl:0
 msgid "Product cost direct labor"
 msgstr "Coste de producto M.O.D."
 
@@ -583,13 +599,15 @@ msgstr "Producto - Sublínea"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_gross_weight:0
-msgid = 'Product gross weight'
-msgstr = 'Producto - Peso bruto'
+#: field:sale.report,product_gross_weight:0
+msgid "Product gross weight"
+msgstr "Producto - Peso bruto"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_net_weight:0
-msgid = 'Product net weight'
-msgstr = 'Producto - Peso neto'
+#: field:sale.report,product_net_weight:0
+msgid "Product net weight"
+msgstr "Producto - Peso neto"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
@@ -769,6 +787,11 @@ msgstr "Código proveedor:"
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Supplier delivery note:"
 msgstr "Albarán de proveedor:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Supplier reference"
+msgstr "Referencia proveedor"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
