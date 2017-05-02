@@ -79,6 +79,10 @@ class MrpProduction(models.Model):
         move_obj = self.pool.get('stock.move')
         proc_obj = self.pool.get('procurement.order')
         for production in self.browse(cr, uid, ids, context=context):
+            if production.final_lot_id:
+                self.pool.get('stock.production.lot').write(
+                    cr, uid, production.final_lot_id.id, {'active': False},
+                    context=context)
             if production.move_created_ids:
                 move_obj.action_cancel(cr, uid, [x.id for x in production.move_created_ids])
             moves = move_obj.search(cr, uid, [('move_dest_id', 'in', [x.id for x in production.move_lines])], context=context)
