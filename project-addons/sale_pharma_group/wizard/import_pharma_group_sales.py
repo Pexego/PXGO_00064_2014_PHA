@@ -48,6 +48,8 @@ class ImportPharmaGroupSales(models.TransientModel):
                                    domain=[('type', '=', 'sale')],
                                    required=True)
     partner_id = fields.Many2one('res.partner', 'Partner', required=True)
+    category_id = fields.Many2one('res.partner.category', 'Category',
+                                  required=True)
 
     def _get_positions(self, header):
         for pos in range(0, len(header)):
@@ -90,11 +92,11 @@ class ImportPharmaGroupSales(models.TransientModel):
                 raise exceptions.Warning(_('Any product found with CN %s')
                                          % cn_code)
             zip = str(int(row[p_zip_pos])).strip().rjust(5, '0')
-            zip_ids = zip_env.search([('name', '=', zip)])
+            zip_ids = zip_env.search([('name', '=', zip), ('country_id', '=', self.env.ref('base.es').id)])
             if not zip_ids:
                 raise exceptions.Warning(_('Zip %s not found') % zip)
-
-            if not zip_ids[0].agent_id:
+            if not zip_ids[0].agent_ids.filtered(
+                    lambda r: r.category_id == self.category_id):
                 raise exceptions.Warning(_('Zip %s didn\'t have agent set')
                                          % zip)
 
@@ -105,7 +107,8 @@ class ImportPharmaGroupSales(models.TransientModel):
                                'product_cn': row[cn_pos],
                                'product_qty': row[qty_pos],
                                'product_id': p_ids[0].id,
-                               'agent_id': zip_ids[0].agent_id.id,
+                               'agent_id': zip_ids[0].agent_ids.filtered(
+                                lambda r: r.category_id == self.category_id)[0].agent_id.id,
                                'date': imp_date,
                                'price_unit': p_ids[0].price,
                                'price_subtotal': p_ids[0].price * row[qty_pos],
