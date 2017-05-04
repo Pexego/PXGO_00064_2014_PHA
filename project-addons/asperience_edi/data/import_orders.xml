@@ -353,6 +353,14 @@ data = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
         </record>
 
         <record forcecreate="True" id="edi_edi_orders_line_12_field_2" model="edi.edi.line.csv.field">
+            <field name="name">tipo</field>
+            <field name="line" ref="edi_edi_orders_line_12" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'Calificador de tipo de precio'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_12_field_3" model="edi.edi.line.csv.field">
             <field name="name">precio</field>
             <field name="line" ref="edi_edi_orders_line_12" />
             <field name="sequence" eval="3" />
