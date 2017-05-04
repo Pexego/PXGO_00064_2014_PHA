@@ -570,9 +570,10 @@ class edi_parser(models.Model):
                 if not partner_id:
                     raise Exception("El comprador con gln %s no se ha encontrado" % (line[1]['comprador']))
                 else:
+                    partner = partner_obj.browse(cr, uid, partner_id)
                     vals['customer_branch'] = line[1]['sucursal']
                     vals['partner_invoice_id'] = partner_id[0]
-                    vals['partner_id'] = partner_id[0]
+                    vals['partner_id'] = partner.commercial_partner_id.id
                     partner = partner_obj.browse(cr, uid, partner_id[0])
                     vals['pricelist_id'] = partner.property_product_pricelist.id
                     vals['fiscal_position'] = partner.property_account_position.id
@@ -658,7 +659,7 @@ class edi_parser(models.Model):
                         line_vals['units_per_package'] = line[1]['qty']
 
 
-                elif line[0] == 'PRILIN' and line_vals:
+                elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAA':
                     line_vals['price_unit'] = line[1]['precio']
 
         if line_vals:
