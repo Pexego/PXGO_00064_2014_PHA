@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2016 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2017 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from openerp import models, api, fields, _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
 from openerp.exceptions import Warning
@@ -184,6 +168,10 @@ class AccountInvoiceLine(models.Model):
             ('in_refund','Supplier Refund'),
         ], related='invoice_id.type')
     invoice_line_tax_id = fields.Many2many(required=True)  # Inherited field
+    default_code = fields.Char(related='product_id.default_code')
+    commercial_partner_id = fields.Many2one(comodel_name='res.partner',
+                                    related='invoice_id.commercial_partner_id')
+    date_invoice = fields.Date(related='invoice_id.date_invoice')
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',

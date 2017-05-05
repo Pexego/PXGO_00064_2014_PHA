@@ -65,6 +65,7 @@
         'wizard/warning_message.xml',
         'wizard/cancel_picking_confirmation_view.xml',
         'wizard/account_invoice_special.xml',
+        'wizard/purchasable_products_view.xml',
         'data/wizards_units_precision.xml',
         'data/mrp_procedure_type.xml',
         'security/menus.xml',
