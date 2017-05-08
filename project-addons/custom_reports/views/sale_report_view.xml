@@ -10,6 +10,10 @@
                     <attribute name="invisible">0</attribute>
                 </filter>
                 <filter string="This Year" position="after">
+                    <filter string="Last Year"
+                            name="lastyear"
+                            domain="[('date','&lt;=',(context_today()+relativedelta(years=-1)).strftime('%Y-12-31')),('date','&gt;=',(context_today()+relativedelta(years=-1)).strftime('%Y-01-01'))]"
+                            help="Journal invoices with period in past year"/>
                     <filter string="This month"
                             name="this_month"
                             domain="[('date','&lt;=',(context_today()+relativedelta(day=31)).strftime('%Y-%m-%d')),('date','&gt;=',(context_today()-relativedelta(day=1)).strftime('%Y-%m-%d'))]"
@@ -52,6 +56,10 @@
                     <filter string="Partner category" context="{'group_by':'partner_category'}"/>
                 </filter>
             </field>
+        </record>
+
+        <record id="sale.action_order_report_all" model="ir.actions.act_window">
+            <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[], 'search_default_year':1}</field>
         </record>
     </data>
 </openerp>

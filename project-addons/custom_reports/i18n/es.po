@@ -610,6 +610,18 @@ msgid "Product net weight"
 msgstr "Producto - Peso neto"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_purchase_line:0
+#: field:purchase.report,product_purchase_line:0
+msgid "Product purchase line"
+msgstr "Producto - Línea de compras"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_purchase_subline:0
+#: field:purchase.report,product_purchase_subline:0
+msgid "Product purchase subline"
+msgstr "Producto - Sublínea de compras"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Product | EAN13"
 msgstr "Producto | EAN13"

@@ -40,6 +40,10 @@ class AccountInvoiceReport(models.Model):
     product_with_reference = fields.Char('Product with reference')
     product_line = fields.Many2one('product.line', 'Product line')
     product_subline = fields.Many2one('product.subline', 'Product subline')
+    product_purchase_line = fields.Many2one('product.purchase.line',
+                                            'Product purchase line')
+    product_purchase_subline = fields.Many2one('product.purchase.subline',
+                                               'Product purchase subline')
     product_container = fields.Many2one('product.container', 'Product container')
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
@@ -66,6 +70,8 @@ class AccountInvoiceReport(models.Model):
             product_with_reference,
             product_line,
             product_subline,
+            product_purchase_line,
+            product_purchase_subline,
             product_container,
             product_form,
             product_clothing,
@@ -105,6 +111,8 @@ class AccountInvoiceReport(models.Model):
             '[' || pt.default_code || '] ' || pt.name as product_with_reference,
             pt.line as product_line,
             pt.subline as product_subline,
+            pt.purchase_line as product_purchase_line,
+            pt.purchase_subline as product_purchase_subline,
             pt.container_id as product_container,
             pt.base_form_id as product_form,
             pt.clothing as product_clothing,
@@ -193,6 +201,8 @@ class AccountInvoiceReport(models.Model):
             '[' || pt.default_code || '] ' || pt.name,
             pt.line,
             pt.subline,
+            pt.purchase_line,
+            pt.purchase_subline,
             pt.container_id,
             pt.base_form_id,
             pt.clothing,

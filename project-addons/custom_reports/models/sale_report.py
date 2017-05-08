@@ -48,6 +48,12 @@ class SaleReport(models.Model):
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    product_cost = fields.Float('Product cost')
+    product_cost_rm = fields.Float('Product cost raw material')
+    product_cost_components = fields.Float('Product cost components')
+    product_cost_dl = fields.Float('Product cost direct labor')
+    product_gross_weight = fields.Float('Product gross weight')
+    product_net_weight = fields.Float('Product net weight')
     is_delivery = fields.Boolean()  # Is a delivery carrier line?
 
     def _select(self):
@@ -83,6 +89,12 @@ class SaleReport(models.Model):
             t.container_id as product_container,
             t.base_form_id as product_form,
             t.clothing as product_clothing,
+            sum(l.product_uom_qty / u.factor * u2.factor * ip.value_float) as product_cost,
+            sum(l.product_uom_qty * t.cost_price_rm) as product_cost_rm,
+            sum(l.product_uom_qty * t.cost_price_components) as product_cost_components,
+            sum(l.product_uom_qty * t.cost_price_dl) as product_cost_dl,
+            sum(l.product_uom_qty * t.weight) as product_gross_weight,
+            sum(l.product_uom_qty * t.weight_net) as product_net_weight,
             l.is_delivery
             """
         res = super(SaleReport, self)._select() + select_str
@@ -122,8 +134,11 @@ class SaleReport(models.Model):
                 )
             left join res_country_state ics on ics.id = pa.state_id
             left join res_country_state scs on scs.id = spa.state_id
+            left join ir_model_fields imf on imf.model = 'product.template' and imf.name = 'standard_price'
+            left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || t.id::text
             """
-        return super(SaleReport, self)._from() + from_str
+        res = super(SaleReport, self)._from() + from_str
+        return res
 
     def _group_by(self):
         group_by_str = """,
