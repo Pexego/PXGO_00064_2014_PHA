@@ -41,6 +41,8 @@
                                 <field name="container_id"/>
                                 <field name="base_form_id"/>
                                 <field name="clothing"/>
+                                <field name="purchase_line"/>
+                                <field name="purchase_subline"/>
                              </group>
                             <group>
                                 <field name="country"/>
@@ -99,6 +101,8 @@
                 <filter string='Type' position="after">
                     <filter string='Line' domain="[]" context="{'group_by' : 'line'}"/>
                     <filter string='Subline' domain="[]" context="{'group_by' : 'subline'}"/>
+                    <filter string='Purchase Line' domain="[]" context="{'group_by' : 'purchase_line'}"/>
+                    <filter string='Purchase Subline' domain="[]" context="{'group_by' : 'purchase_subline'}"/>
                     <filter string='Container' domain="[]" context="{'group_by' : 'container_id'}"/>
                     <filter string='Base form' domain="[]" context="{'group_by' : 'base_form_id'}"/>
                     <filter string='Objective' domain="[]" context="{'group_by' : 'objective'}"/>
@@ -134,7 +138,6 @@
             </field>
         </record>
 
-
         <record model="ir.actions.act_window" id="action_product_line_form">
             <field name="name">Product Lines</field>
             <field name="type">ir.actions.act_window</field>
@@ -142,8 +145,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="product_line_tree"/>
-
         </record>
+
         <menuitem action="action_product_line_form"
             id="menu_product_product_lines"
             parent="product.prod_config_main"/>
@@ -175,7 +178,6 @@
             </field>
         </record>
 
-
         <record model="ir.actions.act_window" id="action_product_subline_form">
             <field name="name">Product SubLines</field>
             <field name="type">ir.actions.act_window</field>
@@ -190,6 +192,88 @@
             id="menu_product_product_sublines"
             parent="product.prod_config_main"/>
 
+        <!-- Purchases line and subline -->
+        <record model="ir.ui.view" id="product_purchase_line_tree">
+            <field name="name">Product purchase line tree</field>
+            <field name="model">product.purchase.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product purchase lines">
+                    <field name="name" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_line_form">
+            <field name="name">Product purchase line</field>
+            <field name="model">product.purchase.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product purchase line">
+                    <sheet>
+                        <group>
+                            <separator string="Product purchase line" colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_product_purchase_line">
+            <field name="name">Product purchase lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_purchase_line_tree"/>
+        </record>
+
+        <menuitem action="action_product_purchase_line"
+                  id="menu_product_purchase_lines"
+                  parent="product.prod_config_main"
+        />
+
+        <record model="ir.ui.view" id="product_purchase_subline_tree">
+            <field name="name">Product purchase subline tree</field>
+            <field name="model">product.purchase.subline</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product purchase sublines">
+                    <field name="name" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_purchase_subline_form">
+            <field name="name">Product purchase subline form</field>
+            <field name="model">product.purchase.subline</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product purchase subline">
+                    <sheet>
+                        <group>
+                            <separator string="Product purchase subline" colspan="4"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_product_purchase_subline">
+            <field name="name">Product purchase sublines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase.subline</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_purchase_subline_tree"/>
+        </record>
+
+        <menuitem action="action_product_purchase_subline"
+                  id="menu_product_purchase_sublines"
+                  parent="product.prod_config_main"
+        />
 
         <!-- product.packing views -->
         <record model="ir.ui.view" id="product_packing_tree">
@@ -219,7 +303,6 @@
             </field>
         </record>
 
-
         <record model="ir.actions.act_window" id="action_product_packing_form">
             <field name="name">Product packings</field>
             <field name="type">ir.actions.act_window</field>
@@ -227,13 +310,12 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="product_packing_tree"/>
-
         </record>
 
         <menuitem action="action_product_packing_form"
-            id="menu_product_product_packings"
-            parent="product.prod_config_main"/>
-
+                  id="menu_product_product_packings"
+                  parent="product.prod_config_main"
+        />
 
         <!-- product.packing.internal views -->
         <record model="ir.ui.view" id="product_packing_internal_tree">

@@ -150,21 +150,39 @@ msgid "Country"
 msgstr "País"
 
 #. module: product_spec
-#: field:product.extra.category,create_uid:0
-#: field:product.packing,create_uid:0 field:product.packing.base,create_uid:0
+#: field:product.extra.category,create_uid:0 field:product.packing,create_uid:0
+#: field:product.packing.base,create_uid:0
 #: field:product.packing.internal,create_uid:0
 #: field:product.packing.production,create_uid:0
+#: field:product.purchase.line,create_uid:0
+#: field:product.purchase.subline,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: product_spec
 #: field:product.extra.category,create_date:0
-#: field:product.packing,create_date:0
-#: field:product.packing.base,create_date:0
+#: field:product.packing,create_date:0 field:product.packing.base,create_date:0
 #: field:product.packing.internal,create_date:0
 #: field:product.packing.production,create_date:0
+#: field:product.purchase.line,create_date:0
+#: field:product.purchase.subline,create_date:0
 msgid "Created on"
 msgstr "Creado el"
+
+#. module: product_spec
+#: field:product.container,display_name:0
+#: field:product.extra.category,display_name:0
+#: field:product.form,display_name:0 field:product.line,display_name:0
+#: field:product.packing,display_name:0
+#: field:product.packing.base,display_name:0
+#: field:product.packing.internal,display_name:0
+#: field:product.packing.production,display_name:0
+#: field:product.purchase.line,display_name:0
+#: field:product.purchase.subline,display_name:0
+#: field:product.quality.limits,display_name:0
+#: field:product.subline,display_name:0
+msgid "Display Name"
+msgstr "Nombre a mostrar"
 
 #. module: product_spec
 #: field:product.extra.category,property_account_expense_categ:0
@@ -232,13 +250,10 @@ msgid "Gives the sequence order when displaying a list of product categories."
 msgstr "Muestra el orden de secuencia cuando se muestran las categorías de producto."
 
 #. module: product_spec
-#: field:product.extra.category,id:0
-#: field:product.packing,id:0
-#: field:product.packing.base,id:0
-#: field:product.packing.internal,id:0
-#: field:product.packing.production,id:0
-#: field:product.packing,id:0 field:product.packing.base,id:0
-#: field:product.packing.internal,id:0 field:product.packing.production,id:0
+#: field:product.extra.category,id:0 field:product.packing,id:0
+#: field:product.packing.base,id:0 field:product.packing.internal,id:0
+#: field:product.packing.production,id:0 field:product.purchase.line,id:0
+#: field:product.purchase.subline,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -258,18 +273,37 @@ msgid "Internal packing format"
 msgstr "Formato de packing interno"
 
 #. module: product_spec
-#: field:product.extra.category,write_uid:0
-#: field:product.packing,write_uid:0 field:product.packing.base,write_uid:0
+#: field:product.container,__last_update:0
+#: field:product.extra.category,__last_update:0
+#: field:product.form,__last_update:0 field:product.line,__last_update:0
+#: field:product.packing,__last_update:0
+#: field:product.packing.base,__last_update:0
+#: field:product.packing.internal,__last_update:0
+#: field:product.packing.production,__last_update:0
+#: field:product.purchase.line,__last_update:0
+#: field:product.purchase.subline,__last_update:0
+#: field:product.quality.limits,__last_update:0
+#: field:product.subline,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación"
+
+#. module: product_spec
+#: field:product.extra.category,write_uid:0 field:product.packing,write_uid:0
+#: field:product.packing.base,write_uid:0
 #: field:product.packing.internal,write_uid:0
 #: field:product.packing.production,write_uid:0
+#: field:product.purchase.line,write_uid:0
+#: field:product.purchase.subline,write_uid:0
 msgid "Last Updated by"
 msgstr "Últ. act. por"
 
 #. module: product_spec
-#: field:product.extra.category,write_date:0
-#: field:product.packing,write_date:0 field:product.packing.base,write_date:0
+#: field:product.extra.category,write_date:0 field:product.packing,write_date:0
+#: field:product.packing.base,write_date:0
 #: field:product.packing.internal,write_date:0
 #: field:product.packing.production,write_date:0
+#: field:product.purchase.line,write_date:0
+#: field:product.purchase.subline,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización"
 
@@ -284,18 +318,12 @@ msgid "Line"
 msgstr "Línea"
 
 #. module: product_spec
-#: field:product.container,name:0
-#: field:product.extra.category,complete_name:0
-#: field:product.extra.category,name:0
-#: field:product.form,name:0
-#: field:product.line,name:0
-#: field:product.packing,name:0
-#: field:product.packing.base,name:0
-#: field:product.packing.internal,name:0
-#: field:product.container,name:0 field:product.form,name:0
+#: field:product.container,name:0 field:product.extra.category,complete_name:0
+#: field:product.extra.category,name:0 field:product.form,name:0
 #: field:product.line,name:0 field:product.packing,name:0
 #: field:product.packing.base,name:0 field:product.packing.internal,name:0
-#: field:product.packing.production,name:0
+#: field:product.packing.production,name:0 field:product.purchase.line,name:0
+#: field:product.purchase.subline,name:0
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 #: field:product.subline,name:0
 msgid "Name"
@@ -383,6 +411,24 @@ msgid "Products by Extra Category"
 msgstr "Prod. por categ. extra"
 
 #. module: product_spec
+#: field:product.product,purchase_line:0
+#: view:product.template:product_spec.product_search_form_view_extended_search
+#: field:product.template,purchase_line:0
+msgid "Purchase Line"
+msgstr "Línea compras"
+
+#. module: product_spec
+#: field:product.product,purchase_subline:0
+#: field:product.template,purchase_subline:0
+msgid "Purchase SubLine"
+msgstr "Sublínea compras"
+
+#. module: product_spec
+#: view:product.template:product_spec.product_search_form_view_extended_search
+msgid "Purchase Subline"
+msgstr "Sublínea compras"
+
+#. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_line_form
 #: model:ir.ui.menu,name:product_spec.menu_product_product_lines
 #: view:product.line:product_spec.product_line_form
@@ -466,6 +512,30 @@ msgstr "Packing externo de producto"
 #: view:product.packing.base:product_spec.product_packing_base_form
 msgid "Product packings base"
 msgstr "Packing base de producto"
+
+#. module: product_spec
+#: view:product.purchase.line:product_spec.product_line_form
+msgid "Product purchase line"
+msgstr "Línea de compras de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_purchase_line
+#: model:ir.ui.menu,name:product_spec.menu_product_purchase_lines
+#: view:product.purchase.line:product_spec.product_purchase_line_tree
+msgid "Product purchase lines"
+msgstr "Líneas de compras de productos"
+
+#. module: product_spec
+#: view:product.purchase.subline:product_spec.product_purchase_subline_form
+msgid "Product purchase subline"
+msgstr "Sublínea de compras de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_purchase_subline
+#: model:ir.ui.menu,name:product_spec.menu_product_purchase_sublines
+#: view:product.purchase.subline:product_spec.product_purchase_subline_tree
+msgid "Product purchase sublines"
+msgstr "Sublíneas de compras de productos"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_quality_limits_form

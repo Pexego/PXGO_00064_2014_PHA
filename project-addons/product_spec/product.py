@@ -35,6 +35,18 @@ class ProductSubline(models.Model):
     name = fields.Char('Name', size=64, required=True)
 
 
+class ProductPurchaseLine(models.Model):
+    _name = 'product.purchase.line'
+
+    name = fields.Char('Name', size=64, required=True)
+
+
+class ProductPurchaseSubline(models.Model):
+    _name = 'product.purchase.subline'
+
+    name = fields.Char('Name', size=64, required=True)
+
+
 class ProductPacking(models.Model):
     _name = 'product.packing'
 
@@ -122,6 +134,8 @@ class ProductTemplate(models.Model):
     customer = fields.Many2one('res.partner', 'Customer')
     line = fields.Many2one('product.line', 'Line')
     subline = fields.Many2one('product.subline', 'SubLine')
+    purchase_line = fields.Many2one('product.purchase.line', 'Purchase Line')
+    purchase_subline = fields.Many2one('product.purchase.subline', 'Purchase SubLine')
     base_form_id = fields.Many2one('product.form', 'Base form')
     container_id = fields.Many2one('product.container', 'Container')
     quality_limits = fields.Many2one('product.quality.limits', 'Process control')
