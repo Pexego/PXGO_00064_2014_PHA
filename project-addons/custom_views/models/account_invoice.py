@@ -82,7 +82,8 @@ class AccountInvoice(models.Model):
     def create(self, vals):
         # Check for unique supplier reference, before create invoice
         self._check_unique_reference(vals.get('reference'),
-                                     vals.get('partner_id'))
+                                     vals.get('partner_id'),
+                                     vals.get('date_invoice'))
         res = super(AccountInvoice, self).create(vals)
         # Search if it needs automatic assignment of banking mandates and
         # triggers write event to force re-calculations after invoice creation
@@ -95,7 +96,8 @@ class AccountInvoice(models.Model):
         for invoice in self:
             reference = vals.get('reference', invoice.reference)
             partner = vals.get('partner_id', invoice.partner_id.id)
-            self._check_unique_reference(reference, partner)
+            date_invoice = vals.get('date_invoice', invoice.date_invoice)
+            self._check_unique_reference(reference, partner, date_invoice)
 
         # Force re-calculations on save
         re_calculate = False
@@ -124,12 +126,17 @@ class AccountInvoice(models.Model):
 
         return res
 
-    def _check_unique_reference(self, reference, partner_id):
-        if reference and partner_id:
+    def _check_unique_reference(self, reference, partner_id, date_invoice):
+        if reference and partner_id and date_invoice:
+            year = fields.Date.from_string(date_invoice).year
+            current_year_begin = fields.Date.to_string(datetime.date(year, 1, 1))
+            current_year_end = fields.Date.to_string(datetime.date(year, 12, 31))
             invoice = self.env['account.invoice'].search(
                 [
                     ('partner_id', '=', partner_id),
-                    ('reference', '=', reference.strip())
+                    ('reference', '=', reference.strip()),
+                    ('date_invoice', '>=', current_year_begin),
+                    ('date_invoice', '<=', current_year_end)
                 ])
             if invoice and (invoice not in self):
                 raise Warning(_('Already exists an invoice for %s with '
