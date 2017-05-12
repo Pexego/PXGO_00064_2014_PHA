@@ -18,12 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api
+from openerp import models, fields, api, _
 from lxml import etree
+from openerp.exceptions import Warning
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+
+    budget = fields.Boolean(default=False)
+
+    @api.multi
+    def action_button_confirm(self):
+        for sale in self:
+            if sale.budget:
+                raise Warning(_('An order budget can not be confirmed!'))
+        return super(SaleOrder, self).action_button_confirm()
 
     @api.model
     def fields_view_get(self, view_id=None, view_type=False, toolbar=False,

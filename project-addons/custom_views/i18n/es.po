@@ -69,6 +69,12 @@ msgid "Already exists an invoice for %s with this reference %s"
 msgstr "Ya existe una factura de %s con esta referencia %s"
 
 #. module: custom_views
+#: code:addons/custom_views/models/sale.py:35
+#, python-format
+msgid "An order budget can not be confirmed!"
+msgstr "¡No es posible confirmar un pedido de tipo presupuesto!"
+
+#. module: custom_views
 #: field:account.invoice.special,aux_mandate_id:0
 msgid "Banking mandate"
 msgstr "Mandato SEPA"
@@ -88,6 +94,11 @@ msgstr "Lista de materiales"
 #: model:ir.ui.menu,name:custom_views.menu_mrp_bom_special
 msgid "Bill of materials (BoM)"
 msgstr "Listas de materiales (LdM)"
+
+#. module: custom_views
+#: field:sale.order,budget:0
+msgid "Budget"
+msgstr "Presupuesto"
 
 #. module: custom_views
 #: field:mrp.machinery,sop_cleaning_maintenance_id:0
