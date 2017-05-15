@@ -1330,6 +1330,7 @@ class edi_edi_result (osv.osv):
         'date': fields.datetime('Date'),
         'edi':fields.many2one('edi.edi', 'Edi', required=True),
         'value': fields.text('Value'),
+        'resolved': fields.boolean('Resolved')
     }
     _defaults = {
         "date": lambda *a: time.strftime("%Y-%m-%d %H:%M:%S"),
