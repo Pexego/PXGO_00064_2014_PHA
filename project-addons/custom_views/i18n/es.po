@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* custom_views
+#   * custom_views
 #
 msgid ""
 msgstr ""
@@ -56,6 +56,11 @@ msgstr "¿Aceptar más de una materia prima?"
 #: field:stock.history,active:0
 msgid "Active"
 msgstr "Activo"
+
+#. module: custom_views
+#: field:stock.production.lot,mrp_id:0
+msgid "Production"
+msgstr "Producción"
 
 #. module: custom_views
 #: view:stock.picking:custom_views.view_picking_form_customview

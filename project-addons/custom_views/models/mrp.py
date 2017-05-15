@@ -39,7 +39,7 @@ class MrpProcedure(models.Model):
         return res
 
 
-class MrpProcedureType(models.Model):
+class MrpProcedureType_(models.Model):
     _inherit = 'mrp.procedure.type'
 
     procedure_ids = fields.One2many(comodel_name='mrp.procedure',
@@ -91,7 +91,19 @@ class MrpMachinery(models.Model):
     routing_ids = fields.Many2many(comodel_name='mrp.routing')
 
 
-class MrpRouting(models.Model):
+class MrpRouting_(models.Model):
     _inherit = 'mrp.routing'
 
     machinery_ids = fields.Many2many(comodel_name='mrp.machinery')
+
+
+class MrpProduction(models.Model):
+
+    _inherit = 'mrp.production'
+
+    @api.multi
+    def write(self, vals, update=True, mini=True):
+        if vals.get('final_lot_id', False):
+            lot = self.env['stock.production.lot'].browse(vals['final_lot_id'])
+            lot.mrp_id = self.id
+        return super(MrpProduction, self).write(vals, update=update, mini=mini)

@@ -114,3 +114,9 @@ class StockHistory(models.Model):
     _inherit = 'stock.history'
 
     categ_ids = fields.Many2many(related='product_id.categ_ids')
+
+
+class StockProductionLot(models.Model):
+    _inherit = 'stock.production.lot'
+
+    mrp_id = fields.Many2one('mrp.production', 'Production', readonly=True)
