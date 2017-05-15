@@ -20,6 +20,12 @@ msgstr ""
 msgid "Not resolved"
 msgstr "No resuelto"
 
+
+#. module: asperience_edi
+#: model:ir.ui.menu,name:asperience_edi.menu_action_edi_edi_errors
+msgid "Edi Errors"
+msgstr "Errores EDI"
+
 #. module: asperience_edi
 #: view:edi.edi.result:asperience_edi.edi_result_search
 #: field:edi.edi.result,resolved:0
