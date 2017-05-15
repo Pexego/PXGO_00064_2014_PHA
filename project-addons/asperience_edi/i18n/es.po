@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* asperience_edi
+#   * asperience_edi
 #
 msgid ""
 msgstr ""
@@ -14,6 +14,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: asperience_edi
+#: view:edi.edi.result:asperience_edi.edi_result_search
+msgid "Not resolved"
+msgstr "No resuelto"
+
+#. module: asperience_edi
+#: view:edi.edi.result:asperience_edi.edi_result_search
+#: field:edi.edi.result,resolved:0
+msgid "Resolved"
+msgstr "Resuelto"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.eci_order_report
@@ -1489,4 +1500,3 @@ msgstr "xml"
 #: selection:edi.edi.line.edi.field,align:0
 msgid "zero"
 msgstr "zero"
-

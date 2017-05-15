@@ -373,5 +373,45 @@
                 </tree>
             </field>
         </record>
+
+        <record id="edi_result_form" model="ir.ui.view">
+            <field name="name">edi.result.form</field>
+            <field name="model">edi.edi.result</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="value"/>
+                        <field name="resolved"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="edi_result_search" model="ir.ui.view">
+            <field name="name">edi.edi.result</field>
+            <field name="model">edi.edi.result</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="name"/>
+                     <filter string="Resolved" name="resolved" domain="[('resolved','=',True)]" />
+                     <filter string="Not resolved" name="not_resolved" domain="[('resolved','!=',True)]" />
+                </search>
+            </field>
+        </record>
+
+
+        <record id="edi_error_action" model="ir.actions.act_window">
+            <field name="name">Errors</field>
+            <field name="res_model">edi.edi.result</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="edi_result_search"/>
+            <field name="domain">[('name','like','%nok')]</field>
+            <field name="context">{'search_default_not_resolved': 1}</field>
+        </record>
     </data>
 </openerp>
