@@ -15,5 +15,18 @@
             <field name="header_line" eval="False"/>
             <field name="header_spacing">13</field>
         </record>
+
+        <record id="paperformat_expeditions" model="report.paperformat">
+            <field name="name">Warehouse expeditions (Warehouse shipping light)</field>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">25</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
     </data>
 </openerp>
