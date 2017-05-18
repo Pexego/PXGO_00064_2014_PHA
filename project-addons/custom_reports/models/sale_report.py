@@ -48,6 +48,7 @@ class SaleReport(models.Model):
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    product_year_appearance = fields.Char('Product year of appearance')
     product_cost = fields.Float('Product cost')
     product_cost_rm = fields.Float('Product cost raw material')
     product_cost_components = fields.Float('Product cost components')
@@ -89,6 +90,7 @@ class SaleReport(models.Model):
             t.container_id as product_container,
             t.base_form_id as product_form,
             t.clothing as product_clothing,
+            p.year_appearance as product_year_appearance,
             sum(l.product_uom_qty / u.factor * u2.factor * ip.value_float) as product_cost,
             sum(l.product_uom_qty * t.cost_price_rm) as product_cost_rm,
             sum(l.product_uom_qty * t.cost_price_components) as product_cost_components,
@@ -157,6 +159,7 @@ class SaleReport(models.Model):
             t.container_id,
             t.base_form_id,
             t.clothing,
+            p.year_appearance,
             l.is_delivery
             """
         res = super(SaleReport, self)._group_by() + group_by_str

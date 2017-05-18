@@ -48,6 +48,7 @@ class AccountInvoiceReport(models.Model):
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    product_year_appearance = fields.Char('Product year of appearance')
     product_cost = fields.Float('Product cost')
     product_cost_rm = fields.Float('Product cost raw material')
     product_cost_components = fields.Float('Product cost components')
@@ -75,6 +76,7 @@ class AccountInvoiceReport(models.Model):
             product_container,
             product_form,
             product_clothing,
+            product_year_appearance,
             product_cost,
             product_cost_rm,
             product_cost_components,
@@ -116,6 +118,7 @@ class AccountInvoiceReport(models.Model):
             pt.container_id as product_container,
             pt.base_form_id as product_form,
             pt.clothing as product_clothing,
+            pr.year_appearance::text as product_year_appearance,
             sum(case
                     when ai.type in ('out_refund', 'in_invoice') then -1
                     else 1
@@ -206,6 +209,7 @@ class AccountInvoiceReport(models.Model):
             pt.container_id,
             pt.base_form_id,
             pt.clothing,
+            pr.year_appearance,
             ai.number
             """
         return group_by_str
