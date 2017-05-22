@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp import netsvc
+from openerp.api import Environment
 import openerp.tools
 from openerp.osv import fields, osv
 from openerp.tools import config
@@ -1119,101 +1120,101 @@ class edi_edi (osv.osv):
     @asperience_log
     def import_csv_struct_thread(self, cr, uid, ids, context=False):
         _logger.debug("IMPORT CSV STRUCT THREAD %s" % (ids))
-        cr2 = pooler.get_db(cr.dbname).cursor(serialized=False)
-        thread_ptr = threading.Thread(target=self.import_csv_struct, args=(cr2, uid, ids, context))
+        thread_ptr = threading.Thread(target=self.import_csv_struct, args=(cr, uid, ids, context))
         thread_ptr.start()
         return {}
 
     @asperience_log
     def import_csv_struct(self, cr, uid, ids, context=False):
-        _logger.debug("IMPORT CSV STRUCT %s" % (ids))
-        thread = False
-        if "thread" in context:
-            thread = context["thread"]
-        cr2 = pooler.get_db(cr.dbname).cursor(serialized=False)
-        cr2.autocommit(True)
-        exception = False
-        if not ids :
-            if 'edi.code' in context:
-                ids = self.search(cr,uid,[('code','=',context['edi.code'])])
-            else:
-                return False
-        for edi in self.browse(cr,uid,ids,context):
-            self.write(cr2,uid,[edi.id],{'thread':True})
-            filename = False
-            try :
-                structs = edi._create_struct_csv_struct()[edi.id]
-                if not edi.eval_in:
-                    continue
-                edi.eval_in = edi.eval_in.replace(chr(13),"\n")
-                data = {}
-                gobreak = False
-                for filename in edi._get_files(edi.path_in, edi.file_template):
-                    _logger.info("Import file : n%s" % (filename))
-                    result = ""
-                    context['edi'] = edi.id
-                    context['type'] = 'import'
-                    context['filename'] = filename
-                    try:
-                        file = codecs.open(filename,'rb',edi.charset)
-                        file_csv = unicode_csv_reader(file, delimiter=str(edi.delimiter[0]), quotechar=str(edi.quotechar))
-                        data[filename] = []
-                        first = True
-                        nb_line = 0
-                        for line in file_csv:
-                            if first and edi.skip_first:
-                                nb_line = 0
-                                first = False
-                                continue
-                            if edi.line_start > 0 and nb_line < edi.line_start:
-                                continue
-                            if edi.line_stop > 0 and nb_line > edi.line_stop:
-                                break
-                            data[filename].append(edi._parse_line_csv_struct(line,structs))
-                        file.close()
-                        edi.eval_in = edi.eval_in.replace(chr(13),"\n")
-                        _logger.debug("IMPORT CSV STRUCT EVAL %s" % (ids))
-                        exec edi.eval_in
-                        _logger.debug("IMPORT CSV STRUCT EVAL END %s" % (ids))
-                    except Exception, e:
-                        if not os.path.exists (edi.path_in+"error/"):
-                            os.makedirs(edi.path_in+"error/")
-                        shutil.move(edi.path_in+os.path.basename(filename), edi.path_in+"error/"+os.path.basename(filename))
-                        raise e
-                    if edi.path_in_move:
-                        shutil.move(edi.path_in+os.path.basename(filename), edi.path_in_move+os.path.basename(filename))
-                    _logger.info("End Import file : %s" % (filename))
+        with Environment.manage(), self.pool.cursor() as new_cr:
+            _logger.debug("IMPORT CSV STRUCT %s" % (ids))
+            thread = False
+            if "thread" in context:
+                thread = context["thread"]
+            cr2 = pooler.get_db(cr.dbname).cursor(serialized=False)
+            cr2.autocommit(True)
+            exception = False
+            if not ids :
+                if 'edi.code' in context:
+                    ids = self.search(new_cr,uid,[('code','=',context['edi.code'])])
+                else:
+                    return False
+            for edi in self.browse(new_cr,uid,ids,context):
+                self.write(cr2,uid,[edi.id],{'thread':True})
+                filename = False
+                try :
+                    structs = edi._create_struct_csv_struct()[edi.id]
+                    if not edi.eval_in:
+                        continue
+                    edi.eval_in = edi.eval_in.replace(chr(13),"\n")
+                    data = {}
+                    gobreak = False
+                    for filename in edi._get_files(edi.path_in, edi.file_template):
+                        _logger.info("Import file : n%s" % (filename))
+                        result = ""
+                        context['edi'] = edi.id
+                        context['type'] = 'import'
+                        context['filename'] = filename
+                        try:
+                            file = codecs.open(filename,'rb',edi.charset)
+                            file_csv = unicode_csv_reader(file, delimiter=str(edi.delimiter[0]), quotechar=str(edi.quotechar))
+                            data[filename] = []
+                            first = True
+                            nb_line = 0
+                            for line in file_csv:
+                                if first and edi.skip_first:
+                                    nb_line = 0
+                                    first = False
+                                    continue
+                                if edi.line_start > 0 and nb_line < edi.line_start:
+                                    continue
+                                if edi.line_stop > 0 and nb_line > edi.line_stop:
+                                    break
+                                data[filename].append(edi._parse_line_csv_struct(line,structs))
+                            file.close()
+                            edi.eval_in = edi.eval_in.replace(chr(13),"\n")
+                            _logger.debug("IMPORT CSV STRUCT EVAL %s" % (ids))
+                            exec edi.eval_in
+                            _logger.debug("IMPORT CSV STRUCT EVAL END %s" % (ids))
+                        except Exception, e:
+                            if not os.path.exists (edi.path_in+"error/"):
+                                os.makedirs(edi.path_in+"error/")
+                            shutil.move(edi.path_in+os.path.basename(filename), edi.path_in+"error/"+os.path.basename(filename))
+                            raise e
+                        if edi.path_in_move:
+                            shutil.move(edi.path_in+os.path.basename(filename), edi.path_in_move+os.path.basename(filename))
+                        _logger.info("End Import file : %s" % (filename))
 
-                    self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename,"edi":edi.id})
-                    if result:
-                        self.pool.get('edi.edi.result').create(cr,uid,{"name":"result_import_csv_struct_ok","value":result,"edi":edi.id})
-            except Exception, e:
-                import sys,traceback
-                tb = sys.exc_info()
-                tb_s = "".join(traceback.format_exception(*tb))
-                info = tb_s
-                try:
-                    info += "\n"+ustr(e.value)
-                except:
-                    pass
-                _logger.info("Except : %s" % (info))
-                cr.rollback()
-                if filename:
-                    self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_nok","value":filename,"edi":edi.id})
-                if info:
-                    self.pool.get('edi.edi.result').create(cr,uid,{"name":"info_import_csv_struct_nok","value":info,"edi":edi.id})
-                cr.commit()
-                exception = True
-        if not exception:
-            cr.commit()
-        for i in ids :
-            cr2.execute("update edi_edi set thread = False where id = %s" % i)
-        if thread :
-            cr.close()
-        cr2.close()
-        if not thread and exception:
-            raise Exception(info)
-        return True
+                        self.pool.get('edi.edi.result').create(new_cr,uid,{"name":"file_import_csv_struct_ok","value":filename,"edi":edi.id})
+                        if result:
+                            self.pool.get('edi.edi.result').create(new_cr,uid,{"name":"result_import_csv_struct_ok","value":result,"edi":edi.id})
+                except Exception, e:
+                    import sys,traceback
+                    tb = sys.exc_info()
+                    tb_s = "".join(traceback.format_exception(*tb))
+                    info = tb_s
+                    try:
+                        info += "\n"+ustr(e.value)
+                    except:
+                        pass
+                    _logger.info("Except : %s" % (info))
+                    new_cr.rollback()
+                    if filename:
+                        self.pool.get('edi.edi.result').create(new_cr,uid,{"name":"file_import_csv_struct_nok","value":filename,"edi":edi.id})
+                    if info:
+                        self.pool.get('edi.edi.result').create(new_cr,uid,{"name":"info_import_csv_struct_nok","value":info,"edi":edi.id})
+                    new_cr.commit()
+                    exception = True
+            if not exception:
+                new_cr.commit()
+            for i in ids :
+                cr2.execute("update edi_edi set thread = False where id = %s" % i)
+            if thread :
+                new_cr.close()
+            cr2.close()
+            if not thread and exception:
+                raise Exception(info)
+            return True
 
     @asperience_log
     def export_csv_struct_thread(self, cr, uid, ids, context=False):
