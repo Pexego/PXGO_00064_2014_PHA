@@ -231,7 +231,7 @@
 
         <menuitem action="action_product_purchase_line"
                   id="menu_product_purchase_lines"
-                  parent="product.prod_config_main"
+                  parent="purchase.menu_product_in_config_purchase"
         />
 
         <record model="ir.ui.view" id="product_purchase_subline_tree">
@@ -272,7 +272,7 @@
 
         <menuitem action="action_product_purchase_subline"
                   id="menu_product_purchase_sublines"
-                  parent="product.prod_config_main"
+                  parent="purchase.menu_product_in_config_purchase"
         />
 
         <!-- product.packing views -->
