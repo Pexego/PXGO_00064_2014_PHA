@@ -44,6 +44,7 @@
         'custom_permissions',
         'return_out_of_date',
         'product_stock_unsafety',
+        'product_spec',
     ],
     'data' : [
         'views/sale_view.xml',
