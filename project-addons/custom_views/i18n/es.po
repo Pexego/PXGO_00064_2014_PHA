@@ -516,6 +516,12 @@ msgid "Partners special form"
 msgstr "Edición especial de clientes y proveedores"
 
 #. module: custom_views
+#: field:account.invoice,payment_document_delivered:0
+#: field:account.invoice.special,payment_document_delivered:0
+msgid "Payment document delivered"
+msgstr "Documento de pago entregado"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_payment_mode
 msgid "Payment Mode"
 msgstr "Modo de pago"

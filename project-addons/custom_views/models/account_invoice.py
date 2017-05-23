@@ -15,6 +15,7 @@ class AccountInvoice(models.Model):
             'Latest date and time when amounts were calculated')
     banking_mandate_needed = fields.Boolean(
             related='payment_mode_id.banking_mandate_needed')
+    payment_document_delivered = fields.Boolean(default=False)
 
     @api.multi
     def onchange_partner_id(self, type, partner_id, date_invoice=False,
