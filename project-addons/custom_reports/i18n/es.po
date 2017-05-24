@@ -622,8 +622,8 @@ msgid "Product purchase subline"
 msgstr "Producto - Sublínea de compras"
 
 #. module: custom_reports
-#: selection:account.invoice.report,product_year_appearance:0
-#: selection:sale.report,product_year_appearance:0
+#: field:account.invoice.report,product_year_appearance:0
+#: field:sale.report,product_year_appearance:0
 msgid "Product year of appearance"
 msgstr "Producto - Año de aparición"
 
