@@ -499,8 +499,8 @@
                                 <field name="analysis"/>
                             </group>
                             <group string="Machine parameters">
-                                <field name="tu1"/>
                                 <field name="tu2"/>
+                                <field name="tu1"/>
                                 <field name="to1"/>
                                 <field name="to2"/>
                             </group>
