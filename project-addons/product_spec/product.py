@@ -98,6 +98,10 @@ class product_quality_limits(models.Model):
                                store=True,
                                digits=dp.get_precision('Stock Weight'))
     analysis = fields.Integer('Analysis')
+    tu1 = fields.Float('TU1')
+    tu2 = fields.Float('TU2')
+    to1 = fields.Float('TO1')
+    to2 = fields.Float('TO2')
 
     _sql_constraints = [('name_unique', 'unique(name)',
                          'Unique product')]

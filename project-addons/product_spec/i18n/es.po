@@ -231,6 +231,13 @@ msgstr "Peso estuche lleno"
 msgid "Gives the sequence order when displaying a list of product categories."
 msgstr "Muestra el orden de secuencia cuando se muestran las categorías de producto."
 
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Machine parameters"
+msgstr "Parámetros de máquina"
+
+
 #. module: product_spec
 #: field:product.extra.category,id:0
 #: field:product.packing,id:0
