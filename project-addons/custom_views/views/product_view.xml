@@ -162,6 +162,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <field name="image_medium" position="attributes">
                     <attribute name="style">min-height: 100px;</attribute>
                 </field>
+                <page string="Procurements" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager,account.group_account_invoice</attribute>
+                </page>
             </field>
         </record>
 
