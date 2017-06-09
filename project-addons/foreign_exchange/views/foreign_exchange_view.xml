@@ -25,7 +25,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <separator/>
                         <group colspan="2">
                             <h3>
-                                <field name="money" class="oe_inline"/>
+                                <field name="money" class="oe_inline"
+                                       attrs="{'invisible': [('wizard', '=', True)]}"/>
                                 <span>From </span>
                                 <field name="source_currency" class="oe_inline"/>
                                 <button name="swap" type="object" class="oe_inline" icon="STOCK_REFRESH"/>
@@ -66,5 +67,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   parent="account.menu_finance_configuration"
                   sequence="56"
                   action="action_foreign_exchange_form"/>
+
+        <record id="foreign_exchange_move_form" model="ir.ui.view">
+            <field name="name">Foreign exchange, account move form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <button name="button_validate" position="after">
+                    <button name="compute_exchange_rate" states="draft" string="Foreign exchange" type="object" groups="account.group_account_invoice"/>
+                </button>
+            </field>
+        </record>
     </data>
 </openerp>

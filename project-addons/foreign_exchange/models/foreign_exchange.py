@@ -13,14 +13,15 @@ class ForeignExchange(models.TransientModel):
     date = fields.Date(default=lambda self: fields.Date.today())
     date_adopted = fields.Datetime(string='Date adopted')
     source_currency = fields.Many2one(comodel_name='res.currency',
-                                      string='Source currency',
-                                      default=lambda r: r.env.user.company_id.currency_id.id)
+                         string='Source currency',
+                         default=lambda r: r.env.user.company_id.currency_id.id)
     destination_currency = fields.Many2one(comodel_name='res.currency',
-                                           string='Destination currency',
-                                           default=lambda r: r.env.ref('base.USD').id)
+                                     string='Destination currency',
+                                     default=lambda r: r.env.ref('base.USD').id)
     rate = fields.Float()
     money = fields.Float(default=1)
     result = fields.Float()
+    account_move = fields.Many2one(comodel_name='account.move', default=0)
     wizard = fields.Boolean(default=False)
 
     @api.onchange('date',
@@ -45,7 +46,8 @@ class ForeignExchange(models.TransientModel):
                 sorted(key=lambda r: r.name, reverse=True)
 
             if rates:
-                self.rate = 1 / rates[0].rate if inverse_conversion else rates[0].rate
+                self.rate = 1 / rates[0].rate if inverse_conversion else \
+                    rates[0].rate
                 self.date_adopted = rates[0].name
             else:
                 self.rate = 0
@@ -56,10 +58,34 @@ class ForeignExchange(models.TransientModel):
 
         self.result = self.money * self.rate
 
-    @api.multi
-    def write(self, vals):
+    @api.model
+    def create(self, vals):
+        res = super(ForeignExchange, self).create(vals)
+        res.check_exchange_rate()
+        return res
 
-        return super(ForeignExchange, self).write(vals)
+    @api.multi
+    def compute_exchange_rate(self):
+        self.ensure_one()
+
+        self.check_exchange_rate()
+
+        company_currency = self.env.user.company_id.currency_id
+        if self.source_currency == company_currency:
+            for line in self.account_move.line_id:
+                line.currency_id = self.destination_currency
+                line.amount_currency = (line.debit - line.credit) * self.rate
+        else:
+            for line in self.account_move.line_id:
+                line.currency_id = self.source_currency
+                if line.amount_currency > 0:
+                    line.debit = line.amount_currency * self.rate
+                    line.credit = 0
+                else:
+                    line.debit = 0
+                    line.credit = line.amount_currency * self.rate * -1
+
+        return self.account_move
 
     @api.multi
     def swap(self):
