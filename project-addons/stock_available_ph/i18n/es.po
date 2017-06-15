@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* stock_available
+# 	* stock_available_ph
 #
 msgid ""
 msgstr ""
@@ -17,98 +17,98 @@ msgstr ""
 "Language: es\n"
 "X-Generator: Poedit 1.8.11\n"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,active:0
 msgid "Active"
 msgstr "Activo"
 
-#. module: stock_available
-#: view:product.product:stock_available.stock_available_product_normal_form
+#. module: stock_available_ph
+#: view:product.product:stock_available_ph.stock_available_product_normal_form
 msgid "Associated production lines"
 msgstr "Líneas de producción disponibles"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: selection:production.planning.materials,stock_status:0
 #: selection:production.planning.orders,stock_status:0
 #: selection:stock.available.details,stock_status:0
 msgid "Available"
 msgstr "Disponible"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_stock_available
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_stock_available
 msgid "Available stock for bill of materials"
 msgstr "Stock disponible para la lista de materiales"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_stock_available_details
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_stock_available_details
 msgid "Available stock for bill of materials lines"
 msgstr "Stock disponible para los componentes de la lista de materiales"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_mrp_bom
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_mrp_bom
 msgid "Bill of Material"
 msgstr "Lista de material"
 
-#. module: stock_available
-#: view:bom.member.of:stock_available.view_bom_member_of_wizard
+#. module: stock_available_ph
+#: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
 msgid "Bill of materials"
 msgstr "Lista de materiales"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:stock.available,bom_lines:0
 msgid "Bill of materials details"
 msgstr "Detalles de la lista de materiales"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,bom_id:0 field:production.planning.orders,bom_id:0
 #: field:stock.available,bom_id:0
 msgid "Bills of materials"
 msgstr "Listas de materiales"
 
-#. module: stock_available
-#: view:bom.member.of:stock_available.view_bom_member_of_wizard
-#: model:ir.actions.act_window,name:stock_available.action_bom_member_of_wizard
-#: view:product.product:stock_available.stock_available_product_tree
-#: view:product.stock.unsafety:stock_available.stock_available_product_stock_unsafety_tree
+#. module: stock_available_ph
+#: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
+#: model:ir.actions.act_window,name:stock_available_ph.action_bom_member_of_wizard
+#: view:product.product:stock_available_ph.stock_available_product_tree
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_tree
 msgid "BoM member of"
 msgstr "Miembro de LdM"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,bom_member:0 field:product.stock.unsafety,bom_member:0
 #: field:product.template,bom_member:0
 msgid "BoM member?"
 msgstr "¿Miembro de LdM?"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:stock.available.details,bom_stock:0
 msgid "Bom stock"
 msgstr "Stock de LdM"
 
-#. module: stock_available
-#: view:product.stock.by.day:stock_available.view_compute_sbd_wizard
-#: view:product.stock.unsafety:stock_available.stock_available_product_stock_unsafety_tree
-#: view:production.planning.orders:stock_available.production_planning_new_order_form
+#. module: stock_available_ph
+#: view:product.stock.by.day:stock_available_ph.view_compute_sbd_wizard
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_tree
+#: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
 msgid "Cancel"
 msgstr "Cancelar"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,compute:0
 msgid "Compute"
 msgstr "Calcular"
 
-#. module: stock_available
-#: view:stock.available:stock_available.stock_available_form_view
+#. module: stock_available_ph
+#: view:stock.available:stock_available_ph.stock_available_form_view
 msgid "Compute data"
 msgstr "Calcular cantidades"
 
-#. module: stock_available
-#: model:ir.actions.act_window,name:stock_available.action_compute_sbd_wizard
-#: model:ir.ui.menu,name:stock_available.menu_compute_sbd_wizard
-#: view:product.stock.by.day:stock_available.view_compute_sbd_wizard
+#. module: stock_available_ph
+#: model:ir.actions.act_window,name:stock_available_ph.action_compute_sbd_wizard
+#: model:ir.ui.menu,name:stock_available_ph.menu_compute_sbd_wizard
+#: view:product.stock.by.day:stock_available_ph.view_compute_sbd_wizard
 msgid "Compute stock by day"
 msgstr "Calcular stock por día"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_i:0 field:mrp.bom,cons_by_day_i:0
 #: field:product.product,cons_by_day_i:0
 #: field:product.stock.unsafety,cons_by_day_i:0
@@ -116,7 +116,7 @@ msgstr "Calcular stock por día"
 msgid "Cons. by day [I]"
 msgstr "Cons./día [F]"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_i_total:0
 #: field:product.product,cons_by_day_i_total:0
 #: field:product.stock.unsafety,cons_by_day_i_total:0
@@ -124,7 +124,7 @@ msgstr "Cons./día [F]"
 msgid "Cons. by day [I] (direct+indirect)"
 msgstr "Cons./día [F] (directo+indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_i_ind:0
 #: field:product.product,cons_by_day_i_ind:0
 #: field:product.stock.unsafety,cons_by_day_i_ind:0
@@ -132,7 +132,7 @@ msgstr "Cons./día [F] (directo+indirecto)"
 msgid "Cons. by day [I] (indirect)"
 msgstr "Cons./día [F] (indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_p:0 field:mrp.bom,cons_by_day_p:0
 #: field:product.product,cons_by_day_p:0
 #: field:product.stock.unsafety,cons_by_day_p:0
@@ -140,7 +140,7 @@ msgstr "Cons./día [F] (indirecto)"
 msgid "Cons. by day [P]"
 msgstr "Cons./día [A]"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_p_total:0
 #: field:product.product,cons_by_day_p_total:0
 #: field:product.stock.unsafety,cons_by_day_p_total:0
@@ -148,7 +148,7 @@ msgstr "Cons./día [A]"
 msgid "Cons. by day [P] (direct+indirect)"
 msgstr "Cons./día [A] (directo+indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_p_ind:0
 #: field:product.product,cons_by_day_p_ind:0
 #: field:product.stock.unsafety,cons_by_day_p_ind:0
@@ -156,23 +156,23 @@ msgstr "Cons./día [A] (directo+indirecto)"
 msgid "Cons. by day [P] (indirect)"
 msgstr "Cons./día [A] (indirecto)"
 
-#. module: stock_available
-#: view:product.product:stock_available.stock_available_product_normal_form
+#. module: stock_available_ph
+#: view:product.product:stock_available_ph.stock_available_product_normal_form
 msgid "Consumption"
 msgstr "Consumos"
 
-#. module: stock_available
-#: view:production.planning:stock_available.production_planning_form_view
+#. module: stock_available_ph
+#: view:production.planning:stock_available_ph.production_planning_form_view
 msgid "Create production order"
 msgstr "Crear orden de producción"
 
-#. module: stock_available
-#: view:product.product:stock_available.stock_available_product_tree
-#: view:product.stock.unsafety:stock_available.stock_available_product_stock_unsafety_tree
+#. module: stock_available_ph
+#: view:product.product:stock_available_ph.stock_available_product_tree
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_tree
 msgid "Create production planning order"
 msgstr "Crear orden de previsor"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,create_uid:0
 #: field:product.stock.by.day,create_uid:0
 #: field:product.time.adviser,create_uid:0
@@ -184,7 +184,7 @@ msgstr "Crear orden de previsor"
 msgid "Created by"
 msgstr "Creado por"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,create_date:0
 #: field:product.stock.by.day,create_date:0
 #: field:product.time.adviser,create_date:0
@@ -196,7 +196,7 @@ msgstr "Creado por"
 msgid "Created on"
 msgstr "Creado el"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: help:mrp.bom,qty_available:0 help:product.stock.unsafety,qty_available:0
 msgid ""
 "Current quantity of products.\n"
@@ -210,12 +210,12 @@ msgstr ""
 "En un contexto de un solo almacén, esto incluye los bienes almacenados en la ubicación de existencias de ese almacén, o cualquiera de sus hijas.\n"
 "En cualquier otro caso, esto incluye los bienes almacenados en cualquier ubicación de existencias de tipo 'Interna'."
 
-#. module: stock_available
+#. module: stock_available_ph
 #: help:product.stock.unsafety,uom_id:0
 msgid "Default Unit of Measure used for all stock operation."
 msgstr "Unidad de medida por defecto usada para todas las operaciones de stock."
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,display_name:0
 #: field:product.stock.by.day,display_name:0
 #: field:product.time.adviser,display_name:0
@@ -227,50 +227,50 @@ msgstr "Unidad de medida por defecto usada para todas las operaciones de stock."
 msgid "Display Name"
 msgstr "Nombre"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,date_end:0
 msgid "End date"
 msgstr "Fecha fin"
 
-#. module: stock_available
-#: view:production.planning:stock_available.production_planning_form_view
-#: view:production.planning.orders:stock_available.production_planning_order_form_view
-#: view:stock.available.details:stock_available.stock_available_details_tree_view
+#. module: stock_available_ph
+#: view:production.planning:stock_available_ph.production_planning_form_view
+#: view:production.planning.orders:stock_available_ph.production_planning_order_form_view
+#: view:stock.available.details:stock_available_ph.stock_available_details_tree_view
 msgid "Estimated consumption"
 msgstr "Consumo estimado"
 
-#. module: stock_available
-#: view:stock.available:stock_available.stock_available_form_view
+#. module: stock_available_ph
+#: view:stock.available:stock_available_ph.stock_available_form_view
 msgid "Estimated quantity"
 msgstr "Cantidad estimada"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,estimated_time:0
 msgid "Esimated time"
 msgstr "Tiempo estimado"
 
-#. module: stock_available
-#: view:stock.available:stock_available.stock_available_form_view
+#. module: stock_available_ph
+#: view:stock.available:stock_available_ph.stock_available_form_view
 msgid "Estimation"
 msgstr "Estimación"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,product_id:0
 msgid "Final product"
 msgstr "Producto final"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: selection:product.time.adviser,type:0
 msgid "Fixed time"
 msgstr "Tiempo fijo"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.stock.unsafety,virtual_available:0
 #: field:mrp.bom,virtual_available:0
 msgid "Forecast Quantity"
 msgstr "Cantidad prevista"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: help:product.stock.unsafety,virtual_available:0
 msgid ""
 "Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
@@ -283,13 +283,13 @@ msgstr ""
 "En un contexto de un solo almacén, esto incluye los bienes almacenados en la ubicación de existencias de ese almacén, o cualquiera de sus hijas.\n"
 "En cualquier otro caso, esto incluye los bienes almacenados en cualquier ubicación de existencias de tipo 'Interna'."
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,has_bom:0 field:product.stock.unsafety,has_bom:0
 #: field:product.template,has_bom:0
 msgid "Has bom"
 msgstr "Tiene LdM"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,id:0 field:product.stock.by.day,id:0
 #: field:production.planning,id:0 field:production.planning.materials,id:0
 #: field:production.planning.orders,id:0 field:stock.available,id:0
@@ -298,12 +298,12 @@ msgstr "Tiene LdM"
 msgid "ID"
 msgstr "ID"
 
-#. module: stock_available
-#: view:production.planning.orders:stock_available.production_planning_kanban_view
+#. module: stock_available_ph
+#: view:production.planning.orders:stock_available_ph.production_planning_kanban_view
 msgid "ID:"
 msgstr "ID:"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.materials,qty_incoming:0
 #: selection:production.planning.materials,stock_status:0
 #: selection:production.planning.orders,stock_status:0
@@ -312,7 +312,7 @@ msgstr "ID:"
 msgid "Incoming"
 msgstr "Entrante"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,default_code:0 field:mrp.bom,default_code:0
 #: field:product.stock.unsafety,default_code:0
 #: field:production.planning.materials,default_code:0
@@ -321,7 +321,7 @@ msgstr "Entrante"
 msgid "Internal Reference"
 msgstr "Referencia interna"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,__last_update:0
 #: field:product.stock.by.day,__last_update:0
 #: field:production.planning,__last_update:0
@@ -333,7 +333,7 @@ msgstr "Referencia interna"
 msgid "Last Modified on"
 msgstr "Última modificación"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,write_uid:0 field:product.stock.by.day,write_uid:0
 #: field:production.planning,write_uid:0
 #: field:production.planning.materials,write_uid:0
@@ -343,7 +343,7 @@ msgstr "Última modificación"
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,write_date:0 field:product.stock.by.day,write_date:0
 #: field:production.planning,write_date:0
 #: field:production.planning.materials,write_date:0
@@ -354,43 +354,43 @@ msgstr "Última actualización por"
 msgid "Last Updated on"
 msgstr "Última actualización el"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,line_id:0
 msgid "Line"
 msgstr "Línea"
 
-#. module: stock_available
-#: view:bom.member.of:stock_available.view_bom_member_of_wizard
+#. module: stock_available_ph
+#: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
 msgid "Lists of materials"
 msgstr "Listas de materiales"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.materials,product_id:0
 msgid "Material"
 msgstr "Material"
 
-#. module: stock_available
-#: view:production.planning:stock_available.production_planning_form_view
-#: view:production.planning.orders:stock_available.production_planning_order_form_view
+#. module: stock_available_ph
+#: view:production.planning:stock_available_ph.production_planning_form_view
+#: view:production.planning.orders:stock_available_ph.production_planning_order_form_view
 msgid "Materials needed"
 msgstr "Materiales necesarios"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,max_fixed:0 field:product.template,max_fixed:0
 msgid "Max fixed"
 msgstr "Máximo fijado"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_bom_member_of
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_bom_member_of
 msgid "Member of BoM"
 msgstr "Miembro de LdM"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,min_fixed:0 field:product.template,min_fixed:0
 msgid "Min fixed"
 msgstr "Mínimo fijado"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_p_ind_min:0
 #: field:product.product,stock_by_day_p_ind_min:0
 #: field:product.stock.unsafety,stock_by_day_p_ind_min:0
@@ -398,41 +398,41 @@ msgstr "Mínimo fijado"
 msgid "Minimum stock by day [P] (indirect)"
 msgstr "Mínimo stock/día [A] (indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,name:0
 msgid "Name"
 msgstr "Nombre"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: selection:production.planning.materials,stock_status:0
 #: selection:production.planning.orders,stock_status:0
 #: selection:stock.available.details,stock_status:0
 msgid "Not available"
 msgstr "No disponible"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,note:0
 msgid "Note for production"
 msgstr "Nota para producción"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.time.adviser,notes:0
 msgid "Notes"
 msgstr "Notas"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.materials,orders:0
 #: field:production.planning.orders,materials:0
 msgid "Orders"
 msgstr "Órdenes"
 
-#. module: stock_available
-#: view:production.planning:stock_available.production_planning_form_view
-#: view:production.planning.orders:stock_available.production_planning_tree_view
+#. module: stock_available_ph
+#: view:production.planning:stock_available_ph.production_planning_form_view
+#: view:production.planning.orders:stock_available_ph.production_planning_tree_view
 msgid "Orders to compute"
 msgstr "Órdenes a calcular"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,out_of_existences:0
 #: field:product.stock.unsafety,out_of_existences:0
 #: field:product.template,out_of_existences:0
@@ -441,142 +441,142 @@ msgstr "Órdenes a calcular"
 msgid "Out of existences"
 msgstr "Fuera de existencias"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: selection:production.planning.materials,stock_status:0
 #: selection:production.planning.orders,stock_status:0
 #: selection:stock.available.details,stock_status:0
 msgid "Out of stock"
 msgstr "Fuera de stock"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_production_planning_orders
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_production_planning_orders
 msgid "Planning of orders to produce"
 msgstr "Planificador de órdenes a producir"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_production_planning_materials
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_production_planning_materials
 #: field:production.planning,materials:0
 msgid "Prevision of needed materials"
 msgstr "Previsión de materiales necesarios"
 
-#. module: stock_available
-#: view:product.product:stock_available.stock_available_product_normal_form
+#. module: stock_available_ph
+#: view:product.product:stock_available_ph.stock_available_product_normal_form
 msgid "Procurements"
 msgstr "Procurements"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_product_product
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_product_product
 #: field:stock.available,product_id:0 field:stock.available.details,product:0
 msgid "Product"
 msgstr "Producto"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_product_template
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
 
-#. module: stock_available
-#: view:product.stock.unsafety:stock_available.stock_available_product_stock_unsafety_tree
+#. module: stock_available_ph
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_tree
 msgid "Product stock unsafety"
 msgstr "Bajo Mínimos"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,product_id:0
 msgid "Product that is part of the BoM"
 msgstr "Producto que forma parte de una LdM"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.time.adviser,product_tmpl_id:0
 msgid "Product tmpl id"
 msgstr "Producto"
 
-#. module: stock_available
-#: view:product.product:stock_available.stock_available_product_normal_form
+#. module: stock_available_ph
+#: view:product.product:stock_available_ph.stock_available_product_normal_form
 msgid "Production"
 msgstr "Producción"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,routing_ids:0 field:product.template,routing_ids:0
 msgid "Production lines"
 msgstr "Líneas de producción"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,production_order:0
 msgid "Production order"
 msgstr "Orden de producción"
 
-#. module: stock_available
-#: model:ir.ui.menu,name:stock_available.menu_mrp_production_planning
+#. module: stock_available_ph
+#: model:ir.ui.menu,name:stock_available_ph.menu_mrp_production_planning
 #: field:production.planning,name:0
 #: field:production.planning.materials,production_planning:0
 #: field:production.planning.orders,production_planning:0
 msgid "Production planning"
 msgstr "Previsor"
 
-#. module: stock_available
-#: view:production.planning:stock_available.production_planning_form_view
+#. module: stock_available_ph
+#: view:production.planning:stock_available_ph.production_planning_form_view
 msgid "Production planning of needed products"
 msgstr "Previsor de productos necesarios"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_production_planning
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_production_planning
 msgid "Production planning of stock needed to produce"
 msgstr "Previsor de stock necesario a producir"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: code:addons/stock_available/models/production_planning.py:100
 #, python-format
 msgid "Production planning order Nº %s"
 msgstr "Orden de previsor Nº %s"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning,orders:0
-#: view:production.planning.orders:stock_available.production_planning_calendar_view
-#: view:production.planning.orders:stock_available.production_planning_gantt_view
+#: view:production.planning.orders:stock_available_ph.production_planning_calendar_view
+#: view:production.planning.orders:stock_available_ph.production_planning_gantt_view
 msgid "Production planning orders"
 msgstr "Órdenes de previsor"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,production_planning_qty:0
 #: field:product.stock.unsafety,production_planning_qty:0
 #: field:product.template,production_planning_qty:0
 msgid "Production planning qty"
 msgstr "Ctdad. previsor"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.product,production_qty:0
 #: field:product.stock.unsafety,production_qty:0
 #: field:product.template,production_qty:0
 msgid "Production qty"
 msgstr "Ctdad. producción"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:mrp.routing,product_ids:0
 msgid "Products"
 msgstr "Productos"
 
-#. module: stock_available
-#: view:product.product:stock_available.stock_available_product_tree
+#. module: stock_available_ph
+#: view:product.product:stock_available_ph.stock_available_product_tree
 msgid "Products stock"
 msgstr "Products stock"
 
-#. module: stock_available
-#: model:ir.actions.act_window,name:stock_available.action_stock_available_product_tree
-#: model:ir.ui.menu,name:stock_available.menu_view_product_unsafety_list
+#. module: stock_available_ph
+#: model:ir.actions.act_window,name:stock_available_ph.action_stock_available_product_tree
+#: model:ir.ui.menu,name:stock_available_ph.menu_view_product_unsafety_list
 msgid "Products stock/day"
 msgstr "Productos stock/día"
 
-#. module: stock_available
-#: model:ir.model,name:stock_available.model_product_stock_unsafety
+#. module: stock_available_ph
+#: model:ir.model,name:stock_available_ph.model_product_stock_unsafety
 msgid "Products that have stock under minimum"
 msgstr "Productos que tienen el stock bajo mínimos."
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:mrp.bom,qty_available:0 field:product.stock.unsafety,qty_available:0
 msgid "Quantity On Hand"
 msgstr "Cantidad a mano"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: help:production.planning.materials,qty_incoming:0
 msgid ""
 "Quantity of products that are planned to arrive.\n"
@@ -589,71 +589,71 @@ msgstr ""
 "En un contexto de un solo almacén, esto incluye los bienes almacenados en la ubicación de existencias de ese almacén, o cualquiera de sus hijas.\n"
 "En cualquier otro caso, esto incluye los bienes almacenados en cualquier ubicación de existencias de tipo 'Interna'."
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.materials,qty_required:0
 #: field:stock.available.details,qty_required:0
 msgid "Quantity required"
 msgstr "Cantidad necesaria"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:stock.available,product_qty:0
 msgid "Quantity to calculate"
 msgstr "Cantidad a calcular"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,product_qty:0
 msgid "Quantity to predict"
 msgstr "Cantidad a prever"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.template,real_incoming_qty:0
 msgid "Real incoming qty"
 msgstr "A recibir"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,recommended_time:0
 msgid "Recommended time"
 msgstr "Tiempo recomendado"
 
-#. module: stock_available
-#: view:production.planning.orders:stock_available.production_planning_new_order_form
+#. module: stock_available_ph
+#: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
 msgid "Save"
 msgstr "Guardar"
 
-#. module: stock_available
-#: view:production.planning.orders:stock_available.production_planning_filter
+#. module: stock_available_ph
+#: view:production.planning.orders:stock_available_ph.production_planning_filter
 msgid "Show all"
 msgstr "Mostrar todo"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.orders,date_start:0
 msgid "Start date"
 msgstr "Fecha inicio"
 
-#. module: stock_available
-#: model:ir.actions.act_window,name:stock_available.action_view_bom_stock
-#: model:ir.ui.menu,name:stock_available.menu_view_stock_available_form
+#. module: stock_available_ph
+#: model:ir.actions.act_window,name:stock_available_ph.action_view_bom_stock
+#: model:ir.ui.menu,name:stock_available_ph.menu_view_stock_available_form
 msgid "Stock / BoM"
 msgstr "Stock / LdM"
 
-#. module: stock_available
-#: model:ir.actions.act_window,name:stock_available.action_view_bom_production_planning_calendar
-#: model:ir.ui.menu,name:stock_available.menu_view_stock_production_planning_calendar
+#. module: stock_available_ph
+#: model:ir.actions.act_window,name:stock_available_ph.action_view_bom_production_planning_calendar
+#: model:ir.ui.menu,name:stock_available_ph.menu_view_stock_production_planning_calendar
 msgid "Stock / BoM calendar"
 msgstr "Stock / LdM Calendario"
 
-#. module: stock_available
-#: model:ir.actions.act_window,name:stock_available.action_view_bom_production_planning
-#: model:ir.ui.menu,name:stock_available.menu_view_stock_production_planning_form
+#. module: stock_available_ph
+#: model:ir.actions.act_window,name:stock_available_ph.action_view_bom_production_planning
+#: model:ir.ui.menu,name:stock_available_ph.menu_view_stock_production_planning_form
 msgid "Stock / BoM production planning"
 msgstr "Stock / LdM Previsor"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.template,internal_scrapped_qty:0
 msgid "Stock at internal scrap location"
 msgstr "Stock en ubicación interna de deshecho"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_i:0 field:mrp.bom,stock_by_day_i:0
 #: field:product.product,stock_by_day_i:0
 #: field:product.stock.unsafety,stock_by_day_i:0
@@ -661,7 +661,7 @@ msgstr "Stock en ubicación interna de deshecho"
 msgid "Stock by day [I]"
 msgstr "Stock/día [F]"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_i_total:0
 #: field:product.product,stock_by_day_i_total:0
 #: field:product.stock.unsafety,stock_by_day_i_total:0
@@ -669,14 +669,14 @@ msgstr "Stock/día [F]"
 msgid "Stock by day [I] (direct+indirect)"
 msgstr "Stock/día [F] (directo+indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_i_ind:0
 #: field:product.product,stock_by_day_i_ind:0
 #: field:product.template,stock_by_day_i_ind:0
 msgid "Stock by day [I] (indirect)"
 msgstr "Stock/día [F] (indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_p:0 field:mrp.bom,stock_by_day_p:0
 #: field:product.product,stock_by_day_p:0
 #: field:product.stock.unsafety,stock_by_day_p:0
@@ -684,7 +684,7 @@ msgstr "Stock/día [F] (indirecto)"
 msgid "Stock by day [P]"
 msgstr "Stock/día [A]"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_p_total:0
 #: field:product.product,stock_by_day_p_total:0
 #: field:product.stock.unsafety,stock_by_day_p_total:0
@@ -692,83 +692,83 @@ msgstr "Stock/día [A]"
 msgid "Stock by day [P] (direct+indirect)"
 msgstr "Stock/día [A] (directo+indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_p_ind:0
 #: field:product.product,stock_by_day_p_ind:0
 #: field:product.template,stock_by_day_p_ind:0
 msgid "Stock by day [P] (indirect)"
 msgstr "Stock/día [A] (indirecto)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.materials,stock_status:0
 #: field:production.planning.orders,stock_status:0
 #: field:stock.available.details,stock_status:0
 msgid "Stock status"
 msgstr "Estado stock"
 
-#. module: stock_available
-#: view:bom.member.of:stock_available.view_bom_member_of_wizard
+#. module: stock_available_ph
+#: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
 msgid "Summary"
 msgstr "Resumen"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,product_summary:0
 msgid "Summary of product"
 msgstr "Resumen de producto"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: code:addons/stock_available/models/production_planning.py:130
 #, python-format
 msgid "The dates cannot be changed, there are an associated production order"
 msgstr "Las fechas no pueden ser cambiadas porque hay una orden de producción asociada a esta previsión"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: code:addons/stock_available/models/product.py:123
 #, python-format
 msgid "This product has no associated bill of materials"
 msgstr "Este producto no tiene asociada una lista de materiales"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: code:addons/stock_available/models/product.py:126
 #, python-format
 msgid "This product has no associated production line"
 msgstr "Este producto no tiene asociada una línea de producción"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.time.adviser,time:0
 msgid "Time (seconds)"
 msgstr "Tiempo (segundos)"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:bom.member.of,time_adviser:0
-#: view:product.product:stock_available.stock_available_product_normal_form
+#: view:product.product:stock_available_ph.stock_available_product_normal_form
 #: field:product.product,time_adviser:0
 #: field:product.template,time_adviser:0
 msgid "Time adviser"
 msgstr "Recomendador de tiempos"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.time.adviser,type:0
 msgid "Type"
 msgstr "Tipo"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:product.stock.unsafety,uom_id:0
 msgid "Unit of Measure"
 msgstr "Unidad de medida"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:production.planning.materials,uom:0
 #: field:stock.available.details,uom:0
 msgid "Unit of measure"
 msgstr "Unidad de medida"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: selection:product.time.adviser,type:0
 msgid "Variable time"
 msgstr "Tiempo variable"
 
-#. module: stock_available
+#. module: stock_available_ph
 #: field:mrp.bom,virtual_conservative:0
 #: field:product.stock.unsafety,virtual_conservative:0
 #: field:production.planning.materials,qty_vsc_available:0
@@ -776,12 +776,12 @@ msgstr "Tiempo variable"
 msgid "Virtual stock conservative"
 msgstr "Stock virtual conservador"
 
-#. module: stock_available
-#: view:product.stock.by.day:stock_available.view_compute_sbd_wizard
+#. module: stock_available_ph
+#: view:product.stock.by.day:stock_available_ph.view_compute_sbd_wizard
 msgid "Wizard computes stock by day for all products."
 msgstr "Calcular stock por día de todos los productos"
 
-#. module: stock_available
-#: view:bom.member.of:stock_available.view_bom_member_of_wizard
+#. module: stock_available_ph
+#: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
 msgid "Wizard shows all BoM that product is member of."
 msgstr "Muestra todas las listas de materiales en las que se usa este producto"

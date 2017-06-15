@@ -32,7 +32,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="uom_id"/>
                         <button name="cancel" type="object" string="Cancel" states='exception,in_progress' icon="STOCK_CANCEL"/>
                         <field name="bom_member" invisible="1"/>
-                        <button name="stock_available.action_bom_member_of_wizard"
+                        <button name="stock_available_ph.action_bom_member_of_wizard"
                                 string="BoM member of"
                                 type="action"
                                 icon="gtk-dnd-multiple"

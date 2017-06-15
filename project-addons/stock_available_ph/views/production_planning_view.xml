@@ -252,25 +252,25 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="view_ids"
                    eval="[
                             (5, 0, 0),
-                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_available.production_planning_calendar_view')}),
-                            (0, 0, {'view_mode': 'gantt', 'view_id': ref('stock_available.production_planning_gantt_view')}),
-                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('stock_available.production_planning_kanban_view')}),
-                            (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_available.production_planning_tree_view')}),
-                            (0, 0, {'view_mode': 'form', 'view_id': ref('stock_available.production_planning_order_form_view')}),
+                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_available_ph.production_planning_calendar_view')}),
+                            (0, 0, {'view_mode': 'gantt', 'view_id': ref('stock_available_ph.production_planning_gantt_view')}),
+                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('stock_available_ph.production_planning_kanban_view')}),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_available_ph.production_planning_tree_view')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('stock_available_ph.production_planning_order_form_view')}),
                           ]"
             />
         </record>
 
         <menuitem id="menu_view_stock_available_form"
-                  parent="stock_available.menu_mrp_production_planning"
+                  parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_stock" sequence="140"/>
 
         <menuitem id="menu_view_stock_production_planning_form"
-                  parent="stock_available.menu_mrp_production_planning"
+                  parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_production_planning" sequence="141"/>
 
         <menuitem id="menu_view_stock_production_planning_calendar"
-                  parent="stock_available.menu_mrp_production_planning"
+                  parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_production_planning_calendar" sequence="142"/>
      </data>
 </openerp>

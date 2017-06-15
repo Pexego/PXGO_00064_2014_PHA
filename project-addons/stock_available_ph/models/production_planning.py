@@ -184,7 +184,7 @@ class ProductionPlanningOrders(models.Model):
     @api.model
     def create(self, vals):
         vals['production_planning'] = self.env.\
-            ref('stock_available.production_planning_1').id
+            ref('stock_available_ph.production_planning_1').id
         return super(models.Model, self).create(vals)
 
     @api.multi

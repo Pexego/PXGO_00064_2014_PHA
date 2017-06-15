@@ -64,7 +64,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   parent="base.menu_mrp_root" sequence="3"/>
 
         <menuitem id="menu_view_stock_available_form"
-                  parent="stock_available.menu_mrp_production_planning"
+                  parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_stock" sequence="140"/>
      </data>
 </openerp>

@@ -165,7 +165,7 @@ class ProductProduct(models.Model):
         })
 
         view_id = self.env.ref(
-            'stock_available.production_planning_new_order_form')
+            'stock_available_ph.production_planning_new_order_form')
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
