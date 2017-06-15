@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class SaleOrder(models.Model):
@@ -27,3 +27,26 @@ class SaleOrder(models.Model):
 
     urgent = fields.Boolean("Urgent")
     top_date = fields.Date("Limit date")
+    delivery_date = fields.Date()
+    season = fields.Char()
+    customer_branch = fields.Char()
+    customer_department = fields.Char()
+    customer_transmitter = fields.Many2one('res.partner')
+
+    @api.multi
+    def print_eci_report(self):
+        self.ensure_one()
+        custom_data = {
+            'sale_id': self.id,
+        }
+        rep_name = 'asperience_edi.eci_order_report'
+        rep_action = self.env["report"].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
+
+
+class SaleOrderLine(models.Model):
+
+    _inherit = 'sale.order.line'
+
+    units_per_package = fields.Integer()
