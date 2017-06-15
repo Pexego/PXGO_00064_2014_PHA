@@ -31,9 +31,9 @@
     'depends': ['product_stock_unsafety', 'custom_views'],
     'data': [
         'views/product_view.xml',
-        'views/product_stock_unsafety_view.xml',
-        'wizard/product_stock_by_day.xml',
-        'wizard/bom_member_of.xml',
+        #'views/product_stock_unsafety_view.xml',
+        #'wizard/product_stock_by_day.xml',
+        #'wizard/bom_member_of.xml',
     ],
     'installable': True
 }
