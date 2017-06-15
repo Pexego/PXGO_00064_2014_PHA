@@ -55,7 +55,9 @@ class SaleOrder(models.Model):
             if item not in orphans:
                 pl_price = pricelist.items_id.filtered(lambda r: r.product_id ==
                                                                  item.product_id)
-                if pl_price.price_surcharge != item.price_unit:
+                rest = pl_price.price_surcharge - item.price_unit
+                rest = float('{0:.6f}'.format(rest))
+                if rest != 0:
                     messages.append((0, 0, {
                         'type': 'price',
                         'description': _('[DifferentPrice] - %s - The price of '
@@ -83,7 +85,7 @@ class SaleOrder(models.Model):
                 'warning_ids': messages
             })
 
-            view = self.env.ref('check_pricelist.check_pricelist_message_wizard')
+            view = self.env.ref('check_pricelist_ph.check_pricelist_message_wizard')
             return {
                 'name': message.title,
                 'type': 'ir.actions.act_window',

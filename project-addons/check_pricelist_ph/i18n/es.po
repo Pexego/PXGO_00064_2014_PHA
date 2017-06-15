@@ -1,0 +1,225 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* check_pricelist_ph
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-15 13:53+0000\n"
+"PO-Revision-Date: 2017-06-15 16:03+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0\n"
+
+#. module: check_pricelist_ph
+#: field:sale.order,budget:0
+msgid "Budget"
+msgstr "Presupuesto"
+
+#. module: check_pricelist_ph
+#: view:check.pricelist.message:check_pricelist_ph.check_pricelist_message_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: check_pricelist_ph
+#: view:sale.order:check_pricelist_ph.check_pricelist_sale_order_form
+msgid "Cancel Quotation"
+msgstr "Cancelar presupuesto"
+
+#. module: check_pricelist_ph
+#: view:sale.order:check_pricelist_ph.check_pricelist_sale_order_form
+msgid "Check pricelist"
+msgstr "Comprobar lista precios"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,create_uid:0
+#: field:check.pricelist.warnings,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,create_date:0
+#: field:check.pricelist.warnings,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: check_pricelist_ph
+#: field:sale.order,customer_branch:0
+msgid "Customer branch"
+msgstr "Marca cliente"
+
+#. module: check_pricelist_ph
+#: field:sale.order,customer_department:0
+msgid "Customer department"
+msgstr "Departamento cliente"
+
+#. module: check_pricelist_ph
+#: field:sale.order,customer_transmitter:0
+msgid "Customer transmitter"
+msgstr "Transmisor cliente"
+
+#. module: check_pricelist_ph
+#: field:sale.order,delivery_date:0
+msgid "Delivery date"
+msgstr "Fecha envío"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.warnings,description:0
+msgid "Description"
+msgstr "Description"
+
+#. module: check_pricelist_ph
+#: selection:check.pricelist.warnings,type:0
+msgid "Different VAT"
+msgstr "Impuesto diferente"
+
+#. module: check_pricelist_ph
+#: selection:check.pricelist.warnings,type:0
+msgid "Different commercial discounts"
+msgstr "Descuento comercial diferente"
+
+#. module: check_pricelist_ph
+#: selection:check.pricelist.warnings,type:0
+msgid "Different financial discounts"
+msgstr "Descuento financiero diferente"
+
+#. module: check_pricelist_ph
+#: selection:check.pricelist.warnings,type:0
+msgid "Different price from price list"
+msgstr "Precio distinto al de la tarifa"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,display_name:0
+#: field:check.pricelist.warnings,display_name:0
+msgid "Display Name"
+msgstr "Nombre visible"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.warnings,fix:0
+msgid "Fix"
+msgstr "Corregir"
+
+#. module: check_pricelist_ph
+#: view:check.pricelist.message:check_pricelist_ph.check_pricelist_message_wizard
+msgid "Fix warnings"
+msgstr "Corregir avisos"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,id:0 field:check.pricelist.warnings,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,__last_update:0
+#: field:check.pricelist.warnings,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,write_uid:0
+#: field:check.pricelist.warnings,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,write_date:0
+#: field:check.pricelist.warnings,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.warnings,message_id:0
+msgid "Message id"
+msgstr "ID de mensaje"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.warnings,number:0
+msgid "Nº"
+msgstr "Nº"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.warnings,order_line_id:0
+msgid "Order line id"
+msgstr "ID de línea de pedido"
+
+#. module: check_pricelist_ph
+#: selection:check.pricelist.warnings,type:0
+msgid "Product not in price list"
+msgstr "Producto no aparece en tarifa"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,sale_id:0
+msgid "Sale id"
+msgstr "ID pedido"
+
+#. module: check_pricelist_ph
+#: model:ir.model,name:check_pricelist_ph.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: check_pricelist_ph
+#: field:sale.order,season:0
+msgid "Season"
+msgstr "Estación"
+
+#. module: check_pricelist_ph
+#: code:addons/check_pricelist_ph/wizard/check_pricelist.py:44
+#, python-format
+msgid "There are %d warnings detected"
+msgstr "Se han detectado %d incongruencias"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,title:0
+msgid "Title"
+msgstr "Título"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.warnings,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: check_pricelist_ph
+#: field:check.pricelist.message,warning_ids:0
+msgid "Warning ids"
+msgstr "IDs de avisos"
+
+#. module: check_pricelist_ph
+#: code:addons/check_pricelist_ph/models/sale.py:25
+#, python-format
+msgid "[DifferentDiscounts] - The applied commercial discount (%.2f) differs from that specified in the customer form.\n"
+msgstr "[DescuentosDiferentes] - El descuento comercial aplicado (%.2f) es diferente al especificado en la ficha del cliente.\n"
+
+#. module: check_pricelist_ph
+#: code:addons/check_pricelist_ph/models/sale.py:34
+#, python-format
+msgid "[DifferentDiscounts] - The applied financial discount (%.2f) differs from that specified in the customer form.\n"
+msgstr "[DescuentosDiferentes] - El descuento financiero aplicado (%.2f) Es diferente al especificado en la ficha del cliente.\n"
+
+#. module: check_pricelist_ph
+#: code:addons/check_pricelist_ph/models/sale.py:63
+#, python-format
+msgid "[DifferentPrice] - %s - The price of product is different from the %s price list.\n"
+msgstr "[PrecioDiferente] - %s - El precio del producto es diferente al de la tarifa %s.\n"
+
+#. module: check_pricelist_ph
+#: code:addons/check_pricelist_ph/models/sale.py:75
+#, python-format
+msgid "[DifferentVAT] - %s - The product has different tax from %s.\n"
+msgstr "[ImpuestoDiferente] - %s - El impuesto del producto es diferente a %s.\n"
+
+#. module: check_pricelist_ph
+#: code:addons/check_pricelist_ph/models/sale.py:46
+#, python-format
+msgid "[NotInPriceList] - %s - The product is not in %s price list.\n"
+msgstr "[NoEnListaPrecios] - %s - El producto no aparece en la tarifa %s.\n"
+
+#. module: check_pricelist_ph
+#: view:check.pricelist.message:check_pricelist_ph.check_pricelist_message_wizard
+msgid "or"
+msgstr "o"
