@@ -51,4 +51,4 @@ class PharmaGroupSale(models.Model):
                 lambda record: record.agent_id.id == self.agent_id.id)
             if partner_agent:
                 return partner_agent.commission_id
-        return self.agent_id.commission_id
+        return self.agent_id.commission
