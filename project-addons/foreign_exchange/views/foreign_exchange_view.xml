@@ -62,10 +62,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="target">new</field>
         </record>
 
+        <!-- __export__.ir_ui_menu_1398 == Configuración Contabilidad -->
         <menuitem id="menu_foreign_exchange"
                   name="Foreign exchange"
-                  parent="account.menu_finance_configuration"
-                  sequence="56"
+                  parent="__export__.ir_ui_menu_1398"
+                  sequence="1001"
                   action="action_foreign_exchange_form"/>
 
         <record id="foreign_exchange_move_form" model="ir.ui.view">
