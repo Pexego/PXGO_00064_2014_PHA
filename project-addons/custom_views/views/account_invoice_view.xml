@@ -42,6 +42,9 @@
                 <field name="analytics_id" position="attributes">
                     <attribute name="attrs">{'required': [('invoice_type', '=', 'in_invoice')]}</attribute>
                 </field>
+                <field name="move_id" position="after">
+                    <field name="payment_document_delivered"/>
+                </field>
             </field>
         </record>
 
