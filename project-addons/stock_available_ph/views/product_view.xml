@@ -11,9 +11,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
-                <field name="purchase_ok" position="after">
+                <!--field name="purchase_ok" position="after">
                     <field name="bom_ids" invisible="1"/>
-                </field>
+                </field-->
                 <page string="Procurements" position="after">
                     <page string="Production" attrs="{'invisible': [('bom_ids', '=', [])]}">
                         <separator string="Associated production lines"/>
