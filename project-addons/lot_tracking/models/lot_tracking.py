@@ -56,7 +56,7 @@ class StockLotMove(models.Model):
                   ['internal', 'view', 'procurement', 'transit']):
             self.type = 'input'
         else:
-         self.type = 'internal'
+            self.type = 'internal'
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, self._table)

@@ -22,6 +22,15 @@
 from openerp import models, fields
 
 
+class ProductProduct(models.Model):
+
+    _inherit = 'product.product'
+
+    ean14 = fields.Char('EAN 14')
+    eci_ref = fields.Char()
+
+
+
 class ProductUom(models.Model):
 
     _inherit = "product.uom"

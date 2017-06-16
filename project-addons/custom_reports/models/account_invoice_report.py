@@ -40,10 +40,15 @@ class AccountInvoiceReport(models.Model):
     product_with_reference = fields.Char('Product with reference')
     product_line = fields.Many2one('product.line', 'Product line')
     product_subline = fields.Many2one('product.subline', 'Product subline')
+    product_purchase_line = fields.Many2one('product.purchase.line',
+                                            'Product purchase line')
+    product_purchase_subline = fields.Many2one('product.purchase.subline',
+                                               'Product purchase subline')
     product_container = fields.Many2one('product.container', 'Product container')
     product_form = fields.Many2one('product.form', 'Product form')
     product_clothing = fields.Selection((('dressed', 'Dressed'),
                                         ('naked', 'Naked')), 'Product clothing')
+    product_year_appearance = fields.Char('Product year of appearance')
     product_cost = fields.Float('Product cost')
     product_cost_rm = fields.Float('Product cost raw material')
     product_cost_components = fields.Float('Product cost components')
@@ -66,9 +71,12 @@ class AccountInvoiceReport(models.Model):
             product_with_reference,
             product_line,
             product_subline,
+            product_purchase_line,
+            product_purchase_subline,
             product_container,
             product_form,
             product_clothing,
+            product_year_appearance,
             product_cost,
             product_cost_rm,
             product_cost_components,
@@ -105,9 +113,12 @@ class AccountInvoiceReport(models.Model):
             '[' || pt.default_code || '] ' || pt.name as product_with_reference,
             pt.line as product_line,
             pt.subline as product_subline,
+            pt.purchase_line as product_purchase_line,
+            pt.purchase_subline as product_purchase_subline,
             pt.container_id as product_container,
             pt.base_form_id as product_form,
             pt.clothing as product_clothing,
+            pr.year_appearance::text as product_year_appearance,
             sum(case
                     when ai.type in ('out_refund', 'in_invoice') then -1
                     else 1
@@ -193,9 +204,12 @@ class AccountInvoiceReport(models.Model):
             '[' || pt.default_code || '] ' || pt.name,
             pt.line,
             pt.subline,
+            pt.purchase_line,
+            pt.purchase_subline,
             pt.container_id,
             pt.base_form_id,
             pt.clothing,
+            pr.year_appearance,
             ai.number
             """
         return group_by_str

@@ -69,6 +69,17 @@ msgid "Already exists an invoice for %s with this reference %s"
 msgstr "Ya existe una factura de %s con esta referencia %s"
 
 #. module: custom_views
+#: code:addons/custom_views/models/sale.py:35
+#, python-format
+msgid "An order budget can not be confirmed!"
+msgstr "¡No es posible confirmar un pedido de tipo presupuesto!"
+
+#. module: custom_views
+#: field:account.invoice.special,aux_mandate_id:0
+msgid "Banking mandate"
+msgstr "Mandato SEPA"
+
+#. module: custom_views
 #: field:account.invoice,banking_mandate_needed:0
 #: field:payment.mode,banking_mandate_needed:0
 msgid "Banking mandate needed?"
@@ -83,6 +94,11 @@ msgstr "Lista de materiales"
 #: model:ir.ui.menu,name:custom_views.menu_mrp_bom_special
 msgid "Bill of materials (BoM)"
 msgstr "Listas de materiales (LdM)"
+
+#. module: custom_views
+#: field:sale.order,budget:0
+msgid "Budget"
+msgstr "Presupuesto"
 
 #. module: custom_views
 #: field:mrp.machinery,sop_cleaning_maintenance_id:0
@@ -137,6 +153,12 @@ msgid "City"
 msgstr "Ciudad"
 
 #. module: custom_views
+#: field:account.invoice.line,commercial_partner_id:0
+#: field:account.invoice.special,commercial_partner_id:0
+msgid "Commercial Entity"
+msgstr "Empresa"
+
+#. module: custom_views
 #. openerp-web
 #: code:addons/custom_views/static/src/js/view_form_custom.js:21
 #, python-format
@@ -175,6 +197,16 @@ msgstr "Precio de coste componentes"
 #: field:hr.holidays.management,current_holidays_status_id:0
 msgid "Current holidays status"
 msgstr "Tipo de ausencia actual"
+
+#. module: custom_views
+#: field:purchasable.products,price_current_year:0
+msgid "Current year amount"
+msgstr "Año actual €"
+
+#. module: custom_views
+#: field:purchasable.products,qty_current_year:0
+msgid "Current year qty."
+msgstr "Año actual"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_mrp_machinery
@@ -282,9 +314,23 @@ msgid "Holidays status"
 msgstr "Tipo de ausencia"
 
 #. module: custom_views
+#: field:account.invoice.line,default_code:0
+#: field:product.template,default_code:0
+#: field:purchasable.products,default_code:0
+#: field:stock.production.lot,default_code:0
+msgid "Internal Reference"
+msgstr "Referencia interna"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
+
+#. module: custom_views
+#: field:account.invoice.line,date_invoice:0
+#: field:account.invoice.special,date_invoice:0
+msgid "Invoice Date"
+msgstr "Fecha factura"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice_line
@@ -303,9 +349,25 @@ msgid "Invoice number: "
 msgstr "Factura Nº: "
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_account_invoice_special
+#: view:purchasable.products:custom_views.purchasable_products_form_view
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_move_line
 msgid "Journal Items"
 msgstr "Apuntes contables"
+
+#. module: custom_views
+#: field:purchasable.products,price_last_year:0
+msgid "Last year amount"
+msgstr "Año pasado €"
+
+#. module: custom_views
+#: field:purchasable.products,qty_last_year:0
+msgid "Last year qty."
+msgstr "Año pasado"
 
 #. module: custom_views
 #: field:account.invoice,latest_calculations:0
@@ -352,6 +414,26 @@ msgstr "Procedimiento de operaciones"
 #: field:product.product,packaging_procedure_id:0
 msgid "Packaging procedure"
 msgstr "Procedimiento de acondicionamiento"
+
+#. module: custom_views
+#: field:purchasable.products,price_list_ids:0
+msgid "Price list ids"
+msgstr "Tarifas"
+
+#. module: custom_views
+#: field:purchasable.products,price_list_member:0
+msgid "Price list member?"
+msgstr "¿Tiene tarifa(s)?"
+
+#. module: custom_views
+#: view:purchasable.products:custom_views.purchasable_products_form_view
+msgid "Price lists"
+msgstr "Tarifas"
+
+#. module: custom_views
+#: view:purchasable.products:custom_views.purchasable_products_tree_view
+msgid "Price lists and invoices"
+msgstr "Tarifas/facturas"
 
 #. module: custom_views
 #: field:mrp.procedure,name:0
@@ -408,6 +490,16 @@ msgid "Origin document: "
 msgstr "Documento origen: "
 
 #. module: custom_views
+#: field:purchasable.products,price_other_years:0
+msgid "Other years amount"
+msgstr "Otros años €"
+
+#. module: custom_views
+#: field:purchasable.products,qty_other_years:0
+msgid "Other years qty."
+msgstr "Otros años"
+
+#. module: custom_views
 #: field:account.invoice.line,partner_id:0
 #: model:ir.model,name:custom_views.model_res_partner
 msgid "Partner"
@@ -422,6 +514,12 @@ msgstr "Clientes"
 #: model:ir.actions.act_window,name:custom_views.action_res_partner_special
 msgid "Partners special form"
 msgstr "Edición especial de clientes y proveedores"
+
+#. module: custom_views
+#: field:account.invoice,payment_document_delivered:0
+#: field:account.invoice.special,payment_document_delivered:0
+msgid "Payment document delivered"
+msgstr "Documento de pago entregado"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_payment_mode
@@ -444,7 +542,13 @@ msgid "Picking wizard items"
 msgstr "Elementos del asistente de albarán"
 
 #. module: custom_views
+#: field:product.product,categ_id:0 field:stock.production.lot,categ_id:0
+msgid "Pricing/Primary Category"
+msgstr "Categoría interna"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_product_product
+#: field:purchasable.products,product_id:0
 msgid "Product"
 msgstr "Producto"
 
@@ -454,10 +558,10 @@ msgid "Product Alert Time"
 msgstr "Tiempo de alerta producto"
 
 #. module: custom_views
-#: field:stock.history,categ_ids:0
-#: field:stock.move,categ_ids:0
+#: field:stock.history,categ_ids:0 field:stock.move,categ_ids:0
+#: field:stock.production.lot,categ_ids:0
 msgid "Product Categories"
-msgstr "Categoría extra de producto"
+msgstr "Categorías de producto"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_product_template
@@ -468,6 +572,11 @@ msgstr "Plantilla de producto"
 #: field:product.product,type:0
 msgid "Product Type"
 msgstr "Product Type"
+
+#. module: custom_views
+#: field:purchasable.products,product_uom:0
+msgid "Product uom"
+msgstr "Unidad de medida"
 
 #. module: custom_views
 #: field:product.product,property_stock_production:0
@@ -510,6 +619,11 @@ msgid "Remaining days to set"
 msgstr "Días restantes a cargar"
 
 #. module: custom_views
+#: view:purchasable.products:custom_views.purchasable_products_form_view
+msgid "Return"
+msgstr "Volver"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
@@ -545,13 +659,47 @@ msgid "Shipping Policy"
 msgstr "Política de facturación"
 
 #. module: custom_views
+#: view:account.invoice:custom_views.view_invoice_special_tree
+#: view:account.invoice.special:custom_views.view_invoice_special_form
+#: view:mrp.bom:custom_views.view_mrp_bom_special_form
 #: view:res.partner:custom_views.view_partner_special_form
 msgid "Special form"
 msgstr "Formulario especial"
 
 #. module: custom_views
+#: view:account.invoice:custom_views.view_invoice_special_tree
+msgid "Edit invoice"
+msgstr "Editar factura"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_account_invoice_special
+msgid "Custom views - Invoices special form"
+msgstr "Formulario especial para facturas"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_res_partner_special
+msgid "Custom views - Partners special form"
+msgstr "Formulario especial para clientes y proveedores"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_mrp_bom_special
+msgid "Special form to edit BoM"
+msgstr "Formulario especial para listas de materiales (LdM)"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_mrp_bom_special
+msgid "BoM special form"
+msgstr "Formulario especial para listas de materiales (LdM)"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_special_forms
+msgid "Special forms"
+msgstr "Formularios especiales"
+
+#. module: custom_views
 #: view:mrp.bom:custom_views.view_mrp_bom_special_form
 #: view:res.partner:custom_views.view_partner_special_form
+#: view:account.invoice.special:custom_views.view_invoice_special_form
 msgid "Special form to edit fields without validations"
 msgstr "Formulario especial para editar campos sin validaciones"
 
@@ -571,6 +719,11 @@ msgid "Standard Operating Procedures (SOP)"
 msgstr "Procedimientos Normalizados de Trabajo (PNT)"
 
 #. module: custom_views
+#: field:stock.production.lot,available_stock:0
+msgid "Available stock"
+msgstr "Existencias"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
@@ -580,6 +733,12 @@ msgstr "Movimiento de existencias"
 #, python-format
 msgid "Stock assignment warning"
 msgstr "Alerta de reserva de stock"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_stock_production_lot_dates
+#: model:ir.ui.menu,name:custom_views.menu_stock_production_lot_dates
+msgid "Stock production lot dates"
+msgstr "Fechas de caducidad"
 
 #. module: custom_views
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
@@ -654,6 +813,11 @@ msgid "Version"
 msgstr "Revisión"
 
 #. module: custom_views
+#: view:res.partner:custom_views.view_partner_form_custom_view
+msgid "View supplier products"
+msgstr "Ver productos proveedor"
+
+#. module: custom_views
 #: field:product.product,virtual_conservative:0
 #: field:product.template,virtual_conservative:0
 msgid "Virtual stock conservative"
@@ -669,6 +833,16 @@ msgstr "ATENCIÓN: Las cantidades de producto del albarán no coinciden con la r
 #: view:custom.views.warning:custom_views.custom_views_warning_form
 msgid "Warning message"
 msgstr "Mensaje de aviso"
+
+#. module: custom_views
+#: field:purchasable.products,price_year_before:0
+msgid "Year before amount"
+msgstr "Año anterior €"
+
+#. module: custom_views
+#: field:purchasable.products,qty_year_before:0
+msgid "Year before qty."
+msgstr "Año anterior"
 
 #. module: custom_views
 #: code:addons/custom_views/models/product.py:0

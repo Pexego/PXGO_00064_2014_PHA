@@ -156,26 +156,11 @@
             </t>
         </template>
 
-        <report
-            string="Expeditions report"
-            id="wsl_action_report_expeditions"
-            model="stock.expeditions"
-            report_type="qweb-pdf"
-            name="warehouse_shipping_light.wsl_report_expeditions"
-        />
-
-        <record id="paperformat_expeditions" model="report.paperformat">
-            <field name="name">Warehouse expeditions</field>
-            <field name="format">A4</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">20</field>
-            <field name="margin_bottom">30</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">20</field>
-            <field name="dpi">90</field>
-        </record>
+        <report string="Expeditions report"
+                id="wsl_action_report_expeditions"
+                model="stock.expeditions"
+                report_type="qweb-pdf"
+                name="warehouse_shipping_light.wsl_report_expeditions"/>
 
         <record id="warehouse_shipping_light.wsl_action_report_expeditions" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="warehouse_shipping_light.paperformat_expeditions"/>

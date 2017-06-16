@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+        <record model="production.planning" id="production_planning_1">
+            <field name="name">Previsor</field>
+            <field name="orders" eval="[]"/>
+            <field name="materials" eval="[]"/>
+        </record>
+    </data>
+</openerp>

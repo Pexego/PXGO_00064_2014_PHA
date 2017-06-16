@@ -50,7 +50,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         </record>
 
         <record id="action_mrp_bom_special" model="ir.actions.act_window">
-            <field name="name">BoM special form</field>
+            <field name="name">Special form to edit BoM</field>
             <field name="res_model">mrp.bom</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -64,8 +64,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="target">current</field>
         </record>
 
-        <menuitem id="menu_mrp_bom_special" name="Bill of materials (BoM)" parent="base.menu_config"
-            sequence="16" action="action_mrp_bom_special"/>
+        <menuitem id="menu_mrp_bom_special" name="Bill of materials (BoM)"
+                  parent="menu_special_forms"
+                  sequence="3" action="action_mrp_bom_special"/>
 
         <record id="mrp.template_open_bom" model="ir.actions.act_window">
             <field name="context">{'default_product_tmpl_id': active_id, 'search_default_product_tmpl_id': active_id}</field>

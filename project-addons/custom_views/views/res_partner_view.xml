@@ -40,6 +40,22 @@
                 <field name="category_id" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
+
+                <field name="property_account_position" position="before">
+                    <field name="pre_customer" invisible="1"/>
+                </field>
+                <field name="property_account_position" position="attributes">
+                    <attribute name="attrs">{'required':[('parent_id','=',False),('pre_customer','=',False)]}</attribute>
+                </field>
+
+                <button name="view_pricelist_history" position="after">
+                    <br/>
+                    <button name="view_supplier_products"
+                            type="object"
+                            string="View supplier products"
+                            attrs="{'invisible': [('supplier', '=', False)]}"
+                    />
+                </button>
             </field>
         </record>
 
@@ -84,6 +100,7 @@
                     <field name="state_id"/>
                 </field>
                 <field name="prospect" position="replace">
+                    <field name="user_id" invisible="not context.get('search_default_customer', False)"/>
                     <field name="create_date"/>
                     <field name="active"/>
                 </field>
@@ -225,7 +242,10 @@
             <field name="context">{'partner_special_form': True}</field>
         </record>
 
-        <menuitem id="menu_res_partner_special" name="Partners" parent="base.menu_config"
-            sequence="15" action="action_res_partner_special"/>
+        <menuitem id="menu_special_forms" name="Special forms"
+                  parent="base.menu_administration" sequence="2"/>
+
+        <menuitem id="menu_res_partner_special" name="Partners" parent="menu_special_forms"
+            sequence="1" action="action_res_partner_special"/>
     </data>
 </openerp>

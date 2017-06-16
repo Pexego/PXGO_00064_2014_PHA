@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="purchasable_products_tree_view" model="ir.ui.view">
+            <field name="name">Purchasable products tree</field>
+            <field name="model">purchasable.products</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0">
+                    <field name="id" invisible="1"/>
+                    <field name="product_id"/>
+                    <field name="default_code"/>
+                    <field name="product_uom"/>
+                    <field name="qty_current_year"/>
+                    <field name="price_current_year"/>
+                    <field name="qty_last_year"/>
+                    <field name="price_last_year"/>
+                    <field name="qty_year_before"/>
+                    <field name="price_year_before"/>
+                    <field name="qty_other_years"/>
+                    <field name="price_other_years"/>
+                    <field name="price_list_member"/>
+                    <button name="view_product_price_lists_and_invoices"
+                            string="Price lists and invoices"
+                            type="object"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="purchasable_products_form_view" model="ir.ui.view">
+            <field name="name">Purchasable products form</field>
+            <field name="model">purchasable.products</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <field name="default_code"/>
+                        </group>
+                        <notebook>
+                            <page string="Price lists">
+                                <field name="price_list_ids"/>
+                            </page>
+                            <page string="Invoices">
+                                <field name="invoice_line_ids">
+                                    <tree default_order="create_date desc">
+                                        <field name="date_invoice"/>
+                                        <field name="commercial_partner_id"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
+                                        <field name="price_subtotal"/>
+                                        <field name="invoice_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Return" special="cancel" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

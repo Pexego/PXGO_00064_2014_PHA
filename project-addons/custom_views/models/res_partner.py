@@ -44,6 +44,15 @@ class ResPartner(models.Model):
             relation='res_partner_res_partner_category_rel',
             domain=[('child_ids', '=', False)],
             string='Tags')
+    display_name = fields.Char(compute='_compute_display_name', store=True)
+
+    @api.one
+    @api.depends('name', 'parent_id', 'parent_id.name')
+    def _compute_display_name(self):
+        if self.parent_id:
+            self.display_name = self.parent_id.name + ', ' + self.name
+        else:
+            self.display_name = self.name
 
     @api.model
     def create(self, vals):
@@ -82,7 +91,6 @@ class ResPartner(models.Model):
         if not args:
             args = []
         if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
-
             self.check_access_rights('read')
             where_query = self._where_calc(args)
             self._apply_ir_rules(where_query, 'read')
@@ -122,3 +130,16 @@ class ResPartner(models.Model):
             else:
                 return []
         return super(ResPartner,self).name_search(name, args, operator=operator, limit=limit)
+
+    @api.multi
+    def view_supplier_products(self):
+        request_id = self.env['purchasable.products']._get_products(self)
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'res_model': 'purchasable.products',
+            'domain': [('request_id', '=', request_id)],
+            'target': 'current',
+            'context': self.env.context,
+        }

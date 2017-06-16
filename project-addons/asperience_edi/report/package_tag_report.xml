@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <template id="package_tag_report">
+
+        <style type="text/css">
+            #container{
+                height:341mm;
+                width:100%;
+            }
+            #t-column{
+                height: 25%;
+                width: 50%;
+                float: left;
+            }
+            #t-column p{
+                font-size:22px;
+                line-height: 15px;
+            }
+
+            #tag-container {
+                padding-top: 15%;
+                padding-left: 4px;
+                margin-top: 3px;
+            }
+        </style>
+
+        <t t-foreach="docs" t-as="o">
+            <div class="page">
+                <div id="container">
+                    <t t-foreach="range(8)" t-as="index">
+                        <div id="t-column">
+                            <div id="tag-container">
+                                <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
+                                <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
+                                <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.client_order_ref"/> </strong></p>
+                                <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    </data>
+</openerp>

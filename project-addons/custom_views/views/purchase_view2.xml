@@ -55,7 +55,6 @@
             </field>
         </record>
 
-
         <!--Hide Bid Receivez, Send RFQ by email, Print RFQ, Re-Print RFQ -->
         <record id="purchase_order_form" model="ir.ui.view">
             <field name="name">purchase.order.form.delete.buttons</field>

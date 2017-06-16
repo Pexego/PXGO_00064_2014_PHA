@@ -12,6 +12,7 @@
                         <field name="year"/>
                         <field name="pricelist_id"/>
                         <field name="partner_id"/>
+                        <field name="category_id"/>
                         <field name="import_file"/>
                     </group>
                     <footer>

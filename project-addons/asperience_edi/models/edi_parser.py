@@ -502,3 +502,177 @@ class edi_parser(models.Model):
             return_view = self.pool.get('stock.return.picking').create_returns(cr, uid, [return_wzd], {'active_ids': [old_pick_id], 'active_id': old_pick_id})
             new_pick_id = eval(return_view['domain'])[0][2]
             pick_obj.write(cr, uid, new_pick_id, vals)
+
+    def parse_order(self, cr, uid, edi, data, filename):
+        sale_obj = self.pool.get('sale.order')
+        sale_line_obj = self.pool.get('sale.order.line')
+        partner_obj = self.pool.get('res.partner')
+        pay_mode_obj = self.pool.get('payment.mode')
+        product_obj = self.pool.get('product.product')
+        uom_obj = self.pool.get('product.uom')
+        fpos_obj = self.pool.get('account.fiscal.position')
+        sale_channel = self.pool.get('sale.channel')
+        sale_ok = False
+        old_sale_id = False
+        new_sale_id = False
+        line_vals = {}
+        for line in data[filename]:
+            if line and line[0] == 'ORD':
+                vals = {}
+                old_sale_id = False
+                new_sale_id = False
+                ref = line[1]['numdoc']
+                if line[1]['function'] == "5":
+                    old_sale_id = sale_obj.search(cr,uid,[('client_order_ref','=',ref)])
+                if line[1]['type'] == "224":
+                    vals["urgent"] = True
+                vals['client_order_ref'] = ref
+                vals['note'] = ''
+                vals['sale_channel_id'] = sale_channel.search(cr, uid, [('name', '=', 'EDI')])[0]
+            if line and line[0] == 'DTM':
+                if line[1]['document_date'] and len(line[1]['document_date']) == 12:
+                    vals['date_order'] = line[1]['document_date'] and datetime.strftime(datetime.strptime(line[1]['document_date'], "%Y%m%d%H%M"), '%Y-%m-%d %H:%M') or time.strftime('%Y-%m-%d %H:%M:%S')
+                else:
+                    vals['date_order'] = line[1]['document_date'] and datetime.strftime(datetime.strptime(line[1]['document_date'], "%Y%m%d"), '%Y-%m-%d') or time.strftime('%Y-%m-%d')
+                if line[1]['document_date'] and len(line[1]['document_date']) == 12:
+                    vals['top_date'] = line[1]['limit_date'] and datetime.strftime(datetime.strptime(line[1]['limit_date'], "%Y%m%d%H%M"), '%Y-%m-%d') or False
+                else:
+                    vals['top_date'] = line[1]['limit_date'] and datetime.strftime(datetime.strptime(line[1]['limit_date'], "%Y%m%d"), '%Y-%m-%d') or False
+
+            if line and line[0] == 'PAI' and line[1]['fpago']:
+                payment_mode = pay_mode_obj.search(cr, uid, [('edi_code', '=', line[1]['fpago'])])
+                if payment_mode:
+                    vals['payment_mode_id'] = payment_mode and payment_mode[0] or False
+            if line and ((line[0] == 'ALI' and line[1]['info']) or (line[0] == 'FTX' and line[1]['texto'])):
+                vals['note'] += line[0] == 'ALI' and line[1]['info'] or line[1]['texto']
+            if line and line[0] == 'RFF':
+                vals['season'] = line[1]['temp']
+                vals['customer_department'] = line[1]['cod']
+            if line and line[0] == 'NADMS':
+                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['emisor'])])
+                if not partner_id:
+                    raise Exception("El cliente con gln %s no se ha encontrado" % (line[1]['emisor']))
+                else:
+                    vals['customer_transmitter'] = partner_id
+            if line and line[0] == 'NADSU':
+                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['comp'])])
+                if not partner_id:
+                    raise Exception("El partner con gln %s no se ha encontrado" % (line[1]['comp']))
+                else:
+                    partner = partner_obj.browse(cr, uid, partner_id)
+                    vals['company_id'] = partner.company_id.id
+                    warehouse_ids = self.pool.get('stock.warehouse').search(
+                        cr, uid, [('company_id', '=', partner.company_id.id)])
+                    if warehouse_ids:
+                        vals['warehouse_id'] = warehouse_ids[0]
+            if line and line[0] == 'NADBY':
+                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['comprador'])])
+                if not partner_id:
+                    raise Exception("El comprador con gln %s no se ha encontrado" % (line[1]['comprador']))
+                else:
+                    partner = partner_obj.browse(cr, uid, partner_id)
+                    vals['customer_branch'] = line[1]['sucursal']
+                    vals['partner_invoice_id'] = partner_id[0]
+                    vals['partner_id'] = partner.commercial_partner_id.id
+                    partner = partner_obj.browse(cr, uid, partner_id[0])
+                    vals['pricelist_id'] = partner.property_product_pricelist.id
+                    vals['fiscal_position'] = partner.property_account_position.id
+                    #creo que hace falta
+                    vals_fiscal_position =  partner.property_account_position
+                    if not vals.get('payment_mode_id', False):
+                        vals['payment_mode_id'] = partner.customer_payment_mode.id
+                    vals['payment_term'] = partner.property_payment_term.id
+            if line and line[0] == 'NADMS':
+                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['emisor'])])
+                if not partner_id:
+                    raise Exception("El emisor con gln %s no se ha encontrado" % (line[1]['destino']))
+                else:
+                    vals['customer_transmitter'] = partner_id[0]
+            if line and line[0] == 'NADDP':
+                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['destino'])])
+                if not partner_id:
+                    raise Exception("El destinatario con gln %s no se ha encontrado" % (line[1]['destino']))
+                else:
+                    vals['partner_shipping_id'] = partner_id[0]
+            if line and line[0] == 'CNTRES':
+                vals['total_packages'] = line[1]['bultos']
+            if line and line[0] == 'NADIV':
+                partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['emisor'])])
+                if not partner_id:
+                    raise Exception("El emisor con gln %s no se ha encontrado" % (line[1]['emisor']))
+                else:
+                    vals['partner_invoice_id'] = partner_id[0]
+                    partner = partner_obj.browse(cr, uid, partner_id[0])
+                    vals['pricelist_id'] = partner.property_product_pricelist.id
+                    vals['fiscal_position'] = partner.property_account_position.id
+                    #creo que hace falta
+                    vals_fiscal_position =  partner.property_account_position
+                    if not vals.get('payment_mode_id', False):
+                        vals['payment_mode_id'] = partner.customer_payment_mode.id
+                    vals['payment_term'] = partner.property_payment_term.id
+            if line and 'LIN' in line[0]:
+                if old_sale_id:
+                    wf_service = netsvc.LocalService('workflow')
+                    wf_service.trg_validate(uid, 'sale.order', old_sale_id[0], 'cancel', cr)
+                    old_sale_id = False
+                if not new_sale_id:
+                    new_sale_id = sale_obj.create(cr, uid, vals)
+
+                if line[0] == 'LIN':
+                    if line_vals:
+                        line_vals['order_id'] = new_sale_id
+                        #taxes = fpos_obj.map_tax(cr,uid,vals['fiscal_position'],product.taxes_id)
+                        taxes = fpos_obj.map_tax(cr,uid,vals_fiscal_position,product.taxes_id)
+                        line_vals['tax_id'] = [(6,0,taxes)]
+                        sale_line_obj.create(cr, uid, line_vals)
+                        line_vals = {}
+                        product = False
+                    product_id = product_obj.search(cr, uid, [('ean13', '=', line[1]['ean13'][:13])])
+                    if not product_id:
+                        raise Exception("El producto con ean13 %s no se ha encontrado" % (line[1]['ean13'][:13]))
+                    else:
+                        line_vals['product_id'] = product_id[0]
+                        product = product_obj.browse(cr, uid, product_id[0])
+                elif line[0] == 'PIALIN':
+                    # si viene la referencia interna del cliente y el eci_ref del producto está vacío se establece
+                    # TODO: Si se comienza a trabjar con otros clientes eliminar
+                    if line[1]['calificador'] == 'IN' and 'product_id' in line_vals:
+                        product = product_obj.browse(cr, uid, line_vals['product_id'])
+                        if not product.eci_ref:
+                            product_obj.write(cr, uid, product.id, {'eci_ref': line[1]['referencia']})
+
+                elif line[0] == 'IMDLIN' and line[1]['descripcion'] and line_vals:
+                    if line_vals.get('name', False):
+                        line_vals["name"] += u" " + line[1]['descripcion']
+                    else:
+                        line_vals["name"] = line[1]['descripcion']
+                elif line[0] == 'QTYLIN':
+                    if line[1]['calificador'] == '21':
+                        line_vals["product_uom_qty"] = line[1]['qty']
+                        line_vals["product_uos_qty"] = line[1]['qty']
+                        edi_code = line[1]['uom_code'] or 'PCE'
+                        uom_ids = uom_obj.search(cr, uid, [('edi_code', '=', edi_code)])
+                        if not uom_ids:
+                            raise Exception("La unidad de medida con codigo %s no se ha encontrado" % (line[1]['uom_code']))
+                        else:
+                            line_vals["product_uom"] = uom_ids[0]
+                            line_vals["product_uos"] = uom_ids[0]
+                    elif line[1]['calificador'] == '59':
+                        line_vals['units_per_package'] = line[1]['qty']
+
+
+                elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAA':
+                    line_vals['price_unit'] = line[1]['precio']
+
+                elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAB':
+                    line_vals['brut_price'] = line[1]['precio']
+
+        if line_vals:
+            line_vals['order_id'] = new_sale_id
+            #taxes = fpos_obj.map_tax(cr,uid,vals['fiscal_position'],product.taxes_id)
+            product = product_obj.browse(cr, uid, line_vals['product_id'])
+            taxes = fpos_obj.map_tax(cr,uid,vals_fiscal_position,product.taxes_id)
+            line_vals['tax_id'] = [(6,0,taxes)]
+            sale_line_obj.create(cr, uid, line_vals)
+        if new_sale_id:
+            return sale_obj.browse(cr, uid, new_sale_id).name

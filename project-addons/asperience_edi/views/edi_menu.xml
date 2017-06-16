@@ -32,5 +32,7 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem action="action_edi_edi_log" name="Edi logs" id="menu_action_edi_edi_log" parent="menu_edi_process" sequence="2"/>
+
+        <menuitem action="edi_error_action" name="Edi Errors" id="menu_action_edi_edi_errors" parent="menu_edi_process" sequence="5"/>
     </data>
 </openerp>

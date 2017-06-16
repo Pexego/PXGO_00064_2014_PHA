@@ -1,0 +1,13 @@
+.title_descript {
+    color: navy;
+    text-align: center;
+}
+
+dl.text_descript {
+    text-align: left;
+    padding: 30px;
+}
+
+dl.text_descript dd {
+    margin-left: 30px;
+}

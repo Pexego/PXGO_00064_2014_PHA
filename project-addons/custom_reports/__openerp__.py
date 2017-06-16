@@ -23,6 +23,7 @@
         'commercial_and_financial_discount',
         'stock_reception',
         'invoice_link_sale',
+        'product_spec',
         'custom_permissions',
     ],
     'data' : [

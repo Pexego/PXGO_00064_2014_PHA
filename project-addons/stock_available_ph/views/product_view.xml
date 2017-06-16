@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="stock_available_product_normal_form" model="ir.ui.view">
+            <field name="name">Stock available - Product form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="purchase_ok" position="after">
+                    <field name="bom_ids" invisible="1"/>
+                </field>
+                <page string="Procurements" position="after">
+                    <page string="Production" attrs="{'invisible': [('bom_ids', '=', [])]}">
+                        <separator string="Associated production lines"/>
+                        <field name="routing_ids" />
+                        <separator string="Time adviser"/>
+                        <field name="time_adviser">
+                            <style>
+                                div.time_adviser th[data-id='type'],
+                                div.time_adviser th[data-id='time'] {
+                                    width: 15%;
+                                }
+                                div.time_adviser th[data-id='notes'] {
+                                    width: 70%;
+                                }
+                            </style>
+                            <tree editable="bottom" class="time_adviser">
+                                <field name="sequence" widget="handle"/>
+                                <field name="type"/>
+                                <field name="time"/>
+                                <field name="notes"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+                <separator string="Suppliers" position="before">
+                    <group name="Consumption" string="Consumption">
+                        <group>
+                            <field name="cons_by_day_p"/>
+                            <field name="cons_by_day_i"/>
+                            <br/><br/>
+                            <field name="cons_by_day_p_ind"/>
+                            <field name="cons_by_day_i_ind"/>
+                            <br/><br/>
+                            <field name="cons_by_day_p_total"/>
+                            <field name="cons_by_day_i_total"/>
+                        </group>
+                        <group>
+                            <field name="stock_by_day_p"/>
+                            <field name="stock_by_day_i"/>
+                            <br/><br/>
+                            <field name="stock_by_day_p_ind"/>
+                            <field name="stock_by_day_i_ind"/>
+                            <br/><br/>
+                            <field name="stock_by_day_p_total"/>
+                            <field name="stock_by_day_i_total"/>
+                        </group>
+                    </group>
+                </separator>
+            </field>
+        </record>
+
+        <record id="stock_available_product_tree" model="ir.ui.view">
+            <field name="name">Stock available, product tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="Products stock">
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="min_fixed"/>
+                    <field name="max_fixed"/>
+                    <field name="qty_available"/>
+                    <field name="virtual_available"/>
+                    <field name="virtual_conservative"/>
+                    <field name="stock_by_day_p"/>
+                    <field name="stock_by_day_i"/>
+                    <field name="stock_by_day_p_total"/>
+                    <field name="stock_by_day_i_total"/>
+                    <field name="production_planning_qty"/>
+                    <field name="production_qty"/>
+                    <field name="out_of_existences"/>
+                    <field name="real_incoming_qty"/>
+                    <field name="uom_id"/>
+                    <field name="bom_member" invisible="1"/>
+                    <button name="stock_available_ph.action_bom_member_of_wizard"
+                            string="BoM member of"
+                            type="action"
+                            icon="gtk-dnd-multiple"
+                            attrs="{'invisible': [('bom_member', '=', False)]}"
+                    />
+                    <field name="has_bom" invisible="1"/>
+                    <button name="create_production_planning_order"
+                            type="object"
+                            string="Create production planning order"
+                            icon="gtk-redo"
+                            attrs="{'invisible': [('has_bom', '=', False)]}"
+                    />
+                    <field name="stock_by_day_p_ind_min"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_stock_available_product_tree" model="ir.actions.act_window">
+            <field name="name">Products stock/day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="stock_available_product_tree"/>
+            <field name="domain">[('type', '=', 'product')]</field>
+        </record>
+
+        <menuitem id="menu_view_product_unsafety_list"
+                  parent="stock.menu_stock_sched"
+                  action="action_stock_available_product_tree" sequence="62"/>
+    </data>
+</openerp>

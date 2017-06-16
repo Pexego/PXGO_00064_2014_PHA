@@ -37,4 +37,12 @@ class account_invoice_prices_update(models.TransientModel):
                     line.product_id.id, line.quantity or 1.0,
                     partner=line.partner_id.id)[self.pricelist_id.id]
             line.price_unit = price
-        return True
+
+        for line in invoice.invoice_line:
+            if not line.invoice_line_tax_id:
+                if invoice.type in ('out_invoice', 'out_refund'):
+                    line.invoice_line_tax_id = line.product_id.taxes_id
+                else:
+                    line.invoice_line_tax_id = line.product_id.supplier_taxes_id
+
+        invoice.generate_discounts()

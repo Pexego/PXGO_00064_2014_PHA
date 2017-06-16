@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="foreign_exchange_form" model="ir.ui.view">
+            <field name="name">Foreign exchange form</field>
+            <field name="model">foreign.exchange</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group colspan="2">
+                        <group colspan="2">
+                            <field name="wizard" invisible="1"/>
+                            <span>
+                                <label for="date" class="oe_inline"/>
+                                <field name="date" class="oe_inline"/>
+                                <span> The exchange rate on day </span>
+                                <b><field name="date_adopted" readonly="1" class="oe_inline"/></b>
+                                <span> is adopted, which is </span>
+                                <b><field name="rate" readonly="1" class="oe_inline"/></b>
+                            </span>
+                        </group>
+                        <separator/>
+                        <group colspan="2">
+                            <h3>
+                                <field name="money" class="oe_inline"
+                                       attrs="{'invisible': [('wizard', '=', True)]}"/>
+                                <span>From </span>
+                                <field name="source_currency" class="oe_inline"/>
+                                <button name="swap" type="object" class="oe_inline" icon="STOCK_REFRESH"/>
+                                <span> to </span>
+                                <field name="destination_currency" class="oe_inline"/>
+                                <span attrs="{'invisible': [('wizard', '=', True)]}"> = </span>
+                                <field name="result" class="oe_inline" readonly="1"
+                                       attrs="{'invisible': [('wizard', '=', True)]}"/>
+                            </h3>
+                        </group>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Compute"
+                                name="compute_exchange_rate"
+                                type="object"
+                                icon="gtk-ok"
+                                attrs="{'invisible': [('wizard', '=', False)]}"/>
+                        <button string="Cancel"
+                                special="cancel"
+                                icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_foreign_exchange_form" model="ir.actions.act_window">
+            <field name="name">Foreign exchange</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">foreign.exchange</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="foreign_exchange_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- __export__.ir_ui_menu_1398 == Configuración Contabilidad -->
+        <menuitem id="menu_foreign_exchange"
+                  name="Foreign exchange"
+                  parent="__export__.ir_ui_menu_1398"
+                  sequence="1001"
+                  action="action_foreign_exchange_form"/>
+
+        <record id="foreign_exchange_move_form" model="ir.ui.view">
+            <field name="name">Foreign exchange, account move form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <button name="button_validate" position="after">
+                    <button name="compute_exchange_rate" states="draft" string="Foreign exchange" type="object" groups="account.group_account_invoice"/>
+                </button>
+            </field>
+        </record>
+    </data>
+</openerp>
