@@ -30,15 +30,12 @@
             }
             .row1{
                 width:100%;
-                height:9%;
             }
             .row2{
                 width:100%;
-                height:23%;
             }
             .row3{
                 width:100%;
-                height:67%;
             }
             th.t1{
                 border: 1px solid #656565;
@@ -164,7 +161,7 @@
                                 </table>
                             </div>
 
-
+                            <br/>
                             <!-- TABLA EDI -->
                             <div class="row2">
                                 <table class="table_edi_eci table-condensed">
@@ -233,7 +230,8 @@
                             </div>
 
 
-                             <!-- TABLA LINEAS -->
+                            <br/>
+                            <!-- TABLA LINEAS -->
                             <div class="row3">
                                 <table class="table_lines table-condensed">
                                         <thead>
