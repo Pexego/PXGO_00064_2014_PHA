@@ -1078,8 +1078,8 @@ msgstr "Etiquetas Apli de 8"
 #. module: asperience_edi
 #: view:sale.order:asperience_edi.view_order_form_report_button
 #: view:stock.picking:asperience_edi.view_picking_form_report_button
-msgid "Print ECI report"
-msgstr "Imrpimir informe ECI"
+msgid "Print report"
+msgstr "Imrpimir informe"
 
 #. module: asperience_edi
 #: model:ir.actions.report.xml,name:asperience_edi.report_print_palet_tag

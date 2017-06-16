@@ -99,9 +99,8 @@
                      ya que ocultamos los div con la clase first-page -->
                     <div id="container">
                         <div class="eci_header">
-                         
                             <div class="eci_logo">
-                                <img src="/asperience_edi/static/src/img/logo-vector-el-corte-ingles.jpg" style="height: 55px;width:210px"/>
+                                <img t-att-src="'data:image/png;base64,%s' % o.partner_id.image" style="max-height: 55px; width:210px"/>
                             </div>
                             <div class="eci_tittle" style="font-size: 14px; padding-top: 20px;">
                                 <strong>
