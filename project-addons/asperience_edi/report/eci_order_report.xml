@@ -40,12 +40,25 @@
             .col1{
                 width: 49.8%;
                 float:left;
-                padding: 5px;
+
             }
             .col2{
                 width: 49.8%;
-                float: right;
-                padding: 5px;
+                float:right;
+            }
+            .table_total1{
+                width: 60%;
+                border-collapse: collapse;
+                border: 1px solid #656565;
+                font-size: 11px;
+                margin-top:4px;
+            }
+            .table_total2{
+                width: 99%;
+                border-collapse: collapse;
+                border: 1px solid #656565;
+                font-size: 11px;
+                margin-top:4px;
             }
             th.t1{
                 border: 1px solid #656565;
@@ -100,21 +113,6 @@
                 border: 1px solid #656565;
             }
             .table_lines tr:nth-child(odd){background-color: #d0d0d0}
-            }
-            .table_total1{
-                width: 50%;
-                border-collapse: collapse;
-                border: 1px solid #656565;
-                font-size: 11px;
-                margin-top:4px;
-            }
-
-            .table_total2{
-                width: 70%;
-                border-collapse: collapse;
-                border: 1px solid #656565;
-                font-size: 11px;
-                margin-top:4px;
             }
             </style>
             <!-- docs es una instancia siempre-->
@@ -321,30 +319,31 @@
                                     </table>
                                 </div>
 
-                            <div class="col2">
-                                <table class="table_total2">
-                                    <tr>
-                                        <th class="t1" style="width:10%;">Total bruto</th>
-                                        <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_gross_untaxed"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="t1" style="width:10%;">Total neto</th>
-                                        <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_gross_untaxed"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="t1" style="width:10%;">Base imponible total</th>
-                                        <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_untaxed"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="t1" style="width:10%;">Total impuestos</th>
-                                        <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_tax"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="t1" style="width:10%;">Total a pagar</th>
-                                        <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_total"/></td>
-                                    </tr>
-                                </table>
-                            </div>
+
+                                <div class="col2">
+                                    <table class="table_total2">
+                                        <tr>
+                                            <th class="t1" style="width:10%;">Total bruto</th>
+                                            <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_gross_untaxed"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="t1" style="width:10%;">Total neto</th>
+                                            <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_gross_untaxed"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="t1" style="width:10%;">Base imponible total</th>
+                                            <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_untaxed"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="t1" style="width:10%;">Total impuestos</th>
+                                            <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_tax"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="t1" style="width:10%;">Total a pagar</th>
+                                            <td class="t1" style="width:10%;text-align:right;padding-right:3px;" ><span t-esc="o.amount_total"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
 
                         </div>
