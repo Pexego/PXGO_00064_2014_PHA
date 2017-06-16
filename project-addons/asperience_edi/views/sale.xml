@@ -11,7 +11,7 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <button name="invoice_cancel" position="after">
-                    <button name="print_eci_report" string="Print ECI report" type="object" icon="STOCK_PRINT"/>
+                    <button name="print_eci_report" string="Print report" type="object" icon="STOCK_PRINT"/>
                 </button>
             </field>
         </record>

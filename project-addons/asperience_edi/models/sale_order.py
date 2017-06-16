@@ -19,6 +19,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api
+import openerp.addons.decimal_precision as dp
 
 
 class SaleOrder(models.Model):
@@ -32,6 +33,8 @@ class SaleOrder(models.Model):
     customer_branch = fields.Char()
     customer_department = fields.Char()
     customer_transmitter = fields.Many2one('res.partner')
+    customer_transmitter = fields.Many2one('res.partner')
+    total_packages = fields.Integer()
 
     @api.multi
     def print_eci_report(self):
@@ -50,3 +53,6 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     units_per_package = fields.Integer()
+    brut_price = fields.Float('Brut Price',
+                              digits_compute=dp.
+                              get_precision('Product Price'))

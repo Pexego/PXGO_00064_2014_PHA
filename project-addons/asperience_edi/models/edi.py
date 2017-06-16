@@ -1184,9 +1184,11 @@ class edi_edi (osv.osv):
                         shutil.move(edi.path_in+os.path.basename(filename), edi.path_in_move+os.path.basename(filename))
                     _logger.info("End Import file : %s" % (filename))
 
-                    self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename,"edi":edi.id})
                     if result:
                         self.pool.get('edi.edi.result').create(cr,uid,{"name":"result_import_csv_struct_ok","value":result,"edi":edi.id})
+                        self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename + ' ' + result,"edi":edi.id})
+                    else:
+                        self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename,"edi":edi.id})
             except Exception, e:
                 import sys,traceback
                 tb = sys.exc_info()

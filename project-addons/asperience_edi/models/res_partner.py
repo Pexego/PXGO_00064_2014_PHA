@@ -26,3 +26,5 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     gln = fields.Char("GLN")
+    edi_supplier_ref = fields.Char("Supplier EDI")
+    edi_partner = fields.Char("Partner EDI")

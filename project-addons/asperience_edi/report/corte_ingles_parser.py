@@ -21,10 +21,10 @@ class CorteInglesParser(models.AbstractModel):
 
         s = pick.sale_id
         header_table = {
-            'enterprise': '??',
+            'enterprise': pick.partner_id.edi_partner,
             'dest_branch': s and s.customer_branch or '',
             'department': s and s.customer_department or '',
-            'eci_supplier': '0357954',
+            'eci_supplier': pick.partner_id.edi_supplier_ref,
             'date': date_str,
             'min_date': min_date_str,
             'order_number': s.client_order_ref,
