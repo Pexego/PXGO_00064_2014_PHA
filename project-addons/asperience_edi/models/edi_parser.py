@@ -594,6 +594,8 @@ class edi_parser(models.Model):
                     raise Exception("El destinatario con gln %s no se ha encontrado" % (line[1]['destino']))
                 else:
                     vals['partner_shipping_id'] = partner_id[0]
+            if line and line[0] == 'CNTRES':
+                vals['total_packages'] = line[1]['bultos']
             if line and line[0] == 'NADIV':
                 partner_id = partner_obj.search(cr, uid, [('gln', '=', line[1]['emisor'])])
                 if not partner_id:
@@ -661,6 +663,9 @@ class edi_parser(models.Model):
 
                 elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAA':
                     line_vals['price_unit'] = line[1]['precio']
+
+                elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAB':
+                    line_vals['brut_price'] = line[1]['precio']
 
         if line_vals:
             line_vals['order_id'] = new_sale_id
