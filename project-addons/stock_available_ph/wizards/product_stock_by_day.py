@@ -58,6 +58,7 @@ class ProductStockByDay(models.TransientModel):
         # Products invoiced quantities in last year
         logger.info('Stock by Day: Computing stock by day based on invoices...')
         ai_lines = self.env['account.invoice.line'].search([
+            ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
             ('invoice_id.date_invoice', '>=', a_year_ago),
             ('invoice_id.type', 'in', ('out_invoice', 'out_refund')),
@@ -82,6 +83,7 @@ class ProductStockByDay(models.TransientModel):
         # Products moved quantities in last year
         logger.info('Stock by Day: Computing stock by day based on pickings...')
         sm_lines = self.env['stock.move'].search([
+            ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
             ('date', '>=', a_year_ago),
             ('state', '=', 'done'),
@@ -119,6 +121,7 @@ class ProductStockByDay(models.TransientModel):
         logger.info('Stock by Day: Computing indirect stock by day of BoM '
                     'members...')
         bom_lines = self.env['mrp.bom.line'].search([
+            ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
             ('bom_id.active', '=', True),
             ('bom_id.product_id.active', '=', True)
@@ -143,7 +146,7 @@ class ProductStockByDay(models.TransientModel):
         # Now, iterate dictionary to do final calculations and
         # write computed data back to database
         logger.info('Stock by Day: Doing final calculations and writing data '
-                    'back to database...')
+                    'back to %d products' % (len(data)))
         products = self.env['product.product']
         product_stock_unsafety = self.env['product.stock.unsafety']
         for id, values in data.iteritems():
@@ -174,6 +177,10 @@ class ProductStockByDay(models.TransientModel):
                     'stock_by_day_i_total': values['stock_by_day_i_total'],
                     'stock_by_day_p_total': values['stock_by_day_p_total']
                 })
+
+            self.env.cr.commit()
+            logger.info('Stock by Day: Committed %s computed values...'
+                        % (product.name_template))
 
         # Clear all calculations on the rest of storable products
         logger.info('Stock by day: Cleaning old calculations on the rest of '

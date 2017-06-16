@@ -41,6 +41,13 @@
                     <attribute name="required">1</attribute>
                 </field>
 
+                <field name="property_account_position" position="before">
+                    <field name="pre_customer" invisible="1"/>
+                </field>
+                <field name="property_account_position" position="attributes">
+                    <attribute name="attrs">{'required':[('parent_id','=',False),('pre_customer','=',False)]}</attribute>
+                </field>
+
                 <button name="view_pricelist_history" position="after">
                     <br/>
                     <button name="view_supplier_products"
