@@ -151,7 +151,7 @@
                                         <td class="t1" style="width:3em;"><t t-esc="header_table['dest_branch']"/></td>
                                         <th class="t1" style="width:2em;" >Dpto.</th>
                                         <td class="t1" style="width:2em;"><t t-esc="header_table['department']"/></td>
-                                        <th class="t1" style="width:5em;" >Proveedor ECI</th>
+                                        <th class="t1" style="width:5em;" >Proveedor </th>
                                         <td class="t1" style="width:5em;"><t t-esc="header_table['eci_supplier']"/></td>
                                     </tr>
                                 </table>
