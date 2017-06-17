@@ -79,23 +79,20 @@ class SaleOrder(models.Model):
                     'order_line_id': item.id
                 }))
 
-        if len(messages) > 0:
-            message = self.env['check.pricelist.message'].create({
-                'sale_id': self.id,
-                'warning_ids': messages
-            })
+        message = self.env['check.pricelist.message'].create({
+            'sale_id': self.id,
+            'warning_ids': messages
+        })
 
-            view = self.env.ref('check_pricelist_ph.check_pricelist_message_wizard')
-            return {
-                'name': message.title,
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'views': [(view.id, 'form')],
-                'view_id': view.id,
-                'res_model': 'check.pricelist.message',
-                'res_id': message.id,
-                'target': 'new',
-            }
-        else:
-            return True
+        view = self.env.ref('check_pricelist_ph.check_pricelist_message_wizard')
+        return {
+            'name': message.title,
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'res_model': 'check.pricelist.message',
+            'res_id': message.id,
+            'target': 'new',
+        }

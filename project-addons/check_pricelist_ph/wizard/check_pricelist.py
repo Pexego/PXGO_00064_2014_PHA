@@ -38,6 +38,11 @@ class CheckPricelistMessage(models.TransientModel):
 
     warning_ids = fields.One2many(comodel_name='check.pricelist.warnings',
                                   inverse_name='message_id')
+    warning_count = fields.Integer(compute='_count_warnings')
+
+    @api.depends('warning_ids')
+    def _count_warnings(self):
+        self.warning_count = len(self.warning_ids)
 
     @api.one
     def _get_title(self):
