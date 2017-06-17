@@ -48,6 +48,7 @@ This must NOT be used by novice users
         "views/stock.xml",
         "views/sale.xml",
         "views/product.xml",
+        "views/res_partner_view.xml",
         "views/edi_fields_view.xml",
         "data/import_orders.xml",
         "data/export_invoic.xml",
