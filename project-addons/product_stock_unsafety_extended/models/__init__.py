@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import product, product_stock_unsafety, mrp_bom
+import product
