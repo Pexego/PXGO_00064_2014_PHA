@@ -69,13 +69,15 @@ class SaleOrder(models.Model):
                     }))
 
         for item in self.order_line:
-            if item not in orphans and item.tax_id != item.product_id.taxes_id:
+            tax_ids = self.partner_id.\
+                    property_account_position.map_tax(item.product_id.taxes_id)
+            if item not in orphans and item.tax_id != tax_ids:
+                tax_names = ', '.join(r.name for r in tax_ids)
                 messages.append((0, 0, {
                     'type': 'vat',
                     'description': _('[DifferentVAT] - %s - The product '
                                      'has different tax from %s.\n') %
-                                   (item.product_id.name_template,
-                                    item.product_id.taxes_id.name),
+                                   (item.product_id.name_template, tax_names),
                     'order_line_id': item.id
                 }))
 

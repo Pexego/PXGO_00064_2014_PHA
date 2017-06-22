@@ -51,9 +51,9 @@ class CheckPricelistMessage(models.TransientModel):
 
     @api.multi
     def fix_warnings(self):
+        s = self.sale_id
         for warning in self.warning_ids.filtered('fix'):
             if warning.type == 'com_discount':
-                s = self.sale_id
                 s.commercial_discount_percentage = \
                     s.partner_id.commercial_discount
                 s.commercial_discount_input = \
@@ -62,7 +62,6 @@ class CheckPricelistMessage(models.TransientModel):
                 continue
 
             elif warning.type == 'fin_discount':
-                s = self.sale_id
                 s.financial_discount_percentage = \
                     s.partner_id.financial_discount
                 s.financial_discount_input = \
@@ -85,7 +84,8 @@ class CheckPricelistMessage(models.TransientModel):
 
             elif warning.type == 'vat':
                 ol = warning.order_line_id
-                ol.tax_id = ol.product_id.taxes_id
+                ol.tax_id = s.partner_id.property_account_position.map_tax(
+                    ol.product_id.taxes_id)
                 continue
 
         self.sale_id.update_with_discounts()
