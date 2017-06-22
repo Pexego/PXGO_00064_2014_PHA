@@ -1190,8 +1190,6 @@ class edi_edi (osv.osv):
                             self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename + ' ' + result,"edi":edi.id})
                         else:
                             self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename,"edi":edi.id})
-                        if result:
-                            self.pool.get('edi.edi.result').create(new_cr,uid,{"name":"result_import_csv_struct_ok","value":result,"edi":edi.id})
                 except Exception, e:
                     import sys,traceback
                     tb = sys.exc_info()
