@@ -119,4 +119,17 @@ class StockHistory(models.Model):
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
-    mrp_id = fields.Many2one('mrp.production', 'Production', readonly=True)
+    default_code = fields.Char(related='product_id.default_code', store=True)
+    categ_id = fields.Many2one(related='product_id.categ_id', store=True)
+    categ_ids = fields.Many2many(related='product_id.categ_ids', store=True)
+    available_stock = fields.Float(string='Available stock',
+                                   compute='_available_stock')
+
+    @api.one
+    def _available_stock(self):
+        quantity = 0
+        for q in self.quant_ids:
+            if q.location_id.usage in ('internal', 'procurement', 'transit',
+                                       'view'):
+                quantity += q.qty
+        self.available_stock = quantity

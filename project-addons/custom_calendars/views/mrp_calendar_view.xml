@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="custom_calendars_mrp_calendar_days_filter" model="ir.ui.view">
+            <field name="name">MRP calendar days filter</field>
+            <field name="model">mrp.calendar.days</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="this_year" string="This year" domain="[('year.year', '=', context_today().year)]"/>
+                    <separator/>
+                    <filter string="Working days without shifts"
+                            domain="[('holiday', '=', False), ('s1_start', '=', 0), ('s1_end', '=', 0), ('s2_start', '=', 0), ('s2_end', '=', 0), ('s3_start', '=', 0), ('s3_end', '=', 0)]"/>
+                    <separator/>
+                    <filter string="Working days without shift 1"
+                            domain="[('holiday', '=', False), ('s1_start', '=', 0), ('s1_end', '=', 0)]"/>
+                    <separator/>
+                    <filter string="Working days without shift 2"
+                            domain="[('holiday', '=', False), ('s2_start', '=', 0), ('s2_end', '=', 0)]"/>
+                    <separator/>
+                    <filter string="Working days without shift 3"
+                            domain="[('holiday', '=', False), ('s3_start', '=', 0), ('s3_end', '=', 0)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="custom_calendars_mrp_calendar_days_tree" model="ir.ui.view">
+            <field name="name">MRP calendar days tree view</field>
+            <field name="model">mrp.calendar.days</field>
+            <field name="arch" type="xml">
+                <tree delete="0" edit="1" editable="top" colors="red:holiday;">
+                    <field name="day"/>
+                    <field name="weekday"/>
+                    <field name="week"/>
+                    <field name="s1_start" widget="float_time"/>
+                    <field name="s1_end" widget="float_time"/>
+                    <field name="s2_start" widget="float_time"/>
+                    <field name="s2_end" widget="float_time"/>
+                    <field name="s3_start" widget="float_time"/>
+                    <field name="s3_end" widget="float_time"/>
+                    <field name="holiday"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_mrp_calendar" model="ir.actions.act_window">
+            <field name="name">MRP calendar</field>
+            <field name="res_model">mrp.calendar.days</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="custom_calendars_mrp_calendar_days_tree"/>
+            <field name="context">{'search_default_this_year':1}</field>
+        </record>
+
+        <menuitem
+            name="MRP calendar"
+            action="action_mrp_calendar"
+            id="menu_mrp_calendar"
+            parent="mrp.menu_mrp_planning"
+            sequence="3"
+        />
+    </data>
+</openerp>

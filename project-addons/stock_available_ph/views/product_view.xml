@@ -11,13 +11,31 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
-                <field name="purchase_ok" position="after">
+                <!--field name="purchase_ok" position="after">
                     <field name="bom_ids" invisible="1"/>
-                </field>
+                </field-->
                 <page string="Procurements" position="after">
                     <page string="Production" attrs="{'invisible': [('bom_ids', '=', [])]}">
                         <separator string="Associated production lines"/>
                         <field name="routing_ids" />
+                        <separator string="Time adviser"/>
+                        <field name="time_adviser">
+                            <style>
+                                div.time_adviser th[data-id='type'],
+                                div.time_adviser th[data-id='time'] {
+                                    width: 15%;
+                                }
+                                div.time_adviser th[data-id='notes'] {
+                                    width: 70%;
+                                }
+                            </style>
+                            <tree editable="bottom" class="time_adviser">
+                                <field name="sequence" widget="handle"/>
+                                <field name="type"/>
+                                <field name="time"/>
+                                <field name="notes"/>
+                            </tree>
+                        </field>
                     </page>
                 </page>
                 <separator string="Suppliers" position="before">
@@ -69,7 +87,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="real_incoming_qty"/>
                     <field name="uom_id"/>
                     <field name="bom_member" invisible="1"/>
-                    <button name="stock_available.action_bom_member_of_wizard"
+                    <button name="stock_available_ph.action_bom_member_of_wizard"
                             string="BoM member of"
                             type="action"
                             icon="gtk-dnd-multiple"

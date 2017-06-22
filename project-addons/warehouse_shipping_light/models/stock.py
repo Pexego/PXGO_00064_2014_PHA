@@ -77,20 +77,6 @@ class StockPicking(models.Model):
             if not expeditions.search([('picking_id', '=', self.id)]):
                 self.expedition_id = expeditions.create({'picking_id': self.id})
 
-    @api.one
-    def create_pack_ops(self):
-        picking = self._ids
-        if len(picking) and picking[0]:
-            transfer_details = self.env['stock.transfer_details']
-            if not transfer_details.search([('picking_id', '=', picking[0])]):
-                ctx = {
-                    'active_model': self._name,
-                    'active_ids': picking,
-                    'active_id': picking[0]
-                }
-                transfer_details.with_context(ctx).\
-                    create({'picking_id': picking[0]})
-
     @api.multi
     def do_print_picking(self):
         # Redirects to the new report

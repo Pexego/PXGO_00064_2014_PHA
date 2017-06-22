@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2016 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2017 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from openerp import models, api, fields, _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
 from openerp.exceptions import Warning
@@ -31,6 +15,7 @@ class AccountInvoice(models.Model):
             'Latest date and time when amounts were calculated')
     banking_mandate_needed = fields.Boolean(
             related='payment_mode_id.banking_mandate_needed')
+    payment_document_delivered = fields.Boolean(default=False)
 
     @api.multi
     def onchange_partner_id(self, type, partner_id, date_invoice=False,
@@ -98,7 +83,8 @@ class AccountInvoice(models.Model):
     def create(self, vals):
         # Check for unique supplier reference, before create invoice
         self._check_unique_reference(vals.get('reference'),
-                                     vals.get('partner_id'))
+                                     vals.get('partner_id'),
+                                     vals.get('date_invoice'))
         res = super(AccountInvoice, self).create(vals)
         # Search if it needs automatic assignment of banking mandates and
         # triggers write event to force re-calculations after invoice creation
@@ -111,7 +97,8 @@ class AccountInvoice(models.Model):
         for invoice in self:
             reference = vals.get('reference', invoice.reference)
             partner = vals.get('partner_id', invoice.partner_id.id)
-            self._check_unique_reference(reference, partner)
+            date_invoice = vals.get('date_invoice', invoice.date_invoice)
+            self._check_unique_reference(reference, partner, date_invoice)
 
         # Force re-calculations on save
         re_calculate = False
@@ -140,12 +127,17 @@ class AccountInvoice(models.Model):
 
         return res
 
-    def _check_unique_reference(self, reference, partner_id):
-        if reference and partner_id:
+    def _check_unique_reference(self, reference, partner_id, date_invoice):
+        if reference and partner_id and date_invoice:
+            year = fields.Date.from_string(date_invoice).year
+            current_year_begin = fields.Date.to_string(datetime.date(year, 1, 1))
+            current_year_end = fields.Date.to_string(datetime.date(year, 12, 31))
             invoice = self.env['account.invoice'].search(
                 [
                     ('partner_id', '=', partner_id),
-                    ('reference', '=', reference.strip())
+                    ('reference', '=', reference.strip()),
+                    ('date_invoice', '>=', current_year_begin),
+                    ('date_invoice', '<=', current_year_end)
                 ])
             if invoice and (invoice not in self):
                 raise Warning(_('Already exists an invoice for %s with '
@@ -184,6 +176,10 @@ class AccountInvoiceLine(models.Model):
             ('in_refund','Supplier Refund'),
         ], related='invoice_id.type')
     invoice_line_tax_id = fields.Many2many(required=True)  # Inherited field
+    default_code = fields.Char(related='product_id.default_code')
+    commercial_partner_id = fields.Many2one(comodel_name='res.partner',
+                                    related='invoice_id.commercial_partner_id')
+    date_invoice = fields.Date(related='invoice_id.date_invoice')
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',

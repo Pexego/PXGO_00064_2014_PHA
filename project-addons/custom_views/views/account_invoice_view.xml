@@ -18,6 +18,9 @@
                     <attribute name="attrs">{'required': [('banking_mandate_needed', '=', True)]}</attribute>
                     <attribute name="domain">['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]</attribute>
                 </field>
+                <field name="move_id" position="after">
+                    <field name="payment_document_delivered"/>
+                </field>
             </field>
         </record>
 
@@ -39,6 +42,9 @@
                 <field name="analytics_id" position="attributes">
                     <attribute name="attrs">{'required': [('invoice_type', '=', 'in_invoice')]}</attribute>
                 </field>
+                <field name="move_id" position="after">
+                    <field name="payment_document_delivered"/>
+                </field>
             </field>
         </record>
 
@@ -55,6 +61,9 @@
                 </field>
                 <field name="agent_code" position="attributes">
                     <attribute name="invisible">1</attribute>
+                </field>
+                <field name="state" position="after">
+                    <field name="payment_document_delivered"/>
                 </field>
             </field>
         </record>

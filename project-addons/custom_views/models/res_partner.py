@@ -82,7 +82,6 @@ class ResPartner(models.Model):
         if not args:
             args = []
         if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
-
             self.check_access_rights('read')
             where_query = self._where_calc(args)
             self._apply_ir_rules(where_query, 'read')
@@ -122,3 +121,16 @@ class ResPartner(models.Model):
             else:
                 return []
         return super(ResPartner,self).name_search(name, args, operator=operator, limit=limit)
+
+    @api.multi
+    def view_supplier_products(self):
+        request_id = self.env['purchasable.products']._get_products(self)
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'res_model': 'purchasable.products',
+            'domain': [('request_id', '=', request_id)],
+            'target': 'current',
+            'context': self.env.context,
+        }

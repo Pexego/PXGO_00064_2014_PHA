@@ -31,7 +31,7 @@
                      <button name="print_palet_tag_report" string="Print Tags of 4" type="object"
                             attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
                             icon="gtk-copy"/>
-                    <button name="print_eci_report" string="Print ECI report" type="object"
+                    <button name="print_eci_report" string="Print report" type="object"
                             attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
                             icon="STOCK_PRINT"/>
                 </button>

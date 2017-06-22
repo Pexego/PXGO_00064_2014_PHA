@@ -287,6 +287,15 @@ class AccountInvoice(models.Model):
         store=True,
         readonly=True)
 
+    @api.model
+    def create(self, vals):
+        partner = self.env['res.partner'].browse(vals['partner_id'])
+        vals['commercial_discount_input'] = vals.get('commercial_discount_input',
+                                                     partner.commercial_discount)
+        vals['financial_discount_input'] = vals.get('financial_discount_input',
+                                                    partner.financial_discount)
+        return super(AccountInvoice, self).create(vals)
+
     @api.multi
     @api.onchange('partner_id')
     def onchange_partner_id(self, type, partner_id, date_invoice=False,

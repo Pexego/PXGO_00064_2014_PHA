@@ -5,52 +5,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <openerp>
     <data>
-        <record id="stock_available_form_view" model="ir.ui.view">
-            <field name="name">Stock available form</field>
-            <field name="model">stock.available</field>
-            <field name="arch" type="xml">
-                <form string="Estimated quantity">
-                    <sheet class="oe_form_sheet_custom_width_screen">
-                        <group col="4">
-                            <field name="product_id" style="width:40%;"
-                                   domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
-                            <newline/>
-                            <field name="bom_id" style="width:40%;"/>
-                            <newline/>
-                            <field name="product_qty"/>
-                            <newline/>
-                            <button name="action_compute"
-                                    string="Compute data"
-                                    type="object"
-                                    icon="terp-stock_format-scientific"/>
-                        </group>
-                        <div class="oe_title">
-                            <h1>Estimation</h1>
-                        </div>
-                        <field name="bom_lines" readonly="1"/>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="stock_available_details_tree_view" model="ir.ui.view">
-            <field name="name">Stock available details tree</field>
-            <field name="model">stock.available.details</field>
-            <field name="arch" type="xml">
-                <tree string="Estimated consumption" create="false" delete="false"
-                      colors="red:stock_status=='no_stock';blue:stock_status=='incoming';green:stock_status=='out'">
-                    <field name="product"/>
-                    <field name="default_code"/>
-                    <field name="qty_required"/>
-                    <field name="qty_vsc_available"/>
-                    <field name="out_of_existences"/>
-                    <field name="qty_incoming"/>
-                    <field name="uom"/>
-                    <field name="stock_status" invisible="1"/>
-                </tree>
-            </field>
-        </record>
-
         <record id="production_planning_form_view" model="ir.ui.view">
             <field name="name">Production planning form</field>
             <field name="model">production.planning</field>
@@ -64,6 +18,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="compute"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
+                            <field name="estimated_time" widget="float_time"/>
+                            <field name="recommended_time" widget="float_time"/>
                             <field name="product_id" domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
                             <field name="product_tmpl_id" invisible="1"/>
                             <field name="bom_id"/>
@@ -126,6 +82,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="compute" readonly="1"/>
                         <field name="date_start" readonly="1"/>
                         <field name="date_end" readonly="1"/>
+                        <field name="estimated_time" widget="float_time"/>
+                        <field name="recommended_time" widget="float_time"/>
                         <field name="bom_id" readonly="1"/>
                         <field name="line_id" readonly="1"/>
                         <field name="note" readonly="1"/>
@@ -165,6 +123,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="compute"/>
                         <field name="date_start"/>
                         <field name="date_end"/>
+                        <field name="estimated_time" widget="float_time"/>
+                        <field name="recommended_time" widget="float_time"/>
                         <field name="product_tmpl_id" invisible="1"/>
                         <field name="bom_id"/>
                         <field name="line_id"/>
@@ -192,6 +152,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="compute"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
+                    <field name="estimated_time" widget="float_time"/>
+                    <field name="recommended_time" widget="float_time"/>
                     <field name="product_id"/>
                     <field name="bom_id"/>
                     <field name="line_id"/>
@@ -273,14 +235,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
-        <record id="action_view_bom_stock" model="ir.actions.act_window">
-            <field name="name">Stock / BoM</field>
-            <field name="res_model">stock.available</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="stock_available_form_view"/>
-        </record>
-
         <record id="action_view_bom_production_planning" model="ir.actions.act_window">
             <field name="name">Stock / BoM production planning</field>
             <field name="res_model">production.planning</field>
@@ -298,29 +252,25 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="view_ids"
                    eval="[
                             (5, 0, 0),
-                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_available.production_planning_calendar_view')}),
-                            (0, 0, {'view_mode': 'gantt', 'view_id': ref('stock_available.production_planning_gantt_view')}),
-                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('stock_available.production_planning_kanban_view')}),
-                            (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_available.production_planning_tree_view')}),
-                            (0, 0, {'view_mode': 'form', 'view_id': ref('stock_available.production_planning_order_form_view')}),
+                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_available_ph.production_planning_calendar_view')}),
+                            (0, 0, {'view_mode': 'gantt', 'view_id': ref('stock_available_ph.production_planning_gantt_view')}),
+                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('stock_available_ph.production_planning_kanban_view')}),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_available_ph.production_planning_tree_view')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('stock_available_ph.production_planning_order_form_view')}),
                           ]"
             />
         </record>
 
-        <menuitem id="menu_mrp_production_planning"
-                  name="Production planning"
-                  parent="base.menu_mrp_root" sequence="3"/>
-
         <menuitem id="menu_view_stock_available_form"
-                  parent="stock_available.menu_mrp_production_planning"
+                  parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_stock" sequence="140"/>
 
         <menuitem id="menu_view_stock_production_planning_form"
-                  parent="stock_available.menu_mrp_production_planning"
+                  parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_production_planning" sequence="141"/>
 
         <menuitem id="menu_view_stock_production_planning_calendar"
-                  parent="stock_available.menu_mrp_production_planning"
+                  parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_production_planning_calendar" sequence="142"/>
      </data>
 </openerp>

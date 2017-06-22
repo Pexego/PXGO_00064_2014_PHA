@@ -26,3 +26,8 @@ body {
     width: 140px;
     height: 140px;
 }
+
+/* Center field at invoices list */
+td[data-field="payment_document_delivered"] {
+    text-align: center;
+}

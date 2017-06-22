@@ -36,7 +36,6 @@
                     <field name="product_id"/>
                     <field name="lot_id"/>
                     <field name="type_of_move"/>
-                    <field name="total"/>
                     <field name="write_date"/>
                 </tree>
             </field>

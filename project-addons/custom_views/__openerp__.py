@@ -44,6 +44,7 @@
         'custom_permissions',
         'return_out_of_date',
         'product_stock_unsafety',
+        'product_spec',
     ],
     'data' : [
         'views/sale_view.xml',
@@ -64,6 +65,8 @@
         'wizard/product_stock_unsafety_view.xml',
         'wizard/warning_message.xml',
         'wizard/cancel_picking_confirmation_view.xml',
+        'wizard/account_invoice_special.xml',
+        'wizard/purchasable_products_view.xml',
         'data/wizards_units_precision.xml',
         'data/mrp_procedure_type.xml',
         'security/menus.xml',

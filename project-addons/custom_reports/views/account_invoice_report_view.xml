@@ -22,6 +22,10 @@
             <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
             <field name="arch" type="xml">
                 <filter string="This Year" position="after">
+                    <filter string="Last Year"
+                            name="lastyear"
+                            domain="[('date','&lt;=',(context_today()+relativedelta(years=-1)).strftime('%Y-12-31')),('date','&gt;=',(context_today()+relativedelta(years=-1)).strftime('%Y-01-01'))]"
+                            help="Journal invoices with period in past year"/>
                     <filter string="This month"
                             name="this_month"
                             domain="[('date','&lt;=',(context_today()+relativedelta(day=31)).strftime('%Y-%m-%d')),('date','&gt;=',(context_today()-relativedelta(day=1)).strftime('%Y-%m-%d'))]"
@@ -45,6 +49,12 @@
                 <filter name="partner_id" position="attributes">
                     <attribute name="string">Partner (invoice send address)</attribute>
                 </filter>
+            </field>
+        </record>
+
+        <record id="account.action_account_invoice_report_all" model="ir.actions.act_window">
+            <field name="context">
+                {'search_default_current':1, 'search_default_customer':1, 'group_by':[], 'group_by_no_leaf':1, 'search_default_year':1, 'search_default_thisyear':1}
             </field>
         </record>
     </data>

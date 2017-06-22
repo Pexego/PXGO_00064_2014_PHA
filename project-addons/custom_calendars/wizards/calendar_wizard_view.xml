@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="custom_calendars_create_calendar_wizard" model="ir.ui.view">
+            <field name="name">Create calendar wizard</field>
+            <field name="model">calendar.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <separator string="Year of calendar to create"/>
+                    <group>
+                        <field name="year"/>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Create calendar" name="create_calendar"
+                                type="object" icon="gtk-ok" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="custom_calendars_holidays_wizard" model="ir.ui.view">
+            <field name="name">Holidays wizard</field>
+            <field name="model">calendar.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <separator string="Holidays of year"/>
+                    <group>
+                        <field name="year"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="holidays" context="{'year': year}">
+                                <tree editable="bottom">
+                                    <field name="day"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <span> </span>
+                        </group>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Set holidays" name="set_holidays"
+                                type="object" icon="gtk-ok" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="custom_calendars_fixed_shifts_wizard" model="ir.ui.view">
+            <field name="name">Fixed shifts wizard</field>
+            <field name="model">calendar.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <separator string="Period to set"/>
+                    <group>
+                        <field name="day_begin"/>
+                        <field name="day_end"/>
+                    </group>
+                    <separator string="Working weekdays"/>
+                    <group col="7">
+                        <label for="monday"/>
+                        <label for="tuesday"/>
+                        <label for="wednesday"/>
+                        <label for="thursday"/>
+                        <label for="friday"/>
+                        <label for="saturday"/>
+                        <label for="sunday"/>
+                        <field name="monday" nolabel="1"/>
+                        <field name="tuesday" nolabel="1"/>
+                        <field name="wednesday" nolabel="1"/>
+                        <field name="thursday" nolabel="1"/>
+                        <field name="friday" nolabel="1"/>
+                        <field name="saturday" nolabel="1"/>
+                        <field name="sunday" nolabel="1"/>
+                    </group>
+                    <separator string="Fixed shifts"/>
+                    <group col="3">
+                        <group>
+                            <field name="s1_start" widget="float_time"/>
+                            <field name="s1_end" widget="float_time"/>
+                        </group>
+                        <group>
+                            <field name="s2_start" widget="float_time"/>
+                            <field name="s2_end" widget="float_time"/>
+                        </group>
+                        <group>
+                            <field name="s3_start" widget="float_time"/>
+                            <field name="s3_end" widget="float_time"/>
+                        </group>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Set fixed shifts" name="set_fixed_shifts"
+                                type="object" icon="gtk-ok" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -14,10 +14,12 @@
         'mrp',
         'stock',
         'custom_views',
+        'custom_calendars',
         'product_stock_unsafety'
     ],
     'data': [
         'views/stock_view.xml',
+        'views/production_planning_view.xml',
         'views/product_view.xml',
         'views/product_stock_unsafety_view.xml',
         'wizards/product_stock_by_day.xml',

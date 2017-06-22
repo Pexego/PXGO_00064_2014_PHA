@@ -31,5 +31,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </page>
             </field>
         </record>
+
+        <record id="product_gtin_codes_tree" model="ir.ui.view">
+            <field name="name">Product GTIN codes - GTIN tree</field>
+            <field name="model">product.gtin14</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="log_var"/>
+                    <field name="gtin14"/>
+                    <field name="units"/>
+                    <field name="used_for"/>
+                </tree>
+            </field>
+        </record>
     </data>
 </openerp>

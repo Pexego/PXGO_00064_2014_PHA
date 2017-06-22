@@ -233,8 +233,8 @@
                         }
                     </style>
 
-                    <t t-if="o.sale_id and (o.picking_type_id.code == 'outgoing')">
-                        <t t-set="dumb" t-value="o.create_pack_ops()"/>
+                    <t t-if="o.sale_id and not o.pack_operation_ids">
+                        <t t-set="dumb" t-value="o.do_prepare_partial()"/>
                     </t>
 
                     <table t-if="not o.pack_operation_ids" class="table table-condensed">
@@ -243,8 +243,10 @@
                                 <th><strong>Product</strong></th>
                                 <th class="text-right"><strong>Quantity</strong></th>
                                 <th><strong>Lot</strong></th>
-                                <t t-if="o.picking_type_id.code == 'internal'"><th><strong>Source</strong></th></t>
-                                <t t-if="o.picking_type_id.code == 'internal'"><th><strong>Destination</strong></th></t>
+                                <t t-if="o.picking_type_id.code == 'internal'">
+                                    <th><strong>Source</strong></th>
+                                    <th><strong>Destination</strong></th>
+                                </t>
                             </tr>
                         </thead>
                         <tbody>
@@ -285,8 +287,10 @@
                                 <th><strong>Product</strong></th>
                                 <th class="text-right"><strong>Qty.<![CDATA[&nbsp;]]></strong></th>
                                 <th><strong>Lot</strong></th>
-                                <t t-if="o.picking_type_id.code == 'internal'"><th><strong>Source</strong></th></t>
-                                <t t-if="o.picking_type_id.code == 'internal'"><th><strong>Destination</strong></th></t>
+                                <t t-if="o.picking_type_id.code == 'internal'">
+                                    <th><strong>Source</strong></th>
+                                    <th><strong>Destination</strong></th>
+                                </t>
                             </tr>
                         </thead>
                         <tbody>
@@ -359,7 +363,8 @@
                         </tbody>
                     </table>
 
-                    <table t-if="o.pack_operation_ids and o.sale_id" id="sale-pack-ops" class="table table-condensed table-bordered details">
+                    <table t-if="o.sale_id" id="sale-pack-ops"
+                           class="table table-condensed table-bordered details">
                         <thead>
                             <tr>
                                 <th style="min-width: 50px;">Palet</th>
@@ -372,8 +377,8 @@
                                 <th>Units</th>
                                 <th>Lot</th>
                             </tr>
-                       </thead>
-                       <tbody>
+                        </thead>
+                        <tbody>
                             <tr t-foreach="o.pack_operation_ids" t-as="l" style="height: 3.5em;">
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
                                     <span t-field="l.palet"/>

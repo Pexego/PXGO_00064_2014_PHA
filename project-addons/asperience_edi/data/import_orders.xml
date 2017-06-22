@@ -107,6 +107,22 @@ data = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
             <field name="edi" ref="edi_edi_orders" />
         </record>
 
+        <record forcecreate="True" id="edi_edi_orders_line_15_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_line_15" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'Identificador'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_15_field_2" model="edi.edi.line.csv.field">
+            <field name="name">bultos</field>
+            <field name="line" ref="edi_edi_orders_line_15" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'bultos'" />
+        </record>
+
         <record forcecreate="True" id="edi_edi_orders_line_1_field_1" model="edi.edi.line.csv.field">
             <field name="name">lineId</field>
             <field name="line" ref="edi_edi_orders_line_1" />

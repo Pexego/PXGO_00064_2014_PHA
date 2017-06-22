@@ -48,6 +48,9 @@
                     <attribute name="context">{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}</attribute>
                     <attribute name="required">1</attribute>
                 </xpath>
+                <field name="incoterm" position="before">
+                    <field name="budget"/>
+                </field>
              </field>
         </record>
 

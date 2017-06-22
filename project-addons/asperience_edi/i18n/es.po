@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-02 17:13+0000\n"
-"PO-Revision-Date: 2017-03-02 17:13+0000\n"
+"POT-Creation-Date: 2017-06-16 12:42+0000\n"
+"PO-Revision-Date: 2017-06-16 12:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,6 @@ msgstr "Código AECOC"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
-#: view:website:asperience_edi.eci_order_report
 msgid "Agencia/O.Logistico"
 msgstr "Agencia/O.Logistico"
 
@@ -82,6 +81,16 @@ msgstr "Align"
 #: view:website:asperience_edi.corte_ingles_report
 msgid "Aviso de Expedición de Mercancías"
 msgstr "Aviso de Expedición de Mercancías"
+
+#. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Base imponible total"
+msgstr "Base imponible total"
+
+#. module: asperience_edi
+#: field:sale.order.line,brut_price:0
+msgid "Brut Price"
+msgstr "Brut Price"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
@@ -121,6 +130,11 @@ msgstr "Cantidad"
 #: field:edi.edi.xml.field,cast:0
 msgid "Cast"
 msgstr "Cast"
+
+#. module: asperience_edi
+#: field:stock.picking,channel_name:0
+msgid "Channel name"
+msgstr "Channel name"
 
 #. module: asperience_edi
 #: field:edi.edi,charset:0
@@ -392,6 +406,11 @@ msgid "Edi"
 msgstr "Edi"
 
 #. module: asperience_edi
+#: model:ir.ui.menu,name:asperience_edi.menu_action_edi_edi_errors
+msgid "Edi Errors"
+msgstr "Errores EDI"
+
+#. module: asperience_edi
 #: field:payment.mode,edi_code:0
 #: field:product.uom,edi_code:0
 msgid "Edi code"
@@ -452,6 +471,11 @@ msgid "Edi process"
 msgstr "Edi process"
 
 #. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Emisor del Mensaje"
+msgstr "Emisor del Mensaje"
+
+#. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
 msgid "Empresa"
 msgstr "Empresa"
@@ -460,6 +484,11 @@ msgstr "Empresa"
 #: field:edi.edi,end_line:0
 msgid "End line"
 msgstr "End line"
+
+#. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Envasado"
+msgstr "Envasado"
 
 #. module: asperience_edi
 #: code:addons/asperience_edi/report/package_tag_parser.py:20
@@ -471,6 +500,7 @@ msgstr "Error"
 #. module: asperience_edi
 #: view:board.board:asperience_edi.board_edi_form
 #: model:ir.actions.act_window,name:asperience_edi.action_edi_errors_board
+#: model:ir.actions.act_window,name:asperience_edi.edi_error_action
 msgid "Errors"
 msgstr "Errores"
 
@@ -875,6 +905,11 @@ msgid "Modelo"
 msgstr "Modelo"
 
 #. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Moneda"
+msgstr "Moneda"
+
+#. module: asperience_edi
 #: field:edi.edi,name:0
 #: field:edi.edi.csv.field,name:0
 #: field:edi.edi.line.csv,name:0
@@ -897,6 +932,11 @@ msgstr "No Empty File"
 #: view:website:asperience_edi.eci_order_report
 msgid "Nombre"
 msgstr "Nombre"
+
+#. module: asperience_edi
+#: view:edi.edi.result:asperience_edi.edi_result_search
+msgid "Not resolved"
+msgstr "No resuelto"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.package_tag_report
@@ -950,6 +990,11 @@ msgid "Nº UNIDADES"
 msgstr "Nº UNIDADES"
 
 #. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Nº de bultos"
+msgstr "Nº de bultos"
+
+#. module: asperience_edi
 #: field:edi.edi,eval_out:0
 msgid "OUT"
 msgstr "OUT"
@@ -960,6 +1005,11 @@ msgid "Object"
 msgstr "Objeto"
 
 #. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "P. Bruto"
+msgstr "P. Bruto"
+
+#. module: asperience_edi
 #: view:website:asperience_edi.palet_tag_report
 msgid "P. IND. DE CAMPONARAYA SECTOR\n"
 "                                                2 PARCELA 3-23310\n"
@@ -967,6 +1017,11 @@ msgid "P. IND. DE CAMPONARAYA SECTOR\n"
 msgstr "P. IND. DE CAMPONARAYA SECTOR\n"
 "                                                2 PARCELA 3-23310\n"
 "                                                CAMPONARAYA (LEÓN)"
+
+#. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "P. Neto"
+msgstr "P. Neto"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.palet_tag_report
@@ -981,11 +1036,6 @@ msgid "PROCESOS FARMACEUTICOS INDUSTRIALES SL.\n"
 msgstr "PROCESOS FARMACEUTICOS INDUSTRIALES SL.\n"
 "                                                        P. INFO DE CAMPONARAYA SECTOR 2 PARCELA 3\n"
 "                                                        24410 CAMPONARAYA (LEÓN)"
-
-#. module: asperience_edi
-#: view:website:asperience_edi.eci_order_report
-msgid "PVP"
-msgstr "PVP"
 
 #. module: asperience_edi
 #: model:ir.model,name:asperience_edi.model_stock_pack_operation
@@ -1011,6 +1061,11 @@ msgstr "Parent"
 #: model:ir.model,name:asperience_edi.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
+
+#. module: asperience_edi
+#: field:res.partner,edi_partner:0
+msgid "Partner EDI"
+msgstr "Empresa EDI"
 
 #. module: asperience_edi
 #: field:edi.edi,ftp_password_out:0
@@ -1066,6 +1121,11 @@ msgid "Picking must be done"
 msgstr "El albarán debe de estar finalizado"
 
 #. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Plazo de pago"
+msgstr "Plazo de pago"
+
+#. module: asperience_edi
 #: model:ir.actions.report.xml,name:asperience_edi.report_print_package_tag
 msgid "Print Apli Tag of 8"
 msgstr "Etiquetas Apli de 8"
@@ -1076,21 +1136,21 @@ msgid "Print Astrid Tags of 8"
 msgstr "Etiquetas Apli de 8"
 
 #. module: asperience_edi
-#: view:sale.order:asperience_edi.view_order_form_report_button
-#: view:stock.picking:asperience_edi.view_picking_form_report_button
-msgid "Print ECI report"
-msgstr "Imrpimir informe ECI"
-
-#. module: asperience_edi
 #: model:ir.actions.report.xml,name:asperience_edi.report_print_palet_tag
 #: view:stock.picking:asperience_edi.view_picking_form_report_button
 msgid "Print Tags of 4"
 msgstr "Etiquetas de 4"
 
 #. module: asperience_edi
+#: view:sale.order:asperience_edi.view_order_form_report_button
+#: view:stock.picking:asperience_edi.view_picking_form_report_button
+msgid "Print report"
+msgstr "Imprimir informe"
+
+#. module: asperience_edi
 #: model:ir.ui.menu,name:asperience_edi.menu_edi_process
 msgid "Processes"
-msgstr "Processes"
+msgstr "Procesos"
 
 #. module: asperience_edi
 #: model:ir.model,name:asperience_edi.model_product_product
@@ -1108,20 +1168,15 @@ msgid "Progress"
 msgstr "Progreso"
 
 #. module: asperience_edi
-#: view:website:asperience_edi.eci_order_report
-msgid "Prop?"
-msgstr "Prop?"
+#: view:website:asperience_edi.corte_ingles_report
+msgid "Proveedor"
+msgstr "Proveedor"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
 #: view:website:asperience_edi.eci_order_report
 msgid "Proveedor / A quién se Pide"
 msgstr "Proveedor / A quién se Pide"
-
-#. module: asperience_edi
-#: view:website:asperience_edi.corte_ingles_report
-msgid "Proveedor ECI"
-msgstr "Proveedor ECI"
 
 #. module: asperience_edi
 #: field:edi.edi,quotechar:0
@@ -1144,6 +1199,12 @@ msgstr "Ref"
 #: view:website:asperience_edi.eci_order_report
 msgid "Ref. ECI"
 msgstr "Ref. ECI"
+
+#. module: asperience_edi
+#: view:edi.edi.result:asperience_edi.edi_result_search
+#: field:edi.edi.result,resolved:0
+msgid "Resolved"
+msgstr "Resuelto"
 
 #. module: asperience_edi
 #: field:edi.edi,result_ids:0
@@ -1187,17 +1248,18 @@ msgstr "Season"
 #: field:edi.edi.line.edi,sequence:0
 #: field:edi.edi.xml.field,sequence:0
 msgid "Sequence"
-msgstr "Sequence"
+msgstr "Sequencia"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
+#: view:website:asperience_edi.eci_order_report
 msgid "Serie"
 msgstr "Serie"
 
 #. module: asperience_edi
 #: field:edi.edi,skip_first:0
 msgid "Skip the First"
-msgstr "Skip the First"
+msgstr "Saltar el primero"
 
 #. module: asperience_edi
 #: field:stock.invoice.onshipping,split_invoice_lines:0
@@ -1246,6 +1308,11 @@ msgstr "Stop line"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.eci_order_report
+msgid "SubLinea"
+msgstr "SubLinea"
+
+#. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
 msgid "Subtotal"
 msgstr "Subtotal"
 
@@ -1275,6 +1342,11 @@ msgstr "Sucursal Destino que Pide"
 #: view:website:asperience_edi.eci_order_report
 msgid "Sucursal de Entrega"
 msgstr "Sucursal de Entrega"
+
+#. module: asperience_edi
+#: field:res.partner,edi_supplier_ref:0
+msgid "Supplier EDI"
+msgstr "Proveedor EDI"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
@@ -1331,6 +1403,16 @@ msgid "Total"
 msgstr "Total"
 
 #. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Total a pagar"
+msgstr "Total a pagar"
+
+#. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Total bruto"
+msgstr "Total bruto"
+
+#. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
 msgid "Total bultos:"
 msgstr "Total bultos:"
@@ -1341,9 +1423,24 @@ msgid "Total cantidades:"
 msgstr "Total cantidades:"
 
 #. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Total impuestos"
+msgstr "Total impuestos"
+
+#. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
 msgid "Total líneas:"
 msgstr "Total líneas:"
+
+#. module: asperience_edi
+#: view:website:asperience_edi.eci_order_report
+msgid "Total neto"
+msgstr "Total neto"
+
+#. module: asperience_edi
+#: field:sale.order,total_packages:0
+msgid "Total packages"
+msgstr "Total packages"
 
 #. module: asperience_edi
 #: field:edi.edi,type:0

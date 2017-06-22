@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_production_planning,access_production_planning,model_production_planning,,1,1,0,0
 access_production_planning_orders,access_production_planning_orders,model_production_planning_orders,,1,1,1,1
 access_production_planning_materials,access_production_planning_materials,model_production_planning_materials,,1,1,1,1
+access_product_time_adviser,access_product_time_adviser,model_product_time_adviser,,1,1,1,1
