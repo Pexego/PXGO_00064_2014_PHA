@@ -40,6 +40,7 @@
                 'mrp_automatic_lot',
                 'mrp_location_dest',
                 'product_spec',
+                'stock_available_ph',
                 'quality_management_menu'],
     "data": ['data/report_paperformat.xml',
              'views/mrp_label_report.xml',
