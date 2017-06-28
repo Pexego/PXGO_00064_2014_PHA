@@ -33,6 +33,7 @@
                     <filter name="Quotations" domain="[('state','in',('draft','sent')), ('sale_type', '=', 'normal')]]"/>
                 </filter>
                 <filter name="Sales" position="replace">
+                    <separator/>
                     <filter name="Samples" string="Samples" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'sample')]"/>
                     <filter name="Transfers" string="Transfers" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'transfer')]"/>
                     <filter name="Replacements" string="Replacements" domain="[('state','not in',('draft','sent','cancel')), ('sale_type', '=', 'replacement')]"/>

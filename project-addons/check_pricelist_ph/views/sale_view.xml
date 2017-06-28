@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="check_pricelist_sale_order_form" model="ir.ui.view">
+            <field name="name">Check pricelist - Sale order form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <button string="Cancel Quotation" position="after">
+                    <button name="check_pricelist" type="object"
+                            string="Check pricelist"
+                            attrs="{'invisible': [('state', 'in', ('cancel', 'done', 'sent'))]}"/>
+                </button>
+             </field>
+        </record>
+    </data>
+</openerp>

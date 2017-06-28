@@ -44,6 +44,15 @@ class ResPartner(models.Model):
             relation='res_partner_res_partner_category_rel',
             domain=[('child_ids', '=', False)],
             string='Tags')
+    display_name = fields.Char(compute='_compute_display_name', store=True)
+
+    @api.one
+    @api.depends('name', 'parent_id', 'parent_id.name')
+    def _compute_display_name(self):
+        if self.parent_id:
+            self.display_name = self.parent_id.name + ', ' + self.name
+        else:
+            self.display_name = self.name
 
     @api.model
     def create(self, vals):

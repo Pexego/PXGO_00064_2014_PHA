@@ -25,7 +25,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="price_list_member"/>
                     <button name="view_product_price_lists_and_invoices"
                             string="Price lists and invoices"
-                            context="{'active_id': id}"
                             type="object"/>
                 </tree>
             </field>

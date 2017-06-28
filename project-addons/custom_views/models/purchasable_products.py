@@ -43,7 +43,10 @@ class PurchasableProducts(models.TransientModel):
     @api.one
     def _get_invoices_lines(self):
         self.invoice_line_ids = self.env['account.invoice.line'].search([
-            ('product_id', '=', self.product_id.id)
+            ('product_id', '=', self.product_id.id),
+            ('invoice_id.type', 'in', ('in_invoice', 'in_refund')),
+            ('invoice_id.state', '!=', 'cancel'),
+            ('invoice_id.date_invoice', '!=', False)
         ])
 
     @api.model
@@ -54,7 +57,8 @@ class PurchasableProducts(models.TransientModel):
         inv_lines = self.env['account.invoice.line'].search([
             ('invoice_id.commercial_partner_id', '=', partner_id.id),
             ('invoice_id.type', 'in', ('in_invoice', 'in_refund')),
-            ('invoice_id.state', '!=', 'cancel')
+            ('invoice_id.state', '!=', 'cancel'),
+            ('invoice_id.date_invoice', '!=', False)
         ])
 
         price_lists = self.env['product.supplierinfo'].search([
@@ -135,7 +139,7 @@ class PurchasableProducts(models.TransientModel):
             'view_mode': 'form',
             'view_id': view_id,
             'res_model': 'purchasable.products',
-            'res_id': self.env.context.get('active_id', False),
+            'res_id': self.id,
             'target': 'new',
             'context': self.env.context,
         }

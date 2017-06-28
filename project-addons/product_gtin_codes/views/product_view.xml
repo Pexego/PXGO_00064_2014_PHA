@@ -11,7 +11,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <page string="Information" position="after">
-                    <page string="GTIN codes">
+                    <page string="GTIN codes" attrs="{'invisible': [('ean13', '=', False)]}">
                         <separator string="GTIN codes assigned to product"/>
                         <group>
                             <field name="gtin12"/>

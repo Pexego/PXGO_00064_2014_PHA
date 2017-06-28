@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2017 Comunitea
+# © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from . import product_stock_by_day
+
+from . import models, wizard
