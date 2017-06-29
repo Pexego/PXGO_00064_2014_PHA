@@ -66,5 +66,27 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <menuitem id="menu_view_stock_available_form"
                   parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_stock" sequence="140"/>
+
+        <record id="stock_warehouse_orderpoint_form_view" model="ir.ui.view">
+            <field name="name">Stock warehouse orderpoint form</field>
+            <field name="model">stock.warehouse.orderpoint</field>
+            <field name="inherit_id" ref="stock.view_warehouse_orderpoint_form"/>
+            <field name="arch" type="xml">
+                <field name="product_min_qty" position="before">
+                    <field name="product_min_action_qty"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_warehouse_orderpoint_tree_view" model="ir.ui.view">
+            <field name="name">Stock warehouse orderpoint tree</field>
+            <field name="model">stock.warehouse.orderpoint</field>
+            <field name="inherit_id" ref="stock.view_warehouse_orderpoint_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_min_qty" position="before">
+                    <field name="product_min_action_qty"/>
+                </field>
+            </field>
+        </record>
      </data>
 </openerp>

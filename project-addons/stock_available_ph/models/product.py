@@ -150,6 +150,34 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    min_action = fields.Float(string='Minimum action quantity',
+                              compute='_min_action')
+    action_limit_exceeded = fields.Boolean(compute='_action_limit_exceeded',
+                                           store=True)
+
+    @api.one
+    def _min_action(self):
+        orderpoint_id = self.env['stock.warehouse.orderpoint'].search([
+            ('product_id', '=', self.id),
+            ('from_date', '<=', fields.Date.today()),
+            ('to_date', '>=', fields.Date.today())],
+            order='id desc', limit=1)
+
+        if not orderpoint_id:
+            orderpoint_id = self.env['stock.warehouse.orderpoint'].search([
+                ('product_id', '=', self.id),
+                ('from_date', '=', False),
+                ('to_date', '=', False)],
+                order='id desc', limit=1)
+
+        self.min_action = orderpoint_id.product_min_action_qty \
+            if orderpoint_id else 0
+
+    @api.one
+    @api.depends('min_action', 'virtual_conservative')
+    def _action_limit_exceeded(self):
+        self.action_limit_exceeded = self.virtual_conservative < self.min_action
+
     @api.multi
     def create_production_planning_order(self):
         if not self.bom_ids:

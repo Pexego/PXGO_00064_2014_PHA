@@ -18,6 +18,15 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 
 #. module: stock_available_ph
+#: field:bom.member.of,action_limit_exceeded:0
+#: field:product.product,action_limit_exceeded:0
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
+#: field:product.stock.unsafety,action_limit_exceeded:0
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Action limit exceeded"
+msgstr "Límite de acción superado"
+
+#. module: stock_available_ph
 #: field:production.planning.orders,active:0
 msgid "Active"
 msgstr "Activo"
@@ -391,6 +400,13 @@ msgid "Min fixed"
 msgstr "Mínimo fijado"
 
 #. module: stock_available_ph
+#: field:bom.member.of,min_action:0 field:product.product,min_action:0
+#: field:product.stock.unsafety,min_action:0
+#: field:stock.warehouse.orderpoint,product_min_action_qty:0
+msgid "Minimum action quantity"
+msgstr "Cantidad mínima acción"
+
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_p_ind_min:0
 #: field:product.product,stock_by_day_p_ind_min:0
 #: field:product.stock.unsafety,stock_by_day_p_ind_min:0
@@ -469,6 +485,12 @@ msgstr "Procurements"
 #: field:stock.available,product_id:0 field:stock.available.details,product:0
 msgid "Product"
 msgstr "Producto"
+
+#. module: stock_available_ph
+#: field:stock.warehouse.orderpoint,product_min_action_qty:0
+#: field:product.stock.unsafety,min_action:0
+msgid "Minimum action quantity"
+msgstr "Cantidad mínima acción"
 
 #. module: stock_available_ph
 #: model:ir.model,name:stock_available_ph.model_product_template

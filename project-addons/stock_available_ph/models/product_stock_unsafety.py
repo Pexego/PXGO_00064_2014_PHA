@@ -30,6 +30,33 @@ class ProductStockUnsafety(models.Model):
     uom_id = fields.Many2one(related='product_id.uom_id')
     bom_member = fields.Boolean(related='product_id.bom_member')
     has_bom = fields.Boolean(related='product_id.has_bom')
+    min_action = fields.Float(string='Minimum action quantity',
+                              compute='_min_action')
+    action_limit_exceeded = fields.Boolean(compute='_action_limit_exceeded',
+                                           store=True)
+
+    @api.one
+    def _min_action(self):
+        orderpoint_id = self.env['stock.warehouse.orderpoint'].search([
+            ('product_id', '=', self.product_id.id),
+            ('from_date', '<=', fields.Date.today()),
+            ('to_date', '>=', fields.Date.today())],
+            order='id desc', limit=1)
+
+        if not orderpoint_id:
+            orderpoint_id = self.env['stock.warehouse.orderpoint'].search([
+                ('product_id', '=', self.product_id.id),
+                ('from_date', '=', False),
+                ('to_date', '=', False)],
+                order='id desc', limit=1)
+
+        self.min_action = orderpoint_id.product_min_action_qty \
+            if orderpoint_id else 0
+
+    @api.one
+    @api.depends('min_action', 'virtual_conservative')
+    def _action_limit_exceeded(self):
+        self.action_limit_exceeded = self.virtual_conservative < self.min_action
 
     @api.model
     def create(self, vals):

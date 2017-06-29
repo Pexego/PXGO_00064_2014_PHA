@@ -72,6 +72,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <tree string="Products stock">
                     <field name="name"/>
                     <field name="default_code"/>
+                    <field name="min_action"/>
                     <field name="min_fixed"/>
                     <field name="max_fixed"/>
                     <field name="qty_available"/>
@@ -101,7 +102,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             attrs="{'invisible': [('has_bom', '=', False)]}"
                     />
                     <field name="stock_by_day_p_ind_min"/>
+                    <field name="action_limit_exceeded" invisible="1"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="stock_available_product_search" model="ir.ui.view">
+            <field name="name">Product search view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <filter name="filter_to_sell" position="after">
+                    <separator/>
+                    <filter string="Action limit exceeded"
+                            domain="[('action_limit_exceeded', '=', True)]"
+                    />
+                </filter>
             </field>
         </record>
 
