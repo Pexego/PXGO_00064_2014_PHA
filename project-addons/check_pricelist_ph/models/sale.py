@@ -55,16 +55,19 @@ class SaleOrder(models.Model):
             if item not in orphans:
                 pl_price = pricelist.items_id.filtered(lambda r: r.product_id ==
                                                                  item.product_id)
-                rest = pl_price.price_surcharge - item.price_unit
-                rest = float('{0:.6f}'.format(rest))
-                if rest != 0:
+                diff = pl_price.price_surcharge - item.price_unit
+                diff = float('{0:.5f}'.format(diff))
+                if diff != 0:
                     messages.append((0, 0, {
                         'type': 'price',
-                        'description': _('[DifferentPrice] - %s - The price of '
-                                         'product is different from the %s '
-                                         'price list.\n') %
-                                       (item.product_id.name_template,
-                                        self.pricelist_id.name),
+                        'description': _('[DifferentPrice] - Diff. %.5f - %s - '
+                                         'The price of product in the order is '
+                                         '%.5f, while in %s price list is %.5f\n') %
+                                       (diff,
+                                        item.product_id.name_template,
+                                        item.price_unit,
+                                        self.pricelist_id.name,
+                                        pl_price.price_surcharge),
                         'order_line_id': item.id
                     }))
 

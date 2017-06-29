@@ -204,8 +204,8 @@ msgstr "[DescuentosDiferentes] - El descuento financiero aplicado (%.2f) Es dife
 #. module: check_pricelist_ph
 #: code:addons/check_pricelist_ph/models/sale.py:63
 #, python-format
-msgid "[DifferentPrice] - %s - The price of product is different from the %s price list.\n"
-msgstr "[PrecioDiferente] - %s - El precio del producto es diferente al de la tarifa %s.\n"
+msgid "[DifferentPrice] - Diff. %.5f - %s - The price of product in the order is %.5f, while in %s price list is %.5f\n"
+msgstr "[PrecioDiferente] - Dif. %.5f - %s - El precio en el pedido es %.5f, mientras que en la tarifa %s es %.5f\n"
 
 #. module: check_pricelist_ph
 #: code:addons/check_pricelist_ph/models/sale.py:75
