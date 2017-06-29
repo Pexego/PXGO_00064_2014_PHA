@@ -7,6 +7,12 @@
                     color: black;
                 }
             </style>
+            <p t-if="sale_ok and company.report_sales_footer_message" style="font-size: 12px; border-top: 1px solid black;">
+                <span t-field="company.report_sales_footer_message"/>
+            </p>
+            <p t-if="purchase_ok and company.report_purchases_footer_message" style="font-size: 12px; border-top: 1px solid black;">
+                <span t-field="company.report_purchases_footer_message"/>
+            </p>
             <div style="position: relative; border-top: 1px solid black;">
                 <div style="position: absolute; top: 4px; left: 0;">
                     <t t-foreach="company.header_image" t-as="h_image">
@@ -24,7 +30,11 @@
                 </div>
                 <div>
                     <p style="font-size: 12px; margin: 7px 90px 8px 105px; padding: 0;">
-                        For any doubt or explanation, be contacted with <t t-if="purchase_ok">Purchases Dept.</t><t t-if="sale_ok">Sales Dept.</t> in the number <b><span t-field="company.phone"/></b>, or by e-mail at <t t-if="purchase_ok">info</t><t t-if="sale_ok">ventas</t>@pharmadus.com
+                        For any doubt or explanation, be contacted with <t t-if="purchase_ok">Purchases Dept.</t>
+                        <t t-if="sale_ok">Sales Dept.</t> in the number <b><span t-field="company.phone"/></b>, or by e-mail at
+                        <t t-if="purchase_ok"><span t-field="company.report_purchases_email"/></t>
+                        <t t-if="sale_ok"><span t-field="company.report_sales_email"/></t>
+                        <t t-if="not (purchase_ok or sale_ok)"><span t-field="company.email"/></t>
                     </p>
                     <p style="font-size: 8px; margin: 0 90px 0 0; padding: 0;">
                         Recorded in the Companies Registry of <span t-field="company.partner_id.es_registro_mercantil"/>,

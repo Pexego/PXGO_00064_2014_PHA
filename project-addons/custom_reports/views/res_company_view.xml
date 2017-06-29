@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="custom_reports_res_company_form" model="ir.ui.view">
+            <field name="name">Custom reports - Company form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <field name="custom_footer" position="before">
+                    <field name="report_header_message"/>
+                    <field name="report_sales_footer_message"/>
+                    <field name="report_purchases_footer_message"/>
+                    <field name="report_sales_email"/>
+                    <field name="report_purchases_email"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

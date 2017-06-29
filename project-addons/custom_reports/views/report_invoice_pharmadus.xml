@@ -69,6 +69,10 @@
                                 <i class="glyphicon glyphicon-briefcase"></i>
                                 <span t-field="company.partner_id.vat"/>
                             </p>
+                            <p><br/></p>
+                            <p style="font-size: 14px; font-style: italic;">
+                                <span t-field="company.report_header_message"/>
+                            </p>
                         </div>
                     </div>
                     <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
@@ -419,7 +423,6 @@
             </div>
 
             <div class="footer">
-                <t t-set="sale_ok" t-value="1"></t>
                 <t t-call="custom_reports.report_footer"/>
             </div>
         </template>
