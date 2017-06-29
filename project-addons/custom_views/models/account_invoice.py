@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, api, fields, _
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
 from openerp.exceptions import Warning
 import datetime
 
@@ -16,6 +15,7 @@ class AccountInvoice(models.Model):
     banking_mandate_needed = fields.Boolean(
             related='payment_mode_id.banking_mandate_needed')
     payment_document_delivered = fields.Boolean(default=False)
+    payment_document_date = fields.Datetime()
 
     @api.multi
     def onchange_partner_id(self, type, partner_id, date_invoice=False,
@@ -85,6 +85,12 @@ class AccountInvoice(models.Model):
         self._check_unique_reference(vals.get('reference'),
                                      vals.get('partner_id'),
                                      vals.get('date_invoice'))
+
+        if vals.get('payment_document_delivered', False):
+            vals['payment_document_date'] = fields.Datetime.now()
+        else:
+            vals['payment_document_date'] = False
+
         res = super(AccountInvoice, self).create(vals)
         # Search if it needs automatic assignment of banking mandates and
         # triggers write event to force re-calculations after invoice creation
@@ -100,6 +106,12 @@ class AccountInvoice(models.Model):
             date_invoice = vals.get('date_invoice', invoice.date_invoice)
             self._check_unique_reference(reference, partner, date_invoice)
 
+        if 'payment_document_delivered' in vals:
+            if vals.get('payment_document_delivered', False):
+                vals['payment_document_date'] = fields.Datetime.now()
+            else:
+                vals['payment_document_date'] = False
+
         # Force re-calculations on save
         re_calculate = False
         type_is_out_invoice = True
@@ -107,8 +119,7 @@ class AccountInvoice(models.Model):
             for rec in self:
                 now = datetime.datetime.now()
                 if rec.latest_calculations:
-                    then = datetime.datetime.strptime(rec.latest_calculations,
-                                                      DATETIME_FORMAT)
+                    then = fields.Datetime.from_string(rec.latest_calculations)
                 else:
                     then = now - datetime.timedelta(days=1)
 

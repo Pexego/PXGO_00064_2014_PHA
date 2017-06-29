@@ -28,7 +28,20 @@ class MrpProcedure(models.Model):
     date_authorized = fields.Date('Date authorized')
     date_validated = fields.Date('Date validated')
     title = fields.Text('Title')
+    notes = fields.Text('Notes')
+    medicine = fields.Boolean(default=False)
     active = fields.Boolean(default=True)
+    attachment = fields.Binary(compute='_return_attachment')
+    attachment_filename = fields.Char(compute='_return_attachment')
+
+    @api.one
+    def _return_attachment(self):
+        attachment_id = self.env['ir.attachment'].search(
+            [('res_model', '=', 'mrp.procedure'),
+             ('res_id', '=', self.id)], limit=1, order='id desc'
+        )
+        self.attachment = attachment_id.datas if attachment_id else False
+        self.attachment_filename = attachment_id.name
 
     @api.multi
     def name_get(self):

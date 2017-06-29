@@ -192,7 +192,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="name">Stock production lot dates</field>
             <field name="res_model">stock.production.lot</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_stock_production_lot_dates"/>
             <field name="domain">[('quant_ids.location_id.usage', 'in', ('internal', 'view', 'transit', 'procurement'))]</field>
         </record>

@@ -75,6 +75,41 @@ msgid "An order budget can not be confirmed!"
 msgstr "¡No es posible confirmar un pedido de tipo presupuesto!"
 
 #. module: custom_views
+#: field:product.product,analysis_ids:0
+msgid "Analysis"
+msgstr "Análisis"
+
+#. module: custom_views
+#: field:product.product,analysis_method_id:0
+msgid "Analysis method"
+msgstr "Método de análisis"
+
+#. module: custom_views
+#: field:product.product,analysis_plan_id:0
+msgid "Analysis plan"
+msgstr "Plan de análisis"
+
+#. module: custom_views
+#: field:product.product,analytic_certificate:0
+msgid "Analytic certificate"
+msgstr "Certificado analítico"
+
+#. module: custom_views
+#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
+msgid "Are you sure that you really want to cancel this picking?"
+msgstr "¿Desea realmente cancelar este albarán?"
+
+#. module: custom_views
+#: view:mrp.routing:custom_views.view_mrp_routing_form
+msgid "Associated machinery"
+msgstr "Maquinaria asociada"
+
+#. module: custom_views
+#: view:mrp.machinery:custom_views.view_mrp_machinery_form
+msgid "Associated routing lines"
+msgstr "Rutas de producción asociadas"
+
+#. module: custom_views
 #: field:account.invoice.special,aux_mandate_id:0
 msgid "Banking mandate"
 msgstr "Mandato SEPA"
@@ -276,6 +311,11 @@ msgid "Expected Date"
 msgstr "Fecha prevista"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_extended_view_sop
+msgid "Extended view"
+msgstr "Vista extendida (PNT)"
+
+#. module: custom_views
 #: field:mrp.machinery,sop_extra_1_id:0
 msgid "Extra 1 procedure"
 msgstr "Procedimiento extra 1"
@@ -406,6 +446,16 @@ msgid "Manufacturing procedure"
 msgstr "Procedimiento de fabricación"
 
 #. module: custom_views
+#: field:mrp.procedure,medicine:0
+msgid "Medicine"
+msgstr "Medicamento"
+
+#. module: custom_views
+#: field:mrp.procedure,notes:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: custom_views
 #: field:mrp.machinery,sop_operations_id:0
 msgid "Operations procedure"
 msgstr "Procedimiento de operaciones"
@@ -516,6 +566,11 @@ msgid "Partners special form"
 msgstr "Edición especial de clientes y proveedores"
 
 #. module: custom_views
+#: field:account.invoice,payment_document_date:0
+msgid "Payment document date"
+msgstr "Documento de pago entregado"
+
+#. module: custom_views
 #: field:account.invoice,payment_document_delivered:0
 #: field:account.invoice.special,payment_document_delivered:0
 msgid "Payment document delivered"
@@ -596,6 +651,12 @@ msgstr "Maquinaria de producción"
 #: model:ir.actions.act_window,name:custom_views.product_template_action_warehouse_custom_view
 msgid "Products"
 msgstr "Productos"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_product_description_tree
+#: model:ir.ui.menu,name:custom_views.menu_product_description_tree
+msgid "Products by description"
+msgstr "Productos por descripción"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_quant
@@ -717,6 +778,11 @@ msgstr "Procedimientos Normalizados de Trabajo (PNT)"
 #: field:mrp.procedure.type,procedure_ids:0
 msgid "Standard Operating Procedures (SOP)"
 msgstr "Procedimientos Normalizados de Trabajo (PNT)"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_mrp_procedure_extended_view
+msgid "Standard Operating Procedures (SOP) - Extended view"
+msgstr "Procedimientos Normalizados de Trabajo (PNT) - Vista extendida"
 
 #. module: custom_views
 #: field:stock.production.lot,available_stock:0
@@ -958,19 +1024,24 @@ msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', Fa
 msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
 
 #. module: custom_views
-#: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
-msgid "Are you sure that you really want to cancel this picking?"
-msgstr "¿Desea realmente cancelar este albarán?"
+#: field:mrp.procedure,attachment:0
+#: field:product.product,analysis_method_attachment:0
+#: field:product.product,analysis_plan_attachment:0
+#: field:product.product,manufacturing_procedure_attachment:0
+#: field:product.product,packaging_procedure_attachment:0
+#: field:product.product,specification_attachment:0
+msgid "Attachment"
+msgstr "Documento adjunto"
 
 #. module: custom_views
-#: view:mrp.routing:custom_views.view_mrp_routing_form
-msgid "Associated machinery"
-msgstr "Maquinaria asociada"
-
-#. module: custom_views
-#: view:mrp.machinery:custom_views.view_mrp_machinery_form
-msgid "Associated routing lines"
-msgstr "Rutas de producción asociadas"
+#: field:mrp.procedure,attachment_filename:0
+#: field:product.product,analysis_method_filename:0
+#: field:product.product,analysis_plan_filename:0
+#: field:product.product,manufacturing_procedure_filename:0
+#: field:product.product,packaging_procedure_filename:0
+#: field:product.product,specification_filename:0
+msgid "Attachment filename"
+msgstr "Nombre adjunto"
 
 #. module: custom_views
 #: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form

@@ -63,7 +63,7 @@
                     <attribute name="invisible">1</attribute>
                 </field>
                 <field name="state" position="after">
-                    <field name="payment_document_delivered"/>
+                    <field name="payment_document_date"/>
                 </field>
             </field>
         </record>

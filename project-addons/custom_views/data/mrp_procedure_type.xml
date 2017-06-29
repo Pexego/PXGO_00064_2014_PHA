@@ -37,5 +37,13 @@
             <field name="name">Máquina - Extra 1</field>
             <field name="code">machine_extra_1</field>
         </record>
+        <record id="procedure_type_qc_analysis_plans" model="mrp.procedure.type">
+            <field name="name">Control de Calidad - Planes de Análisis</field>
+            <field name="code">quality_control_analysis_plans</field>
+        </record>
+        <record id="procedure_type_qc_analysis_methods" model="mrp.procedure.type">
+            <field name="name">Control de Calidad - Métodos de Análisis</field>
+            <field name="code">quality_control_analysis_methods</field>
+        </record>
     </data>
 </openerp>

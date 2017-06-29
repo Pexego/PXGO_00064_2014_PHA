@@ -183,7 +183,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         </record>
 
         <record id="custom_views_product_normal_form" model="ir.ui.view">
-            <field name="name">Custom views - Product year of appearance form</field>
+            <field name="name">Custom views - Product form</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="priority">8</field>
@@ -194,13 +194,51 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <page string="Procurements" position="after">
                     <page string="Quality">
                         <separator string="Standard Operating Procedures"/>
-                        <group>
+                        <group col="3">
                             <field name="manufacturing_procedure_id"/>
+                            <field name="manufacturing_procedure_attachment" filename="manufacturing_procedure_filename" nolabel="1" class="oe_read_only"/>
                             <field name="packaging_procedure_id"/>
+                            <field name="packaging_procedure_attachment" filename="packaging_procedure_filename" nolabel="1" class="oe_read_only"/>
+                            <separator/><newline/>
+                            <field name="specification_type" nolabel="1"/>
+                            <field name="specification_id" nolabel="1"/>
+                            <field name="specification_attachment" filename="specification_filename" nolabel="1" class="oe_read_only"/>
+                            <separator/><newline/>
+                            <field name="analysis_method_id"/>
+                            <field name="analysis_method_attachment" filename="analysis_method_filename" nolabel="1" class="oe_read_only"/>
+                            <field name="analysis_plan_id"/>
+                            <field name="analysis_plan_attachment" filename="analysis_plan_filename" nolabel="1" class="oe_read_only"/>
                         </group>
                     </page>
                 </page>
             </field>
         </record>
+
+        <record id="custom_views_product_description_tree" model="ir.ui.view">
+            <field name="name">Custom views - Product description tree</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="description"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_product_description_tree" model="ir.actions.act_window">
+            <field name="name">Products by description</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="custom_views_product_description_tree"/>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem action="action_product_description_tree"
+                  id="menu_product_description_tree"
+                  parent="purchase.menu_procurement_management_product"
+                  sequence="10"
+        />
     </data>
 </openerp>

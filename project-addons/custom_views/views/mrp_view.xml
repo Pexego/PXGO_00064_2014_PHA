@@ -151,8 +151,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="type_id"/>
                             <field name="date_authorized"/>
                             <field name="date_validated"/>
+                            <field name="medicine"/>
                             <field name="active"/>
                             <field name="title"/>
+                            <field name="notes"/>
+                            <field name="attachment" filename="attachment_filename"/>
                         </group>
                     </group>
                 </form>
@@ -170,6 +173,24 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="type_id"/>
                     <field name="date_authorized"/>
                     <field name="date_validated"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mrp_procedure_extended_tree_view">
+            <field name="name">Custom views - MRP procedure extended tree view</field>
+            <field name="model">mrp.procedure</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="revision"/>
+                    <field name="title"/>
+                    <field name="type_id"/>
+                    <field name="date_authorized"/>
+                    <field name="date_validated"/>
+                    <field name="medicine"/>
+                    <field name="notes"/>
                 </tree>
             </field>
         </record>
@@ -260,6 +281,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="context">{'search_default_group_by_type':1}</field>
         </record>
 
+        <record model="ir.actions.act_window" id="action_mrp_procedure_extended_view">
+            <field name="name">Standard Operating Procedures (SOP) - Extended view</field>
+            <field name="res_model">mrp.procedure</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                eval="[
+                          (5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('custom_views.mrp_procedure_extended_tree_view')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('custom_views.view_mrp_procedure_form')}),
+                      ]"
+            />
+        </record>
+
         <menuitem name="Standard Operating Procedures"
                   id="menu_sop"
                   parent="quality_management_menu.menu_quality_management"
@@ -270,6 +305,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   parent="menu_sop"
                   sequence="1"
                   action="action_mrp_procedure"/>
+
+        <menuitem id="menu_extended_view_sop"
+                  name="Extended view"
+                  parent="menu_sop"
+                  sequence="2"
+                  action="action_mrp_procedure_extended_view"/>
 
         <record model="ir.ui.view" id="view_mrp_procedure_type_tree">
             <field name="name">Custom views - MRP procedure type tree</field>
