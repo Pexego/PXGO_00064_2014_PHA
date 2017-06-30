@@ -1,0 +1,2 @@
+"id","group_id/id","name","model_id/id","perm_create","perm_unlink","perm_write","perm_read"
+"access_commercial_discount_by_line_subline","","Commercial discount by line & subline, general access","check_pricelist_ph.model_commercial_discount_by_line_subline","True","True","True","True"

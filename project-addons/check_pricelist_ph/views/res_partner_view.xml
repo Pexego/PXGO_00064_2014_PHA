@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="check_pricelist_partner_form" model="ir.ui.view">
+            <field name="name">Check pricelist - Partner form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="commercial_and_financial_discount.partner_form_com_fin_disc"/>
+            <field name="arch" type="xml">
+                <field name="financial_discount" position="after">
+                    <field name="com_discount_by_line_subline_id"/>
+                </field>
+             </field>
+        </record>
+    </data>
+</openerp>

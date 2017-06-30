@@ -15,8 +15,10 @@
         'commercial_and_financial_discount',
     ],
     'data' : [
+        'views/res_partner_view.xml',
         'views/sale_view.xml',
         'wizard/check_pricelist_view.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True
 }
