@@ -28,7 +28,20 @@ class MrpProcedure(models.Model):
     date_authorized = fields.Date('Date authorized')
     date_validated = fields.Date('Date validated')
     title = fields.Text('Title')
+    notes = fields.Text('Notes')
+    medicine = fields.Boolean(default=False)
     active = fields.Boolean(default=True)
+    attachment = fields.Binary(compute='_return_attachment')
+    attachment_filename = fields.Char(compute='_return_attachment')
+
+    @api.one
+    def _return_attachment(self):
+        attachment_id = self.env['ir.attachment'].search(
+            [('res_model', '=', 'mrp.procedure'),
+             ('res_id', '=', self.id)], limit=1, order='id desc'
+        )
+        self.attachment = attachment_id.datas if attachment_id else False
+        self.attachment_filename = attachment_id.name
 
     @api.multi
     def name_get(self):
@@ -39,7 +52,7 @@ class MrpProcedure(models.Model):
         return res
 
 
-class MrpProcedureType(models.Model):
+class MrpProcedureType_(models.Model):
     _inherit = 'mrp.procedure.type'
 
     procedure_ids = fields.One2many(comodel_name='mrp.procedure',
@@ -91,7 +104,19 @@ class MrpMachinery(models.Model):
     routing_ids = fields.Many2many(comodel_name='mrp.routing')
 
 
-class MrpRouting(models.Model):
+class MrpRouting_(models.Model):
     _inherit = 'mrp.routing'
 
     machinery_ids = fields.Many2many(comodel_name='mrp.machinery')
+
+
+class MrpProduction(models.Model):
+
+    _inherit = 'mrp.production'
+
+    @api.multi
+    def write(self, vals, update=True, mini=True):
+        if vals.get('final_lot_id', False):
+            lot = self.env['stock.production.lot'].browse(vals['final_lot_id'])
+            lot.mrp_id = self.id
+        return super(MrpProduction, self).write(vals, update=update, mini=mini)

@@ -18,10 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import quality_procedure
 import quality_protocol_report
 import product
 import stock
 import survey
 import mrp_production
+from . import mrp_label_report_parser

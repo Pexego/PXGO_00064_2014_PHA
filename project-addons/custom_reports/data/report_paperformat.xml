@@ -50,5 +50,24 @@
         <record id="custom_reports.action_report_lot_labels" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_reports.paperformat_lots_labels"/>
         </record>
+
+        <record id="paperformat_lots_labels_biosalud" model="report.paperformat">
+            <field name="name">Labels (Custom reports - Biosalud)</field>
+            <field name="format">custom</field>
+            <field name="page_height">28</field>
+            <field name="page_width">62</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="custom_reports.action_report_lot_labels_biosalud" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="custom_reports.paperformat_lots_labels_biosalud"/>
+        </record>
     </data>
 </openerp>

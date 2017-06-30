@@ -71,6 +71,7 @@ class MrpProductProduce(models.TransientModel):
                 'product_qty': line.hoard_returned_qty,
                 'lot_id': line.lot_id,
                 'operation_id': line.id,
+                'location_id': line.location_id.id
             }))
         return {'value': {'consume_lines': new_consume_lines,
                           'return_lines': return_lines}}
@@ -101,7 +102,7 @@ class MrpProductProduce(models.TransientModel):
                                      _('Scrap location not found.')
                                      )
         scrap_location = scrap_location[0]
-        if self.mode == 'consume_produce':
+        if self.mode in ('consume_produce', 'only_produce'):
             return super(
                 MrpProductProduce,
                 self.with_context(no_return_operations=True)).do_produce()
@@ -149,7 +150,6 @@ class MrpProductProduce(models.TransientModel):
                     line['returned_qty'] = return_line.product_qty
                     if line.get('make_return', False):
                         line['return_location_id'] = return_line.location_id
-
         for line in lines:
             if not line['operation_id']:
                 self.env['stock.move.return.operations'].create(
@@ -176,7 +176,7 @@ class MrpProductProduce(models.TransientModel):
                     move.product_uom_qty = line['consumed_qty']
                     move.restrict_lot_id = line['lot_id'].id
                     move.consumed_for = main_production_move
-                    move.action_assign()
+                    move.with_context(no_return_operations=True).action_assign()
                     move.action_done()
                 else:
                     new_move = move.copy({

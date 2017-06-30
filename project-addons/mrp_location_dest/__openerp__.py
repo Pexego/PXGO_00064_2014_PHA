@@ -27,6 +27,6 @@
     'author': 'Comunitea',
     'website': '',
     "depends": ['mrp'],
-    "data": ['mrp_view.xml'],
+    "data": ['views/product.xml'],
     "installable": True
 }

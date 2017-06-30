@@ -11,7 +11,12 @@
                             string="Print lots labels"
                             type="action"
                             class="oe_highlight"
-                            attrs="{'invisible': ['|', ('picking_type_code', '!=', 'incoming'), ('state', '!=', 'done')]}"/>
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'incoming'), ('state', '!=', 'done'), ('company_id', '!=', 1)]}"/>
+                    <button name="%(custom_reports.action_report_lot_labels_biosalud)d"
+                            string="Print lots labels"
+                            type="action"
+                            class="oe_highlight"
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'incoming'), ('state', '!=', 'done'), ('company_id', '!=', 6)]}"/>
                 </button>
             </field>
         </record>

@@ -16,10 +16,36 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: Poedit 1.5.4\n"
 
+
+#. module: quality_protocol_report
+#: field:mrp.production,date_end_planned:0
+msgid "Date end planned"
+msgstr "Fecha programada de finalización"
+
+
+#. module: quality_protocol_report
+#: field:mrp.production,time_planned:0
+msgid "Time planned"
+msgstr "Tiempo estimado"
+
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_picking_notes
 msgid "(Firma y fecha)"
 msgstr "(Firma y fecha)"
+
+#. module: quality_protocol_report
+#: field:product.category,raw_material:0
+#: field:product.product,raw_material:0
+#: field:product.template,raw_material:0
+msgid "Raw material"
+msgstr "Materia prima"
+
+
+#. module: quality_protocol_report
+#: field:product.product,lot_label:0
+msgid "Lot label"
+msgstr "Etiquetas de lote"
+
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.lot_check_print_sec
@@ -347,6 +373,23 @@ msgid "Associated protocol"
 msgstr "Protocolo asociado"
 
 #. module: quality_protocol_report
+#: field:product.protocol.link,bom:0
+msgid "Bom"
+msgstr "LdM"
+
+#. module: quality_protocol_report
+#: field:product.protocol.link,route:0
+msgid "Route"
+msgstr "Ruta"
+
+
+#. module: quality_protocol_report
+#: field:product.protocol.link,protocol:0
+#: field:quality.duplicate.protocol,protocol_id:0
+msgid "Protocol"
+msgstr "Protocolo"
+
+#. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_filter
 msgid "Base form"
 msgstr "Forma base"
@@ -570,11 +613,6 @@ msgstr "Descripción"
 #, python-format
 msgid "Document error"
 msgstr "Document error"
-
-#. module: quality_protocol_report
-#: field:mrp.production.workcenter.line,doc_submited:0
-msgid "Document submited"
-msgstr "Document submited"
 
 #. module: quality_protocol_report
 #: code:addons/quality_protocol_report/models/mrp_production.py:58
@@ -973,6 +1011,11 @@ msgid "Mrp speed"
 msgstr "Velocidad de fabricación"
 
 #. module: quality_protocol_report
+#: model:ir.actions.act_window,name:quality_protocol_report.print_mrp_labels_action
+msgid "Print mrp labels"
+msgstr "Etiquetas de cajones"
+
+#. module: quality_protocol_report
 #: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
 #: field:product.quality.limits,name:0 field:protocol.type,name:0
 #: field:quality.procedure,name:0 field:quality.protocol.report,name:0
@@ -1048,11 +1091,6 @@ msgid "Picking notes"
 msgstr "Notas de albarán"
 
 #. module: quality_protocol_report
-#: field:quality.protocol.report,first_procedure_id:0
-msgid "Primary procedure"
-msgstr "Procedimiento primario"
-
-#. module: quality_protocol_report
 #: view:print.protocol.test:quality_protocol_report.print_protocol_test_wzd_form
 #: view:quality.report.all:quality_protocol_report.quality_report_all_form
 msgid "Print"
@@ -1112,6 +1150,7 @@ msgstr "Configuración de impresora"
 
 #. module: quality_protocol_report
 #: model:ir.model,name:quality_protocol_report.model_product_product
+#: field:product.protocol.link,product:0
 msgid "Product"
 msgstr "Producto"
 
@@ -1386,11 +1425,6 @@ msgstr "Scrap location not found."
 #: view:website:quality_protocol_report.mrp_wrap_control
 msgid "Se tomarán para control de calidad 3 muestras."
 msgstr "Se tomarán para control de calidad 3 muestras."
-
-#. module: quality_protocol_report
-#: field:quality.protocol.report,second_procedure_id:0
-msgid "Secondary procedure"
-msgstr "Procedimiento secundario"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report.line:quality_protocol_report.quality_protocol_report_line_form

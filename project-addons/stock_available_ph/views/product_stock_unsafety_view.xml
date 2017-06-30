@@ -16,6 +16,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="date"/>
                         <field name="product_id"/>
                         <field name="default_code"/>
+                        <field name="min_action"/>
                         <field name="min_fixed"/>
                         <field name="max_fixed"/>
                         <field name="qty_available"/>
@@ -30,7 +31,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="out_of_existences"/>
                         <field name="real_incoming_qty"/>
                         <field name="uom_id"/>
-                        <button name="cancel" type="object" string="Cancel" states='exception,in_progress' icon="STOCK_CANCEL"/>
+                        <button name="cancel"
+                                type="object"
+                                string="Cancel"
+                                states='exception,in_progress'
+                                icon="STOCK_CANCEL"
+                        />
                         <field name="bom_member" invisible="1"/>
                         <button name="stock_available_ph.action_bom_member_of_wizard"
                                 string="BoM member of"
@@ -47,8 +53,23 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         />
                         <field name="stock_by_day_p_ind_min"/>
                         <field name="state"/>
+                        <field name="action_limit_exceeded" invisible="1"/>
                     </tree>
                 </tree>
+            </field>
+        </record>
+
+        <record id="stock_available_product_stock_unsafety_search" model="ir.ui.view">
+            <field name="name">Product stock unsafety search view</field>
+            <field name="model">product.stock.unsafety</field>
+            <field name="inherit_id" ref="product_stock_unsafety.view_product_stock_unsafety_filter"/>
+            <field name="arch" type="xml">
+                <filter name="in_progress" position="after">
+                    <separator/>
+                    <filter string="Action limit exceeded"
+                            domain="[('action_limit_exceeded', '=', True)]"
+                    />
+                </filter>
             </field>
         </record>
     </data>

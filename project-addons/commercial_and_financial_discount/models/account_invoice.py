@@ -290,6 +290,7 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, vals):
         partner = self.env['res.partner'].browse(vals['partner_id'])
+        partner = partner.parent_id if partner.parent_id else partner
         vals['commercial_discount_input'] = vals.get('commercial_discount_input',
                                                      partner.commercial_discount)
         vals['financial_discount_input'] = vals.get('financial_discount_input',
@@ -303,6 +304,7 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).onchange_partner_id(type, partner_id,
                 date_invoice, payment_term, partner_bank_id, company_id)
         partner = self.env['res.partner'].browse(partner_id)
+        partner = partner.parent_id if partner.parent_id else partner
         res['value'].update({
             'commercial_discount_input': partner.commercial_discount,
             'financial_discount_input': partner.financial_discount

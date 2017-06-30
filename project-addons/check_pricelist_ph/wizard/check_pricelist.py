@@ -38,6 +38,11 @@ class CheckPricelistMessage(models.TransientModel):
 
     warning_ids = fields.One2many(comodel_name='check.pricelist.warnings',
                                   inverse_name='message_id')
+    warning_count = fields.Integer(compute='_count_warnings')
+
+    @api.depends('warning_ids')
+    def _count_warnings(self):
+        self.warning_count = len(self.warning_ids)
 
     @api.one
     def _get_title(self):
@@ -46,18 +51,39 @@ class CheckPricelistMessage(models.TransientModel):
 
     @api.multi
     def fix_warnings(self):
+        s = self.sale_id
         for warning in self.warning_ids.filtered('fix'):
             if warning.type == 'com_discount':
-                s = self.sale_id
-                s.commercial_discount_percentage = \
-                    s.partner_id.commercial_discount
-                s.commercial_discount_input = \
-                    s.partner_id.commercial_discount
+                if s.partner_id.com_discount_by_line_subline_id and s.order_line:
+                    line_id = s.order_line[0].product_id.line
+                    subline_id = s.order_line[0].product_id.subline
+                    all_products_with_same_line_and_subline = True
+
+                    for item in s.order_line:
+                        all_products_with_same_line_and_subline = \
+                            all_products_with_same_line_and_subline and \
+                            (line_id == item.product_id.line) and \
+                            (subline_id == item.product_id.subline)
+
+                    if all_products_with_same_line_and_subline:
+                        commercial_discount = s.partner_id. \
+                            com_discount_by_line_subline_id.filtered(
+                            lambda r: (r.line_id == line_id) and
+                                      (r.subline_id == subline_id)
+                        )
+                        commercial_discount = commercial_discount.discount \
+                            if commercial_discount else 0
+                    else:
+                        commercial_discount = 0
+                else:
+                    commercial_discount = s.partner_id.commercial_discount
+
+                s.commercial_discount_percentage = commercial_discount
+                s.commercial_discount_input = commercial_discount
                 s.generate_discounts
                 continue
 
             elif warning.type == 'fin_discount':
-                s = self.sale_id
                 s.financial_discount_percentage = \
                     s.partner_id.financial_discount
                 s.financial_discount_input = \
@@ -80,7 +106,8 @@ class CheckPricelistMessage(models.TransientModel):
 
             elif warning.type == 'vat':
                 ol = warning.order_line_id
-                ol.tax_id = ol.product_id.taxes_id
+                ol.tax_id = s.partner_id.property_account_position.map_tax(
+                    ol.product_id.taxes_id)
                 continue
 
         self.sale_id.update_with_discounts()

@@ -10,16 +10,38 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     is_in_current_pricelist = fields.Boolean(
-            compute='_compute_is_in_current_pricelist',
-            search='_search_is_in_current_pricelist')
+        compute='_compute_is_in_current_pricelist',
+        search='_search_is_in_current_pricelist')
     year_appearance = fields.Integer('Year of appearance',
-                                     default=datetime.datetime.now().year)
+        default=datetime.datetime.now().year)
     manufacturing_procedure_id = fields.Many2one(comodel_name='mrp.procedure',
-                              domain="[('type_id.code', '=', 'product_manufacturing')]",
-                              string='Manufacturing procedure')
+        domain="[('type_id.code', '=', 'product_manufacturing')]",
+        string='Manufacturing procedure')
+    manufacturing_procedure_attachment = fields.Binary(related='manufacturing_procedure_id.attachment')
+    manufacturing_procedure_filename = fields.Char(related='manufacturing_procedure_id.attachment_filename')
     packaging_procedure_id = fields.Many2one(comodel_name='mrp.procedure',
-                                  domain="[('type_id.code', '=', 'product_packaging')]",
-                                  string='Packaging procedure')
+        domain="[('type_id.code', '=', 'product_packaging')]",
+        string='Packaging procedure')
+    packaging_procedure_attachment = fields.Binary(related='packaging_procedure_id.attachment')
+    packaging_procedure_filename = fields.Char(related='packaging_procedure_id.attachment_filename')
+    specification_type = fields.Many2one(comodel_name='mrp.procedure.type',
+        domain="[('code', 'ilike', 'specifications%')]",
+        string='Specification type')
+    specification_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id', '=', specification_type)]",
+        string='Specification')
+    specification_attachment = fields.Binary(related='specification_id.attachment')
+    specification_filename = fields.Char(related='specification_id.attachment_filename')
+    analysis_method_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id.code', '=', 'quality_control_analysis_methods')]",
+        string='Analysis method')
+    analysis_method_attachment = fields.Binary(related='analysis_method_id.attachment')
+    analysis_method_filename = fields.Char(related='analysis_method_id.attachment_filename')
+    analysis_plan_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id.code', '=', 'quality_control_analysis_plans')]",
+        string='Analysis plan')
+    analysis_plan_attachment = fields.Binary(related='analysis_plan_id.attachment')
+    analysis_plan_filename = fields.Char(related='analysis_plan_id.attachment_filename')
 
     @api.one
     @api.constrains('year_appearance')

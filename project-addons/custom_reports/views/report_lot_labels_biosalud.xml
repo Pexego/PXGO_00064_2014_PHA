@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_lot_labels_biosalud">
+            <t t-call="report.html_container">
+                <style type="text/css">
+                    p {
+                        padding: 0;
+                        margin: 0;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="p">
+                    <t t-foreach="p.move_lines" t-as="m">
+                        <t t-foreach="m.lot_ids" t-as="l">
+                            <div class="page" t-foreach="range(int(m.product_uom_qty))" t-as="page_loop">
+                                <div style="min-height: 40px; margin-bottom: 5px;">
+                                    <div style="position: relative; display: inline-block; float: left; padding: 0; z-index: 1;">
+                                        <!-- Barcode reader uses english keyboard layout -->
+                                        <t t-set="barcode" t-value="l.name"/>
+                                        <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                        <!-- Generate barcode image -->
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)"
+                                             height="65" width="600" style="margin-left: -90px;"/>
+                                        <div t-field="l.name"
+                                             style="position: absolute; bottom: -4px; left: 29%; padding: 0 3px; font-size: 18px; font-weight: bold; background-color: white;"/>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </div>
+                                <p style="font-size: 26px; font-weight: bold; line-height: 26px; padding: 0; margin: 0;">
+                                    <t t-set="lot_date" t-value="l.use_date"/>
+                                    <t t-set="lot_date" t-value="time.strftime('%d/%m/%Y',time.strptime(lot_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                    <span t-field="l.product_id.description"/><span> | </span><span t-esc="lot_date"/>
+                                </p>
+                                <p t-field="l.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
+                                <p>
+                                    <div style="display: inline-block; float: right; position: relative;">
+                                        <!-- Barcode reader uses english keyboard layout -->
+                                        <t t-set="product_barcode" t-value="l.product_id.default_code"/>
+                                        <t t-if="product_barcode">
+                                            <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
+                                            <!-- Generate barcode image -->
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', product_barcode, 1200, 120)"
+                                                 height="65" width="600" style="margin-right: -130px;"/>
+                                            <div t-field="l.product_id.default_code"
+                                                 style="position: absolute; bottom: -4px; right: 25%; padding: 0 3px; font-size: 18px; font-weight: bold; background-color: white;"/>
+                                        </t>
+                                    </div>
+                                </p>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="action_report_lot_labels_biosalud"
+            model="stock.picking"
+            string="Lots labels"
+            report_type="qweb-pdf"
+            name="custom_reports.report_lot_labels_biosalud"
+            attachment_use="False"
+            menu="False"
+        />
+    </data>
+</openerp>

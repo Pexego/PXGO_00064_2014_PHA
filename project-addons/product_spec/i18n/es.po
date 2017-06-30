@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* product_spec
+#   * product_spec
 #
 msgid ""
 msgstr ""
@@ -86,22 +86,22 @@ msgstr "Análisis"
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_action_weight:0
 msgid "Average filter weight max action"
-msgstr "Peso filtro promedio acción máx."
+msgstr "acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_alert_weight:0
 msgid "Average filter weight max alert"
-msgstr "Peso filtro promedio alerta máx."
+msgstr "alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_action_weight:0
 msgid "Average filter weight min action"
-msgstr "Peso filtro promedio acción mín."
+msgstr "acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_alert_weight:0
 msgid "Average filter weight min alert"
-msgstr "Peso filtro promedio alerta mín."
+msgstr "alerta mín."
 
 #. module: product_spec
 #: view:product.template:product_spec.product_search_form_view_extended_search
@@ -202,42 +202,42 @@ msgstr "Peso del filtro"
 #. module: product_spec
 #: field:product.quality.limits,filter_max_action_weight:0
 msgid "Filter weight max action"
-msgstr "Peso filtro acción máx."
+msgstr "acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_max_alert_weight:0
 msgid "Filter weight max alert"
-msgstr "Peso filtro alerta máx."
+msgstr "alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_action_weight:0
 msgid "Filter weight min action"
-msgstr "Peso filtro acción mín."
+msgstr "acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_alert_weight:0
 msgid "Filter weight min alert"
-msgstr "Peso filtro alerta mín."
+msgstr "alerta mín."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_action_weight:0
 msgid "Full case action max"
-msgstr "Estuche lleno acción máx."
+msgstr "acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_action_weight:0
 msgid "Full case action min"
-msgstr "Estuche lleno acción mín."
+msgstr "acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_alert_weight:0
 msgid "Full case alert max"
-msgstr "Estuche lleno alerta máx."
+msgstr "alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_alert_weight:0
 msgid "Full case alert min"
-msgstr "Estuche lleno alerta mín."
+msgstr "alerta mín."
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
@@ -248,6 +248,13 @@ msgstr "Peso estuche lleno"
 #: help:product.extra.category,sequence:0
 msgid "Gives the sequence order when displaying a list of product categories."
 msgstr "Muestra el orden de secuencia cuando se muestran las categorías de producto."
+
+
+#. module: product_spec
+#: view:product.quality.limits:product_spec.product_quality_limits_form
+msgid "Machine parameters"
+msgstr "Parámetros de máquina"
+
 
 #. module: product_spec
 #: field:product.extra.category,id:0 field:product.packing,id:0
@@ -439,7 +446,7 @@ msgstr "Líneas de producto"
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_tree
 msgid "Product Quality Limits"
-msgstr "Límites de calidad de producto"
+msgstr "Límites de controles en proceso"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.action_product_subline_form
@@ -541,7 +548,7 @@ msgstr "Sublíneas de compras de productos"
 #: model:ir.actions.act_window,name:product_spec.action_product_quality_limits_form
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Product quality limits"
-msgstr "Límites de calidad de producto"
+msgstr "Límites de controles en proceso"
 
 #. module: product_spec
 #: view:product.subline:product_spec.product_subline_form
@@ -562,7 +569,7 @@ msgstr "Formato packing producción"
 #. module: product_spec
 #: model:ir.ui.menu,name:product_spec.menu_product_quality_limits
 msgid "Quality limits"
-msgstr "Límites calidad"
+msgstr "Límites de controles en proceso"
 
 #. module: product_spec
 #: field:product.extra.category,parent_right:0

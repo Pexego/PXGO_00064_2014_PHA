@@ -77,9 +77,8 @@ class PaletTagParser(models.AbstractModel):
                     'palet_number': palet_number,
                     'barcode': '',
                 }
-
             if op.sscc:
-                palet_dic[op.palet]['barcode'] += '(00)' + op.sscc
+                palet_dic[op.palet]['barcode'] = '(00)' + op.sscc
 
         docargs = {
             'doc_ids': [],

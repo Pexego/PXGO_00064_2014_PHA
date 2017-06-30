@@ -20,6 +20,12 @@ msgstr ""
 msgid "Acceptance date"
 msgstr "Fecha de aceptación"
 
+
+#. module: lot_states
+#: view:stock.production.lot:lot_states.lot_add_states
+msgid "Return to draft"
+msgstr "Volver a nuevo"
+
 #. module: lot_states
 #: field:stock.production.lot,active:0
 msgid "Active"
@@ -339,4 +345,3 @@ msgstr "return to supplier"
 #: field:mrp.production.consume.quarantine.line,wizard_id:0
 msgid "wizard"
 msgstr "wizard"
-

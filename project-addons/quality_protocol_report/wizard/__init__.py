@@ -23,3 +23,4 @@ from . import print_protocol
 from . import duplicate_protocol_wizard
 from . import mrp_release_all
 from . import quality_print_all_protocols
+from . import print_mrp_labels

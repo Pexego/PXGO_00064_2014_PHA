@@ -82,3 +82,9 @@ class StockAvailable(models.TransientModel):
                 'stock_status': stock_status
             })
         return self
+
+
+class StockWarehouseOrderpoint(models.Model):
+    _inherit = 'stock.warehouse.orderpoint'
+
+    product_min_action_qty = fields.Float(string='Minimum action quantity', default=0.0)

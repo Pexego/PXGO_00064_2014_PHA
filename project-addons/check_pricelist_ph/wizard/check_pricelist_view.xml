@@ -18,10 +18,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         </tree>
                     </field>
                     <footer class="oe_right oe_button_box">
+                        <field name="warning_count" invisible="1"/>
                         <button name="fix_warnings"
                                 type="object"
-                                string="Fix warnings"/>
-                        or
+                                string="Fix warnings"
+                                attrs="{'invisible': [('warning_count','=',0)]}"/>
+                        <span attrs="{'invisible': [('warning_count','=',0)]}"> or </span>
                         <button string="Cancel"
                                 special="cancel"
                                 icon="gtk-cancel"/>

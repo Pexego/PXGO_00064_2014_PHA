@@ -1,0 +1,26 @@
+img.zoomedImg {
+  position: absolute;
+  display: block;
+  margin-left: 25%;
+  top: 40px;
+  height: 95%;
+  border: 1px solid grey;
+  cursor: url(../img/close.png),auto;
+}
+
+.zoom:after {
+    content: '';
+    display: block;
+    width: 33px;
+    height: 33px;
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    background: url(../img/icon.png);
+    cursor: pointer;
+}
+
+.zoom img {
+    display: block;
+    background: #fff;
+}

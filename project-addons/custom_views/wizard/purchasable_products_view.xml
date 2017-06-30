@@ -46,7 +46,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             </page>
                             <page string="Invoices">
                                 <field name="invoice_line_ids">
-                                    <tree default_order="create_date desc">
+                                    <tree default_order="date_invoice desc">
                                         <field name="date_invoice"/>
                                         <field name="commercial_partner_id"/>
                                         <field name="quantity"/>
