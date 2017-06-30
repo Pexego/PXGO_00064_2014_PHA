@@ -54,10 +54,32 @@ class CheckPricelistMessage(models.TransientModel):
         s = self.sale_id
         for warning in self.warning_ids.filtered('fix'):
             if warning.type == 'com_discount':
-                s.commercial_discount_percentage = \
-                    s.partner_id.commercial_discount
-                s.commercial_discount_input = \
-                    s.partner_id.commercial_discount
+                if s.partner_id.com_discount_by_line_subline_id and s.order_line:
+                    line_id = s.order_line[0].product_id.line
+                    subline_id = s.order_line[0].product_id.subline
+                    all_products_with_same_line_and_subline = True
+
+                    for item in s.order_line:
+                        all_products_with_same_line_and_subline = \
+                            all_products_with_same_line_and_subline and \
+                            (line_id == item.product_id.line) and \
+                            (subline_id == item.product_id.subline)
+
+                    if all_products_with_same_line_and_subline:
+                        commercial_discount = s.partner_id. \
+                            com_discount_by_line_subline_id.filtered(
+                            lambda r: (r.line_id == line_id) and
+                                      (r.subline_id == subline_id)
+                        )
+                        commercial_discount = commercial_discount.discount \
+                            if commercial_discount else 0
+                    else:
+                        commercial_discount = 0
+                else:
+                    commercial_discount = s.partner_id.commercial_discount
+
+                s.commercial_discount_percentage = commercial_discount
+                s.commercial_discount_input = commercial_discount
                 s.generate_discounts
                 continue
 

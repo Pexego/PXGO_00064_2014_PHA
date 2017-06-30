@@ -9,6 +9,8 @@ class CommercialDiscountByLineSubline(models.Model):
     _order = 'line_id, subline_id'
 
     partner_id = fields.Many2one(comodel_name='res.partner')
-    line_id = fields.Many2one(comodel_name='product.line')
-    subline_id = fields.Many2one(comodel_name='product.subline')
-    discount = fields.Float()
+    line_id = fields.Many2one(string='Product line',
+                              comodel_name='product.line')
+    subline_id = fields.Many2one(string='Product subline',
+                                 comodel_name='product.subline')
+    discount = fields.Float('Discount %')

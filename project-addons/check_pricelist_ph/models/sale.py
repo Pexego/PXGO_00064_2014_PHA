@@ -19,22 +19,59 @@ class SaleOrder(models.Model):
         messages = []
         orphans = []
 
-        if self.commercial_discount_percentage != self.partner_id.commercial_discount:
+        if self.partner_id.com_discount_by_line_subline_id and self.order_line:
+            line_id = self.order_line[0].product_id.line
+            subline_id = self.order_line[0].product_id.subline
+            all_products_with_same_line_and_subline = True
+
+            for item in self.order_line:
+                all_products_with_same_line_and_subline = \
+                    all_products_with_same_line_and_subline and \
+                    (line_id == item.product_id.line) and \
+                    (subline_id == item.product_id.subline)
+
+            if all_products_with_same_line_and_subline:
+                commercial_discount = self.partner_id.\
+                    com_discount_by_line_subline_id.filtered(
+                        lambda r: (r.line_id == line_id) and
+                                  (r.subline_id == subline_id)
+                )
+                commercial_discount = commercial_discount.discount \
+                    if commercial_discount else 0
+            else:
+                commercial_discount = 0
+
+            if self.commercial_discount_percentage != commercial_discount:
+                messages.append((0, 0, {
+                    'type': 'com_discount',
+                    'description': _(
+                        '[DifferentDiscounts] - The applied commercial '
+                        'discount (%.2f %%) differs from that specified '
+                        'in the customer form (%.2f %%).\n') %
+                                   (self.commercial_discount_percentage,
+                                    commercial_discount)
+                }))
+
+        elif self.commercial_discount_percentage != \
+                self.partner_id.commercial_discount:
             messages.append((0, 0, {
                 'type': 'com_discount',
                 'description': _('[DifferentDiscounts] - The applied commercial '
-                                 'discount (%.2f) differs from that specified '
-                                 'in the customer form.\n') %
-                               (self.commercial_discount_percentage)
+                                 'discount (%.2f %%) differs from that specified '
+                                 'in the customer form (%.2f %%).\n') %
+                               (self.commercial_discount_percentage,
+                                self.partner_id.commercial_discount)
             }))
 
-        if self.financial_discount_percentage != self.partner_id.financial_discount:
+        if self.financial_discount_percentage != \
+                self.partner_id.financial_discount:
             messages.append((0, 0, {
                 'type': 'fin_discount',
                 'description': _('[DifferentDiscounts] - The applied financial '
-                                 'discount (%.2f) differs from that specified '
-                                 'in the customer form.\n') %
-                               (self.financial_discount_percentage)
+                                 'discount (%.2f %%) differs from that specified '
+                                 'in the customer form (%.2f %%).\n') %
+                               (self.financial_discount_percentage,
+                                self.partner_id.financial_discount)
             }))
 
         for item in self.order_line:

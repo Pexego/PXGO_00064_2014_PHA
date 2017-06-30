@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-15 13:53+0000\n"
-"PO-Revision-Date: 2017-06-15 16:03+0200\n"
+"POT-Creation-Date: 2017-06-30 15:06+0000\n"
+"PO-Revision-Date: 2017-06-30 17:12+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,6 @@ msgstr ""
 "Plural-Forms: \n"
 "Language: es\n"
 "X-Generator: Poedit 2.0\n"
-
-#. module: check_pricelist_ph
-#: field:sale.order,budget:0
-msgid "Budget"
-msgstr "Presupuesto"
 
 #. module: check_pricelist_ph
 #: view:check.pricelist.message:check_pricelist_ph.check_pricelist_message_wizard
@@ -38,41 +33,28 @@ msgid "Check pricelist"
 msgstr "Comprobar lista precios"
 
 #. module: check_pricelist_ph
+#: field:res.partner,com_discount_by_line_subline_id:0
+msgid "Check pricelist multi comm. discount"
+msgstr "Multi desc. comerc. (comprobar lista precios)"
+
+#. module: check_pricelist_ph
 #: field:check.pricelist.message,create_uid:0
 #: field:check.pricelist.warnings,create_uid:0
+#: field:commercial.discount.by.line.subline,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: check_pricelist_ph
 #: field:check.pricelist.message,create_date:0
 #: field:check.pricelist.warnings,create_date:0
+#: field:commercial.discount.by.line.subline,create_date:0
 msgid "Created on"
 msgstr "Creado el"
 
 #. module: check_pricelist_ph
-#: field:sale.order,customer_branch:0
-msgid "Customer branch"
-msgstr "Marca cliente"
-
-#. module: check_pricelist_ph
-#: field:sale.order,customer_department:0
-msgid "Customer department"
-msgstr "Departamento cliente"
-
-#. module: check_pricelist_ph
-#: field:sale.order,customer_transmitter:0
-msgid "Customer transmitter"
-msgstr "Transmisor cliente"
-
-#. module: check_pricelist_ph
-#: field:sale.order,delivery_date:0
-msgid "Delivery date"
-msgstr "Fecha envío"
-
-#. module: check_pricelist_ph
 #: field:check.pricelist.warnings,description:0
 msgid "Description"
-msgstr "Description"
+msgstr "Descripción"
 
 #. module: check_pricelist_ph
 #: selection:check.pricelist.warnings,type:0
@@ -95,8 +77,14 @@ msgid "Different price from price list"
 msgstr "Precio distinto al de la tarifa"
 
 #. module: check_pricelist_ph
+#: field:commercial.discount.by.line.subline,discount:0
+msgid "Discount %"
+msgstr "Descuento %"
+
+#. module: check_pricelist_ph
 #: field:check.pricelist.message,display_name:0
 #: field:check.pricelist.warnings,display_name:0
+#: field:commercial.discount.by.line.subline,display_name:0
 msgid "Display Name"
 msgstr "Nombre visible"
 
@@ -112,24 +100,28 @@ msgstr "Corregir avisos"
 
 #. module: check_pricelist_ph
 #: field:check.pricelist.message,id:0 field:check.pricelist.warnings,id:0
+#: field:commercial.discount.by.line.subline,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: check_pricelist_ph
 #: field:check.pricelist.message,__last_update:0
 #: field:check.pricelist.warnings,__last_update:0
+#: field:commercial.discount.by.line.subline,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: check_pricelist_ph
 #: field:check.pricelist.message,write_uid:0
 #: field:check.pricelist.warnings,write_uid:0
+#: field:commercial.discount.by.line.subline,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: check_pricelist_ph
 #: field:check.pricelist.message,write_date:0
 #: field:check.pricelist.warnings,write_date:0
+#: field:commercial.discount.by.line.subline,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
@@ -144,14 +136,39 @@ msgid "Nº"
 msgstr "Nº"
 
 #. module: check_pricelist_ph
+#: help:res.partner,com_discount_by_line_subline_id:0
+msgid "Only for sale orders check pricelist button. When a customer has defined these discounts, will be applied according to the line and subline of each product. If, in the same order, the products have different line or subline, a discount of 0%. If none is defined, the general commercial discount is used."
+msgstr "Solamente para el botón \"Comprobar lista precios\" en los pedidos de venta. Cuando un cliente tiene definidos estos descuentos, se aplicarán según la línea y sublínea de los productos del pedido. Si, en el mismo pedido, los productos tienen distintas líneas o sublíneas, el descuento será del 0%. En caso de que se haya definido nada en esta lista, se utilizará el descuento comercial general."
+
+#. module: check_pricelist_ph
 #: field:check.pricelist.warnings,order_line_id:0
 msgid "Order line id"
 msgstr "ID de línea de pedido"
 
 #. module: check_pricelist_ph
+#: model:ir.model,name:check_pricelist_ph.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: check_pricelist_ph
+#: field:commercial.discount.by.line.subline,partner_id:0
+msgid "Partner id"
+msgstr "Cliente"
+
+#. module: check_pricelist_ph
+#: field:commercial.discount.by.line.subline,line_id:0
+msgid "Product line"
+msgstr "Línea de producto"
+
+#. module: check_pricelist_ph
 #: selection:check.pricelist.warnings,type:0
 msgid "Product not in price list"
 msgstr "Producto no aparece en tarifa"
+
+#. module: check_pricelist_ph
+#: field:commercial.discount.by.line.subline,subline_id:0
+msgid "Product subline"
+msgstr "Sublínea de producto"
 
 #. module: check_pricelist_ph
 #: field:check.pricelist.message,sale_id:0
@@ -164,12 +181,7 @@ msgid "Sales Order"
 msgstr "Pedido de venta"
 
 #. module: check_pricelist_ph
-#: field:sale.order,season:0
-msgid "Season"
-msgstr "Estación"
-
-#. module: check_pricelist_ph
-#: code:addons/check_pricelist_ph/wizard/check_pricelist.py:44
+#: code:addons/check_pricelist_ph/wizard/check_pricelist.py:49
 #, python-format
 msgid "There are %d warnings detected"
 msgstr "Se han detectado %d incongruencias"
@@ -185,36 +197,42 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: check_pricelist_ph
+#: field:check.pricelist.message,warning_count:0
+msgid "Warning count"
+msgstr "Contador de alertas"
+
+#. module: check_pricelist_ph
 #: field:check.pricelist.message,warning_ids:0
 msgid "Warning ids"
 msgstr "IDs de avisos"
 
 #. module: check_pricelist_ph
-#: code:addons/check_pricelist_ph/models/sale.py:25
+#: code:addons/check_pricelist_ph/models/sale.py:47
+#: code:addons/check_pricelist_ph/models/sale.py:59
 #, python-format
-msgid "[DifferentDiscounts] - The applied commercial discount (%.2f) differs from that specified in the customer form.\n"
-msgstr "[DescuentosDiferentes] - El descuento comercial aplicado (%.2f) es diferente al especificado en la ficha del cliente.\n"
+msgid "[DifferentDiscounts] - The applied commercial discount (%.2f %%) differs from that specified in the customer form (%.2f %%).\n"
+msgstr "[DescuentosDiferentes] - El descuento comercial aplicado (%.2f %%) es diferente al especificado en la ficha del cliente (%.2f %%).\n"
 
 #. module: check_pricelist_ph
-#: code:addons/check_pricelist_ph/models/sale.py:34
+#: code:addons/check_pricelist_ph/models/sale.py:70
 #, python-format
-msgid "[DifferentDiscounts] - The applied financial discount (%.2f) differs from that specified in the customer form.\n"
-msgstr "[DescuentosDiferentes] - El descuento financiero aplicado (%.2f) Es diferente al especificado en la ficha del cliente.\n"
+msgid "[DifferentDiscounts] - The applied financial discount (%.2f %%) differs from that specified in the customer form (%.2f %%).\n"
+msgstr "[DescuentosDiferentes] - El descuento financiero aplicado (%.2f %%) Es diferente al especificado en la ficha del cliente (%.2f %%).\n"
 
 #. module: check_pricelist_ph
-#: code:addons/check_pricelist_ph/models/sale.py:63
+#: code:addons/check_pricelist_ph/models/sale.py:100
 #, python-format
 msgid "[DifferentPrice] - Diff. %.5f - %s - The price of product in the order is %.5f, while in %s price list is %.5f\n"
 msgstr "[PrecioDiferente] - Dif. %.5f - %s - El precio en el pedido es %.5f, mientras que en la tarifa %s es %.5f\n"
 
 #. module: check_pricelist_ph
-#: code:addons/check_pricelist_ph/models/sale.py:75
+#: code:addons/check_pricelist_ph/models/sale.py:118
 #, python-format
 msgid "[DifferentVAT] - %s - The product has different tax from %s.\n"
 msgstr "[ImpuestoDiferente] - %s - El impuesto del producto es diferente a %s.\n"
 
 #. module: check_pricelist_ph
-#: code:addons/check_pricelist_ph/models/sale.py:46
+#: code:addons/check_pricelist_ph/models/sale.py:83
 #, python-format
 msgid "[NotInPriceList] - %s - The product is not in %s price list.\n"
 msgstr "[NoEnListaPrecios] - %s - El producto no aparece en la tarifa %s.\n"

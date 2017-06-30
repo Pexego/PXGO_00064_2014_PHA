@@ -11,7 +11,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="commercial_and_financial_discount.partner_form_com_fin_disc"/>
             <field name="arch" type="xml">
                 <field name="financial_discount" position="after">
-                    <field name="com_discount_by_line_subline_id"/>
+                    <field name="com_discount_by_line_subline_id">
+                        <tree editable="top">
+                            <field name="line_id"/>
+                            <field name="subline_id"/>
+                            <field name="discount"/>
+                        </tree>
+                    </field>
                 </field>
              </field>
         </record>
