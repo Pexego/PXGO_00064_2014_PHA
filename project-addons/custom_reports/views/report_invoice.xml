@@ -49,6 +49,9 @@
                 <t t-set="company" t-value="res_company"></t>
             </t>
 
+            <t t-set="sale_ok" t-value="o.type in ('out_invoice', 'out_refund')"></t>
+            <t t-set="purchase_ok" t-value="o.type in ('in_invoice', 'in_refund')"></t>
+
             <t t-set="hide_iso_logo" t-value="True"/>
             <t t-call="custom_reports.report_invoice_biosalud"/>
         </template>

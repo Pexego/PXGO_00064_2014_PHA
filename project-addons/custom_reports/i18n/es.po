@@ -6,22 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-29 09:29+0000\n"
-"PO-Revision-Date: 2016-03-29 11:30+0200\n"
-"Last-Translator: Oscar Salvador <oscar.salvador@pharmadus.com>\n"
+"POT-Creation-Date: 2017-06-30 16:28+0000\n"
+"PO-Revision-Date: 2017-06-30 18:29+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.8.4\n"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
-msgid "&nbsp;"
-msgstr "&nbsp;"
+"X-Generator: Poedit 2.0\n"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
@@ -54,7 +48,7 @@ msgid ""
 "                            Registration"
 msgstr ""
 ",\n"
-"                            Inscripción"
+"                            Registro"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -82,6 +76,51 @@ msgid ""
 msgstr ""
 ",\n"
 "                            Tomo"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ""
+",\n"
+"                        Folio"
+msgstr ""
+",\n"
+"                        Folio"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ""
+",\n"
+"                        Registration"
+msgstr ""
+",\n"
+"                        Inscripción"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ""
+",\n"
+"                        Sheet Number"
+msgstr ""
+",\n"
+"                        Hoja"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ""
+",\n"
+"                        TIN"
+msgstr ""
+",\n"
+"                        NIF"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid ""
+",\n"
+"                        Volume"
+msgstr ""
+",\n"
+"                        Tomo"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_footer
@@ -191,10 +230,9 @@ msgid "Commissions parent category"
 msgstr "Categoría padre comisiones"
 
 #. module: custom_reports
-#: field:account.invoice.report,categ_ids:0
-#: field:sale.report,categ_ids:0
-msgid "Product Categories"
-msgstr "Categoría extra de producto"
+#: model:ir.model,name:custom_reports.model_res_company
+msgid "Companies"
+msgstr "Compañías"
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
@@ -258,14 +296,20 @@ msgid "Fiscal Position Remark:"
 msgstr "Observaciones de la posición fiscal"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_footer
 #: view:website:custom_reports.report_invoice_biosalud
-msgid "For any doubt or explanation of the invoice, be contacted with Administration Dept. in the number"
-msgstr "Para cualquier duda o aclaración, póngase en contacto con el Dpto. de Administración en el número"
+msgid "For any doubt or explanation, be contacted with"
+msgstr "Para cualquier duda o aclaración, póngase en contacto con el"
 
 #. module: custom_reports
 #: field:payment.mode,hide_account_at_invoice:0
 msgid "Hide bank account when payment mode shown in an invoice"
 msgstr "Oculta la cuenta bancaria cuando se muestra el modo de pago en una factura"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
+msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
 
 #. module: custom_reports
 #: view:website:custom_reports.report_footer
@@ -279,6 +323,7 @@ msgid "Intermediary"
 msgstr "Intermediario"
 
 #. module: custom_reports
+#: model:ir.model,name:custom_reports.model_account_invoice
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Invoice"
@@ -289,6 +334,11 @@ msgstr "Factura"
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Invoice Date:"
 msgstr "Fecha de factura:"
+
+#. module: custom_reports
+#: field:account.invoice.report,number:0
+msgid "Invoice number"
+msgstr "Invoice number"
 
 #. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_invoice_bio_without_iso
@@ -364,17 +414,13 @@ msgid "Last Year"
 msgstr "Año anterior"
 
 #. module: custom_reports
-#: view:website:custom_reports.report_lot_labels
-msgid "LOT"
-msgstr "LOTE"
-
-#. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Lot | Approved | Best before"
 msgstr "Lote | Aprobado | Cons. preferente"
 
 #. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_report_lot_labels
+#: model:ir.actions.report.xml,name:custom_reports.action_report_lot_labels_biosalud
 msgid "Lots labels"
 msgstr "Etiquetas de lotes"
 
@@ -417,28 +463,14 @@ msgid "PRO-FORMA"
 msgstr "PRO-FORMA"
 
 #. module: custom_reports
-#: field:account.invoice.report,product_cost:0
-#: field:sale.report,product_cost:0
-msgid "Product cost"
-msgstr "Coste de producto"
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "PROMO"
+msgstr "PROMO"
 
 #. module: custom_reports
-#: field:account.invoice.report,product_cost_rm:0
-#: field:sale.report,product_cost_rm:0
-msgid "Product cost raw material"
-msgstr "Coste de producto M.P."
-
-#. module: custom_reports
-#: field:account.invoice.report,product_cost_components:0
-#: field:sale.report,product_cost_components:0
-msgid "Product cost components"
-msgstr "Coste de producto componentes"
-
-#. module: custom_reports
-#: field:account.invoice.report,product_cost_dl:0
-#: field:sale.report,product_cost_dl:0
-msgid "Product cost direct labor"
-msgstr "Coste de producto M.O.D."
+#: model:ir.model,name:custom_reports.model_stock_pack_operation
+msgid "Packing Operation"
+msgstr "Operación de empaquetado"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -456,20 +488,14 @@ msgid "Parent cooperative"
 msgstr "Cooperativa padre"
 
 #. module: custom_reports
-#: field:account.invoice.report,partner_id:0
-#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
-msgid "Partner (invoice send address)"
-msgstr "Empresa (dir. envío factura)"
-
-#. module: custom_reports
-#: field:account.invoice.report,commercial_partner_id:0
-msgid "Partner (invoicing address)"
-msgstr "Empresa (dir. facturación)"
-
-#. module: custom_reports
 #: field:account.invoice.report,commercial_name:0
 msgid "Partner (commercial name)"
 msgstr "Empresa (nombre comercial)"
+
+#. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+msgid "Partner (invoice send address)"
+msgstr "Empresa (dir. envío factura)"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -478,11 +504,6 @@ msgstr "Empresa (nombre comercial)"
 #: field:sale.report,partner_category:0
 msgid "Partner category"
 msgstr "Categoría de empresa"
-
-#. module: account
-#: field:account.invoice.report,commercial_partner_id:0
-msgid "Partner Company"
-msgstr "Empresa (dir. facturación)"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -509,11 +530,6 @@ msgstr "Plazo de pago:"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Payment mode:"
 msgstr "Forma de pago:"
-
-#. module: custom_reports
-#: field:account.invoice,picking_ids:0
-msgid "Picking ids"
-msgstr "Picking ids"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_purchaseorder_document
@@ -550,19 +566,14 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: custom_reports
-#: field:account.invoice.report,product_reference:0
-msgid "Product reference"
-msgstr "Producto - Referencia"
-
-#. module: custom_reports
-#: field:account.invoice.report,product_with_reference:0
-msgid "Product with reference"
-msgstr "Producto con referencia"
-
-#. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Product / EAN13"
 msgstr "Producto / EAN13"
+
+#. module: custom_reports
+#: field:account.invoice.report,categ_ids:0 field:sale.report,categ_ids:0
+msgid "Product Categories"
+msgstr "Categoría extra de producto"
 
 #. module: custom_reports
 #: model:ir.model,name:custom_reports.model_product_category
@@ -582,26 +593,43 @@ msgid "Product container"
 msgstr "Producto - Envasado"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_cost:0 field:sale.report,product_cost:0
+msgid "Product cost"
+msgstr "Coste de producto"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_components:0
+#: field:sale.report,product_cost_components:0
+msgid "Product cost components"
+msgstr "Coste de producto componentes"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_dl:0
+#: field:sale.report,product_cost_dl:0
+msgid "Product cost direct labor"
+msgstr "Coste de producto M.O.D."
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_rm:0
+#: field:sale.report,product_cost_rm:0
+msgid "Product cost raw material"
+msgstr "Coste de producto M.P."
+
+#. module: custom_reports
 #: field:account.invoice.report,product_form:0 field:sale.report,product_form:0
 msgid "Product form"
 msgstr "Producto - Forma"
-
-#. module: custom_reports
-#: field:account.invoice.report,product_line:0 field:sale.report,product_line:0
-msgid "Product line"
-msgstr "Producto - Línea"
-
-#. module: custom_reports
-#: field:account.invoice.report,product_subline:0
-#: field:sale.report,product_subline:0
-msgid "Product subline"
-msgstr "Producto - Sublínea"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_gross_weight:0
 #: field:sale.report,product_gross_weight:0
 msgid "Product gross weight"
 msgstr "Producto - Peso bruto"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_line:0 field:sale.report,product_line:0
+msgid "Product line"
+msgstr "Producto - Línea"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_net_weight:0
@@ -622,6 +650,27 @@ msgid "Product purchase subline"
 msgstr "Producto - Sublínea de compras"
 
 #. module: custom_reports
+#: field:account.invoice.report,product_reference:0
+msgid "Product reference"
+msgstr "Producto - Referencia"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_subline:0
+#: field:sale.report,product_subline:0
+msgid "Product subline"
+msgstr "Producto - Sublínea"
+
+#. module: custom_reports
+#: field:purchase.order.line,product_supplier_reference:0
+msgid "Product supplier reference"
+msgstr "Product supplier reference"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_with_reference:0
+msgid "Product with reference"
+msgstr "Producto con referencia"
+
+#. module: custom_reports
 #: field:account.invoice.report,product_year_appearance:0
 #: field:sale.report,product_year_appearance:0
 msgid "Product year of appearance"
@@ -636,6 +685,22 @@ msgstr "Producto | EAN13"
 #: view:website:custom_reports.report_purchaseorder_document
 msgid "Purchase Order Confirmation N°:"
 msgstr "Confirmación de orden de compra N°:"
+
+#. module: custom_reports
+#: model:ir.model,name:custom_reports.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+#: view:website:custom_reports.report_invoice_biosalud
+msgid "Purchases Dept."
+msgstr "Dpto. de Compras"
+
+#. module: custom_reports
+#: model:ir.model,name:custom_reports.model_purchase_report
+msgid "Purchases Orders"
+msgstr "Pedidos de compras"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
@@ -703,7 +768,7 @@ msgstr "Mensaje de cabecera"
 #. module: custom_reports
 #: field:res.company,report_purchases_email:0
 msgid "Report purchases email"
-msgstr "e-Mail de compras"
+msgstr "e-mail de compras"
 
 #. module: custom_reports
 #: field:res.company,report_purchases_footer_message:0
@@ -713,7 +778,7 @@ msgstr "Mensaje del pie de pág. para compras"
 #. module: custom_reports
 #: field:res.company,report_sales_email:0
 msgid "Report sales email"
-msgstr "e-Mail de ventas"
+msgstr "e-mail de ventas"
 
 #. module: custom_reports
 #: field:res.company,report_sales_footer_message:0
@@ -750,6 +815,12 @@ msgstr "Tipo de venta"
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Sales"
 msgstr "Ventas"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_footer
+#: view:website:custom_reports.report_invoice_biosalud
+msgid "Sales Dept."
+msgstr "Dpto. de Ventas"
 
 #. module: custom_reports
 #: model:ir.model,name:custom_reports.model_sale_report
@@ -943,71 +1014,7 @@ msgid "Zero cost"
 msgstr "Coste cero"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_footer
 #: view:website:custom_reports.report_invoice_biosalud
-msgid "administracion@laboratoriobiosalud.com"
-msgstr "administracion@laboratoriobiosalud.com"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid ",\n"
-"                        Folio"
-msgstr ",\n"
-"                        Folio"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid ",\n"
-"                        Registration"
-msgstr ",\n"
-"                        Inscripción"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid ",\n"
-"                        Sheet Number"
-msgstr ",\n"
-"                        Hoja"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid ",\n"
-"                        TIN"
-msgstr ",\n"
-"                        NIF"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid ",\n"
-"                        Volume"
-msgstr ",\n"
-"                        Tomo"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid ", or by e-mail at info@pharmadus.com"
-msgstr ", o al e-mail info@pharmadus.com"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
 msgid "in the number"
 msgstr "en el teléfono"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid "Purchases Dept."
-msgstr "Dpto. de Compras"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid "Sales Dept."
-msgstr "Dpto. de Ventas"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid "For any doubt or explanation, be contacted with"
-msgstr "Para cualquier duda o aclaración, póngase en contacto con el"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
-msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
