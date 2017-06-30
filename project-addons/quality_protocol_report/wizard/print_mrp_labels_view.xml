@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="print_mrp_labels_form" model="ir.ui.view">
+            <field name="name">print.mrp.labels.form</field>
+            <field name="model">print.mrp.labels</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="production_id" invisible="1"/>
+                        <field name="product_id" invisible="1"/>
+                        <field name="gtin" domain="[('product_id', '=', product_id)]"/>
+                    </group>
+                    <footer>
+                        <button name="print_labels" string="Print" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Print mrp labels"
+            res_model="print.mrp.labels"
+            src_model="mrp.production"
+            view_id="print_mrp_labels_form"
+            view_mode="form"
+            target="new"
+            key2="client_print_multi"
+            id="print_mrp_labels_action"/>
+
+    </data>
+</openerp>

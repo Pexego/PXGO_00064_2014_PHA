@@ -25,23 +25,6 @@ from openerp import models, fields, _, exceptions, api, tools
 from openerp.addons.product import _common
 
 
-class MrpProductProduce(models.TransientModel):
-
-    _inherit = 'mrp.product.produce'
-
-    @api.multi
-    def do_produce(self):
-        production_id = self.env.context.get('active_id', False)
-        production = self.env['mrp.production'].browse(production_id)
-        docs_no_submited = []
-        for wkcenter_line in production.workcenter_lines:
-            if not wkcenter_line.doc_submited:
-                if wkcenter_line.workcenter_id.name not in docs_no_submited:
-                    docs_no_submited.append(wkcenter_line.workcenter_id.name)
-        if docs_no_submited:
-            raise exceptions.Warning(_('Document error'), _('Documents not submited: \n %s') % (','.join(docs_no_submited)))
-        return super(MrpProductProduce, self.with_context(no_return_operations=True)).do_produce()
-
 class MrpProduction(models.Model):
 
     _inherit = "mrp.production"
@@ -50,6 +33,8 @@ class MrpProduction(models.Model):
     goods_return_date = fields.Date('Return date')
     picking_notes = fields.Text('Picking notes')
     workcenter_lines = fields.One2many(readonly=False)
+    date_end_planned = fields.Datetime()
+    time_planned = fields.Float()
 
     def _create_previous_move(self, cr, uid, move_id, product,
                               source_location_id, dest_location_id,
@@ -158,7 +143,6 @@ class MrpProductionWorkcenterLine(models.Model):
     _inherit = 'mrp.production.workcenter.line'
 
     continuation = fields.Boolean('Is continuation')
-    doc_submited = fields.Boolean('Document submited')
     realized_ids = fields.One2many('quality.realization', 'workcenter_line_id',
                                    'Realization')
 

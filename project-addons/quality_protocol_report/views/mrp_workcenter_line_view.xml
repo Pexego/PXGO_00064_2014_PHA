@@ -10,7 +10,6 @@
                 <notebook position="inside">
                     <page string="Extra information">
                         <group>
-                            <field name="doc_submited"/>
                             <separator string="Realization" colspan="4"/>
                             <field name="realized_ids" nolabel="1" colspan="4">
                                 <tree editable="top">

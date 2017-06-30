@@ -18,9 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
-from datetime import date, datetime
+from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
+from datetime import date
 
 
 class StockMoveReturnOperations(models.Model):
@@ -34,6 +34,7 @@ class StockMoveReturnOperations(models.Model):
     move_id = fields.Many2one('stock.move', 'Move')
     production_id = fields.Many2one('mrp.production', 'Production')
     product_uom = fields.Many2one('product.uom', 'UoM')
+    location_id = fields.Many2one('stock.location')
     """Informative fields"""
     served_qty = fields.Float('Served qty',
                               help="Quality system field, no data",
@@ -101,39 +102,133 @@ class StockMove(models.Model):
     def action_assign(self):
         """
             Se actualizan los registros de return operations unicamente si
-            los movimientos corresponden a una produccion.
+            los movimientos corresponden a una produccion, o si es un acopio.
         """
-
-        super(StockMove, self).action_assign()
+        res = super(StockMove, self).action_assign()
         if self.env.context.get('no_return_operations', False):
-            return
+            return res
+        self.create_return_operations()
+        return res
+
+    def create_return_operations(self):
         q_lot_ids = []
         for move in self:
-            if not move.raw_material_production_id:
-                continue
-            quants = self.env['stock.quant'].read_group(
-                [('reservation_id', '=', move.id)], ['lot_id', 'qty'],
-                ['lot_id'])
-            for quant in quants:
-                lot = quant['lot_id']
-                if lot:
-                    q_lot_ids.append(lot[0])
-                operation = self.env['stock.move.return.operations'].search(
-                    [('move_id', '=', move.id),
-                     ('lot_id', '=', lot and lot[0] or False)])
-                if operation:
-                    if operation.qty != quant['qty']:
-                        operation.qty = quant['qty']
-                    continue
-                operation_dict = {
-                    'product_id': move.product_id.id,
-                    'lot_id': lot and lot[0] or False,
-                    'qty': quant['qty'],
-                    'product_uom': move.product_uom.id,
-                    'move_id': move.id,
-                    'production_id': move.raw_material_production_id.id
-                }
-                self.env['stock.move.return.operations'].create(operation_dict)
-            for operation in move.return_operation_ids:
-                if operation.lot_id.id not in q_lot_ids:
-                    operation.unlink()
+            if (move.move_dest_id and
+                move.move_dest_id.raw_material_production_id):
+                op_move = move
+                if move.move_dest_id:
+                    op_move = move.move_dest_id
+                if op_move.return_operation_ids:
+                    op_move.return_operation_ids.unlink()
+
+                locations = move.reserved_quant_ids.mapped('location_id.id')
+                for location in locations:
+                    quants = self.env['stock.quant'].read_group(
+                        [('reservation_id', '=', move.id), ('location_id', '=', location)], ['lot_id', 'qty',], ['lot_id'])
+                    for quant in quants:
+                        lot = quant['lot_id']
+                        if lot:
+                            q_lot_ids.append(lot[0])
+                        operation = self.env['stock.move.return.operations'].search(
+                            [('move_id', '=', op_move.id),
+                             ('lot_id', '=', lot and lot[0] or False)])
+                        operation_dict = {
+                            'product_id': op_move.product_id.id,
+                            'lot_id': lot and lot[0] or False,
+                            'qty': quant['qty'],
+                            'product_uom': move.product_uom.id,
+                            'move_id': op_move.id,
+                            'production_id': op_move.raw_material_production_id.id,
+                            'location_id': location
+                        }
+                        self.env['stock.move.return.operations'].create(
+                            operation_dict)
+
+
+class StockPicking(models.Model):
+
+    _inherit = 'stock.picking'
+
+    is_hoard = fields.Boolean('Is hoard', related='move_lines.is_hoard_move')
+    accept_multiple_raw_material = fields.Boolean(
+        related='move_lines.move_dest_id.raw_material_production_id.\
+accept_multiple_raw_material')
+
+    @api.multi
+    def do_transfer(self):
+        '''
+            Se controla el uso de materias primas en acopios de producción.
+        '''
+        for picking in self:
+            if picking.is_hoard and not picking.accept_multiple_raw_material:
+                if len(picking.mapped(
+                        'move_lines.product_id').filtered(lambda r: r.raw_material==True)) > 1:
+                    raise exceptions.Warning(
+                        _('Multiple raw material'),
+                        _('The route not accepts multiple raw material'))
+                for move in picking.move_lines:
+                    if move.product_id.raw_material:
+                        if len(move.mapped('linked_move_operation_ids.operation_id.lot_id')) > 1:
+                            raise exceptions.Warning(
+                                _('Multiple lot'),
+                                _('The production route only accepts one lot of raw material'))
+        return super(StockPicking, self).do_transfer()
+
+    @api.multi
+    def action_assign(self):
+        res = super(StockPicking, self).action_assign()
+        for picking in self:
+            if picking.is_hoard:
+                lot_errors = []
+                for lot in picking.mapped(
+                        'move_lines.reserved_quant_ids.lot_id'):
+                    if lot.alert_date and \
+                            fields.Datetime.from_string(lot.alert_date).date() \
+                            < date.today():
+                        lot_errors.append(
+                            'Fecha de alerta pasada: %s - %s' %
+                            (lot.name, lot.product_id.name))
+                if lot_errors:
+                    return self.env['custom.views.warning'].show_message(
+                        _('Alert date error'),
+                        _('\n'.join(lot_errors))
+                    )
+        return res
+
+
+class StockQuant(models.Model):
+
+    _inherit = 'stock.quant'
+
+    @api.model
+    def _quants_get_order(self, location, product, quantity, domain=[],
+                          orderby='in_date'):
+        '''
+            Se controla la asignacion de materias primas para que no se asigne
+            mas de un lote para materia prima en albaranes de acopio
+            cuya ruta no tenga mezcladora.
+        '''
+        if product.raw_material:
+            if self._context.get('active_model', False) == 'stock.picking':
+                picking = self.env['stock.picking'].browse(
+                    self._context.get('active_id', False))
+                if picking.is_hoard and not \
+                        picking.accept_multiple_raw_material:
+                    available_quants = self.env['stock.quant'].search([
+                        ('location_id', 'child_of', location.id),
+                        ('product_id', '=', product.id),
+                        ('qty', '>', 0),
+                        ('reservation_id', '=', False)])
+                    lots = {}
+                    for quant in available_quants:
+                        if quant.lot_id.id not in lots:
+                            lots[quant.lot_id.id] = 0.0
+                        lots[quant.lot_id.id] += quant.qty
+                    available_lots = []
+                    for lot in lots.keys():
+                        if lots[lot] >= quantity:
+                            available_lots.append(lot)
+                    domain.append(['lot_id', 'in', available_lots])
+        return super(StockQuant, self)._quants_get_order(location, product,
+                                                         quantity, domain,
+                                                         orderby)

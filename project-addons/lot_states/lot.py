@@ -192,6 +192,13 @@ class StockProductionLot(models.Model):
         self.write({'state': 'rejected'})
 
     @api.multi
+    def button_approved_to_draft(self):
+        self.write({'state': 'draft'})
+        self.delete_workflow()
+        self.create_workflow()
+        return True
+
+    @api.multi
     def button_return_from_rejected(self):
         for lot in self:
             signal = ''

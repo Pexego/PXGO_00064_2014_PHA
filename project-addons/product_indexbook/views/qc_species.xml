@@ -348,23 +348,16 @@
         />
 
         <menuitem
-            name="Products"
-            id="menu_qc_products"
-            parent="quality_management_menu.menu_quality_management"
-            sequence="2"
-        />
-
-        <menuitem
             action="action_qc_products_saleable"
             id="menu_qc_products_saleable"
-            parent="menu_qc_products"
+            parent="quality_management_menu.menu_qc_products"
             sequence="1"
         />
 
         <menuitem
             action="action_qc_products_purchasable"
             id="menu_qc_products_purchasable"
-            parent="menu_qc_products"
+            parent="quality_management_menu.menu_qc_products"
             sequence="2"
         />
     </data>

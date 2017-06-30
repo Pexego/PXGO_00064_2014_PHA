@@ -21,6 +21,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api
+import openerp.addons.decimal_precision as dp
 
 
 class ProductLine(models.Model):
@@ -85,7 +86,7 @@ class product_quality_limits(models.Model):
 
     _name = "product.quality.limits"
 
-    name = fields.Char('Name', size=64, required=True)
+    name = fields.Many2one('product.template', required=True)
     # case_weight
     full_case_min_action_weight = fields.Float('Full case action min')
     full_case_max_action_weight = fields.Float('Full case action max')
@@ -105,8 +106,39 @@ class product_quality_limits(models.Model):
     filter_max_alert_weight = fields.Float('Filter weight max alert')
 
     loc_samples = fields.Integer('Loc Samples')
-    unit_weight = fields.Float('Unit weight')
+    unit_weight = fields.Float('Unit weight', compute='_get_unit_weight',
+                               store=True,
+                               digits=dp.get_precision('Stock Weight'))
     analysis = fields.Integer('Analysis')
+    tu1 = fields.Float('TU1')
+    tu2 = fields.Float('TU2')
+    to1 = fields.Float('TO1')
+    to2 = fields.Float('TO2')
+
+    _sql_constraints = [('name_unique', 'unique(name)',
+                         'Unique product')]
+
+    @api.depends('name.weight_net', 'name.qty')
+    def _get_unit_weight(self):
+        for spec in self:
+            if spec.name.qty != 0:
+                spec.unit_weight = spec.name.weight_net / spec.name.qty
+
+    @api.model
+    def create(self, vals):
+        res = super(product_quality_limits, self).create(vals)
+        if res.name:
+            res.name.quality_limits = res
+        return res
+
+    @api.multi
+    def write(self, vals):
+        if 'name' in vals:
+            self.name.quality_limits = False
+        res = super(product_quality_limits, self).write(vals)
+        if vals.get('name', False):
+            self.name.quality_limits = self
+        return res
 
 
 class ProductProduct(models.Model):
@@ -151,9 +183,10 @@ class ProductTemplate(models.Model):
     @api.model
     def create(self, vals):
         tmpl = super(ProductTemplate, self).create(vals)
-        if vals.get('cn_code'):
+        if vals.get('cn_code', False):
             tmpl.cn_code = vals['cn_code']
         return tmpl
+
 
 class product_extra_category(models.Model):
     _name = 'product.extra.category'

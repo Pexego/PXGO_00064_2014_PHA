@@ -31,6 +31,13 @@ class MrpProduction(models.Model):
     return_operation_ids = fields.One2many('stock.move.return.operations',
                                            'production_id',
                                            'Return operations')
+    accept_multiple_raw_material = fields.Boolean(
+        compute='_get_accept_multiple_raw_material')
+
+    @api.one
+    @api.depends('routing_id.machinery_ids.accept_more_than_one_raw_material')
+    def _get_accept_multiple_raw_material(self):
+        self.accept_multiple_raw_material = any(self.mapped('routing_id.machinery_ids.accept_more_than_one_raw_material'))
 
     @api.one
     @api.depends('move_lines.move_orig_ids', 'move_lines2.move_orig_ids')
@@ -72,6 +79,10 @@ class MrpProduction(models.Model):
         move_obj = self.pool.get('stock.move')
         proc_obj = self.pool.get('procurement.order')
         for production in self.browse(cr, uid, ids, context=context):
+            if production.final_lot_id:
+                self.pool.get('stock.production.lot').write(
+                    cr, uid, production.final_lot_id.id, {'active': False},
+                    context=context)
             if production.move_created_ids:
                 move_obj.action_cancel(cr, uid, [x.id for x in production.move_created_ids])
             moves = move_obj.search(cr, uid, [('move_dest_id', 'in', [x.id for x in production.move_lines])], context=context)

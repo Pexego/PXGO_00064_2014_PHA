@@ -26,9 +26,8 @@ class product_product(models.Model):
 
     _inherit = 'product.product'
 
-    protocol_ids = fields.Many2many('quality.protocol.report',
-                                    'product__protocol_rel',
-                                    'product_id', 'protocol_id', 'Protocols')
+    protocol_ids = fields.One2many('product.protocol.link',
+                                   'product', 'Protocols')
     protocol_count = fields.Integer('Protocols count',
                                     compute='_get_protocol_count')
     lot_label = fields.Boolean('Lot label')
@@ -36,11 +35,12 @@ class product_product(models.Model):
     @api.one
     @api.depends('protocol_ids')
     def _get_protocol_count(self):
-        self.protocol_count = len(self.protocol_ids)
+        self.protocol_count = len(self.mapped('protocol_ids.protocol'))
 
     @api.one
     def create_protocols(self):
-        if not self.base_form_id or not self.container_id:
+        pass
+        '''if not self.base_form_id or not self.container_id:
             raise exceptions.except_orm(_('Protocol error'),
                                         _('to assign protocols is necessary \
                                            to establish the base form or \
@@ -52,7 +52,7 @@ class product_product(models.Model):
                  ('type_id', '=', type_id.id)])
             if report_ids:
                 report_id = report_ids[0]
-                report_id.write({'product_ids': [(4, self.id)]})
+                report_id.write({'product_ids': [(4, self.id)]})'''
 
     def _get_act_window_dict(self, cr, uid, name, context=None):
         mod_obj = self.pool.get('ir.model.data')
@@ -63,16 +63,13 @@ class product_product(models.Model):
         return result
 
     def action_view_protocols(self, cr, uid, ids, context=None):
+        products = self.browse(cr, uid, ids, context)
         result = self._get_act_window_dict(
             cr, uid, 'quality_protocol_report.action_quality_protocol_report',
             context=context)
-        if len(ids) == 1:
-            result['context'] = "{'default_product_ids': [" + str(ids[0]) + \
-                "], 'search_default_product_ids': " + str(ids[0]) + "}"
-        else:
-            result['domain'] = "[('product_ids','in',[" + \
-                ','.join(map(str, ids)) + "])]"
-            result['context'] = "{}"
+        result['domain'] = "[('id','in',[" + \
+            ','.join(map(str, products.mapped('protocol_ids.protocol.id'))) + "])]"
+        result['context'] = "{}"
         return result
 
 
@@ -82,7 +79,7 @@ class ProductTemplate(models.Model):
 
     protocol_count = fields.Integer('Protocols count',
                                     compute='_get_protocol_count')
-    raw_material = fields.Boolean('Raw material')
+    raw_material = fields.Boolean('Raw material', related='categ_id.raw_material')
 
     @api.one
     @api.depends('product_variant_ids.protocol_ids')
@@ -104,3 +101,9 @@ class ProductTemplate(models.Model):
                 ','.join(map(str, products)) + "])]"
             result['context'] = "{}"
         return result
+
+
+class ProductCategory(models.Model):
+    _inherit = 'product.category'
+
+    raw_material = fields.Boolean('Raw material')

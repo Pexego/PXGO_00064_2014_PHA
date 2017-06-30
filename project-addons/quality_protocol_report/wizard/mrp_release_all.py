@@ -40,10 +40,9 @@ class MrpReleaseAll(models.TransientModel):
     def release(self):
         mrp_id = self.env.context.get('active_id', False)
         mrp = self.env['mrp.production'].browse(mrp_id)
-        produce_wiz = self.env['mrp.product.produce'].create({'mode': 'consume_produce'})
+        produce_wiz = self.env['mrp.product.produce'].create({'mode': 'only_produce'})
         produce_wiz.product_qty = self.final_qty
         produce_wiz.consume_lines = False
         produce_wiz.with_context(ignore_child=True).do_produce()
         mrp.signal_workflow('button_produce_done')
-        mrp.final_lot_id.signal_workflow('direct_approved')
         return {'type': 'ir.actions.act_window_close'}

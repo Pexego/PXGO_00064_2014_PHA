@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* asperience_edi
+#   * asperience_edi
 #
 msgid ""
 msgstr ""
@@ -14,6 +14,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: asperience_edi
+#: view:edi.edi.result:asperience_edi.edi_result_search
+msgid "Not resolved"
+msgstr "No resuelto"
+
+
+#. module: asperience_edi
+#: model:ir.ui.menu,name:asperience_edi.menu_action_edi_edi_errors
+msgid "Edi Errors"
+msgstr "Errores EDI"
+
+#. module: asperience_edi
+#: view:edi.edi.result:asperience_edi.edi_result_search
+#: field:edi.edi.result,resolved:0
+msgid "Resolved"
+msgstr "Resuelto"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.eci_order_report
@@ -1128,7 +1145,7 @@ msgstr "Etiquetas de 4"
 #: view:sale.order:asperience_edi.view_order_form_report_button
 #: view:stock.picking:asperience_edi.view_picking_form_report_button
 msgid "Print report"
-msgstr "Imrpimir informe"
+msgstr "Imprimir informe"
 
 #. module: asperience_edi
 #: model:ir.ui.menu,name:asperience_edi.menu_edi_process
@@ -1231,7 +1248,7 @@ msgstr "Season"
 #: field:edi.edi.line.edi,sequence:0
 #: field:edi.edi.xml.field,sequence:0
 msgid "Sequence"
-msgstr "Sequence"
+msgstr "Sequencia"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
@@ -1242,7 +1259,7 @@ msgstr "Serie"
 #. module: asperience_edi
 #: field:edi.edi,skip_first:0
 msgid "Skip the First"
-msgstr "Skip the First"
+msgstr "Saltar el primero"
 
 #. module: asperience_edi
 #: field:stock.invoice.onshipping,split_invoice_lines:0
@@ -1586,4 +1603,3 @@ msgstr "xml"
 #: selection:edi.edi.line.edi.field,align:0
 msgid "zero"
 msgstr "zero"
-

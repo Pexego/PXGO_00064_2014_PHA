@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="paperformat_mrp_labels" model="report.paperformat">
+            <field name="name">mrp labels</field>
+            <field name="format">A6</field>
+            <field name="dpi">90</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="orientation">Landscape</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">1</field>
+        </record>
+
+    </data>
+</openerp>

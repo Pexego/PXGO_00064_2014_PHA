@@ -590,9 +590,6 @@ function send_form_server() {
             }
         });
 
-        if(key.split(',')[0] == 'mrp.production.workcenter.line'){
-            write_vals[key]['doc_submited'] = true;
-        }
         keys.push(key)
     }
     if(keys.length > 0){
