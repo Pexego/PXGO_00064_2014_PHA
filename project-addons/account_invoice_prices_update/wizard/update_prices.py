@@ -38,11 +38,14 @@ class account_invoice_prices_update(models.TransientModel):
                     partner=line.partner_id.id)[self.pricelist_id.id]
             line.price_unit = price
 
-        for line in invoice.invoice_line:
             if not line.invoice_line_tax_id:
                 if invoice.type in ('out_invoice', 'out_refund'):
-                    line.invoice_line_tax_id = line.product_id.taxes_id
+                    line.invoice_line_tax_id = invoice.partner_id.\
+                        property_account_position.map_tax(
+                        line.product_id.taxes_id)
                 else:
-                    line.invoice_line_tax_id = line.product_id.supplier_taxes_id
+                    line.invoice_line_tax_id = invoice.partner_id.\
+                        property_account_position.map_tax(
+                        line.product_id.supplier_taxes_id)
 
         invoice.generate_discounts()

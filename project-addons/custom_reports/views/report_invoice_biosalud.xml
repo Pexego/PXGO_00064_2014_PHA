@@ -69,6 +69,10 @@
                                 <i class="glyphicon glyphicon-briefcase"></i>
                                 <span t-field="company.partner_id.vat"/>
                             </p>
+                            <p><br/></p>
+                            <p style="font-size: 14px; font-style: italic;">
+                                <span t-field="company.report_header_message"/>
+                            </p>
                         </div>
                     </div>
                     <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
@@ -359,6 +363,12 @@
                         color: black;
                     }
                 </style>
+                <p t-if="sale_ok and company.report_sales_footer_message" style="font-size: 12px; border-top: 1px solid black;">
+                    <span t-field="company.report_sales_footer_message"/>
+                </p>
+                <p t-if="purchase_ok and company.report_purchases_footer_message" style="font-size: 12px; border-top: 1px solid black;">
+                    <span t-field="company.report_purchases_footer_message"/>
+                </p>
                 <div style="position: relative; border-top: 1px solid black;">
                     <t t-if="not hide_iso_logo">
                         <div style="position: absolute; top: 4px; left: 0;">
