@@ -7,7 +7,7 @@
             <field name="model">mrp.production.workcenter.line</field>
             <field name="inherit_id" ref="quality_protocol_report.mrp_workcenter_line_add_submited"/>
             <field name="arch" type="xml">
-                <field name="doc_submited" position="after">
+                <separator string="Realization" position="after">
                     <field name="on_time_machine"/>
 
                     <separator string="Stops and adjustments needed" colspan="4"/>
@@ -109,7 +109,7 @@
                     <field name="accond_theorical_produced"/>
                     <field name="prod_ratio"/>
                     <field name="acond_observations"/>
-                </field>
+                </separator>
             </field>
         </record>
 

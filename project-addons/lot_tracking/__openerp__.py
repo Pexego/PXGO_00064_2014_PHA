@@ -28,7 +28,7 @@
     'icon': '//static/src/img/icon.jpg//',
     'author': 'Pharmadus I.T. Department',
     'website': 'www.pharmadus.com',
-    'depends': ['stock', 'product_indexbook', 'custom_widths'],
+    'depends': ['stock', 'quality_management_menu', 'custom_widths'],
     'data': [
         'views/lot_tracking_view.xml',
         'views/report_lot_tracking.xml',

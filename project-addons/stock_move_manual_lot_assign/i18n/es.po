@@ -1,0 +1,143 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * stock_move_manual_lot_assign
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-21 15:19+0000\n"
+"PO-Revision-Date: 2017-02-21 15:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot.line,available_qty:0
+msgid "Available qty"
+msgstr "Cantidad disponible"
+
+#. module: stock_move_manual_lot_assign
+#: view:stock.move.assign.manual.lot:stock_move_manual_lot_assign.assign_manual_lots_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: stock_move_manual_lot_assign
+#: view:stock.move.assign.manual.lot:stock_move_manual_lot_assign.assign_manual_lots_form_view
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,create_uid:0
+#: field:stock.move.assign.manual.lot.line,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,create_date:0
+#: field:stock.move.assign.manual.lot.line,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,display_name:0
+#: field:stock.move.assign.manual.lot.line,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,id:0
+#: field:stock.move.assign.manual.lot.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,__last_update:0
+#: field:stock.move.assign.manual.lot.line,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,write_uid:0
+#: field:stock.move.assign.manual.lot.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,write_date:0
+#: field:stock.move.assign.manual.lot.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,line_ids:0
+msgid "Lines"
+msgstr "Lineas"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot.line,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: stock_move_manual_lot_assign
+#: view:stock.move:stock_move_manual_lot_assign.stock_move_manual_lot_form_view
+msgid "Manual lot"
+msgstr "Lote manual"
+
+#. module: stock_move_manual_lot_assign
+#: model:ir.actions.act_window,name:stock_move_manual_lot_assign.assign_manual_lots_action
+#: view:stock.move:stock_move_manual_lot_assign.stock_move_manual_lots_picking_form_view
+#: view:stock.move.assign.manual.lot:stock_move_manual_lot_assign.assign_manual_lots_form_view
+msgid "Manual lots"
+msgstr "Lotes manuales"
+
+#. module: stock_move_manual_lot_assign
+#: code:addons/stock_move_manual_lot_assign/wizard/manual_assign_wizard.py:114
+#, python-format
+msgid "Quantity error"
+msgstr "Error en cantidad"
+
+#. module: stock_move_manual_lot_assign
+#: code:addons/stock_move_manual_lot_assign/wizard/manual_assign_wizard.py:64
+#, python-format
+msgid "Quantity is different than the needed one"
+msgstr "La cantidad seleccionada es diferente a la necesaria"
+
+#. module: stock_move_manual_lot_assign
+#: code:addons/stock_move_manual_lot_assign/wizard/manual_assign_wizard.py:114
+#, python-format
+msgid "Quantity is higher than the available"
+msgstr "Cantidad seleccionada mayor a la disponible"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,move_qty:0
+msgid "Remaining qty"
+msgstr "Cantidad restante"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot,lines_qty:0
+msgid "Reserved qty"
+msgstr "Cantidad reservada"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot.line,use_qty:0
+msgid "Use qty"
+msgstr "Cantidad seleccionada"
+
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot.line,wizard_id:0
+msgid "Wizard id"
+msgstr "Wizard id"
+
+#. module: stock_move_manual_lot_assign
+#: view:stock.move.assign.manual.lot:stock_move_manual_lot_assign.assign_manual_lots_form_view
+msgid "or"
+msgstr "o"
+
+#. module: stock_move_manual_lot_assign
+#: view:stock.move.assign.manual.lot:stock_move_manual_lot_assign.assign_manual_lots_form_view
+msgid "use_qty"
+msgstr "use_qty"

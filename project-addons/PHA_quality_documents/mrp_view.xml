@@ -510,7 +510,7 @@
             </div>
         </template>
 
-        <template id="production_protocol_header" name="Production protocol header">
+        <template id="production_protocol_header_general" name="Production protocol header general">
            <div class="quality_view">
                <div class="quality_row">
                    <ul>
@@ -518,12 +518,76 @@
                             <h4>Según procedimiento:</h4>
                             <table>
                                 <tr>
-                                    <td><span t-field='protocol.first_procedure_id.code'/></td>
-                                    <td>Edición: <span t-field='protocol.first_procedure_id.edition'/></td>
+                                    <td><span t-field='production.routing_id.sop_manufacturing_id.name'/></td>
+                                    <td>Edición: <span t-field='production.routing_id.sop_manufacturing_id.revision'/></td>
                                 </tr>
                                 <tr>
-                                    <td><span t-field='protocol.second_procedure_id.code'/></td>
-                                    <td>Edición: <span t-field='protocol.second_procedure_id.edition'/></td>
+                                    <td><span t-field='production.product_id.manufacturing_procedure_id.name'/></td>
+                                    <td>Edición: <span t-field='production.product_id.manufacturing_procedure_id.revision'/></td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            <table>
+                                <tr>
+                                    <td>PRODUCTO: <b><span t-field='production.product_id.name'/></b></td>
+                                </tr>
+                                <tr>
+                                    <td>LOTE: <t t-if="production.final_lot_id"><b><span t-field='production.final_lot_id.name'/></b></t></td>
+                                </tr>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+                <div class="quality_row">
+                    <ul>
+                       <li>
+                            <table>
+                                <tr>
+                                    <td>Lote Pirámide:</td>
+                                </tr>
+                                <tr>
+                                    <td>Fabricación: <b><span t-field='production.name'/></b></td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha de fabricación: <b><span t-field='production.date_planned'/></b></td>
+                                    <td>Cantidad a Fabricar: <b><span t-field='production.product_qty'/></b></td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            <table>
+                                <tr>
+                                    <td>Emisión de protocolo:</td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha</td>
+                                </tr>
+                                <tr>
+                                    <td>Firma</td>
+                                </tr>
+                            </table>
+                         </li>
+                    </ul>
+                </div>
+            </div>
+        </template>
+
+
+        <template id="production_protocol_header_acond" name="Production protocol header acond">
+           <div class="quality_view">
+               <div class="quality_row">
+                   <ul>
+                       <li>
+                            <h4>Según procedimiento:</h4>
+                            <table>
+                                <tr>
+                                    <td><span t-field='production.routing_id.sop_manufacturing_id.name'/></td>
+                                    <td>Edición: <span t-field='production.routing_id.sop_manufacturing_id.revision'/></td>
+                                </tr>
+                                <tr>
+                                    <td><span t-field='production.product_id.packaging_procedure_id.name'/></td>
+                                    <td>Edición: <span t-field='production.product_id.packaging_procedure_id.revision'/></td>
                                 </tr>
                             </table>
                         </li>

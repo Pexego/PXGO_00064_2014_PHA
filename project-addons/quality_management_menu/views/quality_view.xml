@@ -10,5 +10,12 @@
                   parent="quality_management_menu.menu_quality_management"
                   id="menu_quality_management_config"
                   groups="quality_management_menu.group_quality_manager" sequence="10000"/>
+
+        <menuitem
+            name="Products"
+            id="menu_qc_products"
+            parent="menu_quality_management"
+            sequence="2"
+        />
     </data>
 </openerp>

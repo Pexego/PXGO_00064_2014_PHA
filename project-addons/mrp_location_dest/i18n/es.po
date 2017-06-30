@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: mrp_location_dest
-#: field:mrp.routing,finished_dest_location_id:0
+#: field:product.category,finished_dest_location_id:0
 msgid "Finished products location"
 msgstr "Ubicación de productos finalizados"
 
@@ -29,4 +29,3 @@ msgstr "Órden de producción"
 #: model:ir.model,name:mrp_location_dest.model_mrp_routing
 msgid "Routing"
 msgstr "Proceso productivo"
-

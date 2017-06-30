@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="assign_manual_lots_form_view">
+            <field name="name">stock.move.assign.manual.lot.form</field>
+            <field name="model">stock.move.assign.manual.lot</field>
+            <field name="arch" type="xml">
+                <form string="Manual lots">
+                    <group col='4' colspan="4">
+                        <field name='line_ids' colspan="4">
+                            <tree editable="top" delete="0" create="0">
+                                <field name="lot_id"  readonly="1"/>
+                                <field name="available_qty" readonly="1"/>
+                                <field name="use_qty" sum="use_qty"/>
+                            </tree>
+                        </field>
+                        <field name="move_qty" colspan="2" readonly="1"/>
+                        <field name="lines_qty" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="assign_lots" type="object"
+                            string="Confirm" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link"
+                            special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Manual lots" res_model="stock.move.assign.manual.lot"
+            src_model="stock.move" view_mode="form" target="new"
+            id="assign_manual_lots_action" />
+
+    </data>
+</openerp>

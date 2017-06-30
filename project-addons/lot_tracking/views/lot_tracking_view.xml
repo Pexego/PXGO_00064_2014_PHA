@@ -86,7 +86,7 @@
         </record>
 
         <menuitem id="menu_view_lot_tracking"
-                  parent="product_indexbook.menu_qc_products"
+                  parent="quality_management_menu.menu_qc_products"
                   action="action_view_lot_tracking" sequence="3"/>
     </data>
 </openerp>
