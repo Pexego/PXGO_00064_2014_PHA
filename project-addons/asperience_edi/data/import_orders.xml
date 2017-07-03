@@ -95,6 +95,22 @@ data = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
             <field name="edi" ref="edi_edi_orders" />
         </record>
 
+        <record forcecreate="True" id="edi_edi_orders_line_13_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_line_13" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'Identificador'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_13_field_2" model="edi.edi.line.csv.field">
+            <field name="name">comp</field>
+            <field name="line" ref="edi_edi_orders_line_13" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'GLN'" />
+        </record>
+
         <record forcecreate="True" id="edi_edi_orders_line_14" model="edi.edi.line.csv">
             <field name="name">PACLIN</field>
             <field name="sequence" eval="14" />
@@ -585,6 +601,34 @@ data = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
             <field name="name">MOARES</field>
             <field name="sequence" eval="26" />
             <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+
+        <record forcecreate="True" id="edi_edi_orders_line_27" model="edi.edi.line.csv">
+            <field name="name">ALC</field>
+            <field name="sequence" eval="27" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_27_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_line_27" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_27_field_2" model="edi.edi.line.csv.field">
+            <field name="name">tipo</field>
+            <field name="line" ref="edi_edi_orders_line_27" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_27_field_3" model="edi.edi.line.csv.field">
+            <field name="name">porcentaje</field>
+            <field name="line" ref="edi_edi_orders_line_27" />
+            <field name="sequence" eval="3" />
+            <field name="type" eval="'char'" />
         </record>
 
     </data>

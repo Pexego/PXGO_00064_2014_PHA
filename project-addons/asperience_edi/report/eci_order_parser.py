@@ -85,7 +85,7 @@ class CorteInglesParser(models.AbstractModel):
                 'description': l.product_id.name,
                 'qty': l.product_uom_qty,
                 'pack_units': l.units_per_package or '',
-                'pvp': l.price_unit,
+                'pvp': l.net_price,
                 'brut_price': l.brut_price,
                 'subtotal': l.price_subtotal,
 
