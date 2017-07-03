@@ -516,6 +516,8 @@ class edi_parser(models.Model):
         old_sale_id = False
         new_sale_id = False
         line_vals = {}
+        commercial_discount = 0.0
+        early_payment_discount = 0.0
         for line in data[filename]:
             if line and line[0] == 'ORD':
                 vals = {}
@@ -610,6 +612,11 @@ class edi_parser(models.Model):
                     if not vals.get('payment_mode_id', False):
                         vals['payment_mode_id'] = partner.customer_payment_mode.id
                     vals['payment_term'] = partner.property_payment_term.id
+            if line and line[0] == 'ALC':
+                if line[1]['tipo'] == 'EAB':
+                    early_payment_discount = line[1]['porcentaje']
+                elif line[1]['tipo'] == 'TD':
+                    commercial_discount = line[1]['porcentaje']
             if line and 'LIN' in line[0]:
                 if old_sale_id:
                     wf_service = netsvc.LocalService('workflow')
@@ -662,10 +669,17 @@ class edi_parser(models.Model):
 
 
                 elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAA':
-                    line_vals['price_unit'] = line[1]['precio']
+                    if not line_vals.get('price_unit'):
+                        line_vals['price_unit'] = line[1]['precio']
+                    line_vals['net_price'] = line[1]['precio']
 
                 elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAB':
+                    line_vals['price_unit'] = line[1]['precio']
                     line_vals['brut_price'] = line[1]['precio']
+                    sale_obj.write(cr, uid,
+                                   new_sale_id,
+                                   {'commercial_discount_input': commercial_discount,
+                                    'financial_discount_input': early_payment_discount})
 
         if line_vals:
             line_vals['order_id'] = new_sale_id
@@ -675,4 +689,5 @@ class edi_parser(models.Model):
             line_vals['tax_id'] = [(6,0,taxes)]
             sale_line_obj.create(cr, uid, line_vals)
         if new_sale_id:
+            sale_obj.generate_discounts(cr, uid, new_sale_id)
             return sale_obj.browse(cr, uid, new_sale_id).name
