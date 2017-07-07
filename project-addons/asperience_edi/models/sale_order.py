@@ -56,3 +56,6 @@ class SaleOrderLine(models.Model):
     brut_price = fields.Float('Brut Price',
                               digits_compute=dp.
                               get_precision('Product Price'))
+    net_price = fields.Float('Net Price',
+                              digits_compute=dp.
+                              get_precision('Product Price'))
