@@ -82,7 +82,7 @@
                                 <td><span t-field="partner.city"/></td>
                                 <td><span t-field="p.real_weight"/></td>
                                 <td><span t-field="p.number_of_packages"/></td>
-                                <td><span t-field="p.number_of_palets"/></td>
+                                <td><span t-esc="p.number_of_palets if p.number_of_palets else 0"/></td>
                                 <td><span t-field="p.name"/></td>
                                 <!-- Si es la empresa de transportes MRW -->
                                 <td t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
