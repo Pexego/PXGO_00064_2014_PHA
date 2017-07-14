@@ -68,7 +68,7 @@
                                             </t>
                                             <t t-if="row in (2, 4, 6)">
                                                 <td colspan="3">
-                                                    <div style="width: 890px; height: 25px;"/>
+                                                    <div style="width: 890px; height: 50px;"/>
                                                 </td>
                                             </t>
                                         </tr>

@@ -1,6 +1,6 @@
 img.zoomedImg {
   position: absolute;
-  display: block;
+  display: none;
   margin-left: 25%;
   top: 40px;
   height: 95%;
@@ -8,8 +8,7 @@ img.zoomedImg {
   cursor: url(../img/close.png),auto;
 }
 
-.zoom:after {
-    content: '';
+div.magnifying_glass {
     display: block;
     width: 33px;
     height: 33px;
@@ -18,9 +17,4 @@ img.zoomedImg {
     right: 0;
     background: url(../img/icon.png);
     cursor: pointer;
-}
-
-.zoom img {
-    display: block;
-    background: #fff;
 }

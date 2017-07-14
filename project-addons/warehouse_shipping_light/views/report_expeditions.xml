@@ -49,6 +49,7 @@
                             <th>City</th>
                             <th>Weight</th>
                             <th>Packages</th>
+                            <th>Palets</th>
                             <th>Delivery note</th>
                             <th t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
                                 Etiquetas YA impresas
@@ -60,10 +61,12 @@
                         <t t-set="expeditions" t-value="0"/>
                         <t t-set="weight" t-value="0"/>
                         <t t-set="packages" t-value="0"/>
+                        <t t-set="palets" t-value="0"/>
                         <t t-foreach="docs" t-as="p">
                             <t t-set="expeditions" t-value="expeditions + 1"/>
                             <t t-set="weight" t-value="weight + p.real_weight"/>
                             <t t-set="packages" t-value="packages + p.number_of_packages"/>
+                            <t t-set="palets" t-value="palets + p.number_of_palets"/>
                             <t t-set="partner" t-value="p.partner_id"/>
                             <tr>
                                 <td>
@@ -79,6 +82,7 @@
                                 <td><span t-field="partner.city"/></td>
                                 <td><span t-field="p.real_weight"/></td>
                                 <td><span t-field="p.number_of_packages"/></td>
+                                <td><span t-esc="p.number_of_palets if p.number_of_palets else 0"/></td>
                                 <td><span t-field="p.name"/></td>
                                 <!-- Si es la empresa de transportes MRW -->
                                 <td t-if="o.carrier_id.partner_id in o.env.ref('.D_137344')">
@@ -116,6 +120,7 @@
                             <td></td>
                             <td><strong t-esc="weight"/></td>
                             <td><strong t-esc="packages"/></td>
+                            <td><strong t-esc="palets"/></td>
                             <td></td>
                             <td></td>
                             <td></td>
