@@ -13,7 +13,6 @@ class PaletTagParser(models.AbstractModel):
 
     @api.model 
     def calculate_check_digit(self, digits):
-        import ipdb; ipdb.set_trace()
         res = sum(map(lambda x:x*3, digits[::2])) + sum(digits[1::2])
         rounded_res = int(round(res, -1))
         if rounded_res == 0:
@@ -49,27 +48,27 @@ class PaletTagParser(models.AbstractModel):
                     + ' ' + str(check_digit) or ''
 
                 cant_ue = str(op.product_id.box_elements)
-                if op.linked_move_operation_ids:
+                # if op.linked_move_operation_ids:
                 #     if op.linked_move_operation_ids[0].move_id.procurement_id:
                 #         move = op.linked_move_operation_ids[0].move_id
                 #         if move.procurement_id:
                 #             proc = move.procurement_id
                 #             if proc.sale_line_id:
                 #                 cant_ue = proc.sale_line_id.units_per_package
-                    dic = {
-                        'description': op.product_id and
-                        op.product_id.name.upper() or '',
-                        'serial_number': serie,
-                        'lot': op.lot_id.name if op.lot_id else '-',
-                        'num_units': str(cant_ue) + '/' + str(op.product_qty),
-                        'barcode': barcode,
-                        'table-class': 'table-%s' % str(pack_table_class)
-                    }
-                    if pack_table_class == 1:
-                        pack_table_class = 2
-                    else:
-                        pack_table_class = 1
-                    package_dic[op.product_id].append(dic)
+                dic = {
+                    'description': op.product_id and
+                    op.product_id.name.upper() or '',
+                    'serial_number': serie,
+                    'lot': op.lot_id.name if op.lot_id else '-',
+                    'num_units': str(cant_ue) + '/' + str(op.product_qty),
+                    'barcode': barcode,
+                    'table-class': 'table-%s' % str(pack_table_class)
+                }
+                if pack_table_class == 1:
+                    pack_table_class = 2
+                else:
+                    pack_table_class = 1
+                package_dic[op.product_id].append(dic)
 
             # ETIQUETAS DE PALET
             if not op.palet:
