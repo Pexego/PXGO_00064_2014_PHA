@@ -11,6 +11,15 @@ class PaletTagParser(models.AbstractModel):
     """
     _name = 'report.asperience_edi.palet_tag_report'
 
+    @api.model 
+    def calculate_check_digit(self, digits):
+        import ipdb; ipdb.set_trace()
+        res = sum(map(lambda x:x*3, digits[::2])) + sum(digits[1::2])
+        rounded_res = int(round(res, -1))
+        if rounded_res == 0:
+            rounded_res = 10
+        return abs(res - rounded_res)
+
     @api.multi
     def render_html(self, data=None):
         report_obj = self.env['report']
@@ -24,7 +33,6 @@ class PaletTagParser(models.AbstractModel):
         palet_dic = {}
         num_palets = palet_number = 0
         pack_table_class = 1
-
         palet_packs_dic = pick._get_num_packs_in_palets()
         for op in pick.pack_operation_ids:
             # ETIQUETAS DE BULTO
@@ -33,18 +41,21 @@ class PaletTagParser(models.AbstractModel):
             num_packs = op.complete + (1 if op.package else 0)
             for i in range(2 * num_packs):
                 serie = op.product_id.ean13 and op.product_id.ean13[:-1] or ''
+
+                digits = map(int, '1' + serie)
+                check_digit = self.calculate_check_digit(digits)
                 barcode = serie and \
                     '1 ' + serie[0:2] + ' ' + serie[2:7] + ' ' + serie[7:]\
-                    + ' 9' or ''
+                    + ' ' + str(check_digit) or ''
 
-                cant_ue = ''
+                cant_ue = str(op.product_id.box_elements)
                 if op.linked_move_operation_ids:
-                    if op.linked_move_operation_ids[0].move_id.procurement_id:
-                        move = op.linked_move_operation_ids[0].move_id
-                        if move.procurement_id:
-                            proc = move.procurement_id
-                            if proc.sale_line_id:
-                                cant_ue = proc.sale_line_id.units_per_package
+                #     if op.linked_move_operation_ids[0].move_id.procurement_id:
+                #         move = op.linked_move_operation_ids[0].move_id
+                #         if move.procurement_id:
+                #             proc = move.procurement_id
+                #             if proc.sale_line_id:
+                #                 cant_ue = proc.sale_line_id.units_per_package
                     dic = {
                         'description': op.product_id and
                         op.product_id.name.upper() or '',
