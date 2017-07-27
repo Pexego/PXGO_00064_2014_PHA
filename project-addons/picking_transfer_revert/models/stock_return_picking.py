@@ -50,6 +50,9 @@ class StockReturnPicking(models.Model):
                 len(move.origin_returned_move_id.linked_move_operation_ids) > 0:
                 move.location_dest_id = move.origin_returned_move_id.\
                            linked_move_operation_ids[0].operation_id.location_id
+                move.lot_ids = move.origin_returned_move_id.lot_ids
+                move.restrict_lot_id = move.lot_ids[0] if move.lot_ids else \
+                    False
         revert_picking.do_transfer()
 
         # Recreate picking
@@ -62,7 +65,7 @@ class StockReturnPicking(models.Model):
         if picking.expedition_id:
             picking.expedition_id.unlink()
 
-        # Recollect original moves
+        # Collect original moves
         origin_moves = self.env['stock.move']
         for move in picking.move_lines:
             origin_moves += move
