@@ -420,6 +420,11 @@ msgid "Latest date and time when amounts were calculated"
 msgstr "Última fecha y hora en que las cantidades fueron calculadas"
 
 #. module: custom_views
+#: field:res.partner,liens:0
+msgid "Liens"
+msgstr "Emb."
+
+#. module: custom_views
 #: view:stock.move:custom_views.custom_views_move_search
 msgid "Lot"
 msgstr "Lote"
@@ -815,6 +820,13 @@ msgstr "Fechas de caducidad"
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
 msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
+
+#. module: custom_views
+#: field:account.invoice,partner_vat:0
+#: field:account.invoice,partner_vat_liens:0
+#: field:account.invoice.special,partner_vat:0
+msgid "TIN"
+msgstr "NIF"
 
 #. module: custom_views
 #: code:addons/custom_views/models/hr_holidays.py:79

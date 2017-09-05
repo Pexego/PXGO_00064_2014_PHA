@@ -148,6 +148,7 @@ class StockTransferDetailsItems(models.TransientModel):
                            digits=dp.get_precision('Product Unit of Measure'),
                            default=0)
     active = fields.Boolean('Active', default=True)
+    name = fields.Char(related='packop_id.linked_move_operation_ids.move_id.name')
 
     @api.onchange('quantity', 'complete')
     def onchange_complete(self):

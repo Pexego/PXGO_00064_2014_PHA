@@ -45,6 +45,7 @@ class ResPartner(models.Model):
             domain=[('child_ids', '=', False)],
             string='Tags')
     display_name = fields.Char(compute='_compute_display_name', store=True)
+    liens = fields.Boolean(default=False)
 
     @api.one
     @api.depends('name', 'parent_id', 'parent_id.name')

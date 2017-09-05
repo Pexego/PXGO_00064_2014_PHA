@@ -124,6 +124,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </tree>
             </field>
         </record>
+
         <record id="custom_views_search_product_lot" model="ir.ui.view">
             <field name="name">Custom views - Stock production lot filter</field>
             <field name="model">stock.production.lot</field>
@@ -158,6 +159,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
         <record id="stock.quantsact" model="ir.actions.act_window">
             <field name="context">{'search_default_internal_loc': 1, 'nodelete': True}</field>
+        </record>
+
+        <record id="custom_views_inventory_form" model="ir.ui.view">
+            <field name="name">Custom views - Stock inventory form</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="filter" position="after">
+                    <group colspan="4">
+                        <field name="notes"/>
+                    </group>
+                </field>
+            </field>
         </record>
 
         <!-- Move option to inventory control submenu and add group permissions -->

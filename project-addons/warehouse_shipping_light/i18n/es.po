@@ -445,6 +445,7 @@ msgid "Delivery notes"
 msgstr "Expediciones"
 
 #. module: warehouse_shipping_light
+#: field:stock.transfer_details_items,name:0
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Description"
 msgstr "Descripción"

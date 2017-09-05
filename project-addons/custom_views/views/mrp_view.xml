@@ -144,18 +144,27 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <form>
-                    <group col="2" colspan="1">
-                        <group col="2" style="width: 30%;">
-                            <field name="name"/>
-                            <field name="revision"/>
-                            <field name="type_id"/>
-                            <field name="date_authorized"/>
-                            <field name="date_validated"/>
-                            <field name="medicine"/>
-                            <field name="active"/>
-                            <field name="title"/>
-                            <field name="notes"/>
-                            <field name="attachment" filename="attachment_filename"/>
+                    <group col="4">
+                        <group col="4">
+                            <group col="2">
+                                <field name="name"/>
+                                <field name="type_id"/>
+                                <field name="date_authorized"/>
+                                <field name="medicine"/>
+                            </group>
+                            <group col="2">
+                                <field name="revision"/>
+                                <separator/><separator/>
+                                <field name="date_validated"/>
+                                <field name="active"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="title"/>
+                                <field name="notes"/>
+                            </group>
+                        </group>
+                        <group col="4" colspan="4">
+                            <field name="attachment" filename="attachment_filename" widget="pdfviewer" nolabel="1"/>
                         </group>
                     </group>
                 </form>

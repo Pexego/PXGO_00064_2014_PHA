@@ -37,10 +37,21 @@ class ProductStockByDay(models.TransientModel):
         data = {}
 
         # Closures to avoid code repetition
+        def sbd_formula(cbd, vc):  # Consumption by day, virtual conservative stock
+            if vc > 0:
+                return (vc / cbd) if cbd > 0 else FLAG
+            elif vc < 0:
+                if cbd == 0:
+                    return -FLAG
+                else:
+                    return (vc / cbd) * (1 if cbd > 0 else -1)
+            else:
+                return 0
+
         def save_sbd_and_cbd_i():
             cons_by_day_i = invoiced_qty / 365
-            stock_by_day_i = (product_id.virtual_conservative /
-                              cons_by_day_i) if cons_by_day_i != 0 else 0
+            stock_by_day_i = sbd_formula(cons_by_day_i,
+                                         product_id.virtual_conservative)
             if not data.has_key(product_id.id):
                 data[product_id.id] = empty_dict.copy()
             data[product_id.id]['stock_by_day_i'] = stock_by_day_i
@@ -48,8 +59,8 @@ class ProductStockByDay(models.TransientModel):
 
         def save_sbd_and_cbd_p():
             cons_by_day_p = moved_qty / 365
-            stock_by_day_p = (product_id.virtual_conservative /
-                              cons_by_day_p) if cons_by_day_p != 0 else 0
+            stock_by_day_p = sbd_formula(cons_by_day_p,
+                                         product_id.virtual_conservative)
             if not data.has_key(product_id.id):
                 data[product_id.id] = empty_dict.copy()
             data[product_id.id]['stock_by_day_p'] = stock_by_day_p
@@ -149,24 +160,27 @@ class ProductStockByDay(models.TransientModel):
                     'back to %d products' % (len(data)))
         products = self.env['product.product']
         product_stock_unsafety = self.env['product.stock.unsafety']
+        aIdx = [
+            {'sbd': 'stock_by_day_i_ind',   'cbd': 'cons_by_day_i_ind'},
+            {'sbd': 'stock_by_day_p_ind',   'cbd': 'cons_by_day_p_ind'},
+            {'sbd': 'stock_by_day_i_total', 'cbd': 'cons_by_day_i_total'},
+            {'sbd': 'stock_by_day_p_total', 'cbd': 'cons_by_day_p_total'}
+        ]
         for id, values in data.iteritems():
-            product = products.browse(id)
-            vc = product.virtual_conservative
+            product_id = products.browse(id)
             values['cons_by_day_i_total'] = values['cons_by_day_i'] + \
                                             values['cons_by_day_i_ind']
             values['cons_by_day_p_total'] = values['cons_by_day_p'] + \
                                             values['cons_by_day_p_ind']
-            values['stock_by_day_i_ind'] = (vc / values['cons_by_day_i_ind']) \
-                if values['cons_by_day_i_ind'] != 0 else 0
-            values['stock_by_day_p_ind'] = (vc / values['cons_by_day_p_ind']) \
-                if values['cons_by_day_p_ind'] != 0 else 0
-            values['stock_by_day_i_total'] = (vc / values['cons_by_day_i_total']) \
-                if values['cons_by_day_i_total'] != 0 else 0
-            values['stock_by_day_p_total'] = (vc / values['cons_by_day_p_total']) \
-                if values['cons_by_day_p_total'] != 0 else 0
-            product.write(values)
+
+            for idx in aIdx:
+                values[idx['sbd']] = sbd_formula(values[idx['cbd']],
+                                                 product_id.virtual_conservative)
+
+            product_id.write(values)  # Save calculations to database
+
             psu = product_stock_unsafety.search([
-                ('product_id', '=', product.id),
+                ('product_id', '=', product_id.id),
                 ('state', '!=', 'cancelled')
             ])
             if psu:
@@ -177,10 +191,6 @@ class ProductStockByDay(models.TransientModel):
                     'stock_by_day_i_total': values['stock_by_day_i_total'],
                     'stock_by_day_p_total': values['stock_by_day_p_total']
                 })
-
-            self.env.cr.commit()
-            logger.info('Stock by Day: Committed %s computed values...'
-                        % (product.name_template))
 
         # Clear all calculations on the rest of storable products
         logger.info('Stock by day: Cleaning old calculations on the rest of '
