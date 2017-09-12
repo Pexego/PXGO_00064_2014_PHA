@@ -602,6 +602,11 @@ msgid "Picking wizard items"
 msgstr "Elementos del asistente de albarán"
 
 #. module: custom_views
+#: field:product.pricelist.item,pricelist_id:0
+msgid "Price List"
+msgstr "Tarifa de precios"
+
+#. module: custom_views
 #: field:product.product,categ_id:0 field:stock.production.lot,categ_id:0
 msgid "Pricing/Primary Category"
 msgstr "Categoría interna"
@@ -622,6 +627,12 @@ msgstr "Tiempo de alerta producto"
 #: field:stock.production.lot,categ_ids:0
 msgid "Product Categories"
 msgstr "Categorías de producto"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_product_pricelist_item_tree
+#: model:ir.ui.menu,name:custom_views.menu_product_pricelist_items
+msgid "Product pricelist items"
+msgstr "Precios de tarifas"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_product_template

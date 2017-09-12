@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="custom_views_product_pricelist_item_tree_view" model="ir.ui.view">
+            <field name="name">Custom views - Product pricelist item tree</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="pricelist_id"/>
+                    <field name="price_version_id"/>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="price_surcharge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_product_pricelist_item_tree" model="ir.actions.act_window">
+            <field name="name">Product pricelist items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist.item</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="custom_views.custom_views_product_pricelist_item_tree_view"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_product_pricelist_items"
+                  name="Product pricelist items"
+                  parent="base.menu_base_config"
+                  sequence="10"
+                  action="action_product_pricelist_item_tree"/>
+    </data>
+</openerp>
