@@ -9,7 +9,7 @@ class BomMemberOf(models.TransientModel):
     _inherits = {'product.product': 'product_id'}
     _description = 'Member of BoM'
 
-    product_id = fields.Many2one(string='Product that is part of the BoM',
+    product_id = fields.Many2one(string='Product',
                                  comodel_name='product.product', required=True,
                                  ondelete='cascade', readonly=True)
     bom_id = fields.One2many(string='Bills of materials',
@@ -20,13 +20,14 @@ class BomMemberOf(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        res = super(BomMemberOf, self).default_get(fields)
         ctx = self.env.context
         active_model = ctx.get('active_model', False)
         active_id = ctx.get('active_id', False)
         if active_model == 'product.stock.unsafety' and active_id:
             active_id = self.env['product.stock.unsafety'].\
                 browse(active_id).product_id.id
+
+        res = super(BomMemberOf, self).default_get(fields)
 
         if active_id:
             bom_lines = self.env['mrp.bom.line'].search([

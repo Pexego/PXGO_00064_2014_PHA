@@ -55,26 +55,28 @@ class CheckPricelistMessage(models.TransientModel):
         for warning in self.warning_ids.filtered('fix'):
             if warning.type == 'com_discount':
                 if s.partner_id.com_discount_by_line_subline_id and s.order_line:
-                    line_id = s.order_line[0].product_id.line
-                    subline_id = s.order_line[0].product_id.subline
-                    all_products_with_same_line_and_subline = True
-
+                    commercial_discount_id = s.partner_id. \
+                        com_discount_by_line_subline_id.filtered(
+                        lambda r:
+                            (r.line_id == s.order_line[0].product_id.line) and
+                            (r.subline_id == s.order_line[0].product_id.subline)
+                    )
+                    commercial_discount = commercial_discount_id.discount if \
+                        commercial_discount_id else False
                     for item in s.order_line:
-                        all_products_with_same_line_and_subline = \
-                            all_products_with_same_line_and_subline and \
-                            (line_id == item.product_id.line) and \
-                            (subline_id == item.product_id.subline)
-
-                    if all_products_with_same_line_and_subline:
-                        commercial_discount = s.partner_id. \
+                        discount_id = s.partner_id. \
                             com_discount_by_line_subline_id.filtered(
-                            lambda r: (r.line_id == line_id) and
-                                      (r.subline_id == subline_id)
+                            lambda r: (
+                                      r.line_id == item.product_id.line) and
+                                      (
+                                      r.subline_id == item.product_id.subline)
                         )
-                        commercial_discount = commercial_discount.discount \
-                            if commercial_discount else 0
-                    else:
-                        commercial_discount = 0
+                        discount = discount_id.discount if discount_id else False
+                        commercial_discount = discount \
+                            if discount == commercial_discount else False
+
+                    commercial_discount = 0 if not commercial_discount else \
+                        commercial_discount
                 else:
                     commercial_discount = s.partner_id.commercial_discount
 

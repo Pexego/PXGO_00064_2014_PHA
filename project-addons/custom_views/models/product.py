@@ -99,7 +99,8 @@ class ProductTemplate(models.Model):
     virtual_conservative = fields.Float('Virtual stock conservative',
                            compute='_virtual_conservative',
                            digits = dp.get_precision('Product Unit of Measure'),
-                           readonly=True)
+                           readonly=True,
+                           store=True)
 
     @api.one
     @api.depends('seller_ids')

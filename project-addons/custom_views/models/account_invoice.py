@@ -16,6 +16,9 @@ class AccountInvoice(models.Model):
             related='payment_mode_id.banking_mandate_needed')
     payment_document_delivered = fields.Boolean(default=False)
     payment_document_date = fields.Datetime()
+    partner_vat = fields.Char(related='partner_id.vat', readonly=True)
+    partner_vat_liens = fields.Char(related='partner_id.vat', readonly=True)
+    partner_liens = fields.Boolean(related='partner_id.liens')
 
     @api.multi
     def onchange_partner_id(self, type, partner_id, date_invoice=False,

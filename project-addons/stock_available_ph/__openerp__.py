@@ -25,6 +25,7 @@
         'wizards/product_stock_by_day.xml',
         'wizards/bom_member_of.xml',
         'data/initialization.xml',
+        'data/compute_stock_by_day_cron.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True

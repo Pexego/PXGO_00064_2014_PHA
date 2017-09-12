@@ -95,14 +95,14 @@ class CorteInglesParser(models.AbstractModel):
                                           'first': first}
                 first = False
 
-            cant_ue = ''
-            if op.linked_move_operation_ids:
-                if op.linked_move_operation_ids[0].move_id.procurement_id:
-                    move = op.linked_move_operation_ids[0].move_id
-                    if move.procurement_id:
-                        proc = move.procurement_id
-                        if proc.sale_line_id:
-                            cant_ue = proc.sale_line_id.units_per_package
+            cant_ue = str(op.product_id.box_elements)
+            # if op.linked_move_operation_ids:
+                # if op.linked_move_operation_ids[0].move_id.procurement_id:
+                #     move = op.linked_move_operation_ids[0].move_id
+                #     if move.procurement_id:
+                #         proc = move.procurement_id
+                #         if proc.sale_line_id:
+                #             cant_ue = proc.sale_line_id.units_per_package
 
             p_table = {
                 'ean13': op.product_id.ean13,

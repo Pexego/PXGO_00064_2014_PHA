@@ -61,6 +61,30 @@ class ProductTemplate(models.Model):
     cons_by_day_p_total = fields.Float(
         string='Cons. by day [P] (direct+indirect)', digits=(16, 2),
         readonly=True)
+    cons_by_day_i_month = fields.Float(string='Cons. by day [I] (month)',
+                                       compute='_cbd_i_period',
+                                       digits=(16, 2),
+                                       readonly=True)
+    cons_by_day_i_semester = fields.Float(string='Cons. by day [I] (semester)',
+                                          compute='_cbd_i_period',
+                                          digits=(16, 2),
+                                          readonly=True)
+    cons_by_day_i_year = fields.Float(string='Cons. by day [I] (year)',
+                                      compute='_cbd_i_period',
+                                      digits=(16, 2),
+                                      readonly=True)
+    cons_by_day_p_month = fields.Float(string='Cons. by day [P] (month)',
+                                       compute='_cbd_p_period',
+                                       digits=(16, 2),
+                                       readonly=True)
+    cons_by_day_p_semester = fields.Float(string='Cons. by day [P] (semester)',
+                                          compute='_cbd_p_period',
+                                          digits=(16, 2),
+                                          readonly=True)
+    cons_by_day_p_year = fields.Float(string='Cons. by day [P] (year)',
+                                      compute='_cbd_p_period',
+                                      digits=(16, 2),
+                                      readonly=True)
     bom_member = fields.Boolean(string='BoM member?', compute='_bom_member')
     has_bom = fields.Boolean(compute='_has_bom')
     time_adviser = fields.One2many(comodel_name='product.time.adviser',
@@ -145,6 +169,22 @@ class ProductTemplate(models.Model):
                 ('bom_id.product_id.active', '=', True)
             ])
             p.bom_member = True if bom_line_ids else False
+
+    @api.multi
+    @api.depends('cons_by_day_i_total')
+    def _cbd_i_period(self):
+        for product in self:
+            product.cons_by_day_i_month = product.cons_by_day_i_total * 30
+            product.cons_by_day_i_semester = product.cons_by_day_i_total * 182.5
+            product.cons_by_day_i_year = product.cons_by_day_i_total * 365
+
+    @api.multi
+    @api.depends('cons_by_day_p_total')
+    def _cbd_p_period(self):
+        for product in self:
+            product.cons_by_day_p_month = product.cons_by_day_p_total * 30
+            product.cons_by_day_p_semester = product.cons_by_day_p_total * 182.5
+            product.cons_by_day_p_year = product.cons_by_day_p_total * 365
 
 
 class ProductProduct(models.Model):

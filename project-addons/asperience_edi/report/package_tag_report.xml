@@ -6,7 +6,7 @@
 
         <style type="text/css">
             #container{
-                height:341mm;
+                height:365mm;
                 width:100%;
             }
             #t-column{
@@ -29,7 +29,7 @@
         <t t-foreach="docs" t-as="o">
             <div class="page">
                 <div id="container">
-                    <t t-foreach="range(8)" t-as="index">
+                    <t t-foreach="range(num_packs)" t-as="index">
                         <div id="t-column">
                             <div id="tag-container">
                                 <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>

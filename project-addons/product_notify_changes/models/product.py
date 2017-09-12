@@ -26,21 +26,25 @@ class ProductProduct(models.Model):
 
     @api.multi
     def write(self, vals):
-        orig_values = {}
-        attrs = self.fields_get()
-        for product in self:
-            orig_values[product.id] = {}
-            for field in vals:
-                field_value = eval('product.' + field)
-                field_type = attrs[field]['type']
-                if field_type in ['one2many', 'many2one', 'many2many']:
-                    orig_values[product.id][field] = u", ".join(
-                        [x.display_name for x in field_value]
-                    )
-                else:
-                    orig_values[product.id][field] = field_value
+        if not 'cons_by_day_p' in vals:
+            orig_values = {}
+            attrs = self.fields_get()
+            for product in self:
+                orig_values[product.id] = {}
+                for field in vals:
+                    field_value = eval('product.' + field)
+                    field_type = attrs[field]['type']
+                    if field_type in ['one2many', 'many2one', 'many2many']:
+                        orig_values[product.id][field] = u", ".join(
+                            [x.display_name for x in field_value]
+                        )
+                    else:
+                        orig_values[product.id][field] = field_value
 
         res = super(ProductProduct, self).write(vals)
+
+        if 'cons_by_day_p' in vals:
+            return res
 
         for product in self:
             fields = ''

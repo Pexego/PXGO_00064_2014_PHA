@@ -130,6 +130,29 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="line_id"/>
                         <field name="note"/>
                         <field name="product_qty"/>
+                        <field name="uom_id" readonly="1"/>
+                    </group>
+                    <separator string="Product prevision"/>
+                    <group col="8">
+                        <group col="8" colspan="8">
+                            <field name="cons_by_day_p_total" readonly="1"/>
+                            <label for="cons_by_day_p_month" string="Month" style="text-align: right;"/>
+                            <field name="cons_by_day_p_month" readonly="1" nolabel="1"/>
+                            <label for="cons_by_day_p_semester" string="Semester" style="text-align: right;"/>
+                            <field name="cons_by_day_p_semester" readonly="1" nolabel="1"/>
+                            <label for="cons_by_day_p_year" string="Year" style="text-align: right;"/>
+                            <field name="cons_by_day_p_year" readonly="1" nolabel="1"/>
+                            <group col="1" colspan="8">
+                                <span></span>
+                            </group>
+                            <field name="cons_by_day_i_total" readonly="1"/>
+                            <label for="cons_by_day_i_month" string="Month" style="text-align: right;"/>
+                            <field name="cons_by_day_i_month" readonly="1" nolabel="1"/>
+                            <label for="cons_by_day_i_semester" string="Semester" style="text-align: right;"/>
+                            <field name="cons_by_day_i_semester" readonly="1" nolabel="1"/>
+                            <label for="cons_by_day_i_year" string="Year" style="text-align: right;"/>
+                            <field name="cons_by_day_i_year" readonly="1" nolabel="1"/>
+                        </group>
                     </group>
                     <footer class="oe_right oe_button_box">
                         <button string="Save" name="save_order" type="object" icon="gtk-ok" class="oe_highlight"/>

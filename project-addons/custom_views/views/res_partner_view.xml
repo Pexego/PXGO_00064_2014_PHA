@@ -48,6 +48,10 @@
                     <attribute name="attrs">{'required':[('parent_id','=',False),('pre_customer','=',False)]}</attribute>
                 </field>
 
+                <field name="credit_limit" position="after">
+                    <field name="liens"/>
+                </field>
+
                 <button name="view_pricelist_history" position="after">
                     <br/>
                     <button name="view_supplier_products"

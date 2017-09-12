@@ -20,6 +20,17 @@
                 </field>
                 <field name="move_id" position="after">
                     <field name="payment_document_delivered"/>
+                    <field name="commercial_partner_id"
+                           string="Invoicing address"
+                           readonly="0"/>
+                    <field name="partner_shipping_id"
+                           string="Shipping address"
+                           readonly="0"/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="partner_liens" invisible="1"/>
+                    <field name="partner_vat_liens" style="color: red;" attrs="{'invisible': [('partner_liens', '=', False)]}"/>
+                    <field name="partner_vat" attrs="{'invisible': [('partner_liens', '=', True)]}"/>
                 </field>
             </field>
         </record>
@@ -44,6 +55,11 @@
                 </field>
                 <field name="move_id" position="after">
                     <field name="payment_document_delivered"/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="partner_liens" invisible="1"/>
+                    <field name="partner_vat_liens" style="color: red;" attrs="{'invisible': [('partner_liens', '=', False)]}"/>
+                    <field name="partner_vat" attrs="{'invisible': [('partner_liens', '=', True)]}"/>
                 </field>
             </field>
         </record>
