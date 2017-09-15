@@ -497,6 +497,6 @@
         </record>
 
         <!-- Remove original picking report -->
-        <delete model='ir.actions.report.xml' search="[('id', '=', ref('stock.action_report_picking'))]"/>
+        <!-- delete model='ir.actions.report.xml' search="[('id', '=', ref('stock.action_report_picking'))]"/-->
     </data>
 </openerp>

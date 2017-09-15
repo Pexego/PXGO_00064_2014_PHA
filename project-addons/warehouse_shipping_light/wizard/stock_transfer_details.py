@@ -126,7 +126,8 @@ class StockTransferDetails(models.TransientModel):
                         'palet': prod.palet,
                         'complete': complete,
                         'package': prod.package,
-                        'rest': rest
+                        'rest': rest,
+                        'transfer_detail_item': prod.id
                     }
                 )
 

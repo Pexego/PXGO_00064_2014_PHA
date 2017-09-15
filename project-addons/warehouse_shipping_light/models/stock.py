@@ -142,10 +142,35 @@ class StockPackOperation(models.Model):
     complete = fields.Integer('Complete')
     package = fields.Integer('Package', default=0)
     rest = fields.Float('Rest', default=0)
+    transfer_detail_item = fields.Integer(default=0)
 
     @api.model
     def create(self, vals):
         vals['rest'] = vals.get('quantity', 0)
+
+        td = self.env['stock.transfer_details'].search(
+            [('picking_id', '=', vals['picking_id'])])
+        if td:
+            tdi = False
+            po_ids = self.search([('picking_id', '=', td.picking_id.id),
+                                  ('transfer_detail_item', '>', 0)])
+            assigned_tdi_ids = [po.transfer_detail_item for po in po_ids]
+            for item in td.item_ids:
+                if (item.product_id.id == vals['product_id'] and
+                   item.lot_id.id == vals['lot_id'] and
+                   item.quantity == vals['product_qty'] and
+                   item.sourceloc_id.id == vals['location_id'] and
+                   item.destinationloc_id.id == vals['location_dest_id'] and
+                   item.id not in assigned_tdi_ids):
+                    tdi = item
+
+        if td and tdi:
+            vals['palet'] = tdi.palet
+            vals['complete'] = tdi.complete
+            vals['package'] = tdi.package
+            vals['rest'] = tdi.rest
+            vals['transfer_detail_item'] = tdi.id
+
         return super(StockPackOperation, self).create(vals)
 
 
