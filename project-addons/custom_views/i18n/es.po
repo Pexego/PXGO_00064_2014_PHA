@@ -120,6 +120,11 @@ msgid "Banking mandate"
 msgstr "Mandato SEPA"
 
 #. module: custom_views
+#: field:account.invoice.special,aux_payment_term_id:0
+msgid "Banking mandate"
+msgstr "Mandato SEPA"
+
+#. module: custom_views
 #: field:account.invoice,banking_mandate_needed:0
 #: field:payment.mode,banking_mandate_needed:0
 msgid "Banking mandate needed?"
