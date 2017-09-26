@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="picking_select_dest_wizard" model="ir.ui.view">
+            <field name="name">Select destination for quants</field>
+            <field name="model">quants.to.picking.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="picking_id" invisible="1"/>
+                        <field name="location_dest_id"/>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Continue" name="set_dest_location"
+                                type="object" icon="gtk-ok"/>
+                        <button string="Cancel" special="cancel"
+                                icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
