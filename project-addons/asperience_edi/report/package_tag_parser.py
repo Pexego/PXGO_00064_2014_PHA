@@ -21,9 +21,18 @@ class PackageTagParser(models.AbstractModel):
                              _('You must print it from a wizard'))
 
         pick = pick_obj.browse(data['pick_id'])
+        num_packs = 0
+        pack_list = []
+        for op in pick.pack_operation_ids:
+            pack = 0
+            if op.package and op.package not in pack_list:
+                pack = 1
+                pack_list.append(op.package)
+            num_packs += op.complete + pack
         docargs = {
             'doc_ids': [],
             'doc_model': 'stock.picking',
             'docs': pick,
+            'num_packs': num_packs
         }
         return report_obj.render(report_name, docargs)

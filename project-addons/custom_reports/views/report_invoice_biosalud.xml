@@ -354,6 +354,8 @@
                     <span t-field="o.payment_term.note"/>
                 </p>
 
+                <t t-call="custom_reports.report_footer_message"/>
+
                 <div class="oe_structure"/>
             </div>
 

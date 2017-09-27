@@ -62,6 +62,7 @@
         'views/hr_holidays_view.xml',
         'views/mrp_view.xml',
         'views/mass_editing_view.xml',
+        'views/product_pricelist_view.xml',
         'wizard/payment_order_create_view.xml',
         'wizard/return_product.xml',
         'wizard/product_stock_unsafety_view.xml',

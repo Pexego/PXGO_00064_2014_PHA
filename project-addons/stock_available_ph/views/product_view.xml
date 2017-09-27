@@ -117,6 +117,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <filter string="Action limit exceeded"
                             domain="[('action_limit_exceeded', '=', True)]"
                     />
+                    <separator/>
+                    <filter string="Stock/day [A] and virtual conservative is 0"
+                            domain="[('stock_by_day_p_total', '=', 0), ('virtual_conservative', '=', 0)]"
+                    />
                 </filter>
             </field>
         </record>
@@ -134,5 +138,39 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <menuitem id="menu_view_product_unsafety_list"
                   parent="stock.menu_stock_sched"
                   action="action_stock_available_product_tree" sequence="62"/>
+
+        <record id="stock_available_product_prevision_tree" model="ir.ui.view">
+            <field name="name">Stock available, product prevision tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="Products stock prevision">
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="cons_by_day_p_total"/>
+                    <field name="cons_by_day_p_month"/>
+                    <field name="cons_by_day_p_semester"/>
+                    <field name="cons_by_day_p_year"/>
+                    <field name="cons_by_day_i_total"/>
+                    <field name="cons_by_day_i_month"/>
+                    <field name="cons_by_day_i_semester"/>
+                    <field name="cons_by_day_i_year"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_stock_available_product_prevision_tree" model="ir.actions.act_window">
+            <field name="name">Products prevision</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="stock_available_product_prevision_tree"/>
+            <field name="domain">[('type', '=', 'product')]</field>
+        </record>
+
+        <menuitem id="menu_view_product_prevision_list"
+                  parent="stock.menu_stock_sched"
+                  action="action_stock_available_product_prevision_tree" sequence="61"/>
     </data>
 </openerp>

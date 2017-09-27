@@ -1,0 +1,98 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* quants_to_picking_ph
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-26 10:54+0000\n"
+"PO-Revision-Date: 2017-09-26 12:56+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.3\n"
+
+#. module: quants_to_picking_ph
+#: view:quants.to.picking.wizard:quants_to_picking_ph.picking_select_dest_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: quants_to_picking_ph
+#: view:quants.to.picking.wizard:quants_to_picking_ph.picking_select_dest_wizard
+msgid "Continue"
+msgstr "Continuar"
+
+#. module: quants_to_picking_ph
+#. openerp-web
+#: code:addons/quants_to_picking_ph/static/src/xml/stock_quant.xml:11
+#, python-format
+msgid "Create picking"
+msgstr "Crear albarán"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,location_dest_id:0
+msgid "Destination location"
+msgstr "Ubicación de destino"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,display_name:0
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización"
+
+#. module: quants_to_picking_ph
+#: code:addons/quants_to_picking_ph/wizard/quants_to_picking_wizard.py:22
+#, python-format
+msgid "Picking from quants"
+msgstr "Albarán desde quants"
+
+#. module: quants_to_picking_ph
+#: field:quants.to.picking.wizard,picking_id:0
+msgid "Picking id"
+msgstr "ID Albarán"
+
+#. module: quants_to_picking_ph
+#: model:ir.model,name:quants_to_picking_ph.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
+
+#. module: quants_to_picking_ph
+#. openerp-web
+#: code:addons/quants_to_picking_ph/static/src/js/stock_quant.js:23
+#, python-format
+msgid "You have not selected any quant!"
+msgstr "¡No ha seleccionado ningún quant!"

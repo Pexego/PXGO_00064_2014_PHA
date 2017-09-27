@@ -13,8 +13,10 @@ class CorteInglesParser(models.AbstractModel):
     def _get_header_table(self, order):
         date = parser.parse(order.date_order)
         date_str = date.strftime('%d/%m/%Y')
-        top_date = parser.parse(order.top_date)
-        top_date_str = top_date.strftime('%d/%m/%Y')
+        top_date_str = ''
+        if order.top_date:
+            top_date = parser.parse(order.top_date)
+            top_date_str = top_date.strftime('%d/%m/%Y')
 
         header_table = {
             'n_order': order.client_order_ref,

@@ -419,6 +419,8 @@
                     <span t-field="o.fiscal_position.note"/>
                 </p>
 
+                <t t-call="custom_reports.report_footer_message"/>
+
                 <div class="oe_structure"/>
             </div>
 

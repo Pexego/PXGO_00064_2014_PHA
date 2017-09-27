@@ -133,3 +133,9 @@ class StockProductionLot(models.Model):
                                        'view'):
                 quantity += q.qty
         self.available_stock = quantity
+
+
+class StockInventory(models.Model):
+    _inherit = 'stock.inventory'
+
+    notes = fields.Text()

@@ -15,3 +15,4 @@ class MrpBom(models.Model):
     stock_by_day_p = fields.Float(related='product_id.stock_by_day_p')
     cons_by_day_i = fields.Float(related='product_id.cons_by_day_i')
     cons_by_day_p = fields.Float(related='product_id.cons_by_day_p')
+    bom_member = fields.Boolean(related='product_id.bom_member')

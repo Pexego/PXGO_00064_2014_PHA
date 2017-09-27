@@ -7,12 +7,6 @@
                     color: black;
                 }
             </style>
-            <p t-if="sale_ok and company.report_sales_footer_message" style="font-size: 12px; border-top: 1px solid black;">
-                <span t-field="company.report_sales_footer_message"/>
-            </p>
-            <p t-if="purchase_ok and company.report_purchases_footer_message" style="font-size: 12px; border-top: 1px solid black;">
-                <span t-field="company.report_purchases_footer_message"/>
-            </p>
             <div style="position: relative; border-top: 1px solid black;">
                 <div style="position: absolute; top: 4px; left: 0;">
                     <t t-foreach="company.header_image" t-as="h_image">

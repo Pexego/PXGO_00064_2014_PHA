@@ -20,26 +20,23 @@ class SaleOrder(models.Model):
         orphans = []
 
         if self.partner_id.com_discount_by_line_subline_id and self.order_line:
-            line_id = self.order_line[0].product_id.line
-            subline_id = self.order_line[0].product_id.subline
-            all_products_with_same_line_and_subline = True
-
+            commercial_discount_id = self.partner_id.\
+                com_discount_by_line_subline_id.filtered(
+                    lambda r:
+                        (r.line_id == self.order_line[0].product_id.line) and
+                        (r.subline_id == self.order_line[0].product_id.subline)
+            )
+            commercial_discount = commercial_discount_id.discount if \
+                commercial_discount_id else False
             for item in self.order_line:
-                all_products_with_same_line_and_subline = \
-                    all_products_with_same_line_and_subline and \
-                    (line_id == item.product_id.line) and \
-                    (subline_id == item.product_id.subline)
-
-            if all_products_with_same_line_and_subline:
-                commercial_discount = self.partner_id.\
+                discount_id = self.partner_id.\
                     com_discount_by_line_subline_id.filtered(
-                        lambda r: (r.line_id == line_id) and
-                                  (r.subline_id == subline_id)
+                        lambda r: (r.line_id == item.product_id.line) and
+                                  (r.subline_id == item.product_id.subline)
                 )
-                commercial_discount = commercial_discount.discount \
-                    if commercial_discount else 0
-            else:
-                commercial_discount = 0
+                discount = discount_id.discount if discount_id else False
+                commercial_discount = discount \
+                    if discount == commercial_discount else False
 
             if self.commercial_discount_percentage != commercial_discount:
                 messages.append((0, 0, {

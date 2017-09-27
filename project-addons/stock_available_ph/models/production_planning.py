@@ -55,6 +55,15 @@ class ProductionPlanningOrders(models.Model):
     production_order = fields.Many2one(comodel_name='mrp.production',
                                        readonly=True)
     note = fields.Char(string='Note for production')
+    cons_by_day_p_total = fields.Float(related='product_id.cons_by_day_p_total')
+    cons_by_day_p_month = fields.Float(related='product_id.cons_by_day_p_month')
+    cons_by_day_p_semester = fields.Float(related='product_id.cons_by_day_p_semester')
+    cons_by_day_p_year = fields.Float(related='product_id.cons_by_day_p_year')
+    cons_by_day_i_total = fields.Float(related='product_id.cons_by_day_i_total')
+    cons_by_day_i_month = fields.Float(related='product_id.cons_by_day_i_month')
+    cons_by_day_i_semester = fields.Float(related='product_id.cons_by_day_i_semester')
+    cons_by_day_i_year = fields.Float(related='product_id.cons_by_day_i_year')
+    uom_id = fields.Many2one(related='product_id.uom_id')
     active = fields.Boolean(default=True)
 
     @api.multi

@@ -51,7 +51,7 @@ class StockProductionLot(models.Model):
         if self._context.get('in_pick', False) and view_type=='form':
             arch = res['arch']
             doc = etree.XML(arch)
-            for field in ['container_type', 'quantity', 'uom_id', 'container_number', 'pallets']:
+            for field in ['container_type', 'container_number', 'pallets']:
                 node = doc.xpath("//field[@name='%s']" % field)[0]
                 modifiers = node.get('modifiers')
                 if not modifiers or modifiers == '{}':

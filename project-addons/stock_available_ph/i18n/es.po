@@ -128,8 +128,8 @@ msgstr "Cons./día [F]"
 #. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_i_total:0
 #: field:product.product,cons_by_day_i_total:0
-#: field:product.stock.unsafety,cons_by_day_i_total:0
 #: field:product.template,cons_by_day_i_total:0
+#: field:production.planning.orders,cons_by_day_i_total:0
 msgid "Cons. by day [I] (direct+indirect)"
 msgstr "Cons./día [F] (directo+indirecto)"
 
@@ -142,6 +142,30 @@ msgid "Cons. by day [I] (indirect)"
 msgstr "Cons./día [F] (indirecto)"
 
 #. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_i_month:0
+#: field:product.product,cons_by_day_i_month:0
+#: field:product.template,cons_by_day_i_month:0
+#: field:production.planning.orders,cons_by_day_i_month:0
+msgid "Cons. by day [I] (month)"
+msgstr "Cons./día [F] (mes)"
+
+#. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_i_semester:0
+#: field:product.product,cons_by_day_i_semester:0
+#: field:product.template,cons_by_day_i_semester:0
+#: field:production.planning.orders,cons_by_day_i_semester:0
+msgid "Cons. by day [I] (semester)"
+msgstr "Cons./día [F] (semestre)"
+
+#. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_i_year:0
+#: field:product.product,cons_by_day_i_year:0
+#: field:product.template,cons_by_day_i_year:0
+#: field:production.planning.orders,cons_by_day_i_year:0
+msgid "Cons. by day [I] (year)"
+msgstr "Cons./día [F] (año)"
+
+#. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_p:0 field:mrp.bom,cons_by_day_p:0
 #: field:product.product,cons_by_day_p:0
 #: field:product.stock.unsafety,cons_by_day_p:0
@@ -152,8 +176,8 @@ msgstr "Cons./día [A]"
 #. module: stock_available_ph
 #: field:bom.member.of,cons_by_day_p_total:0
 #: field:product.product,cons_by_day_p_total:0
-#: field:product.stock.unsafety,cons_by_day_p_total:0
 #: field:product.template,cons_by_day_p_total:0
+#: field:production.planning.orders,cons_by_day_p_total:0
 msgid "Cons. by day [P] (direct+indirect)"
 msgstr "Cons./día [A] (directo+indirecto)"
 
@@ -164,6 +188,30 @@ msgstr "Cons./día [A] (directo+indirecto)"
 #: field:product.template,cons_by_day_p_ind:0
 msgid "Cons. by day [P] (indirect)"
 msgstr "Cons./día [A] (indirecto)"
+
+#. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_p_month:0
+#: field:product.product,cons_by_day_p_month:0
+#: field:product.template,cons_by_day_p_month:0
+#: field:production.planning.orders,cons_by_day_p_month:0
+msgid "Cons. by day [P] (month)"
+msgstr "Cons./día [A] (mes)"
+
+#. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_p_semester:0
+#: field:product.product,cons_by_day_p_semester:0
+#: field:product.template,cons_by_day_p_semester:0
+#: field:production.planning.orders,cons_by_day_p_semester:0
+msgid "Cons. by day [P] (semester)"
+msgstr "Cons./día [A] (semestre)"
+
+#. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_p_year:0
+#: field:product.product,cons_by_day_p_year:0
+#: field:product.template,cons_by_day_p_year:0
+#: field:production.planning.orders,cons_by_day_p_year:0
+msgid "Cons. by day [P] (year)"
+msgstr "Cons./día [A] (año)"
 
 #. module: stock_available_ph
 #: view:product.product:stock_available_ph.stock_available_product_normal_form
@@ -415,6 +463,11 @@ msgid "Minimum stock by day [P] (indirect)"
 msgstr "Mínimo stock/día [A] (indirecto)"
 
 #. module: stock_available_ph
+#: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
+msgid "Month"
+msgstr "Mes"
+
+#. module: stock_available_ph
 #: field:production.planning.orders,name:0
 msgid "Name"
 msgstr "Nombre"
@@ -498,14 +551,19 @@ msgid "Product Template"
 msgstr "Plantilla de producto"
 
 #. module: stock_available_ph
+#: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
+msgid "Product prevision"
+msgstr "Producto prevision"
+
+#. module: stock_available_ph
 #: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_tree
 msgid "Product stock unsafety"
 msgstr "Bajo Mínimos"
 
 #. module: stock_available_ph
 #: field:bom.member.of,product_id:0
-msgid "Product that is part of the BoM"
-msgstr "Producto que forma parte de una LdM"
+msgid "Product"
+msgstr "Producto"
 
 #. module: stock_available_ph
 #: field:product.time.adviser,product_tmpl_id:0
@@ -575,7 +633,13 @@ msgstr "Ctdad. producción"
 #. module: stock_available_ph
 #: field:mrp.routing,product_ids:0
 msgid "Products"
-msgstr "Productos"
+msgstr
+
+#. module: stock_available_ph
+#: model:ir.actions.act_window,name:stock_available_ph.action_stock_available_product_prevision_tree
+#: model:ir.ui.menu,name:stock_available_ph.menu_view_product_prevision_list
+msgid "Products prevision"
+msgstr "Productos prevision"
 
 #. module: stock_available_ph
 #: view:product.product:stock_available_ph.stock_available_product_tree
@@ -641,6 +705,11 @@ msgstr "Tiempo recomendado"
 #: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
 msgid "Save"
 msgstr "Guardar"
+
+#. module: stock_available_ph
+#: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
+msgid "Semester"
+msgstr "Semestre"
 
 #. module: stock_available_ph
 #: view:production.planning.orders:stock_available_ph.production_planning_filter
@@ -775,7 +844,8 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: stock_available_ph
-#: field:product.stock.unsafety,uom_id:0
+#: field:bom.member.of,uom_id:0 field:product.stock.unsafety,uom_id:0
+#: field:production.planning.orders,uom_id:0
 msgid "Unit of Measure"
 msgstr "Unidad de medida"
 
@@ -807,3 +877,8 @@ msgstr "Calcular stock por día de todos los productos"
 #: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
 msgid "Wizard shows all BoM that product is member of."
 msgstr "Muestra todas las listas de materiales en las que se usa este producto"
+
+#. module: stock_available_ph
+#: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
+msgid "Year"
+msgstr "Año"
