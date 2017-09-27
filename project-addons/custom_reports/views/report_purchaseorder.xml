@@ -5,6 +5,7 @@
             <t t-if="o.state not in ('confirmed', 'approved', 'done')">
                 <t t-call="custom_reports.report_purchasequotation_document"/>
             </t>
+
             <t t-if="o.state in ('confirmed', 'approved', 'done')">
                 <!-- Multicompany -->
                 <t t-if="o and 'company_id' in o">
@@ -13,6 +14,8 @@
                 <t t-if="not o or not 'company_id' in o">
                     <t t-set="company" t-value="res_company"></t>
                 </t>
+
+                <t t-set="purchase_ok" t-value="1"></t>
 
                 <div class="header">
                     <div class="row">
@@ -312,11 +315,13 @@
 
                     <span><strong>Observations:</strong></span>
                     <p t-field="o.notes"/>
+
+                    <t t-call="custom_reports.report_footer_message"/>
+
                     <div class="oe_structure"/>
                 </div>
 
                 <div class="footer">
-                    <t t-set="purchase_ok" t-value="1"></t>
                     <t t-call="custom_reports.report_footer"/>
                 </div>
             </t>

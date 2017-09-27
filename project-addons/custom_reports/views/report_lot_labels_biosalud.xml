@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <t t-name="custom_reports.report_lot_labels_biosalud">
+        <template id="report_lot_labels_biosalud">
             <t t-call="report.html_container">
                 <style type="text/css">
                     p {
@@ -25,9 +25,14 @@
                                     <div style="clear: both;"/>
                                 </div>
                                 <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
-                                    <t t-set="lot_date" t-value="l.use_date"/>
-                                    <t t-set="lot_date" t-value="time.strftime('%d/%m/%Y',time.strptime(lot_date,'%Y-%m-%d %H:%M:%S'))"/>
-                                    <span t-field="l.product_id.description"/><span> - </span><span t-esc="lot_date"/>
+                                    <t t-if="l.use_date">
+                                        <t t-set="lot_date" t-value="l.use_date"/>
+                                        <t t-set="lot_date" t-value="time.strftime('%d/%m/%Y',time.strptime(lot_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                        <span t-field="l.product_id.description"/><span> - </span><span t-esc="lot_date"/>
+                                    </t>
+                                    <t t-if="not l.use_date">
+                                        <span t-field="l.product_id.description"/>
+                                    </t>
                                 </p>
                                 <p t-field="l.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
                                 <div style="display: inline-block; float: right; position: relative;">
@@ -45,7 +50,7 @@
                     </t>
                 </t>
             </t>
-        </t>
+        </template>
 
         <report
             id="action_report_lot_labels_biosalud"

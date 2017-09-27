@@ -10,6 +10,8 @@
                 <t t-set="company" t-value="res_company"></t>
             </t>
 
+            <t t-set="purchase_ok" t-value="1"></t>
+
             <div class="header">
                 <div class="row">
                     <div class="col-xs-3">
@@ -211,11 +213,13 @@
 
                 <span><strong>Observations:</strong></span>
                 <p t-field="o.notes"/>
+
+                <t t-call="custom_reports.report_footer_message"/>
+
                 <div class="oe_structure"/>
             </div>
 
             <div class="footer">
-                <t t-set="purchase_ok" t-value="1"></t>
                 <t t-call="custom_reports.report_footer"/>
             </div>
         </template>

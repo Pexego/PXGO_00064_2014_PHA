@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_footer_message">
+            <p t-if="sale_ok and company.report_sales_footer_message"
+               style="font-size: 12px; border-top: 1px solid black; page-break-inside: avoid;">
+                <span t-field="company.report_sales_footer_message"/>
+            </p>
+            <p t-if="purchase_ok and company.report_purchases_footer_message"
+               style="font-size: 12px; border-top: 1px solid black; page-break-inside: avoid;">
+                <span t-field="company.report_purchases_footer_message"/>
+            </p>
+        </template>
+    </data>
+</openerp>
