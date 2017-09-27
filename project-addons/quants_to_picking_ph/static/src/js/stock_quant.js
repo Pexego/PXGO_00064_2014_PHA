@@ -2,7 +2,7 @@
 //© 2017 Pharmadus I.T.
 //License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-openerp.custom_calendars = function(instance) {
+openerp.quants_to_picking_ph = function(instance) {
     instance.web.ListView.include({
         load_list: function() {
             var self = this;
