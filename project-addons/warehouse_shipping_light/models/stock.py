@@ -149,8 +149,10 @@ class StockPackOperation(models.Model):
         vals['rest'] = vals.get('quantity', 0)
 
         td = self.env['stock.transfer_details'].search(
-            [('picking_id', '=', vals['picking_id'])])
+            [('picking_id', '=', vals['picking_id'])],
+            order='id desc')
         if td:
+            td = td[0]
             tdi = False
             po_ids = self.search([('picking_id', '=', td.picking_id.id),
                                   ('transfer_detail_item', '>', 0)])
