@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2017 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="manual_lots_assign_tree_view">
+            <field name="name">Manual lots assign - Button in moves tree view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="custom_views.custom_views_move_picking_tree"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="lots_string" position="after">
+                    <field name="show_manual_lot_assign_button" invisible="1"/>
+                    <button name="action_manual_lot_assign_wizard" type="object"
+                            icon="gtk-index"
+                            attrs="{'invisible': [('show_manual_lot_assign_button', '=', False)]}"
+                    />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
