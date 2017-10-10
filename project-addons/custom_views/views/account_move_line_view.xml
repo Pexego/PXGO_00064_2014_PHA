@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="advanced_account_move_line_tree" model="ir.ui.view">
+            <field name="name">Custom views - Advanced account move line tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Efectos" colors="red:date_maturity&lt;current_date">
+                    <field name="stored_invoice_id" readonly="1"/>
+                    <field name="invoice_date" readonly="1"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="partner_parent_category_id" readonly="1"/>
+                    <field name="payment_mode_id" readonly="1"/>
+                    <field name="payment_term_id" readonly="1"/>
+                    <field name="debit" readonly="1" sum="Total debe"/>
+                    <field name="credit" readonly="1" sum="Total crédito"/>
+                    <field name="date_maturity"/>
+                    <field name="payment_mode_bank_id" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <act_window id="action_advanced_account_move_line_tree"
+                    name="Advanced account move lines"
+                    res_model="account.move.line"
+                    view_id="advanced_account_move_line_tree"
+        />
+
+        <menuitem action="action_advanced_account_move_line_tree"
+                  id="menu_action_advanced_account_move_line_tree"
+                  parent="account.menu_finance_entries"
+                  sequence="6"
+        />
+    </data>
+</openerp>
