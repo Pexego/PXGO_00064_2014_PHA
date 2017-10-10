@@ -14,6 +14,7 @@
         'product',
     ],
     'data': [
+        'wizard/product_gtin14_view.xml',
         'views/product_view.xml',
         'security/ir.model.access.csv',
     ],

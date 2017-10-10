@@ -15,6 +15,14 @@ class ProductGtin14(models.Model):
     gtin14 = fields.Char('GTIN-14 code', readonly=True)
     units = fields.Integer('Units')
     used_for = fields.Char('Used for')
+    partner_ids = fields.Many2many(string='Assigned partners',
+                                   comodel_name='res.partner',
+                                   relation='product_gtin14_res_partner_rel',
+                                   column1='gtin14_id',
+                                   column2='partner_id')
+    partners_count = fields.Integer(string='Partners',
+                                    compute='_partners_count',
+                                    readonly=True)
 
     @api.multi
     def name_get(self):
@@ -24,6 +32,27 @@ class ProductGtin14(models.Model):
                                            rec.used_for if rec.used_for else '')
             res.append((rec.id, name))
         return res
+
+    @api.one
+    def _partners_count(self):
+        self.partners_count = len(self.partner_ids)
+
+    @api.multi
+    def assign_partners(self):
+        view = self.env.ref(
+            'product_gtin_codes.product_gtin_codes_partners_form')
+
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'product.gtin14',
+            'res_id': self.id,
+            'view_id': view.id,
+            'target': 'new',
+#            'flags': {'form': {'action_buttons': True}},
+            'context': self.env.context,
+        }
 
 
 class ProductProduct(models.Model):
