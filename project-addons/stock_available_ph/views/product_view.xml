@@ -118,8 +118,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             domain="[('action_limit_exceeded', '=', True)]"
                     />
                     <separator/>
-                    <filter string="Stock/day [A] and virtual conservative is 0"
+                    <filter string="Stock/day [P] and virtual conservative is 0"
                             domain="[('stock_by_day_p_total', '=', 0), ('virtual_conservative', '=', 0)]"
+                    />
+                    <separator/>
+                    <filter string="Has warehouse movements"
+                            domain="[('stock_move_ids', '!=', False)]"
                     />
                 </filter>
             </field>

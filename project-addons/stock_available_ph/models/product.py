@@ -89,6 +89,9 @@ class ProductTemplate(models.Model):
     has_bom = fields.Boolean(compute='_has_bom')
     time_adviser = fields.One2many(comodel_name='product.time.adviser',
                                    inverse_name='product_tmpl_id')
+    stock_move_ids = fields.One2many(string='Stock movements',
+                                     comodel_name='stock.move',
+                                     inverse_name='product_id')
 
     @api.multi
     def _has_bom(self):
