@@ -1007,56 +1007,6 @@ msgid "stock.group_stock_manager"
 msgstr "stock.group_stock_manager"
 
 #. module: custom_views
-#: view:product.template:custom_views.product_template_form_view_custom_view
-msgid "width: 390px; margin: 0 0 0 5px;"
-msgstr "width: 390px; margin: 0 0 0 5px;"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'concatenate_name_comercial': not id, 'default_type': 'invoice'}"
-msgstr "{'concatenate_name_comercial': not id, 'default_type': 'invoice'}"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1, 'intermediary': intermediary}"
-msgstr "{'concatenate_name_comercial': not id, 'search_default_customer': 1, 'show_address': 1, 'intermediary': intermediary}"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'create': False, 'create_edit':False}"
-msgstr "{'create': False, 'create_edit':False}"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}"
-msgstr "{'is_a_sample_order': parent.sample, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'rep': replacement, 'orig': orig_sale, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "{'is_a_sample_order': sample}"
-msgstr "{'is_a_sample_order': sample}"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_add_stock_form
-msgid "{'limit': 10, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
-msgstr "{'limit': 10, 'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
-
-#. module: custom_views
-#: view:account.invoice:custom_views.custom_views_invoice_form
-msgid "{'required': [('banking_mandate_needed', '=', True)]}"
-msgstr "{'required': [('banking_mandate_needed', '=', True)]}"
-
-#. module: custom_views
-#: view:account.invoice:custom_views.custom_views_invoice_supplier_form
-msgid "{'required': [('invoice_type', '=', 'in_invoice')]}"
-msgstr "{'required': [('invoice_type', '=', 'in_invoice')]}"
-
-#. module: custom_views
-#: view:res.partner:custom_views.view_partner_form_custom_view
-msgid "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
-msgstr "{'required':[('is_company','=',True)],'invisible': [('is_company','=', False)]}"
-
-#. module: custom_views
 #: field:mrp.procedure,attachment:0
 #: field:product.product,analysis_method_attachment:0
 #: field:product.product,analysis_plan_attachment:0
@@ -1080,3 +1030,31 @@ msgstr "Nombre adjunto"
 #: view:product.stock.unsafety.cancel.warnings:custom_views.view_cancel_warnings_form
 msgid "¿Do you want to cancel the selected warnings?"
 msgstr "¿Quiere cancelar los avisos seleccionados?"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_advanced_account_move_line_tree
+#: model:ir.ui.menu,name:custom_views.menu_action_advanced_account_move_line_tree
+msgid "Advanced account move lines"
+msgstr "Efectos avanzado"
+
+#. module: custom_views
+#: help:account.move.line,payment_mode_bank_id:0
+msgid "Bank Account for the Payment Mode"
+msgstr "Cuenta bancaria"
+
+#. module: custom_views
+#: field:account.move.line,payment_mode_bank_id:0
+msgid "Bank account"
+msgstr "Cuenta bancaria"
+
+#. module: custom_views
+#: field:account.move.line,partner_parent_category_id:0
+msgid "Partner parent category id"
+msgstr "Etiqueta"
+
+#. module: custom_views
+#: field:account.invoice.special,payment_mode_id:0
+#: field:account.move.line,payment_mode:0
+#: model:ir.model,name:custom_views.model_payment_mode
+msgid "Payment Mode"
+msgstr "Modo de pago"

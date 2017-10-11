@@ -41,7 +41,7 @@
                                                             <div style="clear: both;"></div>
                                                         </div>
                                                         <p t-field="l.name" style="font-size: 80px; font-weight: bold; line-height: 50px;"/>
-                                                        <p t-field="m.name" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
+                                                        <p t-field="m.product_id.name" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
                                                         <p t-field="p.partner_id" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
                                                         <p>
                                                             <div t-field="l.supplier_lot"
@@ -68,7 +68,7 @@
                                             </t>
                                             <t t-if="row in (2, 4, 6)">
                                                 <td colspan="3">
-                                                    <div style="width: 890px; height: 50px;"/>
+                                                    <div style="width: 890px; height: 49px;"/>
                                                 </td>
                                             </t>
                                         </tr>

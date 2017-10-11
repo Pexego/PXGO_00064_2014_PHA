@@ -890,6 +890,11 @@ msgid "Split details"
 msgstr "Detalles de la división"
 
 #. module: warehouse_shipping_light
+#: field:stock.location,sscc_digit:0
+msgid "SSCC Digit"
+msgstr "Dígito SSCC"
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Suggested lot"
 msgstr "Lote sugerido"

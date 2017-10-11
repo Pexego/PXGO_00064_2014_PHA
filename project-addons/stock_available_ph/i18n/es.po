@@ -347,6 +347,12 @@ msgid "Has bom"
 msgstr "Tiene LdM"
 
 #. module: stock_available_ph
+#: view:product.template:stock_available_ph.stock_available_product_search
+#: view:product.stock.unsafety:stock_available_product_stock_unsafety_search
+msgid "Has warehouse movements"
+msgstr "Tiene movimientos de stock"
+
+#. module: stock_available_ph
 #: field:bom.member.of,id:0 field:product.stock.by.day,id:0
 #: field:production.planning,id:0 field:production.planning.materials,id:0
 #: field:production.planning.orders,id:0 field:stock.available,id:0
@@ -527,6 +533,12 @@ msgstr "Planificador de órdenes a producir"
 #: field:production.planning,materials:0
 msgid "Prevision of needed materials"
 msgstr "Previsión de materiales necesarios"
+
+#. module: stock_available_ph
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Previsional qty. > 0"
+msgstr "Ctdad. producción > 0"
 
 #. module: stock_available_ph
 #: view:product.product:stock_available_ph.stock_available_product_normal_form
@@ -791,11 +803,21 @@ msgid "Stock by day [P] (indirect)"
 msgstr "Stock/día [A] (indirecto)"
 
 #. module: stock_available_ph
+#: field:product.template,stock_move_ids:0
+msgid "Stock movements"
+msgstr "Movimientos de stock"
+
+#. module: stock_available_ph
 #: field:production.planning.materials,stock_status:0
 #: field:production.planning.orders,stock_status:0
 #: field:stock.available.details,stock_status:0
 msgid "Stock status"
 msgstr "Estado stock"
+
+#. module: stock_available_ph
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Stock/day [P] and virtual conservative is 0"
+msgstr "Stock/día [A] y virtual conservador es 0"
 
 #. module: stock_available_ph
 #: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard

@@ -21,7 +21,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                     <field name="gtin14"/>
                                     <field name="log_var" invisible="1"/>
                                     <field name="units" attrs="{'readonly': [('log_var', '=', 8)]}"/>
-                                    <field name="used_for" attrs="{'readonly': [('log_var', '=', 8)]}"/>
+                                    <field name="used_for"/>
+                                    <field name="partners_count"/>
+                                    <button name="assign_partners"
+                                            class="oe_read_only"
+                                            type="object"
+                                            icon="terp-partner"/>
                                 </tree>
                             </field>
                             <field name="id" invisible="1"/>

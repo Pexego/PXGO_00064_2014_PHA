@@ -115,12 +115,25 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <filter name="filter_to_sell" position="after">
                     <separator/>
                     <filter string="Action limit exceeded"
-                            domain="[('action_limit_exceeded', '=', True)]"
-                    />
+                            domain="[('action_limit_exceeded', '=', True)]"/>
                     <separator/>
-                    <filter string="Stock/day [A] and virtual conservative is 0"
-                            domain="[('stock_by_day_p_total', '=', 0), ('virtual_conservative', '=', 0)]"
-                    />
+                    <filter string="Stock/day [P] and virtual conservative is 0"
+                            domain="[('stock_by_day_p_total', '=', 0), ('virtual_conservative', '=', 0)]"/>
+                    <separator/>
+                    <filter string="Has warehouse movements"
+                            domain="[('stock_move_ids', '!=', False)]"/>
+                    <separator/>
+                    <filter string="Previsional qty. > 0"
+                            domain="[('production_planning_qty', '>', 0)]"/>
+                    <separator/>
+                    <!--filter string="Production qty. > 0"
+                            domain="[('production_qty', '>', 0)]"/>
+                    <separator/>
+                    <filter string="Out of exist. > 0"
+                            domain="[('out_of_existences', '>', 0)]"/>
+                    <separator/>
+                    <filter string="Incoming qty. > 0"
+                            domain="[('real_incoming_qty', '>', 0)]"/-->
                 </filter>
             </field>
         </record>

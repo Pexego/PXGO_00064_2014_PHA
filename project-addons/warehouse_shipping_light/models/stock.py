@@ -44,6 +44,7 @@ class StockPicking(models.Model):
     expedition_id = fields.Many2one('stock.expeditions',
                               'Associated expedition')
     carrier_note = fields.Text(related='sale_id.carrier_note')
+    sscc = fields.Char('SSCC', size=18, compute='_compute_sscc')
 
     @api.one
     @api.depends('pack_operation_ids',
@@ -132,6 +133,36 @@ class StockPicking(models.Model):
                 if rec.expedition_id and old_carriers[rec.id] != carrier_id:
                     rec.expedition_id._compute_carrier_name()
         return res
+
+    @api.one
+    @api.depends('location_dest_id',
+                 'location_dest_id.sscc_digit',
+                 'name',
+                 'company_id.aecoc_code')
+    def _compute_sscc(self):
+        def control_code(code):
+            sum = 0
+            for d in range(17):
+                sum += int(code[d]) * (3 if d % 2 == 0 else 1)
+            return (10 - sum % 10) % 10
+
+        if self.company_id.aecoc_code and self.name and \
+                self.location_dest_id.sscc_digit:
+
+            picking_number = self.name
+            digits = 0
+            for i in range(-1, len(picking_number) * -1, -1):
+                if picking_number[i].isdigit():
+                    digits += 1
+                else:
+                    break
+
+            partial_sscc = self.location_dest_id.sscc_digit + \
+                           self.company_id.aecoc_code[:7] + \
+                           picking_number[-digits:].zfill(9)
+            self.sscc = partial_sscc + str(control_code(partial_sscc))
+        else:
+            self.sscc = ''
 
 
 class StockPackOperation(models.Model):
@@ -378,3 +409,9 @@ class StockExpeditions(models.Model):
                 _('Financial discount (%.2f %%)') % fin_discount_global
         else:
             self.financial_discount_display = _('Financial discount')
+
+
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    sscc_digit = fields.Char('SSCC Digit', size=1)
