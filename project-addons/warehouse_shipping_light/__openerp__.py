@@ -32,6 +32,7 @@
         'stock',
         'delivery',
         'stock_reception',
+        'asperience_edi',
         'custom_reports',
     ],
     'data' : [

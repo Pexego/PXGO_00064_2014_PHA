@@ -23,13 +23,16 @@
                     <t t-call="report.html_container">
                         <div class="header">
                             <div class="row">
-                                <div>
+                                <div style="float: left;">
                                     <span t-esc="'Palet %d de %d' % (palet_number, p.number_of_palets)"/>
                                     - Pegatina <span class="page"/> de <span class="topage"/>
+                                    <t t-if="p.sscc">
+                                        <br/>SSCC: <span t-field="p.sscc"/>
+                                    </t>
                                 </div>
 
                                 <div t-if="res_company.logo"
-                                     style="display: inline-block; float: right; margin: -20px 10px 0 0;">
+                                     style="display: inline-block; float: right; margin: 0 10px 0 0;">
                                     <!--span t-field="res_company.logo" t-field-options='{"widget": "image"}'/-->
                                     <img t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
                                 </div>
