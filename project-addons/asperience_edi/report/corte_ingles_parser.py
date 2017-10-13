@@ -91,27 +91,28 @@ class CorteInglesParser(models.AbstractModel):
                 total_tables[op.palet] = {'total_qty': 0.0,
                                           'total_lines': 0.0,
                                           'total_packs': total_packs,
-                                          'sscc': '',
+                                          'sscc': op.picking_id.sscc,
                                           'first': first}
                 first = False
-
             cant_ue = str(op.product_id.box_elements)
-            # if op.linked_move_operation_ids:
-                # if op.linked_move_operation_ids[0].move_id.procurement_id:
-                #     move = op.linked_move_operation_ids[0].move_id
-                #     if move.procurement_id:
-                #         proc = move.procurement_id
-                #         if proc.sale_line_id:
-                #             cant_ue = proc.sale_line_id.units_per_package
+            ref_eci = ''
+            for cus in op.product_id.customer_ids:
+                if cus.name.id == pick.partner_id.id:
+                    ref_eci = cus.product_code
 
+            gtin14 = ''
+            for gtin_obj in op.product_id.gtin14_ids:
+                for part in gtin_obj.partner_ids:
+                    if part.id == pick.partner_id.id:
+                        gtin14 = gtin_obj.gtin14
             p_table = {
                 'ean13': op.product_id.ean13,
-                'ref_eci': op.product_id.eci_ref,
+                'ref_eci': ref_eci,
                 'description': op.product_id.name.upper(),
                 'cant_ue': cant_ue,
                 'cant_fact': op.product_qty,
                 'cant_no_fact': '',
-                'ean14': op.product_id.ean14,
+                'ean14': gtin14,
             }
             palet_tables[op.palet].append(p_table)
 
