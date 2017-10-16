@@ -80,8 +80,17 @@ class CorteInglesParser(models.AbstractModel):
         p_table = {}
         first = True
         palet_packs_dic = pick._get_num_packs_in_palets()
+        op_by_product = {}
+        visited_products = []
+
+        # Group operations by product
         for op in pick.pack_operation_ids:
-            if not op.palet:
+            if op.product_id.id not in op_by_product:
+                op_by_product[op.product_id.id] = 0.0
+            op_by_product[op.product_id.id] += op.product_qty
+
+        for op in pick.pack_operation_ids:
+            if not op.palet or op.product_id.id in visited_products:
                 continue
 
             if op.palet not in palet_tables:
@@ -113,12 +122,12 @@ class CorteInglesParser(models.AbstractModel):
                 'ref_eci': ref_eci,
                 'description': op.product_id.name.upper(),
                 'cant_ue': cant_ue,
-                'cant_fact': op.product_qty,
+                'cant_fact': op_by_product[op.product_id.id],
                 'cant_no_fact': '',
                 'ean14': gtin14,
             }
             palet_tables[op.palet].append(p_table)
-
+            visited_products.append(op.product_id.id)
             total_tables[op.palet]['total_qty'] += op.product_qty
             total_tables[op.palet]['total_lines'] += 1
 
