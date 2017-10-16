@@ -101,9 +101,12 @@ class CorteInglesParser(models.AbstractModel):
                     ref_eci = cus.product_code
 
             gtin14 = ''
+            gtin_partner = pick.partner_id
+            if gtin_partner.type in ['delivery'] and gtin_partner.parent_id:
+                gtin_partner = gtin_partner.parent_id
             for gtin_obj in op.product_id.gtin14_ids:
                 for part in gtin_obj.partner_ids:
-                    if part.id == pick.partner_id.id:
+                    if part.id == gtin_partner.id:
                         gtin14 = gtin_obj.gtin14
             p_table = {
                 'ean13': op.product_id.ean13,
