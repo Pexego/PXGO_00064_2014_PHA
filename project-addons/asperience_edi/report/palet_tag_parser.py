@@ -23,10 +23,21 @@ class PaletTagParser(models.AbstractModel):
     def get_tag_info(self, op, pack_table_class, lot_name=False, qty=False):
         serie = op.product_id.ean13 and op.product_id.ean13[:-1] or ''
         digits = map(int, '1' + serie)
-        check_digit = self.calculate_check_digit(digits)
-        barcode = serie and \
-            '1 ' + serie[0:2] + ' ' + serie[2:7] + ' ' + serie[7:]\
-            + ' ' + str(check_digit) or ''
+        # check_digit = self.calculate_check_digit(digits)
+        # barcode = serie and \
+        #     '1 ' + serie[0:2] + ' ' + serie[2:7] + ' ' + serie[7:]\
+        #     + ' ' + str(check_digit) or ''
+
+        gtin14 = ''
+        gtin_partner = op.picking_id.partner_id
+        if gtin_partner.type in ['delivery'] and gtin_partner.parent_id:
+            gtin_partner = gtin_partner.parent_id
+        for gtin_obj in op.product_id.gtin14_ids:
+            for part in gtin_obj.partner_ids:
+                if part.id == gtin_partner.id:
+                    gtin14 = gtin_obj.gtin14
+        parts = [gtin14[0], gtin14[1:3], gtin14[3:8], gtin14[8:13], gtin14[13]]
+        barcode = ' '.join(parts)
         cant_ue = str(op.product_id.box_elements)
 
         name_lot = lot_name if lot_name else \
@@ -80,19 +91,23 @@ class PaletTagParser(models.AbstractModel):
             if op.palet not in palet_dic:
                 palet_number += 1
                 num_palets += 1
+                place_dir = [(pick.partner_id.street and 
+                    pick.partner_id.street.upper() or '')]
+                place_dir.append(pick.partner_id.zip)
+                place_dir.append(pick.partner_id.city)
+                if pick.partner_id.state_id:
+                    place_dir.append('(' + pick.partner_id.state_id.name + ')')
 
                 total_packs = palet_packs_dic.get(op.palet, 0)
                 palet_dic[op.palet] = {
-                    'place': pick.partner_id.street2 and
-                    pick.partner_id.street2 or '',
-                    'place_dir': pick.partner_id.street and
-                    pick.partner_id.street.upper() or '',
+                    'place': pick.partner_id.name.upper(),
+                    'place_dir':  ', '.join(place_dir),
                     'num_packs': total_packs,
                     'palet_number': palet_number,
-                    'barcode': '',
+                    'barcode': pick.sscc,
                 }
-            if op.sscc:
-                palet_dic[op.palet]['barcode'] = '(00)' + op.sscc
+            # if op.sscc:
+            #     palet_dic[op.palet]['barcode'] = '(00)' + op.sscc
 
         # Sumar cantidades y lotes en los paquetes parciales:
         for package in partial_packs:
