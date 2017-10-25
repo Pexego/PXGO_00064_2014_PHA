@@ -40,8 +40,11 @@ class MrpProcedure(models.Model):
             [('res_model', '=', 'mrp.procedure'),
              ('res_id', '=', self.id)], limit=1, order='id desc'
         )
-        self.attachment = attachment_id.datas if attachment_id else False
-        self.attachment_filename = attachment_id.name
+        try:
+            self.attachment = attachment_id.datas if attachment_id else False
+            self.attachment_filename = attachment_id.name
+        except OSError as e:
+            pass
 
     @api.multi
     def name_get(self):
