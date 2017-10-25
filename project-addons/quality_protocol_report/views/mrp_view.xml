@@ -29,7 +29,7 @@
                                 <input type="hidden" name="button_submit" value=""/>
                                 <input type="hidden" name="token" t-att-value="token" />
                                 <div class="page-header">
-                                    <h1 t-field='page.title' />
+                                    <h2 t-field='page.title' />
                                     <t t-if="page.description"><div t-field='page.description' class="oe_no_empty"/></t>
                                 </div>
                                 <t t-foreach='page.question_ids' t-as='question'>
