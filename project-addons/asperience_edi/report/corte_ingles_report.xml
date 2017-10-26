@@ -254,7 +254,7 @@
                                                 <td><span t-esc="p_table['ean13']"/></td>
                                                 <td><span t-esc="p_table['ref_eci']"/></td>
                                                 <td></td>
-                                                <td></td>
+                                                <td><span t-esc="p_table['serie']"/></td>
                                                 <td></td>
                                                 <td><span t-esc="p_table['description']"/></td>
                                                 <td style="text-align:right;"><span t-esc="p_table['cant_ue']"/></td>
