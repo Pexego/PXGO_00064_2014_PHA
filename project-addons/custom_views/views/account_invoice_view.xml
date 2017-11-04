@@ -32,6 +32,16 @@
                     <field name="partner_vat_liens" style="color: red;" attrs="{'invisible': [('partner_liens', '=', False)]}"/>
                     <field name="partner_vat" attrs="{'invisible': [('partner_liens', '=', True)]}"/>
                 </field>
+                <field name="state" position="before">
+                    <button name="duplicate"
+                            type="object"
+                            icon="gtk-copy"
+                            string="Duplicar"
+                            confirm="¿Desea duplicar esta factura?"
+                            groups="custom_views.group_duplicate_button_invoice"
+                            class="oe_read_only"
+                    />
+                </field>
             </field>
         </record>
 
