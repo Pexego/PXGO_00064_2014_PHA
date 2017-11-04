@@ -234,6 +234,12 @@ class ProductionPlanningOrders(models.Model):
         return {'type': 'ir.actions.act_window_close'}
 
     @api.multi
+    def unlink(self):
+        self.compute = False
+        self.product_id.product_tmpl_id.compute_detailed_stock()
+        return super(models.Model, self).unlink()
+
+    @api.multi
     def cancel_order(self):
         self.unlink()
 
@@ -302,7 +308,7 @@ class ProductionPlanning(models.Model):
                             'orders': [(4, order.id)],
                         })
                     else:
-                        self.materials.create({
+                        material = self.materials.create({
                             'product_id': line.product_id.id,
                             'qty_required': line.product_qty * order.product_qty,
                             'qty_vsc_available': line.product_id.virtual_conservative,
@@ -310,6 +316,9 @@ class ProductionPlanning(models.Model):
                             'orders': [(4, order.id)],
                             'production_planning': self.id
                         })
+
+                    if material.product_id not in affected_materials:
+                        affected_materials.append(material.product_id)
 
         # Check material level of availability
         for m in self.materials:
