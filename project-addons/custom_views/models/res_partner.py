@@ -47,6 +47,9 @@ class ResPartner(models.Model):
     display_name = fields.Char(compute='_compute_display_name', store=True)
     liens = fields.Boolean(default=False)
     insured = fields.Boolean(default=False)
+    simplified_invoice = fields.Boolean(default=False)
+    send_invoice_by_email = fields.Boolean(default=False)
+    email_to_send_invoice = fields.Char()
 
     @api.one
     @api.depends('name', 'parent_id', 'parent_id.name')

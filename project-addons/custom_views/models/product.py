@@ -159,9 +159,14 @@ class ProductTemplate(models.Model):
                                    product.outgoing_qty - internal_scrapped_qty
 
             production_planning_orders = self.env['production.planning.orders'].\
-                search([('product_id', '=', product_id.id)])
+                search([('product_id', '=', product_id.id),
+                        ('compute', '=', True)])
             production_planning_qty = sum(order.product_qty for order in
                                           production_planning_orders)
+            prod_plan_materials = self.env['production.planning.materials'].\
+                search([('product_id', '=', product_id.id)])
+            production_planning_qty -= sum(material.qty_required for material in
+                                           prod_plan_materials)
 
             quants = self.env['stock.quant'].search([
                 ('product_id', '=', product_id.id),
@@ -180,14 +185,15 @@ class ProductTemplate(models.Model):
             ])
             real_incoming_qty = sum(move.product_uom_qty for move in moves)
 
-            product.write({
+            product.with_context(disable_notify_changes = True).write({
                 'internal_scrapped_qty': internal_scrapped_qty,
                 'virtual_conservative': virtual_conservative,
                 'production_planning_qty': production_planning_qty,
                 'out_of_existences': out_of_existences,
                 'real_incoming_qty': real_incoming_qty})
 
-            product_id._production_qty()  # Update qty in production if required
+            product_id.with_context(disable_notify_changes = True). \
+                update_qty_in_production()
 
 
 class PricelistPartnerinfo(models.Model):

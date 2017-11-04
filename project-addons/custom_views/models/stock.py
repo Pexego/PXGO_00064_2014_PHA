@@ -46,6 +46,8 @@ class StockPicking(models.Model):
     address_zip = fields.Char(related='partner_id.zip')
     address_country = fields.Char(related='partner_id.country_id.name')
     picking_type_desc = fields.Char(compute='_compute_picking_type_desc')
+    send_invoice_by_email = fields.Boolean(
+        related='partner_id.send_invoice_by_email')
 
     @api.one
     @api.depends('picking_type_id')
