@@ -357,7 +357,7 @@ class ProductionPlanning(models.Model):
         self.recompute_requirements()
 
         # Trigger stock calculations on affected orders products
-        for order in self.orders.filtered('compute'):
+        for order in self.orders:
             order.product_id.product_tmpl_id.compute_detailed_stock()
 
         return result
