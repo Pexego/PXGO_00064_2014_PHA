@@ -40,7 +40,7 @@
                                                             </div>
                                                             <div style="clear: both;"></div>
                                                         </div>
-                                                        <p t-field="l.name" style="font-size: 80px; font-weight: bold; line-height: 50px;"/>
+                                                        <p t-field="l.name" style="font-size: 55px; font-weight: bold; line-height: 30px;"/>
                                                         <p t-field="m.product_id.name" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
                                                         <p t-field="p.partner_id" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
                                                         <p>

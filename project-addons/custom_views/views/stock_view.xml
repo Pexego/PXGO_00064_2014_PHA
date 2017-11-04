@@ -34,6 +34,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <separator string="Agents/Consultancy" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </separator>
+                <field name="state" position="before">
+                    <button name="duplicate"
+                            type="object"
+                            icon="gtk-copy"
+                            string="Duplicar"
+                            confirm="¿Desea duplicar este albarán?"
+                            groups="custom_views.group_duplicate_button_picking"
+                            class="oe_read_only"
+                    />
+                </field>
             </field>
         </record>
 

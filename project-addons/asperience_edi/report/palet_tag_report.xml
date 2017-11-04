@@ -3,8 +3,7 @@
     <data>
 
     <template id="palet_tag_report">
-
-     <style type="text/css">
+    <style type="text/css">
         #container{
             height: 369mm;
             width:100%;
@@ -12,10 +11,12 @@
             border-style: solid 1px;;
         }
         .tag-block{
-            height: 50%;
-            width: 49.7%;
+            height: 42%;
+            width: 42%;
             float: left;
-            padding-top: 10px;
+            margin-top: 60px;
+            margin-left: 50px;
+            page-break-inside: avoid !important;
         }
         .tag-block.palet {
             padding-top: 30px;
@@ -23,11 +24,10 @@
         .table-content{
             width: 100%;
             height:65%;
- 
-        }
+         }
         .tag-table{
-            width: 99%;
-            height:99%;
+            height: 100%;
+            width: 100%;
             border-collapse: collapse;
             border: 1px solid #000;
         }
@@ -66,17 +66,17 @@
         }
         .barcode-content{
             width: 100%;
-            height:35%;
-            display:table;
+            display: table;
         }
         .bc-center{
-            display:table-cell;
-            vertical-align:middle;
+            height: 180px !important;
+            overflow: hidden;
             text-align:center;
+            padding: 20px 0 0 0;
+            margin: 0;
         }
         .tag-table2{
-            width: 99%;
-            height:99%;
+            height: 100%;
             border-collapse: collapse;
             border: 1px solid #000;
         }
@@ -111,72 +111,63 @@
              text-align: center;
              padding:4px
         }
- 
-        .table-1 {
-            margin-right: 20px;
-        }
-        .table-2 {
-            margin-left: 20px;
-        }
     </style>
 
         <t t-foreach="docs" t-as="o">
             <!-- ETIQUETAS DE BULTO -->
             <div class="page">
                 <div id="container">
-                        <t t-foreach="package_dic" t-as="product">
-                            <t t-foreach="package_dic[product]" t-as="pack_tag">
-                                <div class="tag-block">
-                                    <div class="table-content">
-
-                                        <table t-att-class="'tag-table ' + pack_tag['table-class']">
-
-                                            <tr>
-                                                <td class="td-head" colspan="2">
-                                                    <p><strong>
-                                                        PROCESOS FARMACEUTICOS INDUSTRIALES SL.
-                                                        P. INFO DE CAMPONARAYA SECTOR 2 PARCELA 3
-                                                        24410 CAMPONARAYA (LEÓN)</strong>
-                                                    </p>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                               <td class="td-left-top">
-                                                <p><strong>DESCRIPCIÓN</strong></p>
-                                                </td>
-                                               <td class="td-right-top">
+                    <t t-foreach="package_dic" t-as="product">
+                        <t t-foreach="package_dic[product]" t-as="pack_tag">
+                            <div class="tag-block">
+                                <div class="table-content">
+                                    <table t-att-class="'tag-table ' + pack_tag['table-class']">
+                                        <tr>
+                                            <td class="td-head" colspan="2">
                                                 <p>
-                                                <t t-esc="pack_tag['description']"/>
+                                                    <strong>
+                                                        PROCESOS FARMACEUTICOS INDUSTRIALES, S.L.<br/>
+                                                        POL. IND. CAMPONARAYA SECTOR 2 PARCELA 3<br/>
+                                                        24410 CAMPONARAYA (LEÓN)
+                                                    </strong>
                                                 </p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                               <td class="td-left">
-                                                   <p><strong>Nº DE SERIE</strong></p>
-                                                   <p><strong>Nº DE LOTE</strong></p>
-                                                   <p><strong>Nº UNIDADES</strong></p>
-                                               </td>
-                                               <td class="td-right">
-                                                    <p><t t-esc="pack_tag['serial_number']"/></p>
-                                                    <p><t t-esc="pack_tag['lot']"/></p>
-                                                    <p><t t-esc="pack_tag['num_units']"/></p>
-                                               </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="barcode-content">
-                                        <div class="bc-center">
-                                            <t t-set="barcode" t-value="pack_tag['barcode']"/>
-                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
-                                            <p class="text-center" t-esc="barcode"></p>
-                                        </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                           <td class="td-left-top">
+                                            <p><strong>DESCRIPCIÓN</strong></p>
+                                            </td>
+                                           <td class="td-right-top">
+                                            <p>
+                                            <t t-esc="pack_tag['description']"/>
+                                            </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                           <td class="td-left">
+                                               <p><strong>Nº DE SERIE</strong></p>
+                                               <p><strong>Nº DE LOTE</strong></p>
+                                               <p><strong>Nº UNIDADES</strong></p>
+                                           </td>
+                                           <td class="td-right">
+                                                <p><t t-esc="pack_tag['serial_number']"/></p>
+                                                <p><t t-esc="pack_tag['lot']"/></p>
+                                                <p><t t-esc="pack_tag['num_units']"/></p>
+                                           </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="barcode-content">
+                                    <div class="bc-center">
+                                        <t t-set="barcode" t-value="pack_tag['barcode']"/>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:340px;height:130px"/>
+                                        <p class="text-center" t-esc="barcode"/>
                                     </div>
                                 </div>
-                            </t>
+                            </div>
                         </t>
-
-
+                    </t>
                 </div>
             </div>
 
@@ -187,9 +178,7 @@
                         <t t-set="palet_tag" t-value="palet_dic[palet]"/>
                         <div class="tag-block">
                             <div class="table-content">
-
                                 <table class="tag-table2 table-1">
-
                                     <tr class="tr-1">
                                         <td class="td-head" colspan="2">
                                             <p style="font-size:30px;"><strong>PROCESOS</strong>
@@ -199,11 +188,11 @@
 
                                     <tr class="tr-2">
                                         <td class="td-head" colspan="2">
-                                            <p><strong>
-                                                P. IND. DE CAMPONARAYA SECTOR
-                                                2 PARCELA 3-23310
-                                                CAMPONARAYA (LEÓN)
-                                            </strong>
+                                            <p>
+                                                <strong>
+                                                    POL. IND. CAMPONARAYA SECTOR 2 PARCELA 3<br/>
+                                                    24410 CAMPONARAYA (LEÓN)
+                                                </strong>
                                             </p>
                                         </td>
                                     </tr>
@@ -233,7 +222,7 @@
                                 <t t-set="sscc_barcode" t-value="palet_tag['barcode']"/>
                                 <div class="bc-center">
                                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sscc_barcode, 600, 100)" style="width:450px;height:130px"/>
-                                    <p class="text-center" t-esc="sscc_barcode"></p>
+                                    <p class="text-center" t-esc="sscc_barcode"/>
                                 </div>
                             </div>
 
@@ -242,9 +231,7 @@
 
                         <div class="tag-block">
                             <div class="table-content">
-
                                 <table class="tag-table2 table-2">
-
                                     <tr class="tr-1">
                                         <td class="td-head" colspan="2">
                                             <p style="font-size:30px;"><strong>PROCESOS</strong>
@@ -254,11 +241,11 @@
 
                                     <tr class="tr-2">
                                         <td class="td-head" colspan="2">
-                                            <p><strong>
-                                                P. IND. DE CAMPONARAYA SECTOR
-                                                2 PARCELA 3-23310
-                                                CAMPONARAYA (LEÓN)
-                                            </strong>
+                                            <p>
+                                                <strong>
+                                                    POL. IND. CAMPONARAYA SECTOR 2 PARCELA 3<br/>
+                                                    24410 CAMPONARAYA (LEÓN)
+                                                </strong>
                                             </p>
                                         </td>
                                     </tr>
@@ -288,10 +275,9 @@
                                 <t t-set="barcode" t-value="palet_tag['barcode']"/>
                                 <div class="bc-center">
                                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
-                                    <p class="text-center" t-esc="barcode"></p>
+                                    <p class="text-center" t-esc="barcode"/>
                                 </div>
                             </div>
-
                         </div>
                     </t>
                 </div>

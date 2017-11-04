@@ -13,6 +13,16 @@
                 <xpath expr="//field[@name='order_line']/tree" position="attributes">
                     <attribute name="editable">True</attribute>
                 </xpath>
+                <field name="state" position="before">
+                    <button name="duplicate"
+                            type="object"
+                            icon="gtk-copy"
+                            string="Duplicar"
+                            confirm="¿Desea duplicar este pedido de compra?"
+                            groups="custom_views.group_duplicate_button_purchase"
+                            class="oe_read_only"
+                    />
+                </field>
             </field>
         </record>
 

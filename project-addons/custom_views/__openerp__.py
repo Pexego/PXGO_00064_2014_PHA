@@ -75,6 +75,7 @@
         'data/wizards_units_precision.xml',
         'data/mrp_procedure_type.xml',
         'security/menus.xml',
+        'security/buttons.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True

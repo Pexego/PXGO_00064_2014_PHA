@@ -230,6 +230,11 @@ class ProductionPlanningOrders(models.Model):
     def cancel_order(self):
         self.unlink()
 
+    @api.one
+    @api.constrains('active')
+    def compute_detailed_stock(self):
+        self.product_id.product_tmpl_id.compute_detailed_stock()
+
 
 class ProductionPlanningMaterials(models.Model):
     _name = 'production.planning.materials'

@@ -75,14 +75,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <filter string="Previsional qty. > 0"
                             domain="[('production_planning_qty', '>', 0)]"/>
                     <separator/>
-                    <!--filter string="Production qty. > 0"
+                    <filter string="Production qty. > 0"
                             domain="[('production_qty', '>', 0)]"/>
                     <separator/>
                     <filter string="Out of exist. > 0"
                             domain="[('out_of_existences', '>', 0)]"/>
                     <separator/>
                     <filter string="Incoming qty. > 0"
-                            domain="[('real_incoming_qty', '>', 0)]"/-->
+                            domain="[('real_incoming_qty', '>', 0)]"/>
                 </filter>
             </field>
         </record>
