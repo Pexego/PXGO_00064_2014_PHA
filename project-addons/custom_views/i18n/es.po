@@ -638,6 +638,12 @@ msgid "Picking wizard items"
 msgstr "Elementos del asistente de albarán"
 
 #. module: custom_views
+#: field:product.product,pre_production_qty:0
+#: field:product.template,pre_production_qty:0
+msgid "Pre production qty"
+msgstr "Cdad. pre-producción"
+
+#. module: custom_views
 #: field:product.pricelist.item,pricelist_id:0
 msgid "Price List"
 msgstr "Tarifa de precios"

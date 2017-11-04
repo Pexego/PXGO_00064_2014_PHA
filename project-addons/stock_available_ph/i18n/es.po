@@ -541,6 +541,12 @@ msgid "Planning of orders to produce"
 msgstr "Planificador de órdenes a producir"
 
 #. module: stock_available_ph
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Pre-production qty. <> 0"
+msgstr "Cdad. pre-producción <> 0"
+
+#. module: stock_available_ph
 #: model:ir.model,name:stock_available_ph.model_production_planning_materials
 #: field:production.planning,materials:0
 msgid "Prevision of needed materials"

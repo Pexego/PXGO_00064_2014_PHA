@@ -8,6 +8,8 @@ class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
     @api.one
-    @api.constrains('state')
+    @api.constrains('state', 'product_qty')
     def update_total_qty_in_production(self):
-        self.product_id.update_qty_in_production()
+        self.product_id.product_tmpl_id.compute_detailed_stock()
+        for material in self.move_lines:
+            material.product_tmpl_id.compute_detailed_stock()
