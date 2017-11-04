@@ -318,6 +318,11 @@ msgid "EDI sale orders"
 msgstr "Pedidos EDI"
 
 #. module: custom_views
+#: field:res.partner,email_to_send_invoice:0
+msgid "Email to send invoice"
+msgstr "e-mail para enviar factura"
+
+#. module: custom_views
 #: model:stock.picking,address_country:0
 msgid "España"
 msgstr "España"
@@ -633,6 +638,12 @@ msgid "Picking wizard items"
 msgstr "Elementos del asistente de albarán"
 
 #. module: custom_views
+#: field:product.product,pre_production_qty:0
+#: field:product.template,pre_production_qty:0
+msgid "Pre production qty"
+msgstr "Cdad. pre-producción"
+
+#. module: custom_views
 #: field:product.pricelist.item,pricelist_id:0
 msgid "Price List"
 msgstr "Tarifa de precios"
@@ -757,6 +768,13 @@ msgid "Search MRP procedures"
 msgstr "Búsqueda de procedimientos (PNT)"
 
 #. module: custom_views
+#: field:res.partner,send_invoice_by_email:0
+#: field:stock.picking,send_invoice_by_email:0
+#: view:stock.picking:custom_views.custom_views_picking_search
+msgid "Send invoice by email"
+msgstr "Envío factura por e-mail"
+
+#. module: custom_views
 #: field:pricelist.partnerinfo,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
@@ -780,6 +798,11 @@ msgstr "Dirección envío"
 #: field:res.partner,picking_policy:0
 msgid "Shipping Policy"
 msgstr "Política de facturación"
+
+#. module: custom_views
+#: field:res.partner,simplified_invoice:0
+msgid "Simplified invoice"
+msgstr "Factura simplificada"
 
 #. module: custom_views
 #: view:account.invoice:custom_views.view_invoice_special_tree

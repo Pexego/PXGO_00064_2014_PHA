@@ -118,6 +118,9 @@ class ProductTemplate(models.Model):
     production_planning_qty = fields.Float(
                            digits = dp.get_precision('Product Unit of Measure'),
                            readonly=True)
+    pre_production_qty = fields.Float(
+                           digits = dp.get_precision('Product Unit of Measure'),
+                           readonly=True)
     stock_move_ids = fields.One2many(string='Stock movements',
                                      comodel_name='stock.move',
                                      inverse_name='product_id')
@@ -159,9 +162,28 @@ class ProductTemplate(models.Model):
                                    product.outgoing_qty - internal_scrapped_qty
 
             production_planning_orders = self.env['production.planning.orders'].\
-                search([('product_id', '=', product_id.id)])
+                search([('product_id', '=', product_id.id),
+                        ('compute', '=', True)])
             production_planning_qty = sum(order.product_qty for order in
                                           production_planning_orders)
+            prod_plan_materials = self.env['production.planning.materials'].\
+                search([('product_id', '=', product_id.id)])
+            production_planning_qty -= sum(material.qty_required for material in
+                                           prod_plan_materials)
+
+            production_orders = self.env['mrp.production'].\
+                search([('product_id', '=', product_id.id),
+                        ('state', '=', 'draft')])
+            pre_production_qty = sum(order.product_qty for order in
+                                     production_orders)
+            pre_prod_materials = self.env['stock.move'].\
+                search([('product_id', '=', product_id.id),
+                        ('raw_material_production_id', '!=', False),
+                        ('raw_material_production_id.state', 'in',
+                         ('draft', 'confirmed')),
+                        ('state', '=', 'waiting')])
+            pre_production_qty -= sum(material.product_uom_qty for material in
+                                      pre_prod_materials)
 
             quants = self.env['stock.quant'].search([
                 ('product_id', '=', product_id.id),
@@ -180,14 +202,16 @@ class ProductTemplate(models.Model):
             ])
             real_incoming_qty = sum(move.product_uom_qty for move in moves)
 
-            product.write({
+            product.with_context(disable_notify_changes = True).write({
                 'internal_scrapped_qty': internal_scrapped_qty,
                 'virtual_conservative': virtual_conservative,
                 'production_planning_qty': production_planning_qty,
+                'pre_production_qty': pre_production_qty,
                 'out_of_existences': out_of_existences,
                 'real_incoming_qty': real_incoming_qty})
 
-            product_id._production_qty()  # Update qty in production if required
+            product_id.with_context(disable_notify_changes = True). \
+                update_qty_in_production()
 
 
 class PricelistPartnerinfo(models.Model):

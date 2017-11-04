@@ -140,18 +140,16 @@ class ProductProduct(models.Model):
         domain=[('state', 'not in', ('done', 'cancel')),
                 ('move_created_ids', '!=', False)]
     )
-    production_qty = fields.Float(compute='_production_qty', store=True)
+    production_qty = fields.Float()
     min_action = fields.Float(string='Minimum action quantity',
                               compute='_min_action')
     action_limit_exceeded = fields.Boolean(compute='_action_limit_exceeded',
                                            store=True)
 
-    @api.depends('production_orders',
-                 'production_orders.state',
-                 'production_orders.move_created_ids')
     @api.multi
-    def _production_qty(self):
-        for product in self:
+    def update_qty_in_production(self):
+        new_ctx_self = self.with_context(disable_notify_changes=True)
+        for product in new_ctx_self:
             quants = self.env['stock.quant'].search([
                 ('product_id', '=', product.id),
                 ('location_id.id', '=', 21)  # Hoard location

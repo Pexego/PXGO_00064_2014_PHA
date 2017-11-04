@@ -152,8 +152,8 @@ class ProductionPlanningOrders(models.Model):
                 fixed_time += ta.time
             else:
                 variable_time += ta.time
-        self.recommended_time = (fixed_time +  (self.product_qty *
-                                                variable_time)) / 3600
+        self.recommended_time = (fixed_time + (self.product_qty *
+                                               variable_time)) / 3600
 
     @api.multi
     def generate_order_and_archive(self):
@@ -162,9 +162,9 @@ class ProductionPlanningOrders(models.Model):
         self.compute = False
         self.stock_available = True  # In archive, its'nt necessary
         self.production_planning.recompute_requirements()
+        self.product_id.product_tmpl_id.compute_detailed_stock()
 
-        # Create production order and show it
-        order = self.env['mrp.production'].create({
+        data = {
             'product_id': self.product_id.id,
             'bom_id': self.bom_id.id,
             'product_qty': self.product_qty,
@@ -175,7 +175,15 @@ class ProductionPlanningOrders(models.Model):
             'time_planned': self.estimated_time,
             'user_id': self.env.user.id,
             'origin': _('Production planning order Nº %s') % (self.id)
-        })
+        }
+
+        if self.product_id.categ_id.finished_dest_location_id:
+            data['location_dest_id'] = \
+                self.product_id.categ_id.finished_dest_location_id.id
+
+        # Create production order and show it
+        order = self.env['mrp.production'].create(data)
+
         self.production_order = order
         if self.note:
             order.message_post(body=self.note)
@@ -227,13 +235,14 @@ class ProductionPlanningOrders(models.Model):
         return {'type': 'ir.actions.act_window_close'}
 
     @api.multi
+    def unlink(self):
+        self.compute = False
+        self.product_id.product_tmpl_id.compute_detailed_stock()
+        return super(models.Model, self).unlink()
+
+    @api.multi
     def cancel_order(self):
         self.unlink()
-
-    @api.one
-    @api.constrains('active')
-    def compute_detailed_stock(self):
-        self.product_id.product_tmpl_id.compute_detailed_stock()
 
 
 class ProductionPlanningMaterials(models.Model):
@@ -284,6 +293,9 @@ class ProductionPlanning(models.Model):
 
     @api.one
     def recompute_requirements(self):
+        # Save a list of affected materials
+        affected_materials = [m.product_id for m in self.materials]
+
         self.materials.unlink()
         for order in self.orders:
             if order.compute:
@@ -297,7 +309,7 @@ class ProductionPlanning(models.Model):
                             'orders': [(4, order.id)],
                         })
                     else:
-                        self.materials.create({
+                        material = self.materials.create({
                             'product_id': line.product_id.id,
                             'qty_required': line.product_qty * order.product_qty,
                             'qty_vsc_available': line.product_id.virtual_conservative,
@@ -305,6 +317,9 @@ class ProductionPlanning(models.Model):
                             'orders': [(4, order.id)],
                             'production_planning': self.id
                         })
+
+                    if material.product_id not in affected_materials:
+                        affected_materials.append(material.product_id)
 
         # Check material level of availability
         for m in self.materials:
@@ -332,8 +347,18 @@ class ProductionPlanning(models.Model):
                    ):
                     order.stock_status = m.stock_status
 
+        # Trigger stock calculations on affected materials
+        for product_id in affected_materials:
+            product_id.product_tmpl_id.compute_detailed_stock()
+
     @api.multi
     def write(self, vals):
-        result = super(ProductionPlanning, self).write(vals)
+        new_ctx_self = self.with_context(disable_notify_changes = True)
+        result = super(ProductionPlanning, new_ctx_self).write(vals)
         self.recompute_requirements()
+
+        # Trigger stock calculations on affected orders products
+        for order in self.orders:
+            order.product_id.product_tmpl_id.compute_detailed_stock()
+
         return result

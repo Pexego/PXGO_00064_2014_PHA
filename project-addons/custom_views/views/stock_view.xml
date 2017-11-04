@@ -227,5 +227,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   parent="stock.menu_traceability"
                   groups="stock.group_stock_manager"
                   sequence="21"/>
+
+        <record id="custom_views_picking_search" model="ir.ui.view">
+            <field name="name">Custom views - Picking search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <filter name="backorder" position="after">
+                    <filter name="Send invoice by email"
+                            domain="[('send_invoice_by_email', '=', True)]"/>
+                </filter>
+            </field>
+        </record>
     </data>
 </openerp>
