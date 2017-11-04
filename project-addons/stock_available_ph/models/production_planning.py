@@ -162,6 +162,7 @@ class ProductionPlanningOrders(models.Model):
         self.compute = False
         self.stock_available = True  # In archive, its'nt necessary
         self.production_planning.recompute_requirements()
+        self.product_id.product_tmpl_id.compute_detailed_stock()
 
         data = {
             'product_id': self.product_id.id,
