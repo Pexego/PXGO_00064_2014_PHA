@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="product_analysis_tree" model="ir.ui.view">
+            <field name="name">product.analysis.tree</field>
+            <field name="model">product.analysis</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Analysis">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_analysis_form" model="ir.ui.view">
+            <field name="name">product.analysis.form</field>
+            <field name="model">product.analysis</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Analysis">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_analysis_view_search" model="ir.ui.view">
+            <field name="name">product.analysis.search</field>
+            <field name="model">product.analysis</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="">
+                   <field name="name"/>
+               </search>
+            </field>
+        </record>
+
+        <record id="product_analysis_action" model="ir.actions.act_window">
+            <field name="name">Product analysis</field>
+            <field name="res_model">product.analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_analysis_tree"/>
+            <field name="search_view_id" ref="product_analysis_view_search"/>
+        </record>
+
+        <menuitem name="Product analysis" parent="quality_management_menu.menu_quality_management_config" action="product_analysis_action" id="menu_product_analysis"/>
+
+        <record id="product_product_edit_tree_view" model="ir.ui.view">
+            <field name="name">product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_product_edit_form_view" model="ir.ui.view">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    <h1><field name="name" readonly="True"/></h1>
+                    <separator string="Analysis"/>
+                    <field name="analysis_ids" nolabel="1" colspan="4" context="{'default_product_id': active_id}">
+                        <tree>
+                            <field name="analysis_id" readonly="True"/>
+                            <field name="show_in_certificate"/>
+                            <field name="method"/>
+                            <field name="analysis_type"/>
+                            <field name="product_id" invisible="1"/>
+                        </tree>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="analysis_id" readonly="True"/>
+                                    <field name="show_in_certificate"/>
+                                    <field name="method"/>
+                                </group>
+                                <group>
+                                    <field name="analysis_type"/>
+                                    <field name="expected_result_boolean" attrs="{'invisible': [('analysis_type', '!=', 'boolean')]}"/>
+                                    <field name="expected_result_expr" attrs="{'invisible': [('analysis_type', '!=', 'expr')]}"/>
+
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_product_edit_search_view" model="ir.ui.view">
+            <field name="name">product.product.search</field>
+            <field name="model">product.product</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_product_edit_analysis_action" model="ir.actions.act_window">
+            <field name="name">Product analysis</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('analytic_certificate', '=', True)]</field>
+            <field name="view_ids"
+                eval="[
+                        (5, 0, 0),
+                        (0, 0, {'view_mode': 'tree', 'view_id': ref('product_analysis.product_product_edit_tree_view')}),
+                        (0, 0, {'view_mode': 'form', 'view_id': ref('product_analysis.product_product_edit_form_view')}),
+                      ]"
+            />
+            <field name="search_view_id" ref="product_product_edit_search_view"/>
+        </record>
+
+        <menuitem name="Product analysis" parent="quality_management_menu.menu_qc_products" action="product_product_edit_analysis_action" id="menu_product_prduct_edit_analysis"/>
+
+
+    </data>
+</openerp>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record id="product_template_add_analysis" model="ir.ui.view">
+           <field name="name">product.template.form</field>
+           <field name="model">product.template</field>
+           <field name="inherit_id" ref="quality_management_menu.product_template_form_view_quality_management_menu"/>
+           <field name="arch" type="xml">
+               <xpath expr="//group[@string='Quality controls']" position="inside">
+                    <field name="analytic_certificate"/>
+                </xpath>
+               <notebook position="inside">
+                   <page string="Analysis" attrs="{'invisible': [('analytic_certificate', '=', False)]}">
+                       <field name="analysis_ids" nolabel="1" context="{'default_product_id': active_id}">
+                           <tree editable="bottom">
+                               <field name="sequence" widget="handle"/>
+                               <field name="analysis_id"/>
+                               <field name="show_in_certificate"/>
+                               <field name="product_id" invisible="1"/>
+                           </tree>
+                        </field>
+                   </page>
+               </notebook>
+           </field>
+       </record>
+
+    </data>
+</openerp>

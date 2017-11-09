@@ -167,7 +167,7 @@
                                             <t t-foreach="o.analysis_ids" t-as="analysis">
                                                 <tr t-if="analysis.show_in_certificate and analysis.realized">
                                                     <td> <span t-field="analysis.analysis_id.name"/></td>
-                                                    <td class="text-center"> <span t-field="analysis.analysis_id.method"/></td>
+                                                    <td class="text-center"> <span t-field="analysis.method"/></td>
                                                     <td class="text-center">
                                                         <t t-if="analysis.realized"><span t-field="analysis.result"/></t>
                                                         <t t-if="not analysis.realized"><span>-</span></t>

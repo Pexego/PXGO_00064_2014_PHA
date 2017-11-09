@@ -35,24 +35,35 @@
                         </group>
                         <group string="Analysis">
                             <field name="analysis_ids" nolabel="1">
-                                <tree editable="bottom">
+                                <tree>
                                     <field name="analysis_id"/>
                                     <field name="show_in_certificate"/>
                                     <field name="proposed"/>
                                     <field name="realized"/>
+                                    <field name="method"/>
+                                    <field name="expected_result"/>
                                     <field name="result"/>
+                                    <field name="passed" invisible="1"/>
                                     <field name="realized_by"/>
                                 </tree>
                                 <form>
                                     <group>
                                         <group>
                                             <field name="analysis_id"/>
-                                            <field name="result"/>
-                                            <field name="realized_by"/>
-                                        </group>
-                                        <group>
+                                            <field name="show_in_certificate"/>
                                             <field name="proposed" readonly="1"/>
                                             <field name="realized"/>
+                                        </group>
+                                        <group>
+                                            <field name="result_boolean" attrs="{'invisible': [('analysis_type', '!=', 'boolean')]}"/>
+                                            <field name="result_str" attrs="{'invisible': [('analysis_type', 'not in', ('expr', 'free'))]}"/>
+                                            <field name="result" invisible="1"/>
+                                            <field name="realized_by"/>
+                                            <field name="method"/>
+                                            <field name="analysis_type"/>
+                                            <field name="expected_result_boolean" attrs="{'invisible': [('analysis_type', '!=', 'boolean')]}"/>
+                                            <field name="expected_result_expr" attrs="{'invisible': [('analysis_type', '!=', 'expr')]}"/>
+                                            <field name="expr_error" style="background-color: Yellow; color:Red;" attrs="{'invisible': [('expr_error', '=', False)]}"/>
                                         </group>
                                     </group>
                                 </form>
