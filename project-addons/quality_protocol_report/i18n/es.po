@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-15 12:21+0000\n"
-"PO-Revision-Date: 2015-04-15 14:26+0100\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2017-10-25 18:44+0200\n"
+"Last-Translator: Jesús Ventosinos Mayor <jesus@comunitea.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1533,11 +1533,6 @@ msgstr "Acción unidad"
 #: view:product.quality.limits:quality_protocol_report.product_quality_limits_form
 msgid "Unit alert"
 msgstr "Alerta unidad"
-
-#. module: quality_protocol_report
-#: field:product.quality.limits,unit_weight:0
-msgid "Unit weight"
-msgstr "Peso unitario"
 
 #. module: quality_protocol_report
 #: field:stock.move.return.operations,used_lot:0
