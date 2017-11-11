@@ -27,11 +27,6 @@ class ProductTemplate(models.Model):
                                    column2='routing_id')
     max_fixed = fields.Float(compute='_order_point_limits')
     min_fixed = fields.Float(compute='_order_point_limits')
-    production_planning_qty = fields.Float(
-        compute='_production_planning_qty',
-        search='_search_production_planning_qty')
-    out_of_existences = fields.Float(compute='_out_of_existences')
-    real_incoming_qty = fields.Float(compute='_real_incoming_qty')
     stock_by_day_i = fields.Float(string='Stock by day [I]', digits=(16, 2),
                                   readonly=True)
     stock_by_day_p = fields.Float(string='Stock by day [P]', digits=(16, 2),
@@ -90,13 +85,6 @@ class ProductTemplate(models.Model):
     has_bom = fields.Boolean(compute='_has_bom')
     time_adviser = fields.One2many(comodel_name='product.time.adviser',
                                    inverse_name='product_tmpl_id')
-    stock_move_ids = fields.One2many(string='Stock movements',
-                                     comodel_name='stock.move',
-                                     inverse_name='product_id')
-    production_planning_orders = fields.One2many(
-        string='Production planning orders',
-        comodel_name='production.planning.orders',
-        inverse_name='product_id')
 
     @api.multi
     def _has_bom(self):
@@ -114,44 +102,6 @@ class ProductTemplate(models.Model):
                     product.min_fixed = swo[0].product_min_qty
                 if product.max_fixed != swo[0].product_max_qty:
                     product.max_fixed = swo[0].product_max_qty
-
-    @api.multi
-    def _production_planning_qty(self):
-        for product in self:
-            qty = 0
-            for o in product.production_planning_orders:
-                qty += o.product_qty
-            if product.production_planning_qty != qty:
-                product.production_planning_qty = qty
-
-    def _search_production_planning_qty(self, operator, value):
-        return [('production_planning_orders.product_qty', operator, value)]
-
-    @api.multi
-    def _out_of_existences(self):
-        warehouses = self.env['stock.warehouse'].search([])
-        stock_ids = [wh.lot_stock_id.id for wh in warehouses]
-
-        for product in self:
-            quants = self.env['stock.quant'].search([
-                ('product_id.product_tmpl_id', '=', product.id),
-                ('location_id.usage', '=', 'internal'),
-                ('location_id.scrap_location', '=', False),
-                '!', ('location_id', 'child_of', stock_ids)
-            ])
-            product.out_of_existences = sum(quant.qty for quant in quants)
-
-    @api.multi
-    def _real_incoming_qty(self):
-        for product in self:
-            moves = self.env['stock.move'].search([
-                ('product_id.product_tmpl_id', '=', product.id),
-                ('picking_id.picking_type_id.code', '=', 'incoming'),
-                ('location_id.usage', '!=', 'internal'),
-                ('location_dest_id.usage', '=', 'internal'),
-                ('state', 'in', ('assigned', 'confirmed', 'waiting'))
-            ])
-            product.real_incoming_qty = sum(move.product_uom_qty for move in moves)
 
     @api.multi
     def _bom_member(self):
@@ -186,32 +136,32 @@ class ProductProduct(models.Model):
     production_orders = fields.One2many(
         string='Production orders',
         comodel_name='mrp.production',
-        inverse_name='product_id'
+        inverse_name='product_id',
+        domain=[('state', 'not in', ('done', 'cancel')),
+                ('move_created_ids', '!=', False)]
     )
-#    domain = "[('state', 'not in', ('done', 'cancel')), ('move_created_ids', '!=', False)]"
-
-    production_qty = fields.Float(compute='_production_qty')
+    production_qty = fields.Float()
     min_action = fields.Float(string='Minimum action quantity',
                               compute='_min_action')
     action_limit_exceeded = fields.Boolean(compute='_action_limit_exceeded',
                                            store=True)
 
     @api.multi
-    def _production_qty(self):
-        for product in self:
-            production_orders = product.production_orders.\
-                filtered(lambda r: r.state not in ('done', 'cancel') and
-                                   r.move_created_ids != False)
-            qty = 0
-            for o in production_orders:
-                for m in o.move_created_ids:
-                    qty += m.product_uom_qty
-            if product.production_qty != qty:
-                product.production_qty = qty
+    def update_qty_in_production(self):
+        new_ctx_self = self.with_context(disable_notify_changes=True)
+        for product in new_ctx_self:
+            quants = self.env['stock.quant'].search([
+                ('product_id', '=', product.id),
+                ('location_id.id', '=', 21)  # Hoard location
+            ])
+            hoard_qty = sum(quant.qty for quant in quants)
 
-#    def _search_production_qty(self, operator, value):
-#        return [('production_orders.move_created_ids.product_uom_qty',
-#                 operator, value)]
+            qty = 0
+            for o in product.production_orders:
+                qty += sum(m.product_uom_qty for m in o.move_created_ids)
+
+            if product.production_qty != (qty - hoard_qty):
+                product.production_qty = qty - hoard_qty
 
     @api.one
     def _min_action(self):

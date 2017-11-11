@@ -27,6 +27,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="stock_by_day_p_total"/>
                         <field name="stock_by_day_i_total"/>
                         <field name="production_planning_qty"/>
+                        <field name="pre_production_qty"/>
                         <field name="production_qty"/>
                         <field name="out_of_existences"/>
                         <field name="real_incoming_qty"/>
@@ -72,17 +73,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <filter string="Has warehouse movements"
                             domain="[('stock_move_ids', '!=', False)]"/>
                     <separator/>
-                    <filter string="Previsional qty. > 0"
-                            domain="[('production_planning_qty', '>', 0)]"/>
+                    <filter string="Previsional qty. &lt;&gt; 0"
+                            domain="[('production_planning_qty', '!=', 0)]"/>
                     <separator/>
-                    <!--filter string="Production qty. > 0"
-                            domain="[('production_qty', '>', 0)]"/>
+                    <filter string="Pre-production qty. &lt;&gt; 0"
+                            domain="[('pre_production_qty', '!=', 0)]"/>
                     <separator/>
-                    <filter string="Out of exist. > 0"
-                            domain="[('out_of_existences', '>', 0)]"/>
+                    <filter string="Production qty. &lt;&gt; 0"
+                            domain="[('production_qty', '!=', 0)]"/>
                     <separator/>
-                    <filter string="Incoming qty. > 0"
-                            domain="[('real_incoming_qty', '>', 0)]"/-->
+                    <filter string="Out of exist. &lt;&gt; 0"
+                            domain="[('out_of_existences', '!=', 0)]"/>
+                    <separator/>
+                    <filter string="Incoming qty. &lt;&gt; 0"
+                            domain="[('real_incoming_qty', '!=', 0)]"/>
                 </filter>
             </field>
         </record>

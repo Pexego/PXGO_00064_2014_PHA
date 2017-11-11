@@ -27,6 +27,11 @@ class StockMove(models.Model):
                 self._get_related_lots_str()
         return res
 
+    @api.one
+    @api.constrains('state')
+    def compute_detailed_stock(self):
+        self.product_id.product_tmpl_id.compute_detailed_stock()
+
     def init(self, cr):
         move_ids = self.search(cr, SUPERUSER_ID,
                                [('lots_string', 'in', (False, ''))])
@@ -41,6 +46,8 @@ class StockPicking(models.Model):
     address_zip = fields.Char(related='partner_id.zip')
     address_country = fields.Char(related='partner_id.country_id.name')
     picking_type_desc = fields.Char(compute='_compute_picking_type_desc')
+    send_invoice_by_email = fields.Boolean(
+        related='partner_id.send_invoice_by_email')
 
     @api.one
     @api.depends('picking_type_id')
@@ -96,6 +103,22 @@ class StockPicking(models.Model):
             'res_id': self.id,
         }
 
+    @api.multi
+    def duplicate(self):
+        res = self.copy()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': self._name,
+            'res_id': res.id,
+            'target': 'current',
+            'flags': {'initial_mode': 'edit'},
+            'nodestroy': True,
+            'context': self.env.context
+        }
+
 
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
@@ -114,6 +137,14 @@ class StockHistory(models.Model):
     _inherit = 'stock.history'
 
     categ_ids = fields.Many2many(related='product_id.categ_ids')
+    active = fields.Boolean(related='product_id.active')
+    line = fields.Many2one(related='product_id.line')
+    subline = fields.Many2one(related='product_id.subline')
+    purchase_line = fields.Many2one(related='product_id.purchase_line')
+    purchase_subline = fields.Many2one(related='product_id.purchase_subline')
+    sale_ok = fields.Boolean(related='product_id.sale_ok')
+    purchase_ok = fields.Boolean(related='product_id.purchase_ok')
+    hr_expense_ok = fields.Boolean(related='product_id.hr_expense_ok')
 
 
 class StockProductionLot(models.Model):

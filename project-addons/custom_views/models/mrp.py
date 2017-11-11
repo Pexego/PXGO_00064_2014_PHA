@@ -114,7 +114,6 @@ class MrpRouting_(models.Model):
 
 
 class MrpProduction(models.Model):
-
     _inherit = 'mrp.production'
 
     @api.multi
