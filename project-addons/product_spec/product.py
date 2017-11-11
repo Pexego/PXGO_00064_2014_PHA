@@ -106,6 +106,8 @@ class product_quality_limits(models.Model):
     filter_max_alert_weight = fields.Float('Filter weight max alert')
 
     loc_samples = fields.Integer('Loc Samples')
+    unit_weight_str = fields.Char('Unit weight',
+                                  compute='_get_unit_weight_str')
     unit_weight = fields.Float('Unit weight', compute='_get_unit_weight',
                                store=True,
                                digits=dp.get_precision('Stock Weight'))
@@ -123,6 +125,12 @@ class product_quality_limits(models.Model):
         for spec in self:
             if spec.name.qty != 0:
                 spec.unit_weight = spec.name.weight_net / spec.name.qty
+
+    @api.depends('name.weight_net', 'name.qty')
+    def _get_unit_weight_str(self):
+        for spec in self:
+            spec.unit_weight_str = '%s KG (%s g)' % \
+                (spec.unit_weight, spec.unit_weight * 1000)
 
     @api.model
     def create(self, vals):
