@@ -150,6 +150,11 @@ class StockTransferDetailsItems(models.TransientModel):
                            default=0)
     active = fields.Boolean('Active', default=True)
     name = fields.Char(related='packop_id.linked_move_operation_ids.move_id.name')
+    product_uom_category_id = fields.Integer(compute='_get_uom_category_id')
+
+    @api.one
+    def _get_uom_category_id(self):
+        self.product_uom_category_id = self.product_uom_id.category_id.id
 
     @api.onchange('quantity', 'complete')
     def onchange_complete(self):
@@ -199,7 +204,7 @@ class StockTransferDetailsItems(models.TransientModel):
     @api.multi
     def do_split_quantities(self):
         for det in self:
-            if det.quantity>1:
+            if det.quantity > 0:
                 det.quantity = (det.quantity-det.quantity_to_extract)
                 det.rest = det.quantity
                 new_id = det.copy(context=self.env.context)
