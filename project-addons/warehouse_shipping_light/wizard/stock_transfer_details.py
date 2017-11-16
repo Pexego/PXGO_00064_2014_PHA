@@ -144,7 +144,7 @@ class StockTransferDetailsItems(models.TransientModel):
     palet = fields.Integer('Palet', default=0)
     complete = fields.Integer('Complete', default=0)
     package = fields.Integer('Package', default=0)
-    rest = fields.Integer('Rest', readonly=True)
+    rest = fields.Float('Rest', readonly=True)
     quantity_to_extract = fields.Float('Quantity to extract',
                            digits=dp.get_precision('Product Unit of Measure'),
                            default=0)
