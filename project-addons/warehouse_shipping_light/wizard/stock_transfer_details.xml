@@ -28,10 +28,14 @@
                 </field>
                 <field name="product_id" position="after">
                     <field name="name" invisible="context.get('picking_type') not in ['incoming', 'internal']"/>
+                    <field name="product_uom_category_id" invisible="1"/>
                 </field>
                 <field name="product_uom_id" position="attributes">
                     <attribute name="string">Measure</attribute>
                 </field>
+                <button name="split_quantities" position="attributes">
+                    <attribute name="attrs">{'invisible': [('quantity', '&lt;=', 1), ('product_uom_category_id', '=', 1)]}</attribute>
+                </button>
             </field>
         </record>
 
