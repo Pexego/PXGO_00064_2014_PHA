@@ -13,7 +13,7 @@
                                domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"
                                attrs="{'invisible': [('type', '=', 'out_refund')]}"/>
                         <button name="clear_mandate" icon="gtk-clear"
-                                type="object" class="oe_edit_only"
+                                type="object" class="oe_read_only"
                                 attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"/>
                     </group>
                 </field>
