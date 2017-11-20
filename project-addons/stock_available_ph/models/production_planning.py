@@ -20,9 +20,11 @@ class ProductionPlanningOrders(models.Model):
 
     name = fields.Char(compute='_compound_name')
     date_start = fields.Datetime(string='Start date',
-                                 default=lambda r: fields.Datetime.now())
+                                 default=lambda r: fields.Datetime.now(),
+                                 required=True)
     date_end = fields.Datetime(string='End date',
-                               default=lambda r: fields.Datetime.now())
+                               default=lambda r: fields.Datetime.now(),
+                               required=True)
     estimated_time = fields.Float(string='Esimated time',
                                   compute='_estimated_time',
                                   readonly=True)

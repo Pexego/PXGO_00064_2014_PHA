@@ -675,7 +675,7 @@ msgstr
 #: model:ir.actions.act_window,name:stock_available_ph.action_stock_available_product_prevision_tree
 #: model:ir.ui.menu,name:stock_available_ph.menu_view_product_prevision_list
 msgid "Products prevision"
-msgstr "Productos prevision"
+msgstr "Productos previsión"
 
 #. module: stock_available_ph
 #: view:product.product:stock_available_ph.stock_available_product_tree

@@ -22,11 +22,15 @@ msgstr ""
 msgid "Date end planned"
 msgstr "Fecha programada de finalización"
 
-
 #. module: quality_protocol_report
 #: field:mrp.production,time_planned:0
 msgid "Time planned"
 msgstr "Tiempo estimado"
+
+#. module: quality_protocol_report
+#: field:mrp.production,final_qty:0
+msgid "Final quantity"
+msgstr "Cantidad final"
 
 #. module: quality_protocol_report
 #: view:website:quality_protocol_report.mrp_picking_notes

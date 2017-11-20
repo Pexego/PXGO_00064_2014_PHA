@@ -60,6 +60,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <field name="state" position="after">
                     <field name="date_done"/>
                 </field>
+                <field name="date" position="after">
+                    <field name="create_uid"/>
+                </field>
             </field>
         </record>
 
@@ -83,7 +86,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="name">Custom views - Picking form</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
-            <field name="priority">18</field>
+            <field name="priority">20</field>
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="picking_type_desc" class="oe_inline" readonly="1"/>
@@ -94,6 +97,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <button name="action_cancel" position="attributes">
                     <attribute name="name">confirm_action_cancel</attribute>
                 </button>
+                <field name="valued_picking" position="after">
+                    <field name="photo_url"/>
+                </field>
             </field>
         </record>
 

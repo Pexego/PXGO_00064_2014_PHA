@@ -27,6 +27,8 @@ class PrintMrpLabels(models.TransientModel):
         if not self.production_id.final_lot_id:
             raise exceptions.Warning(_('Lot error'), _('Confirma la producción para que le asigne el lote final'))
         self.ensure_one()
-        datas = {'ids': [self.production_id.id], 'gtin': self.gtin.gtin14}
+        datas = {'ids': [self.production_id.id],
+                 'gtin': self.gtin.gtin14,
+                 'box_elements': self.gtin.units}
         return self.env['report'].get_action(
             self.production_id, 'quality_protocol_report.report_mrp_label', data=datas)

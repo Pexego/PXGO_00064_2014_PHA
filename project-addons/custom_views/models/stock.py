@@ -48,6 +48,7 @@ class StockPicking(models.Model):
     picking_type_desc = fields.Char(compute='_compute_picking_type_desc')
     send_invoice_by_email = fields.Boolean(
         related='partner_id.send_invoice_by_email')
+    photo_url = fields.Char('Photo(s) URL')
 
     @api.one
     @api.depends('picking_type_id')

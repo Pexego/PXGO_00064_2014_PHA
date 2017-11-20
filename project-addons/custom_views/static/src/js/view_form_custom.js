@@ -1,5 +1,6 @@
 (function() {
     var instance = openerp;
+    var _t = instance.web._t;
 
     instance.web.form.WidgetButton = instance.web.form.WidgetButton.extend({
         template: 'WidgetButton',
