@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <record id="custom_views_clear_invoice_mandate_form" model="ir.ui.view">
+            <field name="name">Custom views - Invoice form, clear mandate button</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account_banking_mandate.invoice_form"/>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <field name="mandate_id" position="replace">
+                    <group colspan="2" col="3">
+                        <field name="mandate_id"
+                               domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"
+                               attrs="{'invisible': [('type', '=', 'out_refund')]}"/>
+                        <button name="clear_mandate" icon="gtk-clear"
+                                type="object" class="oe_read_only"
+                                attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+
         <record id="custom_views_invoice_form" model="ir.ui.view">
             <field name="name">Custom views - Invoice form</field>
             <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority">16</field>
             <field name="arch" type="xml">
                 <field name="payment_term" position="replace"></field>
                 <field name="payment_mode_id" position="after">

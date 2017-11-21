@@ -20,6 +20,7 @@
                             <field name="aux_mandate_id" style="width:40%;"
                                    domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"/>
                             <field name="aux_payment_term" style="width:40%;"/>
+                            <field name="sii_state" readonly="0" style="width:40%;"/>
                         </group>
                     </sheet>
                 </form>

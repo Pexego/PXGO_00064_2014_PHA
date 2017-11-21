@@ -338,7 +338,7 @@ msgstr "Fecha de factura:"
 #. module: custom_reports
 #: field:account.invoice.report,number:0
 msgid "Invoice number"
-msgstr "Invoice number"
+msgstr "Nº de factura"
 
 #. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_invoice_bio_without_iso
@@ -754,6 +754,11 @@ msgstr "Referencia:"
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Refund"
 msgstr "Factura rectificativa"
+
+#. module: custom_reports
+#: field:account.invoice.report,registration_date:0
+msgid "Registration date"
+msgstr "Fecha de contabilización"
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports

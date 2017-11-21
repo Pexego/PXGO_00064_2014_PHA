@@ -2,7 +2,7 @@
 # © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, api, fields, _
+from openerp import models, api, fields, _, exceptions
 from openerp.exceptions import Warning
 import datetime
 
@@ -20,6 +20,18 @@ class AccountInvoice(models.Model):
     partner_vat_liens = fields.Char(related='partner_id.vat', readonly=True)
     partner_liens = fields.Boolean(related='partner_id.liens')
     partner_insured = fields.Boolean(related='partner_id.insured')
+    credit = fields.Float(compute='_get_credit')
+    debit = fields.Float(compute='_get_debit')
+
+    @api.one
+    def _get_credit(self):
+        self.credit = self.amount_untaxed if self.type in \
+                                             ('out_refund', 'in_invoice') else 0
+
+    @api.one
+    def _get_debit(self):
+        self.debit = self.amount_untaxed if self.type in \
+                                            ('out_invoice', 'in_refund') else 0
 
     @api.multi
     def onchange_partner_id(self, type, partner_id, date_invoice=False,
@@ -82,6 +94,13 @@ class AccountInvoice(models.Model):
                     invoice.mandate_id = False
             else:
                 invoice.mandate_id = False
+
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None,
+                    order=None):
+        res = super(AccountInvoice, self).search_read(domain, fields, offset,
+                                                      limit, order)
+        return res
 
     @api.model
     def create(self, vals):
@@ -196,6 +215,10 @@ class AccountInvoice(models.Model):
             'context': self.env.context
         }
 
+    @api.multi
+    def clear_mandate(self):
+        self.mandate_id = False
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -222,3 +245,28 @@ class AccountInvoiceLine(models.Model):
         product_name = self.env['product.product'].browse(product).name_template
         res['value']['name'] = product_name
         return res
+
+
+class AccountInvoiceConfirm(models.TransientModel):
+    _inherit = 'account.invoice.confirm'
+
+    @api.multi
+    def invoice_confirm(self):
+        invoice_ids = self.env.context.get('active_ids', [])
+        invoices = self.env['account.invoice'].browse(invoice_ids)
+        orphan_invoices = []
+        for invoice in invoices:
+            if invoice.payment_mode_id and \
+               invoice.payment_mode_id.banking_mandate_needed and \
+               not invoice.mandate_id:
+                orphan_invoices.append(invoice)
+
+        if len(orphan_invoices) > 0:
+            invoice_list = '\n'.join([x.origin if x.origin \
+                                               else x.partner_id.name \
+                                      for x in orphan_invoices])
+            raise exceptions.Warning(_('The following invoices do not have the '
+                                       'needed mandates assigned:\n%s' %
+                                       invoice_list))
+
+        return super(AccountInvoiceConfirm, self).invoice_confirm()

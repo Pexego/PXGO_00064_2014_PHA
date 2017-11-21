@@ -8,6 +8,8 @@ from openerp import models, fields, api
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
+    product_tmpl_id = fields.Many2one(comodel_name='product.template',
+                                      related='product_id.product_tmpl_id')
     next_lot = fields.Char(compute='_next_lot', readonly=True)
 
     @api.one

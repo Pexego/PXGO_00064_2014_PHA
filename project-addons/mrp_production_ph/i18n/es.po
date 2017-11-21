@@ -18,6 +18,11 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 
 #. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Do you really want to cancel production?"
+msgstr "¿Desea realmente cancelar esta producción?"
+
+#. module: mrp_production_ph
 #: field:mrp.production,next_lot:0
 msgid "Next lot"
 msgstr "Siguiente lote"

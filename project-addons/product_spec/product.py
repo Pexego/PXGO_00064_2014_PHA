@@ -163,8 +163,10 @@ class ProductTemplate(models.Model):
     objective = fields.Selection((('alimentation', 'Alimentation'),
                                   ('pharmacy', 'Pharmacy')), 'Objective')
     packing = fields.Many2one('product.packing', 'Packing')
-    packing_internal = fields.Many2one('product.packing.internal', 'Packing Internal')
-    packing_production = fields.Many2one('product.packing.production', 'Packing Production')
+    packing_internal = fields.Many2one('product.packing.internal',
+                                       'Packing Internal')
+    packing_production = fields.Many2one('product.packing.production',
+                                         'Packing Production')
     packing_base = fields.Many2one('product.packing.base', 'Packing Base')
     country = fields.Many2one('res.country', 'Country')
     qty = fields.Float('Quantity')
@@ -175,18 +177,22 @@ class ProductTemplate(models.Model):
     line = fields.Many2one('product.line', 'Line')
     subline = fields.Many2one('product.subline', 'SubLine')
     purchase_line = fields.Many2one('product.purchase.line', 'Purchase Line')
-    purchase_subline = fields.Many2one('product.purchase.subline', 'Purchase SubLine')
+    purchase_subline = fields.Many2one('product.purchase.subline',
+                                       'Purchase SubLine')
     base_form_id = fields.Many2one('product.form', 'Base form')
     container_id = fields.Many2one('product.container', 'Container')
-    quality_limits = fields.Many2one('product.quality.limits', 'Process control')
+    quality_limits = fields.Many2one('product.quality.limits',
+                                     'Process control')
     process_control = fields.Boolean('Process control')
 
     # For column search and sorting in views
-    ean13 = fields.Char(string='EAN13 Barcode', store=True, related='product_variant_ids.ean13')
-    default_code = fields.Char(string='Internal Reference', store=True, related='product_variant_ids.default_code')
+    ean13 = fields.Char(string='EAN13 Barcode', store=True,
+                        related='product_variant_ids.ean13')
+    default_code = fields.Char(string='Internal Reference', store=True,
+                               related='product_variant_ids.default_code')
 
     # This product is packed in a box of box_elements number
-    box_elements = fields.Integer('Number of elements in a box', required=False)
+    box_elements = fields.Float('Number of elements in a box', required=False)
 
     @api.model
     def create(self, vals):
@@ -196,8 +202,8 @@ class ProductTemplate(models.Model):
         return tmpl
 
 
-class product_extra_category(models.Model):
+class ProductExtraCategory(models.Model):
     _name = 'product.extra.category'
-    _description = "Product Category"
+    _description = 'Product Category'
     _inherit = 'product.category'
     _table = 'product_category'

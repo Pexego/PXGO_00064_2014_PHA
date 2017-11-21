@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+import openerp.addons.decimal_precision as dp
 
 
 class ProductTimeAdviser(models.Model):
@@ -140,7 +141,9 @@ class ProductProduct(models.Model):
         domain=[('state', 'not in', ('done', 'cancel')),
                 ('move_created_ids', '!=', False)]
     )
-    production_qty = fields.Float()
+    production_qty = fields.Float(
+        digits = dp.get_precision('Product Unit of Measure'),
+        readonly=True)
     min_action = fields.Float(string='Minimum action quantity',
                               compute='_min_action')
     action_limit_exceeded = fields.Boolean(compute='_action_limit_exceeded',

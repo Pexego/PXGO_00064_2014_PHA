@@ -9,10 +9,28 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="name">MRP Production form view</field>
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="priority">17</field>
             <field name="arch" type="xml">
+                <field name="routing_id" position="before">
+                    <field name="product_tmpl_id" invisible="1"/>
+                </field>
+                <field name="routing_id" position="attributes">
+                    <attribute name="domain">[('product_ids', 'in', product_tmpl_id)]</attribute>
+                    <attribute name="required">1</attribute>
+                </field>
                 <field name="final_lot_id" position="after">
                     <field name="next_lot" attrs="{'invisible': [('final_lot_id', '!=', False)]}"/>
                 </field>
+                <button name="button_cancel" position="attributes">
+                    <attribute name="confirm">
+                        Do you really want to cancel production?
+                    </attribute>
+                </button>
+                <button name="action_cancel" position="attributes">
+                    <attribute name="confirm">
+                        Do you really want to cancel production?
+                    </attribute>
+                </button>
             </field>
         </record>
     </data>
