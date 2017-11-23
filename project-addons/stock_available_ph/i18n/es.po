@@ -376,6 +376,12 @@ msgid "Incoming"
 msgstr "Entrante"
 
 #. module: stock_available_ph
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Incoming qty. <> 0"
+msgstr "Cdad. entrante <> 0"
+
+#. module: stock_available_ph
 #: field:bom.member.of,default_code:0 field:mrp.bom,default_code:0
 #: field:product.stock.unsafety,default_code:0
 #: field:production.planning.materials,default_code:0
@@ -508,6 +514,12 @@ msgid "Orders to compute"
 msgstr "Órdenes a calcular"
 
 #. module: stock_available_ph
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Out of exist. <> 0"
+msgstr "Cdad. fuera exist. <> 0"
+
+#. module: stock_available_ph
 #: field:product.product,out_of_existences:0
 #: field:product.stock.unsafety,out_of_existences:0
 #: field:product.template,out_of_existences:0
@@ -529,6 +541,12 @@ msgid "Planning of orders to produce"
 msgstr "Planificador de órdenes a producir"
 
 #. module: stock_available_ph
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Pre-production qty. <> 0"
+msgstr "Cdad. pre-producción <> 0"
+
+#. module: stock_available_ph
 #: model:ir.model,name:stock_available_ph.model_production_planning_materials
 #: field:production.planning,materials:0
 msgid "Prevision of needed materials"
@@ -537,8 +555,8 @@ msgstr "Previsión de materiales necesarios"
 #. module: stock_available_ph
 #: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
 #: view:product.template:stock_available_ph.stock_available_product_search
-msgid "Previsional qty. > 0"
-msgstr "Ctdad. producción > 0"
+msgid "Previsional qty. <> 0"
+msgstr "Cdad. previsor <> 0"
 
 #. module: stock_available_ph
 #: view:product.product:stock_available_ph.stock_available_product_normal_form
@@ -643,6 +661,12 @@ msgid "Production qty"
 msgstr "Ctdad. producción"
 
 #. module: stock_available_ph
+#: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search
+#: view:product.template:stock_available_ph.stock_available_product_search
+msgid "Production qty. <> 0"
+msgstr "Cdad. producción <> 0"
+
+#. module: stock_available_ph
 #: field:mrp.routing,product_ids:0
 msgid "Products"
 msgstr
@@ -651,7 +675,7 @@ msgstr
 #: model:ir.actions.act_window,name:stock_available_ph.action_stock_available_product_prevision_tree
 #: model:ir.ui.menu,name:stock_available_ph.menu_view_product_prevision_list
 msgid "Products prevision"
-msgstr "Productos prevision"
+msgstr "Productos previsión"
 
 #. module: stock_available_ph
 #: view:product.product:stock_available_ph.stock_available_product_tree

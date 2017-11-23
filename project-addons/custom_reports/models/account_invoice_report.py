@@ -55,6 +55,7 @@ class AccountInvoiceReport(models.Model):
     product_cost_dl = fields.Float('Product cost direct labor')
     product_gross_weight = fields.Float('Product gross weight')
     product_net_weight = fields.Float('Product net weight')
+    registration_date = fields.Date('Registration date')
     number = fields.Char('Invoice number')
 
     def _select(self):
@@ -83,6 +84,7 @@ class AccountInvoiceReport(models.Model):
             product_cost_dl,
             product_gross_weight,
             product_net_weight,
+            sub.registration_date,
             sub.number
             """
         return select_str
@@ -149,6 +151,7 @@ class AccountInvoiceReport(models.Model):
                     else 1
                 end * ail.quantity * pt.weight_net
             ) as product_net_weight,
+            ai.registration_date,
             ai.number
             """
         return select_str
@@ -210,6 +213,7 @@ class AccountInvoiceReport(models.Model):
             pt.base_form_id,
             pt.clothing,
             pr.year_appearance,
+            ai.registration_date,
             ai.number
             """
         return group_by_str

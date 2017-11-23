@@ -6,6 +6,7 @@ from openerp.exceptions import Warning
 import openerp.addons.decimal_precision as dp
 import datetime
 
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
@@ -17,31 +18,41 @@ class ProductProduct(models.Model):
     manufacturing_procedure_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'product_manufacturing')]",
         string='Manufacturing procedure')
-    manufacturing_procedure_attachment = fields.Binary(related='manufacturing_procedure_id.attachment')
-    manufacturing_procedure_filename = fields.Char(related='manufacturing_procedure_id.attachment_filename')
+    manufacturing_procedure_attachment = fields.Binary(
+        related='manufacturing_procedure_id.attachment')
+    manufacturing_procedure_filename = fields.Char(
+        related='manufacturing_procedure_id.attachment_filename')
     packaging_procedure_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'product_packaging')]",
         string='Packaging procedure')
-    packaging_procedure_attachment = fields.Binary(related='packaging_procedure_id.attachment')
-    packaging_procedure_filename = fields.Char(related='packaging_procedure_id.attachment_filename')
+    packaging_procedure_attachment = fields.Binary(
+        related='packaging_procedure_id.attachment')
+    packaging_procedure_filename = fields.Char(
+        related='packaging_procedure_id.attachment_filename')
     specification_type = fields.Many2one(comodel_name='mrp.procedure.type',
         domain="[('code', 'ilike', 'specifications%')]",
         string='Specification type')
     specification_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id', '=', specification_type)]",
         string='Specification')
-    specification_attachment = fields.Binary(related='specification_id.attachment')
-    specification_filename = fields.Char(related='specification_id.attachment_filename')
+    specification_attachment = fields.Binary(
+        related='specification_id.attachment')
+    specification_filename = fields.Char(
+        related='specification_id.attachment_filename')
     analysis_method_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'quality_control_analysis_methods')]",
         string='Analysis method')
-    analysis_method_attachment = fields.Binary(related='analysis_method_id.attachment')
-    analysis_method_filename = fields.Char(related='analysis_method_id.attachment_filename')
+    analysis_method_attachment = fields.Binary(
+        related='analysis_method_id.attachment')
+    analysis_method_filename = fields.Char(
+        related='analysis_method_id.attachment_filename')
     analysis_plan_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'quality_control_analysis_plans')]",
         string='Analysis plan')
-    analysis_plan_attachment = fields.Binary(related='analysis_plan_id.attachment')
-    analysis_plan_filename = fields.Char(related='analysis_plan_id.attachment_filename')
+    analysis_plan_attachment = fields.Binary(
+        related='analysis_plan_id.attachment')
+    analysis_plan_filename = fields.Char(
+        related='analysis_plan_id.attachment_filename')
 
     @api.one
     @api.constrains('year_appearance')
@@ -52,7 +63,7 @@ class ProductProduct(models.Model):
                           (current_year,))
 
     @api.multi
-    def name_get(self): # Hide default_code by default
+    def name_get(self):  # Hide default_code by default
         return super(ProductProduct,
                      self.with_context(display_default_code=False)).name_get()
 
@@ -93,14 +104,26 @@ class ProductTemplate(models.Model):
     cost_price_dl = fields.Float('Direct labor cost price',
                                  digits=dp.get_precision('Product Price'))
     internal_scrapped_qty = fields.Float('Stock at internal scrap location',
-                           compute = '_internal_scrapped',
                            digits = dp.get_precision('Product Unit of Measure'),
                            readonly = True)
     virtual_conservative = fields.Float('Virtual stock conservative',
-                           compute='_virtual_conservative',
                            digits = dp.get_precision('Product Unit of Measure'),
-                           readonly=True,
-                           store=True)
+                           readonly=True)
+    out_of_existences = fields.Float('Out of existences',
+                             digits=dp.get_precision('Product Unit of Measure'),
+                             readonly=True)
+    real_incoming_qty = fields.Float('Real incoming qty.',
+                           digits = dp.get_precision('Product Unit of Measure'),
+                           readonly=True)
+    production_planning_qty = fields.Float(
+                           digits = dp.get_precision('Product Unit of Measure'),
+                           readonly=True)
+    pre_production_qty = fields.Float(
+                           digits = dp.get_precision('Product Unit of Measure'),
+                           readonly=True)
+    stock_move_ids = fields.One2many(string='Stock movements',
+                                     comodel_name='stock.move',
+                                     inverse_name='product_id')
 
     @api.one
     @api.depends('seller_ids')
@@ -113,20 +136,82 @@ class ProductTemplate(models.Model):
         self.suppliers_pricelists = ids
 
     @api.multi
-    def _internal_scrapped(self):
+    def compute_detailed_stock(self):
+        warehouses = self.env['stock.warehouse'].search([])
+        stock_ids = [wh.lot_stock_id.id for wh in warehouses]
+
         for product in self:
+            if not product.product_variant_ids:
+                continue
+
+            product_id = product.product_variant_ids[0]
+
             quants = self.env['stock.quant'].search([
-                ('product_id.product_tmpl_id', '=', product.id),
+                ('product_id', '=', product_id.id),
                 ('location_id.usage', '=', 'internal'),
                 ('location_id.scrap_location', '=', True)
             ])
-            product.internal_scrapped_qty = sum(quant.qty for quant in quants)
+            internal_scrapped_qty = sum(quant.qty for quant in quants)
 
-    @api.one
-    @api.depends('qty_available', 'outgoing_qty', 'internal_scrapped_qty')
-    def _virtual_conservative(self):
-        self.virtual_conservative = self.qty_available - self.outgoing_qty - \
-                                    self.internal_scrapped_qty
+            quants = self.env['stock.quant'].search([
+                ('product_id', '=', product_id.id),
+                ('location_id.id', '=', 21)  # Hoard location
+            ])
+            hoard_qty = sum(quant.qty for quant in quants)
+            virtual_conservative = product.qty_available - hoard_qty - \
+                                   product.outgoing_qty - internal_scrapped_qty
+
+            production_planning_orders = self.env['production.planning.orders'].\
+                search([('product_id', '=', product_id.id),
+                        ('compute', '=', True)])
+            production_planning_qty = sum(order.product_qty for order in
+                                          production_planning_orders)
+            prod_plan_materials = self.env['production.planning.materials'].\
+                search([('product_id', '=', product_id.id)])
+            production_planning_qty -= sum(material.qty_required for material in
+                                           prod_plan_materials)
+
+            production_orders = self.env['mrp.production'].\
+                search([('product_id', '=', product_id.id),
+                        ('state', '=', 'draft')])
+            pre_production_qty = sum(order.product_qty for order in
+                                     production_orders)
+            pre_prod_materials = self.env['stock.move'].\
+                search([('product_id', '=', product_id.id),
+                        ('raw_material_production_id', '!=', False),
+                        ('raw_material_production_id.state', 'in',
+                         ('draft', 'confirmed')),
+                        ('state', '=', 'waiting')])
+            pre_production_qty -= sum(material.product_uom_qty for material in
+                                      pre_prod_materials)
+
+            quants = self.env['stock.quant'].search([
+                ('product_id', '=', product_id.id),
+                ('location_id.usage', '=', 'internal'),
+                ('location_id.scrap_location', '=', False),
+                '!', ('location_id', 'child_of', stock_ids)
+            ])
+            out_of_existences = sum(quant.qty for quant in quants)
+
+            moves = self.env['stock.move'].search([
+                ('product_id', '=', product_id.id),
+                ('state', 'in', ('assigned', 'confirmed', 'waiting')),
+                ('picking_id.picking_type_id.code', '=', 'incoming'),
+                ('location_id.usage', '!=', 'internal'),
+                ('location_dest_id.usage', '=', 'internal')
+            ])
+            real_incoming_qty = sum(move.product_uom_qty for move in moves)
+
+            product.with_context(disable_notify_changes = True).write({
+                'internal_scrapped_qty': internal_scrapped_qty,
+                'virtual_conservative': virtual_conservative,
+                'production_planning_qty': production_planning_qty,
+                'pre_production_qty': pre_production_qty,
+                'out_of_existences': out_of_existences,
+                'real_incoming_qty': real_incoming_qty})
+
+            product_id.with_context(disable_notify_changes = True). \
+                update_qty_in_production()
 
 
 class PricelistPartnerinfo(models.Model):

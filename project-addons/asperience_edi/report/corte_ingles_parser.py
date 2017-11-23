@@ -105,8 +105,12 @@ class CorteInglesParser(models.AbstractModel):
                 first = False
             cant_ue = str(op.product_id.box_elements)
             ref_eci = ''
+            pick_partner = pick.partner_id
             for cus in op.product_id.customer_ids:
-                if cus.name.id == pick.partner_id.id:
+                if pick_partner.type in ['delivery'] and \
+                        pick_partner.parent_id:
+                    pick_partner = pick_partner.parent_id
+                if cus.name.id == pick_partner.id:
                     ref_eci = cus.product_code
 
             gtin14 = ''
@@ -119,6 +123,8 @@ class CorteInglesParser(models.AbstractModel):
                         gtin14 = gtin_obj.gtin14
             p_table = {
                 'ean13': op.product_id.ean13,
+                'serie': op.product_id.ean13 and \
+                op.product_id.ean13[:-1] or '',
                 'ref_eci': ref_eci,
                 'description': op.product_id.name.upper(),
                 'cant_ue': cant_ue,

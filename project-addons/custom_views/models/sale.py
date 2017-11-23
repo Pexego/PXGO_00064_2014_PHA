@@ -105,3 +105,19 @@ class SaleOrder(models.Model):
                 res['value']['picking_policy'] = partner_id.picking_policy
 
         return res
+
+    @api.multi
+    def duplicate(self):
+        res = self.copy()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': self._name,
+            'res_id': res.id,
+            'target': 'current',
+            'flags': {'initial_mode': 'edit'},
+            'nodestroy': True,
+            'context': self.env.context
+        }

@@ -36,8 +36,11 @@ class PaletTagParser(models.AbstractModel):
             for part in gtin_obj.partner_ids:
                 if part.id == gtin_partner.id:
                     gtin14 = gtin_obj.gtin14
-        parts = [gtin14[0], gtin14[1:3], gtin14[3:8], gtin14[8:13], gtin14[13]]
-        barcode = ' '.join(parts)
+        barcode = ''
+        if len(gtin14) == 14:
+            parts = \
+                [gtin14[0], gtin14[1:3], gtin14[3:8], gtin14[8:13], gtin14[13]]
+            barcode = ' '.join(parts)
         cant_ue = str(op.product_id.box_elements)
 
         name_lot = lot_name if lot_name else \

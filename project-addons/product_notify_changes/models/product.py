@@ -1,23 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2016 Pharmadus. All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2017 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, api, _
 
 
@@ -26,7 +9,10 @@ class ProductProduct(models.Model):
 
     @api.multi
     def write(self, vals):
-        if not 'cons_by_day_p' in vals:
+        disable_notify_changes = self.env.context.get('disable_notify_changes',
+                                                      False)
+
+        if not disable_notify_changes:
             orig_values = {}
             attrs = self.fields_get()
             for product in self:
@@ -43,7 +29,7 @@ class ProductProduct(models.Model):
 
         res = super(ProductProduct, self).write(vals)
 
-        if 'cons_by_day_p' in vals:
+        if disable_notify_changes:
             return res
 
         for product in self:

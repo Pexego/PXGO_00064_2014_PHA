@@ -161,16 +161,23 @@ msgid "CN:"
 msgstr "CN:"
 
 #. module: custom_views
+#: field:product.product,hr_expense_ok:0 field:stock.history,hr_expense_ok:0
+msgid "Can be Expensed"
+msgstr "Puede ser un gasto"
+
+#. module: custom_views
 #: field:product.product,purchase_ok:0
-#: view:stock.production.lot:custom_views.custom_views_search_product_lot
 #: view:product.stock.unsafety:custom_views.custom_views_product_stock_unsafety_filter
+#: field:product.stock.unsafety,purchase_ok:0 field:stock.history,purchase_ok:0
+#: view:stock.production.lot:custom_views.custom_views_search_product_lot
 msgid "Can be Purchased"
 msgstr "Puede ser comprado"
 
 #. module: custom_views
 #: field:product.product,sale_ok:0
-#: view:stock.production.lot:custom_views.custom_views_search_product_lot
 #: view:product.stock.unsafety:custom_views.custom_views_product_stock_unsafety_filter
+#: field:product.stock.unsafety,sale_ok:0 field:stock.history,sale_ok:0
+#: view:stock.production.lot:custom_views.custom_views_search_product_lot
 msgid "Can be Sold"
 msgstr "Puede ser vendido"
 
@@ -311,6 +318,11 @@ msgid "EDI sale orders"
 msgstr "Pedidos EDI"
 
 #. module: custom_views
+#: field:res.partner,email_to_send_invoice:0
+msgid "Email to send invoice"
+msgstr "e-mail para enviar factura"
+
+#. module: custom_views
 #: model:stock.picking,address_country:0
 msgid "España"
 msgstr "España"
@@ -362,6 +374,13 @@ msgstr "Vaciar vacaciones"
 #: field:hr.holidays.management,holidays_status_id:0
 msgid "Holidays status"
 msgstr "Tipo de ausencia"
+
+#. module: custom_views
+#: field:account.invoice,partner_insured:0
+#: field:account.invoice.special,partner_insured:0
+#: field:res.partner,insured:0
+msgid "Insured"
+msgstr "Asegurado"
 
 #. module: custom_views
 #: field:account.invoice.line,default_code:0
@@ -425,9 +444,16 @@ msgid "Latest date and time when amounts were calculated"
 msgstr "Última fecha y hora en que las cantidades fueron calculadas"
 
 #. module: custom_views
+#: field:account.invoice,partner_liens:0
+#: field:account.invoice.special,partner_liens:0
 #: field:res.partner,liens:0
 msgid "Liens"
 msgstr "Emb."
+
+#. module: custom_views
+#: field:stock.history,line:0
+msgid "Line"
+msgstr "Línea de ventas"
 
 #. module: custom_views
 #: view:stock.move:custom_views.custom_views_move_search
@@ -479,6 +505,11 @@ msgstr "Procedimiento de operaciones"
 #: field:product.product,packaging_procedure_id:0
 msgid "Packaging procedure"
 msgstr "Procedimiento de acondicionamiento"
+
+#. module: custom_views
+#: field:stock.picking,photo_url:0
+msgid "Photo(s) URL"
+msgstr "Enlace a foto(s)"
 
 #. module: custom_views
 #: field:purchasable.products,price_list_ids:0
@@ -612,6 +643,12 @@ msgid "Picking wizard items"
 msgstr "Elementos del asistente de albarán"
 
 #. module: custom_views
+#: field:product.product,pre_production_qty:0
+#: field:product.template,pre_production_qty:0
+msgid "Pre production qty"
+msgstr "Cdad. pre-producción"
+
+#. module: custom_views
 #: field:product.pricelist.item,pricelist_id:0
 msgid "Price List"
 msgstr "Tarifa de precios"
@@ -685,6 +722,21 @@ msgid "Products by description"
 msgstr "Productos por descripción"
 
 #. module: custom_views
+#: field:stock.history,purchase_line:0
+msgid "Purchase Line"
+msgstr "Línea de compras"
+
+#. module: custom_views
+#: field:stock.history,purchase_subline:0
+msgid "Purchase SubLine"
+msgstr "Sublínea de compras"
+
+#. module: custom_views
+#: view:product.product:custom_views.custom_views_product_normal_form
+msgid "Quality"
+msgstr "Calidad"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_stock_quant
 msgid "Quants"
 msgstr "Quants"
@@ -721,6 +773,13 @@ msgid "Search MRP procedures"
 msgstr "Búsqueda de procedimientos (PNT)"
 
 #. module: custom_views
+#: field:res.partner,send_invoice_by_email:0
+#: field:stock.picking,send_invoice_by_email:0
+#: view:stock.picking:custom_views.custom_views_picking_search
+msgid "Send invoice by email"
+msgstr "Envío factura por e-mail"
+
+#. module: custom_views
 #: field:pricelist.partnerinfo,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
@@ -744,6 +803,11 @@ msgstr "Dirección envío"
 #: field:res.partner,picking_policy:0
 msgid "Shipping Policy"
 msgstr "Política de facturación"
+
+#. module: custom_views
+#: field:res.partner,simplified_invoice:0
+msgid "Simplified invoice"
+msgstr "Factura simplificada"
 
 #. module: custom_views
 #: view:account.invoice:custom_views.view_invoice_special_tree
@@ -831,6 +895,11 @@ msgstr "Alerta de reserva de stock"
 #: model:ir.ui.menu,name:custom_views.menu_stock_production_lot_dates
 msgid "Stock production lot dates"
 msgstr "Fechas de caducidad"
+
+#. module: custom_views
+#: field:stock.history,subline:0
+msgid "SubLine"
+msgstr "Sublínea de ventas"
 
 #. module: custom_views
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view

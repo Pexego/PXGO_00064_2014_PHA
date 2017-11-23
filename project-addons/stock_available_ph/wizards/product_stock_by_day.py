@@ -68,6 +68,7 @@ class ProductStockByDay(models.TransientModel):
 
         # Products invoiced quantities in last year
         logger.info('Stock by Day: Computing stock by day based on invoices...')
+
         ai_lines = self.env['account.invoice.line'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
@@ -93,6 +94,7 @@ class ProductStockByDay(models.TransientModel):
 
         # Products moved quantities in last year
         logger.info('Stock by Day: Computing stock by day based on pickings...')
+
         sm_lines = self.env['stock.move'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
@@ -131,6 +133,7 @@ class ProductStockByDay(models.TransientModel):
         # Products that are members of any bill of materials
         logger.info('Stock by Day: Computing indirect stock by day of BoM '
                     'members...')
+
         bom_lines = self.env['mrp.bom.line'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
@@ -158,6 +161,7 @@ class ProductStockByDay(models.TransientModel):
         # write computed data back to database
         logger.info('Stock by Day: Doing final calculations and writing data '
                     'back to %d products' % (len(data)))
+
         products = self.env['product.product']
         product_stock_unsafety = self.env['product.stock.unsafety']
         aIdx = [
@@ -177,7 +181,8 @@ class ProductStockByDay(models.TransientModel):
                 values[idx['sbd']] = sbd_formula(values[idx['cbd']],
                                                  product_id.virtual_conservative)
 
-            product_id.write(values)  # Save calculations to database
+            product_id.with_context(disable_notify_changes=True).\
+                write(values)  # Save calculations to database without notify
 
             psu = product_stock_unsafety.search([
                 ('product_id', '=', product_id.id),
@@ -195,11 +200,13 @@ class ProductStockByDay(models.TransientModel):
         # Clear all calculations on the rest of storable products
         logger.info('Stock by day: Cleaning old calculations on the rest of '
                     'products...')
-        self.env['product.product'].search([
+
+        products.search([
             ('type', '=', 'product'),
             ('id', 'not in', data.keys())
-        ]).write(empty_dict)
-        self.env['product.stock.unsafety'].search([
+        ]).with_context(disable_notify_changes=True).write(empty_dict)
+
+        product_stock_unsafety.search([
             ('product_id.type', '=', 'product'),
             ('state', '!=', 'cancelled'),
             ('product_id.id', 'not in', data.keys())

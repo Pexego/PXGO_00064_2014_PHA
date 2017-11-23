@@ -13,7 +13,7 @@ class ProductGtin14(models.Model):
                                  ondelete='cascade', readonly=True)
     log_var = fields.Integer('Logistic variable', readonly=True)
     gtin14 = fields.Char('GTIN-14 code', readonly=True)
-    units = fields.Integer('Units')
+    units = fields.Float('Units')
     used_for = fields.Char('Used for')
     partner_ids = fields.Many2many(string='Assigned partners',
                                    comodel_name='res.partner',
@@ -28,7 +28,7 @@ class ProductGtin14(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            name = u'{} ({:d} uds) {}'.format(rec.gtin14, rec.units,
+            name = u'{} ({:f} uds) {}'.format(rec.gtin14, rec.units,
                                            rec.used_for if rec.used_for else '')
             res.append((rec.id, name))
         return res

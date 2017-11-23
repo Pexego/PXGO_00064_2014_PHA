@@ -1,0 +1,28 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mrp_production_ph
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-10 08:18+0000\n"
+"PO-Revision-Date: 2017-11-10 09:22+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Do you really want to cancel production?"
+msgstr "¿Desea realmente cancelar esta producción?"
+
+#. module: mrp_production_ph
+#: field:mrp.production,next_lot:0
+msgid "Next lot"
+msgstr "Siguiente lote"
