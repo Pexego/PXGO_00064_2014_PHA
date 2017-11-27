@@ -84,7 +84,8 @@ class ProductStockByDay(models.TransientModel):
                     save_sbd_and_cbd_i()
                     product_id = ail.product_id  # Next product
                     invoiced_qty = 0
-                elif ail.invoice_id.type == 'out_invoice':
+
+                if ail.invoice_id.type == 'out_invoice':
                     invoiced_qty += ail.quantity
                 else:
                     invoiced_qty -= ail.quantity
@@ -118,7 +119,8 @@ class ProductStockByDay(models.TransientModel):
                     save_sbd_and_cbd_p()
                     product_id = sm.product_id  # Next product
                     moved_qty = 0
-                elif sm.location_id.usage in ('internal', 'view', 'production',
+
+                if sm.location_id.usage in ('internal', 'view', 'production',
                                      'procurement', 'transit', 'supplier') and \
                      sm.location_dest_id.usage in ('customer', 'inventory'):
                     moved_qty += sm.product_uom_qty
