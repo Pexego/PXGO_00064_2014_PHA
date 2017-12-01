@@ -25,14 +25,16 @@
             <field name="arch" type="xml">
                 <button name="do_unreserve" position="after">
                     <field name="channel_name" invisible="1"/>
+                    <field name="edi_desadv" invisible="1"/>
+                            <!-- Ya no la comprobamos la visivilidad de los botones por el chanel_name == 'EDI' -->
                      <button name="print_package_tag_report" string="Print Astrid Tags of 8" type="object"
-                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('edi_desadv', '==', False)]}"
                             icon="gtk-preferences"/>
                      <button name="print_palet_tag_report" string="Print Tags of 4" type="object"
-                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('edi_desadv', '==', False)]}"
                             icon="gtk-copy"/>
                     <button name="print_eci_report" string="Print report" type="object"
-                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('channel_name', '!=', 'EDI')]}"
+                            attrs="{'invisible': ['|', '|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done'), ('edi_desadv', '==', False)]}"
                             icon="STOCK_PRINT"/>
                 </button>
 
