@@ -177,7 +177,8 @@ class ProductStockByDay(models.TransientModel):
                 values[idx['sbd']] = sbd_formula(values[idx['cbd']],
                                                  product_id.virtual_conservative)
 
-            product_id.write(values)  # Save calculations to database
+            product_id.with_context(disable_notify_changes=True).\
+                write(values)  # Save calculations to database without notify
 
             psu = product_stock_unsafety.search([
                 ('product_id', '=', product_id.id),

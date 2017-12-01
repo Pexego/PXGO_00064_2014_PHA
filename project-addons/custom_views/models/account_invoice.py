@@ -19,6 +19,7 @@ class AccountInvoice(models.Model):
     partner_vat = fields.Char(related='partner_id.vat', readonly=True)
     partner_vat_liens = fields.Char(related='partner_id.vat', readonly=True)
     partner_liens = fields.Boolean(related='partner_id.liens')
+    partner_insured = fields.Boolean(related='partner_id.insured')
 
     @api.multi
     def onchange_partner_id(self, type, partner_id, date_invoice=False,
@@ -178,6 +179,22 @@ class AccountInvoice(models.Model):
             raise Warning(msg)
         else:
             return super(AccountInvoice, self).action_date_assign()
+
+    @api.multi
+    def duplicate(self):
+        res = self.copy()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': self._name,
+            'res_id': res.id,
+            'target': 'current',
+            'flags': {'initial_mode': 'edit'},
+            'nodestroy': True,
+            'context': self.env.context
+        }
 
 
 class AccountInvoiceLine(models.Model):

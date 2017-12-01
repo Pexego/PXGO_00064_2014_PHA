@@ -64,3 +64,9 @@
     height: 17px;
     width: 17px;
 }
+
+@media print{
+    .js_question-wrapper{
+        font-size: 9px;
+    }
+}

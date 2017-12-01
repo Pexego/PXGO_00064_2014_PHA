@@ -51,6 +51,16 @@
                 <field name="incoterm" position="before">
                     <field name="budget"/>
                 </field>
+                <field name="state" position="before">
+                    <button name="duplicate"
+                            type="object"
+                            icon="gtk-copy"
+                            string="Duplicar"
+                            confirm="¿Desea duplicar este pedido de venta?"
+                            groups="custom_views.group_duplicate_button_sale"
+                            class="oe_read_only"
+                    />
+                </field>
              </field>
         </record>
 
