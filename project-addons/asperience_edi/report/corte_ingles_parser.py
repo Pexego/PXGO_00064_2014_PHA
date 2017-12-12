@@ -137,7 +137,7 @@ class CorteInglesParser(models.AbstractModel):
             }
             palet_tables[op.palet].append(p_table)
             visited_products.append(op.product_id.id)
-            total_tables[op.palet]['total_qty'] += op.product_qty
+            total_tables[op.palet]['total_qty'] += p_table['cant_fact']
             total_tables[op.palet]['total_lines'] += 1
 
             if op.sscc:
