@@ -297,7 +297,7 @@
         </record>
 
         <menuitem id="menu_partner_invoiced_tree" name="Partners invoiced"
-                  parent="menu_special_forms"
-                  sequence="2" action="action_partner_invoiced_tree"/>
+                  parent="account.menu_finance_reporting"
+                  sequence="11" action="action_partner_invoiced_tree"/>
     </data>
 </openerp>
