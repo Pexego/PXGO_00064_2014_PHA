@@ -61,7 +61,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="date_done"/>
                 </field>
                 <field name="date" position="after">
-                    <field name="create_uid"/>
+                    <field name="responsible_uid" string="Responsible"/>
                 </field>
             </field>
         </record>

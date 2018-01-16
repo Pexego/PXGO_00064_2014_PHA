@@ -17,6 +17,8 @@ class PurchasableProducts(models.TransientModel):
     product_id = fields.Many2one(comodel_name='product.product',
                                  string='Product', readonly=True)
     default_code = fields.Char(related='product_id.default_code')
+    description = fields.Text(related='product_id.description', readonly=True)
+    supplier_ref = fields.Char(string='Supplier reference', readonly=True)
     product_uom = fields.Many2one(comodel_name='product.uom')
     qty_current_year = fields.Float(digits=(16,2), string='Current year qty.')
     price_current_year = fields.Float(digits=(16,2), string='Current year amount')
@@ -76,6 +78,7 @@ class PurchasableProducts(models.TransientModel):
                     'request_id': request_id,
                     'partner_id': False,
                     'product_id': False,
+                    'supplier_ref': '',
                     'product_uom': False,
                     'qty_current_year': 0,
                     'price_current_year': 0,
@@ -98,6 +101,10 @@ class PurchasableProducts(models.TransientModel):
                 products[prod_idx]['partner_id'] = partner_id.id
                 products[prod_idx]['product_id'] = ail.product_id.id
                 products[prod_idx]['product_uom'] = ail.uos_id.id
+                pl = price_lists.filtered(lambda r:
+                                          r.product_tmpl_id ==
+                                          ail.product_id.product_tmpl_id)
+                products[prod_idx]['supplier_ref'] = pl.product_code if pl else ''
 
             sign = -1 if ail.invoice_id.type == 'in_refund' else 1
 
@@ -122,6 +129,7 @@ class PurchasableProducts(models.TransientModel):
                     products[prod_idx]['partner_id'] = partner_id.id
                     products[prod_idx]['product_id'] = prod_idx
                     products[prod_idx]['product_uom'] = pl.product_uom.id
+                    products[prod_idx]['supplier_ref'] = pl.product_code
                 products[prod_idx]['price_list_member'] = True
 
         for prod_idx in products:

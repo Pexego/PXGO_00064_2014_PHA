@@ -49,6 +49,25 @@ class StockPicking(models.Model):
     send_invoice_by_email = fields.Boolean(
         related='partner_id.send_invoice_by_email')
     photo_url = fields.Char('Photo(s) URL')
+    responsible_uid = fields.Many2one(comodel_name='res.users',
+                                      string='Responsible',
+                                      compute='_determine_responsible')
+
+    @api.one
+    def _determine_responsible(self):
+        if self.picking_type_id == self.env.ref('stock.picking_type_in'):
+            if self.purchase_order:
+                self.responsible_uid = self.purchase_order.create_uid.id
+            elif self.origin:
+                po = self.purchase_order.search([('name', '=', self.origin)])
+                if po:
+                    self.responsible_uid = po.create_uid.id
+                else:
+                    self.responsible_uid = self.create_uid.id
+            else:
+                self.responsible_uid = self.create_uid.id
+        else:
+            self.responsible_uid = self.create_uid.id
 
     @api.one
     @api.depends('picking_type_id')
@@ -146,6 +165,7 @@ class StockHistory(models.Model):
     sale_ok = fields.Boolean(related='product_id.sale_ok')
     purchase_ok = fields.Boolean(related='product_id.purchase_ok')
     hr_expense_ok = fields.Boolean(related='product_id.hr_expense_ok')
+    type = fields.Selection(related='product_id.type')
 
 
 class StockProductionLot(models.Model):

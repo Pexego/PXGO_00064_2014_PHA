@@ -498,6 +498,11 @@ msgid "Partner (invoice send address)"
 msgstr "Empresa (dir. envío factura)"
 
 #. module: custom_reports
+#: field:account.invoice.report,commercial_partner_id:0
+msgid "Partner (invoicing address)"
+msgstr "Cliente (dirección facturación)"
+
+#. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,partner_category:0
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
@@ -614,6 +619,12 @@ msgstr "Coste de producto M.O.D."
 #: field:sale.report,product_cost_rm:0
 msgid "Product cost raw material"
 msgstr "Coste de producto M.P."
+
+#. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: field:account.invoice.report,product_description:0
+msgid "Product description"
+msgstr "Producto - Descripción"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_form:0 field:sale.report,product_form:0

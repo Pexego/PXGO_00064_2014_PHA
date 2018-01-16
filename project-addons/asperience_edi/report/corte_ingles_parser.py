@@ -20,11 +20,14 @@ class CorteInglesParser(models.AbstractModel):
         min_date_str = min_date.strftime('%d/%m/%Y %H:%M')
 
         s = pick.sale_id
+        pick_partner = pick.partner_id
+        if pick_partner.type in ['delivery'] and pick_partner.parent_id:
+            pick_partner = pick_partner.parent_id
         header_table = {
-            'enterprise': pick.partner_id.edi_partner,
+            'enterprise': pick_partner.edi_partner,
             'dest_branch': s and s.customer_branch or '',
             'department': s and s.customer_department or '',
-            'eci_supplier': pick.partner_id.edi_supplier_ref,
+            'eci_supplier': pick_partner.edi_supplier_ref,
             'date': date_str,
             'min_date': min_date_str,
             'order_number': s.client_order_ref,
@@ -123,7 +126,7 @@ class CorteInglesParser(models.AbstractModel):
                         gtin14 = gtin_obj.gtin14
             p_table = {
                 'ean13': op.product_id.ean13,
-                'serie': op.product_id.ean13 and \
+                'serie': op.product_id.ean13 and
                 op.product_id.ean13[:-1] or '',
                 'ref_eci': ref_eci,
                 'description': op.product_id.name.upper(),
@@ -134,7 +137,7 @@ class CorteInglesParser(models.AbstractModel):
             }
             palet_tables[op.palet].append(p_table)
             visited_products.append(op.product_id.id)
-            total_tables[op.palet]['total_qty'] += op.product_qty
+            total_tables[op.palet]['total_qty'] += p_table['cant_fact']
             total_tables[op.palet]['total_lines'] += 1
 
             if op.sscc:

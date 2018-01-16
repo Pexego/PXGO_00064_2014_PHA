@@ -43,16 +43,24 @@ class StockReturnPicking(models.Model):
         # Transfer new created picking with returns
         revert_picking_id, pick_type_id = self._create_returns()
         revert_picking = picking.browse(revert_picking_id)
-        # Set destination location as origin location of
-        # returned move pack operation
+
         for move in revert_picking.move_lines:
-            if move.origin_returned_move_id and \
-                len(move.origin_returned_move_id.linked_move_operation_ids) > 0:
-                move.location_dest_id = move.origin_returned_move_id.\
-                           linked_move_operation_ids[0].operation_id.location_id
-                move.lot_ids = move.origin_returned_move_id.lot_ids
-                move.restrict_lot_id = move.lot_ids[0] if move.lot_ids else \
-                    False
+            if len(move.lot_ids) > 1:
+                operations = move.origin_returned_move_id.\
+                    linked_move_operation_ids
+
+                move.location_dest_id = operations[0].operation_id.location_id
+                move.lot_ids = operations[0].operation_id.lot_id
+                move.restrict_lot_id = operations[0].operation_id.lot_id
+                move.product_uom_qty = operations[0].qty
+
+                for op in operations[1:]:
+                    new_move = move.copy()
+                    new_move.location_dest_id = op.operation_id.location_id
+                    new_move.lot_ids = op.operation_id.lot_id
+                    new_move.restrict_lot_id = op.operation_id.lot_id
+                    new_move.product_uom_qty = op.qty
+
         revert_picking.do_transfer()
 
         # Recreate picking

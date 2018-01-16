@@ -24,7 +24,7 @@ from openerp import models, fields
 
 
 class AccountJournal(models.Model):
-    _inherit='account.journal'
+    _inherit = 'account.journal'
 
     simplified_invoices_account = fields.Boolean('Is an account for simplified'
                                                  ' invoices?', default=False)

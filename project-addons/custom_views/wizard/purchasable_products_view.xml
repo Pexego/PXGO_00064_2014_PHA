@@ -13,6 +13,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="id" invisible="1"/>
                     <field name="product_id"/>
                     <field name="default_code"/>
+                    <field name="description"/>
+                    <field name="supplier_ref"/>
                     <field name="product_uom"/>
                     <field name="qty_current_year"/>
                     <field name="price_current_year"/>
@@ -39,6 +41,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <group>
                             <field name="product_id" readonly="1"/>
                             <field name="default_code"/>
+                            <field name="description"/>
+                            <field name="supplier_ref"/>
                         </group>
                         <notebook>
                             <page string="Price lists">
