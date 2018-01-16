@@ -38,6 +38,7 @@ class AccountInvoiceReport(models.Model):
     shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
     product_reference = fields.Char('Product reference')
     product_with_reference = fields.Char('Product with reference')
+    product_description = fields.Text('Product description')
     product_line = fields.Many2one('product.line', 'Product line')
     product_subline = fields.Many2one('product.subline', 'Product subline')
     product_purchase_line = fields.Many2one('product.purchase.line',
@@ -70,6 +71,7 @@ class AccountInvoiceReport(models.Model):
             shipping_state_id,
             product_reference,
             product_with_reference,
+            product_description,
             product_line,
             product_subline,
             product_purchase_line,
@@ -113,6 +115,7 @@ class AccountInvoiceReport(models.Model):
             scs.id as shipping_state_id,
             pt.default_code as product_reference,
             '[' || pt.default_code || '] ' || pt.name as product_with_reference,
+            pt.description as product_description,
             pt.line as product_line,
             pt.subline as product_subline,
             pt.purchase_line as product_purchase_line,
@@ -205,6 +208,7 @@ class AccountInvoiceReport(models.Model):
             scs.id,
             pt.default_code,
             '[' || pt.default_code || '] ' || pt.name,
+            pt.description,
             pt.line,
             pt.subline,
             pt.purchase_line,

@@ -1,58 +1,50 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2016 Pharmadus I.T. Department. All Rights Reserved
-#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program. If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-from openerp import models, fields, tools, api
+# © 2017 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from openerp import models, fields, api, tools
 
 
 class StockLotMove(models.Model):
     _name = 'stock.lot.move'
     _auto = False
+    _order = 'date'
 
     lot_id = fields.Many2one(comodel_name='stock.production.lot')
-    move_id = fields.Many2one(comodel_name='stock.move')
-    date = fields.Datetime(related='move_id.date')
+    move_id = fields.Many2one(comodel_name='stock.move', required=True,
+                              ondelete='cascade')
+    date = fields.Datetime(string='Date')
+    product_uom = fields.Many2one(string='Unit of Measure',
+                                  comodel_name='product.uom')
+    location_id = fields.Many2one(string='Source Location',
+                                  comodel_name='stock.location')
+    location_dest_id = fields.Many2one(string='Destination Location',
+                                       comodel_name='stock.location')
+    partner_id = fields.Many2one(string='Partner', comodel_name='res.partner')
+    picking_id = fields.Many2one(string='Reference',
+                                 comodel_name='stock.picking')
+    state = fields.Selection(string='Status', selection=[
+        ('draft', 'Draft'),
+        ('cancel', 'Cancelled'),
+        ('waiting', 'Waiting Another Operation'),
+        ('confirmed', 'Waiting Availability'),
+        ('partially_available', 'Partially Available'),
+        ('assigned', 'Ready to Transfer'),
+        ('done', 'Transferred'),
+    ])
     qty = fields.Float(string='Quantity')
     type = fields.Char(compute='_check_type')
-    product_uom_id = fields.Many2one(comodel_name='product.uom',
-                                     related='move_id.product_uom')
-    location_id = fields.Many2one(comodel_name='stock.location',
-                                  related='move_id.location_id')
-    destination_id = fields.Many2one(comodel_name='stock.location',
-                                     related='move_id.location_dest_id')
-    partner_id = fields.Many2one(string='Partner',
-                                 comodel_name='res.partner',
-                                 related='move_id.picking_id.partner_id')
-    picking_id = fields.Many2one(string='Picking',
-                                 comodel_name='stock.picking',
-                                 related='move_id.picking_id')
 
     @api.one
     def _check_type(self):
         if (self.location_id.usage in
                 ['internal', 'view', 'procurement', 'transit']) and\
-           (self.destination_id.usage in
+           (self.location_dest_id.usage in
                 ['customer', 'inventory', 'supplier', 'production']):
             self.type = 'output'
         elif (self.location_id.usage in
                   ['customer', 'inventory', 'supplier', 'production']) and\
-             (self.destination_id.usage in
+             (self.location_dest_id.usage in
                   ['internal', 'view', 'procurement', 'transit']):
             self.type = 'input'
         else:
@@ -62,28 +54,31 @@ class StockLotMove(models.Model):
         tools.drop_view_if_exists(cr, self._table)
         cr.execute("""
             create view %s as (
-            	select
-                    row_number() over() as id,
-                    lot_moves.lot_id,
-                    lot_moves.move_id,
-                    lot_moves.qty
-                from (
-	                select
-	                    spl.id lot_id,
-	                    sqmr.move_id move_id,
-	                    sum(sq.qty) qty
-	                from stock_production_lot spl
-	                join stock_quant sq on sq.lot_id = spl.id
-	                join stock_quant_move_rel sqmr on sqmr.quant_id = sq.id
-	                group by 1, 2
-	            ) as lot_moves
+                select
+                    sqmr.move_id id,
+                    spl.id lot_id,
+                    sqmr.move_id,
+                    sm.date,
+                    sm.product_uom,
+                    sm.location_id,
+                    sm.location_dest_id,
+                    sp.partner_id,
+                    sp.id picking_id,
+                    sm.state,
+                    sum(sq.qty) qty
+                from stock_production_lot spl
+                join stock_quant sq on sq.lot_id = spl.id
+                join stock_quant_move_rel sqmr on sqmr.quant_id = sq.id
+                join stock_move sm on sm.id = sqmr.move_id
+                left join stock_picking sp on sp.id = sm.picking_id
+                group by 2, 1, 3, 4, 5, 6, 7, 8, 9, 10
+                order by 2, 1       
             )
         """ % (self._table,))
 
 
 class LotTracking(models.Model):
     _name = 'lot.tracking'
-    _description = ''
     _rec_name = 'product_id'
 
     product_id = fields.Many2one(comodel_name='product.product',
@@ -117,10 +112,10 @@ class LotTracking(models.Model):
                     '|',
                     '&',
                     ('location_id.usage', 'in', ('internal', 'view', 'procurement', 'transit')),
-                    ('destination_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
+                    ('location_dest_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
                     '&',
                     ('location_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
-                    ('destination_id.usage', 'in', ('internal', 'view', 'procurement', 'transit'))
+                    ('location_dest_id.usage', 'in', ('internal', 'view', 'procurement', 'transit'))
                 ])
 
     @api.one

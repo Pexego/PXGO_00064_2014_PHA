@@ -40,6 +40,7 @@
                 </field>
                 <field name="move_id" position="after">
                     <field name="payment_document_delivered"/>
+                    <field name="payment_date_planned"/>
                     <field name="commercial_partner_id"
                            string="Invoicing address"
                            readonly="0"/>
@@ -110,8 +111,43 @@
                 </field>
                 <field name="state" position="after">
                     <field name="payment_document_date"/>
+                    <field name="payment_date_planned"/>
                 </field>
             </field>
         </record>
+
+        <record id="account_invoice_moves_tree" model="ir.ui.view">
+            <field name="name">Custom views - Account invoice moves tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Efectos"
+                      colors="red:state=='open' and date_due&lt;current_date">
+                    <field name="number" readonly="1"/>
+                    <field name="date_invoice" readonly="1"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="partner_parent_category_id" readonly="1"/>
+                    <field name="payment_mode_id" readonly="1"/>
+                    <field name="payment_term" readonly="1"/>
+                    <field name="debit" sum="Total debe" readonly="1"/>
+                    <field name="credit" sum="Total crédito" readonly="1"/>
+                    <field name="currency_id" readonly="1"/>
+                    <field name="date_due" readonly="1"/>
+                    <field name="payment_mode_bank_id" readonly="1"/>
+                    <field name="state" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <act_window id="action_account_invoice_moves_tree"
+                    name="Account invoice moves"
+                    res_model="account.invoice"
+                    view_id="account_invoice_moves_tree"
+                    view_type="form"
+                    view_mode="tree,form"/>
+
+        <menuitem action="action_account_invoice_moves_tree"
+                  id="menu_action_account_invoice_moves_tree"
+                  parent="account.menu_finance_entries"
+                  sequence="7"/>
     </data>
 </openerp>

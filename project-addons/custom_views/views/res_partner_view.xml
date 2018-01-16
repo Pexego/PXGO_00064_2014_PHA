@@ -72,6 +72,10 @@
                             attrs="{'invisible': [('supplier', '=', False)]}"
                     />
                 </button>
+
+                <xpath expr="//form[@string='Contact']/sheet/group/field[@name='function']" position="before">
+                    <field name="active"/>
+                </xpath>
             </field>
         </record>
 
@@ -214,7 +218,7 @@
 
         <!-- Partners special form -->
         <record id="view_partner_special_form" model="ir.ui.view">
-            <field name="name">Partner special form</field>
+            <field name="name">Custom views - Partner special form</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <form string="Special form" create="0">
@@ -263,5 +267,37 @@
 
         <menuitem id="menu_res_partner_special" name="Partners" parent="menu_special_forms"
             sequence="1" action="action_res_partner_special"/>
+
+        <record id="view_partner_invoiced_tree" model="ir.ui.view">
+            <field name="name">Custom views - Partner invoiced tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="custom_views.view_partner_tree_custom_view"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">0</attribute>
+                </tree>
+                <field name="active" position="before">
+                    <field name="invoiced_current_year"/>
+                    <field name="invoiced_past_year"/>
+                    <field name="invoiced_previous_year"/>
+                    <field name="invoiced_other_years"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_partner_invoiced_tree" model="ir.actions.act_window">
+            <field name="name">Custom views - Partner invoiced tree</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="ref('custom_views.view_partner_invoiced_tree')"/>
+            <field name="target">current</field>
+            <field name="domain">[('customer', '=', True)]</field>
+        </record>
+
+        <menuitem id="menu_partner_invoiced_tree" name="Partners invoiced"
+                  parent="menu_special_forms"
+                  sequence="2" action="action_partner_invoiced_tree"/>
     </data>
 </openerp>

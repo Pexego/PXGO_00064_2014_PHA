@@ -44,6 +44,7 @@ class StockQuant(models.Model):
                 'product_uom': quant.product_id.uom_id.id,
                 'product_uom_qty': quant.qty,
                 'state': 'draft',
+                'restrict_lot_id': quant.lot_id.id,
             })
 
         # Returns the new created picking
