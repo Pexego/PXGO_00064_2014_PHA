@@ -11,8 +11,7 @@ class StockLotMove(models.Model):
     _order = 'date'
 
     lot_id = fields.Many2one(comodel_name='stock.production.lot')
-    move_id = fields.Many2one(comodel_name='stock.move', required=True,
-                              ondelete='cascade')
+    move_id = fields.Many2one(comodel_name='stock.move')
     date = fields.Datetime(string='Date')
     product_uom = fields.Many2one(string='Unit of Measure',
                                   comodel_name='product.uom')
@@ -54,25 +53,31 @@ class StockLotMove(models.Model):
         tools.drop_view_if_exists(cr, self._table)
         cr.execute("""
             create view %s as (
-                select
-                    sqmr.move_id id,
-                    spl.id lot_id,
-                    sqmr.move_id,
+            	select
+                    row_number() over(order by lot_moves.lot_id, lot_moves.move_id) as id,
+                    lot_moves.lot_id,
+                    lot_moves.move_id,
                     sm.date,
                     sm.product_uom,
                     sm.location_id,
                     sm.location_dest_id,
                     sp.partner_id,
-                    sp.id picking_id,
+                    sm.picking_id,
                     sm.state,
-                    sum(sq.qty) qty
-                from stock_production_lot spl
-                join stock_quant sq on sq.lot_id = spl.id
-                join stock_quant_move_rel sqmr on sqmr.quant_id = sq.id
-                join stock_move sm on sm.id = sqmr.move_id
-                left join stock_picking sp on sp.id = sm.picking_id
-                group by 2, 1, 3, 4, 5, 6, 7, 8, 9, 10
-                order by 2, 1       
+                    lot_moves.qty
+                from (
+	                select
+	                    spl.id lot_id,
+	                    sqmr.move_id,
+	                    sum(sq.qty) qty
+	                from stock_production_lot spl
+	                join stock_quant sq on sq.lot_id = spl.id
+	                join stock_quant_move_rel sqmr on sqmr.quant_id = sq.id
+	                group by 1, 2
+	            ) as lot_moves
+	            join stock_move sm on sm.id = lot_moves.move_id
+	            left join stock_picking sp on sp.id = sm.picking_id
+	            order by lot_id, move_id
             )
         """ % (self._table,))
 
@@ -91,7 +96,7 @@ class LotTracking(models.Model):
 
     lot_move_ids = fields.One2many(comodel_name='stock.lot.move',
                                    compute='_get_lot_moves')
-    total = fields.Float(string='Total', compute='_get_total')
+    total = fields.Float(string='Total', compute='_get_lot_moves')
     company_id = fields.Many2one(comodel_name='res.company',
                                  related='product_id.company_id')
 
@@ -101,25 +106,24 @@ class LotTracking(models.Model):
 
     @api.one
     def _get_lot_moves(self):
+        lot_moves = self.env['stock.lot.move']
         if self.type_of_move == 'all':
-            self.lot_move_ids = self.env['stock.lot.move'].\
-                search([('lot_id', '=', self.lot_id.id)])
+            self.lot_move_ids = lot_moves.search([
+                ('lot_id', '=', self.lot_id.id)
+            ])
         else:
-            self.lot_move_ids = self.env['stock.lot.move'].\
-                search([
-                    '&',
-                    ('lot_id', '=', self.lot_id.id),
-                    '|',
-                    '&',
-                    ('location_id.usage', 'in', ('internal', 'view', 'procurement', 'transit')),
-                    ('location_dest_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
-                    '&',
-                    ('location_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
-                    ('location_dest_id.usage', 'in', ('internal', 'view', 'procurement', 'transit'))
-                ])
+            self.lot_move_ids = lot_moves.search([
+                '&',
+                ('lot_id', '=', self.lot_id.id),
+                '|',
+                '&',
+                ('location_id.usage', 'in', ('internal', 'view', 'procurement', 'transit')),
+                ('location_dest_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
+                '&',
+                ('location_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
+                ('location_dest_id.usage', 'in', ('internal', 'view', 'procurement', 'transit'))
+            ])
 
-    @api.one
-    def _get_total(self):
         total = 0
         for move in self.lot_move_ids:
             if move.type == 'input':
@@ -131,4 +135,3 @@ class LotTracking(models.Model):
     @api.onchange('lot_id', 'type_of_move')
     def get_lot_moves(self):
         self._get_lot_moves()
-        self._get_total()

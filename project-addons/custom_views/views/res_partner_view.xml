@@ -277,6 +277,12 @@
                 <tree position="attributes">
                     <attribute name="create">0</attribute>
                 </tree>
+                <field name="state_id" position="after">
+                    <field name="country_id"/>
+                </field>
+                <field name="phone" position="after">
+                    <field name="user_id"/>
+                </field>
                 <field name="active" position="before">
                     <field name="invoiced_current_year"/>
                     <field name="invoiced_past_year"/>
