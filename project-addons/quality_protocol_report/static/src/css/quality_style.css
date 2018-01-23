@@ -82,7 +82,8 @@
 
 @media print{
   .container {
-    width: 900px;
+    margin: 0 !important;
+    padding: 15px !important;
   }
   .proto_fuente_normal {
     font-size: 17px;
