@@ -3,7 +3,7 @@
     <data>
 
     <template id="palet_tag_report">
-    <style type="text/css">
+        <style type="text/css">
         #container{
             height: 369mm;
             width:100%;
@@ -161,7 +161,7 @@
                                 <div class="barcode-content">
                                     <div class="bc-center">
                                         <t t-set="barcode" t-value="pack_tag['barcode']"/>
-                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:340px;height:130px"/>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 920, 260)" style="width:460px;height:130px; margin-left: -45px;"/>
                                         <p class="text-center" t-esc="barcode"/>
                                     </div>
                                 </div>
@@ -221,7 +221,7 @@
                             <div class="barcode-content">
                                 <t t-set="sscc_barcode" t-value="palet_tag['barcode']"/>
                                 <div class="bc-center">
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sscc_barcode, 600, 100)" style="width:450px;height:130px"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sscc_barcode, 920, 260)" style="width:460px;height:130px; margin-left: -45px;"/>
                                     <p class="text-center" t-esc="sscc_barcode"/>
                                 </div>
                             </div>
@@ -274,7 +274,7 @@
                             <div class="barcode-content">
                                 <t t-set="barcode" t-value="palet_tag['barcode']"/>
                                 <div class="bc-center">
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 100)" style="width:450px;height:130px"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 920, 260)" style="width:460px;height:130px; margin-left: -45px;"/>
                                     <p class="text-center" t-esc="barcode"/>
                                 </div>
                             </div>
