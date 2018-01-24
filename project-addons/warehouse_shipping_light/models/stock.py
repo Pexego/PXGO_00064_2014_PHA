@@ -157,9 +157,15 @@ class StockPicking(models.Model):
                 else:
                     break
 
+#            partial_sscc = self.location_dest_id.sscc_digit + \
+#                           self.company_id.aecoc_code[:7] + \
+#                           picking_number[-digits:].zfill(9)
+
             partial_sscc = self.location_dest_id.sscc_digit + \
                            self.company_id.aecoc_code[:7] + \
-                           picking_number[-digits:].zfill(9)
+                           picking_number[-digits:] + \
+                           '4'.zfill(9 - digits)
+
             self.sscc = partial_sscc + str(control_code(partial_sscc))
         else:
             self.sscc = ''
