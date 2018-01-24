@@ -20,13 +20,9 @@ class PaletTagParser(models.AbstractModel):
         return abs(res - rounded_res)
 
     @api.model
-    def get_tag_info(self, op, pack_table_class, lot_name=False, qty=False):
+    def get_tag_info(self, op, pack_table_class, prod_lot_qty,
+                     qty_by_lot={}):
         serie = op.product_id.ean13 and op.product_id.ean13[:-1] or ''
-        digits = map(int, '1' + serie)
-        # check_digit = self.calculate_check_digit(digits)
-        # barcode = serie and \
-        #     '1 ' + serie[0:2] + ' ' + serie[2:7] + ' ' + serie[7:]\
-        #     + ' ' + str(check_digit) or ''
 
         gtin14 = ''
         gtin_partner = op.picking_id.partner_id
@@ -41,17 +37,34 @@ class PaletTagParser(models.AbstractModel):
             parts = \
                 [gtin14[0], gtin14[1:3], gtin14[3:8], gtin14[8:13], gtin14[13]]
             barcode = ' '.join(parts)
-        cant_ue = str(op.product_id.box_elements)
 
-        name_lot = lot_name if lot_name else \
-            (op.lot_id.name if op.lot_id else '-')
-        quantity = qty if qty else (op.product_qty)
+        # SI hay varios lotes en el paquete, imprimimos los nombres de los
+        # lotes y la cantidad de cada uno
+        name_lot = ''
+        qty_units_str = ''
+        for lot in qty_by_lot:
+            lot_qty = qty_by_lot[lot]
+            total_lot_qty = prod_lot_qty[op.product_id.id][lot.id]
+            name_lot += op.lot_id.name if not name_lot \
+                else ' / ' + op.lot_id.name
+            qty_str = str(lot_qty) + '/' + str(total_lot_qty)
+            qty_units_str += qty_str if not qty_units_str \
+                else ' , ' + qty_str
+
+        if not name_lot:
+            name_lot = op.lot_id.name if op.lot_id else '-'
+
+        if not qty_units_str:
+            cant_ue = str(op.product_id.box_elements)
+            total_lot_qty = prod_lot_qty[op.product_id.id][op.lot_id.id]
+            qty_units_str = str(cant_ue) + '/' + str(total_lot_qty)
+
         dic = {
             'description': op.product_id and
             op.product_id.name.upper() or '',
             'serial_number': serie,
             'lot': name_lot,
-            'num_units': str(cant_ue) + '/' + str(quantity),
+            'num_units': qty_units_str,
             'barcode': barcode,
             'table-class': 'table-%s' % str(pack_table_class)
         }
@@ -72,6 +85,16 @@ class PaletTagParser(models.AbstractModel):
         pack_table_class = 1
         palet_packs_dic = pick._get_num_packs_in_palets()
         partial_packs = {}
+
+        prod_lot_qty = {}
+        # Agrupar cantidades por lote y producto
+        for op in pick.pack_operation_ids:
+            if op.product_id.id not in prod_lot_qty:
+                prod_lot_qty[op.product_id.id] = {}
+            if op.lot_id.id not in prod_lot_qty[op.product_id.id]:
+                prod_lot_qty[op.product_id.id][op.lot_id.id] = 0
+            prod_lot_qty[op.product_id.id][op.lot_id.id] += op.product_qty
+
         for op in pick.pack_operation_ids:
             # ETIQUETAS DE BULTO
             if op.product_id not in package_dic:
@@ -79,10 +102,12 @@ class PaletTagParser(models.AbstractModel):
             # 2 Etiquetas por bulto completo
             num_packs = op.complete
             for i in range(2 * num_packs):
-                dic = self.get_tag_info(op, pack_table_class)
+                # Info para paquetes completos, un solo lote
+                dic = self.get_tag_info(op, pack_table_class, prod_lot_qty)
                 pack_table_class == 2 if pack_table_class == 1 else 1
                 package_dic[op.product_id].append(dic)
 
+            # Agrupar los paquetes parciales
             if op.package:
                 if op.package not in partial_packs:
                     partial_packs[op.package] = []
@@ -94,8 +119,8 @@ class PaletTagParser(models.AbstractModel):
             if op.palet not in palet_dic:
                 palet_number += 1
                 num_palets += 1
-                place_dir = [(pick.partner_id.street and 
-                    pick.partner_id.street.upper() or '')]
+                place_dir = [(pick.partner_id.street and
+                              pick.partner_id.street.upper() or '')]
                 place_dir.append(pick.partner_id.zip)
                 place_dir.append(pick.partner_id.city)
                 if pick.partner_id.state_id:
@@ -104,28 +129,24 @@ class PaletTagParser(models.AbstractModel):
                 total_packs = palet_packs_dic.get(op.palet, 0)
                 palet_dic[op.palet] = {
                     'place': pick.partner_id.name.upper(),
-                    'place_dir':  ', '.join(place_dir),
+                    'place_dir': ', '.join(place_dir),
                     'num_packs': total_packs,
                     'palet_number': palet_number,
                     'barcode': pick.sscc,
                 }
-            # if op.sscc:
-            #     palet_dic[op.palet]['barcode'] = '(00)' + op.sscc
 
-        # Sumar cantidades y lotes en los paquetes parciales:
+        # Proceso paquetes parciales
         for package in partial_packs:
-            lot_ids = []
-            units = 0
-            lot_name = ''
+            qty_by_lot = {}
+            # Obtener lotes y cantidades por lote en los paquetes parciales
             for op in partial_packs[package]:
-                units += op.product_qty
-                if op.lot_id.id not in lot_ids:
-                    lot_ids.append(op.lot_id.id)
-                    lot_name += op.lot_id.name if not lot_name \
-                        else ' / ' + op.lot_id.name
+                if op.lot_id not in qty_by_lot:
+                    qty_by_lot[op.lot_id] = 0
+                qty_by_lot[op.lot_id] += op.product_qty
 
             for i in range(2):
-                dic = self.get_tag_info(op, pack_table_class, lot_name, units)
+                dic = self.get_tag_info(op, pack_table_class, prod_lot_qty,
+                                        qty_by_lot)
                 pack_table_class == 2 if pack_table_class == 1 else 1
                 package_dic[op.product_id].append(dic)
 
