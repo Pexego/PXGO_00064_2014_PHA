@@ -53,6 +53,7 @@ class ProductProduct(models.Model):
         related='analysis_plan_id.attachment')
     analysis_plan_filename = fields.Char(
         related='analysis_plan_id.attachment_filename')
+    notes = fields.Text()
 
     @api.one
     @api.constrains('year_appearance')

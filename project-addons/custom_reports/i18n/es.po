@@ -672,6 +672,12 @@ msgid "Product subline"
 msgstr "Producto - Sublínea"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_purchasequotation_document
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Supplier ref."
+msgstr "Ref. proveedor"
+
+#. module: custom_reports
 #: field:purchase.order.line,product_supplier_reference:0
 msgid "Product supplier reference"
 msgstr "Product supplier reference"
@@ -917,11 +923,6 @@ msgstr "Código proveedor:"
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Supplier delivery note:"
 msgstr "Albarán de proveedor:"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid "Supplier reference"
-msgstr "Referencia proveedor"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud

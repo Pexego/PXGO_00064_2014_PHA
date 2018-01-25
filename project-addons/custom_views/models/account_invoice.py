@@ -38,12 +38,12 @@ class AccountInvoice(models.Model):
 
     @api.one
     def _get_credit(self):
-        self.credit = self.amount_untaxed if self.type in \
+        self.credit = self.amount_total if self.type in \
                                              ('out_refund', 'in_invoice') else 0
 
     @api.one
     def _get_debit(self):
-        self.debit = self.amount_untaxed if self.type in \
+        self.debit = self.amount_total if self.type in \
                                             ('out_invoice', 'in_refund') else 0
 
     @api.multi
