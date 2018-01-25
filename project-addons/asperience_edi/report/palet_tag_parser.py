@@ -45,9 +45,9 @@ class PaletTagParser(models.AbstractModel):
         for lot in qty_by_lot:
             lot_qty = qty_by_lot[lot]
             total_lot_qty = prod_lot_qty[op.product_id.id][lot.id]
-            name_lot += op.lot_id.name if not name_lot \
-                else ' / ' + op.lot_id.name
-            qty_str = str(lot_qty) + '/' + str(total_lot_qty)
+            name_lot += lot.name if not name_lot \
+                else ' / ' + lot.name
+            qty_str = str(int(lot_qty)) + '/' + str(int(total_lot_qty))
             qty_units_str += qty_str if not qty_units_str \
                 else ' , ' + qty_str
 
@@ -55,9 +55,9 @@ class PaletTagParser(models.AbstractModel):
             name_lot = op.lot_id.name if op.lot_id else '-'
 
         if not qty_units_str:
-            cant_ue = str(op.product_id.box_elements)
+            cant_ue = op.product_id.box_elements
             total_lot_qty = prod_lot_qty[op.product_id.id][op.lot_id.id]
-            qty_units_str = str(cant_ue) + '/' + str(total_lot_qty)
+            qty_units_str = str(int(cant_ue)) + '/' + str(int(total_lot_qty))
 
         dic = {
             'description': op.product_id and
