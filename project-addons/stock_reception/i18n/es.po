@@ -107,7 +107,7 @@ msgstr "Pallets"
 #. module: stock_reception
 #: field:stock.production.lot,picking_exist:0
 msgid "Picking exists"
-msgstr "Existe albarán"
+msgstr "Existe albarán/certificado"
 
 #. module: stock_reception
 #: field:stock.production.lot,quantity:0

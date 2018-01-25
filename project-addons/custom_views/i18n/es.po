@@ -58,6 +58,11 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: custom_views
+#: view:sale.order:custom_views.custom_views_order_withcarrier_form
+msgid "Add in quote adjusting VAT"
+msgstr "Añadir ajustando IVA"
+
+#. module: custom_views
 #: field:stock.production.lot,mrp_id:0
 msgid "Production"
 msgstr "Producción"
@@ -508,6 +513,9 @@ msgstr "Medicamento"
 
 #. module: custom_views
 #: field:mrp.procedure,notes:0
+#: view:product.product:custom_views.custom_views_product_notes_form
+#: field:product.product,notes:0
+#: field:stock.inventory,notes:0
 msgid "Notes"
 msgstr "Notas"
 

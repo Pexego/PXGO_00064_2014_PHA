@@ -199,7 +199,7 @@
                             <tr>
                                 <th>Product</th>
                                 <!--th>Taxes</th-->
-                                <th>Supplier reference</th>
+                                <th class="text-right">Supplier ref.</th>
                                 <th class="text-right"><strong>Qty</strong></th>
                                 <th class="text-right">Unit price</th>
                                 <th class="text-right">Disc.(%)</th>
@@ -218,7 +218,7 @@
                                         <br/><span t-field="l.product_id.default_code"/>
                                     </t>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <!--span t-esc="', '.join(map(lambda x: x.name, l.taxes_id))"/-->
                                     <span t-field="l.product_supplier_reference"/>
                                 </td>

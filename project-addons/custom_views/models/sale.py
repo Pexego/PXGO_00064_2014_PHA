@@ -21,6 +21,7 @@
 from openerp import models, fields, api, _
 from lxml import etree
 from openerp.exceptions import Warning
+import math
 
 
 class SaleOrder(models.Model):
@@ -121,3 +122,20 @@ class SaleOrder(models.Model):
             'nodestroy': True,
             'context': self.env.context
         }
+
+    @api.multi
+    def delivery_set_vat(self):
+        res = self.delivery_set()
+        for order in self:
+            carrier_order_line = order.order_line.filtered(lambda r: r.id in res)
+            order_lines = order.order_line - carrier_order_line
+            carrier_tax_ids = carrier_order_line.tax_id
+            carrier_tax_amount = math.fsum(tax.amount for tax in carrier_tax_ids)
+            max_tax_amount = 0
+            for ol in order_lines:
+                if ol.gross_amount and \
+                   math.fsum(tax.amount for tax in ol.tax_id) > max_tax_amount:
+                    highest_tax_ids = ol.tax_id
+                    max_tax_amount = math.fsum(tax.amount for tax in ol.tax_id)
+            if carrier_tax_amount != max_tax_amount:
+                carrier_order_line.tax_id = highest_tax_ids
