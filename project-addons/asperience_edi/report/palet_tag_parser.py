@@ -39,7 +39,7 @@ class PaletTagParser(models.AbstractModel):
             barcode = ' '.join(parts)
 
         # SI hay varios lotes en el paquete, imprimimos los nombres de los
-        # lotes y la cantidad de cada uno
+        # lotes y la cantidad de cada uno.
         name_lot = ''
         qty_units_str = ''
         for lot in qty_by_lot:
@@ -139,10 +139,13 @@ class PaletTagParser(models.AbstractModel):
         for package in partial_packs:
             qty_by_lot = {}
             # Obtener lotes y cantidades por lote en los paquetes parciales
+            # solo de los paquetes parciales, descontando la parte que va en
+            # los completos
             for op in partial_packs[package]:
                 if op.lot_id not in qty_by_lot:
                     qty_by_lot[op.lot_id] = 0
-                qty_by_lot[op.lot_id] += op.product_qty
+                complete_qty = (op.complete * op.product_id.box_elements)
+                qty_by_lot[op.lot_id] += (op.product_qty - complete_qty)
 
             for i in range(2):
                 dic = self.get_tag_info(op, pack_table_class, prod_lot_qty,
