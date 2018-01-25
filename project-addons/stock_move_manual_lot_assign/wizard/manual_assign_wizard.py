@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
+from openerp.tools.float_utils import float_round
 
 
 class StockMoveAssignManualLot(models.TransientModel):
@@ -23,7 +24,9 @@ class StockMoveAssignManualLot(models.TransientModel):
         lines_qty = sum(self.line_ids.filtered(
             lambda r: r.use_qty > 0).mapped('use_qty'))
         self.lines_qty = lines_qty
-        self.move_qty = move.product_uom_qty - lines_qty
+        self.move_qty = float_round(
+            move.product_uom_qty, precision_rounding=move.product_uom.rounding,
+            rounding_method='UP') - lines_qty
 
     @api.model
     def default_get(self, var_fields):
@@ -64,7 +67,10 @@ class StockMoveAssignManualLot(models.TransientModel):
             if record.line_ids:
                 move = self.env['stock.move'].browse(
                     self.env.context['active_id'])
-                if record.lines_qty != move.product_uom_qty:
+                if record.lines_qty != float_round(
+                        move.product_uom_qty,
+                        precision_rounding=move.product_uom.rounding,
+                        rounding_method='UP'):
                     raise exceptions.Warning(
                         _('Quantity is different than the needed one'))
 
