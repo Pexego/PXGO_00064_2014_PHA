@@ -16,21 +16,34 @@ class AccountInvoice(models.Model):
             related='payment_mode_id.banking_mandate_needed')
     payment_document_delivered = fields.Boolean(default=False)
     payment_document_date = fields.Datetime()
+    payment_date_planned = fields.Date()
     partner_vat = fields.Char(related='partner_id.vat', readonly=True)
     partner_vat_liens = fields.Char(related='partner_id.vat', readonly=True)
     partner_liens = fields.Boolean(related='partner_id.liens')
     partner_insured = fields.Boolean(related='partner_id.insured')
     credit = fields.Float(compute='_get_credit')
     debit = fields.Float(compute='_get_debit')
+    partner_parent_category_id = fields.Many2one(
+        comodel_name='res.partner.category',
+        compute='_get_partner_parent_category')
+    payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id')
+
+    @api.one
+    def _get_partner_parent_category(self):
+        c = self.partner_id.category_id
+        if c and c.parent_id:
+            self.partner_parent_category_id = c.parent_id
+        elif c:
+            self.partner_parent_category_id = c
 
     @api.one
     def _get_credit(self):
-        self.credit = self.amount_untaxed if self.type in \
+        self.credit = self.amount_total if self.type in \
                                              ('out_refund', 'in_invoice') else 0
 
     @api.one
     def _get_debit(self):
-        self.debit = self.amount_untaxed if self.type in \
+        self.debit = self.amount_total if self.type in \
                                             ('out_invoice', 'in_refund') else 0
 
     @api.multi
@@ -94,13 +107,6 @@ class AccountInvoice(models.Model):
                     invoice.mandate_id = False
             else:
                 invoice.mandate_id = False
-
-    @api.model
-    def search_read(self, domain=None, fields=None, offset=0, limit=None,
-                    order=None):
-        res = super(AccountInvoice, self).search_read(domain, fields, offset,
-                                                      limit, order)
-        return res
 
     @api.model
     def create(self, vals):

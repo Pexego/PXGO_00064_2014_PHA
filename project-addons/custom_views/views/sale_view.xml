@@ -122,5 +122,21 @@
                   parent="stock.menu_stock_warehouse_mgmt"
                   sequence="32"
                   action="action_edi_sale_orders"/>
+
+        <record id="custom_views_order_withcarrier_form" model="ir.ui.view">
+            <field name="name">Custom views - Sale order carrier form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="delivery.view_order_withcarrier_form"/>
+            <field name="arch" type="xml">
+                <button name="delivery_set" position="before">
+                    <button name="delivery_set_vat"
+                            string="Add in quote adjusting VAT"
+                            type="object"
+                            class="oe_edit_only"
+                            attrs="{'invisible':['|',('carrier_id','=',False),('state','not in',('draft','sent'))]}"
+                    />
+                </button>
+            </field>
+        </record>
     </data>
 </openerp>

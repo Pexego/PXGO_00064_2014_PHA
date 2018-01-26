@@ -182,6 +182,21 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
+        <record id="custom_views_product_notes_form" model="ir.ui.view">
+            <field name="name">Custom views - Product notes form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <page string="Information" position="inside">
+                    <separator string="Notes"/>
+                    <group col="1">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </page>
+            </field>
+        </record>
+
         <record id="custom_views_product_normal_form" model="ir.ui.view">
             <field name="name">Custom views - Product form</field>
             <field name="model">product.product</field>

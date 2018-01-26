@@ -11,8 +11,6 @@ class PurchaseOrderLine(models.Model):
 
     @api.one
     def _get_supplier_reference(self):
-        if self.product_id.suppliers_pricelists:
-            self.product_supplier_reference = self.product_id.\
-                suppliers_pricelists.\
-                filtered(lambda r: r.suppinfo_id.name == self.partner_id)[0].\
-                suppinfo_id.product_name
+        if self.product_id.supplier_ids:
+            self.product_supplier_reference = self.product_id.supplier_ids.\
+                filtered(lambda r: r.name == self.order_id.partner_id).product_code

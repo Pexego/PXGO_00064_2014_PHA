@@ -199,9 +199,6 @@
                     table.table-condensed td {
                         padding: 0 !important;
                     }
-                    table.details tbody > tr {
-                        font-size: 12px;
-                    }
                 </style>
                 <table class="table table-condensed details">
                     <thead>
@@ -216,7 +213,7 @@
                         </tr>
                     </thead>
                     <tbody class="sale_tbody">
-                        <tr t-foreach="o.move_lines" t-as="m">
+                        <tr t-foreach="o.move_lines" t-as="m" style="font-size: 12px;">
                             <td>
                                 <span t-field="m.product_id.cn_code"/>
                             </td>

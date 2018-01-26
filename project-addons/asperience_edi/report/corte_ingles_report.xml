@@ -129,9 +129,15 @@
                          ya que ocultamos los div con la clase first-page -->
                         <div id="container">
                             <div class="eci_header" t-if="total_tables[palet]['first']">
-                             
-                                <div class="eci_logo">
+                             <!--    <div class="eci_logo">
                                     <img src="/asperience_edi/static/src/img/logo-vector-el-corte-ingles.jpg" style="height: 60px;width:180px"/>
+                                </div> -->
+                                <div class="eci_logo">
+                                    <t t-set="partner_logo" t-value="o.partner_id"/>
+                                    <t t-if="o.partner_id.parent_id">
+                                        <t t-set="partner_logo" t-value="o.partner_id.parent_id"/>
+                                    </t>
+                                    <img class="image" t-att-src="'data:image/png;base64,%s' % partner_logo.image" style="height: 60px;width:180px"/>
                                 </div>
                                 <div class="eci_tittle" style="font-size: 14px; padding-top: 20px;">
                                     <strong>
@@ -240,7 +246,7 @@
                                     <table class="table4 table-condensed">
                                         <tr>
                                             <th style="width:10%;">Código EAN</th>
-                                            <th style="width:10%;">Ref. ECI</th>
+                                            <th style="width:10%;">Ref. Cliente</th>
                                             <th style="width:5%;">Talla</th>
                                             <th style="width:4%;">Serie</th>
                                             <th style="width:6%;">Modelo</th>

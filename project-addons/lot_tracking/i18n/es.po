@@ -56,12 +56,12 @@ msgid "DESTINATION"
 msgstr "DESTINO"
 
 #. module: lot_tracking
-#: field:stock.lot.move,date:0
+#: field:stock.lot.move,in_date:0
 msgid "Date"
 msgstr "Fecha"
 
 #. module: lot_tracking
-#: field:stock.lot.move,destination_id:0
+#: field:stock.lot.move,location_id:0
 msgid "Destination Location"
 msgstr "Ubicación de destino"
 
@@ -164,7 +164,13 @@ msgstr "Destinatario"
 
 #. module: lot_tracking
 #: field:stock.lot.move,picking_id:0
-msgid "Picking"
+#: field:stock.move,picking_id:0
+msgid "Reference"
+msgstr "Albarán"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking
+msgid "PICKING"
 msgstr "Albarán"
 
 #. module: lot_tracking

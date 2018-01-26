@@ -28,3 +28,4 @@ class ResPartner(models.Model):
     gln = fields.Char("GLN")
     edi_supplier_ref = fields.Char("Supplier EDI")
     edi_partner = fields.Char("Partner EDI")
+    edi_desadv = fields.Boolean("EDI DESADV")
