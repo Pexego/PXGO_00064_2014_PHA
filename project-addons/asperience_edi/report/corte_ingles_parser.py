@@ -124,6 +124,7 @@ class CorteInglesParser(models.AbstractModel):
                 for part in gtin_obj.partner_ids:
                     if part.id == gtin_partner.id:
                         gtin14 = gtin_obj.gtin14
+                        cant_ue = str(gtin_obj.units)
             p_table = {
                 'ean13': op.product_id.ean13,
                 'serie': op.product_id.ean13 and
