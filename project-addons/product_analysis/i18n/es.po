@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-27 08:45+0000\n"
-"PO-Revision-Date: 2017-11-08 17:14+0100\n"
+"PO-Revision-Date: 2018-02-15 10:20+0100\n"
 "Last-Translator: Jesús Ventosinos Mayor <jesus@comunitea.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,10 @@ msgstr "Análisis"
 
 #. module: product_analysis
 #: model:ir.actions.act_window,name:product_analysis.product_analysis_action
+#: model:ir.actions.act_window,name:product_analysis.product_analysis_rel_action
+#: model:ir.actions.act_window,name:product_analysis.product_template_edit_analysis_action
 #: model:ir.ui.menu,name:product_analysis.menu_product_analysis
+#: model:ir.ui.menu,name:product_analysis.menu_product_prduct_edit_analysis
 msgid "Product analysis"
 msgstr "Análisis de producto"
 
@@ -38,6 +41,51 @@ msgstr "Análisis de producto"
 #: model:ir.ui.menu,name:product_analysis.quality_lot_menus
 msgid "Analysis certificate"
 msgstr "Certificado de análisis"
+
+#. module: product_analysis
+#: field:product.analysis.rel,raw_material_analysis:0
+#: field:stock.lot.analysis,raw_material_analysis:0
+msgid "Raw material analysis"
+msgstr "Arrastrar de materia prima"
+
+#. module: product_analysis
+#: field:product.analysis.rel,analysis_type:0
+#: field:stock.lot.analysis,analysis_type:0
+msgid "Analysis type"
+msgstr "Tipo de analisis"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,analysis_type:0
+#: selection:stock.lot.analysis,analysis_type:0
+msgid "Boolean"
+msgstr "Booleano"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,analysis_type:0
+#: selection:stock.lot.analysis,analysis_type:0
+msgid "Expression"
+msgstr "Expresión"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,analysis_type:0
+#: selection:stock.lot.analysis,analysis_type:0
+msgid "Free text"
+msgstr "Texto libre"
+
+#. module: product_analysis
+#: field:product.analysis.rel,expected_result_boolean:0
+#: field:product.analysis.rel,expected_result_expr:0
+#: field:stock.lot.analysis,expected_result:0
+#: field:stock.lot.analysis,expected_result_boolean:0
+#: field:stock.lot.analysis,expected_result_expr:0
+msgid "Expected result"
+msgstr "Resultado esperado"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+#: field:stock.production.lot,used_lots:0
+msgid "Used lots"
+msgstr "Lotes utilizados"
 
 #. module: product_analysis
 #: code:addons/product_analysis/stock.py:76
@@ -205,7 +253,7 @@ msgstr "Número de envases:"
 #. module: product_analysis
 #: field:stock.production.lot,num_sampling_to_do:0
 msgid "Number of samples"
-msgstr "Numero de muestras"
+msgstr "Numero de muestras a tomar"
 
 #. module: product_analysis
 #: field:stock.production.lot,num_sampling_realized:0
@@ -250,9 +298,26 @@ msgid "Paramenter"
 msgstr "Parámetro"
 
 #. module: product_analysis
+#: model:ir.model,name:product_analysis.model_product_product
 #: field:product.analysis.rel,product_id:0
 msgid "Product"
 msgstr "Producto"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Set all realized"
+msgstr "Marcar todos a realizar"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Set raw material analysis"
+msgstr "Establecer analisis de matería prima"
+
+#. module: product_analysis
+#: code:addons/product_analysis/models/stock.py:129
+#, python-format
+msgid "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Product</th><th>Ref F</th><th>Aprobation date</th><th>Lot state</th></tr></thead><tbody>"
+msgstr "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Producto</th><th>Ref F</th><th>Fecha de aprobación</th><th>Estado de lote</th></tr></thead><tbody>"
 
 #. module: product_analysis
 #: model:ir.model,name:product_analysis.model_product_template
@@ -329,10 +394,17 @@ msgstr "Fecha de entrada:"
 
 #. module: product_analysis
 #: field:stock.lot.analysis,result:0
+#: field:stock.lot.analysis,result_boolean:0
+#: field:stock.lot.analysis,result_str:0
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 msgid "Result"
 msgstr "Resultado"
+
+#. module: product_analysis
+#: field:stock.lot.analysis,passed:0
+msgid "Passed"
+msgstr "Pasado"
 
 #. module: product_analysis
 #: field:stock.production.lot,revised_by:0

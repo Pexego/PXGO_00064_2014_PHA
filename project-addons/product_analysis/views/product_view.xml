@@ -16,7 +16,8 @@
                            <tree editable="bottom">
                                <field name="sequence" widget="handle"/>
                                <field name="analysis_id"/>
-                               <field name="show_in_certificate"/>
+                               <field name="show_in_certificate" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
+                               <field name="raw_material_analysis"/>
                                <field name="product_id" invisible="1"/>
                            </tree>
                         </field>
@@ -24,6 +25,17 @@
                </notebook>
            </field>
        </record>
+
+        <record id="product_category_add_analysis_sequence" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="mrp_location_dest.product_category_add_mrp_dest_loc"/>
+            <field name="arch" type="xml">
+                <field name="finished_dest_location_id" position="after">
+                    <field name="analysis_sequence"/>
+                </field>
+            </field>
+        </record>
 
     </data>
 </openerp>

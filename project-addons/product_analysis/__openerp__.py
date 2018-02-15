@@ -27,11 +27,11 @@
     'author': 'Pexego',
     'website': '',
     "depends": ['product', 'lot_states', 'quality_protocol_report',
-                'stock_reception', 'product_spec', 'custom_views'],
+                'stock_reception', 'product_spec', 'custom_views', 'web_sheet_full_width_selective', 'lot_states'],
     "data": ['views/product_view.xml', 'views/stock_view.xml', 'views/product_analysis_view.xml',
              'views/lot_analysis_sheet_report.xml',
              'views/lot_analysis_certificate_report.xml',
-             'views/stock_lot_analysis_report.xml',
+             'views/stock_lot_analysis_report.xml', 'views/assets.xml',
              'security/ir.model.access.csv'],
     "installable": True
 }

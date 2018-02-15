@@ -21,24 +21,25 @@
 from openerp import models, fields
 
 
-class product_analysis(models.Model):
+class ProductAnalysis(models.Model):
 
     _name = 'product.analysis'
 
     name = fields.Char('Paramenter', translate=True, required=True)
 
 
-class product_analysis_rel(models.Model):
+class ProductAnalysisRel(models.Model):
 
     _name = 'product.analysis.rel'
 
     sequence = fields.Integer()
     product_id = fields.Many2one('product.template', 'Product')
     analysis_id = fields.Many2one('product.analysis', 'Analysis')
-    show_in_certificate = fields.Boolean('Show in certificate')
+    show_in_certificate = fields.Boolean()
     method = fields.Many2one('mrp.procedure', 'PNT')
     analysis_type = fields.Selection(
         (('boolean', 'Boolean'), ('expr', 'Expression'),
-        ('free', 'Free text')))
+         ('free', 'Free text')))
     expected_result_boolean = fields.Boolean('Expected result')
     expected_result_expr = fields.Char('Expected result')
+    raw_material_analysis = fields.Boolean()

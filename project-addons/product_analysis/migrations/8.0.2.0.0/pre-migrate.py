@@ -4,4 +4,4 @@
 
 
 def migrate(cr, version):
-    cr.execute("""DROP TABLE IF EXISTS product_analysis_method;""")
+    cr.execute("""ALTER TABLE product_analysis DROP COLUMN method;""")
