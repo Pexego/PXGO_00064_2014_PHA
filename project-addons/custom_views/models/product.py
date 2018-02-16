@@ -154,13 +154,22 @@ class ProductTemplate(models.Model):
             ])
             internal_scrapped_qty = sum(quant.qty for quant in quants)
 
+            hoard_location_id = self.env.ref('__export__.stock_location_21')
             quants = self.env['stock.quant'].search([
                 ('product_id', '=', product_id.id),
-                ('location_id.id', '=', 21)  # Hoard location
+                ('location_id.id', '=', hoard_location_id.id)
             ])
             hoard_qty = sum(quant.qty for quant in quants)
+            wh = self.env['stock.warehouse'].search(
+                [('company_id', '=', self.env.user.company_id.id)])
+            input_location_ids = wh.wh_input_stock_loc_id._get_child_locations()
+            quants = self.env['stock.quant'].search([
+                ('product_id', '=', product_id.id),
+                ('location_id.id', 'in', input_location_ids.ids)
+            ])
+            input_qty = sum(quant.qty for quant in quants)
             virtual_conservative = product.qty_available - hoard_qty - \
-                                   product.outgoing_qty - internal_scrapped_qty
+                input_qty - product.outgoing_qty - internal_scrapped_qty
 
             production_planning_orders = self.env['production.planning.orders'].\
                 search([('product_id', '=', product_id.id),

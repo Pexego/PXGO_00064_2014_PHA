@@ -10,18 +10,16 @@ class StockQuant(models.Model):
 
     @api.multi
     def quants_to_picking(self):
-        e = self.env
-        picking_type = e.ref('stock.picking_type_internal') if \
-            e.ref('stock.picking_type_internal') else \
-            e.ref('__export__.stock_picking_type_16') if \
-            e.ref('__export__.stock_picking_type_16') else \
-            e.ref('__export__.stock_picking_type_21') if \
-            e.ref('__export__.stock_picking_type_21') else \
-            e.ref('__export__.stock_picking_type_11') if \
-            e.ref('__export__.stock_picking_type_11') else False
+        company_id = self.env.user.company_id
+        company_picking_type = {
+            1: self.env.ref('stock.picking_type_internal'),       # Pharmadus
+            6: self.env.ref('__export__.stock_picking_type_11'),  # Maricielo
+            5: self.env.ref('__export__.stock_picking_type_16'),  # Seal
+            7: self.env.ref('__export__.stock_picking_type_21')   # Marbemsa
+        }
+        picking_type =  company_picking_type.get(company_id.id, False)
 
-        location_dest_id = self.env.user.company_id.\
-            internal_transit_location_id
+        location_dest_id = company_id.internal_transit_location_id
         picking = self.env['stock.picking'].create({
             'invoice_state': 'none',
             'move_type': 'direct',

@@ -1201,6 +1201,11 @@ msgid "Ref. ECI"
 msgstr "Ref. ECI"
 
 #. module: asperience_edi
+#: field:edi.edi.result,reference:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: asperience_edi
 #: view:edi.edi.result:asperience_edi.edi_result_search
 #: field:edi.edi.result,resolved:0
 msgid "Resolved"

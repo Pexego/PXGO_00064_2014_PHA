@@ -179,6 +179,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="virtual_conservative" style="max-width: 100px;"/>
                     <field name="uom_id"/>
                 </field>
+                <tree position="attributes">
+                    <attribute name="colors" translation="off">
+                        red:virtual_available&lt;0;blue:state in ('draft','end','obsolete');green:virtual_conservative&lt;0
+                    </attribute>
+                </tree>
             </field>
         </record>
 

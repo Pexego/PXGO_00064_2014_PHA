@@ -290,6 +290,11 @@ msgstr "Vestida"
 msgid "Due Month"
 msgstr "Mes de vencimiento"
 
+#. module: warehouse_shipping_light
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "End of"
+msgstr "Fin de"
+
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Fiscal Position Remark:"

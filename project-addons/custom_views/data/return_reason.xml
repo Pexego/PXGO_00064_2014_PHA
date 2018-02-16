@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="rr_cli_exc_prod" model="return.reason">
+            <field name="name">Cli - Excedente de producto</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_cli_equiv_cli" model="return.reason">
+            <field name="name">Cli - Equivocación del cliente</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_cli_otros" model="return.reason">
+            <field name="name">Cli - Otros</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_trans_prod_roto" model="return.reason">
+            <field name="name">Trans - Producto dañado o roto</field>
+            <field name="account_id" ref="__export__.account_account_6224"/>
+        </record>
+        <record id="rr_trans_extrav_mercanc" model="return.reason">
+            <field name="name">Trans - Extravío de mercancía</field>
+            <field name="account_id" ref="__export__.account_account_6225"/>
+        </record>
+        <record id="rr_trans_entrega_fuera_plazo" model="return.reason">
+            <field name="name">Trans - Pedido entregado fuera de plazo</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_trans_otros" model="return.reason">
+            <field name="name">Trans - Otros</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_ph_equiv_dpto_comercial" model="return.reason">
+            <field name="name">Ph - Equivocación de Dpto. Comercial</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_ph_equiv_almacen" model="return.reason">
+            <field name="name">Ph - Equivocación en almacén</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_ph_equiv_otros_dptos" model="return.reason">
+            <field name="name">Ph - Equivocación de otros Dptos.</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_ph_otros" model="return.reason">
+            <field name="name">Ph - Otros</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_ph_devol_ferias_eventos" model="return.reason">
+            <field name="name">Ph - Devolución de ferias y otros eventos</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_ph_entrega_fuera_plazo" model="return.reason">
+            <field name="name">Ph - Pedido entregado fuera de plazo</field>
+            <field name="account_id" ref="__export__.account_account_1145"/>
+        </record>
+        <record id="rr_ph_cal_bolsas_rotas" model="return.reason">
+            <field name="name">Ph - Calidad - Producto con bolsitas rotas</field>
+            <field name="account_id" ref="__export__.account_account_6224"/>
+        </record>
+        <record id="rr_ph_cal_polvo_fino" model="return.reason">
+            <field name="name">Ph - Calidad - Producto con polvo fino</field>
+            <field name="account_id" ref="__export__.account_account_6224"/>
+        </record>
+        <record id="rr_ph_cal_pack_incorrecto" model="return.reason">
+            <field name="name">Ph - Calidad - Producto con packaging incorrecto</field>
+            <field name="account_id" ref="__export__.account_account_6224"/>
+        </record>
+        <record id="rr_ph_cal_insectos" model="return.reason">
+            <field name="name">Ph - Calidad - Producto con insectos</field>
+            <field name="account_id" ref="__export__.account_account_6224"/>
+        </record>
+        <record id="rr_ph_cal_otros" model="return.reason">
+            <field name="name">Ph - Calidad - Otros</field>
+            <field name="account_id" ref="__export__.account_account_6224"/>
+        </record>
+        <record id="rr_rappel" model="return.reason">
+            <field name="name">Rappel</field>
+            <field name="account_id" ref="__export__.account_account_1156"/>
+        </record>
+        <record id="rr_rect_error_precios" model="return.reason">
+            <field name="name">Rectificada por error de precios</field>
+            <field name="account_id" ref="__export__.account_account_6225"/>
+        </record>
+        <record id="rr_anulacion" model="return.reason">
+            <field name="name">Anulación</field>
+            <field name="account_id" ref="__export__.account_account_6220"/>
+        </record>
+        <record id="rr_caducado" model="return.reason">
+            <field name="name">Caducado</field>
+            <field name="account_id" ref="__export__.account_account_6224"/>
+        </record>
+    </data>
+</openerp>

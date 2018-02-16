@@ -10,6 +10,7 @@ openerp.quants_to_picking_ph = function(instance) {
             if (this.$buttons) {
                 if (this.model == 'stock.quant') {
                     this.$buttons.find('.oe_quants_to_picking')
+                        .unbind('click')
                         .click(this.proxy('on_quants_to_picking'));
                 }
             }

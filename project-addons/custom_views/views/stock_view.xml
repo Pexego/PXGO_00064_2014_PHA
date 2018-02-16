@@ -92,13 +92,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="picking_type_desc" class="oe_inline" readonly="1"/>
                 </field>
                 <button name="force_assign" position="attributes">
-                    <attribute name="groups">stock.group_stock_manager</attribute>
+                    <attribute name="groups">base.group_system</attribute>
                 </button>
                 <button name="action_cancel" position="attributes">
                     <attribute name="name">confirm_action_cancel</attribute>
                 </button>
                 <field name="valued_picking" position="after">
                     <field name="photo_url"/>
+                </field>
+                <field name="picking_type_desc" position="after">
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
                 </field>
             </field>
         </record>

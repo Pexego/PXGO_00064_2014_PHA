@@ -6,7 +6,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 <templates id="template" xml:space="preserve">
     <t t-extend="ListView.buttons">
         <t t-jquery="div.oe_list_buttons" t-operation="append">
-            <t t-if="widget.model == 'stock.quant'">
+            <t t-if="widget.name == 'Quants'">
                 <button class="oe_button oe_quants_to_picking"
                         type="button">Create picking</button>
             </t>

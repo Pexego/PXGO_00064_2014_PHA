@@ -166,6 +166,7 @@
                 <form string="Edi edi Result">
                     <field name="name" />
                     <field name="date" />
+                    <field name="reference"/>
                     <field name="value" colspan="4" />
                 </form>
             </field>
@@ -179,6 +180,7 @@
                 <tree string="Edi edi Result">
                     <field name="name" />
                     <field name="date" />
+                    <field name="reference"/>
                     <field name="value" />
                 </tree>
             </field>

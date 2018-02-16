@@ -52,6 +52,7 @@ class StockPicking(models.Model):
     responsible_uid = fields.Many2one(comodel_name='res.users',
                                       string='Responsible',
                                       compute='_determine_responsible')
+    return_reason = fields.Many2one(comodel_name='return.reason')
 
     @api.one
     def _determine_responsible(self):
