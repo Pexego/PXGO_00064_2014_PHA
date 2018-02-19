@@ -325,11 +325,15 @@ class ProductionPlanning(models.Model):
 
         # Check material level of availability
         for m in self.materials:
-            if m.qty_vsc_available + m.qty_incoming < m.qty_required:
+            if m.qty_vsc_available + m.out_of_existences + m.qty_incoming < \
+                    m.qty_required:
                 m.stock_status = 'no_stock'
-            elif m.qty_vsc_available < m.qty_required and m.qty_vsc_available + m.qty_incoming >= m.qty_required:
+            elif m.qty_vsc_available + m.out_of_existences + m.qty_incoming >= \
+                    m.qty_required and \
+                    m.qty_vsc_available + m.out_of_existences < m.qty_required:
                 m.stock_status = 'incoming'
-            elif m.qty_vsc_available - m.out_of_existences < m.qty_required and m.qty_vsc_available >= m.qty_required:
+            elif m.qty_vsc_available + m.out_of_existences >= m.qty_required \
+                    and m.qty_vsc_available < m.qty_required:
                 m.stock_status = 'out'
             else:
                 m.stock_status = 'ok'

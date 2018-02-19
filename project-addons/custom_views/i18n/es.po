@@ -337,6 +337,11 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: custom_views
+#: field:stock.location,dismissed_location:0
+msgid "Dismissed location"
+msgstr "Ubicación de producto desechado"
+
+#. module: custom_views
 #: view:product.product:custom_views.product_kanban_view
 msgid "EAN13:"
 msgstr "EAN13:"

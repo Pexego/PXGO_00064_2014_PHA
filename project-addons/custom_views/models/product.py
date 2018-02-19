@@ -198,8 +198,12 @@ class ProductTemplate(models.Model):
             quants = self.env['stock.quant'].search([
                 ('product_id', '=', product_id.id),
                 ('location_id.usage', '=', 'internal'),
+                '!', ('location_id', 'child_of', stock_ids),
+                '|',
                 ('location_id.scrap_location', '=', False),
-                '!', ('location_id', 'child_of', stock_ids)
+                '&',
+                ('location_id.scrap_location', '=', True),
+                ('location_id.dismissed_location', '=', False),
             ])
             out_of_existences = sum(quant.qty for quant in quants)
 

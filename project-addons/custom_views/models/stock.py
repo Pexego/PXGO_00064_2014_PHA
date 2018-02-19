@@ -192,3 +192,9 @@ class StockInventory(models.Model):
     _inherit = 'stock.inventory'
 
     notes = fields.Text()
+
+
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    dismissed_location = fields.Boolean(default=False)

@@ -250,5 +250,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </filter>
             </field>
         </record>
+
+        <record id="custom_views_stock_location_form" model="ir.ui.view">
+            <field name="name">Custom views - Stock location form</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="scrap_location" position="after">
+                    <field name="dismissed_location"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
