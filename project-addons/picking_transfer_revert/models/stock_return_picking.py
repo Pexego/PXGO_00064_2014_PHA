@@ -71,6 +71,7 @@ class StockReturnPicking(models.Model):
         revert_picking.action_confirm()
         revert_picking.action_assign()
         revert_picking.do_transfer()
+        revert_picking.group_id = picking.group_id
 
         # Recreate picking
         new_picking = picking.copy({'move_lines': []})
