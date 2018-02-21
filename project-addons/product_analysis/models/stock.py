@@ -34,7 +34,8 @@ class StockLotAnalysis(models.Model):
 
     _name = 'stock.lot.analysis'
 
-    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True,
+                             ondelete='cascade')
     analysis_id = fields.Many2one('product.analysis', 'Analysis',
                                   required=True)
     result_str = fields.Char('Result')
@@ -166,7 +167,8 @@ class StockProductionLot(models.Model):
                      'method': line.method.id,
                      'analysis_type': line.analysis_type,
                      'expected_result_boolean': line.expected_result_boolean,
-                     'expected_result_expr': line.expected_result_expr
+                     'expected_result_expr': line.expected_result_expr,
+                     'decimal_precision': line.decimal_precision
                      })
         return lot
 

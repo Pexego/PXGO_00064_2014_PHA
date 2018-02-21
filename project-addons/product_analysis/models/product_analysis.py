@@ -43,3 +43,4 @@ class ProductAnalysisRel(models.Model):
     expected_result_boolean = fields.Boolean('Expected result')
     expected_result_expr = fields.Char('Expected result')
     raw_material_analysis = fields.Boolean()
+    decimal_precision = fields.Float(digits=0, default=0.0001)
