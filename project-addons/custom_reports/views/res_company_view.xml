@@ -12,6 +12,7 @@
                     <field name="report_purchases_footer_message"/>
                     <field name="report_sales_email"/>
                     <field name="report_purchases_email"/>
+                    <field name="report_product_category_message"/>
                 </field>
             </field>
         </record>

@@ -261,6 +261,8 @@ class ProductionPlanningMaterials(models.Model):
     qty_incoming = fields.Float(related='product_id.real_incoming_qty', digits=(16,2))
     out_of_existences = fields.Float(related='product_id.out_of_existences',
                                      digits=(16,2))
+    out_of_existences_dismissed = fields.Float(
+        related='product_id.out_of_existences_dismissed', digits=(16,2))
     uom = fields.Char(string='Unit of measure')
     orders = fields.Many2many(string='Orders',
                               comodel_name='production.planning.orders',

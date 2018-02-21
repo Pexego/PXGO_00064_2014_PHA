@@ -529,6 +529,15 @@ msgid "Out of existences"
 msgstr "Fuera de existencias"
 
 #. module: stock_available_ph
+#: field:product.product,out_of_existences_dismissed:0
+#: field:product.stock.unsafety,out_of_existences_dismissed:0
+#: field:product.template,out_of_existences_dismissed:0
+#: field:production.planning.materials,out_of_existences_dismissed:0
+#: field:stock.available.details,out_of_existences_dismissed:0
+msgid "Out of existences dismissed"
+msgstr "Fuera de existencias desechado"
+
+#. module: stock_available_ph
 #: selection:production.planning.materials,stock_status:0
 #: selection:production.planning.orders,stock_status:0
 #: selection:stock.available.details,stock_status:0

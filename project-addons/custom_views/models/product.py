@@ -113,6 +113,9 @@ class ProductTemplate(models.Model):
     out_of_existences = fields.Float('Out of existences',
                              digits=dp.get_precision('Product Unit of Measure'),
                              readonly=True)
+    out_of_existences_dismissed = fields.Float('Out of existences dismissed',
+                             digits=dp.get_precision('Product Unit of Measure'),
+                             readonly=True)
     real_incoming_qty = fields.Float('Real incoming qty.',
                            digits = dp.get_precision('Product Unit of Measure'),
                            readonly=True)
@@ -207,6 +210,15 @@ class ProductTemplate(models.Model):
             ])
             out_of_existences = sum(quant.qty for quant in quants)
 
+            quants = self.env['stock.quant'].search([
+                ('product_id', '=', product_id.id),
+                ('location_id.usage', '=', 'internal'),
+                '!', ('location_id', 'child_of', stock_ids),
+                ('location_id.scrap_location', '=', True),
+                ('location_id.dismissed_location', '=', True),
+            ])
+            out_of_existences_dismissed = sum(quant.qty for quant in quants)
+
             moves = self.env['stock.move'].search([
                 ('product_id', '=', product_id.id),
                 ('state', 'in', ('assigned', 'confirmed', 'waiting')),
@@ -222,6 +234,7 @@ class ProductTemplate(models.Model):
                 'production_planning_qty': production_planning_qty,
                 'pre_production_qty': pre_production_qty,
                 'out_of_existences': out_of_existences,
+                'out_of_existences_dismissed': out_of_existences_dismissed,
                 'real_incoming_qty': real_incoming_qty})
 
             product_id.with_context(disable_notify_changes = True). \

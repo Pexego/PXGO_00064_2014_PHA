@@ -183,6 +183,11 @@ msgid "Cancelled Invoice"
 msgstr "Factura cancelada"
 
 #. module: custom_reports
+#: field:report.product.category.message,categ_ids:0
+msgid "Categories to show message"
+msgstr "Categorías para mostrar el mensaje"
+
+#. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Category of Product"
 msgstr "Categoría de producto"
@@ -428,6 +433,11 @@ msgstr "Lote | Aprobado | Cons. preferente"
 #: model:ir.actions.report.xml,name:custom_reports.action_report_lot_labels_biosalud
 msgid "Lots labels"
 msgstr "Etiquetas de lotes"
+
+#. module: custom_reports
+#: field:report.product.category.message,name:0
+msgid "Message"
+msgstr "Mensaje a mostrar"
 
 #. module: custom_reports
 #: selection:account.invoice.report,product_clothing:0
@@ -791,6 +801,11 @@ msgstr "Reposiciones"
 #: field:res.company,report_header_message:0
 msgid "Report header message"
 msgstr "Mensaje de cabecera"
+
+#. module: custom_reports
+#: field:res.company,report_product_category_message:0
+msgid "Report product category message"
+msgstr "Mensaje por categoría de producto"
 
 #. module: custom_reports
 #: field:res.company,report_purchases_email:0

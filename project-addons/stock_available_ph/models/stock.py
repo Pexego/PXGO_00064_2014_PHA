@@ -35,6 +35,8 @@ class StockAvailableDetails(models.TransientModel):
     qty_vsc_available = fields.Float(string='Virtual stock conservative',
                                  digits=(16,2))
     out_of_existences = fields.Float(string='Out of existences', digits=(16,2))
+    out_of_existences_dismissed = fields.Float(string='Out of existences dismissed',
+                                               digits=(16,2))
     qty_incoming = fields.Float(string='Incoming', digits=(16,2))
     uom = fields.Char(string='Unit of measure')
     bom_stock = fields.Many2one(comodel_name='stock.available', readonly=True)
@@ -59,6 +61,8 @@ class StockAvailable(models.TransientModel):
             qty_required = line.product_qty * self.product_qty
             qty_vsc_available = line.product_id.virtual_conservative
             out_of_existences = line.product_id.out_of_existences
+            out_of_existences_dismissed = \
+                line.product_id.out_of_existences_dismissed
             qty_incoming = line.product_id.real_incoming_qty
 
             # Check material level of availability
@@ -80,6 +84,7 @@ class StockAvailable(models.TransientModel):
                 'qty_required': qty_required,
                 'qty_vsc_available': qty_vsc_available,
                 'out_of_existences': out_of_existences,
+                'out_of_existences_dismissed': out_of_existences_dismissed,
                 'qty_incoming': qty_incoming,
                 'uom': line.product_uom.name,
                 'bom_stock': self.id,
