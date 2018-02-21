@@ -111,6 +111,11 @@ msgid "Compute data"
 msgstr "Calcular cantidades"
 
 #. module: stock_available_ph
+#: view:production.planning:stock_available_ph.production_planning_form_view
+msgid "Compute data"
+msgstr "Recalcular"
+
+#. module: stock_available_ph
 #: model:ir.actions.act_window,name:stock_available_ph.action_compute_sbd_wizard
 #: model:ir.ui.menu,name:stock_available_ph.menu_compute_sbd_wizard
 #: view:product.stock.by.day:stock_available_ph.view_compute_sbd_wizard

@@ -10,6 +10,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="model">production.planning</field>
             <field name="arch" type="xml">
                 <form string="Production planning of needed products" create="false" delete="false">
+                    <header>
+                        <button class="oe_read_only"
+                                name="action_compute"
+                                string="Compute data"
+                                type="object"
+                                icon="terp-stock_format-scientific"/>
+                    </header>
                     <label for="orders" string="Orders to compute"/>
                     <field name="orders" domain="[('active', '=', True)]">
                         <tree string="Orders to compute" editable="top"

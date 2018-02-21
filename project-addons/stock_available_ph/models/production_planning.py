@@ -370,3 +370,7 @@ class ProductionPlanning(models.Model):
             order.product_id.product_tmpl_id.compute_detailed_stock()
 
         return result
+
+    @api.multi
+    def action_compute(self):
+        self.recompute_requirements()
