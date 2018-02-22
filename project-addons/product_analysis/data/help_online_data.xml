@@ -42,7 +42,7 @@
                     <div class="container">x &amp;lt; 10.25 (x menor que 10.25)</div>
                     <div class="container"/>
                     <div class="container">También es posible utilizar la notación cientifica:<br/>
-        X &amp;gt; 4.08E-10 (x mayor que 4 4 X 10<sup>-10</sup>)<br/>
+        X &amp;gt; 4.08E-10 (x mayor que 4.08 X 10<sup>-10</sup>)<br/>
         X &amp;lt; 5.27E20 (x menor que 5.27 X 10<sup>20</sup>)<br/>
         X &amp;gt; 4.08e-10 (x mayor que 4.08 X 10<sup>-10</sup>)</div>
                     <h3 class="container">Ayuda adicional</h3>
