@@ -129,7 +129,7 @@ class StockProductionLot(models.Model):
                 'parent_ids')
             lots_str = [_('<table class="product_analysis_used_lots_table">'
                           '<thead><tr><th>Product</th><th>Ref F</th>'
-                          '<th>Aprobation date</th><th>Lot state</th>'
+                          '<th>Lot</th><th>Aprobation date</th><th>Lot state</th>'
                           '</tr></thead><tbody>')]
             for used_lot in moves.mapped('lot_ids'):
                 lot_state_str = dict(
@@ -141,10 +141,11 @@ class StockProductionLot(models.Model):
                 else:
                     acceptance_date = ''
                 lots_str.append(
-                    u'<tr><td>{}</td><td>{}</td><td>{}</td>'
+                    u'<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td>'
                     '<td>{}</td></tr>'.format(
                         used_lot.product_id.name,
                         used_lot.product_id.default_code,
+                        used_lot.name,
                         acceptance_date,
                         lot_state_str))
 
