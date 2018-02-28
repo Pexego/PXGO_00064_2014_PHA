@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="mrp_procedure_rule" model="ir.rule">
+            <field name="name">MRP procedure rule</field>
+            <field name="model_id" ref="custom_views.model_mrp_procedure"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="mrp_procedure_type_rule" model="ir.rule">
+            <field name="name">MRP procedure type rule</field>
+            <field name="model_id" ref="custom_views.model_mrp_procedure_type"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+</openerp>

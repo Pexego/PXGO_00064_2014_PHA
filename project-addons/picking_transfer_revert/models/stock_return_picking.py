@@ -39,29 +39,39 @@ class StockReturnPicking(models.Model):
     def revert_transfer_and_recreate_picking(self):
         picking_id = self.env.context.get('active_id', False)
         picking = self.env['stock.picking'].browse(picking_id)
+        pick_type_id = picking.picking_type_id.return_picking_type_id and \
+                       picking.picking_type_id.return_picking_type_id.id or \
+                       picking.picking_type_id.id
 
-        # Transfer new created picking with returns
-        revert_picking_id, pick_type_id = self._create_returns()
-        revert_picking = picking.browse(revert_picking_id)
+        revert_picking = picking.copy({
+            'move_lines': [],
+            'picking_type_id': pick_type_id,
+            'state': 'draft',
+            'origin': picking.name,
+        })
 
-        for move in revert_picking.move_lines:
-            if len(move.lot_ids) > 1:
-                operations = move.origin_returned_move_id.\
-                    linked_move_operation_ids
+        for pack_operation in picking.pack_operation_ids:
+            revert_picking.move_lines.create({
+                'picking_id': revert_picking.id,
+                'picking_type_id': pick_type_id,
+                'name': pack_operation.product_id.name,
+                'warehouse_id': picking.picking_type_id.warehouse_id.id,
+                'location_id': pack_operation.location_dest_id.id,
+                'location_dest_id': pack_operation.location_id.id,
+                'product_id': pack_operation.product_id.id,
+                'product_uom': pack_operation.product_uom_id.id,
+                'product_uom_qty': pack_operation.product_qty,
+                'lot_ids': pack_operation.lot_id.id,
+                'restrict_lot_id': pack_operation.lot_id.id,
+                'procure_method': 'make_to_stock',
+                'invoice_state': revert_picking.invoice_state,
+                'state': 'draft'
+            })
 
-                move.location_dest_id = operations[0].operation_id.location_id
-                move.lot_ids = operations[0].operation_id.lot_id
-                move.restrict_lot_id = operations[0].operation_id.lot_id
-                move.product_uom_qty = operations[0].qty
-
-                for op in operations[1:]:
-                    new_move = move.copy()
-                    new_move.location_dest_id = op.operation_id.location_id
-                    new_move.lot_ids = op.operation_id.lot_id
-                    new_move.restrict_lot_id = op.operation_id.lot_id
-                    new_move.product_uom_qty = op.qty
-
+        revert_picking.action_confirm()
+        revert_picking.action_assign()
         revert_picking.do_transfer()
+        revert_picking.group_id = picking.group_id
 
         # Recreate picking
         new_picking = picking.copy({'move_lines': []})

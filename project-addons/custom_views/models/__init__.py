@@ -4,4 +4,4 @@
 import purchasable_products, res_partner, product, account_invoice, \
        stock_transfer_details, sale, stock, account_payment, \
        hr_holidays, product_stock_unsafety, mrp, product_pricelist,\
-       account_move_line, purchase
+       account_move_line, purchase, return_reason

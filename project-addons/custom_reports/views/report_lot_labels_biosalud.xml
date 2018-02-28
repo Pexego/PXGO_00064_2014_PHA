@@ -9,6 +9,9 @@
                         margin: 0;
                     }
                 </style>
+
+                <!-- PASAR DE LOS MOVIMIENTOS Y HACERLO POR OPERACIONES, PARA QUE COINCIDAN LAS CANTIDADES CON LOS LOTES -->
+
                 <t t-foreach="docs" t-as="p">
                     <t t-foreach="p.move_lines" t-as="m">
                         <t t-foreach="m.lot_ids" t-as="l">
@@ -25,13 +28,12 @@
                                     <div style="clear: both;"/>
                                 </div>
                                 <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
-                                    <t t-if="l.use_date">
-                                        <t t-set="lot_date" t-value="l.use_date"/>
-                                        <t t-set="lot_date" t-value="time.strftime('%d/%m/%Y',time.strptime(lot_date,'%Y-%m-%d %H:%M:%S'))"/>
-                                        <span t-field="l.product_id.description"/><span> - </span><span t-esc="lot_date"/>
+                                    <span t-field="l.product_id.description"/>
+                                    <t t-if="l.life_date">
+                                        <span> - </span><span t-field="l.life_date" t-field-options='{"format": "dd/MM/y"}'/>
                                     </t>
-                                    <t t-if="not l.use_date">
-                                        <span t-field="l.product_id.description"/>
+                                    <t t-if="l.alert_date">
+                                        <span> - </span><span t-field="l.alert_date" t-field-options='{"format": "dd/MM/y"}'/>
                                     </t>
                                 </p>
                                 <p t-field="l.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>

@@ -51,11 +51,12 @@ class AccountInvoice(models.Model):
             payment_term=False, partner_bank_id=False, company_id=False):
         res = super(AccountInvoice, self).onchange_partner_id(type, partner_id,
                 date_invoice, payment_term, partner_bank_id, company_id)
+        partner = self.env['res.partner'].browse(partner_id)
+
         payment_mode_id = res['value'].get('payment_mode_id')
         if payment_mode_id:
             payment_mode = self.env['payment.mode'].browse(payment_mode_id)
             if payment_mode.banking_mandate_needed:
-                partner = self.env['res.partner'].browse(partner_id)
                 if not partner.bank_ids and partner.parent_id.bank_ids:
                     banks = partner.parent_id.bank_ids
                 else:
@@ -76,6 +77,12 @@ class AccountInvoice(models.Model):
         else:
             mandate_id = False
         res['value'].update({'mandate_id': mandate_id})
+
+        if type == 'out_refund' and partner.customer_payment_mode:
+            res['value'].update({
+                'payment_mode_id': partner.customer_payment_mode.id
+            })
+
         return res
 
     @api.multi
@@ -121,9 +128,11 @@ class AccountInvoice(models.Model):
             vals['payment_document_date'] = False
 
         res = super(AccountInvoice, self).create(vals)
+
         # Search if it needs automatic assignment of banking mandates and
         # triggers write event to force re-calculations after invoice creation
         res._search_banking_mandate()
+
         return res
 
     @api.multi

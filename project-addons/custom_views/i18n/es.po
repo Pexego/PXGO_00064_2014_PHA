@@ -130,6 +130,16 @@ msgid "Banking mandate"
 msgstr "Mandato SEPA"
 
 #. module: custom_views
+#: field:account.invoice.special,aux_payment_mode_id:0
+msgid "Payment mode"
+msgstr "Modo de pago"
+
+#. module: custom_views
+#: field:account.invoice.special,aux_payment_term:0
+msgid "Payment term"
+msgstr "Plazo de pago"
+
+#. module: custom_views
 #: field:account.invoice,banking_mandate_needed:0
 #: field:payment.mode,banking_mandate_needed:0
 msgid "Banking mandate needed?"
@@ -325,6 +335,11 @@ msgstr "Desc:"
 #: field:purchasable.products,description:0
 msgid "Description"
 msgstr "Descripción"
+
+#. module: custom_views
+#: field:stock.location,dismissed_location:0
+msgid "Dismissed location"
+msgstr "Ubicación de producto desechado"
 
 #. module: custom_views
 #: view:product.product:custom_views.product_kanban_view

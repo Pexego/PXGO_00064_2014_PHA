@@ -1,49 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <template id="package_tag_report">
+            <style type="text/css">
+                .t-column {
+                    height: 325px;
+                    width: 50%;
+                    float: left;
+                }
+                .t-separator {
+                    height: 100%;
+                    width: 20px;
+                    float: left;
+                }
+                .t-column p {
+                    font-size: 22px;
+                    line-height: 15px;
+                }
+                .tag-container {
+                    padding-top: 15%;
+                    padding-left: 4px;
+                    margin-top: 3px;
+                    float: left;
+                }
+            </style>
 
-    <template id="package_tag_report">
-
-        <style type="text/css">
-            .t-column {
-                height: 325px;
-                width: 50%;
-                float: left;
-            }
-            .t-separator {
-                height: 100%;
-                width: 20px;
-                float: left;
-            }
-            .t-column p {
-                font-size: 22px;
-                line-height: 15px;
-            }
-            .tag-container {
-                padding-top: 15%;
-                padding-left: 4px;
-                margin-top: 3px;
-                float: left;
-            }
-        </style>
-
-        <t t-foreach="docs" t-as="o">
-            <t t-set="pages_to_print" t-value="(num_packs // 8) + (1 if num_packs % 8 > 0 else 0)"/>
-            <div class="page" t-foreach="range(pages_to_print)" t-as="page_loop">
-                <t t-set="labels_left" t-value="num_packs - page_loop * 8"/>
-                <t t-set="labels_to_print" t-value="(8 if labels_left > 7 else labels_left)"/>
-                <div class="t-column" t-foreach="range(labels_to_print)" t-as="col">
-                    <div t-if="col % 2 > 0" class="t-separator"/>
-                    <div class="tag-container">
-                        <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
-                        <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
-                        <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.client_order_ref"/> </strong></p>
-                        <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+            <t t-foreach="docs" t-as="o">
+                <t t-set="pages_to_print" t-value="(num_packs // 8) + (1 if num_packs % 8 > 0 else 0)"/>
+                <div class="page" t-foreach="range(pages_to_print)" t-as="page_loop">
+                    <t t-set="labels_left" t-value="num_packs - page_loop * 8"/>
+                    <t t-set="labels_to_print" t-value="(8 if labels_left > 7 else labels_left)"/>
+                    <div class="t-column" t-foreach="range(labels_to_print)" t-as="col">
+                        <div t-if="col % 2 > 0" class="t-separator"/>
+                        <div class="tag-container">
+                            <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.client_order_ref"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </t>
-    </template>
+            </t>
+        </template>
 
+        <template id="package_8_tag_report">
+            <style type="text/css">
+                .t-column {
+                    height: 325px;
+                    width: 50%;
+                    float: left;
+                }
+                .t-separator {
+                    height: 100%;
+                    width: 20px;
+                    float: left;
+                }
+                .t-column p {
+                    font-size: 22px;
+                    line-height: 15px;
+                }
+                .tag-container {
+                    padding-top: 15%;
+                    padding-left: 4px;
+                    margin-top: 3px;
+                    float: left;
+                }
+            </style>
+
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="t-column" t-foreach="range(8)" t-as="col">
+                        <div t-if="col % 2 > 0" class="t-separator"/>
+                        <div class="tag-container">
+                            <p><strong>SUCURSAL:    <span t-field="o.sale_id.customer_branch"/> </strong></p>
+                            <p><strong>DEPARTAMENTO:<span t-field="o.sale_id.customer_department"/> </strong></p>
+                            <p><strong>Nº PEDIDO:   <span t-field="o.sale_id.client_order_ref"/> </strong></p>
+                            <p><strong>Nº ALBARAN:  <span t-field="o.name"/> </strong></p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
     </data>
 </openerp>

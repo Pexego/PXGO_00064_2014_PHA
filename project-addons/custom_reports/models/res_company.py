@@ -13,3 +13,6 @@ class ResCompany(models.Model):
     report_purchases_footer_message = fields.Text()
     report_sales_email = fields.Char()
     report_purchases_email = fields.Char()
+    report_product_category_message = fields.One2many(
+        comodel_name='report.product.category.message',
+        inverse_name='company_id')

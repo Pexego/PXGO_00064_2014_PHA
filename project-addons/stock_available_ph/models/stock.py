@@ -19,7 +19,8 @@ class StockAvailable(models.TransientModel):
 
     @api.onchange('product_id')
     def update_bom(self):
-        bom_ids = self.env['mrp.bom'].search([('product_tmpl_id', '=', self.product_id.id)])
+        bom_ids = self.env['mrp.bom'].search(
+            [('product_tmpl_id', '=', self.product_id.id)])
         self.bom_id = bom_ids[0] if bom_ids else False
 
 
@@ -34,6 +35,8 @@ class StockAvailableDetails(models.TransientModel):
     qty_vsc_available = fields.Float(string='Virtual stock conservative',
                                  digits=(16,2))
     out_of_existences = fields.Float(string='Out of existences', digits=(16,2))
+    out_of_existences_dismissed = fields.Float(string='Out of existences dismissed',
+                                               digits=(16,2))
     qty_incoming = fields.Float(string='Incoming', digits=(16,2))
     uom = fields.Char(string='Unit of measure')
     bom_stock = fields.Many2one(comodel_name='stock.available', readonly=True)
@@ -58,14 +61,19 @@ class StockAvailable(models.TransientModel):
             qty_required = line.product_qty * self.product_qty
             qty_vsc_available = line.product_id.virtual_conservative
             out_of_existences = line.product_id.out_of_existences
+            out_of_existences_dismissed = \
+                line.product_id.out_of_existences_dismissed
             qty_incoming = line.product_id.real_incoming_qty
 
             # Check material level of availability
-            if qty_vsc_available + qty_incoming < qty_required:
+            if qty_vsc_available + out_of_existences + qty_incoming < qty_required:
                 stock_status = 'no_stock'
-            elif qty_vsc_available < qty_required and qty_vsc_available + qty_incoming >= qty_required:
+            elif qty_vsc_available + out_of_existences + qty_incoming >= \
+                    qty_required and \
+                    qty_vsc_available + out_of_existences < qty_required:
                 stock_status = 'incoming'
-            elif qty_vsc_available - out_of_existences < qty_required and qty_vsc_available >= qty_required:
+            elif qty_vsc_available + out_of_existences >= qty_required and \
+                    qty_vsc_available < qty_required:
                 stock_status = 'out'
             else:
                 stock_status = 'ok'
@@ -76,6 +84,7 @@ class StockAvailable(models.TransientModel):
                 'qty_required': qty_required,
                 'qty_vsc_available': qty_vsc_available,
                 'out_of_existences': out_of_existences,
+                'out_of_existences_dismissed': out_of_existences_dismissed,
                 'qty_incoming': qty_incoming,
                 'uom': line.product_uom.name,
                 'bom_stock': self.id,
@@ -87,4 +96,5 @@ class StockAvailable(models.TransientModel):
 class StockWarehouseOrderpoint(models.Model):
     _inherit = 'stock.warehouse.orderpoint'
 
-    product_min_action_qty = fields.Float(string='Minimum action quantity', default=0.0)
+    product_min_action_qty = fields.Float(string='Minimum action quantity',
+                                          default=0.0)

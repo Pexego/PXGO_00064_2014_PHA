@@ -44,6 +44,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="qty_required"/>
                     <field name="qty_vsc_available"/>
                     <field name="out_of_existences"/>
+                    <field name="out_of_existences_dismissed"/>
                     <field name="qty_incoming"/>
                     <field name="uom"/>
                     <field name="stock_status" invisible="1"/>

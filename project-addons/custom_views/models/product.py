@@ -113,6 +113,9 @@ class ProductTemplate(models.Model):
     out_of_existences = fields.Float('Out of existences',
                              digits=dp.get_precision('Product Unit of Measure'),
                              readonly=True)
+    out_of_existences_dismissed = fields.Float('Out of existences dismissed',
+                             digits=dp.get_precision('Product Unit of Measure'),
+                             readonly=True)
     real_incoming_qty = fields.Float('Real incoming qty.',
                            digits = dp.get_precision('Product Unit of Measure'),
                            readonly=True)
@@ -154,13 +157,22 @@ class ProductTemplate(models.Model):
             ])
             internal_scrapped_qty = sum(quant.qty for quant in quants)
 
+            hoard_location_id = self.env.ref('__export__.stock_location_21')
             quants = self.env['stock.quant'].search([
                 ('product_id', '=', product_id.id),
-                ('location_id.id', '=', 21)  # Hoard location
+                ('location_id.id', '=', hoard_location_id.id)
             ])
             hoard_qty = sum(quant.qty for quant in quants)
+            wh = self.env['stock.warehouse'].search(
+                [('company_id', '=', self.env.user.company_id.id)])
+            input_location_ids = wh.wh_input_stock_loc_id._get_child_locations()
+            quants = self.env['stock.quant'].search([
+                ('product_id', '=', product_id.id),
+                ('location_id.id', 'in', input_location_ids.ids)
+            ])
+            input_qty = sum(quant.qty for quant in quants)
             virtual_conservative = product.qty_available - hoard_qty - \
-                                   product.outgoing_qty - internal_scrapped_qty
+                input_qty - product.outgoing_qty - internal_scrapped_qty
 
             production_planning_orders = self.env['production.planning.orders'].\
                 search([('product_id', '=', product_id.id),
@@ -189,10 +201,23 @@ class ProductTemplate(models.Model):
             quants = self.env['stock.quant'].search([
                 ('product_id', '=', product_id.id),
                 ('location_id.usage', '=', 'internal'),
+                '!', ('location_id', 'child_of', stock_ids),
+                '|',
                 ('location_id.scrap_location', '=', False),
-                '!', ('location_id', 'child_of', stock_ids)
+                '&',
+                ('location_id.scrap_location', '=', True),
+                ('location_id.dismissed_location', '=', False),
             ])
             out_of_existences = sum(quant.qty for quant in quants)
+
+            quants = self.env['stock.quant'].search([
+                ('product_id', '=', product_id.id),
+                ('location_id.usage', '=', 'internal'),
+                '!', ('location_id', 'child_of', stock_ids),
+                ('location_id.scrap_location', '=', True),
+                ('location_id.dismissed_location', '=', True),
+            ])
+            out_of_existences_dismissed = sum(quant.qty for quant in quants)
 
             moves = self.env['stock.move'].search([
                 ('product_id', '=', product_id.id),
@@ -209,6 +234,7 @@ class ProductTemplate(models.Model):
                 'production_planning_qty': production_planning_qty,
                 'pre_production_qty': pre_production_qty,
                 'out_of_existences': out_of_existences,
+                'out_of_existences_dismissed': out_of_existences_dismissed,
                 'real_incoming_qty': real_incoming_qty})
 
             product_id.with_context(disable_notify_changes = True). \

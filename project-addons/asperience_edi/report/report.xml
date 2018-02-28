@@ -29,6 +29,21 @@
           <field name="paperformat_id" ref="my_paperformat_report"/>
     </record>
 
+    <!-- FIXED 8 TAG REPORT -->
+    <report
+        id="report_print_package_8_tag"
+        model="stock.picking"
+        string="Print Apli Tag of 8"
+        report_type="qweb-pdf"
+        name="asperience_edi.package_8_tag_report"
+        attachment_use="False"
+        menu="False"
+    />
+
+    <record id="report_print_package_8_tag" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record>
+
     <!-- 4 TAG REPORT -->
     <report
           string="Print Tags of 4"

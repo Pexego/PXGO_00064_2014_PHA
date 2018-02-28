@@ -52,6 +52,7 @@ class StockPicking(models.Model):
     responsible_uid = fields.Many2one(comodel_name='res.users',
                                       string='Responsible',
                                       compute='_determine_responsible')
+    return_reason = fields.Many2one(comodel_name='return.reason')
 
     @api.one
     def _determine_responsible(self):
@@ -191,3 +192,9 @@ class StockInventory(models.Model):
     _inherit = 'stock.inventory'
 
     notes = fields.Text()
+
+
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    dismissed_location = fields.Boolean(default=False)
