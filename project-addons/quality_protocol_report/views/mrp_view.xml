@@ -29,7 +29,7 @@
                                 <input type="hidden" name="button_submit" value=""/>
                                 <input type="hidden" name="token" t-att-value="token" />
                                 <div class="page-header">
-                                    <h2 t-field='page.title' />
+                                    <h2><span t-esc='section_sequence'/>. <span t-field="page.title"/></h2>
                                     <t t-if="page.description"><div t-field='page.description' class="oe_no_empty"/></t>
                                 </div>
                                 <t t-foreach='page.question_ids' t-as='question'>
@@ -89,6 +89,7 @@
                                 <t t-set="parts" t-value="parts"/>
                                 <div t-foreach="parts" t-as="part">
                                     <t t-if="part[0] == 's'">
+                                        <t t-set="section_sequence" t-value="part[3]"/>
                                         <div class="survey" t-att-fill="'/protocol/fill/%s/%s' % (slug(part[1]), part[2])" t-att-url-submit="'/protocol/submit/%s' % (slug(part[1]))">
                                             <form role="form" method="post" class="js_surveyform" t-att-data-submit="'/protocol/submit/%s' % (slug(part[1]))">
                                                 <t t-call="quality_protocol_report.generic_survey">
@@ -99,6 +100,7 @@
                                         </div>
                                     </t>
                                     <t t-if="part[0] == 'v'">
+                                        <t t-set="section_sequence" t-value="part[2]"/>
                                         <div class="view">
                                             <t t-call="#{part[1]}"/>
                                         </div>

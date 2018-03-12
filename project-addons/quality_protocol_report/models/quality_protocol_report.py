@@ -75,6 +75,7 @@ class QualityProtocolReportLine(models.Model):
     survey_id = fields.Many2one("survey.survey", "Survey")
     name = fields.Char("Name", required=True)
     sequence = fields.Integer("Sequence", default="1")
+    show_sequence = fields.Integer("Sequence to show", default="1")
     report_ids = fields.Many2many('quality.protocol.report',
                                   'quality_protocols_lines_rel', 'protocol_id',
                                   'line_id', 'Reports')
