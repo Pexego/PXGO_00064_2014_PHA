@@ -34,10 +34,15 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
               'domain': parser.hostname
             });
             page = webpage.create();
+            page.zoomFactor = 1;
+            page.viewportSize = {
+              width: 1000,
+              height: 800
+            };
             page.paperSize = {
               format: 'A4',
               orientation: 'portrait',
-              margin: '0.5cm'
+              margin: '1cm',
             };
             page.settings.userAgent = "Phantom.js bot";
             return page.open(url, function(status) {

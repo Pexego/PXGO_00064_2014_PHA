@@ -65,8 +65,45 @@
     width: 17px;
 }
 
+.proto_fuente_normal {
+  font-size: 11px;
+}
+.proto_fuente_grande {
+  font-size: 14px;
+}
+.openerp .oe_form .survey h2,
+.openerp .oe_form .quality_view h2 {
+  font-size: 17px;
+}
+.openerp .oe_form .js_question-wrapper h2 span,
+.openerp .oe_form .js_question-wrapper label {
+  font-size: 14px;
+}
+
 @media print{
-    .js_question-wrapper{
-        font-size: 9px;
-    }
+  * {
+    font-family: "DejaVu Sans", FreeSans !important;
+  }
+  body {
+    width: 1000px !important;
+    overflow-x: hidden;
+  }
+  .container {
+    margin: 0 !important;
+    padding: 15px !important;
+  }
+  .proto_fuente_normal {
+    font-size: 17px;
+  }
+  .proto_fuente_grande {
+    font-size: 22px;
+  }
+  .openerp .oe_form .js_question-wrapper h2 span,
+  .openerp .oe_form .js_question-wrapper label {
+    font-size: 20px;
+  }
+  .openerp .oe_form .survey h2,
+  .openerp .oe_form .quality_view h2 {
+    font-size: 24px;
+  }
 }
