@@ -11,8 +11,6 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="sequence"/>
-                            <field name="show_sequence"/>
                             <field name="log_realization"/>
                             <field name="name" colspan="4"/>
                         </group>
@@ -23,7 +21,13 @@
                     </group>
                     <notebook>
                         <page string="Reports">
-                            <field name="report_ids" nolabel="1" colspan="4"/>
+                            <field name="report_ids" nolabel="1" colspan="4">
+                                <tree editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="protocol_id"/>
+                                    <field name="line_id" invisible="1"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -38,8 +42,8 @@
         <field name="arch" type="xml">
             <tree string="sections">
                 <button name="duplicate_line" icon="terp-gtk-jump-to-ltr" type="object"/>
-                <field name="sequence"/>
-                <field name="show_sequence"/>
+                <!--field name="sequence"/>
+                <field name="show_sequence"/-->
                 <field name="log_realization"/>
                 <field name="name"/>
                 <field name="view_id"/>
@@ -66,7 +70,13 @@
                     </group>
                     <notebook>
                         <page string="Sections">
-                            <field name="report_line_ids" nolabel="1" colspan="4" context="{'report_id': active_id}"/>
+                            <field name="report_lines" nolabel="1" colspan="4">
+                                <tree editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="line_id" create="1"/>
+                                    <field name="protocol_id" invisible="1"/>
+                                </tree>
+                            </field>
                         </page>
 
                         <page string="Products">

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-15 12:21+0000\n"
-"PO-Revision-Date: 2018-03-12 19:42+0100\n"
+"PO-Revision-Date: 2018-03-19 18:06+0100\n"
 "Last-Translator: Jesús Ventosinos Mayor <jesus@comunitea.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "X-Generator: Poedit 1.5.4\n"
+
+#. module: quality_protocol_report
+#: field:quality.protocol.report.lines.rel,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: quality_protocol_report
+#: field:quality.protocol.report.lines.rel,line_id:0
+msgid "Line"
+msgstr "Sección"
 
 #. module: quality_protocol_report
 #: field:quality.protocol.report.line,show_sequence:0
