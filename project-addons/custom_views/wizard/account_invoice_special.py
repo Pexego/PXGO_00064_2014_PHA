@@ -16,6 +16,8 @@ class AccountInvoiceSpecial(models.TransientModel):
                                      string='Banking mandate')
     aux_payment_term = fields.Many2one(comodel_name='account.payment.term',
                        string='Payment term')
+    aux_payment_mode_id = fields.Many2one(comodel_name='payment.mode',
+                                          string='Payment mode')
 
     @api.multi
     def write(self, vals):
@@ -23,6 +25,7 @@ class AccountInvoiceSpecial(models.TransientModel):
         for s in self:
             s.invoice_id.mandate_id = s.aux_mandate_id
             s.invoice_id.payment_term = s.aux_payment_term
+            s.invoice_id.payment_mode_id = s.aux_payment_mode_id
         return res
 
 

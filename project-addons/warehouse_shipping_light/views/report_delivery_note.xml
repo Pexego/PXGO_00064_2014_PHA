@@ -193,14 +193,11 @@
                     <br/>
                 </div>
                 <style>
-                    table thead > tr {
+                    table.table-condensed thead tr {
                         border-bottom: 2px solid black;
                     }
-                    table.table-condensed td {
-                        padding: 0 !important;
-                    }
-                    table.details tbody > tr {
-                        font-size: 12px;
+                    table.table-condensed tbody td {
+                        padding: 1px !important;
                     }
                 </style>
                 <table class="table table-condensed details">
@@ -216,7 +213,7 @@
                         </tr>
                     </thead>
                     <tbody class="sale_tbody">
-                        <tr t-foreach="o.move_lines" t-as="m">
+                        <tr t-foreach="o.move_lines" t-as="m" style="font-size: 12px;">
                             <td>
                                 <span t-field="m.product_id.cn_code"/>
                             </td>
@@ -240,10 +237,19 @@
                                                     <span t-if="not po.lot_id.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
                                                 </td>
                                                 <td><![CDATA[&nbsp;|&nbsp;]]></td>
-                                                <td>
+                                                <td style="white-space: nowrap;">
                                                     <t t-set="u_date" t-value="po.lot_id.use_date"/>
                                                     <t t-if="u_date">
-                                                        <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                        <t t-set="orig_use_date" t-value="time.strptime(u_date,'%Y-%m-%d %H:%M:%S')"/>
+                                                        <t t-if="po.lot_id.duration_type == 'end_month'">
+                                                            <span>End of <t t-esc="time.strftime('%m/%Y', orig_use_date)"/></span>
+                                                        </t>
+                                                        <t t-if="po.lot_id.duration_type == 'end_year'">
+                                                            <span>End of <t t-esc="time.strftime('%Y', orig_use_date)"/></span>
+                                                        </t>
+                                                        <t t-if="po.lot_id.duration_type == 'exact'">
+                                                            <span t-esc="time.strftime('%d/%m/%Y', orig_use_date)"/>
+                                                        </t>
                                                     </t>
                                                     <t t-if="not u_date">
                                                         <span>(Unspecified)</span>

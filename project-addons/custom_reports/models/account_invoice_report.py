@@ -38,6 +38,7 @@ class AccountInvoiceReport(models.Model):
     shipping_state_id = fields.Many2one('res.country.state', 'Shipping state')
     product_reference = fields.Char('Product reference')
     product_with_reference = fields.Char('Product with reference')
+    product_description = fields.Text('Product description')
     product_line = fields.Many2one('product.line', 'Product line')
     product_subline = fields.Many2one('product.subline', 'Product subline')
     product_purchase_line = fields.Many2one('product.purchase.line',
@@ -55,6 +56,7 @@ class AccountInvoiceReport(models.Model):
     product_cost_dl = fields.Float('Product cost direct labor')
     product_gross_weight = fields.Float('Product gross weight')
     product_net_weight = fields.Float('Product net weight')
+    registration_date = fields.Date('Registration date')
     number = fields.Char('Invoice number')
 
     def _select(self):
@@ -69,6 +71,7 @@ class AccountInvoiceReport(models.Model):
             shipping_state_id,
             product_reference,
             product_with_reference,
+            product_description,
             product_line,
             product_subline,
             product_purchase_line,
@@ -83,6 +86,7 @@ class AccountInvoiceReport(models.Model):
             product_cost_dl,
             product_gross_weight,
             product_net_weight,
+            sub.registration_date,
             sub.number
             """
         return select_str
@@ -111,6 +115,7 @@ class AccountInvoiceReport(models.Model):
             scs.id as shipping_state_id,
             pt.default_code as product_reference,
             '[' || pt.default_code || '] ' || pt.name as product_with_reference,
+            pt.description as product_description,
             pt.line as product_line,
             pt.subline as product_subline,
             pt.purchase_line as product_purchase_line,
@@ -149,6 +154,7 @@ class AccountInvoiceReport(models.Model):
                     else 1
                 end * ail.quantity * pt.weight_net
             ) as product_net_weight,
+            ai.registration_date,
             ai.number
             """
         return select_str
@@ -202,6 +208,7 @@ class AccountInvoiceReport(models.Model):
             scs.id,
             pt.default_code,
             '[' || pt.default_code || '] ' || pt.name,
+            pt.description,
             pt.line,
             pt.subline,
             pt.purchase_line,
@@ -210,6 +217,7 @@ class AccountInvoiceReport(models.Model):
             pt.base_form_id,
             pt.clothing,
             pr.year_appearance,
+            ai.registration_date,
             ai.number
             """
         return group_by_str

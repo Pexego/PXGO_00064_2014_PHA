@@ -60,6 +60,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <field name="state" position="after">
                     <field name="date_done"/>
                 </field>
+                <field name="date" position="after">
+                    <field name="responsible_uid" string="Responsible"/>
+                </field>
             </field>
         </record>
 
@@ -83,17 +86,25 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="name">Custom views - Picking form</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
-            <field name="priority">18</field>
+            <field name="priority">20</field>
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="picking_type_desc" class="oe_inline" readonly="1"/>
                 </field>
                 <button name="force_assign" position="attributes">
-                    <attribute name="groups">stock.group_stock_manager</attribute>
+                    <attribute name="groups">base.group_system</attribute>
                 </button>
                 <button name="action_cancel" position="attributes">
                     <attribute name="name">confirm_action_cancel</attribute>
                 </button>
+                <field name="valued_picking" position="after">
+                    <field name="photo_url"/>
+                </field>
+                <field name="picking_type_desc" position="after">
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
+                </field>
             </field>
         </record>
 
@@ -237,6 +248,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <filter name="Send invoice by email"
                             domain="[('send_invoice_by_email', '=', True)]"/>
                 </filter>
+            </field>
+        </record>
+
+        <record id="custom_views_stock_location_form" model="ir.ui.view">
+            <field name="name">Custom views - Stock location form</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="scrap_location" position="after">
+                    <field name="dismissed_location"/>
+                </field>
             </field>
         </record>
     </data>

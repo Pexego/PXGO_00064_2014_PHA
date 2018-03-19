@@ -1185,11 +1185,25 @@ class edi_edi (osv.osv):
                             shutil.move(edi.path_in+os.path.basename(filename), edi.path_in_move+os.path.basename(filename))
                         _logger.info("End Import file : %s" % (filename))
 
+                        # When python executes "exec edi.eval_in", there is a
+                        # variable called "data" that returns sale order name
+                        # data = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
                         if result:
-                            self.pool.get('edi.edi.result').create(cr,uid,{"name":"result_import_csv_struct_ok","value":result,"edi":edi.id})
-                            self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename + ' ' + result,"edi":edi.id})
+                            self.pool.get('edi.edi.result').create(cr,uid,{
+                                "name": "result_import_csv_struct_ok",
+                                "value": result,
+                                "edi": edi.id})
+                            self.pool.get('edi.edi.result').create(cr,uid,{
+                                "name": "file_import_csv_struct_ok",
+                                "value": filename + ' ' + result,
+                                "reference": data if data else '',
+                                "edi": edi.id})
                         else:
-                            self.pool.get('edi.edi.result').create(cr,uid,{"name":"file_import_csv_struct_ok","value":filename,"edi":edi.id})
+                            self.pool.get('edi.edi.result').create(cr,uid,{
+                                "name": "file_import_csv_struct_ok",
+                                "value": filename,
+                                "reference": data if data else '',
+                                "edi":edi.id})
                 except Exception, e:
                     import sys,traceback
                     tb = sys.exc_info()
@@ -1202,9 +1216,17 @@ class edi_edi (osv.osv):
                     _logger.info("Except : %s" % (info))
                     new_cr.rollback()
                     if filename:
-                        self.pool.get('edi.edi.result').create(new_cr,uid,{"name":"file_import_csv_struct_nok","value":filename,"edi":edi.id})
+                        self.pool.get('edi.edi.result').create(new_cr,uid,{
+                            "name": "file_import_csv_struct_nok",
+                            "value": filename,
+                            "reference": data if data else '',
+                            "edi": edi.id})
                     if info:
-                        self.pool.get('edi.edi.result').create(new_cr,uid,{"name":"info_import_csv_struct_nok","value":info,"edi":edi.id})
+                        self.pool.get('edi.edi.result').create(new_cr,uid,{
+                            "name": "info_import_csv_struct_nok",
+                            "value": info,
+                            "reference": data if data else '',
+                            "edi": edi.id})
                     new_cr.commit()
                     exception = True
             if not exception:
@@ -1333,7 +1355,8 @@ class edi_edi_result (osv.osv):
         'date': fields.datetime('Date'),
         'edi':fields.many2one('edi.edi', 'Edi', required=True),
         'value': fields.text('Value'),
-        'resolved': fields.boolean('Resolved')
+        'resolved': fields.boolean('Resolved'),
+        'reference': fields.char('Reference', size=20)
     }
     _defaults = {
         "date": lambda *a: time.strftime("%Y-%m-%d %H:%M:%S"),

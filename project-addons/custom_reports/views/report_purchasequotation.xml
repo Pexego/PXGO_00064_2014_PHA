@@ -186,6 +186,7 @@
                     <thead>
                         <tr>
                             <th><strong>Product</strong></th>
+                            <th class="text-right"><strong>Supplier ref.</strong></th>
                             <th class="text-right"><strong>Quantity</strong></th>
                             <th>Unit of measure</th>
                         </tr>
@@ -200,6 +201,9 @@
                                 <t t-if="l.product_id.default_code">
                                     <br/><span t-field="l.product_id.default_code"/>
                                 </t>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.product_supplier_reference"/>
                             </td>
                             <td class="text-right">
                                 <span t-esc="'%g' % l.product_qty"/>

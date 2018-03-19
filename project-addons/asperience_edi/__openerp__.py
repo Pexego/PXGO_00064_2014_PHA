@@ -46,7 +46,6 @@ This must NOT be used by novice users
         "views/edi.xml",
         "views/edi_board.xml",
         "views/edi_menu.xml",
-        "views/stock.xml",
         "views/sale.xml",
         "views/product.xml",
         "views/res_partner_view.xml",
@@ -62,7 +61,8 @@ This must NOT be used by novice users
         "report/package_tag_report.xml",
         "report/palet_tag_report.xml",
         "report/corte_ingles_report.xml",
-        "report/eci_order_report.xml"
+        "report/eci_order_report.xml",
+        "views/stock.xml",
     ],
     "images": [
         "images/asperience.png",

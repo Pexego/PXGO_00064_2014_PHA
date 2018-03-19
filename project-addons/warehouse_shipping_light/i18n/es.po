@@ -461,6 +461,11 @@ msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "End of"
+msgstr "Fin de"
+
+#. module: warehouse_shipping_light
 #: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:179
 #, python-format
 msgid "Enter quantity of the new line"

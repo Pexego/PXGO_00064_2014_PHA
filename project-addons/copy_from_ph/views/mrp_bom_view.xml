@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="copy_from_mrp_bom_form" model="ir.ui.view">
+            <field name="name">Copy from - Bill of materials</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <field name="bom_line_ids" position="before">
+                    <group col="3">
+                        <field name="copy_from" style="max-width: 500px;"/>
+                        <button string="Copy" name="action_copy_from"
+                                class="oe_inline"
+                                type="object"
+                                attrs="{'invisible': [('copy_from', '=', False)]}"
+                        />
+                    </group>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

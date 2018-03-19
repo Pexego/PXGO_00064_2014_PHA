@@ -33,6 +33,7 @@ class MrpLabelReport(models.AbstractModel):
             'doc_model': report.model,
             'docs': doc,
             'gtin': data.get('gtin', False),
+            'box_elements': data.get('box_elements', False),
             'name_css_size': str(name_css_size),
             'lot_css_size': str(lot_css_size)
         }

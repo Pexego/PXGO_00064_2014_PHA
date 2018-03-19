@@ -21,6 +21,7 @@
 
 from openerp import models, fields, api
 from openerp.osv.expression import get_unaccent_wrapper
+from datetime import datetime, date
 
 
 class ResPartner(models.Model):
@@ -50,6 +51,67 @@ class ResPartner(models.Model):
     simplified_invoice = fields.Boolean(default=False)
     send_invoice_by_email = fields.Boolean(default=False)
     email_to_send_invoice = fields.Char()
+    invoiced_current_year = fields.Float(digits=(16,2), compute='_total_invoiced')
+    invoiced_past_year = fields.Float(digits=(16,2), compute='_total_invoiced')
+    invoiced_previous_year = fields.Float(digits=(16,2), compute='_total_invoiced')
+    invoiced_other_years = fields.Float(digits=(16,2), compute='_total_invoiced')
+
+    @api.one
+    @api.constrains('active')
+    def _cascade_deactivation(self):
+        if (not self.active) and self.child_ids:
+            self.child_ids.write({'active': False})
+
+    @api.one
+    def _total_invoiced(self):
+        this_year = datetime.now().year
+        invoices_domain = [
+            ('partner_id', '=', self.id),
+            ('type', 'ilike', 'out_%'),
+            ('state', 'in', ('open', 'paid'))
+        ]
+
+        date_begin = fields.Date.to_string(date(this_year, 1, 1))
+        date_end = fields.Date.to_string(date(this_year, 12, 31))
+        current_year_invoices = self.invoice_ids.search(
+            invoices_domain +
+            [('date_invoice', '>=', date_begin),
+             ('date_invoice', '<=', date_end)]
+        )
+
+        date_begin = fields.Date.to_string(date(this_year - 1, 1, 1))
+        date_end = fields.Date.to_string(date(this_year - 1, 12, 31))
+        past_year_invoices = self.invoice_ids.search(
+            invoices_domain +
+            [('date_invoice', '>=', date_begin),
+             ('date_invoice', '<=', date_end)]
+        )
+
+        date_begin = fields.Date.to_string(date(this_year - 2, 1, 1))
+        date_end = fields.Date.to_string(date(this_year - 2, 12, 31))
+        previous_year_invoices = self.invoice_ids.search(
+            invoices_domain +
+            [('date_invoice', '>=', date_begin),
+             ('date_invoice', '<=', date_end)]
+        )
+
+        date_limit = fields.Date.to_string(date(this_year - 2, 1, 1))
+        other_years_invoices = self.invoice_ids.search(
+            invoices_domain + [('date_invoice', '<', date_limit)]
+        )
+
+        self.invoiced_current_year = sum(current_year_invoices.mapped(
+            lambda r: r.amount_untaxed if r.type == 'out_invoice'
+                                     else -r.amount_untaxed))
+        self.invoiced_past_year =  sum(past_year_invoices.mapped(
+            lambda r: r.amount_untaxed if r.type == 'out_invoice'
+                                     else -r.amount_untaxed))
+        self.invoiced_previous_year = sum(previous_year_invoices.mapped(
+            lambda r: r.amount_untaxed if r.type == 'out_invoice'
+                                     else -r.amount_untaxed))
+        self.invoiced_other_years = sum(other_years_invoices.mapped(
+            lambda r: r.amount_untaxed if r.type == 'out_invoice'
+                                     else -r.amount_untaxed))
 
     @api.one
     @api.depends('name', 'parent_id', 'parent_id.name')

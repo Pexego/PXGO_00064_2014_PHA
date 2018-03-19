@@ -45,6 +45,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="production_planning_qty"/>
                             <field name="production_qty"/>
                             <field name="out_of_existences"/>
+                            <field name="out_of_existences_dismissed"/>
                             <field name="real_incoming_qty"/>
                         </group>
                         <group>

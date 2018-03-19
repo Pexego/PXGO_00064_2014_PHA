@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2017 Pharmadus I.T.
+# © 2018 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     'name': 'Custom reports',
@@ -39,6 +39,7 @@
         'views/report_shipping_address.xml',
         'views/report_footer.xml',
         'views/report_footer_message.xml',
+        'views/report_product_category_message_view.xml',
         'views/account_view.xml',
         'views/account_invoice_report_view.xml',
         'views/account_payment_view.xml',
@@ -48,6 +49,7 @@
         'views/product_view.xml',
         'data/report_paperformat.xml',
         'data/remove_old_translations.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True
 }

@@ -68,6 +68,7 @@ class ProductStockByDay(models.TransientModel):
 
         # Products invoiced quantities in last year
         logger.info('Stock by Day: Computing stock by day based on invoices...')
+
         ai_lines = self.env['account.invoice.line'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
@@ -83,7 +84,8 @@ class ProductStockByDay(models.TransientModel):
                     save_sbd_and_cbd_i()
                     product_id = ail.product_id  # Next product
                     invoiced_qty = 0
-                elif ail.invoice_id.type == 'out_invoice':
+
+                if ail.invoice_id.type == 'out_invoice':
                     invoiced_qty += ail.quantity
                 else:
                     invoiced_qty -= ail.quantity
@@ -93,6 +95,7 @@ class ProductStockByDay(models.TransientModel):
 
         # Products moved quantities in last year
         logger.info('Stock by Day: Computing stock by day based on pickings...')
+
         sm_lines = self.env['stock.move'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
@@ -116,7 +119,8 @@ class ProductStockByDay(models.TransientModel):
                     save_sbd_and_cbd_p()
                     product_id = sm.product_id  # Next product
                     moved_qty = 0
-                elif sm.location_id.usage in ('internal', 'view', 'production',
+
+                if sm.location_id.usage in ('internal', 'view', 'production',
                                      'procurement', 'transit', 'supplier') and \
                      sm.location_dest_id.usage in ('customer', 'inventory'):
                     moved_qty += sm.product_uom_qty
@@ -131,6 +135,7 @@ class ProductStockByDay(models.TransientModel):
         # Products that are members of any bill of materials
         logger.info('Stock by Day: Computing indirect stock by day of BoM '
                     'members...')
+
         bom_lines = self.env['mrp.bom.line'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
@@ -158,6 +163,7 @@ class ProductStockByDay(models.TransientModel):
         # write computed data back to database
         logger.info('Stock by Day: Doing final calculations and writing data '
                     'back to %d products' % (len(data)))
+
         products = self.env['product.product']
         product_stock_unsafety = self.env['product.stock.unsafety']
         aIdx = [
@@ -196,11 +202,13 @@ class ProductStockByDay(models.TransientModel):
         # Clear all calculations on the rest of storable products
         logger.info('Stock by day: Cleaning old calculations on the rest of '
                     'products...')
-        self.env['product.product'].search([
+
+        products.search([
             ('type', '=', 'product'),
             ('id', 'not in', data.keys())
-        ]).write(empty_dict)
-        self.env['product.stock.unsafety'].search([
+        ]).with_context(disable_notify_changes=True).write(empty_dict)
+
+        product_stock_unsafety.search([
             ('product_id.type', '=', 'product'),
             ('state', '!=', 'cancelled'),
             ('product_id.id', 'not in', data.keys())

@@ -65,11 +65,13 @@
                                   colors="red:type=='input';green:type=='output';blue:type=='internal'">
                                 <field name="date"/>
                                 <field name="qty"/>
-                                <field name="product_uom_id"/>
+                                <field name="product_uom"/>
                                 <field name="location_id"/>
-                                <field name="destination_id"/>
+                                <field name="location_dest_id"/>
                                 <field name="partner_id"/>
+                                <field name="picking_id"/>
                                 <field name="type" invisible="1"/>
+                                <field name="state" invisible="1"/>
                             </tree>
                         </field>
                     </sheet>

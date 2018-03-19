@@ -264,10 +264,19 @@
                                                         <span t-if="not po.lot_id.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
                                                     </td>
                                                     <td><![CDATA[&nbsp;|&nbsp;]]></td>
-                                                    <td>
+                                                    <td style="white-space: nowrap;">
                                                         <t t-set="u_date" t-value="po.lot_id.use_date"/>
                                                         <t t-if="u_date">
-                                                            <span t-esc="time.strftime('%d/%m/%Y',time.strptime(u_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                            <t t-set="orig_use_date" t-value="time.strptime(u_date,'%Y-%m-%d %H:%M:%S')"/>
+                                                            <t t-if="po.lot_id.duration_type == 'end_month'">
+                                                                <span>End of <t t-esc="time.strftime('%m/%Y', orig_use_date)"/></span>
+                                                            </t>
+                                                            <t t-if="po.lot_id.duration_type == 'end_year'">
+                                                                <span>End of <t t-esc="time.strftime('%Y', orig_use_date)"/></span>
+                                                            </t>
+                                                            <t t-if="po.lot_id.duration_type == 'exact'">
+                                                                <span t-esc="time.strftime('%d/%m/%Y', orig_use_date)"/>
+                                                            </t>
                                                         </t>
                                                         <t t-if="not u_date">
                                                             <span>(Unspecified)</span>

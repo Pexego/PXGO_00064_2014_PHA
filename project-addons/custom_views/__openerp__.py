@@ -74,6 +74,8 @@
         'wizard/purchasable_products_view.xml',
         'data/wizards_units_precision.xml',
         'data/mrp_procedure_type.xml',
+        'data/ir_rule.xml',
+#        'data/return_reason.xml',
         'security/menus.xml',
         'security/buttons.xml',
         'security/ir.model.access.csv',

@@ -69,5 +69,15 @@
         <record id="custom_reports.action_report_lot_labels_biosalud" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_reports.paperformat_lots_labels_biosalud"/>
         </record>
+
+        <record id="paperformat_apli_lot_labels" model="report.paperformat">
+            <field name="name">APLI lot labels</field>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+        </record>
     </data>
 </openerp>

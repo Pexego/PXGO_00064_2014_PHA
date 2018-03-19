@@ -166,7 +166,8 @@
                                         <th class="t1" style="width:5em;">Fecha</th>
                                         <td class="t1" style="width:8em;"><t t-esc="header_table['date']"/></td>
                                         <th class="t1" style="width:5em;" >F. Prevista entrega</th>
-                                        <td class="t1" style="width:5em;"><t t-esc="header_table['min_date']"/></td>
+                                        <!--td class="t1" style="width:5em;"><t t-esc="header_table['min_date']"/></td-->
+                                        <td class="t1" style="width:5em;"><t t-if="o.sale_id"><span t-field="o.sale_id.top_date"/></t></td>
                                         <th class="t1" style="width:4em;" >Nº Pedido</th>
                                         <td class="t1" style="width:4em;"><t t-esc="header_table['order_number']"/></td>
                                         <th class="t1" style="width:4em;" >Nº Albarán</th>

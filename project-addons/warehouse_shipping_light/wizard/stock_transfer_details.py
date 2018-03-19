@@ -144,12 +144,17 @@ class StockTransferDetailsItems(models.TransientModel):
     palet = fields.Integer('Palet', default=0)
     complete = fields.Integer('Complete', default=0)
     package = fields.Integer('Package', default=0)
-    rest = fields.Integer('Rest', readonly=True)
+    rest = fields.Float('Rest', readonly=True)
     quantity_to_extract = fields.Float('Quantity to extract',
                            digits=dp.get_precision('Product Unit of Measure'),
                            default=0)
     active = fields.Boolean('Active', default=True)
     name = fields.Char(related='packop_id.linked_move_operation_ids.move_id.name')
+    product_uom_category_id = fields.Integer(compute='_get_uom_category_id')
+
+    @api.one
+    def _get_uom_category_id(self):
+        self.product_uom_category_id = self.product_uom_id.category_id.id
 
     @api.onchange('quantity', 'complete')
     def onchange_complete(self):
@@ -199,7 +204,7 @@ class StockTransferDetailsItems(models.TransientModel):
     @api.multi
     def do_split_quantities(self):
         for det in self:
-            if det.quantity>1:
+            if det.quantity > 0:
                 det.quantity = (det.quantity-det.quantity_to_extract)
                 det.rest = det.quantity
                 new_id = det.copy(context=self.env.context)

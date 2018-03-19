@@ -2,7 +2,7 @@
 # © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, api, fields, _
+from openerp import models, api, fields, _, exceptions
 from openerp.exceptions import Warning
 import datetime
 
@@ -16,21 +16,47 @@ class AccountInvoice(models.Model):
             related='payment_mode_id.banking_mandate_needed')
     payment_document_delivered = fields.Boolean(default=False)
     payment_document_date = fields.Datetime()
+    payment_date_planned = fields.Date()
     partner_vat = fields.Char(related='partner_id.vat', readonly=True)
     partner_vat_liens = fields.Char(related='partner_id.vat', readonly=True)
     partner_liens = fields.Boolean(related='partner_id.liens')
     partner_insured = fields.Boolean(related='partner_id.insured')
+    credit = fields.Float(compute='_get_credit')
+    debit = fields.Float(compute='_get_debit')
+    partner_parent_category_id = fields.Many2one(
+        comodel_name='res.partner.category',
+        compute='_get_partner_parent_category')
+    payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id')
+
+    @api.one
+    def _get_partner_parent_category(self):
+        c = self.partner_id.category_id
+        if c and c.parent_id:
+            self.partner_parent_category_id = c.parent_id
+        elif c:
+            self.partner_parent_category_id = c
+
+    @api.one
+    def _get_credit(self):
+        self.credit = self.amount_total if self.type in \
+                                             ('out_refund', 'in_invoice') else 0
+
+    @api.one
+    def _get_debit(self):
+        self.debit = self.amount_total if self.type in \
+                                            ('out_invoice', 'in_refund') else 0
 
     @api.multi
     def onchange_partner_id(self, type, partner_id, date_invoice=False,
             payment_term=False, partner_bank_id=False, company_id=False):
         res = super(AccountInvoice, self).onchange_partner_id(type, partner_id,
                 date_invoice, payment_term, partner_bank_id, company_id)
+        partner = self.env['res.partner'].browse(partner_id)
+
         payment_mode_id = res['value'].get('payment_mode_id')
         if payment_mode_id:
             payment_mode = self.env['payment.mode'].browse(payment_mode_id)
             if payment_mode.banking_mandate_needed:
-                partner = self.env['res.partner'].browse(partner_id)
                 if not partner.bank_ids and partner.parent_id.bank_ids:
                     banks = partner.parent_id.bank_ids
                 else:
@@ -51,6 +77,12 @@ class AccountInvoice(models.Model):
         else:
             mandate_id = False
         res['value'].update({'mandate_id': mandate_id})
+
+        if type == 'out_refund' and partner.customer_payment_mode:
+            res['value'].update({
+                'payment_mode_id': partner.customer_payment_mode.id
+            })
+
         return res
 
     @api.multi
@@ -96,9 +128,11 @@ class AccountInvoice(models.Model):
             vals['payment_document_date'] = False
 
         res = super(AccountInvoice, self).create(vals)
+
         # Search if it needs automatic assignment of banking mandates and
         # triggers write event to force re-calculations after invoice creation
         res._search_banking_mandate()
+
         return res
 
     @api.multi
@@ -196,6 +230,10 @@ class AccountInvoice(models.Model):
             'context': self.env.context
         }
 
+    @api.multi
+    def clear_mandate(self):
+        self.mandate_id = False
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -222,3 +260,28 @@ class AccountInvoiceLine(models.Model):
         product_name = self.env['product.product'].browse(product).name_template
         res['value']['name'] = product_name
         return res
+
+
+class AccountInvoiceConfirm(models.TransientModel):
+    _inherit = 'account.invoice.confirm'
+
+    @api.multi
+    def invoice_confirm(self):
+        invoice_ids = self.env.context.get('active_ids', [])
+        invoices = self.env['account.invoice'].browse(invoice_ids)
+        orphan_invoices = []
+        for invoice in invoices:
+            if invoice.payment_mode_id and \
+               invoice.payment_mode_id.banking_mandate_needed and \
+               not invoice.mandate_id:
+                orphan_invoices.append(invoice)
+
+        if len(orphan_invoices) > 0:
+            invoice_list = '\n'.join([x.origin if x.origin \
+                                               else x.partner_id.name \
+                                      for x in orphan_invoices])
+            raise exceptions.Warning(_('The following invoices do not have the '
+                                       'needed mandates assigned:\n%s' %
+                                       invoice_list))
+
+        return super(AccountInvoiceConfirm, self).invoice_confirm()

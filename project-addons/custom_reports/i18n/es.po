@@ -183,6 +183,11 @@ msgid "Cancelled Invoice"
 msgstr "Factura cancelada"
 
 #. module: custom_reports
+#: field:report.product.category.message,categ_ids:0
+msgid "Categories to show message"
+msgstr "Categorías para mostrar el mensaje"
+
+#. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Category of Product"
 msgstr "Categoría de producto"
@@ -290,6 +295,11 @@ msgstr "Vestida"
 msgid "Due Month"
 msgstr "Mes de vencimiento"
 
+#. module: warehouse_shipping_light
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "End of"
+msgstr "Fin de"
+
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Fiscal Position Remark:"
@@ -338,7 +348,7 @@ msgstr "Fecha de factura:"
 #. module: custom_reports
 #: field:account.invoice.report,number:0
 msgid "Invoice number"
-msgstr "Invoice number"
+msgstr "Nº de factura"
 
 #. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_invoice_bio_without_iso
@@ -425,6 +435,11 @@ msgid "Lots labels"
 msgstr "Etiquetas de lotes"
 
 #. module: custom_reports
+#: field:report.product.category.message,name:0
+msgid "Message"
+msgstr "Mensaje a mostrar"
+
+#. module: custom_reports
 #: selection:account.invoice.report,product_clothing:0
 #: selection:sale.report,product_clothing:0
 msgid "Naked"
@@ -496,6 +511,11 @@ msgstr "Empresa (nombre comercial)"
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 msgid "Partner (invoice send address)"
 msgstr "Empresa (dir. envío factura)"
+
+#. module: custom_reports
+#: field:account.invoice.report,commercial_partner_id:0
+msgid "Partner (invoicing address)"
+msgstr "Cliente (dirección facturación)"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
@@ -616,6 +636,12 @@ msgid "Product cost raw material"
 msgstr "Coste de producto M.P."
 
 #. module: custom_reports
+#: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
+#: field:account.invoice.report,product_description:0
+msgid "Product description"
+msgstr "Producto - Descripción"
+
+#. module: custom_reports
 #: field:account.invoice.report,product_form:0 field:sale.report,product_form:0
 msgid "Product form"
 msgstr "Producto - Forma"
@@ -659,6 +685,12 @@ msgstr "Producto - Referencia"
 #: field:sale.report,product_subline:0
 msgid "Product subline"
 msgstr "Producto - Sublínea"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_purchasequotation_document
+#: view:website:custom_reports.report_purchaseorder_document
+msgid "Supplier ref."
+msgstr "Ref. proveedor"
 
 #. module: custom_reports
 #: field:purchase.order.line,product_supplier_reference:0
@@ -756,6 +788,11 @@ msgid "Refund"
 msgstr "Factura rectificativa"
 
 #. module: custom_reports
+#: field:account.invoice.report,registration_date:0
+msgid "Registration date"
+msgstr "Fecha de contabilización"
+
+#. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Replacements"
 msgstr "Reposiciones"
@@ -764,6 +801,11 @@ msgstr "Reposiciones"
 #: field:res.company,report_header_message:0
 msgid "Report header message"
 msgstr "Mensaje de cabecera"
+
+#. module: custom_reports
+#: field:res.company,report_product_category_message:0
+msgid "Report product category message"
+msgstr "Mensaje por categoría de producto"
 
 #. module: custom_reports
 #: field:res.company,report_purchases_email:0
@@ -901,11 +943,6 @@ msgstr "Código proveedor:"
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Supplier delivery note:"
 msgstr "Albarán de proveedor:"
-
-#. module: custom_reports
-#: view:website:custom_reports.report_purchaseorder_document
-msgid "Supplier reference"
-msgstr "Referencia proveedor"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud

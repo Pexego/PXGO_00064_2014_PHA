@@ -15,6 +15,8 @@ class MrpProcedureType(models.Model):
 
     name = fields.Char('Type of procedure', required=True)
     code = fields.Char('Type code', required=True)
+    company_id = fields.Many2one(string='Company', comodel_name= 'res.company',
+                                 default=lambda self: self.env.user.company_id)
 
 
 class MrpProcedure(models.Model):
@@ -33,6 +35,8 @@ class MrpProcedure(models.Model):
     active = fields.Boolean(default=True)
     attachment = fields.Binary(compute='_return_attachment')
     attachment_filename = fields.Char(compute='_return_attachment')
+    company_id = fields.Many2one(string='Company', comodel_name= 'res.company',
+                                 default=lambda self: self.env.user.company_id)
 
     @api.one
     def _return_attachment(self):

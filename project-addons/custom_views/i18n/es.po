@@ -58,6 +58,11 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: custom_views
+#: view:sale.order:custom_views.custom_views_order_withcarrier_form
+msgid "Add in quote adjusting VAT"
+msgstr "Añadir ajustando IVA"
+
+#. module: custom_views
 #: field:stock.production.lot,mrp_id:0
 msgid "Production"
 msgstr "Producción"
@@ -123,6 +128,16 @@ msgstr "Mandato SEPA"
 #: field:account.invoice.special,aux_payment_term_id:0
 msgid "Banking mandate"
 msgstr "Mandato SEPA"
+
+#. module: custom_views
+#: field:account.invoice.special,aux_payment_mode_id:0
+msgid "Payment mode"
+msgstr "Modo de pago"
+
+#. module: custom_views
+#: field:account.invoice.special,aux_payment_term:0
+msgid "Payment term"
+msgstr "Plazo de pago"
 
 #. module: custom_views
 #: field:account.invoice,banking_mandate_needed:0
@@ -266,6 +281,16 @@ msgid "Custom views - MRP Machinery action"
 msgstr "Maquinaria de producción"
 
 #. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_partner_invoiced_tree
+msgid "Custom views - Partner invoiced tree"
+msgstr "Clientes, facturación por años"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_res_partner_special
+msgid "Custom views - Partners special form"
+msgstr "Formulario especial edición de clientes"
+
+#. module: custom_views
 #: field:mrp.procedure,date_authorized:0
 msgid "Date authorized"
 msgstr "Fecha autorización"
@@ -305,6 +330,16 @@ msgstr "Entregar cada producto cuando esté disponible"
 #: view:product.product:custom_views.product_kanban_view
 msgid "Desc:"
 msgstr "Desc:"
+
+#. module: custom_views
+#: field:purchasable.products,description:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: custom_views
+#: field:stock.location,dismissed_location:0
+msgid "Dismissed location"
+msgstr "Ubicación de producto desechado"
 
 #. module: custom_views
 #: view:product.product:custom_views.product_kanban_view
@@ -493,6 +528,9 @@ msgstr "Medicamento"
 
 #. module: custom_views
 #: field:mrp.procedure,notes:0
+#: view:product.product:custom_views.custom_views_product_notes_form
+#: field:product.product,notes:0
+#: field:stock.inventory,notes:0
 msgid "Notes"
 msgstr "Notas"
 
@@ -505,6 +543,11 @@ msgstr "Procedimiento de operaciones"
 #: field:product.product,packaging_procedure_id:0
 msgid "Packaging procedure"
 msgstr "Procedimiento de acondicionamiento"
+
+#. module: custom_views
+#: field:stock.picking,photo_url:0
+msgid "Photo(s) URL"
+msgstr "Enlace a foto(s)"
 
 #. module: custom_views
 #: field:purchasable.products,price_list_ids:0
@@ -607,6 +650,11 @@ msgid "Partners special form"
 msgstr "Edición especial de clientes y proveedores"
 
 #. module: custom_views
+#: field:account.invoice,payment_date_planned:0
+msgid "Payment date planned"
+msgstr "Fecha de pago planificada"
+
+#. module: custom_views
 #: field:account.invoice,payment_document_date:0
 msgid "Payment document date"
 msgstr "Documento de pago entregado"
@@ -682,9 +730,9 @@ msgid "Product Template"
 msgstr "Plantilla de producto"
 
 #. module: custom_views
-#: field:product.product,type:0
+#: field:product.product,type:0 field:stock.history,type:0
 msgid "Product Type"
-msgstr "Product Type"
+msgstr "Tipo de producto"
 
 #. module: custom_views
 #: field:purchasable.products,product_uom:0
@@ -751,6 +799,12 @@ msgstr "Carga de días de vacaciones"
 #: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
 msgid "Remaining days to set"
 msgstr "Días restantes a cargar"
+
+#. module: custom_views
+#: view:stock.picking:custom_views.custom_views_stock_picking_tree
+#: field:stock.picking,responsible_uid:0
+msgid "Responsible"
+msgstr "Responsable"
 
 #. module: custom_views
 #: view:purchasable.products:custom_views.purchasable_products_form_view
@@ -900,6 +954,11 @@ msgstr "Sublínea de ventas"
 #: view:pricelist.partnerinfo:custom_views.product_supplier_pricelist_tree_view_custom_view
 msgid "Supplier pricelist"
 msgstr "Lista precios proveedor"
+
+#. module: custom_views
+#: field:purchasable.products,supplier_ref:0
+msgid "Supplier reference"
+msgstr "Referencia proveedor"
 
 #. module: custom_views
 #: field:account.invoice,partner_vat:0
@@ -1102,6 +1161,12 @@ msgid "Advanced account move lines"
 msgstr "Efectos avanzado"
 
 #. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_account_invoice_moves_tree
+#: model:ir.ui.menu,name:custom_views.menu_action_account_invoice_moves_tree
+msgid "Account invoice moves"
+msgstr "Efectos sobre facturación"
+
+#. module: custom_views
 #: help:account.move.line,payment_mode_bank_id:0
 msgid "Bank Account for the Payment Mode"
 msgstr "Cuenta bancaria"
@@ -1122,3 +1187,48 @@ msgstr "Etiqueta"
 #: model:ir.model,name:custom_views.model_payment_mode
 msgid "Payment Mode"
 msgstr "Modo de pago"
+
+#. module: custom_views
+#: field:account.invoice,payment_mode_bank_id:0
+msgid "Bank account"
+msgstr "Cuenta bancaria"
+
+#. module: custom_views
+#: field:account.invoice,credit:0
+msgid "Credit"
+msgstr "Haber"
+
+#. module: custom_views
+#: field:account.invoice,debit:0
+msgid "Debit"
+msgstr "Debe"
+
+#. module: custom_views
+#: field:account.invoice,partner_parent_category_id:0
+msgid "Partner parent category id"
+msgstr "Etiqueta"
+
+#. module: custom_views
+#: field:res.partner,invoiced_current_year:0
+msgid "Invoiced current year"
+msgstr "Facturado este año"
+
+#. module: custom_views
+#: field:res.partner,invoiced_past_year:0
+msgid "Invoiced past year"
+msgstr "Facturado el año pasado"
+
+#. module: custom_views
+#: field:res.partner,invoiced_previous_year:0
+msgid "Invoiced previous year"
+msgstr "Facturado el año anterior"
+
+#. module: custom_views
+#: field:res.partner,invoiced_other_years:0
+msgid "Invoiced other years"
+msgstr "Facturado en otros años"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_partner_invoiced_tree
+msgid "Partners invoiced"
+msgstr "Clientes fact. x años"

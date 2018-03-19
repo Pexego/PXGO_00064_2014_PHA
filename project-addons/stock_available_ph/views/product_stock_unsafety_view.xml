@@ -30,6 +30,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="pre_production_qty"/>
                         <field name="production_qty"/>
                         <field name="out_of_existences"/>
+                        <field name="out_of_existences_dismissed"/>
                         <field name="real_incoming_qty"/>
                         <field name="uom_id"/>
                         <button name="cancel"

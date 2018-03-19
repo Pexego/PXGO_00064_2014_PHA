@@ -39,12 +39,20 @@
                     <attribute name="groups"></attribute>
 				</filter>
                 <filter string="Due Month" position="after">
+                    <separator/>
                     <filter string="Commissions category" context="{'group_by':'commission_category'}" domain="[('commission_category', '!=', False)]"/>
+                    <separator/>
                     <filter string="Partner parent category" context="{'group_by':'partner_parent_category'}"/>
+                    <separator/>
                     <filter string="Partner category" context="{'group_by':'partner_category'}"/>
+                    <separator/>
                     <filter string="Invoicing country" context="{'group_by': 'country_id'}"/>
+                    <separator/>
                     <filter string="Shipping country" context="{'group_by': 'shipping_country_id'}"/>
+                    <separator/>
                     <filter string="Third parties" context="{'group_by': 'third_parties'}"/>
+                    <separator/>
+                    <filter string="Product description" context="{'group_by': 'product_description'}"/>
                 </filter>
                 <filter name="partner_id" position="attributes">
                     <attribute name="string">Partner (invoice send address)</attribute>
