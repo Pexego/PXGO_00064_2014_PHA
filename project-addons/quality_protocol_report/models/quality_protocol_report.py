@@ -35,6 +35,21 @@ class ProductProtocolLink(models.Model):
     route = fields.Many2one('mrp.routing')
 
 
+class QualityProtocolReportLineRel(models.Model):
+
+    _name = 'quality.protocol.report.lines.rel'
+    _order = "sequence asc"
+
+    protocol_id = fields.Many2one('quality.protocol.report', 'Protocol')
+    line_id = fields.Many2one('quality.protocol.report.line', 'Line')
+    sequence = fields.Integer(default=1)
+
+    _sql_constraints = [
+        ('report_line_rel_unique', 'unique (protocol_id, line_id)', '')
+    ]
+
+
+
 class QualityProtocolReport(models.Model):
     """Objeto usado para definir los diferentes documentos de protocolo"""
 
@@ -44,12 +59,14 @@ class QualityProtocolReport(models.Model):
     type_id = fields.Many2one('protocol.type', 'Type', required=True)
     product_ids = fields.One2many('product.protocol.link', 'protocol', 'Products')
     model_id = fields.Many2one("ir.model", "Model")
-    report_line_ids = fields.Many2many('quality.protocol.report.line',
-                                       'quality_protocols_lines_rel',
-                                       'line_id', 'protocol_id', 'Sections')
+    report_lines = fields.One2many('quality.protocol.report.lines.rel', 'protocol_id', 'Sections')
+    report_line_ids = fields.Many2many('quality.protocol.report.line', compute='_compute_line_ids', string='Sections')
     product_form_id = fields.Many2one('product.form', 'Form')
     product_container_id = fields.Many2one('product.container', 'Container')
 
+    def _compute_line_ids(self):
+        for report in self:
+            report.report_line_ids = report.mapped('report_lines.line_id')
 
 class protocol_type(models.Model):
     _name = 'protocol.type'
@@ -68,16 +85,14 @@ class QualityProtocolReportLine(models.Model):
     """
 
     _name = "quality.protocol.report.line"
-    _order = "sequence asc"
 
     view_id = fields.Many2one("ir.ui.view", 'Qweb View',
                               domain=[('type', '=', 'qweb')], copy=True)
     survey_id = fields.Many2one("survey.survey", "Survey")
     name = fields.Char("Name", required=True)
-    sequence = fields.Integer("Sequence", default="1")
-    report_ids = fields.Many2many('quality.protocol.report',
-                                  'quality_protocols_lines_rel', 'protocol_id',
-                                  'line_id', 'Reports')
+    # sequence = fields.Integer("Sequence", default="1")
+    # show_sequence = fields.Integer("Sequence to show", default="1")
+    report_ids = fields.One2many('quality.protocol.report.lines.rel', 'line_id', 'Reports')
     log_realization = fields.Boolean('Log realization')
 
     @api.multi
