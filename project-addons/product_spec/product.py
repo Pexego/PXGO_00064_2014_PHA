@@ -132,7 +132,7 @@ class product_quality_limits(models.Model):
     @api.depends('filter_tare', 'name.weight_net', 'name.qty')
     def _filter_gross_weight(self):
         for spec in self:
-            spec.filter_gross_weight = self.unit_weight + self.filter_tare
+            spec.filter_gross_weight = spec.unit_weight + spec.filter_tare
             spec.filter_gross_weight_str = 'kg (%s g)' % \
                                            (spec.filter_gross_weight * 1000)
 
