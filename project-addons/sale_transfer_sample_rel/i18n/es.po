@@ -148,3 +148,12 @@ msgstr "Transfers"
 msgid "Type"
 msgstr "Tipo"
 
+#. module: sale_transfer_sample_rel
+#: field:sale.order.line,qty_available:0
+msgid "Quantity On Hand"
+msgstr "Cantidad a mano"
+
+#. module: sale_transfer_sample_rel
+#: field:sale.order.line,virtual_available:0
+msgid "Virtual Available"
+msgstr "Cantidad prevista"

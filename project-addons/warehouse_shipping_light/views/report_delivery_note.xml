@@ -401,6 +401,23 @@
                     <span t-field="s.fiscal_position.note"/>
                 </p>
 
+                <t t-set="messages" t-value="[]"/>
+                <t t-foreach="o.move_lines" t-as="l">
+                    <t t-if="l.product_id.categ_id.message_ids">
+                        <t t-foreach="l.product_id.categ_id.message_ids" t-as="m">
+                            <t t-if="not m in messages">
+                                <t t-esc="messages.append(m)"/>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+                <t t-set="product_category_message" t-value="[]"/>
+                <t t-foreach="messages" t-as="m">
+                    <t t-esc="product_category_message.append(m.name)"/>
+                </t>
+
+                <t t-call="custom_reports.report_footer_message"/>
+
                 <div class="oe_structure"/>
             </div>
 

@@ -19,5 +19,14 @@
             <field name="perm_write" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
+        <record id="return_reason_rule" model="ir.rule">
+            <field name="name">Return reasons rule</field>
+            <field name="model_id" ref="custom_views.model_return_reason"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
     </data>
 </openerp>

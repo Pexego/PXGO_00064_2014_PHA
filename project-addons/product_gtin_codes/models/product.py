@@ -131,3 +131,15 @@ class ProductProduct(models.Model):
                 p.gtin14_ids.unlink()
 
         return self
+
+    @api.model
+    def gtin14_partner_specific(self, partner_id):
+        gtin14_id = self.gtin14_default
+        if partner_id:
+            if partner_id.type in ['delivery'] and partner_id.parent_id:
+                partner_id = partner_id.parent_id
+            for gtin_obj in self.gtin14_ids:
+                for p in gtin_obj.partner_ids:
+                    if p == partner_id:
+                        gtin14_id = gtin_obj
+        return gtin14_id

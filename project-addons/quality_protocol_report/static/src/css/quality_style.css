@@ -81,6 +81,13 @@
 }
 
 @media print{
+  * {
+    font-family: "DejaVu Sans", FreeSans !important;
+  }
+  body {
+    width: 1000px !important;
+    overflow-x: hidden;
+  }
   .container {
     margin: 0 !important;
     padding: 15px !important;

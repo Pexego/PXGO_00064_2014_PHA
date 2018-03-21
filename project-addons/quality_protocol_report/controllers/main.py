@@ -47,23 +47,24 @@ class WebsiteProtocol(http.Controller):
         # Se generar un surveyX por cada survey en el protocolo, luego la plantilla se encargará de parsear para cada uno el parámetro survey, que es el que usa internamente la vista genérica
         parts = []
         survey_responsed_ids = [x.survey_id.id for x in production.final_lot_id.response_ids]
-        for line in protocol.report_line_ids:
+        for rel in protocol.report_lines:
+            line = rel.line_id
             if line.survey_id:
                 #context.update({'survey' + str(seq): line.survey_id})
                 #seq += 1
                 if line.survey_id.id not in survey_responsed_ids:
                     user_input_id = user_input_obj.create(cr, uid, {'survey_id': line.survey_id.id, 'partner_id': user.partner_id.id, 'lot_id': production.final_lot_id.id}, context2)
                     user_input = user_input_obj.browse(cr, uid, user_input_id, context2)
-                    parts.append(('s',line.survey_id, user_input.token))
+                    parts.append(('s',line.survey_id, user_input.token, rel.sequence))
                     context.update({'exist': False})
                 else:
                     response_id = user_input_obj.search(cr, uid, [('survey_id' ,'=', line.survey_id.id), ('lot_id' ,'=', production.final_lot_id.id)], context=context2)
                     response = user_input_obj.browse(cr, uid, response_id, context2)[0]
-                    parts.append(('s',line.survey_id, response.token))
+                    parts.append(('s',line.survey_id, response.token, rel.sequence))
                     context.update({'exist': True})
 
             elif line.view_id:
-                parts.append(('v',line.view_id.xml_id))
+                parts.append(('v',line.view_id.xml_id, rel.sequence))
         context.update({'parts': parts})
         # renderiza la vista qweb con id protocol_print, de este módulo, pasándole en contexto production y tantos surveyX como surveys en el protocolo
         return request.website.render('quality_protocol_report.protocol_print',

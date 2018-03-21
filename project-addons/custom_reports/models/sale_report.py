@@ -34,6 +34,7 @@ class SaleReport(models.Model):
                                             ('intermediary', 'Intermediary')],
                                  string='Type')
     sale_channel_id = fields.Many2one('sale.channel', 'Canal de venta')
+    partner_creation_date = fields.Date('Partner creation date')
     partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
     commission_category = fields.Char('Commission category')
@@ -66,6 +67,7 @@ class SaleReport(models.Model):
             s.notified_partner_id as notified_partner_id,
             s.sale_type as sale_type,
             s.sale_channel_id as sale_channel_id,
+            pa.create_date as partner_creation_date,
             case
                 when parent_rpc.name is null then '(Sin categoría)'
                 else parent_rpc.name
@@ -148,6 +150,7 @@ class SaleReport(models.Model):
             s.notified_partner_id,
             s.sale_type,
             s.sale_channel_id,
+            partner_creation_date,
             partner_parent_category,
             partner_category,
             commission_category,

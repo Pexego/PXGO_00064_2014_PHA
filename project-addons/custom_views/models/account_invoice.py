@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2017 Pharmadus I.T.
+# © 2018 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, api, fields, _, exceptions
@@ -27,6 +27,7 @@ class AccountInvoice(models.Model):
         comodel_name='res.partner.category',
         compute='_get_partner_parent_category')
     payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id')
+    return_reason = fields.Many2one(comodel_name='return.reason')
 
     @api.one
     def _get_partner_parent_category(self):
@@ -126,6 +127,15 @@ class AccountInvoice(models.Model):
             vals['payment_document_date'] = fields.Datetime.now()
         else:
             vals['payment_document_date'] = False
+
+        # If there are a picking with a return reason, it must be set to invoice
+        origin = vals.get('origin', False)
+        if origin:
+            origin = origin.replace(' ', '')
+            picking_ids = self.env['stock.picking'].\
+                search([('name', 'in', origin.split())])
+            if len(picking_ids) == 1 and picking_ids[0].return_reason:
+                vals['return_reason'] = picking_ids[0].return_reason.id
 
         res = super(AccountInvoice, self).create(vals)
 
@@ -233,6 +243,12 @@ class AccountInvoice(models.Model):
     @api.multi
     def clear_mandate(self):
         self.mandate_id = False
+
+    @api.multi
+    def action_apply_return_reason_account(self):
+        for i in self:
+            for l in i.invoice_line:
+                l.account_id = i.return_reason.account_id
 
 
 class AccountInvoiceLine(models.Model):

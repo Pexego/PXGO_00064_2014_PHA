@@ -159,7 +159,12 @@ class StockTransferDetailsItems(models.TransientModel):
     @api.onchange('quantity', 'complete')
     def onchange_complete(self):
         message = False
-        complete_qty = self.product_id.product_tmpl_id.box_elements
+
+        gtin14_id = self.product_id.\
+            gtin14_partner_specific(self.transfer_id.partner_id)
+        complete_qty = gtin14_id.units if gtin14_id else \
+            self.product_id.box_elements
+
         if complete_qty > 0:
             required_qty = self.complete * complete_qty
             if required_qty > self.quantity:

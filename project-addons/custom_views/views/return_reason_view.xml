@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2018 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="view_return_reason_form" model="ir.ui.view">
+            <field name="name">Return reason form</field>
+            <field name="model">return.reason</field>
+            <field name="arch" type="xml">
+                <form string="Return reason">
+                    <sheet>
+                        <separator string="Return reason"/>
+                        <group col="2">
+                            <field name="name" required="1"/>
+                            <field name="account_id" required="1"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_return_reason_tree" model="ir.ui.view">
+            <field name="name">Return reason tree</field>
+            <field name="model">return.reason</field>
+            <field name="arch" type="xml">
+                <tree string="Return reasons">
+                    <field name="name"/>
+                    <field name="account_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_return_reason" model="ir.actions.act_window">
+            <field name="name">Return reasons</field>
+            <field name="res_model">return.reason</field>
+            <field name="view_id" ref="custom_views.view_return_reason_tree"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_return_reason"
+                  name="Return reasons"
+                  parent="account.menu_configuration_misc"
+                  action="action_return_reason"/>
+    </data>
+</openerp>

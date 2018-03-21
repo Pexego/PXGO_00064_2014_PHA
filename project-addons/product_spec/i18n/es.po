@@ -80,6 +80,11 @@ msgid "Action"
 msgstr "Acción"
 
 #. module: product_spec
+#: field:product.quality.limits,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form
 msgid "Alert"
 msgstr "Alerta"
@@ -92,22 +97,22 @@ msgstr "Análisis"
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_action_weight:0
 msgid "Average filter weight max action"
-msgstr "acción máx."
+msgstr "Acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_max_alert_weight:0
 msgid "Average filter weight max alert"
-msgstr "alerta máx."
+msgstr "Alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_action_weight:0
 msgid "Average filter weight min action"
-msgstr "acción mín."
+msgstr "Acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_av_min_alert_weight:0
 msgid "Average filter weight min alert"
-msgstr "alerta mín."
+msgstr "Alerta mín."
 
 #. module: product_spec
 #: view:product.template:product_spec.product_search_form_view_extended_search
@@ -206,44 +211,59 @@ msgid "Filter weight"
 msgstr "Peso del filtro"
 
 #. module: product_spec
+#: field:product.quality.limits,filter_tare:0
+msgid "Filter tare"
+msgstr "Tara"
+
+#. module: product_spec
+#: field:product.quality.limits,filter_gross_weight:0
+msgid "Filter gross weight"
+msgstr "Peso bruto"
+
+#. module: product_spec
 #: field:product.quality.limits,filter_max_action_weight:0
 msgid "Filter weight max action"
-msgstr "acción máx."
+msgstr "Acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_max_alert_weight:0
 msgid "Filter weight max alert"
-msgstr "alerta máx."
+msgstr "Alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_action_weight:0
 msgid "Filter weight min action"
-msgstr "acción mín."
+msgstr "Acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,filter_min_alert_weight:0
 msgid "Filter weight min alert"
-msgstr "alerta mín."
+msgstr "Alerta mín."
+
+#. module: product_spec
+#: field:product.quality.limits,filter_weight:0
+msgid "Filter weight"
+msgstr "Peso"
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_action_weight:0
 msgid "Full case action max"
-msgstr "acción máx."
+msgstr "Acción máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_action_weight:0
 msgid "Full case action min"
-msgstr "acción mín."
+msgstr "Acción mín."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_max_alert_weight:0
 msgid "Full case alert max"
-msgstr "alerta máx."
+msgstr "Alerta máx."
 
 #. module: product_spec
 #: field:product.quality.limits,full_case_min_alert_weight:0
 msgid "Full case alert min"
-msgstr "alerta mín."
+msgstr "Alerta mín."
 
 #. module: product_spec
 #: view:product.quality.limits:product_spec.product_quality_limits_form

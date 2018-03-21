@@ -16,3 +16,4 @@ class ReportProductCategoryMessage(models.Model):
                                  relation='report_prod_cat_message_rel',
                                  column1='message_id', column2='categ_id',
                                  string='Categories to show message')
+    active = fields.Boolean(default=True)

@@ -557,8 +557,21 @@
                             <h1><field name="name" class="oe_inline" domain="[('process_control', '=', True)]"/></h1>
                         </div>
                         <group>
-                            <field name="unit_weight_str"/>
+                            <group colspan="2">
+                                <group>
+                                    <field name="unit_weight_str"/>
+                                </group>
+                                <group>
+                                    <field name="active"/>
+                                </group>
+                            </group>
                             <group string="Filter weight">
+                                <group colspan="2" col="3">
+                                    <field name="filter_tare" width="20"/>
+                                    <field name="filter_tare_str" nolabel="1" class="oe_inline"/>
+                                    <field name="filter_gross_weight" width="20"/>
+                                    <field name="filter_gross_weight_str" nolabel="1" class="oe_inline"/>
+                                </group>
                                 <field name="filter_min_action_weight"/>
                                 <field name="filter_min_alert_weight"/>
                                 <field name="filter_max_alert_weight"/>
