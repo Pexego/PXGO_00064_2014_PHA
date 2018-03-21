@@ -77,7 +77,6 @@
         'data/mrp_procedure_type.xml',
         'data/ir_rule.xml',
         'data/return_reason.xml',
-        'data/ir.filters.csv',
         'security/menus.xml',
         'security/buttons.xml',
         'security/ir.model.access.csv',
