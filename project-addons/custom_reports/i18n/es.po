@@ -346,6 +346,11 @@ msgid "Invoice Date:"
 msgstr "Fecha de factura:"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "Invoice affecting:"
+msgstr "Facturas que afecta:"
+
+#. module: custom_reports
 #: field:account.invoice.report,number:0
 msgid "Invoice number"
 msgstr "Nº de factura"
@@ -524,6 +529,12 @@ msgstr "Cliente (dirección facturación)"
 #: field:sale.report,partner_category:0
 msgid "Partner category"
 msgstr "Categoría de empresa"
+
+#. module: custom_reports
+#: field:account.invoice.report,partner_creation_date:0
+#: field:sale.report,partner_creation_date:0
+msgid "Partner creation date"
+msgstr "Fecha creación cliente/proveedor"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search

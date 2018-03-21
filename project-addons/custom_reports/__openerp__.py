@@ -49,6 +49,7 @@
         'views/product_view.xml',
         'data/report_paperformat.xml',
         'data/remove_old_translations.xml',
+        'data/ir_rule.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True

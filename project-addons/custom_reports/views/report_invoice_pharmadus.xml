@@ -168,6 +168,13 @@
                                 <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px; font-size: 11px;"/>
                             </t>
                         </p>
+                        <p t-if="o.origin_invoices_ids">
+                            <strong>Invoice affecting:</strong><br/>
+                            <t t-foreach="o.origin_invoices_ids" t-as="oi">
+                                <t t-set="invoices" t-value="oi.number + ', ' if not oi_last else oi.number"/>
+                                <span t-esc="invoices"/>
+                            </t>
+                        </p>
                     </div>
                     <div class="col-xs-4">
                         <div t-if="o.date_invoice">
@@ -345,6 +352,7 @@
                             <tr class="border-black">
                                 <td>Amount</td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.amount_gross_untaxed"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -352,6 +360,7 @@
                             <tr>
                                 <td>Article discount</td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.article_discount"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -359,6 +368,7 @@
                             <tr>
                                 <td>Amount with article discount</td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.amount_with_article_discount"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -366,6 +376,7 @@
                             <tr>
                                 <td><span t-field="o.commercial_discount_display"/></td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.commercial_discount_amount"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -373,6 +384,7 @@
                             <tr>
                                 <td>Net amount</td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.amount_net_untaxed"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -380,6 +392,7 @@
                             <tr>
                                 <td><span t-field="o.financial_discount_display"/></td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.financial_discount_amount"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -387,6 +400,7 @@
                             <tr class="border-black">
                                 <td><strong>Total Without Taxes</strong></td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.amount_untaxed"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -394,6 +408,7 @@
                             <tr>
                                 <td>Taxes</td>
                                 <td class="text-right">
+                                    <span t-if="o.type == 'out_refund'">-</span>
                                     <span t-field="o.amount_tax"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -401,6 +416,7 @@
                             <tr class="border-black">
                                 <td><strong>Total</strong></td>
                                 <td class="text-right">
+                                    <strong t-if="o.type == 'out_refund'">-</strong>
                                     <strong t-field="o.amount_total"
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
@@ -427,6 +443,21 @@
                     <strong>Fiscal Position Remark:</strong>
                     <span t-field="o.fiscal_position.note"/>
                 </p>
+
+                <t t-set="messages" t-value="[]"/>
+                <t t-foreach="o.invoice_line" t-as="l">
+                    <t t-foreach="l.product_id.categ_ids" t-as="c">
+                        <t t-foreach="c.message_ids" t-as="m">
+                            <t t-if="not m in messages">
+                                <t t-esc="messages.append(m)"/>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+                <t t-set="product_category_message" t-value="[]"/>
+                <t t-foreach="messages" t-as="m">
+                    <t t-esc="product_category_message.append(m.name)"/>
+                </t>
 
                 <t t-call="custom_reports.report_footer_message"/>
 

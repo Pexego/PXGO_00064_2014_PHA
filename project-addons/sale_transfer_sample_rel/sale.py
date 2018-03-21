@@ -57,6 +57,9 @@ class sale_order_line(models.Model):
     """
     _inherit = 'sale.order.line'
 
+    qty_available = fields.Float('Quantity On Hand',
+                                 related='product_id.qty_available',
+                                 digits=(16, 2))
     virtual_available = fields.Float('Virtual Available',
                                      related='product_id.virtual_available',
                                      digits=(16, 2))

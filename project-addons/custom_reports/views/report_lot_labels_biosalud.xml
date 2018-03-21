@@ -10,45 +10,51 @@
                     }
                 </style>
 
-                <!-- PASAR DE LOS MOVIMIENTOS Y HACERLO POR OPERACIONES, PARA QUE COINCIDAN LAS CANTIDADES CON LOS LOTES -->
-
                 <t t-foreach="docs" t-as="p">
-                    <t t-foreach="p.move_lines" t-as="m">
-                        <t t-foreach="m.lot_ids" t-as="l">
-                            <div class="page" t-foreach="range(int(m.product_uom_qty))" t-as="page_loop">
-                                <div style="min-height: 40px; margin-bottom: 5px;">
-                                    <div style="position: relative; display: inline-block; float: left; padding: 0; z-index: 1;">
-                                        <!-- Barcode reader uses english keyboard layout -->
-                                        <t t-set="barcode" t-value="l.name"/>
-                                        <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                                        <!-- Generate barcode image -->
-                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="65" width="600" style="margin-left: -90px;"/>
-                                        <div t-field="l.name" style="position: absolute; bottom: 0px; left: 29%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
-                                    </div>
-                                    <div style="clear: both;"/>
-                                </div>
-                                <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
-                                    <span t-field="l.product_id.description"/>
-                                    <t t-if="l.life_date">
-                                        <span> - </span><span t-field="l.life_date" t-field-options='{"format": "dd/MM/y"}'/>
-                                    </t>
-                                    <t t-if="l.alert_date">
-                                        <span> - </span><span t-field="l.alert_date" t-field-options='{"format": "dd/MM/y"}'/>
-                                    </t>
-                                </p>
-                                <p t-field="l.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
-                                <div style="display: inline-block; float: right; position: relative;">
+                    <t t-foreach="p.pack_operation_ids" t-as="po">
+                        <div class="page" t-foreach="range(int(po.product_qty))" t-as="page_loop">
+                            <div style="min-height: 40px; margin-bottom: 5px;">
+                                <div style="position: relative; display: inline-block; float: left; padding: 0; z-index: 1;">
                                     <!-- Barcode reader uses english keyboard layout -->
-                                    <t t-set="product_barcode" t-value="l.product_id.default_code"/>
-                                    <t t-if="product_barcode">
-                                        <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
-                                        <!-- Generate barcode image -->
-                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', product_barcode, 1200, 120)" height="65" width="600" style="margin-right: -130px;"/>
-                                        <div t-field="l.product_id.default_code" style="position: absolute; bottom: 0px; right: 25%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
-                                    </t>
+                                    <t t-set="barcode" t-value="po.lot_id.name"/>
+                                    <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                    <!-- Generate barcode image -->
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)"
+                                         height="65" width="600" style="margin-left: -90px;"/>
+                                    <div t-field="po.lot_id.name"
+                                         style="position: absolute; bottom: 0px; left: 29%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
                                 </div>
+                                <div style="clear: both;"/>
                             </div>
-                        </t>
+                            <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
+                                <span t-field="po.lot_id.product_id.description"/>
+                                <t t-if="po.lot_id.life_date">
+                                    <span> - </span><span t-field="po.lot_id.life_date" t-field-options='{"format": "dd/MM/y"}'/>
+                                </t>
+                                <t t-if="not po.lot_id.life_date">
+                                    <span> - __/__/____</span>
+                                </t>
+                                <t t-if="po.lot_id.alert_date">
+                                    <span> - </span><span t-field="po.lot_id.alert_date" t-field-options='{"format": "dd/MM/y"}'/>
+                                </t>
+                                <t t-if="not po.lot_id.alert_date">
+                                    <span> - __/__/____</span>
+                                </t>
+                            </p>
+                            <p t-field="po.lot_id.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
+                            <div style="display: inline-block; float: right; position: relative;">
+                                <!-- Barcode reader uses english keyboard layout -->
+                                <t t-set="product_barcode" t-value="po.lot_id.product_id.default_code"/>
+                                <t t-if="product_barcode">
+                                    <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
+                                    <!-- Generate barcode image -->
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', product_barcode, 1200, 120)"
+                                         height="65" width="600" style="margin-right: -130px;"/>
+                                    <div t-field="po.lot_id.product_id.default_code"
+                                         style="position: absolute; bottom: 0px; right: 25%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
+                                </t>
+                            </div>
+                        </div>
                     </t>
                 </t>
             </t>

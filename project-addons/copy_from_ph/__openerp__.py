@@ -17,6 +17,7 @@
     'data' : [
         'views/mrp_bom_view.xml',
         'views/product_view.xml',
+        'views/stock_production_lot_view.xml',
     ],
     'installable': True
 }

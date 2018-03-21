@@ -5,25 +5,50 @@
             <field name="name">Copy from - Product product</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">17</field>
             <field name="arch" type="xml">
                 <field name="analysis_ids" position="before">
                     <style>
-                        .copy_from_ph_style td:nth-child(1) {
-                            max-width: 100px;
+                        .openerp .oe_application .oe_form_sheetbg .copy_from_ph_style td:nth-child(1) label {
+                            min-width: auto;
                         }
-                        .copy_from_ph_style td:nth-child(2) {
-                            max-width: 30%;
+                        .copy_from_ph_style td:nth-child(1),
+                        .copy_from_ph_style td:nth-child(2),
+                        .copy_from_ph_style td:nth-child(3) {
+                            width: auto;
                         }
                     </style>
-                    <group col="3" class="copy_from_ph_style">
-                        <field name="copy_analysis_from"/>
-                        <button string="Copy" name="action_copy_analysis_from"
-                                class="oe_inline"
-                                type="object"
-                                attrs="{'invisible': [('copy_analysis_from', '=', False)]}"
-                        />
+                    <group col="3">
+                        <group colspan="2" col="3" class="copy_from_ph_style">
+                            <field name="copy_analysis_from"/>
+                            <button string="Copy" name="action_copy_analysis_from"
+                                    class="oe_inline"
+                                    type="object"
+                                    attrs="{'invisible': [('copy_analysis_from', '=', False)]}"
+                            />
+                        </group>
+                        <group col="1">
+                            <separator/>
+                        </group>
                     </group>
                 </field>
+                <page string="Warnings" position="after">
+                    <page string="Technical tools" groups="base.group_system">
+                        <group col="3">
+                            <group colspan="2" col="3" class="copy_from_ph_style">
+                                <field name="copy_data_from"/>
+                                <button string="Copy" name="action_copy_data_from"
+                                        class="oe_inline"
+                                        type="object"
+                                        attrs="{'invisible': [('copy_data_from', '=', False)]}"
+                                />
+                            </group>
+                            <group col="1">
+                                <separator/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
             </field>
         </record>
     </data>
