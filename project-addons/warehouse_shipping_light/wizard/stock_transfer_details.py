@@ -161,7 +161,8 @@ class StockTransferDetailsItems(models.TransientModel):
         message = False
 
         gtin14_id = self.product_id.\
-            gtin14_partner_specific(self.transfer_id.partner_id)
+            gtin14_partner_specific(self.transfer_id.picking_id.partner_id) if \
+            self.transfer_id else False
         complete_qty = gtin14_id.units if gtin14_id else \
             self.product_id.box_elements
 

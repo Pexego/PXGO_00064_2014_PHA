@@ -9,12 +9,14 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     sequence_id = fields.Many2one(comodel_name='ir.sequence',
-                                  related='product_id.sequence_id')
+                                  related='product_id.sequence_id',
+                                  readonly=True)
     copy_analysis_from = fields.Many2one(string='Copy from...',
             comodel_name='stock.production.lot')
     copy_analysis_from_product_id = fields.Many2one(
         comodel_name="product.product",
-        related="copy_analysis_from.product_id")
+        related="copy_analysis_from.product_id",
+        readonly=True)
 
     @api.multi
     def action_copy_analysis_from(self):
