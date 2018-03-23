@@ -7,7 +7,9 @@
         <field name="arch" type="xml">
             <form string="Canal de venta">      
                 <label for="name">Nombre</label>              
-                <field name="name" />
+                <field name="name"/>
+                <label for="name">Activo</label>
+                <field name="active"/>
             </form>
         </field>
     </record>  
