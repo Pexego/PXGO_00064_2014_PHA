@@ -8,7 +8,7 @@
             <form string="Canal de venta">      
                 <label for="name">Nombre</label>              
                 <field name="name"/>
-                <label for="name">Activo</label>
+                <label for="active">Activo</label>
                 <field name="active"/>
             </form>
         </field>
