@@ -75,7 +75,7 @@
                                attrs="{'readonly': [('state', 'in', ('paid', 'cancel'))]}"/>
                         <button string="Apply" name="action_apply_return_reason_account"
                                 type="object" class="oe_inline"
-                                attrs="{'invisible': [('state', 'in', ('paid', 'cancel'))]}"/>
+                                attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('return_reason', '=', False)]}"/>
                     </div>
                 </div>
             </field>
