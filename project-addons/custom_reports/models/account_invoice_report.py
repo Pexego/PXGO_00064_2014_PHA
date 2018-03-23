@@ -187,7 +187,7 @@ class AccountInvoiceReport(models.Model):
                     join product_category pc_aux on pc_aux.id = pcr.categ_id
             		join product_category cpc on cpc.id = pc_aux.parent_id
             		 and cpc.commissions_parent_category is True
-                    where pcr.product_id = pr.id
+                    where pcr.product_id = pt.id
                     limit 1
                 )
             left join res_partner spa on spa.id = ai.partner_shipping_id
