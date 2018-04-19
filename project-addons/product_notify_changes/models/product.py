@@ -11,6 +11,9 @@ class ProductProduct(models.Model):
     def write(self, vals):
         disable_notify_changes = self.env.context.get('disable_notify_changes',
                                                       False)
+        if (not disable_notify_changes) and (len(vals) == 1) and \
+                ('standard_price' in vals):
+            disable_notify_changes = True
 
         if not disable_notify_changes:
             orig_values = {}
