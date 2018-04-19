@@ -53,13 +53,15 @@
                                     <field name="realized"/>
                                     <field name="method" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                                     <field name="analysis_type" readonly="True"/>
-                                    <field name="expected_result"/>
+                                    <field name="expected_result" />
+                                    <field name="expected_result_boolean" invisible="1"/>
+                                    <field name="expected_result_expr" invisible="1"/>
                                     <field name="result_boolean" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
                                     <field name="result_str" attrs="{'readonly': ['|', ('analysis_type', 'not in', ('expr', 'free')), ('raw_material_analysis', '!=', False)]}"/>
                                     <field name="result" invisible="1"/>
                                     <field name="passed"/>
                                     <field name="realized_by" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
-                                    <field name="decimal_precision" digits="[42, 10]" readonly="1"/>
+                                    <field name="decimal_precision" digits="[42, 10]" readonly="1" attrs="{'invisible': [('analysis_type', '=', 'free')]}"/>
                                     <field name="expr_error"/>
                                 </tree>
                                 <form>

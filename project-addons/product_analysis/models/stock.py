@@ -57,7 +57,9 @@ class StockLotAnalysis(models.Model):
     decimal_precision = fields.Float(digits=0, default=0.0001)
     raw_material_analysis = fields.Boolean()
 
-    @api.depends('result_str', 'result_boolean', 'analysis_type')
+    @api.multi
+    @api.depends('result_str', 'result_boolean', 'analysis_type',
+                 'expected_result_expr', 'expected_result_boolean')
     def _compute_result(self):
         for analysis in self:
             expected_result = result = ''
