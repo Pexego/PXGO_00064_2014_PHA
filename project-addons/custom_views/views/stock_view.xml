@@ -90,6 +90,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="picking_type_desc" class="oe_inline" readonly="1"/>
+                    <field name="edi_desadv" invisible="1"/>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('edi_desadv', '!=', True)]}">DESADV</span>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': ['|', ('edi_desadv', '!=', True), ('channel_name', '!=', 'EDI')]}"> - </span>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
                 </field>
                 <button name="force_assign" position="attributes">
                     <attribute name="groups">base.group_system</attribute>
@@ -99,11 +109,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </button>
                 <field name="valued_picking" position="after">
                     <field name="photo_url" widget="url"/>
-                </field>
-                <field name="picking_type_desc" position="after">
-                    <span class="oe_right"
-                          style="margin-bottom: -30px; font-size: 40px;"
-                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
                 </field>
                 <page string="Additional Info" position="inside">
                     <div attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}">
@@ -206,6 +211,23 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <group colspan="4">
                         <field name="notes"/>
                     </group>
+                </field>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="product_description"/>
+                    <field name="product_code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="custom_views_inventory_line_tree" model="ir.ui.view">
+            <field name="name">Custom views - Stock inventory line tree</field>
+            <field name="model">stock.inventory.line</field>
+            <field name="inherit_id" ref="stock.stock_inventory_line_tree"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="product_id" position="before">
+                    <field name="product_description"/>
+                    <field name="product_code"/>
                 </field>
             </field>
         </record>

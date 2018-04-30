@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="product_analysis_available_questions" model="ir.ui.view">
+            <field name="name">Product analysis - Available questions</field>
+            <field name="model">product.analysis</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0">
+                    <field name="name"/>
+                    <!--field name="display_name"/-->
+                    <field name="method"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_product_analysis_available_questions" model="ir.actions.act_window">
+            <field name="name">Product analysis (questions)</field>
+            <field name="res_model">product.analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_analysis_available_questions"/>
+        </record>
+
+        <menuitem action="action_product_analysis_available_questions"
+                  id="menu_product_analysis_available_questions"
+                  parent="quality_management_menu.menu_qc_products"
+                  sequence="22"/>
+    </data>
+</openerp>

@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="1">
-        <delete model="ir.ui.view" id="mrp_operations.mrp_production_form_inherit_view"/>
-        <delete model="ir.ui.view" id="mrp_operations.mrp_production_form_inherit_view2"/>
-    </data>
-
     <data>
         <record id="mrp_production_form_view_add_adjustments" model="ir.ui.view">
             <field name="name">mrp.production.form.add_adjustments</field>

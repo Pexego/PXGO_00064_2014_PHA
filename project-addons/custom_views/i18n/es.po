@@ -337,7 +337,9 @@ msgid "Desc:"
 msgstr "Desc:"
 
 #. module: custom_views
+#: field:product.product,description:0
 #: field:purchasable.products,description:0
+#: field:stock.inventory.line,product_description:0
 msgid "Description"
 msgstr "Descripción"
 
@@ -1267,3 +1269,8 @@ msgstr "Facturado en otros años"
 #: model:ir.ui.menu,name:custom_views.menu_partner_invoiced_tree
 msgid "Partners invoiced"
 msgstr "Clientes fact. x años"
+
+#. module: crm_claim
+#: field:crm.claim.stage,name:0
+msgid "In Progress"
+msgstr "Finalizada"

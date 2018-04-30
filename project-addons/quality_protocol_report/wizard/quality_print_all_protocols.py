@@ -73,9 +73,10 @@ class QualityReportAll(models.TransientModel):
                                 'name': line.name,
                                 'workcenter_line_id': workcenter_line.id
                             })
-            res.append(urljoin(base_url, "protocol/print/%s/%s/%s" %
+            weight = workcenter_line.workcenter_id.protocol_type_id.weight
+            res.append(urljoin(base_url, 'protocol/print/%s/%s/%s?weight=%02d' %
                                (slug(obj), slug(use_protocol),
-                                slug(workcenter_line))))
+                                slug(workcenter_line), weight)))
         return res
 
     def _merge_pdf(self, documents):
@@ -114,22 +115,28 @@ class QualityReportAll(models.TransientModel):
         if not request:
             raise exceptions.Warning(_(''), _(''))
         session_id = request.session.sid
-        addons_url = self.env['ir.config_parameter'].get_param('addons_path')
+        config = self.env['ir.config_parameter']
+        addons_url = config.get_param('addons_path')
+        phantomjs_path = config.get_param('phantomjs_path')
+        phantomjs_path = 'phantomjs' if not phantomjs_path else phantomjs_path
         print_urls = self._get_print_urls()
         if not print_urls:
             return
         phantom = [
-            "phantomjs",
+            phantomjs_path,
             addons_url +
-            "/quality_protocol_report/static/src/js/phantom_url_to_pdf.js",
+            '/quality_protocol_report/static/src/js/phantom_url_to_pdf.js',
             session_id, "/tmp"] + print_urls
         process = subprocess.Popen(phantom)
         process.communicate()
         filenames = []
         for url in print_urls:
-            filenames.append('/tmp/' + url.replace('/', '').replace(':', '') +
-                             '.pdf')
-        filepath = self._merge_pdf(filenames)
+            fname = url.replace('/', '').replace(':', '')
+            weight_pos = fname.find('?weight=')
+            if weight_pos > -1:
+                fname = fname[-2:] + '-' + fname[:weight_pos]
+            filenames.append('/tmp/' + fname + '.pdf')
+        filepath = self._merge_pdf(sorted(filenames))
         fildecode = open(filepath, 'r')
         encode_data = fildecode.read()
         fildecode.close()

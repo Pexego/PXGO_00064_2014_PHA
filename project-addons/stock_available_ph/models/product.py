@@ -83,6 +83,8 @@ class ProductTemplate(models.Model):
                                       digits=(16, 2),
                                       readonly=True)
     bom_member = fields.Boolean(string='BoM member?', compute='_bom_member')
+    bom_member_of_count = fields.Integer(string='BoM member of count',
+                                      compute='_bom_member')
     has_bom = fields.Boolean(compute='_has_bom')
     time_adviser = fields.One2many(comodel_name='product.time.adviser',
                                    inverse_name='product_tmpl_id')
@@ -113,6 +115,7 @@ class ProductTemplate(models.Model):
                 ('bom_id.product_id.active', '=', True)
             ])
             p.bom_member = True if bom_line_ids else False
+            p.bom_member_of_count = len(bom_line_ids)
 
     @api.multi
     @api.depends('cons_by_day_i_total')

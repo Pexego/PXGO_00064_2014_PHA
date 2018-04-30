@@ -57,7 +57,7 @@ class ProductProduct(models.Model):
                 if field in origin_product._fields:
                     dict[field] = getattr(origin_product, field)
             dict['copy_analysis_from'] = origin_product
-            self.update(dict)
+            self.with_context(disable_notify_changes = True).update(dict)
 
             # Quality analysis questions
             self.action_copy_analysis_from()

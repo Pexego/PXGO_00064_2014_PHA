@@ -76,7 +76,12 @@
                                         <span t-field="partner.comercial"/>
                                     </t>
                                 </td>
-                                <td><span t-field="partner.street"/></td>
+                                <td>
+                                    <span t-field="partner.street"/>
+                                    <t t-if="partner.street2">
+                                        <br/><span t-field="partner.street2"/>
+                                    </t>
+                                </td>
                                 <td><span t-field="partner.phone"/></td>
                                 <td><span t-field="partner.zip"/></td>
                                 <td><span t-field="partner.city"/></td>
