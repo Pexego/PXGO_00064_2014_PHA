@@ -91,6 +91,7 @@
   .container {
     margin: 0 !important;
     padding: 15px !important;
+    width:100%;
   }
   .proto_fuente_normal {
     font-size: 17px;
