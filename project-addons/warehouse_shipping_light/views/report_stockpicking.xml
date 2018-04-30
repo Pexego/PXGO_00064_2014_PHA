@@ -404,7 +404,7 @@
                                     <t t-set="rest" t-value="po.product_qty - (completes * complete_qty)"/>
                                     <span t-esc="'{:g}'.format(po.product_qty)"/>
                                     <br/>
-                                    <span t-esc="'({:g}+{:g})'.format(completes, rest)"/>
+                                    <span t-if="gtin14_id" t-esc="'({:g}+{:g})'.format(completes, rest)"/>
                                 </td>
                                 <td style="width: 15%; vertical-align: middle;" class="text-center">
                                     <span t-field="po.lot_id"/>
