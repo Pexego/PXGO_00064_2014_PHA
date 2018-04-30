@@ -238,6 +238,12 @@ class StockInventory(models.Model):
     notes = fields.Text()
 
 
+class StockInventoryLine(models.Model):
+    _inherit = 'stock.inventory.line'
+
+    product_description = fields.Text(related='product_id.description')
+
+
 class StockLocation(models.Model):
     _inherit = 'stock.location'
 
