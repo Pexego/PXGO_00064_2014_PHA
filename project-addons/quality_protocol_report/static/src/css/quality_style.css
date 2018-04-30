@@ -3,9 +3,23 @@
   display: table;
   width: 100%;
 }
-.openerp .quality_row table {
-    margin: 0px;
-    padding: 0px;
+.openerp .quality_row .form-control,
+.openerp .oe_form .quality_row input,
+.openerp .oe_form .quality_row input[type="text"],
+.openerp .oe_form .quality_row input[type="number"],
+.openerp .oe_form .quality_row input[type="time"],
+.openerp .oe_form .quality_row input[type="date"],
+.openerp .oe_form .quality_row input[type="datetime-local"],
+.openerp .oe_form .quality_row input[type="month"],
+.openerp .oe_form .quality_row input[type="password"],
+.openerp .oe_form .quality_row input[type="file"],
+.openerp .oe_form .quality_row select,
+.openerp .oe_form .js_question-wrapper .form-control {
+  display: inline;
+  line-height: 2em;
+  height: 2em;
+  min-width: 5em;
+  width: auto;
 }
 .openerp .quality_row ul {
   display: table-row;
@@ -18,8 +32,10 @@
   padding-left: 10px;
   padding-top: 3px;
   border: 1px solid #ababab;
-  }
+}
 .openerp .quality_row table {
+  margin: 0px;
+  padding: 0px;
   width: 100%;
   position: relative;
 }
@@ -28,82 +44,139 @@
 }
 .openerp .quality_row tr td {
   padding-left: 5px;
+  min-height: 3em;
 }
-
-.openerp .quality_view table tr td input:not([type="checkbox"]) {
+.openerp .quality_view table tr td input:not([type="checkbox"]),
+.openerp .oe_form .quality_row table tr td input:not([type="checkbox"]) {
   height: 100%;
   width: 100%;
   padding: 0;
 }
-
 .unique_field {
-    display: inline-block;
-    padding-bottom: 3px;
+  display: inline-block;
+  padding-bottom: 3px;
 }
-.unique_field label {
-    width: 25%;
-    float: left;
-}
-.unique_field input {
-    width: 75%;
-}
-.unique_field input[type="checkbox"] {
-    height: 17px;
-    width: 17px;
+.quality_view .row input[type="checkbox"] {
+  height: 17px;
+  width: 17px;
 }
 .textCenter {
-    text-align: center;
+  text-align: center;
 }
-
-.view,.survey {
-    padding-top:8px;
-    padding-bottom:8px;
+.view, .survey {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
-
-.quality_view .row input[type="checkbox"] {
-    height: 17px;
-    width: 17px;
-}
-
-.proto_fuente_normal {
-  font-size: 11px;
-}
-.proto_fuente_grande {
+.openerp .quality_view *,
+.proto_fuente_normal,
+.openerp .oe_form .js_question-wrapper *,
+.openerp .oe_form .js_question-wrapper h2 span {
   font-size: 14px;
 }
-.openerp .oe_form .survey h2,
-.openerp .oe_form .quality_view h2 {
-  font-size: 17px;
+.proto_fuente_grande,
+.openerp .oe_form .survey .page-header h2,
+.openerp .oe_form .survey .page-header h2 span,
+.openerp .oe_form .quality_view h2,
+.openerp .oe_form .quality_view h2 span {
+  font-size: 18px;
 }
-.openerp .oe_form .js_question-wrapper h2 span,
-.openerp .oe_form .js_question-wrapper label {
-  font-size: 14px;
+.openerp .oe_form .js_question-wrapper * {
+  font-weight: normal;
+}
+.openerp .oe_form label.campo_si_no {
+  display: inline-block;
+  position: relative;
+  margin-left: 1em;
+  padding-left: 25px;
+  margin-bottom: 3px;
+  padding-top: 1px;
+  cursor: pointer;
+}
+.campo_si_no input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.campo_si_no_indicador {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: white;
+  border: 2px solid black;
+}
+.campo_si_no .campo_si_no_indicador:after {
+  box-sizing: unset;
+  content: '';
+  position: absolute;
+  display: none;
+}
+.campo_si_no input:checked ~ .campo_si_no_indicador:after {
+  display: block;
+}
+.campo_si_no .campo_si_no_indicador:after {
+  left: 3px;
+  top: 3px;
+  height: 10px;
+  width: 10px;
+  background: black;
+}
+.campo_si_no_separador {
+  display: inline-box;
+  height: 20px;
+  width: 20px;
+  background: red;
 }
 
-@media print{
-  * {
-    font-family: "DejaVu Sans", FreeSans !important;
-  }
+@media print {
   body {
-    width: 1000px !important;
     overflow-x: hidden;
   }
-  .container {
-    margin: 0 !important;
-    padding: 15px !important;
+  .openerp .quality_view * {
+    font-family: "DejaVu Sans", FreeSans !important;
   }
-  .proto_fuente_normal {
-    font-size: 17px;
+  .openerp .quality_view *,
+  .proto_fuente_normal,
+  .openerp .oe_form .js_question-wrapper *,
+  .openerp .oe_form .js_question-wrapper h2 span {
+    font-size: 10px;
   }
-  .proto_fuente_grande {
-    font-size: 22px;
+  .proto_fuente_grande,
+  .openerp .oe_form .survey .page-header h2,
+  .openerp .oe_form .survey .page-header h2 span,
+  .openerp .oe_form .quality_view h2,
+  .openerp .oe_form .quality_view h2 span {
+    font-size: 12px;
   }
-  .openerp .oe_form .js_question-wrapper h2 span,
-  .openerp .oe_form .js_question-wrapper label {
-    font-size: 20px;
+  .openerp .oe_form .js_question-wrapper * {
+    font-weight: normal;
   }
-  .openerp .oe_form .survey h2,
-  .openerp .oe_form .quality_view h2 {
-    font-size: 24px;
+  /* Oculta los controles de los inputs numéricos, de fecha y hora */
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button,
+  ::-webkit-clear-button,
+  ::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+    margin: 0;
+  }
+  select,
+  .openerp .quality_view select {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  td input,
+  .openerp .quality_view td input {
+    border: none;
+  }
+  tfoot,
+  .openerp .quality_view tfoot {
+    display: none;
+  }
+  table,
+  .openerp .quality_view table {
+    page-break-inside: avoid;
   }
 }

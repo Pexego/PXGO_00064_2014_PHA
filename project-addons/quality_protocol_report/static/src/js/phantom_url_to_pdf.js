@@ -3,11 +3,20 @@
  */
 var system = require("system");
 
-function replaceAll( text, busca, reemplaza ){
+function replaceAll(text, busca, reemplaza) {
     while (text.toString().indexOf(busca) != -1)
         text = text.toString().replace(busca,reemplaza);
     return text;
-}
+};
+
+function extractWeight(text) {
+    posWeight = text.indexOf('?weight=');
+    if (posWeight != -1) {
+        return text.substring(posWeight);
+    } else {
+        return '';
+    }
+};
 
 RenderUrlsToFile = function(urls, session_id, dest_path) {
     var getFilename, next, page, retrieve, urlIndex, webpage;
@@ -34,15 +43,10 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
               'domain': parser.hostname
             });
             page = webpage.create();
-            page.zoomFactor = 1;
-            page.viewportSize = {
-              width: 1000,
-              height: 800
-            };
             page.paperSize = {
               format: 'A4',
               orientation: 'portrait',
-              margin: '1cm',
+              margin: '0.5cm',
             };
             page.settings.userAgent = "Phantom.js bot";
             return page.open(url, function(status) {
@@ -50,7 +54,15 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
                 file = getFilename();
                 if (status === "success") {
                     return window.setTimeout((function() {
-                        page.render(dest_path + '/' + replaceAll(replaceAll(url, ':', ''), '/', '') + '.pdf', {format: 'pdf', quality: '100'});
+                        dest_file = replaceAll(replaceAll(url, ':', ''), '/', '');
+                        weight = extractWeight(dest_file);
+                        if (weight > '') {
+                            dest_file = replaceAll(dest_file, weight, '');
+                            weight = weight.substring(8); // "?weight=XX"
+                            dest_file = weight + '-' + dest_file;
+                        };
+                        dest_file = dest_path + '/' + dest_file + '.pdf';
+                        page.render(dest_file, {format: 'pdf', quality: '100'});
                         return next(status, url, file);
                     }), 5000);
                 } else {
