@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2018 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data noupdate="1">
+        <template name="help-product-analysis-rel" id="website.help-product-analysis-rel" page="True">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                  <section>
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h1 class="text-center">Ayuda para le generación de expresiones</h1>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section>
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-6 mt16"/>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="mt16 mb128">
+                    <div class="container">Las expresiones deben de realizarse en el lenguaje de programación python. En las expresiones se debe de usar el caracter x o X para representar el resultado del analisis a evaluar. También hay que tener en cuenta que se debe de utilizar el punto como separador decimal.</div>
+                    <div class="container"/>
+                    <div class="container">Es posible utilizar los siguientes operadores</div>
+                    <div class="container">&amp;lt;&amp;nbsp; Menor</div>
+                    <div class="container">&amp;gt; mayor</div>
+                    <div class="container">&amp;lt;= menor o igual</div>
+                    <div class="container">&amp;gt;= mayor o igual</div>
+                    <div class="container">== igual</div>
+                    <div class="container">!= diferente</div>
+                    <h3 class="container">Ejemplos de expresiones&amp;nbsp;</h3>
+                    <div class="container">Expresiones de comparación simple</div>
+                    <div class="container">X &amp;lt; 10 ( x menor a 10)</div>
+                    <div class="container">X &amp;lt;= 10 (x menor o igual a 10)<br/>
+        X &amp;gt; 10 (x mayor a 10)</div>
+                    <div class="container">X &amp;gt;= 10 (x mayor o igual a 10)<br/>
+        10 &amp;lt; X &amp;lt; 20 (x mayor a que 10 y menor que 20)</div>
+                    <div class="container">x &amp;lt; 10.25 (x menor que 10.25)</div>
+                    <div class="container"/>
+                    <div class="container">También es posible utilizar la notación cientifica:<br/>
+        X &amp;gt; 4.08E-10 (x mayor que 4.08 X 10<sup>-10</sup>)<br/>
+        X &amp;lt; 5.27E20 (x menor que 5.27 X 10<sup>20</sup>)<br/>
+        X &amp;gt; 4.08e-10 (x mayor que 4.08 X 10<sup>-10</sup>)</div>
+                    <h3 class="container">Ayuda adicional</h3>
+                    <div class="container"><a href="https://repl.it/languages/python" target="_blank">repl.it/languages/python</a>&amp;nbsp;-&amp;gt; Página con una consola en la que se pueden hacer comprobaciones de expresiones (asegurarse de cambiar la x por un número para hacer pruebas).</div>
+                    <div class="container"><img class="img img-responsive" src="/product_analysis/static/src/img/ejemplo_replit.bmp"/></div>
+                </section>
+                </div>
+            </t>
+        </template>
+    </data>
+</openerp>
