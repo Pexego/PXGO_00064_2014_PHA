@@ -985,7 +985,7 @@
                     }
                 }
                 if (settings.columns[y].type == 'datetime-local') {
-                        console.log(ctrl)
+                        //console.log(ctrl)
                         //$(ctrl).AnyTime_picker();
                     }
                 // Add extra control properties

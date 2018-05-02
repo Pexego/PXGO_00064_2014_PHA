@@ -26,6 +26,7 @@ class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
     partner_id = fields.Many2one('res.partner', 'Partner (invoice send address)')
+    partner_creation_date = fields.Date('Partner creation date')
     commercial_partner_id = fields.Many2one('res.partner', 'Partner (invoicing address)')
     commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
@@ -62,6 +63,7 @@ class AccountInvoiceReport(models.Model):
     def _select(self):
         select_str = super(AccountInvoiceReport, self)._select() + """,
             commercial_name,
+            partner_creation_date,
             partner_parent_category,
             partner_category,
             commission_category,
@@ -94,6 +96,7 @@ class AccountInvoiceReport(models.Model):
     def _sub_select(self):
         select_str = super(AccountInvoiceReport, self)._sub_select() + """,
             partner.comercial as commercial_name,
+            partner.create_date as partner_creation_date,
             case
                 when parent_rpc.name is null then '(Sin categoría)'
                 else parent_rpc.name
@@ -184,7 +187,7 @@ class AccountInvoiceReport(models.Model):
                     join product_category pc_aux on pc_aux.id = pcr.categ_id
             		join product_category cpc on cpc.id = pc_aux.parent_id
             		 and cpc.commissions_parent_category is True
-                    where pcr.product_id = pr.id
+                    where pcr.product_id = pt.id
                     limit 1
                 )
             left join res_partner spa on spa.id = ai.partner_shipping_id
@@ -199,6 +202,7 @@ class AccountInvoiceReport(models.Model):
     def _group_by(self):
         group_by_str = super(AccountInvoiceReport, self)._group_by() + """,
             commercial_name,
+            partner_creation_date,
             partner_parent_category,
             partner_category,
             commission_category,

@@ -179,6 +179,85 @@ function datetimeToISOStr(date) {
             return today;
 };
 
+function desmarcaCampoSiNo(obj) {
+    if (obj.data('marcado')) {
+        if (obj.attr('value') == 'Sí') {
+            var valor = 'No';
+        } else {
+            var valor = 'Sí';
+        };
+        obj.data('marcado', false);
+        $('input#' + obj.attr('id') + '[value="' + valor + '"]').prop('checked', true);
+    } else {
+        obj.data('marcado', true);
+    };
+};
+
+function plantillaSiNo(obj) {
+    var valor = obj.val();
+
+    obj.after(
+        '<label class="campo_si_no">' +
+        '  Sí<input class="form-control" style="display: inline;" name="' +
+        obj.attr('name') + '" value="Sí" type="radio"/>' +
+        '  <span class="campo_si_no_indicador"></span>' +
+        '</label>' +
+        '<label class="campo_si_no">' +
+        '  No<input class="form-control" style="display: inline;" name="' +
+        obj.attr('name') + '" value="No" type="radio"/>' +
+        '  <span class="campo_si_no_indicador"></span>' +
+        '</label>'
+    );
+
+    var id = obj.attr('id');
+
+    objSi = $('input[name="' + obj.attr('name') + '"][value="Sí"]');
+    objSi.prop('checked', obj.val() == 'Sí').data('marcado', obj.val() == 'Sí');
+    if (id !== null) {objSi.prop('id', id)};
+
+    objNo = $('input[name="' + obj.attr('name') + '"][value="No"]');
+    objNo.prop('checked', obj.val() == 'No').data('marcado', obj.val() == 'No');
+    if (id !== null) {objNo.prop('id', id)};
+
+    if (obj.tipo == 'No') {
+        objSi.parent().hide();
+        objNo.click(function() {desmarcaCampoSiNo($(this))});
+    };
+    if (obj.tipo == 'Sí') {
+        objNo.parent().hide();
+        objSi.click(function() {desmarcaCampoSiNo($(this))});
+    };
+
+    obj.remove();
+};
+
+function preparaSiNo() {
+    var inputsSN = $('input[name*="_box_sn"]');
+    if (inputsSN.length > 0) {
+        inputsSN.each(function() {
+            var obj = $(this);
+            obj.tipo = 'SíNo';
+            plantillaSiNo(obj);
+        });
+    };
+    var inputsSI = $('input[name*="_box_si"]');
+    if (inputsSI.length > 0) {
+        inputsSI.each(function() {
+            var obj = $(this);
+            obj.tipo = 'Sí';
+            plantillaSiNo(obj);
+        });
+    };
+    var inputsNO = $('input[name*="_box_no"]');
+    if (inputsNO.length > 0) {
+        inputsNO.each(function() {
+            var obj = $(this);
+            obj.tipo = 'No';
+            plantillaSiNo(obj);
+        });
+    };
+};
+
 $(function () {
     if($("#done").length) {
         $(":input").prop('disabled', true);
@@ -222,12 +301,10 @@ $(function () {
                         var key = columns[i];
                         if (key === "id") {
                             table_columns.push({name: key, type: 'hidden'});
-                        }
-                        else {
+                        } else {
                             if (columns_options && columns_options[key] == "hidden") {
                                 table_columns.push({name: key, type: 'hidden', ctrlProp:{'disabled': true}});
-                            }
-                            else{
+                            } else {
                                 var ctrlProp = {};
                                 var displayCss = {};
                                 var uiOption = {};
@@ -261,14 +338,14 @@ $(function () {
 
                         }
                     }
-                /*Se rellena la tabla con los datos de los registros*/
-                obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
-                    if (response[field_to_represent].length > 0) {
-                        var initData = [];
-                        var read_filter = filter.concat([['id', 'in', response[field_to_represent]]]);
-                        view_model.call('search_read', [read_filter, columns], {context: context}).then(function(rows_data) {
-                            for (var j = 0; j<rows_data.length;j++) {
-
+                    /*Se rellena la tabla con los datos de los registros*/
+                    obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
+                        var tablaAG = false;
+                        if (response[field_to_represent].length > 0) {
+                            var initData = [];
+                            var read_filter = filter.concat([['id', 'in', response[field_to_represent]]]);
+                            view_model.call('search_read', [read_filter, columns], {context: context}).then(function(rows_data) {
+                                for (var j = 0; j<rows_data.length;j++) {
                                     var gridRow = {};
                                     for (var k=0; k<columns.length; k++) {
                                         if (format_columns[columns[k]] === "datetime") {
@@ -285,8 +362,8 @@ $(function () {
                                         }
                                     }
                                     initData.push(gridRow);
-                            }
-                            self.appendGrid({
+                                }
+                                self.appendGrid({
                                     initRows: init_rows,
                                     columns: table_columns,
                                     hideButtons: {
@@ -302,42 +379,63 @@ $(function () {
                                     customGridButtons:{
                                                 append: $('<button/>').text('Insert').get(0),
                                             },
-                                    customRowButtons: no_delete_option ? [] : [
-                                                        { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
-                                                    ]
+                                    customRowButtons: no_delete_option ? [] : [{
+                                        uiButton: {icons: {primary: 'ui-icon-delete'}, text: false },
+                                        click: deleteRow,
+                                        btnCss: {'min-width': '20px'},
+                                        btnAttr: {title: 'Remove row'},
+                                        atTheFront: true
+                                    },]
                                 });
-                        });
-                    }
-                    else {
-                        self.appendGrid({
-                            initRows: init_rows,
-                            columns: table_columns,
-                            hideButtons: {
-                                removeLast: true,
-                                moveUp: true,
-                                remove: true,
-                                moveDown: true,
-                                insert: true,
-                                append: no_insert_option
-                            },
-                            hideRowNumColumn: true,
-                            customGridButtons:{
-                                                append: $('<button/>').text('Insert').get(0),
-                                            },
-                            customRowButtons: no_delete_option ? [] : [
-                                                { uiButton: { icons: { primary: 'ui-icon-delete' }, text: false }, click: deleteRow, btnCss: { 'min-width': '20px' }, btnAttr: { title: 'Remove row' }, atTheFront: true },
-                                            ]
-                        });
-                    }
-                });
+                            });
+                        } else {
+                            self.appendGrid({
+                                initRows: init_rows,
+                                columns: table_columns,
+                                hideButtons: {
+                                    removeLast: true,
+                                    moveUp: true,
+                                    remove: true,
+                                    moveDown: true,
+                                    insert: true,
+                                    append: no_insert_option
+                                },
+                                hideRowNumColumn: true,
+                                customGridButtons:{
+                                    append: $('<button/>').text('Insert').get(0),
+                                },
+                                customRowButtons: no_delete_option ? [] : [{
+                                    uiButton: {icons: {primary: 'ui-icon-delete'}, text: false},
+                                    click: deleteRow,
+                                    btnCss: {'min-width': '20px'},
+                                    btnAttr: {title: 'Remove row'},
+                                    atTheFront: true
+                                },]
+                            });
+                        };
+                    });
                 });
             });
-
-
         });
     });
 
+    setTimeout(function() {
+        // Buscamos los campos con sufijo "_box_sino" para reemplazar
+        // su input por dos botones de radio con ambas opciones
+        preparaSiNo();
+
+        // Los inputs de tipo número u hora no se muestran bien al imprimir con
+        // phantomjs, así que les cambiamos el tipo a texto y pista...
+        if (/Phantom.js bot/.test(window.navigator.userAgent)) {
+            $('.quality_row input[type="number"], .quality_row input[type="time"]').each(
+                function() {
+                    $(this).prop('type', 'text');
+                }
+            );
+        };
+    }, 500);
 });
+
 //Falta pepararlo para multiples tablas
 function deleteRow(evtObj, uniqueIndex, rowData) {
     if (rowData.id) {
@@ -557,16 +655,30 @@ function send_form_server() {
                     }
                 });
                 $(this).find(".form-control").each(function() {
-                    var input_value = $(this).attr("value");
-                    var name = $(this).attr("name");
-                    if(input_value==""){
-                        input_value = null;
-                    }
-                    if(name in write_vals[index]){
-                        alert("se sobreescribe el valor del input " + name);
-                        throw new Error("Something went badly wrong!");
-                    }
-                    write_vals[index][name] = input_value;
+                    if ($(this).attr('type') == 'radio') {
+                        if ($(this).prop('checked')) {
+                            var input_value = $(this).attr('value');
+                            var name = $(this).attr('name');
+                            if (['true', 'True', 'false', 'False'].indexOf(input_value) != -1) {
+                                write_vals[index][name] = eval(input_value);
+                            } else {
+                                write_vals[index][name] = input_value;
+                            }
+                        }
+                    } else {
+                        var input_value = $(this).attr('value');
+                        var name = $(this).attr('name');
+                        if (input_value == '') {
+                            input_value = null;
+                        } else if ($(this).attr('type') == 'float') {
+                            input_value = input_value.replace(',', '.');
+                        }
+                        if (name in write_vals[index]) {
+                            alert('Se sobreescribe el valor del input ' + name);
+                            throw new Error('Something went badly wrong!');
+                        }
+                        write_vals[index][name] = input_value;
+                    };
                 });
             });
         }

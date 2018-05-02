@@ -47,7 +47,8 @@
             <field name="priority">17</field>
             <field name="arch" type="xml">
                 <field name="state" position="after">
-                    <field name="create_uid"></field>
+                    <field name="shipped"/>
+                    <field name="create_uid"/>
                 </field>
             </field>
         </record>

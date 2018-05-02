@@ -21,13 +21,13 @@
 
 {
     'name': "Quality protocols reports",
-    'version': '1.0',
+    'version': '1.2',
     'category': 'quality',
     'description': """Allow to print quality protocols reports
                       -This module requires the installation of PhantomJS http://phantomjs.org/download.html
                       -After installation must add a parameter with key=addons_path and the absolute path of project_addons folder""",
-    'author': 'Pexego Sistemas Informáticos',
-    'website': 'www.pexego.es',
+    'author': 'Comunitea, Pharmadus I.T.',
+    'website': 'www.comunitea.com, www.pharmadus.com',
     "depends": ['base',
                 'survey',
                 'stock',
@@ -57,6 +57,7 @@
              'views/survey_view.xml',
              'views/mrp_workcenter_line_view.xml',
              'views/mrp_indicators_base_report_view.xml',
+             'views/protocol_type_view.xml',
              'security/ir.model.access.csv',
              'security/quality_protocol_report_security.xml'],
     "installable": True

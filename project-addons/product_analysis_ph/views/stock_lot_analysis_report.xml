@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.actions.report.xml" id="product_analysis.report_lot_analysis_certificate">
+            <field name="attachment">'Certificado de análisis - ' + time.strftime('%d/%m/%Y') + '.pdf'</field>
+        </record>
+    </data>
+</openerp>

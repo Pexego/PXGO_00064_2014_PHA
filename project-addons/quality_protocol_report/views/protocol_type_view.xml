@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="protocol_type_tree_view" model="ir.ui.view">
+            <field name="name">Protocol type tree</field>
+            <field name="model">protocol.type</field>
+            <field name="arch" type="xml">
+                <tree default_order="weight">
+                    <field name="weight"/>
+                    <field name="name"/>
+                    <field name="workcenter_ids"/>
+                    <field name="is_hoard"/>
+                    <field name="is_continuation"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="protocol_type_form_view" model="ir.ui.view">
+            <field name="name">Protocol type form</field>
+            <field name="model">protocol.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="workcenter_ids"/>
+                            <field name="is_hoard"/>
+                            <field name="is_continuation"/>
+                            <field name="weight"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_quality_protocol_type">
+            <field name="name">Protocols types</field>
+            <field name="res_model">protocol.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocol_type_tree_view"/>
+        </record>
+
+       <menuitem name="Quality protocols types"
+                 action="action_quality_protocol_type"
+                 id="menu_quality_protocol_type"
+                 parent="quality_management_menu.menu_quality_management_config"
+                 sequence="19"
+       />
+    </data>
+</openerp>

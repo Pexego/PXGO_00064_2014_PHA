@@ -68,7 +68,7 @@ class QualityProtocolReport(models.Model):
         for report in self:
             report.report_line_ids = report.mapped('report_lines.line_id')
 
-class protocol_type(models.Model):
+class ProtocolType(models.Model):
     _name = 'protocol.type'
 
     name = fields.Char('Name', size=64)
@@ -76,6 +76,8 @@ class protocol_type(models.Model):
                                      'Workcenter')
     is_hoard = fields.Boolean('Hoard')
     is_continuation = fields.Boolean('Continuation')
+    weight = fields.Integer(default=0)
+    active = fields.Boolean(default=True)
 
 
 class QualityProtocolReportLine(models.Model):

@@ -1,25 +1,8 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra <omar@pexego.es>$
-#    $Marta Vázquez Rodríguez <marta@pexego.es>$
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2014 Comunitea
+# © 2018 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
 
@@ -84,9 +67,11 @@ class product_container(models.Model):
 
 class product_quality_limits(models.Model):
 
-    _name = "product.quality.limits"
+    _name = 'product.quality.limits'
 
     name = fields.Many2one('product.template', required=True)
+    active = fields.Boolean(default=True)
+
     # case_weight
     full_case_min_action_weight = fields.Float('Full case action min')
     full_case_max_action_weight = fields.Float('Full case action max')
@@ -100,6 +85,13 @@ class product_quality_limits(models.Model):
     filter_av_max_alert_weight = fields.Float('Average filter weight max alert')
 
     # filter weight
+    filter_tare = fields.Float('Filter tare',
+                               digits=dp.get_precision('Stock Weight'))
+    filter_tare_str = fields.Char(compute='_filter_tare_str')
+    filter_gross_weight = fields.Float('Filter gross weight',
+                                       compute='_filter_gross_weight',
+                                       digits=dp.get_precision('Stock Weight'))
+    filter_gross_weight_str = fields.Char(compute='_filter_gross_weight')
     filter_min_action_weight = fields.Float('Filter weight min action')
     filter_max_action_weight = fields.Float('Filter weight max action')
     filter_min_alert_weight = fields.Float('Filter weight min alert')
@@ -129,8 +121,20 @@ class product_quality_limits(models.Model):
     @api.depends('name.weight_net', 'name.qty')
     def _get_unit_weight_str(self):
         for spec in self:
-            spec.unit_weight_str = '%s KG (%s g)' % \
+            spec.unit_weight_str = '%s kg (%s g)' % \
                 (spec.unit_weight, spec.unit_weight * 1000)
+
+    @api.depends('filter_tare')
+    def _filter_tare_str(self):
+        for spec in self:
+            spec.filter_tare_str = 'kg (%s g)' % (spec.filter_tare * 1000)
+
+    @api.depends('filter_tare', 'name.weight_net', 'name.qty')
+    def _filter_gross_weight(self):
+        for spec in self:
+            spec.filter_gross_weight = spec.unit_weight + spec.filter_tare
+            spec.filter_gross_weight_str = 'kg (%s g)' % \
+                                           (spec.filter_gross_weight * 1000)
 
     @api.model
     def create(self, vals):

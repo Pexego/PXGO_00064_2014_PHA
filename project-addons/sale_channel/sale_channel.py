@@ -28,3 +28,4 @@ class SaleChannel(models.Model):
     _description = 'Sale channels'
 
     name = fields.Char('Name', required=True)
+    active = fields.Boolean(default=True)

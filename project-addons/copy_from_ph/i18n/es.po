@@ -1,0 +1,66 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* copy_from_ph
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-08 13:21+0000\n"
+"PO-Revision-Date: 2018-03-08 14:25+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: copy_from_ph
+#: model:ir.model,name:copy_from_ph.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Lista de materiales"
+
+#. module: copy_from_ph
+#: view:mrp.bom:copy_from_ph.copy_from_mrp_bom_form
+#: view:product.product:copy_from_ph.copy_from_product_product_form
+#: view:stock.production.lot:copy_from_ph.copy_from_stock_production_lot_form
+msgid "Copy"
+msgstr "Copiar"
+
+#. module: copy_from_ph
+#: field:product.product,copy_data_from:0
+msgid "Copy data from..."
+msgstr "Copiar datos de..."
+
+#. module: copy_from_ph
+#: field:mrp.bom,copy_from:0 field:product.product,copy_analysis_from:0
+#: field:stock.production.lot,copy_analysis_from:0
+msgid "Copy from..."
+msgstr "Copiar de..."
+
+#. module: copy_from_ph
+#: model:ir.model,name:copy_from_ph.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lote/Serie"
+
+#. module: copy_from_ph
+#: field:stock.production.lot,sequence_id:0
+msgid "Prodlots Sequence"
+msgstr "Secuencia de lotes"
+
+#. module: copy_from_ph
+#: model:ir.model,name:copy_from_ph.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: copy_from_ph
+#: view:product.product:copy_from_ph.copy_from_product_product_form
+msgid "Technical tools"
+msgstr "Technical tools"
+
+#. module: copy_from_ph
+#: view:product.product:copy_from_ph.copy_from_product_product_form
+msgid "Warnings"
+msgstr "Avisos"

@@ -16,6 +16,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: sale_channel
+#: field:sale.channel,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: sale_channel
 #: view:sale_channel:0
 msgid "Buscar canales de venta"
 msgstr "Buscar canales de venta"

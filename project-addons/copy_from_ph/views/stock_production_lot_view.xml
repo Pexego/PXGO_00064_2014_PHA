@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="copy_from_stock_production_lot_form" model="ir.ui.view">
+            <field name="name">Copy from - Stock production lot</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="product_analysis.stock_production_lot_add_analysis"/>
+            <field name="arch" type="xml">
+                <field name="analysis_ids" position="before">
+                    <style>
+                        .openerp .oe_application .oe_form_sheetbg .copy_from_ph_style {
+                            margin: 0;
+                        }
+                        .openerp .oe_form .copy_from_ph_style td.oe_form_group_cell_label label {
+                            min-width: auto;
+                        }
+                        .copy_from_ph_style td.oe_form_group_cell:nth-child(4) {
+                            width: 1%;
+                        }
+                    </style>
+                        <group colspan="2" col="6" class="copy_from_ph_style">
+                            <field name="sequence_id" invisible="1"/>
+                            <field name="copy_analysis_from"
+                                   domain="[('product_id.sequence_id', '=', sequence_id)]"
+                                   style="width: 200px;"/>
+                            <field name="copy_analysis_from_product_id" nolabel="1" readonly="1"/>
+                            <button string="Copy"
+                                    name="action_copy_analysis_from"
+                                    type="object"
+                                    attrs="{'invisible': [('copy_analysis_from', '=', False)]}"/>
+                        </group>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

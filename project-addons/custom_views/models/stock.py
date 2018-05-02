@@ -53,6 +53,29 @@ class StockPicking(models.Model):
                                       string='Responsible',
                                       compute='_determine_responsible')
     return_reason = fields.Many2one(comodel_name='return.reason')
+    return_reason_details = fields.Text()
+
+    @api.multi
+    def action_invoice_create(self, journal_id, group=False, type='out_invoice'):
+        invoices = super(StockPicking, self).action_invoice_create(journal_id,
+                                                                   group, type)
+        todo = {}
+        for picking in self:
+            partner = self.with_context(type=type)._get_partner_to_invoice(picking)
+            if group:
+                key = partner
+            else:
+                key = picking.id
+            for move in picking.move_lines:
+                if move.invoice_state == '2binvoiced' and \
+                   move.state != 'cancel' and \
+                   move.scrapped: # Add scrapped moves also
+                        todo.setdefault(key, [])
+                        todo[key].append(move)
+        for moves in todo.values():
+            invoices += self._invoice_create_line(moves, journal_id, type)
+
+        return invoices
 
     @api.one
     def _determine_responsible(self):
@@ -177,6 +200,10 @@ class StockProductionLot(models.Model):
     categ_ids = fields.Many2many(related='product_id.categ_ids', store=True)
     available_stock = fields.Float(string='Available stock',
                                    compute='_available_stock')
+    input_qty = fields.Float(string='Income qty', compute='_input_qty')
+    input_uom = fields.Many2one(string='Income unit of measure',
+                                comodel_name='product.uom',
+                                compute = '_input_qty')
 
     @api.one
     def _available_stock(self):
@@ -187,11 +214,34 @@ class StockProductionLot(models.Model):
                 quantity += q.qty
         self.available_stock = quantity
 
+    @api.one
+    def _input_qty(self):
+        quantity = 0
+        uom = []
+        wh = self.env['stock.warehouse'].search(
+            [('company_id', '=', self.env.user.company_id.id)])
+        input_location_ids = wh.wh_input_stock_loc_id._get_child_locations()
+        for m in self.move_related_ids:
+            if m.state == 'done' and (
+                    m.location_dest_id in input_location_ids or
+                    m.location_id == self.env.ref('stock.location_inventory')):
+                quantity += m.product_uom_qty
+                if m.product_uom not in uom:
+                    uom += m.product_uom
+        self.input_qty = quantity
+        self.input_uom = uom[0] if len(uom) == 1 else self.product_id.uom_po_id
+
 
 class StockInventory(models.Model):
     _inherit = 'stock.inventory'
 
     notes = fields.Text()
+
+
+class StockInventoryLine(models.Model):
+    _inherit = 'stock.inventory.line'
+
+    product_description = fields.Text(related='product_id.description')
 
 
 class StockLocation(models.Model):

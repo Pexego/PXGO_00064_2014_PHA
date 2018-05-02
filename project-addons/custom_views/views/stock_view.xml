@@ -90,6 +90,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="picking_type_desc" class="oe_inline" readonly="1"/>
+                    <field name="edi_desadv" invisible="1"/>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('edi_desadv', '!=', True)]}">DESADV</span>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': ['|', ('edi_desadv', '!=', True), ('channel_name', '!=', 'EDI')]}"> - </span>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
                 </field>
                 <button name="force_assign" position="attributes">
                     <attribute name="groups">base.group_system</attribute>
@@ -98,13 +108,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <attribute name="name">confirm_action_cancel</attribute>
                 </button>
                 <field name="valued_picking" position="after">
-                    <field name="photo_url"/>
+                    <field name="photo_url" widget="url"/>
                 </field>
-                <field name="picking_type_desc" position="after">
-                    <span class="oe_right"
-                          style="margin-bottom: -30px; font-size: 40px;"
-                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
-                </field>
+                <page string="Additional Info" position="inside">
+                    <div attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}">
+                        <separator string="Return reason"/>
+                        <group>
+                            <group>
+                                <field name="return_reason"/>
+                                <field name="return_reason_details"/>
+                            </group>
+                            <group>
+                                <separator/>
+                            </group>
+                        </group>
+                    </div>
+                </page>
             </field>
         </record>
 
@@ -193,6 +212,23 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="notes"/>
                     </group>
                 </field>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="product_description"/>
+                    <field name="product_code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="custom_views_inventory_line_tree" model="ir.ui.view">
+            <field name="name">Custom views - Stock inventory line tree</field>
+            <field name="model">stock.inventory.line</field>
+            <field name="inherit_id" ref="stock.stock_inventory_line_tree"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="product_id" position="before">
+                    <field name="product_description"/>
+                    <field name="product_code"/>
+                </field>
             </field>
         </record>
 
@@ -203,42 +239,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   groups="stock.group_stock_manager"
                   sequence="10"/>
 
-        <record id="view_stock_production_lot_dates" model="ir.ui.view">
-            <field name="name">Custom views - Stock production lot dates</field>
-            <field name="model">stock.production.lot</field>
-            <field name="arch" type="xml">
-                <tree create="0" edit="0" delete="0">
-                    <field name="product_id"/>
-                    <field name="default_code"/>
-                    <field name="name"/>
-                    <field name="available_stock"/>
-                    <field name="state"/>
-                    <field name="use_date"/>
-                    <field name="removal_date"/>
-                    <field name="date_in"/>
-                    <field name="date_in_system"/>
-                    <field name="life_date"/>
-                    <field name="alert_date"/>
-                    <field name="acceptance_date"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="action_stock_production_lot_dates" model="ir.actions.act_window">
-            <field name="name">Stock production lot dates</field>
-            <field name="res_model">stock.production.lot</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_stock_production_lot_dates"/>
-            <field name="domain">[('quant_ids.location_id.usage', 'in', ('internal', 'view', 'transit', 'procurement'))]</field>
-        </record>
-
-        <menuitem action="action_stock_production_lot_dates"
-                  id="menu_stock_production_lot_dates"
-                  parent="stock.menu_traceability"
-                  groups="stock.group_stock_manager"
-                  sequence="21"/>
-
         <record id="custom_views_picking_search" model="ir.ui.view">
             <field name="name">Custom views - Picking search</field>
             <field name="model">stock.picking</field>
@@ -247,6 +247,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <filter name="backorder" position="after">
                     <filter name="Send invoice by email"
                             domain="[('send_invoice_by_email', '=', True)]"/>
+                    <separator/>
+                    <filter name="EDI"
+                            domain="[('sale_channel_id', '=', 'EDI')]"/>
                 </filter>
             </field>
         </record>
@@ -262,5 +265,38 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </field>
             </field>
         </record>
+
+        <record id="custom_views_materials_control_tree" model="ir.ui.view">
+            <field name="name">Custom views - Materials control tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="arch" type="xml">
+                <tree default_order="create_date desc">
+                    <field name="product_id"/>
+                    <field name="supplier_lot"/>
+                    <field name="name"/>
+                    <field name="input_qty"/>
+                    <field name="input_uom"/>
+                    <field name="container_number"/>
+                    <field name="container_type"/>
+                    <field name="create_date"/>
+                    <field name="acceptance_date"/>
+                    <field name="default_code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_materials_control" model="ir.actions.act_window">
+            <field name="name">Materials control</field>
+            <field name="res_model">stock.production.lot</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="custom_views_materials_control_tree"/>
+        </record>
+
+        <menuitem name="Materials control"
+            action="action_materials_control"
+            id="menu_materials_control"
+            parent="quality_management_menu.menu_qc_products"
+            sequence="4"
+        />
     </data>
 </openerp>

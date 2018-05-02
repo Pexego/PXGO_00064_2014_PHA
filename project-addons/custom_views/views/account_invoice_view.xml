@@ -68,6 +68,16 @@
                           style="margin-bottom: -30px; font-size: 40px;"
                           attrs="{'invisible': [('sale_channel_id', '!=', 6)]}">EDI</span>
                 </field>
+                <div groups="base.group_multi_currency" position="after">
+                    <label for="return_reason" attrs="{'invisible': [('type', '!=', 'out_refund')]}"/>
+                    <div attrs="{'invisible': [('type', '!=', 'out_refund')]}">
+                        <field name="return_reason" class="oe_inline"
+                               attrs="{'readonly': [('state', 'in', ('paid', 'cancel'))]}"/>
+                        <button string="Apply" name="action_apply_return_reason_account"
+                                type="object" class="oe_inline"
+                                attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('return_reason', '=', False)]}"/>
+                    </div>
+                </div>
             </field>
         </record>
 

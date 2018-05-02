@@ -105,6 +105,11 @@ msgid "Analytic certificate"
 msgstr "Certificado analítico"
 
 #. module: custom_views
+#: view:account.invoice:custom_views.custom_views_invoice_form
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: custom_views
 #: view:stock.picking:custom_views.custom_views_picking_cancel_confirm_form
 msgid "Are you sure that you really want to cancel this picking?"
 msgstr "¿Desea realmente cancelar este albarán?"
@@ -332,7 +337,9 @@ msgid "Desc:"
 msgstr "Desc:"
 
 #. module: custom_views
+#: field:product.product,description:0
 #: field:purchasable.products,description:0
+#: field:stock.inventory.line,product_description:0
 msgid "Description"
 msgstr "Descripción"
 
@@ -409,6 +416,16 @@ msgstr "Vaciar vacaciones"
 #: field:hr.holidays.management,holidays_status_id:0
 msgid "Holidays status"
 msgstr "Tipo de ausencia"
+
+#. module: custom_views
+#: field:stock.production.lot,input_qty:0
+msgid "Income qty"
+msgstr "Ctdad. entrante"
+
+#. module: custom_views
+#: field:stock.production.lot,input_uom:0
+msgid "Income unit of measure"
+msgstr "Unidad de medida"
 
 #. module: custom_views
 #: field:account.invoice,partner_insured:0
@@ -520,6 +537,12 @@ msgstr "Procedimiento de mantenimiento"
 #: field:product.product,manufacturing_procedure_id:0
 msgid "Manufacturing procedure"
 msgstr "Procedimiento de fabricación"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_materials_control
+#: model:ir.ui.menu,name:custom_views.menu_materials_control
+msgid "Materials control"
+msgstr "Registro ctrl. materiales"
 
 #. module: custom_views
 #: field:mrp.procedure,medicine:0
@@ -812,6 +835,27 @@ msgid "Return"
 msgstr "Volver"
 
 #. module: custom_views
+#: field:account.invoice,return_reason:0
+#: field:account.invoice.special,return_reason:0
+#: view:return.reason:custom_views.view_return_reason_form
+#: view:stock.picking:custom_views.custom_views_picking_form
+#: field:stock.picking,return_reason:0
+msgid "Return reason"
+msgstr "Motivo devolución"
+
+#. module: custom_views
+#: field:stock.picking,return_reason_details:0
+msgid "Return reason details"
+msgstr "Detalle motivo devolución"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.action_return_reason
+#: model:ir.ui.menu,name:custom_views.menu_return_reason
+#: view:return.reason:custom_views.view_return_reason_tree
+msgid "Return reasons"
+msgstr "Motivos devolución"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
@@ -824,7 +868,6 @@ msgstr "Búsqueda de procedimientos (PNT)"
 #. module: custom_views
 #: field:res.partner,send_invoice_by_email:0
 #: field:stock.picking,send_invoice_by_email:0
-#: view:stock.picking:custom_views.custom_views_picking_search
 msgid "Send invoice by email"
 msgstr "Envío factura por e-mail"
 
@@ -938,12 +981,6 @@ msgstr "Movimiento de existencias"
 #, python-format
 msgid "Stock assignment warning"
 msgstr "Alerta de reserva de stock"
-
-#. module: custom_views
-#: model:ir.actions.act_window,name:custom_views.action_stock_production_lot_dates
-#: model:ir.ui.menu,name:custom_views.menu_stock_production_lot_dates
-msgid "Stock production lot dates"
-msgstr "Fechas de caducidad"
 
 #. module: custom_views
 #: field:stock.history,subline:0
@@ -1232,3 +1269,8 @@ msgstr "Facturado en otros años"
 #: model:ir.ui.menu,name:custom_views.menu_partner_invoiced_tree
 msgid "Partners invoiced"
 msgstr "Clientes fact. x años"
+
+#. module: crm_claim
+#: field:crm.claim.stage,name:0
+msgid "In Progress"
+msgstr "Finalizada"
