@@ -5,10 +5,10 @@
             <t t-foreach="docs" t-as="o">
                 <!-- Multicompany -->
                 <t t-if="o and 'company_id' in o">
-                    <t t-set="company" t-value="o.company_id"></t>
+                    <t t-set="company" t-value="o.company_id"/>
                 </t>
                 <t t-if="not o or not 'company_id' in o">
-                    <t t-set="company" t-value="res_company"></t>
+                    <t t-set="company" t-value="res_company"/>
                 </t>
 
                 <div class="header">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="row zero_min_height">
                         <div class="col-xs-12">
-                            <div style="border-bottom: 1px solid black;"></div>
+                            <div style="border-bottom: 1px solid black;"/>
                         </div>
                     </div>
                     <div class="row">
@@ -43,39 +43,39 @@
                             </style>
                             <div id="company_address">
                                 <p>
-                                    <span t-field="company.partner_id.name"></span>
+                                    <span t-field="company.partner_id.name"/>
                                 </p>
                                 <p>
-                                    <i class="glyphicon glyphicon-map-marker"></i>
-                                    <span t-field="company.partner_id.street"></span>
+                                    <i class="glyphicon glyphicon-map-marker"/>
+                                    <span t-field="company.partner_id.street"/>
                                 </p>
                                 <p>
-                                    <span t-field="company.partner_id.zip" style="margin-left: 13px;"></span>
-                                    <span t-field="company.partner_id.city"></span> -
-                                    <span t-field="company.partner_id.state_id"></span>
-                                    (<span t-field="company.partner_id.country_id"></span>)
+                                    <span t-field="company.partner_id.zip" style="margin-left: 13px;"/>
+                                    <span t-field="company.partner_id.city"/> -
+                                    <span t-field="company.partner_id.state_id"/>
+                                    (<span t-field="company.partner_id.country_id"/>)
                                 </p>
                                 <p>
                                     <t t-if="company.partner_id.phone">
-                                        <i class="glyphicon glyphicon-earphone"></i>
-                                        <span t-field="company.partner_id.phone"></span>
+                                        <i class="glyphicon glyphicon-earphone"/>
+                                        <span t-field="company.partner_id.phone"/>
                                     </t>
                                     <t t-if="company.partner_id.phone and company.partner_id.fax"><span> /</span></t>
                                     <t t-if="company.partner_id.fax">
-                                        <i class="glyphicon glyphicon-print"></i>
-                                        <span t-field="company.partner_id.fax"></span>
+                                        <i class="glyphicon glyphicon-print"/>
+                                        <span t-field="company.partner_id.fax"/>
                                     </t>
                                 </p>
                                 <p t-if="company.partner_id.website">
-                                    <i class="glyphicon glyphicon-globe"></i>
-                                    <a t-field="company.partner_id.website"></a>
+                                    <i class="glyphicon glyphicon-globe"/>
+                                    <a t-field="company.partner_id.website"/>
                                 </p>
                                 <p t-if="company.partner_id.email">
-                                    <i class="glyphicon glyphicon-envelope"></i>
-                                    <a t-field="company.partner_id.email"></a>
+                                    <i class="glyphicon glyphicon-envelope"/>
+                                    <a t-field="company.partner_id.email"/>
                                 </p>
                                 <p>
-                                    <i class="glyphicon glyphicon-briefcase"></i>
+                                    <i class="glyphicon glyphicon-briefcase"/>
                                     <span t-field="company.partner_id.vat"/>
                                 </p>
                             </div>
@@ -121,7 +121,7 @@
                             <h2>
                                 <span t-field="o.picking_type_id"/>: <span t-field="o.name"/>
                             </h2>
-                            <div style="border-bottom: 2px solid black; margin-bottom: 10px;"></div>
+                            <div style="border-bottom: 2px solid black; margin-bottom: 10px;"/>
                         </div>
                     </div>
 
@@ -137,41 +137,41 @@
                         <div class="col-xs-5" t-if="partner">
                             <strong>Invoicing address:</strong><br/>
 
-                            <span t-field="partner.name"></span><br/>
+                            <span t-field="partner.name"/><br/>
 
-                            <i class="glyphicon glyphicon-map-marker"></i>
-                            <span t-field="partner.street"></span><br/>
+                            <i class="glyphicon glyphicon-map-marker"/>
+                            <span t-field="partner.street"/><br/>
 
-                            <span t-field="partner.zip" style="margin-left: 17px;"></span>
-                            <span t-field="partner.city"></span> -
-                            <span t-field="partner.state_id"></span>
-                            (<span t-field="partner.country_id"></span>)<br/>
+                            <span t-field="partner.zip" style="margin-left: 17px;"/>
+                            <span t-field="partner.city"/> -
+                            <span t-field="partner.state_id"/>
+                            (<span t-field="partner.country_id"/>)<br/>
 
                             <t t-if="partner.phone">
-                                <i class="glyphicon glyphicon-earphone"></i>
-                                <span t-field="partner.phone"></span>
+                                <i class="glyphicon glyphicon-earphone"/>
+                                <span t-field="partner.phone"/>
                             </t>
                             <t t-if="partner.phone and partner.fax"><span> /</span></t>
                             <t t-if="partner.fax">
-                                <i class="glyphicon glyphicon-print"></i>
-                                <span t-field="partner.fax"></span><br/>
+                                <i class="glyphicon glyphicon-print"/>
+                                <span t-field="partner.fax"/><br/>
                             </t>
                             <t t-if="partner.phone and not partner.fax">
                                 <br/>
                             </t>
 
                             <t t-if="partner.website">
-                                <i class="glyphicon glyphicon-globe"></i>
-                                <a t-field="partner.website"></a><br/>
+                                <i class="glyphicon glyphicon-globe"/>
+                                <a t-field="partner.website"/><br/>
                             </t>
 
                             <t t-if="partner.email">
-                                <i class="glyphicon glyphicon-envelope"></i>
-                                <a t-field="partner.email"></a><br/>
+                                <i class="glyphicon glyphicon-envelope"/>
+                                <a t-field="partner.email"/><br/>
                             </t>
 
                             <t t-if="partner.vat">
-                                <i class="glyphicon glyphicon-briefcase"></i>
+                                <i class="glyphicon glyphicon-briefcase"/>
                                 <span t-field="partner.vat"/>
                             </t>
                         </div>
@@ -219,13 +219,13 @@
                         <br/>
                     </div>
                     <style>
-                        table thead > tr {
+                        table thead &gt; tr {
                             border-bottom: 2px solid black;
                         }
                         table.table-condensed td {
                             padding: 0 !important;
                         }
-                        table.details tbody > tr {
+                        table.details tbody &gt; tr {
                             font-size: 12px;
                         }
                         table#sale-pack-ops tr {
@@ -251,16 +251,16 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="o.move_lines" t-as="move">
-                                <t t-if="(o.state != 'partially_available') or (move.reserved_availability > 0)">
+                                <t t-if="(o.state != 'partially_available') or (move.reserved_availability &gt; 0)">
                                     <td><span t-field="move.product_id"/></td>
                                     <td class="text-right">
                                         <t t-if="o.state == 'partially_available'">
                                             <span t-esc="'%g' % move.reserved_availability"/> <span t-field="move.product_id.uom_id" groups="product.group_uom"/>
-                                            <![CDATA[&nbsp;]]>
+                                            &amp;nbsp;
                                         </t>
                                         <t t-if="o.state != 'partially_available'">
                                             <span t-esc="'%g' % move.product_uom_qty"/> <span t-field="move.product_uom" groups="product.group_uom"/>
-                                            <![CDATA[&nbsp;]]>
+                                            &amp;nbsp;
                                         </t>
                                     </td>
                                     <td>
@@ -285,7 +285,7 @@
                         <thead>
                             <tr>
                                 <th><strong>Product</strong></th>
-                                <th class="text-right"><strong>Qty.<![CDATA[&nbsp;]]></strong></th>
+                                <th class="text-right"><strong>Qty.&amp;nbsp;</strong></th>
                                 <th><strong>Lot</strong></th>
                                 <t t-if="o.picking_type_id.code == 'internal'">
                                     <th><strong>Source</strong></th>
@@ -303,7 +303,7 @@
                                 </td>
                                 <td class="text-right">
                                     <span t-esc="'%g' % pack_operation.product_qty"/> <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/>
-                                    <![CDATA[&nbsp;]]>
+                                    &amp;nbsp;
                                 </td>
                                 <td>
                                     <span t-esc="', '.join(map(lambda x: x.name, pack_operation.lot_id))"/>
@@ -332,7 +332,7 @@
                         <thead>
                             <tr>
                                 <th><strong>Product</strong></th>
-                                <th class="text-right"><strong>Qty.<![CDATA[&nbsp;]]></strong></th>
+                                <th class="text-right"><strong>Qty.&amp;nbsp;</strong></th>
                                 <th><strong>Supplier lot</strong></th>
                                 <th><strong>Lot</strong></th>
                                 <th><strong>Container type</strong></th>
@@ -351,7 +351,7 @@
                                     </td>
                                     <td class="text-right">
                                         <span t-esc="'%g' % pack_operation.product_qty"/> <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/>
-                                        <![CDATA[&nbsp;]]>
+                                        &amp;nbsp;
                                     </td>
                                     <td><span t-field="lot.supplier_lot"/></td>
                                     <td><span t-field="lot.name"/></td>
@@ -363,10 +363,10 @@
                         </tbody>
                     </table>
 
-                    <table t-if="o.sale_id" id="sale-pack-ops"
-                           class="table table-condensed table-bordered details">
+                    <table t-if="o.sale_id" id="sale-pack-ops" class="table table-condensed table-bordered details">
                         <thead>
                             <tr>
+                                <th>(C+R)</th>
                                 <th style="min-width: 50px;">Palet</th>
                                 <th>Comp.</th>
                                 <th>Pack.</th>
@@ -380,6 +380,13 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="o.pack_operation_ids" t-as="po" style="height: 3.5em;">
+                                <td style="vertical-align: middle;" class="text-center">
+                                    <t t-set="gtin14_id" t-value="po.product_id.gtin14_partner_specific(o.partner_id)"/>
+                                    <t t-set="complete_qty" t-value="gtin14_id.units if gtin14_id else po.product_id.box_elements"/>
+                                    <t t-set="completes" t-value="po.product_qty // complete_qty"/>
+                                    <t t-set="rest" t-value="po.product_qty - (completes * complete_qty)"/>
+                                    <span t-esc="'({:g}+{:g})'.format(completes, rest)"/>
+                                </td>
                                 <td style="width: 5%; vertical-align: middle;" class="text-center">
                                     <span t-field="po.palet"/>
                                 </td>
@@ -398,13 +405,7 @@
                                     <span t-field="po.product_id.name_template"/>
                                 </td>
                                 <td style="width: 8%; vertical-align: middle;" class="text-center">
-                                    <t t-set="gtin14_id" t-value="po.product_id.gtin14_partner_specific(o.partner_id)"/>
-                                    <t t-set="complete_qty" t-value="gtin14_id.units if gtin14_id else po.product_id.box_elements"/>
-                                    <t t-set="completes" t-value="po.product_qty // complete_qty"/>
-                                    <t t-set="rest" t-value="po.product_qty - (completes * complete_qty)"/>
                                     <span t-esc="'{:g}'.format(po.product_qty)"/>
-                                    <br/>
-                                    <span t-if="gtin14_id" t-esc="'({:g}+{:g})'.format(completes, rest)"/>
                                 </td>
                                 <td style="width: 15%; vertical-align: middle;" class="text-center">
                                     <span t-field="po.lot_id"/>
@@ -446,7 +447,7 @@
                                 </p>
                                 <p>
                                     <strong>Total packages:</strong>
-                                    <span><![CDATA[&nbsp;]]></span>
+                                    <span>&amp;nbsp;</span>
                                 </p>
                                 <p>
                                     <strong>Real weight:</strong>
@@ -454,7 +455,7 @@
                                         <span t-esc="'%g' % o.real_weight" class="text-right"/>
                                     </t>
                                     <t t-if="not o.real_weight">
-                                        <span><![CDATA[&nbsp;]]></span>
+                                        <span>&amp;nbsp;</span>
                                     </t>
                                     <b t-field="o.weight_uom_id"/> (Estimated: <i t-esc="'%.2f' % o.weight"/>)
                                 </p>
@@ -476,7 +477,7 @@
                 </div>
 
                 <div class="footer">
-                    <t t-set="sale_ok" t-value="1"></t>
+                    <t t-set="sale_ok" t-value="1"/>
                     <t t-call="custom_reports.report_footer"/>
                 </div>
              </t>
