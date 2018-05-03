@@ -166,7 +166,7 @@
                                        <tbody>
                                             <tr t-foreach="o.analysis_ids" t-as="analysis">
                                                 <td> <span t-field="analysis.analysis_id.name"/></td>
-                                                <td class="text-center"> <span t-field="analysis.analysis_id.method"/></td>
+                                                <td class="text-center"> <span t-field="analysis.method"/></td>
                                                 <td class="text-center">
                                                     <t t-if="analysis.realized"><span t-field="analysis.result"/></t>
                                                     <t t-if="not analysis.realized"><span>-</span></t>

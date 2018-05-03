@@ -487,50 +487,48 @@ function write_server(write_vals, keys){
   Luego se llama a una función del modulo para que relacione el numero de serie con las respuestas.
 */
 function send_form_server() {
-    if ($("#exist").length === 0) {
-        $('.js_errzone').html("").hide();
-        $('#all_data').find('.survey').each(function() {
-            var url_submit = $(this).attr("url-submit");
-            var dat = $(this).find("form").serialize();
-            // Si se cambia a disabled antes de serializar falla
-            $(this).find(":input").attr("disabled", true);
-            $("#send_form").hide();
-            $(this).find("form").each(function() {
+    $('.js_errzone').html("").hide();
+    $('#all_data').find('.survey').each(function() {
+        var url_submit = $(this).attr("url-submit");
+        var dat = $(this).find("form").serialize();
+        // Si se cambia a disabled antes de serializar falla
+        $(this).find(":input").attr("disabled", true);
+        $("#send_form").hide();
+        $(this).find("form").each(function() {
 
-                $.ajax({
-                    url: url_submit,
-                    type: 'POST', // submission type
-                    data: dat,
-                    dataType: 'json', // answer expected type
-                    beforeSubmit: function() { // hide previous errmsg before resubmitting
-                        $('.js_errzone').html("").hide();
-                    },
-                    success: function(response, status, xhr, wfe) { // submission attempt
-                        if (_.has(response, 'errors')) { // some questions have errors
-                            $("#all_data #survey :input").attr("disabled", false);
-                            $("#send_form").show();
-                            _.each(_.keys(response.errors), function(key) {
-                                $("#" + key + '>.js_errzone').append('<p>' + response.errors[key] + '</p>').show();
-                            });
-                        } else if (_.has(response, 'redirect')) {
-                            //No se tienen en cuenta los mensajes de redireccion.
-                        } else { // server sends bad data
-                            console.error("Incorrect answer sent by server");
-                            $("#all_data :input").attr("disabled", false);
-                            $("#send_form").show();
-                        }
-                    },
-                    timeout: 5000,
-                    error: function(jqXHR, textStatus, errorThrown) { // failure of AJAX request
-                        $('#AJAXErrorModal').modal('show');
+            $.ajax({
+                url: url_submit,
+                type: 'POST', // submission type
+                data: dat,
+                dataType: 'json', // answer expected type
+                beforeSubmit: function() { // hide previous errmsg before resubmitting
+                    $('.js_errzone').html("").hide();
+                },
+                success: function(response, status, xhr, wfe) { // submission attempt
+                    if (_.has(response, 'errors')) { // some questions have errors
+                        $("#all_data #survey :input").attr("disabled", false);
+                        $("#send_form").show();
+                        _.each(_.keys(response.errors), function(key) {
+                            $("#" + key + '>.js_errzone').append('<p>' + response.errors[key] + '</p>').show();
+                        });
+                    } else if (_.has(response, 'redirect')) {
+                        //No se tienen en cuenta los mensajes de redireccion.
+                    } else { // server sends bad data
+                        console.error("Incorrect answer sent by server");
                         $("#all_data :input").attr("disabled", false);
                         $("#send_form").show();
                     }
-                });
+                },
+                timeout: 5000,
+                error: function(jqXHR, textStatus, errorThrown) { // failure of AJAX request
+                    $('#AJAXErrorModal').modal('show');
+                    $("#all_data :input").attr("disabled", false);
+                    $("#send_form").show();
+                }
             });
-
         });
-    }
+
+    });
     /*
      * Se recorren todos los formularios añadiendo los datos a un diccionario
      * para hacer una única llamada para escribir los valores.
