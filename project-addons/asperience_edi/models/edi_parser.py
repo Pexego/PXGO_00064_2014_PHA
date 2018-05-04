@@ -303,18 +303,18 @@ class edi_parser(models.Model):
             }
             data[filename].append(edi._create_line_csv(DTM,structs))
 
+            ALI = {
+                'lineId': 'ALI',
+                'col1': 'X7',
+            }
+            data[filename].append(edi._create_line_csv(ALI,structs))
+
             MOA = {
                 'lineId': 'MOA',
                 'col1': str(pick.amount_gross),
                 'col2': str(pick.amount_untaxed),
             }
             data[filename].append(edi._create_line_csv(MOA,structs))
-
-            ALI = {
-                'lineId': 'ALI',
-                'col1': 'X7',
-            }
-            data[filename].append(edi._create_line_csv(ALI,structs))
 
             RFF = {
                 'lineId': 'RFF',
