@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.actions.server" id="action_find_recovered_customers">
+            <field name="name">Find recovered customers</field>
+            <field name="model_id" ref="account.model_res_partner"/>
+            <field name="code">
+cr.execute("""
+with
+fecha(mes_actual, anyo_actual, mes_anterior, anyo_anterior) as (
+  select
+    date_part('month', CURRENT_DATE)::text,
+    date_part('year', CURRENT_DATE)::text,
+    date_part('month', CURRENT_DATE - '1 month'::interval)::text,
+    date_part('year', CURRENT_DATE - '1 month'::interval)::text
+),
+fechas_este_mes(inicio, fin, intervalo_inicio, intervalo_fin) as (
+  select
+    (fecha.anyo_actual || '/' || fecha.mes_actual || '/01')::date,
+    (date_trunc('month', (fecha.anyo_actual || '/' || fecha.mes_actual || '/01')::date) + '1 month - 1 day'::interval)::date,
+    ((fecha.anyo_actual || '/01/01')::date - '1 year'::interval)::date,
+    ((fecha.anyo_actual || '/' || fecha.mes_actual || '/01')::date - '1 day'::interval)::date
+  from fecha
+),
+fechas_mes_anterior(inicio, fin, intervalo_inicio, intervalo_fin) as (
+  select
+    (fecha.anyo_anterior || '/' || fecha.mes_anterior || '/01')::date,
+    (date_trunc('month', (fecha.anyo_anterior || '/' || fecha.mes_anterior || '/01')::date) + '1 month - 1 day'::interval)::date,
+    ((fecha.anyo_anterior || '/01/01')::date - '1 year'::interval)::date,
+    ((fecha.anyo_anterior || '/' || fecha.mes_anterior || '/01')::date - '1 day'::interval)::date
+  from fecha
+),
+pedidos(cliente, fecha) as (
+  select
+    so.partner_id,
+    f.inicio, f.fin, f.intervalo_inicio, f.intervalo_fin,
+    min(case
+          when (so.date_order::date between f.inicio and f.fin) and (so.sale_type != 'sample') then
+            case
+              when so.sale_type in ('normal', 'intermediary') then ai.date_invoice::date
+              else so.date_order::date
+            end
+          else null
+        end)
+  from sale_order so
+  join res_partner rp on rp.id = so.partner_id
+  left join sale_order_invoice_rel sir on sir.order_id = so.id
+  left join account_invoice ai on ai.id = sir.invoice_id
+  cross join fechas_este_mes f
+  where rp.create_date::date not between f.intervalo_inicio and CURRENT_DATE
+    and so.state not in ('draft','sent','cancel')
+    and so.section_id = 2
+    and so.user_id is not null
+  group by 1, 2, 3, 4, 5
+  having sum(case when (so.date_order::date between f.inicio and f.fin) and (so.sale_type != 'sample') then 1 else 0 end) > 0
+     and sum(case when so.date_order::date between f.intervalo_inicio and f.intervalo_fin then 1 else 0 end) = 0
+
+  union
+
+  select
+    so.partner_id,
+    f.inicio, f.fin, f.intervalo_inicio, f.intervalo_fin,
+    min(case
+          when (so.date_order::date between f.inicio and f.fin) and (so.sale_type != 'sample') then
+            case
+              when so.sale_type in ('normal', 'intermediary') then ai.date_invoice::date
+              else so.date_order::date
+            end
+          else null
+        end)
+  from sale_order so
+  join res_partner rp on rp.id = so.partner_id
+  left join sale_order_invoice_rel sir on sir.order_id = so.id
+  left join account_invoice ai on ai.id = sir.invoice_id
+  cross join fechas_mes_anterior f
+  where rp.create_date::date not between f.intervalo_inicio and CURRENT_DATE
+    and so.state not in ('draft','sent','cancel')
+    and so.section_id = 2
+    and so.user_id is not null
+  group by 1, 2, 3, 4, 5
+  having sum(case when (so.date_order::date between f.inicio and f.fin) and (so.sale_type != 'sample') then 1 else 0 end) > 0
+     and sum(case when so.date_order::date between f.intervalo_inicio and f.intervalo_fin then 1 else 0 end) = 0
+)
+
+update res_partner rp
+set recovery_date = p.fecha
+from pedidos p
+where p.cliente = rp.id
+  and p.fecha is not null
+  and (
+    rp.recovery_date is null
+    or
+    rp.recovery_date != p.fecha
+  );
+""")
+
+cr.commit()
+            </field>
+        </record>
+    </data>
+</openerp>
