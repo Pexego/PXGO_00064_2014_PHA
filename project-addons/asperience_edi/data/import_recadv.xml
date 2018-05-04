@@ -6,7 +6,7 @@
             <field name="name">Import return pickings</field>
             <field name="code">RECADV</field>
             <field name="type">csv_struct</field>
-            <field name="file_template" eval="'RECADV_*'" />
+            <field name="file_template" eval="'.*\.pla$'" />
             <field name="float_separator" eval="'.'" />
             <field name="start_identifier" eval="0" />
             <field name="skip_first" eval="1"/>
@@ -14,7 +14,7 @@
             <field name="charset" eval="'ISO-8859-1'" />
             <field name="delimiter">|</field>
             <field name="eval_in" >
-data = self.pool.get('edi.parser').parse_recadv(cr2, uid, edi, data, filename)
+name = self.pool.get('edi.parser').parse_recadv(cr2, uid, edi, data, filename)
                 </field>
         </record>
 
