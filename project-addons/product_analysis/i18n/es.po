@@ -133,6 +133,11 @@ msgid "Analytic control:"
 msgstr "Control analítico:"
 
 #. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_lot_approved_label
+msgid "Approved label"
+msgstr "Etiqueta aprobado"
+
+#. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 msgid "CERTIFICATE ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL"
 msgstr "CERTIFICADO DE ANÁLISIS DE MATERIA PRIMA / MATERIA DE ACONDICIONAMIENTO"
@@ -162,22 +167,15 @@ msgstr "Created on"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_state_label
 msgid "Date:"
 msgstr "Fecha:"
 
 #. module: product_analysis
-#: view:website:product_analysis.report_stock_lot_analysis_certificate
-#: view:website:product_analysis.report_stock_lot_analysis_sheet
-msgid "F-01-DT-001-00"
-msgstr "F-01-DT-001-00"
-
-#. module: product_analysis
-#: field:product.analysis,id:0
-#: field:product.analysis.method,id:0
-#: field:product.analysis.rel,id:0
-#: field:stock.lot.analysis,id:0
-msgid "ID"
-msgstr "ID"
+#: field:product.analysis.rel,decimal_precision:0
+#: field:stock.lot.analysis,decimal_precision:0
+msgid "Decimal precision"
+msgstr "Precisión decimal"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
@@ -213,6 +211,7 @@ msgstr "Lot/Serial"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_state_label
 msgid "Lot:"
 msgstr "Lote:"
 
@@ -253,12 +252,12 @@ msgstr "Número de envases:"
 #. module: product_analysis
 #: field:stock.production.lot,num_sampling_to_do:0
 msgid "Number of samples"
-msgstr "Numero de muestras a tomar"
+msgstr "Número de muestras a tomar"
 
 #. module: product_analysis
 #: field:stock.production.lot,num_sampling_realized:0
 msgid "Number of samples taked"
-msgstr "Numero de muestras tomadas"
+msgstr "Número de muestras tomadas"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
@@ -306,19 +305,18 @@ msgstr "Producto"
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Set all realized"
-msgstr "Marcar todos a realizar"
+msgstr "Marcar todos como realizados"
 
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Set raw material analysis"
-msgstr "Establecer analisis de matería prima"
+msgstr "Arrastrar análisis de su materia prima"
 
 #. module: product_analysis
 #: code:addons/product_analysis/models/stock.py:130
 #, python-format
 msgid "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Product</th><th>Ref F</th><th>Lot</th><th>Aprobation date</th><th>Lot state</th></tr></thead><tbody>"
 msgstr "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Producto</th><th>Ref F</th><th>Lote</th><th>Fecha de aprobación</th><th>Estado de lote</th></tr></thead><tbody>"
-
 
 #. module: product_analysis
 #: field:product.category,analysis_sequence:0
@@ -399,6 +397,11 @@ msgid "Receive data:"
 msgstr "Fecha de entrada:"
 
 #. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_lot_rejected_label
+msgid "Rejected label"
+msgstr "Etiqueta rechazado"
+
+#. module: product_analysis
 #: field:stock.lot.analysis,result:0
 #: field:stock.lot.analysis,result_boolean:0
 #: field:stock.lot.analysis,result_str:0
@@ -406,6 +409,11 @@ msgstr "Fecha de entrada:"
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 msgid "Result"
 msgstr "Resultado"
+
+#. module: product_analysis
+#: field:stock.lot.analysis,result_boolean_selection:0
+msgid "Result boolean selection"
+msgstr "Resultado booleano"
 
 #. module: product_analysis
 #: field:stock.lot.analysis,passed:0
@@ -457,6 +465,16 @@ msgid "Show in certificate"
 msgstr "Mostrar en certificado"
 
 #. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_state_label
+msgid "Signature: ____________________"
+msgstr "Firma: ______________________"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+msgid "Specification"
+msgstr "Especificación"
+
+#. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 msgid "Supplier lot:"
@@ -485,3 +503,39 @@ msgstr "Firma y fecha"
 #, python-format
 msgid "the consignment has not passed all analysis"
 msgstr "El lote no ha pasado todos los análisis"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,boolean_selection:0
+#: selection:stock.lot.analysis,result_boolean_selection:0
+msgid "ABSENCE"
+msgstr "AUSENCIA"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,boolean_selection:0
+#: selection:stock.lot.analysis,result_boolean_selection:0
+msgid "CONFORMANT"
+msgstr "CONFORME"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,boolean_selection:0
+#: selection:stock.lot.analysis,result_boolean_selection:0
+msgid "NOT QUALIFY"
+msgstr "NO CUMPLE"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,boolean_selection:0
+#: selection:stock.lot.analysis,result_boolean_selection:0
+msgid "NON COMPLIANT"
+msgstr "NO CONFORME"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,boolean_selection:0
+#: selection:stock.lot.analysis,result_boolean_selection:0
+msgid "PRESENCE"
+msgstr "PRESENCIA"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,boolean_selection:0
+#: selection:stock.lot.analysis,result_boolean_selection:0
+msgid "QUALIFY"
+msgstr "CUMPLE"

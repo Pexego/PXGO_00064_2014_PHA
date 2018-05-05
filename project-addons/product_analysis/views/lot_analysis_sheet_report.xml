@@ -92,33 +92,27 @@
                                     Nº of containers to sample:
                                 </div>
                                 <div class="col-xs-1">
-                                    <span t-field="o.num_container_sample_proposed"/>
-                                </div>
-                                <div class="col-xs-1">
                                     <t t-if="o.num_container_sample_to_do">
                                         <span t-field="o.num_container_sample_to_do"/>
                                     </t>
                                 </div>
                                 <div class="col-xs-3 col-xs-offset-3">
-                                    Nº of containers sampled:
+                                    Nº of samples to take:
                                 </div>
                                 <div class="col-xs-1">
-                                    <t t-if="o.num_container_sample_realized">
-                                        <span t-field="o.num_container_sample_realized"/>
+                                    <t t-if="o.num_sampling_to_do">
+                                        <span t-field="o.num_sampling_to_do"/>
                                     </t>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-3">
-                                    Nº of samples to take:
+                                    Nº of containers sampled:
                                 </div>
                                 <div class="col-xs-1">
-                                    <span t-field="o.num_sampling_proposed"/>
-                                </div>
-                                <div class="col-xs-1">
-                                    <t t-if="o.num_sampling_to_do">
-                                        <span t-field="o.num_sampling_to_do"/>
+                                    <t t-if="o.num_container_sample_realized">
+                                        <span t-field="o.num_container_sample_realized"/>
                                     </t>
                                 </div>
                                 <div class="col-xs-3 col-xs-offset-3">

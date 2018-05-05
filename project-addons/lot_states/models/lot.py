@@ -1,29 +1,14 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2014 Pexego All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2014 Pexego
+# © 2018 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from openerp import models, fields, api, exceptions, _
-from datetime import date, datetime
+from datetime import date
+import openerp.addons.decimal_precision as dp
 
 
 class StockProductionLot(models.Model):
-
     _inherit = 'stock.production.lot'
 
     state = fields.Selection(
@@ -48,6 +33,8 @@ class StockProductionLot(models.Model):
                                    compute='_get_is_returnable')
     active = fields.Boolean('Active', default=True)
     entry_quarantine = fields.Date('Entry quarantine')
+    detail_ids = fields.One2many(comodel_name='stock.lot.detail',
+                                 inverse_name='lot_id')
 
     @api.one
     @api.depends('quant_ids')
@@ -73,6 +60,7 @@ class StockProductionLot(models.Model):
             cambia la localizacion de destino, si no se crea un movimiento a
             la localizacion de destino.
         """
+        picking_ids = []
         for lot in self:
             if not from_location:
                 locations = sorted(set([x.location_id.id for x in lot.quant_ids
@@ -97,18 +85,23 @@ class StockProductionLot(models.Model):
                     if dest_picking:
                         if len(move.picking_id.move_lines) > 1:
                             move.picking_id = dest_picking
+                        picking_ids.append(dest_picking)
                     else:
                         if len(move.picking_id.move_lines) > 1:
                             new_picking = move.picking_id.copy({'move_lines':
                                                                False})
                             move.picking_id = new_picking
+                            picking_ids.append(new_picking)
                     move.write({'location_dest_id': dest_id})
 
                 else:
                     not_assigned_quant_ids.append(quant.id)
+
+            """
             search_domain.append(('id', 'in', not_assigned_quant_ids))
             quants = self.env['stock.quant'].read_group(
                 search_domain, ['location_id', 'qty'], ['location_id'])
+
             for quant in quants:
                 location = self.env['stock.location'].browse(
                     quant['location_id'][0])
@@ -148,6 +141,8 @@ class StockProductionLot(models.Model):
                     'picking_id': picking_id.id
                 }
                 self.env['stock.move'].create(move_dict).action_confirm()
+            """
+        return picking_ids
 
     @api.multi
     def action_in_rev(self):
@@ -166,6 +161,33 @@ class StockProductionLot(models.Model):
                         _('material lot error'),
                         _('Material lot %s not approved') % depends_lot.name)
         self.write({'state': 'approved', 'acceptance_date': date.today()})
+
+    @api.multi
+    def button_approved(self):
+        self.ensure_one()
+        if self.product_id.analytic_certificate and not self.analysis_passed:
+            raise exceptions.Warning(
+                _('Analysis error'),
+                _('the consignment has not passed all analysis'))
+        else:
+            wizard_id = self.env['stock.lot.detail.wizard']. \
+                create({'lot_id': self.id})
+            view = self.env.ref('lot_states.stock_lot_details_form')
+            return {
+                'name': _('Lot details'),
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'stock.lot.detail.wizard',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'res_id': wizard_id.id,
+            }
+
+    @api.multi
+    def button_lot_details(self):
+        return self.button_approved()
 
     @api.multi
     def act_approved_without_new_moves(self):
@@ -187,9 +209,23 @@ class StockProductionLot(models.Model):
             lot.rejected_from = lot.state
             if lot.dependent_lots:
                 lot.dependent_lots.signal_workflow('act_rejected')
-        self.move_lot(self.env.ref('lot_states.stock_location_rejected').id,
+
+        rejected_loc_id = self.env.ref('lot_states.stock_location_rejected')
+        picking_ids = self.move_lot(rejected_loc_id.id,
                       [self.env.ref('stock.location_production').id])
-        self.write({'state': 'rejected'})
+
+        self.write({'state': 'rejected', 'acceptance_date': date.today()})
+
+#        for picking in picking_ids:
+#            try:
+#                if picking.state in ('draft', 'waiting'):
+#                    picking.action_confirm()
+#                if picking.state not in ('assigned'):
+#                    picking.action_assign()
+#                picking.do_transfer()
+#            except Exception, e:
+#                raise e
+#                pass
 
     @api.multi
     def button_approved_to_draft(self):
@@ -237,3 +273,14 @@ class StockProductionLot(models.Model):
             [self.env.ref('stock.location_production').id], 'outgoing',
             self.env.ref('lot_states.stock_location_rejected').id)
         self.is_returned = True
+
+
+class LotDetail(models.Model):
+    _name = 'stock.lot.detail'
+    _order = 'date'
+
+    lot_id = fields.Many2one(comodel_name='stock.production.lot')
+    date = fields.Date(required=True)
+    state = fields.Selection([('approved', 'Approved'),
+                              ('rejected', 'Rejected')], required=True)
+    quantity = fields.Float(digits=dp.get_precision('Product Unit of Measure'))

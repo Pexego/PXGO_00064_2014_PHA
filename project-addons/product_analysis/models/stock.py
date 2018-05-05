@@ -1,37 +1,15 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2015 Pexego All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2014 Pexego
+# © 2018 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from openerp import models, fields, api, exceptions, _
 from openerp.tools.safe_eval import safe_eval as eval
 from openerp.tools.float_utils import float_round
 from datetime import datetime
 
-BOOL_STR_DICT = {
-    True: 'APTO',
-    False: 'NO APTO'
-
-}
-
 
 class StockLotAnalysis(models.Model):
-
     _name = 'stock.lot.analysis'
 
     lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True,
@@ -40,6 +18,14 @@ class StockLotAnalysis(models.Model):
                                   required=True)
     result_str = fields.Char('Result')
     result_boolean = fields.Boolean('Result')
+    result_boolean_selection = fields.Selection([
+        ('conformant', 'CONFORMANT'),
+        ('qualify', 'QUALIFY'),
+        ('presence', 'PRESENCE'),
+        ('non_compliant', 'NON COMPLIANT'),
+        ('not_qualify', 'NOT QUALIFY'),
+        ('absence', 'ABSENCE'),
+    ])
     result = fields.Char('Result', compute='_compute_result')
     expected_result = fields.Char('Expected result', compute='_compute_result')
     realized_by = fields.Char('Realized')
@@ -57,18 +43,29 @@ class StockLotAnalysis(models.Model):
     decimal_precision = fields.Float(digits=0, default=0.0001)
     raw_material_analysis = fields.Boolean()
 
+    @api.onchange('result_boolean_selection')
+    def on_change_result_boolean_selection(self):
+        self.result_boolean = self.result_boolean_selection in \
+                              ('conformant', 'qualify', 'presence')
+
     @api.multi
     @api.depends('result_str', 'result_boolean', 'analysis_type',
                  'expected_result_expr', 'expected_result_boolean')
     def _compute_result(self):
+        boolean_values = self._fields['result_boolean_selection'].\
+            _description_selection(self.env)
         for analysis in self:
             expected_result = result = ''
             if analysis.analysis_type in ('free', 'expr'):
                 result = analysis.result_str
                 expected_result = analysis.expected_result_expr
             elif analysis.analysis_type == 'boolean':
-                result = BOOL_STR_DICT[analysis.result_boolean]
-                expected_result = BOOL_STR_DICT[analysis.expected_result_boolean]
+                value = analysis.result_boolean_selection
+                result = dict(boolean_values)[value] if value else False
+                value = analysis.lot_id.product_id.analysis_ids.\
+                    filtered(lambda r: r.analysis_id == analysis.analysis_id).\
+                    boolean_selection
+                expected_result = dict(boolean_values)[value] if value else False
             analysis.result = result
             analysis.expected_result = expected_result
 
@@ -96,7 +93,6 @@ class StockLotAnalysis(models.Model):
 
 
 class StockProductionLot(models.Model):
-
     _inherit = 'stock.production.lot'
 
     analysis_ids = fields.One2many('stock.lot.analysis', 'lot_id', 'Analysis')
@@ -192,7 +188,6 @@ class StockProductionLot(models.Model):
     def set_raw_material_analysis(self):
         for lot in self:
             quants = self.env['stock.quant'].search([('lot_id', '=', lot.id)])
-            moves = self.env['stock.move']
             moves = quants.mapped('history_ids').filtered(
                 lambda r: not r.parent_ids or r.production_id).mapped(
                 'parent_ids')

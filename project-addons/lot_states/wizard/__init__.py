@@ -18,4 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import lot_reject_partial
+from . import lot_reject_partial, lot_detail_wizard

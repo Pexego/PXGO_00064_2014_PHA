@@ -92,33 +92,27 @@
                                     Nº of containers to sample:
                                 </div>
                                 <div class="col-xs-1">
-                                    <span t-field="o.num_container_sample_proposed"/>
-                                </div>
-                                <div class="col-xs-1">
                                     <t t-if="o.num_container_sample_to_do">
                                         <span t-field="o.num_container_sample_to_do"/>
                                     </t>
                                 </div>
                                 <div class="col-xs-3 col-xs-offset-3">
-                                    Nº of containers sampled:
+                                    Nº of samples to take:
                                 </div>
                                 <div class="col-xs-1">
-                                    <t t-if="o.num_container_sample_realized">
-                                        <span t-field="o.num_container_sample_realized"/>
+                                    <t t-if="o.num_sampling_to_do">
+                                        <span t-field="o.num_sampling_to_do"/>
                                     </t>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-3">
-                                    Nº of samples to take:
+                                    Nº of containers sampled:
                                 </div>
                                 <div class="col-xs-1">
-                                    <span t-field="o.num_sampling_proposed"/>
-                                </div>
-                                <div class="col-xs-1">
-                                    <t t-if="o.num_sampling_to_do">
-                                        <span t-field="o.num_sampling_to_do"/>
+                                    <t t-if="o.num_container_sample_realized">
+                                        <span t-field="o.num_container_sample_realized"/>
                                     </t>
                                 </div>
                                 <div class="col-xs-3 col-xs-offset-3">
@@ -197,6 +191,37 @@
                                 Revised by: <span t-field="o.revised_by"/>
                             </div>
                         </div>
+
+                        <div class="row" style="text-align: center; padding: 0;">
+                            <div style="display: inline-block; page-break-inside: avoid; border: 8px double black; padding: 5px; margin-top: 40px; width: 60%;">
+                                <h4>Lote <span t-field="o.name"/> <span t-field="o.state"/> el <span t-field="o.acceptance_date"/></h4>
+                                <table t-if="o.detail_ids" class="table table-condensed">
+                                    <tbody>
+                                        <t t-foreach="o.detail_ids" t-as="detail">
+                                            <tr>
+                                                <td><span t-field="detail.date"/></td>
+                                                <td><span t-field="detail.state"/></td>
+                                                <td><span t-field="detail.quantity"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <style t-if="o.state not in ('approved', 'rejected')">
+                            .banner {
+                                color: red;
+                                font-weight: bolder;
+                                font-size: 90px;
+                                text-align: center;
+                                position: absolute;
+                                top: 200px;
+                                -webkit-transform: rotate(-45deg);
+                                opacity: 0.3;
+                            }
+                        </style>
+                        <div class="banner" t-if="o.state not in ('approved', 'rejected')">PENDIENTE DE CALIFICAR</div>
                     </div>
 
                     <div class="footer">

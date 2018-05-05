@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
         <record id="stock_production_lot_add_analysis" model="ir.ui.view">
             <field name="name">stock.production.lot.form</field>
             <field name="model">stock.production.lot</field>
@@ -53,10 +52,10 @@
                                     <field name="realized"/>
                                     <field name="method" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                                     <field name="analysis_type" readonly="True"/>
-                                    <field name="expected_result" />
+                                    <field name="expected_result"/>
                                     <field name="expected_result_boolean" invisible="1"/>
                                     <field name="expected_result_expr" invisible="1"/>
-                                    <field name="result_boolean" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
+                                    <field name="result_boolean_selection" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
                                     <field name="result_str" attrs="{'readonly': ['|', ('analysis_type', 'not in', ('expr', 'free')), ('raw_material_analysis', '!=', False)]}"/>
                                     <field name="result" invisible="1"/>
                                     <field name="passed"/>
@@ -106,10 +105,14 @@
             <field name="domain">[('product_id.analytic_certificate', '=', True), ('analysis_passed', '=', False)]</field>
         </record>
 
-        <menuitem name="Analysis certificate" parent="quality_management_menu.menu_quality_management" id="quality_lot_menus"/>
+        <menuitem name="Analysis certificate"
+                  parent="quality_management_menu.menu_quality_management"
+                  id="quality_lot_menus"/>
 
-        <menuitem name="Analytic control pending" parent="quality_lot_menus" action="action_analytic_control_pend" id="quality_analytic_pend_menu"/>
-
+        <menuitem name="Analytic control pending"
+                  parent="quality_lot_menus"
+                  action="action_analytic_control_pend"
+                  id="quality_analytic_pend_menu"/>
 
         <record model="ir.actions.act_window" id="action_analytic_control_realized">
             <field name="name">Analytic control realized</field>
@@ -121,7 +124,9 @@
             <field name="domain">[('product_id.analytic_certificate', '=', True), ('analysis_passed', '=', True)]</field>
         </record>
 
-        <menuitem name="Analytic control realized" parent="quality_lot_menus" action="action_analytic_control_realized" id="quality_analytic_realized_menu"/>
-
+        <menuitem name="Analytic control realized"
+                  parent="quality_lot_menus"
+                  action="action_analytic_control_realized"
+                  id="quality_analytic_realized_menu"/>
     </data>
 </openerp>

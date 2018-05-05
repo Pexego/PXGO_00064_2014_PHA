@@ -134,12 +134,6 @@
     overflow-x: hidden;
   }
 
-  .container {
-    margin: 0 !important;
-    padding: 15px !important;
-    width:100%;
-  }
-
   .openerp .quality_view * {
     font-family: "DejaVu Sans", FreeSans !important;
   }
