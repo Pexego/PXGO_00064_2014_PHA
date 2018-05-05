@@ -133,9 +133,11 @@
   body {
     overflow-x: hidden;
   }
+
   .openerp .quality_view * {
     font-family: "DejaVu Sans", FreeSans !important;
   }
+
   .openerp .quality_view *,
   .proto_fuente_normal,
   .openerp .oe_form .js_question-wrapper *,

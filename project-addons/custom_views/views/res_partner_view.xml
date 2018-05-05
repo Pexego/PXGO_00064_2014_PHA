@@ -76,6 +76,10 @@
                 <xpath expr="//form[@string='Contact']/sheet/group/field[@name='function']" position="before">
                     <field name="active"/>
                 </xpath>
+                <field name="date" position="after">
+                    <field name="create_date"/>
+                    <field name="recovery_date"/>
+                </field>
             </field>
         </record>
 

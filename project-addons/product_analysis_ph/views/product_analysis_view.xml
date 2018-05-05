@@ -7,8 +7,6 @@
             <field name="arch" type="xml">
                 <tree create="0" edit="0" delete="0">
                     <field name="name"/>
-                    <!--field name="display_name"/-->
-                    <field name="method"/>
                 </tree>
             </field>
         </record>

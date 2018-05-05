@@ -21,16 +21,34 @@
 
 {
     'name': 'Product analysis',
-    'version': '1.0',
+    'version': '8.0.2.0.0',
     'category': 'product',
     'description': """""",
-    'author': 'Pexego',
+    'author': 'Pexego, Pharmadus I.T.',
     'website': '',
-    "depends": ['product', 'lot_states', 'quality_protocol_report', 'stock_reception', 'product_spec'],
-    "data": ['product_view.xml', 'stock_view.xml',
-             'views/lot_analysis_sheet_report.xml',
-             'views/lot_analysis_certificate_report.xml',
-             'stock_lot_analysis_report.xml',
-             'security/ir.model.access.csv'],
-    "installable": True
+    'depends': [
+        'product',
+        'lot_states',
+        'quality_protocol_report',
+        'stock_reception',
+        'product_spec',
+        'custom_views',
+        'web_sheet_full_width_selective',
+        'lot_states',
+        'help_online'],
+    'data': [
+        'views/product_view.xml',
+        'views/stock_view.xml',
+        'views/product_analysis_view.xml',
+        'views/lot_analysis_sheet_report.xml',
+        'views/lot_analysis_certificate_report.xml',
+        'views/stock_lot_analysis_report.xml',
+        'views/lot_state_label.xml',
+        'views/assets.xml',
+        'data/help_online_data.xml',
+        'data/remove_old_translations.xml',
+        'data/report_paperformat.xml',
+        'security/ir.model.access.csv',
+    ],
+    'installable': True
 }

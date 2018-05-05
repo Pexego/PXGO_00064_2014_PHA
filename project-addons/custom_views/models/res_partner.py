@@ -1,23 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2015 Pharmadus All Rights Reserved
-#    $Óscar Salvador <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2018 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api
 from openerp.osv.expression import get_unaccent_wrapper
@@ -55,6 +38,9 @@ class ResPartner(models.Model):
     invoiced_past_year = fields.Float(digits=(16,2), compute='_total_invoiced')
     invoiced_previous_year = fields.Float(digits=(16,2), compute='_total_invoiced')
     invoiced_other_years = fields.Float(digits=(16,2), compute='_total_invoiced')
+    recovery_date = fields.Date(help='Date on which the customer was recovered '
+                                     'after a long period of commercial '
+                                     'inactivity', readonly=True)
 
     @api.one
     @api.constrains('active')
@@ -210,3 +196,7 @@ class ResPartner(models.Model):
             'target': 'current',
             'context': self.env.context,
         }
+
+    @api.multi
+    def run_action_find_recovered_customers(self):
+        self.env.ref('custom_views.action_find_recovered_customers').run()
