@@ -80,20 +80,9 @@ class ProductProduct(models.Model):
                     'product_tmpl_id': self.product_tmpl_id.id
                 })
 
-            # In process controls limits
-            routing_ids = [
-                self.env.ref('mrp.linea01'),
-                self.env.ref('mrp.linea02'),
-                self.env.ref('mrp.linea03'),
-                self.env.ref('mrp.linea04'),
-                self.env.ref('mrp.fuso01'),
-                self.env.ref('mrp.fuso02'),
-                self.env.ref('mrp.llenadora01'),
-                self.env.ref('mrp.env_manuales01')
-            ]
-            if set(origin_product.routing_ids.ids).\
-                    intersection(set([r.id for r in routing_ids])):
-                pql = self.env['product.quality.limits']
+            # If origin product has process controls...
+            pql = self.env['product.quality.limits']
+            if pql.search([('name', '=', origin_product.product_tmpl_id.id)]):
                 if not pql.search([('name', '=', self.product_tmpl_id.id)]):
                     pql.create({'name': self.product_tmpl_id.id})
 
