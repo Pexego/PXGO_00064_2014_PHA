@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- © 2017 Comunitea
+<!-- © 2017 Comunitea, Pharmadus I.T.
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <openerp>
     <data>
-
         <record id="product_analysis_tree" model="ir.ui.view">
             <field name="name">product.analysis.tree</field>
             <field name="model">product.analysis</field>
@@ -53,8 +51,15 @@
             <field name="search_view_id" ref="product_analysis_view_search"/>
         </record>
 
-        <menuitem name="Product analysis" parent="quality_management_menu.menu_quality_management_config" action="product_analysis_action" id="menu_product_analysis"/>
+        <menuitem name="Product analysis"
+                  parent="quality_management_menu.menu_quality_management_config"
+                  action="product_analysis_action"
+                  id="menu_product_analysis"/>
 
+        <menuitem name="Product analysis (bis)"
+                  parent="quality_management_menu.menu_quality_management_config"
+                  action="product_analysis_action"
+                  id="menu_product_analysis_bis"/>
 
         <record id="product_analysis_rel_tree" model="ir.ui.view">
             <field name="name">product.analysis.rel.tree</field>
@@ -67,14 +72,14 @@
                     <field name="raw_material_analysis" readonly="True"/>
                     <field name="method" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                     <field name="analysis_type" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
-                    <field name="expected_result_boolean" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
+                    <field name="boolean_selection" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
+                    <field name="expected_result_boolean" invisible="1"/>
                     <field name="expected_result_expr" attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)], 'required': [('analysis_type', '=', 'expr')]}"/>
                     <field name="decimal_precision" digits="[42, 10]"  attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)]}"/>
                     <field name="product_id" invisible="1"/>
                 </tree>
             </field>
         </record>
-
 
         <record id="product_analysis_rel_action" model="ir.actions.act_window">
             <field name="name">Product analysis</field>
@@ -83,7 +88,6 @@
             <field name="view_mode">tree</field>
             <field name="view_id" ref="product_analysis_rel_tree"/>
         </record>
-
 
         <record id="product_template_edit_tree_view" model="ir.ui.view">
             <field name="name">product.template.tree</field>
@@ -154,8 +158,9 @@
             <field name="search_view_id" ref="product_template_edit_search_view"/>
         </record>
 
-        <menuitem name="Product analysis" parent="quality_management_menu.menu_qc_products" action="product_template_edit_analysis_action" id="menu_product_prduct_edit_analysis"/>
-
-
+        <menuitem name="Product analysis"
+                  parent="quality_management_menu.menu_qc_products"
+                  action="product_template_edit_analysis_action"
+                  id="menu_product_prduct_edit_analysis"/>
     </data>
 </openerp>

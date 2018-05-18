@@ -18,5 +18,23 @@
             file="product_analysis.report_stock_lot_analysis_certificate"
             name="product_analysis.report_stock_lot_analysis_certificate"
         />
+
+        <report
+            id="report_lot_approved_label"
+            string="Approved label"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.report_stock_lot_approved_label"
+            name="product_analysis.report_stock_lot_approved_label"
+        />
+
+        <report
+            id="report_lot_rejected_label"
+            string="Rejected label"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.report_stock_lot_rejected_label"
+            name="product_analysis.report_stock_lot_rejected_label"
+        />
     </data>
 </openerp>

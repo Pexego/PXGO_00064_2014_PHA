@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_stock_lot_approved_label_gateway">
+            <t t-set="lot_state" t-value="'APROBADO'"/>
+            <t t-call="product_analysis.report_stock_lot_state_label"/>
+        </template>
+
+        <template id="report_stock_lot_approved_label">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'product_analysis.report_stock_lot_approved_label_gateway')"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_stock_lot_rejected_label_gateway">
+            <t t-set="lot_state" t-value="'RECHAZADO'"/>
+            <t t-call="product_analysis.report_stock_lot_state_label"/>
+        </template>
+
+        <template id="report_stock_lot_rejected_label">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'product_analysis.report_stock_lot_rejected_label_gateway')"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_stock_lot_state_label">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div style="position: relative; display: inline-block; float: left; padding-top: 10px; z-index: 1;">
+                                    <t t-set="barcode" t-value="o.name"/>
+                                    <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-left: -40px;"/>
+                                    <div t-field="o.name" style="position: absolute; bottom: -5px; left: 35%; padding: 0 5px; font-size: 14px; background-color: white;"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <div style="position: relative; display: inline-block; float: right; padding-top: 10px; z-index: 1;">
+                                    <t t-set="barcode" t-value="o.product_id.default_code"/>
+                                    <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-right: -40px;"/>
+                                    <div t-field="o.product_id.default_code" style="position: absolute; bottom: -5px; right: 35%; padding: 0 5px; font-size: 14px; background-color: white;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <div class="row" style="padding-top: 60px;">
+                            <div class="col-xs-12 text-center">
+                                <span style="font-size: 50px; font-weight: bolder; margin: 0; padding: 0;">
+                                    Lot: <span t-field="o.name" style="margin: 0; padding: 0;"/>
+                                </span>
+                            </div>
+                            <div class="col-xs-12 text-center" style="line-height: 100px;">
+                                <t t-if="o.state in ('approved', 'rejected')">
+                                  <span  t-esc="lot_state" style="font-size: 100px; font-weight: bolder; letter-spacing: 20px;"/>
+                                </t>
+                                <t t-if="o.state not in ('approved', 'rejected')">
+                                  <span  style="font-size: 70px; font-weight: bolder; letter-spacing: 1px;">PENDIENTE DE CALIFICAR</span>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 26px;">
+                            <div class="col-xs-6">
+                                Date: <span t-field="o.acceptance_date"/>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                Signature: ____________________
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

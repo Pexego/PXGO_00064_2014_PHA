@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="stock_lot_details_form" model="ir.ui.view">
+            <field name="name">Lot details</field>
+            <field name="model">stock.lot.detail.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Lot details">
+                    <h2><field name="lot_id"/></h2>
+                    <group col="2">
+                        <group colspan="1">
+                            <field name="approved"/>
+                            <field name="rejected"/>
+                            <field name="remaining"/>
+                        </group>
+                        <group colspan="1">
+                            <field name="total"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="detail_ids">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="state"/>
+                                <field name="quantity"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <button string="Accept" name="button_approve" type="object" icon="gtk-ok" class="oe_right"/>
+                    <button string="Cancel" special="cancel" icon="gtk-cancel" class="oe_right"/>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

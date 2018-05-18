@@ -194,13 +194,13 @@
                     </div>
                     <div class="col-xs-3">
                         <p t-if="o.partner_id.ref"><strong>Client code:</strong> <span t-field="o.partner_id.ref"></span></p>
-                        <p t-if="o.partner_id.customer_payment_mode">
+                        <p t-if="o.payment_mode_id">
                             <strong>Payment mode:</strong><br/>
-                            <span t-field="o.partner_id.customer_payment_mode.name"/><br/>
-                            <t t-if="not o.partner_id.customer_payment_mode.hide_account_at_invoice">
-                                <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_name"/><br/>
-                                BIC: <span t-field="o.partner_id.customer_payment_mode.bank_id.bank_bic"/><br/>
-                                <span t-field="o.partner_id.customer_payment_mode.bank_id.acc_number" style="display: inline-block; width: 260px; font-size: 11px;"/>
+                            <span t-field="o.payment_mode_id.name"/><br/>
+                            <t t-if="not o.payment_mode_id.hide_account_at_invoice">
+                                <span t-field="o.payment_mode_id.bank_id.bank_name"/><br/>
+                                BIC: <span t-field="o.payment_mode_id.bank_id.bank_bic"/><br/>
+                                <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px; font-size: 11px;"/>
                             </t>
                         </p>
                     </div>

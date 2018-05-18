@@ -27,6 +27,7 @@ class AccountInvoiceReport(models.Model):
 
     partner_id = fields.Many2one('res.partner', 'Partner (invoice send address)')
     partner_creation_date = fields.Date('Partner creation date')
+    partner_recovery_date = fields.Date('Partner recovery date')
     commercial_partner_id = fields.Many2one('res.partner', 'Partner (invoicing address)')
     commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
@@ -64,6 +65,7 @@ class AccountInvoiceReport(models.Model):
         select_str = super(AccountInvoiceReport, self)._select() + """,
             commercial_name,
             partner_creation_date,
+            partner_recovery_date,
             partner_parent_category,
             partner_category,
             commission_category,
@@ -97,6 +99,7 @@ class AccountInvoiceReport(models.Model):
         select_str = super(AccountInvoiceReport, self)._sub_select() + """,
             partner.comercial as commercial_name,
             partner.create_date as partner_creation_date,
+            partner.recovery_date as partner_recovery_date,
             case
                 when parent_rpc.name is null then '(Sin categoría)'
                 else parent_rpc.name
@@ -203,6 +206,7 @@ class AccountInvoiceReport(models.Model):
         group_by_str = super(AccountInvoiceReport, self)._group_by() + """,
             commercial_name,
             partner_creation_date,
+            partner_recovery_date,
             partner_parent_category,
             partner_category,
             commission_category,

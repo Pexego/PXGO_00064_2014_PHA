@@ -545,6 +545,12 @@ msgid "Partner parent category"
 msgstr "Categ. padre de empresa"
 
 #. module: custom_reports
+#: field:account.invoice.report,partner_recovery_date:0
+#: field:sale.report,partner_recovery_date:0
+msgid "Partner recovery date"
+msgstr "Fecha recuperación cliente"
+
+#. module: custom_reports
 #: model:ir.model,name:custom_reports.model_payment_mode
 msgid "Payment Mode"
 msgstr "Modo de pago"

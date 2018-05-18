@@ -301,6 +301,11 @@ msgid "Date authorized"
 msgstr "Fecha autorización"
 
 #. module: custom_views
+#: help:res.partner,recovery_date:0
+msgid "Date on which the customer was recovered after a long period of commercial inactivity"
+msgstr "Fecha en la que el cliente fue recuperado tras un largo período de inactividad comercial"
+
+#. module: custom_views
 #: field:mrp.procedure,date_validated:0
 msgid "Date validated"
 msgstr "Fecha validación"
@@ -811,6 +816,11 @@ msgstr "Quants"
 #: field:product.template,cost_price_rm:0
 msgid "Raw material cost price"
 msgstr "Precio de coste M.P."
+
+#. module: custom_views
+#: field:res.partner,recovery_date:0
+msgid "Recovery date"
+msgstr "Fecha recuperación"
 
 #. module: custom_views
 #: view:hr.holidays.management:custom_views.view_hr_holidays_management_form

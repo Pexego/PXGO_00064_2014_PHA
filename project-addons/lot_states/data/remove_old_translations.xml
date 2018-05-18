@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <delete model="ir.translation"
+                search="[('module', '=', 'lot_states'),
+                         ('lang', '=', 'es_ES')]"/>
+    </data>
+</openerp>
