@@ -687,6 +687,7 @@ class edi_parser(models.Model):
             product = product_obj.browse(cr, uid, line_vals['product_id'])
             taxes = fpos_obj.map_tax(cr,uid,vals_fiscal_position,product.taxes_id)
             line_vals['tax_id'] = [(6,0,taxes)]
+            line_vals['sale_type'] = 'normal'
             sale_line_obj.create(cr, uid, line_vals)
         if new_sale_id:
             sale_obj.generate_discounts(cr, uid, new_sale_id)
