@@ -557,3 +557,15 @@ msgstr "PRESENCIA"
 #: selection:stock.lot.analysis,result_boolean_selection:0
 msgid "QUALIFY"
 msgstr "CUMPLE"
+
+#. module: product_analysis
+#: model:ir.actions.act_window,name:product_analysis.action_product_analysis_available_questions
+#: model:ir.ui.menu,name:product_analysis.menu_product_analysis_available_questions
+msgid "Product analysis (questions)"
+msgstr "Análisis prod. (preguntas)"
+
+#. module: product_analysis
+#: model:ir.actions.act_window,name:product_analysis.action_stock_production_lot_dates
+#: model:ir.ui.menu,name:product_analysis.menu_stock_production_lot_dates
+msgid "Stock production lot dates"
+msgstr "Fechas de caducidad"
