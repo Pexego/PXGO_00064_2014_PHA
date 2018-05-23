@@ -15,132 +15,20 @@
                                 <h4>LEAF ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL</h4>
                             </div>
                         </div>
-                        <div class="row" style="border: 2px solid black;">
-                            <div class="col-xs-2">
-                                <span>Product:</span>
+                        <div class="row" style="border: 2px solid black; font-size: 115%;">
+                            <div class="col-xs-9">
+                                Product: <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
                             </div>
-                            <div class="col-xs-6">
-                                <span t-field="o.product_id"/>
-                            </div>
-                            <div class="col-xs-1 col-xs-offset-1">
-                                <span>Lot:</span>
-                            </div>
-                            <div class="col-xs-2">
-                                <span t-field="o.name"/>
+                            <div class="col-xs-3">
+                                Lot: <span t-field="o.name"/>
                             </div>
                         </div>
                     </div>
 
-                    <div class="page">
-                        <div class="row" style="border: 2px solid black; margin-top: 10px; padding-left: 20px; padding-right: 20px;">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <strong><u>Receive data:</u></strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    Supplier: <span t-field="o.partner_id"/>
-                                </div>
-                                <div class="col-xs-4">
-                                    Supplier lot: <span t-field="o.supplier_lot"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    Receipt date: <span t-field="o.date_in" t-field-options='{"format": "dd/MM/y"}'/>
-                                </div>
-                                <div class="col-xs-4">
-                                    Quantity: <span t-field="o.quantity"/> <span t-field="o.uom_id"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    Container type: <span t-field="o.container_type"/>
-                                </div>
-                                <div class="col-xs-4">
-                                    Number of containers: <span t-field="o.container_number"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    Nº of pallets: <span t-field="o.pallets"/>
-                                </div>
-                            </div>
-                            <div class="row" style="min-height: 100px;">
-                                <div class="col-xs-12">
-                                    Notes: <span t-field="o.notes"/>
-                                </div>
-                            </div>
-                             <div class="row">
-                                <div class="col-xs-8">
-                                    Date: <span t-field="o.date_in_system"/>
-                                </div>
-                                <div class="col-xs-4">
-                                    Realized by: <span t-field="o.reception_realized_by"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="border: 2px solid black; margin-top: 10px; padding-left: 20px; padding-right: 20px;">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <strong><u>Sampling:</u></strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    Nº of containers to sample:
-                                </div>
-                                <div class="col-xs-1">
-                                    <t t-if="o.num_container_sample_to_do">
-                                        <span t-field="o.num_container_sample_to_do"/>
-                                    </t>
-                                </div>
-                                <div class="col-xs-3 col-xs-offset-3">
-                                    Nº of samples to take:
-                                </div>
-                                <div class="col-xs-1">
-                                    <t t-if="o.num_sampling_to_do">
-                                        <span t-field="o.num_sampling_to_do"/>
-                                    </t>
-                                </div>
-                            </div>
+                    <div class="page" style="font-size: 115%;">
+                        <t t-call="product_analysis.report_stock_lot_analysis_data"/>
 
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    Nº of containers sampled:
-                                </div>
-                                <div class="col-xs-1">
-                                    <t t-if="o.num_container_sample_realized">
-                                        <span t-field="o.num_container_sample_realized"/>
-                                    </t>
-                                </div>
-                                <div class="col-xs-3 col-xs-offset-3">
-                                    Nº of samples taked:
-                                </div>
-                                <div class="col-xs-1">
-                                    <t t-if="o.num_sampling_realized">
-                                        <span t-field="o.num_sampling_realized"/>
-                                    </t>
-                                </div>
-                            </div>
-                            <div class="row" style="min-height: 100px;">
-                                <div class="col-xs-12">
-                                    Notes: <span t-field="o.sampling_notes"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    Date: <span t-field="o.sampling_date"/>
-                                </div>
-
-                                <div class="col-xs-3 col-xs-offset-6">
-                                    Realized: <span t-field="o.sampling_realized"/>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" style="border: 2px solid black; margin-top: 10px; padding-left: 20px; padding-right: 20px;">
+                        <div class="row" style="border: 2px solid black; margin-top: 5px; padding-left: 20px; padding-right: 20px;">
                             <div class="row">
                                 <div class="col-xs-12">
                                     <strong><u>Analytic control:</u></strong>
@@ -152,30 +40,32 @@
                                         <thead>
                                             <tr>
                                                 <th>Paramenter</th>
-                                                <th class="text-center">Method</th>
+                                                <th class="text-center" style="min-width: 10em;">Method</th>
                                                 <th class="text-center">Result</th>
                                                 <th class="text-center">Realized</th>
                                             </tr>
                                        </thead>
-                                       <tbody>
-                                            <tr t-foreach="o.analysis_ids" t-as="analysis">
-                                                <td> <span t-field="analysis.analysis_id.name"/></td>
-                                                <td class="text-center"> <span t-field="analysis.method"/></td>
-                                                <td class="text-center">
-                                                    <t t-if="analysis.realized"><span t-field="analysis.result"/></t>
-                                                    <t t-if="not analysis.realized"><span>-</span></t>
-                                                </td>
-                                                <td class="text-center">
-                                                    <t t-if="analysis.realized"><span t-field="analysis.realized_by"/></t>
-                                                    <t t-if="not analysis.realized"><span>-</span></t>
-                                                </td>
-                                            </tr>
+                                       <tbody style="font-size: 80%;">
+                                            <t t-foreach="o.analysis_ids" t-as="analysis">
+                                                <tr t-if="analysis.show_in_certificate">
+                                                    <td style="padding: 1px;">
+                                                        <span t-field="analysis.analysis_id.name"/>
+                                                    </td>
+                                                    <td class="text-center" style="padding: 1px;">
+                                                        <span t-field="analysis.method.name"/>
+                                                    </td>
+                                                    <td class="text-center" style="padding: 1px;">
+                                                        <span t-if="analysis.realized and not analysis.result">-</span>
+                                                        <span t-field="analysis.result"/>
+                                                    </td>
+                                                    <td class="text-center" style="padding: 1px;">
+                                                        <span t-if="analysis.realized and not analysis.result">-</span>
+                                                        <span t-field="analysis.realized_by"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
                                         </tbody>
                                     </table>
-                                </div>
-                            </div>
-                            <div class="row" style="min-height: 100px;">
-                                <div class="col-xs-12">
                                     Notes: <span t-field="o.analysis_notes"/>
                                 </div>
                             </div>
@@ -197,7 +87,7 @@
                             <div class="col-xs-2">
                                 <span>F-01-DT-001-00</span>
                             </div>
-                            <div class="col-xs-4 col-xs-offset-6 text-center" style="border-top: 1px solid black;">
+                            <div class="col-xs-4 col-xs-offset-6 text-center" style="border-top: 1px solid black; margin-top: 20px;">
                                 <span>signature and date</span>
                             </div>
                         </div>

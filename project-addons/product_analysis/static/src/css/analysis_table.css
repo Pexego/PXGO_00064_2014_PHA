@@ -1,0 +1,16 @@
+th[data-id="raw_material_analysis"],
+th[data-id="expected_result_expr"],
+th[data-id="expected_result_boolean"],
+th[data-id="result"],
+td[data-field="raw_material_analysis"],
+td[data-field="expected_result_expr"],
+td[data-field="expected_result_boolean"],
+td[data-field="result"] {
+    display: none;
+}
+
+table.objetivo td.desactivado,
+.openerp .oe_form_editable .oe_list_editable .oe_list_content.objetivo td.oe_required.desactivado {
+    background-color: #EEE;
+    cursor: default;
+}

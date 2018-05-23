@@ -52,7 +52,7 @@ msgstr "Arrastrar de materia prima"
 #: field:product.analysis.rel,analysis_type:0
 #: field:stock.lot.analysis,analysis_type:0
 msgid "Analysis type"
-msgstr "Tipo de analisis"
+msgstr "Tipo resultado"
 
 #. module: product_analysis
 #: selection:product.analysis.rel,analysis_type:0
@@ -79,7 +79,7 @@ msgstr "Texto libre"
 #: field:stock.lot.analysis,expected_result_boolean:0
 #: field:stock.lot.analysis,expected_result_expr:0
 msgid "Expected result"
-msgstr "Resultado esperado"
+msgstr "Criterio"
 
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
@@ -145,6 +145,7 @@ msgstr "CERTIFICADO DE ANÁLISIS DE MATERIA PRIMA / MATERIA DE ACONDICIONAMIENTO
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Container type:"
 msgstr "Tipo de envase:"
 
@@ -167,6 +168,7 @@ msgstr "Created on"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 #: view:website:product_analysis.report_stock_lot_state_label
 msgid "Date:"
 msgstr "Fecha:"
@@ -230,6 +232,7 @@ msgstr "Nombre"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Notes:"
 msgstr "Notas:"
 
@@ -246,6 +249,7 @@ msgstr "Número de envases a muestrear"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Number of containers:"
 msgstr "Número de envases:"
 
@@ -262,30 +266,35 @@ msgstr "Número de muestras tomadas"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Nº of containers sampled:"
 msgstr "Nº envases muestreados:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Nº of containers to sample:"
 msgstr "Nº envases a muestrear:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Nº of pallets:"
 msgstr "Nº de pallets:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Nº of samples taked:"
 msgstr "Nº muestras tomadas:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Nº of samples to take:"
 msgstr "Nº muestras a tomar:"
 
@@ -305,7 +314,7 @@ msgstr "Producto"
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Set all realized"
-msgstr "Marcar todos como realizados"
+msgstr "Marcar todos a realizar"
 
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
@@ -357,6 +366,7 @@ msgstr "Calidad"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Quantity:"
 msgstr "Cantidad:"
 
@@ -364,6 +374,7 @@ msgstr "Cantidad:"
 #: field:stock.lot.analysis,realized_by:0
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Realized"
 msgstr "Realizado"
 
@@ -375,24 +386,28 @@ msgstr "A realizar"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Realized by:"
 msgstr "Realizado por:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Realized:"
 msgstr "Realizado:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Receipt date:"
 msgstr "Fecha de entrada:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Receive data:"
 msgstr "Fecha de entrada:"
 
@@ -418,7 +433,7 @@ msgstr "Resultado booleano"
 #. module: product_analysis
 #: field:stock.lot.analysis,passed:0
 msgid "Passed"
-msgstr "Pasado"
+msgstr "Apto"
 
 #. module: product_analysis
 #: field:stock.production.lot,revised_by:0
@@ -455,6 +470,7 @@ msgstr "Muestreo realizado por"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Sampling:"
 msgstr "Toma de muestras:"
 
@@ -477,12 +493,14 @@ msgstr "Especificación"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Supplier lot:"
 msgstr "Lote de proveedor:"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
+#: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Supplier:"
 msgstr "Proveedor:"
 

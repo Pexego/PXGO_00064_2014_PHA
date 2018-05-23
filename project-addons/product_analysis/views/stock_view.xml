@@ -11,6 +11,7 @@
                 </xpath>
                 <notebook position="inside">
                     <page string="Quality">
+                        <script type="text/javascript" src="product_analysis/static/src/js/analysis_table.js"></script>
                         <separator string="Used lots"/>
                         <field name="used_lots" nolabel="1" colspan="4" widget="html"/>
                         <group>
@@ -32,58 +33,38 @@
                             <field name="sampling_notes" placeholder="Sampling notes" nolabel="1" colspan="4"/>
                             <group>
                                 <field name="sampling_date"/>
-                            </group>
-                            <group>
                                 <field name="sampling_realized"/>
                             </group>
+                            <group>
+                                <separator/>
+                            </group>
                         </group>
-                        <separator string="Analysis" />
+                        <separator string="Analysis"/>
                         <group>
                             <button name="set_all_realized" string="Set all realized" type="object"/>
                             <button name="set_raw_material_analysis" string="Set raw material analysis" type="object"/>
                         </group>
                         <group>
                             <field name="analysis_ids" nolabel="1">
-                                <tree editable="top">
-                                    <field name="raw_material_analysis" invisible="1"/>
-                                    <field name="analysis_id" attrs="{'readonly': [('proposed', '=', True)]}"/>
-                                    <field name="show_in_certificate" attrs="{'readonly': [('proposed', '=', True)]}"/>
-                                    <field name="proposed" readonly="1"/>
+                                <tree editable="bottom" default_order="sequence">
+                                    <field name="raw_material_analysis"/>
+                                    <field name="expected_result_boolean"/>
+                                    <field name="expected_result_expr"/>
+                                    <field name="result"/>
+                                    <field name="analysis_id"/>
+                                    <field name="show_in_certificate"/>
+                                    <field name="proposed"/>
                                     <field name="realized"/>
-                                    <field name="method" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
-                                    <field name="analysis_type" readonly="True"/>
+                                    <field name="method"/>
+                                    <field name="analysis_type"/>
                                     <field name="expected_result"/>
-                                    <field name="expected_result_boolean" invisible="1"/>
-                                    <field name="expected_result_expr" invisible="1"/>
-                                    <field name="result_boolean_selection" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
-                                    <field name="result_str" attrs="{'readonly': ['|', ('analysis_type', 'not in', ('expr', 'free')), ('raw_material_analysis', '!=', False)]}"/>
-                                    <field name="result" invisible="1"/>
+                                    <field name="result_boolean_selection"/>
+                                    <field name="result_str"/>
                                     <field name="passed"/>
-                                    <field name="realized_by" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
-                                    <field name="decimal_precision" digits="[42, 10]" readonly="1" attrs="{'invisible': [('analysis_type', '!=', 'expr')]}"/>
+                                    <field name="realized_by"/>
+                                    <field name="decimal_precision" digits="[42, 10]" attrs="{'invisible': [('analysis_type', '!=', 'expr')]}"/>
                                     <field name="expr_error"/>
                                 </tree>
-                                <form>
-                                    <group>
-                                        <group>
-                                            <field name="analysis_id"/>
-                                            <field name="show_in_certificate"/>
-                                            <field name="proposed" readonly="1"/>
-                                            <field name="realized"/>
-                                        </group>
-                                        <group>
-                                            <field name="result_boolean" attrs="{'invisible': [('analysis_type', '!=', 'boolean')]}"/>
-                                            <field name="result_str" attrs="{'invisible': [('analysis_type', 'not in', ('expr', 'free'))]}"/>
-                                            <field name="result" invisible="1"/>
-                                            <field name="realized_by"/>
-                                            <field name="method"/>
-                                            <field name="analysis_type" readonly="True"/>
-                                            <field name="expected_result_boolean" attrs="{'invisible': [('analysis_type', '!=', 'boolean')]}" readonly="True"/>
-                                            <field name="expected_result_expr" attrs="{'invisible': [('analysis_type', '!=', 'expr')]}" readonly="True"/>
-                                            <field name="expr_error" style="background-color: Yellow; color:Red;" attrs="{'invisible': [('expr_error', '=', False)]}"/>
-                                        </group>
-                                    </group>
-                                </form>
                             </field>
                             <field name="analysis_notes" placeholder="Analysis notes" nolabel="1" colspan="4"/>
                         </group>

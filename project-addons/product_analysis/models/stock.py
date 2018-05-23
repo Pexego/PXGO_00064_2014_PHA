@@ -91,22 +91,25 @@ class StockLotAnalysis(models.Model):
                 passed = True
             analysis.passed = passed
 
+    @api.multi
+    def write(self, vals):
+        if vals.get('result_boolean_selection') and not vals.get('result_boolean'):
+            vals['result_boolean'] = vals.get('result_boolean_selection') in \
+                                     ('conformant', 'qualify', 'presence')
+        return super(StockLotAnalysis, self).write(vals)
+
 
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     analysis_ids = fields.One2many('stock.lot.analysis', 'lot_id', 'Analysis')
     analysis_notes = fields.Text('Analysis notes')
-
-    # Samples fields
     num_container_sample_proposed = fields.Integer(
         'Proposed number of containers to sample')
     num_sampling_proposed = fields.Integer('Proposed number of samples')
-
     num_container_sample_to_do = fields.Integer(
         'Number of containers to sample')
     num_sampling_to_do = fields.Integer('Number of samples')
-
     num_container_sample_realized = fields.Integer(
         'Number of containers sampled')
     num_sampling_realized = fields.Integer('Number of samples taked')

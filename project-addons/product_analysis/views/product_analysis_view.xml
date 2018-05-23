@@ -56,11 +56,6 @@
                   action="product_analysis_action"
                   id="menu_product_analysis"/>
 
-        <menuitem name="Product analysis (bis)"
-                  parent="quality_management_menu.menu_quality_management_config"
-                  action="product_analysis_action"
-                  id="menu_product_analysis_bis"/>
-
         <record id="product_analysis_rel_tree" model="ir.ui.view">
             <field name="name">product.analysis.rel.tree</field>
             <field name="model">product.analysis.rel</field>
