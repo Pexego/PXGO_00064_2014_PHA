@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-08 13:21+0000\n"
-"PO-Revision-Date: 2018-03-08 14:25+0100\n"
+"POT-Creation-Date: 2018-05-23 19:01+0000\n"
+"PO-Revision-Date: 2018-05-24 12:00+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,16 +18,38 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. module: copy_from_ph
+#: view:product.template:copy_from_ph.product_template_copy_from_form_view
+msgid "Analysis"
+msgstr "Análisis"
+
+#. module: copy_from_ph
+#: field:product.product,analysis_count:0
+msgid "Analysis count"
+msgstr "Análisis"
+
+#. module: copy_from_ph
 #: model:ir.model,name:copy_from_ph.model_mrp_bom
 msgid "Bill of Material"
-msgstr "Lista de materiales"
+msgstr "Lista de material"
+
+#. module: copy_from_ph
+#: view:product.analysis.rel.wizard:copy_from_ph.product_analysis_rel_wizard
+msgid "Cancel"
+msgstr "Cancelar"
 
 #. module: copy_from_ph
 #: view:mrp.bom:copy_from_ph.copy_from_mrp_bom_form
 #: view:product.product:copy_from_ph.copy_from_product_product_form
+#: view:product.quality.limits:copy_from_ph.copy_from_product_quality_limits_form
 #: view:stock.production.lot:copy_from_ph.copy_from_stock_production_lot_form
 msgid "Copy"
 msgstr "Copiar"
+
+#. module: copy_from_ph
+#: model:ir.actions.act_window,name:copy_from_ph.product_analysis_rel_wizard_action
+#: view:product.template:copy_from_ph.product_template_copy_from_form_view
+msgid "Copy analysis parameters from..."
+msgstr "Copiar parámetros de análisis de..."
 
 #. module: copy_from_ph
 #: field:product.product,copy_data_from:0
@@ -35,15 +57,57 @@ msgid "Copy data from..."
 msgstr "Copiar datos de..."
 
 #. module: copy_from_ph
-#: field:mrp.bom,copy_from:0 field:product.product,copy_analysis_from:0
+#: field:mrp.bom,copy_from:0 field:product.analysis.rel.wizard,copy_from:0
+#: field:product.product,copy_analysis_from:0
+#: field:product.quality.limits,copy_from:0
 #: field:stock.production.lot,copy_analysis_from:0
 msgid "Copy from..."
 msgstr "Copiar de..."
 
 #. module: copy_from_ph
+#: view:product.analysis.rel.wizard:copy_from_ph.product_analysis_rel_wizard
+msgid "Copy parameters"
+msgstr "Copiar parámetros"
+
+#. module: copy_from_ph
+#: field:product.analysis.rel.wizard,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: copy_from_ph
+#: field:product.analysis.rel.wizard,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: copy_from_ph
+#: field:product.analysis.rel.wizard,display_name:0
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: copy_from_ph
+#: field:product.analysis.rel.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: copy_from_ph
+#: field:product.analysis.rel.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: copy_from_ph
+#: field:product.analysis.rel.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: copy_from_ph
+#: field:product.analysis.rel.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: copy_from_ph
 #: model:ir.model,name:copy_from_ph.model_stock_production_lot
 msgid "Lot/Serial"
-msgstr "Lote/Serie"
+msgstr "Lote"
 
 #. module: copy_from_ph
 #: field:stock.production.lot,sequence_id:0
@@ -52,8 +116,14 @@ msgstr "Secuencia de lotes"
 
 #. module: copy_from_ph
 #: model:ir.model,name:copy_from_ph.model_product_product
+#: field:stock.production.lot,copy_analysis_from_product_id:0
 msgid "Product"
 msgstr "Producto"
+
+#. module: copy_from_ph
+#: model:ir.model,name:copy_from_ph.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
 
 #. module: copy_from_ph
 #: view:product.product:copy_from_ph.copy_from_product_product_form
@@ -64,3 +134,8 @@ msgstr "Technical tools"
 #: view:product.product:copy_from_ph.copy_from_product_product_form
 msgid "Warnings"
 msgstr "Avisos"
+
+#. module: copy_from_ph
+#: view:product.analysis.rel.wizard:copy_from_ph.product_analysis_rel_wizard
+msgid "or"
+msgstr "o"

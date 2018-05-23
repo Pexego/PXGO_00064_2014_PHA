@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="copy_from_product_quality_limits_form" model="ir.ui.view">
+            <field name="name">Copy from - Product quality limits</field>
+            <field name="model">product.quality.limits</field>
+            <field name="inherit_id" ref="product_spec.product_quality_limits_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <div position="after">
+                    <style>
+                        .openerp .oe_application .oe_form_sheetbg .copy_from_ph_style td:nth-child(1) label {
+                            min-width: auto;
+                        }
+                        .copy_from_ph_style td:nth-child(1),
+                        .copy_from_ph_style td:nth-child(2),
+                        .copy_from_ph_style td:nth-child(3) {
+                            width: auto;
+                        }
+                    </style>
+                    <group col="3">
+                        <group colspan="2" col="3" class="copy_from_ph_style">
+                            <field name="copy_from"/>
+                            <button string="Copy" name="action_copy_from"
+                                    class="oe_inline"
+                                    type="object"
+                                    attrs="{'invisible': [('copy_from', '=', False)]}"
+                            />
+                        </group>
+                        <group col="1">
+                            <separator/>
+                        </group>
+                    </group>
+                </div>
+            </field>
+        </record>
+    </data>
+</openerp>

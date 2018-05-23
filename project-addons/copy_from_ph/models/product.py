@@ -32,7 +32,7 @@ class ProductProduct(models.Model):
             'line', 'subline', 'container_id', 'base_form_id', 'clothing',
             'purchase_line', 'purchase_subline', 'country', 'customer',
             'packing_base', 'packing_production', 'packing_internal', 'packing',
-            'box_elements', 'objective', 'categ_ids', 'uom_po_id',
+            'box_elements', 'objective', 'categ_ids', 'cost_method', 'uom_po_id',
             'description_purchase', 'routing_ids', 'manufacturing_procedure_id',
             'packaging_procedure_id', 'specification_type', 'specification_id',
             'analysis_method_id', 'analysis_plan_id', 'track_all', 'sequence_id',
@@ -87,3 +87,24 @@ class ProductProduct(models.Model):
                     pql.create({'name': self.product_tmpl_id.id})
 
         return self
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    @api.multi
+    def action_copy_analysis_from(self):
+        ctx = self.env.context.copy()
+        ctx['active_ids'] = [self.id]
+        view = self.env.ref('copy_from_ph.product_analysis_rel_wizard')
+        return {
+            'name': 'Copy analysis parameters from...',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'product.analysis.rel.wizard',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'target': 'new',
+            'context': ctx,
+        }
