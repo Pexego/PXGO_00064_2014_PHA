@@ -13,7 +13,7 @@
             <field name="margin_right">5</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">0</field>
-            <field name="dpi">600</field>
+            <field name="dpi">90</field>
         </record>
 
         <record id="product_gtin_codes.report_gtin_barcode" model="ir.actions.report.xml">
