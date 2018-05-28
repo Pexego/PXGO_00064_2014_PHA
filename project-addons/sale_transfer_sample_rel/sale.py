@@ -37,7 +37,8 @@ class sale_order(models.Model):
                                  store=True)
 
     @api.one
-    @api.depends('transfer', 'sample', 'replacement', 'intermediary')
+    @api.depends('transfer', 'sample', 'replacement', 'intermediary',
+                 'partner_id')
     def _get_type(self):
         if self.transfer:
             self.sale_type = 'transfer'
