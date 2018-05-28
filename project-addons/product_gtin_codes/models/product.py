@@ -9,16 +9,16 @@ class ProductGtin(models.TransientModel):
     _rec_name = 'gtin12'
 
     gtin = fields.Char()
-    gtin12 = fields.Char()
-    gtin13 = fields.Char(readonly=True)
-    gtin14_1 = fields.Char(readonly=True)
-    gtin14_2 = fields.Char(readonly=True)
-    gtin14_3 = fields.Char(readonly=True)
-    gtin14_4 = fields.Char(readonly=True)
-    gtin14_5 = fields.Char(readonly=True)
-    gtin14_6 = fields.Char(readonly=True)
-    gtin14_7 = fields.Char(readonly=True)
-    gtin14_8 = fields.Char(readonly=True)
+    gtin12 = fields.Char(string='GTIN12', )
+    gtin13 = fields.Char(string='GTIN13', readonly=True)
+    gtin14_1 = fields.Char(string='GTIN14 (1)', readonly=True)
+    gtin14_2 = fields.Char(string='GTIN14 (2)', readonly=True)
+    gtin14_3 = fields.Char(string='GTIN14 (3)', readonly=True)
+    gtin14_4 = fields.Char(string='GTIN14 (4)', readonly=True)
+    gtin14_5 = fields.Char(string='GTIN14 (5)', readonly=True)
+    gtin14_6 = fields.Char(string='GTIN14 (6)', readonly=True)
+    gtin14_7 = fields.Char(string='GTIN14 (7)', readonly=True)
+    gtin14_8 = fields.Char(string='GTIN14 (8)', readonly=True)
 
     @api.multi
     def write(self, vals):
@@ -31,12 +31,12 @@ class ProductGtin(models.TransientModel):
         def control_code13(code):
             sum = 0
             for d in range(12):
-                sum += int(code[d]) * (3 if d % 2 == 0 else 1)
+                sum += int(code[d]) * (1 if d % 2 == 0 else 3)
             return (10 - sum % 10) % 10
 
-        if self.gtin12 and len(self.gtin12) == 12 and self.gtin12.isnumeric():
-            gtin12 = self.gtin12
-            vals['gtin13'] = str(control_code13(gtin12))
+        gtin12 = vals.get('gtin12')
+        if gtin12 and len(gtin12) == 12 and gtin12.isdigit():
+            vals['gtin13'] = gtin12 + str(control_code13(gtin12))
             vals['gtin14_1'] = '1' + gtin12 + str(control_code('1' + gtin12))
             vals['gtin14_2'] = '2' + gtin12 + str(control_code('2' + gtin12))
             vals['gtin14_3'] = '3' + gtin12 + str(control_code('3' + gtin12))

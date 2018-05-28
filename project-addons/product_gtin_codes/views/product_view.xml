@@ -74,18 +74,21 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <separator colspan="2" string="GTIN 12"/>
                         <group col="7">
                             <field name="gtin12"/>
                             <button name="action_get_gtin12_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
                             <button name="action_print_gtin12_barcode" type="object" icon="STOCK_PRINT"/>
                             <separator colspan="3"/>
                         </group>
+                        <separator colspan="2" string="GTIN 13"/>
                         <group col="7">
                             <field name="gtin13"/>
                             <button name="action_get_gtin13_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
                             <button name="action_print_gtin13_barcode" type="object" icon="STOCK_PRINT"/>
                             <separator colspan="3"/>
                         </group>
+                        <separator colspan="2" string="GTIN 14"/>
                         <group col="7">
                             <field name="gtin14_1"/>
                             <button name="action_get_gtin14_1_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
