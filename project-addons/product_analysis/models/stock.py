@@ -123,6 +123,19 @@ class StockProductionLot(models.Model):
     analysis_passed = fields.Boolean('Analysis passed')
     revised_by = fields.Char('Revised by')
     used_lots = fields.Text(compute='_compute_used_lots')
+    origin_type = fields.Selection([
+        ('unspecified', 'Unspecified'),
+        ('eu', 'EU product'),
+        ('notEU', 'Not EU product'),
+        ('eu_notEU', 'EU/not EU product'),
+    ], default='unspecified')
+    origin_country_id = fields.Many2one(comodel_name='res.country',
+                                        string='Origin country')
+
+    @api.onchange('origin_type')
+    def onchange_origin_type(self):
+        if self.origin_type == 'unspecified':
+            self.origin_country_id = False
 
     @api.multi
     def _compute_used_lots(self):

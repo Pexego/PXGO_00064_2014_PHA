@@ -186,6 +186,16 @@ msgid "Decimal precision"
 msgstr "Precisión decimal"
 
 #. module: product_analysis
+#: selection:stock.production.lot,origin_type:0
+msgid "EU product"
+msgstr "Producto UE"
+
+#. module: product_analysis
+#: selection:stock.production.lot,origin_type:0
+msgid "EU/not EU product"
+msgstr "Producto UE/no UE"
+
+#. module: product_analysis
 #: selection:product.analysis.rel,criterion:0
 #: selection:stock.lot.analysis,criterion:0
 msgid "INFORMATIVE"
@@ -240,6 +250,11 @@ msgstr "Método"
 #: field:product.analysis.method,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: product_analysis
+#: selection:stock.production.lot,origin_type:0
+msgid "Not EU product"
+msgstr "Producto no UE"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
@@ -309,6 +324,21 @@ msgstr "Nº muestras tomadas:"
 #: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Nº of samples to take:"
 msgstr "Nº muestras a tomar:"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Origin"
+msgstr "Origen"
+
+#. module: product_analysis
+#: field:stock.production.lot,origin_country_id:0
+msgid "Origin country"
+msgstr "País de origen"
+
+#. module: product_analysis
+#: field:stock.production.lot,origin_type:0
+msgid "Origin type"
+msgstr "Origen"
 
 #. module: product_analysis
 #: field:product.analysis,name:0
@@ -533,6 +563,11 @@ msgstr "Firma y fecha"
 #, python-format
 msgid "the consignment has not passed all analysis"
 msgstr "El lote no ha pasado todos los análisis"
+
+#. module: product_analysis
+#: selection:stock.production.lot,origin_type:0
+msgid "Unspecified"
+msgstr "Sin especificar"
 
 #. module: product_analysis
 #: selection:product.analysis.rel,boolean_selection:0

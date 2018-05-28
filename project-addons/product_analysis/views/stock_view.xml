@@ -17,6 +17,10 @@
                         <group>
                             <field name="analysis_passed"/>
                         </group>
+                        <group col="4" string="Origin">
+                            <field name="origin_type" widget="radio"/>
+                            <field name="origin_country_id"/>
+                        </group>
                         <group string="Sampling">
                             <group>
                                 <field name="num_container_sample_proposed"/>

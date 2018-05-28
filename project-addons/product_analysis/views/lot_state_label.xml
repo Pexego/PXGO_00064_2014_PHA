@@ -58,10 +58,13 @@
                                     <span t-esc="o.product_id.name[:60]" style="margin: 0; padding: 0;"/>
                                 </span>
                             </div>
-                            <div class="col-xs-12" style="line-height: 60px;">
+                            <div class="col-xs-12" style="line-height: 60px; vertical-align: text-top;">
                                 <span style="font-size: 50px; font-weight: bolder; margin: 0; padding: 0;">
                                     Lot: <span t-field="o.name" style="margin: 0; padding: 0;"/>
                                 </span>
+                                <t t-if="o.origin_type != 'unspecified'">
+                                    <span t-field="o.origin_type" style="font-size: 26px; font-weight: normal; float: right; margin-top: -10px;"/>
+                                </t>
                             </div>
                             <div class="col-xs-12" style="line-height: 70px;">
                                 <t t-if="o.state in ('approved', 'rejected')">
