@@ -71,6 +71,7 @@
                     <field name="expected_result_boolean" invisible="1"/>
                     <field name="expected_result_expr" attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)], 'required': [('analysis_type', '=', 'expr')]}"/>
                     <field name="decimal_precision" digits="[42, 10]"  attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)]}"/>
+                    <field name="criterion"/>
                     <field name="product_id" invisible="1"/>
                 </tree>
             </field>

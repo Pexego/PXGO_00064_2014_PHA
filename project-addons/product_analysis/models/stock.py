@@ -42,6 +42,10 @@ class StockLotAnalysis(models.Model):
     passed = fields.Boolean(compute='_compute_passed')
     decimal_precision = fields.Float(digits=0, default=0.0001)
     raw_material_analysis = fields.Boolean()
+    criterion = fields.Selection([
+        ('normal', ''),
+        ('informative', 'INFORMATIVE')
+    ], readonly=True)
 
     @api.onchange('result_boolean_selection')
     def on_change_result_boolean_selection(self):
@@ -160,18 +164,19 @@ class StockProductionLot(models.Model):
         lot = super(StockProductionLot, self).create(vals)
         if lot.product_id.analytic_certificate:
             for line in lot.product_id.analysis_ids:
-                self.env['stock.lot.analysis'].create(
-                    {'lot_id': lot.id,
-                     'analysis_id': line.analysis_id.id,
-                     'proposed': True,
-                     'raw_material_analysis': line.raw_material_analysis,
-                     'show_in_certificate': line.show_in_certificate,
-                     'method': line.method.id,
-                     'analysis_type': line.analysis_type,
-                     'expected_result_boolean': line.expected_result_boolean,
-                     'expected_result_expr': line.expected_result_expr,
-                     'decimal_precision': line.decimal_precision
-                     })
+                self.env['stock.lot.analysis'].create({
+                    'lot_id': lot.id,
+                    'analysis_id': line.analysis_id.id,
+                    'proposed': True,
+                    'raw_material_analysis': line.raw_material_analysis,
+                    'show_in_certificate': line.show_in_certificate,
+                    'method': line.method.id,
+                    'analysis_type': line.analysis_type,
+                    'expected_result_boolean': line.expected_result_boolean,
+                    'expected_result_expr': line.expected_result_expr,
+                    'decimal_precision': line.decimal_precision,
+                    'criterion': line.criterion
+                })
         return lot
 
     @api.multi

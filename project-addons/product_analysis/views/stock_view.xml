@@ -61,6 +61,7 @@
                                     <field name="result_boolean_selection"/>
                                     <field name="result_str"/>
                                     <field name="passed"/>
+                                    <field name="criterion"/>
                                     <field name="realized_by"/>
                                     <field name="decimal_precision" digits="[42, 10]" attrs="{'invisible': [('analysis_type', '!=', 'expr')]}"/>
                                     <field name="expr_error"/>

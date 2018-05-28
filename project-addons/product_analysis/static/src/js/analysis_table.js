@@ -44,7 +44,8 @@ function aplicarRestricciones() {
         desactivarCampos(tr, [
             'proposed', 'analysis_type', 'expected_result', 'passed',
             'decimal_precision', 'expr_error', 'raw_material_analysis',
-            'expected_result_expr', 'expected_result_boolean', 'result'
+            'expected_result_expr', 'expected_result_boolean', 'result',
+            'criterion'
         ]);
 
         if ($(tr).find('td[data-field="raw_material_analysis"] input:checked').length == 1) {
