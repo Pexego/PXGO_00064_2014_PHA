@@ -14,11 +14,29 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <page string="GTIN codes" attrs="{'invisible': [('ean13', '=', False)]}">
                         <separator string="GTIN codes assigned to product"/>
                         <group>
-                            <field name="gtin12"/>
-                            <field name="gtin13"/>
+                            <group colspan="2" col="8">
+                                <field name="gtin12"/>
+                                <button name="action_get_gtin12_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                                <button name="action_print_gtin12_barcode" type="object" icon="STOCK_PRINT"/>
+                                <separator colspan="4"/>
+                            </group>
+                            <group colspan="2" col="8">
+                                <field name="gtin13"/>
+                                <button name="action_get_gtin13_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                                <button name="action_print_gtin13_barcode" type="object" icon="STOCK_PRINT"/>
+                                <separator colspan="4"/>
+                            </group>
                             <field name="gtin14_ids">
                                 <tree editable="top" create="false" delete="false">
                                     <field name="gtin14"/>
+                                    <button name="action_get_gtin14_barcode"
+                                            class="oe_read_only"
+                                            type="object"
+                                            icon="STOCK_SELECT_COLOR"/>
+                                    <button name="action_print_gtin14_barcode"
+                                            class="oe_read_only"
+                                            type="object"
+                                            icon="STOCK_PRINT"/>
                                     <field name="log_var" invisible="1"/>
                                     <field name="units" attrs="{'readonly': [('log_var', '=', 8)]}"/>
                                     <field name="used_for"/>
@@ -49,5 +67,35 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </tree>
             </field>
         </record>
+
+        <record id="product_gtin_form" model="ir.ui.view">
+            <field name="name">Product GTIN codes - GTIN form</field>
+            <field name="model">product.gtin</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="8">
+                            <field name="gtin"/>
+                            <button name="action_get_gtin_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_gtin" model="ir.actions.act_window">
+            <field name="name">GTIN code</field>
+            <field name="res_model">product.gtin</field>
+            <field name="view_id" ref="product_gtin_codes.product_gtin_form"/>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem id="menu_product_gtin"
+                  name="GTIN code"
+                  parent="base.menu_config"
+                  sequence="15"
+                  action="action_product_gtin"/>
     </data>
 </openerp>

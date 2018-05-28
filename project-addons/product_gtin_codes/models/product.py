@@ -4,6 +4,35 @@
 from openerp import models, fields, api, _
 
 
+class ProductGtin(models.TransientModel):
+    _name = 'product.gtin'
+
+    gtin = fields.Char()
+
+    @api.multi
+    def action_get_gtin_barcode(self):
+        self.ensure_one()
+        return {
+            'name': 'Get barcode',
+            'res_model': 'ir.actions.act_url',
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': '/report/barcode/?type=Code128&humanreadable=1&value=' +
+                   self.gtin
+        }
+
+    @api.multi
+    def action_print_gtin_barcode(self):
+        self.ensure_one()
+        ctx = dict(self.env.context or {}, active_ids=[self.id],
+                   active_model='product.gtin')
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'product_gtin_codes.gtin_barcode_report',
+            'context': ctx
+        }
+
+
 class ProductGtin14(models.Model):
     _name = 'product.gtin14'
     _rec_name = 'gtin14'
@@ -52,6 +81,30 @@ class ProductGtin14(models.Model):
             'target': 'new',
 #            'flags': {'form': {'action_buttons': True}},
             'context': self.env.context,
+        }
+
+    @api.multi
+    def action_get_gtin14_barcode(self):
+        self.ensure_one()
+        return {
+            'name': 'Get barcode',
+            'res_model': 'ir.actions.act_url',
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': '/report/barcode/?type=Code128&humanreadable=1&value=' +
+                   self.gtin14
+        }
+
+    @api.multi
+    def action_print_gtin14_barcode(self):
+        self.ensure_one()
+        gtin = self.env['product.gtin'].create({'gtin': self.gtin14})
+        ctx = dict(self.env.context or {}, active_ids=[gtin.id],
+                   active_model='product.gtin')
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'product_gtin_codes.gtin_barcode_report',
+            'context': ctx
         }
 
 
@@ -129,7 +182,6 @@ class ProductProduct(models.Model):
             elif p.gtin12:
                 p.gtin12 = False
                 p.gtin14_ids.unlink()
-
         return self
 
     @api.model
@@ -143,3 +195,49 @@ class ProductProduct(models.Model):
                     if p == partner_id:
                         gtin14_id = gtin_obj
         return gtin14_id
+
+    @api.multi
+    def action_get_gtin12_barcode(self):
+        self.ensure_one()
+        return {
+            'name': 'Get barcode',
+            'res_model': 'ir.actions.act_url',
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': '/report/barcode/?type=Code128&humanreadable=1&value=' + self.gtin12
+        }
+
+    @api.multi
+    def action_print_gtin12_barcode(self):
+        self.ensure_one()
+        gtin = self.env['product.gtin'].create({'gtin': self.gtin12})
+        ctx = dict(self.env.context or {}, active_ids=[gtin.id],
+                   active_model='product.gtin')
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'product_gtin_codes.gtin_barcode_report',
+            'context': ctx
+        }
+
+    @api.multi
+    def action_get_gtin13_barcode(self):
+        self.ensure_one()
+        return {
+            'name': 'Get barcode',
+            'res_model': 'ir.actions.act_url',
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': '/report/barcode/?type=Code128&humanreadable=1&value=' + self.gtin13
+        }
+
+    @api.multi
+    def action_print_gtin13_barcode(self):
+        self.ensure_one()
+        gtin = self.env['product.gtin'].create({'gtin': self.gtin13})
+        ctx = dict(self.env.context or {}, active_ids=[gtin.id],
+                   active_model='product.gtin')
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'product_gtin_codes.gtin_barcode_report',
+            'context': ctx
+        }
