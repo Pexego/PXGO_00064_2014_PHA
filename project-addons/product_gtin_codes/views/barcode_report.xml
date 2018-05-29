@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="gtin_barcode_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="row">
+                            <t t-set="barcode" t-value="o.gtin"/>
+                            <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1'%('Code128', barcode, 1200, 200)" height="100" width="600"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="report_gtin_barcode"
+            string="GTIN barcode"
+            model="product.gtin"
+            report_type="qweb-pdf"
+            name="product_gtin_codes.gtin_barcode_report"
+        />
+    </data>
+</openerp>

@@ -40,6 +40,7 @@
         'views/product_view.xml',
         'views/stock_view.xml',
         'views/product_analysis_view.xml',
+        'views/lot_analysis_data_report.xml',
         'views/lot_analysis_sheet_report.xml',
         'views/lot_analysis_certificate_report.xml',
         'views/stock_lot_analysis_report.xml',

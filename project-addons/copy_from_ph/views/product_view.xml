@@ -51,5 +51,20 @@
                 </page>
             </field>
         </record>
+
+        <record id="product_template_copy_from_form_view" model="ir.ui.view">
+            <field name="name">Product template analysis form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product_analysis.product_template_edit_form_view"/>
+            <field name="priority">17</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <separator string="Analysis" position="after">
+                    <button string="Copy analysis parameters from..."
+                            name="action_copy_analysis_from"
+                            class="oe_inline" type="object"/>
+                </separator>
+            </field>
+        </record>
     </data>
 </openerp>

@@ -36,38 +36,46 @@
                                 <div style="position: relative; display: inline-block; float: left; padding-top: 10px; z-index: 1;">
                                     <t t-set="barcode" t-value="o.name"/>
                                     <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)"
-                                         height="30" width="300" style="margin-left: -40px;"/>
-                                    <div t-field="o.name"
-                                         style="position: absolute; bottom: -5px; left: 29%; padding: 0 5px; font-size: 10px; background-color: white;"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-left: -40px;"/>
+                                    <div t-field="o.name" style="position: absolute; bottom: -5px; left: 35%; padding: 0 5px; font-size: 14px; background-color: white;"/>
                                 </div>
                             </div>
                             <div class="col-xs-6 text-right">
                                 <div style="position: relative; display: inline-block; float: right; padding-top: 10px; z-index: 1;">
                                     <t t-set="barcode" t-value="o.product_id.default_code"/>
                                     <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)"
-                                         height="30" width="300" style="margin-right: -40px;"/>
-                                    <div t-field="o.product_id.default_code"
-                                         style="position: absolute; bottom: -5px; right: 29%; padding: 0 5px; font-size: 10px; background-color: white;"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-right: -40px;"/>
+                                    <div t-field="o.product_id.default_code" style="position: absolute; bottom: -5px; right: 35%; padding: 0 5px; font-size: 14px; background-color: white;"/>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="page">
-                        <div class="row" style="padding-top: 30px;">
-                            <div class="col-xs-12 text-center">
+                    <div class="page" style="margin-left: 20px;">
+                        <div class="row" style="padding-top: 70px;">
+                            <div class="col-xs-12" style="line-height: 30px;">
+                                <span style="font-size: 30px; font-weight: bolder; margin: 0; padding: 0;">
+                                    <span t-esc="o.product_id.name[:60]" style="margin: 0; padding: 0;"/>
+                                </span>
+                            </div>
+                            <div class="col-xs-12" style="line-height: 60px; vertical-align: text-top;">
                                 <span style="font-size: 50px; font-weight: bolder; margin: 0; padding: 0;">
                                     Lot: <span t-field="o.name" style="margin: 0; padding: 0;"/>
                                 </span>
+                                <t t-if="o.origin_type != 'unspecified'">
+                                    <span t-field="o.origin_type" style="font-size: 26px; font-weight: normal; float: right; margin-top: -10px;"/>
+                                </t>
                             </div>
-                            <div class="col-xs-12 text-center">
-                                <span t-esc="lot_state"
-                                      style="font-size: 90px; font-weight: bolder; letter-spacing: 20px;"/>
+                            <div class="col-xs-12" style="line-height: 70px;">
+                                <t t-if="o.state in ('approved', 'rejected')">
+                                  <span t-esc="lot_state" style="font-size: 70px; font-weight: bolder; letter-spacing: 20px;"/>
+                                </t>
+                                <t t-if="o.state not in ('approved', 'rejected')">
+                                  <span style="font-size: 68px; font-weight: bolder; letter-spacing: 1px;">PENDIENTE DE CALIFICAR</span>
+                                </t>
                             </div>
                         </div>
-                        <div class="row" style="font-size: 26px;">
+                        <div class="row" style="font-size: 26px; margin-top: 10px;">
                             <div class="col-xs-6">
                                 Date: <span t-field="o.acceptance_date"/>
                             </div>

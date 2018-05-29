@@ -1189,17 +1189,17 @@ class edi_edi (osv.osv):
                         # variable called "data" that returns sale order name
                         # data = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
                         if result:
-                            self.pool.get('edi.edi.result').create(cr,uid,{
+                            self.pool.get('edi.edi.result').create(new_cr,uid,{
                                 "name": "result_import_csv_struct_ok",
                                 "value": result,
                                 "edi": edi.id})
-                            self.pool.get('edi.edi.result').create(cr,uid,{
+                            self.pool.get('edi.edi.result').create(new_cr,uid,{
                                 "name": "file_import_csv_struct_ok",
                                 "value": filename + ' ' + result,
                                 "reference": name if name else '',
                                 "edi": edi.id})
                         else:
-                            self.pool.get('edi.edi.result').create(cr,uid,{
+                            self.pool.get('edi.edi.result').create(new_cr,uid,{
                                 "name": "file_import_csv_struct_ok",
                                 "value": filename,
                                 "reference": name if name else '',

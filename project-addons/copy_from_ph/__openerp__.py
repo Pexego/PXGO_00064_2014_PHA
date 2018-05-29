@@ -18,6 +18,8 @@
         'views/mrp_bom_view.xml',
         'views/product_view.xml',
         'views/stock_production_lot_view.xml',
+        'views/product_quality_limits_view.xml',
+        'wizard/product_analysis_rel_wizard_view.xml',
     ],
     'installable': True
 }

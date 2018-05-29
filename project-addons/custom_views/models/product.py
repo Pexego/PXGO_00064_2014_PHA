@@ -63,6 +63,12 @@ class ProductProduct(models.Model):
             raise Warning(_('Year must be between 1956 and %s.') %
                           (current_year,))
 
+    @api.one
+    @api.constrains('active')
+    def _update_template_active(self):
+        if self.product_tmpl_id.active != self.active:
+            self.product_tmpl_id.write({'active': self.active})
+
     @api.multi
     def name_get(self):  # Hide default_code by default
         return super(ProductProduct,

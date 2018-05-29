@@ -6,7 +6,7 @@
             <field name="model">stock.production.lot</field>
             <field name="inherit_id" ref="product_analysis.stock_production_lot_add_analysis"/>
             <field name="arch" type="xml">
-                <field name="analysis_ids" position="before">
+                <field name="analysis_passed" position="after">
                     <style>
                         .openerp .oe_application .oe_form_sheetbg .copy_from_ph_style {
                             margin: 0;
