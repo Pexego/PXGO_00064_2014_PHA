@@ -15,6 +15,8 @@ class ProductAnalysis(models.Model):
 class ProductAnalysisRel(models.Model):
     _name = 'product.analysis.rel'
 
+    _order = 'sequence'
+
     sequence = fields.Integer()
     product_id = fields.Many2one('product.template', 'Product')
     analysis_id = fields.Many2one('product.analysis', 'Analysis')
