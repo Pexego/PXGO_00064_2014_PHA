@@ -11,6 +11,7 @@ from datetime import datetime
 
 class StockLotAnalysis(models.Model):
     _name = 'stock.lot.analysis'
+    _order = 'sequence'
 
     lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True,
                              ondelete='cascade')
@@ -46,6 +47,7 @@ class StockLotAnalysis(models.Model):
         ('normal', ''),
         ('informative', 'INFORMATIVE')
     ], readonly=True)
+    sequence = fields.Integer()
 
     @api.onchange('result_boolean_selection')
     def on_change_result_boolean_selection(self):
@@ -188,7 +190,8 @@ class StockProductionLot(models.Model):
                     'expected_result_boolean': line.expected_result_boolean,
                     'expected_result_expr': line.expected_result_expr,
                     'decimal_precision': line.decimal_precision,
-                    'criterion': line.criterion
+                    'criterion': line.criterion,
+                    'sequence': line.sequence
                 })
         return lot
 
