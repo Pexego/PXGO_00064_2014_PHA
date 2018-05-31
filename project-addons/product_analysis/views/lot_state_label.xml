@@ -51,23 +51,31 @@
                         </div>
                     </div>
 
-                    <div class="page">
-                        <div class="row" style="padding-top: 60px;">
-                            <div class="col-xs-12 text-center">
+                    <div class="page" style="margin-left: 20px;">
+                        <div class="row" style="padding-top: 70px;">
+                            <div class="col-xs-12" style="line-height: 30px;">
+                                <span style="font-size: 30px; font-weight: bolder; margin: 0; padding: 0;">
+                                    <span t-esc="o.product_id.name[:60]" style="margin: 0; padding: 0;"/>
+                                </span>
+                            </div>
+                            <div class="col-xs-12" style="line-height: 60px; vertical-align: text-top;">
                                 <span style="font-size: 50px; font-weight: bolder; margin: 0; padding: 0;">
                                     Lot: <span t-field="o.name" style="margin: 0; padding: 0;"/>
                                 </span>
+                                <t t-if="o.origin_type != 'unspecified'">
+                                    <span t-field="o.origin_type" style="font-size: 26px; font-weight: normal; float: right; margin-top: -10px;"/>
+                                </t>
                             </div>
-                            <div class="col-xs-12 text-center" style="line-height: 100px;">
+                            <div class="col-xs-12" style="line-height: 70px;">
                                 <t t-if="o.state in ('approved', 'rejected')">
-                                  <span  t-esc="lot_state" style="font-size: 100px; font-weight: bolder; letter-spacing: 20px;"/>
+                                  <span t-esc="lot_state" style="font-size: 70px; font-weight: bolder; letter-spacing: 20px;"/>
                                 </t>
                                 <t t-if="o.state not in ('approved', 'rejected')">
-                                  <span  style="font-size: 70px; font-weight: bolder; letter-spacing: 1px;">PENDIENTE DE CALIFICAR</span>
+                                  <span style="font-size: 68px; font-weight: bolder; letter-spacing: 1px;">PENDIENTE DE CALIFICAR</span>
                                 </t>
                             </div>
                         </div>
-                        <div class="row" style="font-size: 26px;">
+                        <div class="row" style="font-size: 26px; margin-top: 10px;">
                             <div class="col-xs-6">
                                 Date: <span t-field="o.acceptance_date"/>
                             </div>

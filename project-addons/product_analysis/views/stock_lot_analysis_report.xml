@@ -36,5 +36,9 @@
             file="product_analysis.report_stock_lot_rejected_label"
             name="product_analysis.report_stock_lot_rejected_label"
         />
+
+        <record model="ir.actions.report.xml" id="product_analysis.report_lot_analysis_certificate">
+            <field name="attachment">'Certificado de análisis - ' + time.strftime('%d/%m/%Y') + '.pdf'</field>
+        </record>
     </data>
 </openerp>

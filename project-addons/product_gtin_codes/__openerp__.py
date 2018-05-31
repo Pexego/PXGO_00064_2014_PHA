@@ -16,7 +16,9 @@
     'data': [
         'wizard/product_gtin14_view.xml',
         'views/product_view.xml',
+        'views/barcode_report.xml',
         'security/ir.model.access.csv',
+        'data/report_paperformat.xml',
     ],
     'installable': True
 }

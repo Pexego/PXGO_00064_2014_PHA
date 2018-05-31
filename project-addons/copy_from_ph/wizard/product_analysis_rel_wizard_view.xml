@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2018 Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="product_analysis_rel_wizard" model="ir.ui.view">
+            <field name="name">Copy analysis parameters from other product</field>
+            <field name="model">product.analysis.rel.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="copy_from" domain="[('analysis_ids', '!=', False)]"/>
+                    </group>
+                    <footer>
+                        <button name="action_copy_from" string="Copy parameters" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Copy analysis parameters from..."
+            res_model="product.analysis.rel.wizard"
+            src_model="product.template"
+            view_id="product_analysis_rel_wizard"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="product_analysis_rel_wizard_action"/>
+    </data>
+</openerp>

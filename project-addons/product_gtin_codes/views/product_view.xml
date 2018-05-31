@@ -14,11 +14,29 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <page string="GTIN codes" attrs="{'invisible': [('ean13', '=', False)]}">
                         <separator string="GTIN codes assigned to product"/>
                         <group>
-                            <field name="gtin12"/>
-                            <field name="gtin13"/>
+                            <group colspan="2" col="7">
+                                <field name="gtin12"/>
+                                <button name="action_get_gtin12_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                                <button name="action_print_gtin12_barcode" type="object" icon="STOCK_PRINT"/>
+                                <separator colspan="3"/>
+                            </group>
+                            <group colspan="2" col="7">
+                                <field name="gtin13"/>
+                                <button name="action_get_gtin13_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                                <button name="action_print_gtin13_barcode" type="object" icon="STOCK_PRINT"/>
+                                <separator colspan="3"/>
+                            </group>
                             <field name="gtin14_ids">
                                 <tree editable="top" create="false" delete="false">
                                     <field name="gtin14"/>
+                                    <button name="action_get_gtin14_barcode"
+                                            class="oe_read_only"
+                                            type="object"
+                                            icon="STOCK_SELECT_COLOR"/>
+                                    <button name="action_print_gtin14_barcode"
+                                            class="oe_read_only"
+                                            type="object"
+                                            icon="STOCK_PRINT"/>
                                     <field name="log_var" invisible="1"/>
                                     <field name="units" attrs="{'readonly': [('log_var', '=', 8)]}"/>
                                     <field name="used_for"/>
@@ -49,5 +67,92 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </tree>
             </field>
         </record>
+
+        <record id="product_gtin_form" model="ir.ui.view">
+            <field name="name">Product GTIN codes - GTIN form</field>
+            <field name="model">product.gtin</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <separator colspan="2" string="GTIN 12"/>
+                        <group col="7">
+                            <field name="gtin12"/>
+                            <button name="action_get_gtin12_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin12_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <separator colspan="2" string="GTIN 13"/>
+                        <group col="7">
+                            <field name="gtin13"/>
+                            <button name="action_get_gtin13_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin13_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <separator colspan="2" string="GTIN 14"/>
+                        <group col="7">
+                            <field name="gtin14_1"/>
+                            <button name="action_get_gtin14_1_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_1_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <group col="7">
+                            <field name="gtin14_2"/>
+                            <button name="action_get_gtin14_2_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_2_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <group col="7">
+                            <field name="gtin14_3"/>
+                            <button name="action_get_gtin14_3_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_3_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <group col="7">
+                            <field name="gtin14_4"/>
+                            <button name="action_get_gtin14_4_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_4_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <group col="7">
+                            <field name="gtin14_5"/>
+                            <button name="action_get_gtin14_5_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_5_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <group col="7">
+                            <field name="gtin14_6"/>
+                            <button name="action_get_gtin14_6_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_6_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <group col="7">
+                            <field name="gtin14_7"/>
+                            <button name="action_get_gtin14_7_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_7_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                        <group col="7">
+                            <field name="gtin14_8"/>
+                            <button name="action_get_gtin14_8_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
+                            <button name="action_print_gtin14_8_barcode" type="object" icon="STOCK_PRINT"/>
+                            <separator colspan="3"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_gtin" model="ir.actions.act_window">
+            <field name="name">GTIN code</field>
+            <field name="res_model">product.gtin</field>
+            <field name="view_id" ref="product_gtin_codes.product_gtin_form"/>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem id="menu_product_gtin"
+                  name="GTIN code"
+                  parent="stock.menu_stock_product"
+                  sequence="18"
+                  action="action_product_gtin"/>
     </data>
 </openerp>

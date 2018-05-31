@@ -11,6 +11,7 @@ from datetime import datetime
 
 class StockLotAnalysis(models.Model):
     _name = 'stock.lot.analysis'
+    _order = 'sequence'
 
     lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True,
                              ondelete='cascade')
@@ -42,6 +43,11 @@ class StockLotAnalysis(models.Model):
     passed = fields.Boolean(compute='_compute_passed')
     decimal_precision = fields.Float(digits=0, default=0.0001)
     raw_material_analysis = fields.Boolean()
+    criterion = fields.Selection([
+        ('normal', ''),
+        ('informative', 'INFORMATIVE')
+    ], readonly=True)
+    sequence = fields.Integer()
 
     @api.onchange('result_boolean_selection')
     def on_change_result_boolean_selection(self):
@@ -91,22 +97,25 @@ class StockLotAnalysis(models.Model):
                 passed = True
             analysis.passed = passed
 
+    @api.multi
+    def write(self, vals):
+        if vals.get('result_boolean_selection') and not vals.get('result_boolean'):
+            vals['result_boolean'] = vals.get('result_boolean_selection') in \
+                                     ('conformant', 'qualify', 'presence')
+        return super(StockLotAnalysis, self).write(vals)
+
 
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     analysis_ids = fields.One2many('stock.lot.analysis', 'lot_id', 'Analysis')
     analysis_notes = fields.Text('Analysis notes')
-
-    # Samples fields
     num_container_sample_proposed = fields.Integer(
         'Proposed number of containers to sample')
     num_sampling_proposed = fields.Integer('Proposed number of samples')
-
     num_container_sample_to_do = fields.Integer(
         'Number of containers to sample')
     num_sampling_to_do = fields.Integer('Number of samples')
-
     num_container_sample_realized = fields.Integer(
         'Number of containers sampled')
     num_sampling_realized = fields.Integer('Number of samples taked')
@@ -116,6 +125,19 @@ class StockProductionLot(models.Model):
     analysis_passed = fields.Boolean('Analysis passed')
     revised_by = fields.Char('Revised by')
     used_lots = fields.Text(compute='_compute_used_lots')
+    origin_type = fields.Selection([
+        ('unspecified', 'Unspecified'),
+        ('eu', 'EU product'),
+        ('notEU', 'Not EU product'),
+        ('eu_notEU', 'EU/not EU product'),
+    ], default='unspecified')
+    origin_country_id = fields.Many2one(comodel_name='res.country',
+                                        string='Origin country')
+
+    @api.onchange('origin_type')
+    def onchange_origin_type(self):
+        if self.origin_type == 'unspecified':
+            self.origin_country_id = False
 
     @api.multi
     def _compute_used_lots(self):
@@ -157,18 +179,20 @@ class StockProductionLot(models.Model):
         lot = super(StockProductionLot, self).create(vals)
         if lot.product_id.analytic_certificate:
             for line in lot.product_id.analysis_ids:
-                self.env['stock.lot.analysis'].create(
-                    {'lot_id': lot.id,
-                     'analysis_id': line.analysis_id.id,
-                     'proposed': True,
-                     'raw_material_analysis': line.raw_material_analysis,
-                     'show_in_certificate': line.show_in_certificate,
-                     'method': line.method.id,
-                     'analysis_type': line.analysis_type,
-                     'expected_result_boolean': line.expected_result_boolean,
-                     'expected_result_expr': line.expected_result_expr,
-                     'decimal_precision': line.decimal_precision
-                     })
+                self.env['stock.lot.analysis'].create({
+                    'lot_id': lot.id,
+                    'analysis_id': line.analysis_id.id,
+                    'proposed': True,
+                    'raw_material_analysis': line.raw_material_analysis,
+                    'show_in_certificate': line.show_in_certificate,
+                    'method': line.method.id,
+                    'analysis_type': line.analysis_type,
+                    'expected_result_boolean': line.expected_result_boolean,
+                    'expected_result_expr': line.expected_result_expr,
+                    'decimal_precision': line.decimal_precision,
+                    'criterion': line.criterion,
+                    'sequence': line.sequence
+                })
         return lot
 
     @api.multi

@@ -9,11 +9,12 @@ from openerp import models, fields, api
 class ProductAnalysis(models.Model):
     _name = 'product.analysis'
 
-    name = fields.Char('Paramenter', translate=True, required=True)
+    name = fields.Char('Parameter', translate=True, required=True)
 
 
 class ProductAnalysisRel(models.Model):
     _name = 'product.analysis.rel'
+    _order = 'sequence'
 
     _order = 'sequence'
 
@@ -37,6 +38,10 @@ class ProductAnalysisRel(models.Model):
         ('not_qualify', 'NOT QUALIFY'),
         ('absence', 'ABSENCE'),
     ])
+    criterion = fields.Selection([
+        ('normal', ''),
+        ('informative', 'INFORMATIVE')
+    ], default='normal')
 
     @api.onchange('analysis_type')
     def on_change_analysis_type(self):

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_stock_lot_analysis_data">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div style="position: relative; display: inline-block; float: left; padding-top: 10px; z-index: 1;">
+                        <t t-set="barcode" t-value="o.product_id.default_code"/>
+                        <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-left: -40px;"/>
+                        <div t-field="o.product_id.default_code" style="position: absolute; bottom: 0; left: 35%; padding: 2px 5px 0 5px; font-size: 14px; background-color: white;"/>
+                    </div>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <div style="position: relative; display: inline-block; float: right; padding-top: 10px; z-index: 1;">
+                        <t t-set="barcode" t-value="o.name"/>
+                        <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-right: -40px;"/>
+                        <div t-field="o.name" style="position: absolute; bottom: 0; right: 35%; padding: 2px 5px 0 5px; font-size: 14px; background-color: white;"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="border: 2px solid black; margin-top: 5px; padding-left: 20px; padding-right: 20px;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <strong><u>Receive data:</u></strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        Supplier: <span t-field="o.partner_id"/>
+                    </div>
+                    <div class="col-xs-4">
+                        Supplier lot: <span t-field="o.supplier_lot"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        Receipt date: <span t-field="o.date_in" t-field-options='{"format": "dd/MM/y"}'/>
+                    </div>
+                    <div class="col-xs-4">
+                        Quantity: <span t-field="o.quantity"/> <span t-field="o.uom_id"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        Container type: <span t-field="o.container_type"/>
+                    </div>
+                    <div class="col-xs-4">
+                        Number of containers: <span t-field="o.container_number"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        Nº of pallets: <span t-field="o.pallets"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        Notes: <span t-field="o.notes"/>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="col-xs-8">
+                        Date: <span t-field="o.date_in_system"/>
+                    </div>
+                    <div class="col-xs-4">
+                        Realized by: <span t-field="o.reception_realized_by"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="border: 2px solid black; margin-top: 5px; padding-left: 20px; padding-right: 20px;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <strong><u>Sampling:</u></strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Nº of containers to sample:
+                    </div>
+                    <div class="col-xs-1">
+                        <t t-if="o.num_container_sample_to_do">
+                            <span t-field="o.num_container_sample_to_do"/>
+                        </t>
+                    </div>
+                    <div class="col-xs-3 col-xs-offset-3">
+                        Nº of samples to take:
+                    </div>
+                    <div class="col-xs-1">
+                        <t t-if="o.num_sampling_to_do">
+                            <span t-field="o.num_sampling_to_do"/>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        Nº of containers sampled:
+                    </div>
+                    <div class="col-xs-1">
+                        <t t-if="o.num_container_sample_realized">
+                            <span t-field="o.num_container_sample_realized"/>
+                        </t>
+                    </div>
+                    <div class="col-xs-3 col-xs-offset-3">
+                        Nº of samples taked:
+                    </div>
+                    <div class="col-xs-1">
+                        <t t-if="o.num_sampling_realized">
+                            <span t-field="o.num_sampling_realized"/>
+                        </t>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        Notes: <span t-field="o.sampling_notes"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Date: <span t-field="o.sampling_date"/>
+                    </div>
+
+                    <div class="col-xs-3 col-xs-offset-6">
+                        Realized: <span t-field="o.sampling_realized"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </data>
+</openerp>
