@@ -123,8 +123,8 @@
             <field name="model">stock.production.lot</field>
             <field name="priority">20</field>
             <field name="arch" type="xml">
-                <script type="text/javascript" src="product_analysis/static/src/js/analysis_table.js"></script>
                 <form id="stock_lot_analysis_wizard">
+                    <script type="text/javascript" src="product_analysis/static/src/js/analysis_table.js"></script>
                     <separator string="Analysis"/>
                     <group>
                         <field name="analysis_ids" nolabel="1">
