@@ -319,7 +319,7 @@ class edi_parser(models.Model):
             RFF = {
                 'lineId': 'RFF',
                 'col1': 'ON',
-                'col2': pick.sale_id.name
+                'col2': pick.sale_id.client_order_ref
             }
             data[filename].append(edi._create_line_csv(RFF,structs))
 

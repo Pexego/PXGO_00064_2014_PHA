@@ -25,6 +25,7 @@
         'invoice_link_sale',
         'product_spec',
         'custom_permissions',
+        'custom_views',
     ],
     'data' : [
         'views/report_stockinventory.xml',

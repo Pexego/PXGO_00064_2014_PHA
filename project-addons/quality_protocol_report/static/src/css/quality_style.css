@@ -2,6 +2,7 @@
   float: left;
   display: table;
   width: 100%;
+  padding-bottom: 1em;
 }
 .openerp .quality_row .form-control,
 .openerp .oe_form .quality_row input,
