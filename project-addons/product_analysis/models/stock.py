@@ -31,7 +31,7 @@ class StockLotAnalysis(models.Model):
     expected_result = fields.Char('Expected result', compute='_compute_result')
     realized_by = fields.Char('Realized')
     proposed = fields.Boolean('Proposed')
-    realized = fields.Boolean('Realized')
+    realized = fields.Boolean('Realized', default=True)
     show_in_certificate = fields.Boolean('Show in certificate')
     method = fields.Many2one('mrp.procedure', 'PNT')
     analysis_type = fields.Selection(
@@ -55,8 +55,8 @@ class StockLotAnalysis(models.Model):
                               ('conformant', 'qualify', 'presence')
 
     @api.multi
-    @api.depends('result_str', 'result_boolean', 'analysis_type',
-                 'expected_result_expr', 'expected_result_boolean')
+#    @api.depends('result_str', 'result_boolean', 'analysis_type',
+#                 'expected_result_expr', 'expected_result_boolean')
     def _compute_result(self):
         boolean_values = self._fields['result_boolean_selection'].\
             _description_selection(self.env)
@@ -77,6 +77,7 @@ class StockLotAnalysis(models.Model):
 
     @api.depends('result_str', 'result_boolean', 'analysis_type',
                  'expected_result_boolean', 'expected_result_expr')
+    @api.multi
     def _compute_passed(self):
         for analysis in self:
             passed = False
@@ -205,10 +206,6 @@ class StockProductionLot(models.Model):
         return super(StockProductionLot, self).action_approve()
 
     @api.multi
-    def set_all_realized(self):
-        self.mapped('analysis_ids').write({'realized': True})
-
-    @api.multi
     def set_raw_material_analysis(self):
         for lot in self:
             quants = self.env['stock.quant'].search([('lot_id', '=', lot.id)])
@@ -229,3 +226,23 @@ class StockProductionLot(models.Model):
                     lot_analysis.unlink()
                     copy_lot.copy(default={'lot_id': lot.id,
                                            'raw_material_analysis': True})
+
+    @api.multi
+    def action_stock_lot_analysis_wizard(self):
+        view = self.env.ref('product_analysis.stock_production_lot_analysis_wizard')
+        return {
+            'name': _('Edit questionnaire'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'stock.production.lot',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'target': 'new',
+            'res_id': self.id,
+        }
+
+    @api.multi
+    def action_save_lot_analysis_wizard(self):
+        self.analysis_ids._compute_passed()
+        return self
