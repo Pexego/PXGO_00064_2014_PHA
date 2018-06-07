@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <delete model="ir.translation"
+                search="[('name','=','res.partner,is_company'),('lang','=','es_ES'),('type','=','field')]"/>
+        <delete model="ir.translation"
+                search="[('name','=','res.partner'),('lang','=','es_ES'),('source','=','Is a Company?'),('type','=','view')]"/>
+    </data>
+</openerp>

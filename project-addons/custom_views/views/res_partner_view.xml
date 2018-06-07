@@ -80,6 +80,9 @@
                     <field name="create_date"/>
                     <field name="recovery_date"/>
                 </field>
+                <field name="ref" position="after">
+                    <field name="it_is_an_individual"/>
+                </field>
             </field>
         </record>
 
@@ -309,5 +312,21 @@
         <menuitem id="menu_partner_invoiced_tree" name="Partners invoiced"
                   parent="account.menu_finance_reporting"
                   sequence="11" action="action_partner_invoiced_tree"/>
+
+        <record id="generate_partners_email_csv_action" model="ir.actions.server">
+            <field name="name">Generate e-mail csv</field>
+            <field name="model_id" ref="account.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="code">action = self.browse(cr, uid, context.get('active_ids', [])).generate_email_csv()</field>
+        </record>
+
+        <record id="generate_partners_email_csv" model="ir.values">
+            <field name="name">Generate e-mail csv</field>
+            <field name="model">res.partner</field>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%d'%generate_partners_email_csv_action"/>
+        </record>
     </data>
 </openerp>

@@ -100,6 +100,11 @@ class StockLotAnalysis(models.Model):
 
     @api.multi
     def write(self, vals):
+#        if len(self) == 1 and not vals.get('sequence', False):
+#            lot_id = self.lot_id or self.env['stock.production.lot'].browse
+#                self.lot_id and self.lot_id.analysis_ids:
+
+
         if vals.get('result_boolean_selection') and not vals.get('result_boolean'):
             vals['result_boolean'] = vals.get('result_boolean_selection') in \
                                      ('conformant', 'qualify', 'presence')

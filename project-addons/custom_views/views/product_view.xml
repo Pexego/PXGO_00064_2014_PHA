@@ -138,7 +138,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         </record>
 
         <record id="product_template_form_view_custom_view" model="ir.ui.view">
-            <field name="name">product.template.common.form</field>
+            <field name="name">Custom views - Product template form</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
@@ -208,6 +208,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="priority">8</field>
             <field name="arch" type="xml">
+                <field name="attribute_value_ids" position="before">
+                    <field name="product_commercial_name" placeholder="Product commercial name"/>
+                </field>
                 <field name="lst_price" position="after">
                     <field name="year_appearance"/>
                 </field>

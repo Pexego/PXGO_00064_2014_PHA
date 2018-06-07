@@ -43,11 +43,10 @@
                                                 <th class="text-center" style="min-width: 10em;">Method</th>
                                                 <th class="text-center">Specification</th>
                                                 <th class="text-center">Result</th>
-                                                <th class="text-center">Criterion</th>
                                                 <th class="text-center">Realized</th>
                                             </tr>
                                        </thead>
-                                       <tbody style="font-size: 80%;">
+                                       <tbody style="font-size: 85%;">
                                             <t t-foreach="o.analysis_ids" t-as="analysis">
                                                 <tr t-if="analysis.show_in_certificate">
                                                     <td style="padding: 1px;">
@@ -57,14 +56,16 @@
                                                         <span t-field="analysis.method.name"/>
                                                     </td>
                                                     <td class="text-center" style="padding: 1px;">
-                                                        <span t-field="analysis.expected_result"/>
+                                                        <t t-if="analysis.criterion == 'normal'">
+                                                            <span t-field="analysis.expected_result"/>
+                                                        </t>
+                                                        <t t-if="analysis.criterion != 'normal'">
+                                                            <span t-field="analysis.criterion"/>
+                                                        </t>
                                                     </td>
                                                     <td class="text-center" style="padding: 1px;">
                                                         <span t-if="analysis.realized and not analysis.result">-</span>
                                                         <span t-field="analysis.result"/>
-                                                    </td>
-                                                    <td class="text-center" style="padding: 1px;">
-                                                        <span t-field="analysis.criterion"/>
                                                     </td>
                                                     <td class="text-center" style="padding: 1px;">
                                                         <span t-if="analysis.realized and not analysis.result">-</span>
@@ -84,7 +85,7 @@
                             </div>
                         </div>
 
-                        <div class="row" style="text-align: center; padding: 0;">
+                        <div class="row" style="text-align: left; padding: 0;">
                             <div style="display: inline-block; page-break-inside: avoid; border: 8px double black; padding: 5px 5px 0 5px; margin-top: 15px; width: 60%;">
                                 <h4>
                                     Lote <span t-field="o.name"/> <span t-field="o.state"/><span t-if="o.acceptance_date"> el </span><span t-field="o.acceptance_date"/>

@@ -5,6 +5,8 @@
 from openerp import models, fields, api
 from openerp.osv.expression import get_unaccent_wrapper
 from datetime import datetime, date
+import unicodedata
+import base64
 
 
 class ResPartner(models.Model):
@@ -41,6 +43,7 @@ class ResPartner(models.Model):
     recovery_date = fields.Date(help='Date on which the customer was recovered '
                                      'after a long period of commercial '
                                      'inactivity', readonly=True)
+    it_is_an_individual = fields.Boolean(default=False)
 
     @api.one
     @api.constrains('active')
@@ -200,3 +203,38 @@ class ResPartner(models.Model):
     @api.multi
     def run_action_find_recovered_customers(self):
         self.env.ref('custom_views.action_find_recovered_customers').run()
+
+    @api.multi
+    def generate_email_csv(self):
+        csv = u'NOMBRE,EMAIL\n'
+        for partner in self.filtered(lambda r: r.email and r.email > ''):
+            name = partner.name if partner.name else ''
+            csv += u'{},{}\n'.format(name.replace(',', ' '),
+                                     partner.email.replace(',', ' '))
+
+        csv = unicodedata.normalize('NFKD', csv).encode('ascii', 'ignore')
+        csv = base64.encodestring(csv)
+        filename = 'odoo_emails.csv'
+
+        ir_attachment = self.env['ir.attachment']
+        attachment = ir_attachment.search([('res_model', '=', self._name),
+                                           ('res_id', '=', 0),
+                                           ('name', '=', filename)])
+        if attachment:
+            attachment.write({'datas': csv})
+        else:
+            attachment = ir_attachment.create({
+                'name': filename,
+                'datas': csv,
+                'datas_fname': filename,
+                'res_model': self._name,
+                'res_id': 0,
+                'type': 'binary'
+            })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/binary/saveas?model=ir.attachment&field=datas' +
+                   '&filename_field=name&id=%s' % (attachment.id),
+            'target': 'self',
+        }

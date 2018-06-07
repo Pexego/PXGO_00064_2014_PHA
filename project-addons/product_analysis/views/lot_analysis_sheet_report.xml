@@ -45,7 +45,7 @@
                                                 <th class="text-center">Realized</th>
                                             </tr>
                                        </thead>
-                                       <tbody style="font-size: 80%;">
+                                       <tbody style="font-size: 85%;">
                                             <t t-foreach="o.analysis_ids" t-as="analysis">
                                                 <tr t-if="analysis.show_in_certificate">
                                                     <td style="padding: 1px;">
@@ -55,11 +55,9 @@
                                                         <span t-field="analysis.method.name"/>
                                                     </td>
                                                     <td class="text-center" style="padding: 1px;">
-                                                        <span t-if="analysis.realized and not analysis.result">-</span>
                                                         <span t-field="analysis.result"/>
                                                     </td>
                                                     <td class="text-center" style="padding: 1px;">
-                                                        <span t-if="analysis.realized and not analysis.result">-</span>
                                                         <span t-field="analysis.realized_by"/>
                                                     </td>
                                                 </tr>
