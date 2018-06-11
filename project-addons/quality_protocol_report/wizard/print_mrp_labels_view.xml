@@ -4,7 +4,6 @@
 
 <openerp>
     <data>
-
         <record id="print_mrp_labels_form" model="ir.ui.view">
             <field name="name">print.mrp.labels.form</field>
             <field name="model">print.mrp.labels</field>
@@ -34,5 +33,27 @@
             key2="client_print_multi"
             id="print_mrp_labels_action"/>
 
+        <record id="print_mrp_tiny_labels_form" model="ir.ui.view">
+            <field name="name">Print MRP tiny labels form</field>
+            <field name="model">print.mrp.labels</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="quality_protocol_report.print_mrp_labels_form"/>
+            <field name="mode">primary</field>
+            <field name="priority">9</field>
+            <field name="arch" type="xml">
+                <button name="print_labels" position="replace">
+                    <button name="print_tiny_labels" string="Print" type="object" class="oe_highlight"/>
+                </button>
+            </field>
+        </record>
+
+        <act_window name="Print MRP tiny labels"
+            res_model="print.mrp.labels"
+            src_model="mrp.production"
+            view_id="print_mrp_tiny_labels_form"
+            view_mode="form"
+            target="new"
+            key2="client_print_multi"
+            id="print_mrp_tiny_labels_action"/>
     </data>
 </openerp>
