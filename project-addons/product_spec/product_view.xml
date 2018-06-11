@@ -275,48 +275,6 @@
                   parent="purchase.menu_product_in_config_purchase"
         />
 
-        <!-- product.packing views -->
-        <record model="ir.ui.view" id="product_packing_tree">
-            <field name="name">product.packing.tree</field>
-            <field name="model">product.packing</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="Product packings">
-                    <field name="name"  select="1"/>
-                </tree>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="product_packing_form">
-            <field name="name">Product packing</field>
-            <field name="model">product.packing</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Product packings">
-                    <sheet>
-                        <group>
-                            <separator string="Packing format" colspan="4"/>
-                            <field name="name" select="1"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="action_product_packing_form">
-            <field name="name">Product packings</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.packing</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="product_packing_tree"/>
-        </record>
-
-        <menuitem action="action_product_packing_form"
-                  id="menu_product_product_packings"
-                  parent="product.prod_config_main"
-        />
-
         <!-- product.packing.internal views -->
         <record model="ir.ui.view" id="product_packing_internal_tree">
             <field name="name">product.packing.internal.tree</field>
