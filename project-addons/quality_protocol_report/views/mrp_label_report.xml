@@ -22,21 +22,30 @@
 
                     <div class="text-center">
                         <span style="font-size:30px; font-weight:bold;">Contiene: <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1600, 500)" style="width:1600px;height:80px;margin-left:-300px;"/>
+                        <t t-if="gtin and gtin > ''">
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1600, 500)" style="width:1600px;height:80px;margin-left:-300px;"/>
+                            <br/>
+                            <span style="font-size:24px; font-weight:bold;" t-esc="gtin"/>
+                        </t>
                         <br/>
-                        <span style="font-size:24px; font-weight:bold;" t-esc="gtin"/>
-                        <br/>
-                        <span style="font-size:30px; font-weight:bold;">Consumir preferentemente antes del fin de:
-                            <t t-if="o.product_id.duration_type == 'exact'">
-                                <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "dd/MM/y"}'/>
-                            </t>
-                            <t t-if="o.product_id.duration_type == 'end_month'">
-                                <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "MM/y"}'/>
-                            </t>
-                            <t t-if="o.product_id.duration_type == 'end_year'">
-                                <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "y"}'/>
-                            </t>
-                        </span>
+                        <t t-if="o.product_id.categ_id.id in (1199, 1224)"> <!-- Para materias primas y productos intermedios -->
+                            <span style="font-size:30px; font-weight:bold;">Fecha de fabricación:
+                                <span t-field="o.date_planned" t-field-options='{"format": "MM/y"}'/>
+                            </span>
+                        </t>
+                        <t t-if="o.product_id.categ_id.id not in (1199, 1224)">
+                            <span style="font-size:30px; font-weight:bold;">Consumir preferentemente antes del fin de:
+                                <t t-if="o.product_id.duration_type == 'exact'">
+                                    <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "dd/MM/y"}'/>
+                                </t>
+                                <t t-if="o.product_id.duration_type == 'end_month'">
+                                    <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "MM/y"}'/>
+                                </t>
+                                <t t-if="o.product_id.duration_type == 'end_year'">
+                                    <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "y"}'/>
+                                </t>
+                            </span>
+                        </t>
                     </div>
                 </div>
             </t>
@@ -57,5 +66,67 @@
             <field name="paperformat_id" ref="quality_protocol_report.paperformat_mrp_labels"/>
         </record>
 
+        <template id="report_mrp_tiny_label">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="text-center">
+                        <span t-att-style="'font-size:' + name_css_size + 'px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.product_id.name"/>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 700, 250)" style="width: 900px; margin-left: -120px; height: 40px;"/>
+                        <br/>
+                        <span style="font-size: 18px; font-weight:bold;" t-field="o.product_id.default_code"/>
+                    </div>
+
+                    <div class="text-center">
+                        <span t-att-style="'font-size: ' + lot_css_size + 'px; line-height:60px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.final_lot_id.name"/>
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 700, 250)" style="width: 900px; margin-left: -120px; height: 40px;"/>
+                        <br/>
+                        <span style="font-size:18px; font-weight:bold;" t-field="o.final_lot_id.name"/>
+                    </div>
+
+                    <div class="text-center">
+                        <span style="font-size:24px; font-weight:bold;">Contiene: <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
+                        <t t-if="gtin and gtin > ''">
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 700, 250)" style="width: 1050px; margin-left: -195px; height: 60px;"/>
+                            <br/>
+                            <span style="font-size:18px; font-weight:bold;" t-esc="gtin"/>
+                        </t>
+                        <br/>
+                        <t t-if="o.product_id.categ_id.id in (1199, 1224)"> <!-- Para materias primas y productos intermedios -->
+                            <span style="font-size: 24px; font-weight: bold;">Fecha de fabricación:
+                                <span t-field="o.date_planned" t-field-options='{"format": "MM/y"}'/>
+                            </span>
+                        </t>
+                        <t t-if="o.product_id.categ_id.id not in (1199, 1224)">
+                            <span style="font-size: 24px; font-weight: bold;">Consumir preferentemente antes del fin de:
+                                <t t-if="o.product_id.duration_type == 'exact'">
+                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                                </t>
+                                <t t-if="o.product_id.duration_type == 'end_month'">
+                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
+                                </t>
+                                <t t-if="o.product_id.duration_type == 'end_year'">
+                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;y&quot;}"/>
+                                </t>
+                            </span>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <report
+            id="action_print_mrp_tiny_label"
+            model="mrp.production"
+            string="MRP tiny labels"
+            report_type="qweb-pdf"
+            name="quality_protocol_report.report_mrp_tiny_label"
+            file="quality_protocol_report.report_mrp_tiny_label"
+            attachment_use="False"
+            menu="False"
+        />
+
+        <record id="quality_protocol_report.action_print_mrp_tiny_label" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="quality_protocol_report.paperformat_mrp_tiny_labels"/>
+        </record>
     </data>
 </openerp>

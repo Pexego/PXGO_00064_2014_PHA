@@ -10,6 +10,7 @@ import datetime
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    product_commercial_name = fields.Char()
     is_in_current_pricelist = fields.Boolean(
         compute='_compute_is_in_current_pricelist',
         search='_search_is_in_current_pricelist')

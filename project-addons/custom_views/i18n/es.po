@@ -301,6 +301,11 @@ msgid "Date authorized"
 msgstr "Fecha autorización"
 
 #. module: custom_views
+#: field:purchase.order.line,date_done:0
+msgid "Date done"
+msgstr "Fecha realizado"
+
+#. module: custom_views
 #: help:res.partner,recovery_date:0
 msgid "Date on which the customer was recovered after a long period of commercial inactivity"
 msgstr "Fecha en la que el cliente fue recuperado tras un largo período de inactividad comercial"
@@ -479,6 +484,22 @@ msgstr "Factura Nº: "
 #: view:purchasable.products:custom_views.purchasable_products_form_view
 msgid "Invoices"
 msgstr "Facturas"
+
+#. module: base
+#: field:res.partner,is_company:0
+msgid "Is a Company"
+msgstr "¿Nombre comercial?"
+
+#. module: base
+#: view:res.partner:base.view_partner_form
+#: view:res.partner:base.view_partner_simple_form
+msgid "Is a Company?"
+msgstr "¿Nombre comercial?"
+
+#. module: custom_views
+#: field:res.partner,it_is_an_individual:0
+msgid "It is an individual"
+msgstr "Es un particular"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_account_move_line

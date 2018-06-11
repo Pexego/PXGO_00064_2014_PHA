@@ -61,10 +61,37 @@ msgid "Boolean"
 msgstr "Booleano"
 
 #. module: product_analysis
+#: field:product.analysis.rel,boolean_selection:0
+msgid "Boolean selection"
+msgstr "Selección booleana"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_analysis_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: product_analysis
 #: field:product.analysis.rel,criterion:0 field:stock.lot.analysis,criterion:0
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 msgid "Criterion"
 msgstr "Criterio"
+
+#. module: product_analysis
+#: field:product.analysis,display_name:0
+#: field:product.analysis.rel,display_name:0
+#: field:stock.lot.analysis,display_name:0
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: product_analysis
+#: selection:stock.production.lot,origin_type:0
+msgid "EU product"
+msgstr "Origen UE"
+
+#. module: product_analysis
+#: selection:stock.production.lot,origin_type:0
+msgid "EU/not EU product"
+msgstr "Origen UE/no UE"
 
 #. module: product_analysis
 #: selection:product.analysis.rel,analysis_type:0
@@ -146,7 +173,7 @@ msgstr "Etiqueta aprobado"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 msgid "CERTIFICATE ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL"
-msgstr "CERTIFICADO DE ANÁLISIS DE MATERIA PRIMA / MATERIA DE ACONDICIONAMIENTO"
+msgstr "CERTIFICADO DE ANÁLISIS DE MATERIA PRIMA / MATERIAL DE ACONDICIONAMIENTO"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
@@ -186,6 +213,13 @@ msgid "Decimal precision"
 msgstr "Precisión decimal"
 
 #. module: product_analysis
+#: code:addons/product_analysis/models/stock.py:239
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+#, python-format
+msgid "Edit questionnaire"
+msgstr "Editar cuestionario"
+
+#. module: product_analysis
 #: selection:stock.production.lot,origin_type:0
 msgid "EU product"
 msgstr "Producto UE"
@@ -204,7 +238,7 @@ msgstr "INFORMATIVO"
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 msgid "LEAF ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL"
-msgstr "HOJA DE ANÁLISIS DE MATERIA PRIMA / MATERIA DE ACONDICIONAMIENTO"
+msgstr "HOJA DE ANÁLISIS DE MATERIA PRIMA / MATERIAL DE ACONDICIONAMIENTO"
 
 #. module: product_analysis
 #: field:product.analysis,write_uid:0
@@ -254,7 +288,7 @@ msgstr "Nombre"
 #. module: product_analysis
 #: selection:stock.production.lot,origin_type:0
 msgid "Not EU product"
-msgstr "Producto no UE"
+msgstr "Origen no UE"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
@@ -326,6 +360,11 @@ msgid "Nº of samples to take:"
 msgstr "Nº muestras a tomar:"
 
 #. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_analysis_wizard
+msgid "or"
+msgstr "o"
+
+#. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Origin"
 msgstr "Origen"
@@ -339,6 +378,12 @@ msgstr "País de origen"
 #: field:stock.production.lot,origin_type:0
 msgid "Origin type"
 msgstr "Origen"
+
+#. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+#: view:website:product_analysis.report_stock_lot_analysis_sheet
+msgid "Paramenter"
+msgstr "Parámetro"
 
 #. module: product_analysis
 #: field:product.analysis,name:0
@@ -451,7 +496,7 @@ msgstr "Fecha de entrada:"
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 #: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Receive data:"
-msgstr "Fecha de entrada:"
+msgstr "Recepción:"
 
 #. module: product_analysis
 #: model:ir.actions.report.xml,name:product_analysis.report_lot_rejected_label
@@ -517,6 +562,11 @@ msgid "Sampling:"
 msgstr "Toma de muestras:"
 
 #. module: product_analysis
+#: field:product.analysis.rel,sequence:0 field:stock.lot.analysis,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: product_analysis
 #: field:product.analysis.rel,show_in_certificate:0
 #: field:stock.lot.analysis,show_in_certificate:0
 msgid "Show in certificate"
@@ -559,7 +609,8 @@ msgid "signature and date"
 msgstr "Firma y fecha"
 
 #. module: product_analysis
-#: code:addons/product_analysis/stock.py:77
+#: code:addons/product_analysis/models/stock.py:0
+#: code:addons/product_analysis/models/stock.py:210
 #, python-format
 msgid "the consignment has not passed all analysis"
 msgstr "El lote no ha pasado todos los análisis"

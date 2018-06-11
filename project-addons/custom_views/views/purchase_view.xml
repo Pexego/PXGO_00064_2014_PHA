@@ -39,7 +39,6 @@
             </field>
         </record>
 
-
         <record id="purchase_order_tree_custom_view" model="ir.ui.view">
             <field name="name">purchase.order.tree.customview</field>
             <field name="model">purchase.order</field>
@@ -66,7 +65,7 @@
             </field>
         </record>
 
-        <!--Hide Bid Receivez, Send RFQ by email, Print RFQ, Re-Print RFQ -->
+        <!--Hide Bid Received, Send RFQ by email, Print RFQ, Re-Print RFQ -->
         <record id="purchase_order_form" model="ir.ui.view">
             <field name="name">purchase.order.form.delete.buttons</field>
             <field name="model">purchase.order</field>
@@ -82,6 +81,30 @@
                 <button name="print_quotation" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </button>
+            </field>
+        </record>
+
+        <record id="purchase_order_line_tree" model="ir.ui.view">
+            <field name="name">Purchase order line - Tree</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="date_planned" position="after">
+                    <field name="date_done"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="purchase_order_line_form2" model="ir.ui.view">
+            <field name="name">Purchase order line - Form 2</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="date_planned" position="after">
+                    <field name="date_done" widget="date"/>
+                </field>
             </field>
         </record>
     </data>

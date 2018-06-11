@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from openerp import models, api
+from openerp import models, fields, api
 
 
 class PurchaseOrder(models.Model):
@@ -22,3 +22,9 @@ class PurchaseOrder(models.Model):
             'nodestroy': True,
             'context': self.env.context
         }
+
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+
+    date_done = fields.Date()
