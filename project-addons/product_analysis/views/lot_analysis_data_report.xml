@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <template id="report_stock_lot_analysis_data">
-            <div class="row" style="padding: 5px 0 10px 0;">
+            <div class="row" style="padding: 0 0 10px 0;">
                 <div class="col-xs-6">
                     <div style="position: relative; display: inline-block; float: left; padding-top: 10px; z-index: 1;">
                         <t t-set="barcode" t-value="o.product_id.default_code"/>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" style="min-height: 3em;">
                         Notes: <span t-field="o.notes"/>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" style="min-height: 3em;">
                         Notes: <span t-field="o.sampling_notes"/>
                     </div>
                 </div>
