@@ -40,7 +40,11 @@
                         Receipt date: <span t-field="o.date_in" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
                     </div>
                     <div class="col-xs-4">
-                        Quantity: <span t-field="o.quantity"/> <span t-field="o.uom_id"/>
+                        <t t-set="quantity" t-value="0"/>
+                        <t t-foreach="o.quant_ids" t-as="q">
+                            <t t-set="quantity" t-value="quantity + q.qty"/>
+                        </t>
+                        Quantity: <span t-esc="quantity"/> <span t-field="o.uom_id"/>
                     </div>
                 </div>
                 <div class="row">
