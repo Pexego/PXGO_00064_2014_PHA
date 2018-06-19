@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12" style="min-height: 3em;">
+                    <div class="col-xs-12" style="min-height: 3em; text-align: justify;">
                         Notes: <span t-field="o.notes"/>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12" style="min-height: 3em;">
+                    <div class="col-xs-12" style="min-height: 3em; text-align: justify;">
                         Notes: <span t-field="o.sampling_notes"/>
                     </div>
                 </div>
