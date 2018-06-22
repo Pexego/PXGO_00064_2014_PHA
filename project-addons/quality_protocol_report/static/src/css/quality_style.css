@@ -6,16 +6,11 @@
 }
 .openerp .quality_row .form-control,
 .openerp .oe_form .quality_row input,
-.openerp .oe_form .quality_row input[type="text"],
-.openerp .oe_form .quality_row input[type="number"],
-.openerp .oe_form .quality_row input[type="time"],
-.openerp .oe_form .quality_row input[type="date"],
-.openerp .oe_form .quality_row input[type="datetime-local"],
-.openerp .oe_form .quality_row input[type="month"],
-.openerp .oe_form .quality_row input[type="password"],
-.openerp .oe_form .quality_row input[type="file"],
 .openerp .oe_form .quality_row select,
-.openerp .oe_form .js_question-wrapper .form-control {
+.openerp .oe_form .js_question-wrapper .form-control,
+.openerp .quality_view .oe_form .quality_row input,
+.openerp .quality_view .oe_form .quality_row select,
+.openerp .quality_view .oe_form .js_question-wrapper .form-control {
   display: inline;
   line-height: 2em;
   height: 2em;
@@ -33,6 +28,24 @@
   padding-left: 10px;
   padding-top: 3px;
   border: 1px solid #ababab;
+}
+.openerp .quality_row table,
+.openerp .quality_row tr,
+.openerp .quality_row tr td,
+.openerp .quality_row tr th,
+.openerp .quality_row tr td input,
+.openerp .quality_row tr td span,
+.openerp .quality_view .quality_row table,
+.openerp .quality_view .quality_row tr,
+.openerp .quality_view .quality_row tr td,
+.openerp .quality_view .quality_row tr th,
+.openerp .quality_view .quality_row tr td input,
+.openerp .quality_view .quality_row tr td span {
+  font-size: 11px;
+  white-space: normal;
+}
+.openerp td * {
+  font-size: inherit;
 }
 .openerp .quality_row table {
   margin: 0px;
@@ -84,6 +97,13 @@
 .openerp .oe_form .js_question-wrapper * {
   font-weight: normal;
 }
+
+/*** Campo Sí/No ***/
+div.contenedor_si_no {
+  white-space: nowrap;
+  margin-left: -10px;
+  margin-right: 4px;
+}
 .openerp .oe_form label.campo_si_no {
   display: inline-block;
   position: relative;
@@ -131,55 +151,80 @@
 }
 
 @media print {
-  body {
-    overflow-x: hidden;
-  }
-
-  .openerp .quality_view * {
-    font-family: "DejaVu Sans", FreeSans !important;
-  }
-
-  .openerp .quality_view *,
-  .proto_fuente_normal,
-  .openerp .oe_form .js_question-wrapper *,
-  .openerp .oe_form .js_question-wrapper h2 span {
-    font-size: 10px;
-  }
-  .proto_fuente_grande,
-  .openerp .oe_form .survey .page-header h2,
-  .openerp .oe_form .survey .page-header h2 span,
-  .openerp .oe_form .quality_view h2,
-  .openerp .oe_form .quality_view h2 span {
-    font-size: 12px;
-  }
-  .openerp .oe_form .js_question-wrapper * {
-    font-weight: normal;
-  }
-  /* Oculta los controles de los inputs numéricos, de fecha y hora */
-  ::-webkit-outer-spin-button,
-  ::-webkit-inner-spin-button,
-  ::-webkit-clear-button,
-  ::-webkit-calendar-picker-indicator {
+    body {
+        overflow-x: hidden;
+    }
+    .openerp .quality_view * {
+        font-family: "DejaVu Sans", FreeSans !important;
+    }
+    .openerp .quality_view *,
+    .proto_fuente_normal,
+    .openerp .oe_form .js_question-wrapper *,
+    .openerp .oe_form .js_question-wrapper h2 span {
+        font-size: 10px;
+    }
+    .proto_fuente_grande,
+    .openerp .oe_form .survey .page-header h2,
+    .openerp .oe_form .survey .page-header h2 span,
+    .openerp .oe_form .quality_view h2,
+    .openerp .oe_form .quality_view h2 span {
+        font-size: 12px;
+    }
+    .openerp .oe_form .js_question-wrapper * {
+        font-weight: normal;
+    }
+    select,
+    .openerp .quality_view select {
     -webkit-appearance: none;
-    appearance: none;
-    display: none;
-    margin: 0;
-  }
-  select,
-  .openerp .quality_view select {
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  td input,
-  .openerp .quality_view td input {
-    border: none;
-  }
-  tfoot,
-  .openerp .quality_view tfoot {
-    display: none;
-  }
-  table,
-  .openerp .quality_view table {
-    page-break-inside: avoid;
-  }
+        appearance: none;
+    }
+    td input,
+    .openerp .quality_view td input {
+        border: none;
+    }
+    tfoot,
+    .openerp .quality_view tfoot {
+        display: none;
+    }
+    table,
+    .openerp .quality_view table {
+        page-break-inside: avoid;
+    }
+    .openerp .quality_row table,
+    .openerp .quality_row tr,
+    .openerp .quality_row tr td,
+    .openerp .quality_row tr th,
+    .openerp .quality_row tr td input,
+    .openerp .quality_row tr td span:not(.campo_si_no_indicador),
+    .openerp .quality_view .quality_row table,
+    .openerp .quality_view .quality_row tr,
+    .openerp .quality_view .quality_row tr td,
+    .openerp .quality_view .quality_row tr th,
+    .openerp .quality_view .quality_row tr td input,
+    .openerp .quality_view .quality_row tr td span:not(.campo_si_no_indicador) {
+        font-size: 8px;
+        min-width: 4em;
+    }
+
+    /*** Campo Sí/No ***/
+    .campo_si_no_indicador {
+        top: 2px;
+        left: 0;
+        height: 13px;
+        width: 13px;
+        border: 1px solid black;
+    }
+    .campo_si_no .campo_si_no_indicador:after {
+        left: 2px;
+        top: 2px;
+        height: 6px;
+        width: 7px;
+    }
+    .campo_si_no_separador {
+        height: 13px;
+        width: 13px;
+    }
+    .openerp .oe_form label.campo_si_no {
+        padding-left: 16px;
+    }
 }

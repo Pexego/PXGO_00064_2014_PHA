@@ -4,8 +4,8 @@
         <record id="paperformat_lot_state_label" model="report.paperformat">
             <field name="name">Lot state label</field>
             <field name="format">custom</field>
-            <field name="page_height">63</field>
-            <field name="page_width">220</field>
+            <field name="page_height">62</field>
+            <field name="page_width">100</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">0</field>
             <field name="margin_bottom">0</field>

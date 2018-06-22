@@ -197,6 +197,7 @@ function plantillaSiNo(obj) {
     var valor = obj.val();
 
     obj.after(
+        '<div class="contenedor_si_no">' +
         '<label class="campo_si_no">' +
         '  Sí<input class="form-control" style="display: inline;" name="' +
         obj.attr('name') + '" value="Sí" type="radio"/>' +
@@ -206,7 +207,8 @@ function plantillaSiNo(obj) {
         '  No<input class="form-control" style="display: inline;" name="' +
         obj.attr('name') + '" value="No" type="radio"/>' +
         '  <span class="campo_si_no_indicador"></span>' +
-        '</label>'
+        '</label>' +
+        '</div>'
     );
 
     var id = obj.attr('id');
@@ -424,14 +426,18 @@ $(function () {
         // su input por dos botones de radio con ambas opciones
         preparaSiNo();
 
-        // Los inputs de tipo número u hora no se muestran bien al imprimir con
-        // phantomjs, así que les cambiamos el tipo a texto y pista...
+        // Los inputs de con botones de flecha no se muestran bien al imprimir
+        // con phantomjs, así que les cambiamos el tipo a texto y pista...
         if (/Phantom.js bot/.test(window.navigator.userAgent)) {
-            $('.quality_row input[type="number"], .quality_row input[type="time"]').each(
+            $('.quality_row input[type="number"], ' +
+              '.quality_row input[type="time"], ' +
+              '.quality_row input[type="date"], ' +
+              '.quality_row input[type="datetime-local"]').each(
                 function() {
                     $(this).prop('type', 'text');
                 }
             );
+            $('div#realized_by').hide();
         };
     }, 500);
 });
