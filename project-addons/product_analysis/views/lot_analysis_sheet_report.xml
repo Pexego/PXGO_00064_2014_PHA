@@ -6,25 +6,30 @@
                 <t t-foreach="docs" t-as="o">
                     <div class="page" style="font-size: 115%;">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
+                            <div class="col-xs-3" style="margin-bottom: -20px;">
+                                <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 70px;"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center">
-                                <h4 style="font-size: 1.3em;">LEAF ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL</h4>
+                                <h4 style="font-size: 1.3em; font-weight: bolder;">LEAF ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL</h4>
                             </div>
                         </div>
                         <div class="row" style="border: 2px solid black; font-size: 1.3em;">
-                            <div class="col-xs-8">
-                                Product: <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
+                            <div class="col-xs-2">
+                                Product:
+                            </div>
+                            <div class="col-xs-6">
+                                <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
                             </div>
                             <div class="col-xs-4">
-                                Lot: <span t-field="o.name"/>
+                                Lot: <b t-field="o.name"/>
                             </div>
                         </div>
 
-                        <t t-call="product_analysis.report_stock_lot_analysis_data"/>
+                        <t t-call="product_analysis.report_stock_lot_analysis_data">
+                            <t t-set="caller_template" t-value="'sheet'"/>
+                        </t>
 
                         <div class="row" style="border: 2px solid black; margin-top: 5px; padding-left: 20px; padding-right: 20px;">
                             <div class="row">
@@ -35,8 +40,8 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <style>
-                                        #analysis_table.table-bordered > tbody > tr > td,
-                                        #analysis_table.table-bordered > thead > tr > th {
+                                        #analysis_table.table-bordered &gt; tbody &gt; tr &gt; td,
+                                        #analysis_table.table-bordered &gt; thead &gt; tr &gt; th {
                                             border: 1px solid black;
                                         }
                                     </style>
@@ -68,7 +73,7 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="min-height: 3em; margin-top: -20px; text-align: justify;">
+                                    <div style="min-height: 8em; margin-top: -20px; text-align: justify;">
                                         Notes: <span t-field="o.analysis_notes"/>
                                     </div>
                                 </div>
@@ -89,7 +94,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-2">
-                                <span>F-01-DT-001-00</span>
+                                <span>F-01-DT-001-01</span>
                             </div>
                             <div class="col-xs-4 col-xs-offset-6 text-center" style="border-top: 1px solid black; margin-top: 20px;">
                                 <span>signature and date</span>

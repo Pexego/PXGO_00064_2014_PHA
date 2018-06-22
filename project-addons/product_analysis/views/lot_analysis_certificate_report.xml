@@ -6,25 +6,30 @@
                 <t t-foreach="docs" t-as="o">
                     <div class="page" style="font-size: 115%;">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
+                            <div class="col-xs-3" style="margin-bottom: -20px;">
+                                <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 70px;"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center">
-                                <h4 style="font-size: 1.3em;">CERTIFICATE ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL</h4>
+                                <h4 style="font-size: 1.3em; font-weight: bolder;">CERTIFICATE ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL</h4>
                             </div>
                         </div>
                         <div class="row" style="border: 2px solid black; font-size: 1.3em;">
-                            <div class="col-xs-8">
-                                Product: <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
+                            <div class="col-xs-2">
+                                Product:
+                            </div>
+                            <div class="col-xs-6">
+                                <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
                             </div>
                             <div class="col-xs-4">
-                                Lot: <span t-field="o.name"/>
+                                Lot: <b t-field="o.name"/>
                             </div>
                         </div>
 
-                        <t t-raw="translate_doc(o.id, doc_model, 'write_uid.lang', 'product_analysis.report_stock_lot_analysis_data')"/>
+                        <t t-call="product_analysis.report_stock_lot_analysis_data">
+                            <t t-set="caller_template" t-value="'certificate'"/>
+                        </t>
 
                         <div class="row" style="border: 2px solid black; margin-top: 5px; padding-left: 20px; padding-right: 20px;">
                             <div class="row">
@@ -35,8 +40,8 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <style>
-                                        #analysis_table.table-bordered > tbody > tr > td,
-                                        #analysis_table.table-bordered > thead > tr > th {
+                                        #analysis_table.table-bordered &gt; tbody &gt; tr &gt; td,
+                                        #analysis_table.table-bordered &gt; thead &gt; tr &gt; th {
                                             border: 1px solid black;
                                         }
                                     </style>
@@ -87,18 +92,31 @@
                         </div>
 
                         <div class="row" style="text-align: left; padding: 0;">
-                            <div style="display: inline-block; page-break-inside: avoid; border: 8px double black; padding: 5px 5px 0 5px; margin-top: 15px; width: 60%;">
+                            <div style="display: inline-block; page-break-inside: avoid; border: 8px double black; padding: 5px 5px 0 5px; margin-top: 15px; width: 50%;">
                                 <h4>
-                                    Lote <span t-field="o.name"/> <span t-field="o.state"/><span t-if="o.acceptance_date"> el </span><span t-field="o.acceptance_date"/>
                                     <table t-if="o.detail_ids" class="table table-condensed">
                                         <tbody>
                                             <t t-foreach="o.detail_ids" t-as="detail">
                                                 <tr>
-                                                    <td style="padding: 1px;"><span t-field="detail.date"/></td>
-                                                    <td style="padding: 1px;"><span t-field="detail.state"/></td>
-                                                    <td style="padding: 1px;"><span t-field="detail.quantity"/></td>
+                                                    <td style="padding: 1px; border: 0;"><span t-field="detail.date"/></td>
+                                                    <td style="padding: 1px; border: 0;"><b t-field="detail.state"/></td>
+                                                    <td style="padding: 1px; border: 0;"><span t-esc="'{0:g}'.format(detail.quantity)"/> <span t-field="o.product_id.uom_id"/></td>
                                                 </tr>
                                             </t>
+                                        </tbody>
+                                    </table>
+                                    <table t-if="not o.detail_ids" class="table table-condensed">
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 1px; border: 0;"><span t-field="o.acceptance_date"/></td>
+                                                <td style="padding: 1px; border: 0;"><b t-field="o.state"/></td>
+
+                                                <t t-set="quantity" t-value="0"/>
+                                                <t t-foreach="o.quant_ids" t-as="q">
+                                                    <t t-set="quantity" t-value="quantity + q.qty"/>
+                                                </t>
+                                                <td style="padding: 1px; border: 0;"><span t-esc="'{0:g}'.format(quantity)"/> <span t-field="o.product_id.uom_id"/></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </h4>
@@ -112,7 +130,7 @@
                                 font-size: 90px;
                                 text-align: center;
                                 position: absolute;
-                                top: 200px;
+                                top: 450px;
                                 -webkit-transform: rotate(-45deg);
                                 opacity: 0.3;
                             }
@@ -122,16 +140,11 @@
 
                     <div class="footer">
                         <div class="row">
-                            <div class="col-xs-4 col-xs-offset-4 col-xs-height col-bottom">
-                                <span>person who enters the data</span>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-xs-2">
-                                <span>F-01-DT-001-00</span>
+                                <span>F-01-DT-001-01</span>
                             </div>
                             <div class="col-xs-4 col-xs-offset-6 text-center" style="border-top: 1px solid black; margin-top: 20px;">
-                                <span>signature and date</span>
+                                <span>Signature</span>
                             </div>
                         </div>
                     </div>

@@ -573,6 +573,11 @@ msgid "Show in certificate"
 msgstr "Mostrar en certificado"
 
 #. module: product_analysis
+#: view:website:product_analysis.report_stock_lot_analysis_certificate
+msgid "Signature"
+msgstr "Firma"
+
+#. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_state_label
 msgid "Signature: ____________________"
 msgstr "Firma: ______________________"
