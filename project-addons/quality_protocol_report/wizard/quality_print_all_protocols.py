@@ -31,7 +31,6 @@ from openerp.addons.web.http import request
 
 
 class QualityReportAll(models.TransientModel):
-
     _name = 'quality.report.all'
 
     def _get_print_urls(self):
@@ -51,8 +50,9 @@ class QualityReportAll(models.TransientModel):
         use_protocol = False
         for workcenter_line in obj.workcenter_lines:
             protocol_link = obj.product_id.protocol_ids.filtered(
-                lambda r: r.protocol.type_id.id ==
-                workcenter_line.workcenter_id.protocol_type_id.id)
+                lambda r: r.protocol.type_id.group_print and
+                          r.protocol.type_id.id ==
+                          workcenter_line.workcenter_id.protocol_type_id.id)
             use_protocol = protocol_link.filtered(
                 lambda r: obj.routing_id == r.route and obj.bom_id == r.bom)
             if not use_protocol:
@@ -119,7 +119,11 @@ class QualityReportAll(models.TransientModel):
         addons_url = config.get_param('addons_path')
         phantomjs_path = config.get_param('phantomjs_path')
         phantomjs_path = 'phantomjs' if not phantomjs_path else phantomjs_path
-        print_urls = self._get_print_urls()
+        print_url = self.env.context.get('protocol_url', False)
+        if print_url:
+            print_urls = [print_url]
+        else:
+            print_urls = self._get_print_urls()
         if not print_urls:
             return
         phantom = [
@@ -141,38 +145,30 @@ class QualityReportAll(models.TransientModel):
         encode_data = fildecode.read()
         fildecode.close()
         attachment_data = {
-            'name': 'quality_protocols' +
+            'name': 'quality_protocol.pdf' if print_url else 'quality_protocols' +
             str(self.env.context.get('active_id', '')) + '.pdf',
             'datas_fname': 'quality_protocols' +
             str(self.env.context.get('active_id', '')) + '.pdf',
             'datas': base64.b64encode(encode_data),
             'res_model': self.env.context.get('active_model', False),
-            'res_id': self.env.context.get('active_id', False),
+            'res_id': 0 if print_url else self.env.context.get('active_id', False),
         }
         self.env['ir.attachment'].search(
             [('name', '=', attachment_data['name']),
              ('res_id', '=', attachment_data['res_id']),
              ('res_model', '=', attachment_data['res_model'])]).unlink()
-        self.env['ir.attachment'].create(attachment_data)
-        mrp = self.env[self.env.context['active_model']].browse(
-            self.env.context['active_id'])
-        '''repor = self.env['report'].get_pdf(
-            mrp, 'quality_protocol_report.report_mrp_label')
-        attachment_data = {
-            'name': 'etiquetas_cajoines' +
-            str(self.env.context.get('active_id', '')) + '.pdf',
-            'datas_fname': 'etiquetas_cajoines' +
-            str(self.env.context.get('active_id', '')) + '.pdf',
-            'datas': base64.b64encode(repor),
-            'res_model': self.env.context.get('active_model', False),
-            'res_id': self.env.context.get('active_id', False),
-        }
-        self.env['ir.attachment'].search(
-            [('name', '=', attachment_data['name']),
-             ('res_id', '=', attachment_data['res_id']),
-             ('res_model', '=', attachment_data['res_model'])]).unlink()
-        self.env['ir.attachment'].create(attachment_data)'''
+        attachment = self.env['ir.attachment'].create(attachment_data)
+
         filenames.append(filepath)
         for my_file in filenames:
             os.remove(my_file)
-        return {'type': 'ir.actions.act_window_close'}
+
+        if print_url:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': '/web/binary/saveas?model=ir.attachment&field=datas' +
+                       '&filename_field=name&id=%s' % (attachment.id),
+                'target': 'self',
+            }
+        else:
+            return {'type': 'ir.actions.act_window_close'}

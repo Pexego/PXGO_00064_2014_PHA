@@ -49,7 +49,6 @@ class QualityProtocolReportLineRel(models.Model):
     ]
 
 
-
 class QualityProtocolReport(models.Model):
     """Objeto usado para definir los diferentes documentos de protocolo"""
 
@@ -68,6 +67,7 @@ class QualityProtocolReport(models.Model):
         for report in self:
             report.report_line_ids = report.mapped('report_lines.line_id')
 
+
 class ProtocolType(models.Model):
     _name = 'protocol.type'
 
@@ -76,6 +76,7 @@ class ProtocolType(models.Model):
                                      'Workcenter')
     is_hoard = fields.Boolean('Hoard')
     is_continuation = fields.Boolean('Continuation')
+    group_print = fields.Boolean('Group print')
     weight = fields.Integer(default=0)
     active = fields.Boolean(default=True)
 

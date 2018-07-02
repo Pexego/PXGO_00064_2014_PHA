@@ -24,8 +24,7 @@ from urlparse import urljoin
 
 
 class PrintProtocol(models.TransientModel):
-
-    _name = "print.protocol"
+    _name = 'print.protocol'
 
     @api.model
     def _get_type_ids(self):
@@ -115,9 +114,8 @@ class PrintProtocol(models.TransientModel):
              ('production_id', '=', production_id)])
         return {'domain': {'use_continuation': [('id', 'in', [x.id for x in continuation_work_ids])]}}
 
-
     @api.multi
-    def print_protocol(self):
+    def print_online_protocol(self):
         # Abre vista web
         if self.env.context['active_model'] == u'stock.production.lot':
             obj = self.env['mrp.production'].search([('final_lot_id', '=', self.env.context['active_id'])])
@@ -131,3 +129,7 @@ class PrintProtocol(models.TransientModel):
             'target': 'self',
             'url': self.print_url,
         }
+
+    @api.multi
+    def print_protocol(self):
+        return self.env['quality.report.all'].with_context(protocol_url=self.print_url).print_all()
