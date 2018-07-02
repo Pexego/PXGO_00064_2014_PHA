@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-
-        <record id="print_protocol_wzd_form" model="ir.ui.view">
-            <field name="name">print.protocol.wzd.form</field>
+        <record id="print_online_protocol_wzd_form" model="ir.ui.view">
+            <field name="name">Print on-line protocol wizard</field>
             <field name="model">print.protocol</field>
+            <field name="priority">1</field>
             <field name="arch" type="xml">
                 <form string="Print protocol">
                     <group>
@@ -14,11 +14,42 @@
                         <field name="use_continuation" widget="selection" attrs="{'invisible': [('is_continuation', '=', False)], 'required': [('is_continuation', '=', True)]}"/>
                     </group>
                     <footer>
-                        <button name="print_protocol" string="Print" type="object" class="oe_highlight"/>
+                        <button name="print_online_protocol" string="Print" type="object" class="oe_highlight"/>
                         or
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
+            </field>
+        </record>
+
+        <act_window name="on-line protocol"
+            res_model="print.protocol"
+            src_model="mrp.production"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_print_online_protocol"/>
+
+        <act_window name="on-line protocol"
+            res_model="print.protocol"
+            src_model="stock.production.lot"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_print_protocol_lot"/>
+
+        <record id="print_protocol_wzd_form" model="ir.ui.view">
+            <field name="name">Print protocol wizard</field>
+            <field name="model">print.protocol</field>
+            <field name="priority">2</field>
+            <field name="inherit_id" ref="quality_protocol_report.print_online_protocol_wzd_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <button name="print_online_protocol" position="replace">
+                    <button name="print_protocol" string="Print" type="object" class="oe_highlight"/>
+                </button>
             </field>
         </record>
 
@@ -29,16 +60,8 @@
             multi="True"
             view_mode="form"
             view_type="form"
+            view_id="print_protocol_wzd_form"
             target="new"
             id="action_print_protocol"/>
-
-        <act_window name="Print protocol"
-            res_model="print.protocol"
-            src_model="stock.production.lot"
-            view_mode="form"
-            view_type="form"
-            target="new"
-            id="action_print_protocol_lot"/>
-
     </data>
 </openerp>
