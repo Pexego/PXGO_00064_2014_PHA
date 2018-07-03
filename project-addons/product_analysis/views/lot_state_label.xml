@@ -61,9 +61,6 @@
                                 <span style="font-size: 35px; font-weight: bolder; margin: 0; padding: 0;">
                                     Lote: <span t-field="o.name" style="margin: 0; padding: 0;"/>
                                 </span>
-                                <t t-if="o.origin_type != 'unspecified'">
-                                    <span t-field="o.origin_type" style="font-size: 18px; font-weight: normal; float: right; margin-top: -10px;"/>
-                                </t>
                             </div>
                             <div class="col-xs-12">
                                 <div style="width: 415px; overflow: hidden;">
@@ -76,9 +73,14 @@
                                 </div>
                             </div>
                         </div>
+                        <t t-if="o.origin_type != 'unspecified'">
+                            <div class="row" style="font-size: 18px; font-weight: normal; line-height: 0px; padding-top: 15px; margin-bottom: -15px; margin-left: 20px;">
+                                <span t-field="o.origin_type"/>
+                            </div>
+                        </t>
                         <div class="row" style="font-size: 18px; margin-top: 60px;">
                             <div class="col-xs-5">
-                                Fecha: <span t-field="o.acceptance_date" t-field-options='{"format": "dd-MM-y"}'/>
+                                Fecha: <span t-field="o.acceptance_date" t-field-options="{&quot;format&quot;: &quot;dd-MM-y&quot;}"/>
                             </div>
                             <div class="col-xs-7 text-right">
                                 Firma: ________________
