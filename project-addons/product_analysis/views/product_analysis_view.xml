@@ -9,6 +9,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Analysis">
+                    <field name="id"/>
                     <field name="name"/>
                 </tree>
             </field>
@@ -23,6 +24,7 @@
                     <sheet>
                         <group>
                             <group>
+                                <field name="id"/>
                                 <field name="name"/>
                             </group>
                         </group>
@@ -164,6 +166,7 @@
             <field name="model">product.analysis</field>
             <field name="arch" type="xml">
                 <tree create="0" edit="0" delete="0">
+                    <field name="id"/>
                     <field name="name"/>
                 </tree>
             </field>

@@ -32,6 +32,7 @@ class AccountInvoiceReport(models.Model):
     commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
+    partner_user_id = fields.Many2one('res.users', 'Customer\'s sales agent')
     commission_category = fields.Char('Commission category')
     categ_ids = fields.Many2many(related='product_id.categ_ids')
     third_parties = fields.Char('Third parties')
@@ -58,6 +59,7 @@ class AccountInvoiceReport(models.Model):
     product_cost_dl = fields.Float('Product cost direct labor')
     product_gross_weight = fields.Float('Product gross weight')
     product_net_weight = fields.Float('Product net weight')
+    product_ecoembes_weight = fields.Float('Product ecoembes weight')
     registration_date = fields.Date('Registration date')
     number = fields.Char('Invoice number')
 
@@ -68,6 +70,7 @@ class AccountInvoiceReport(models.Model):
             partner_recovery_date,
             partner_parent_category,
             partner_category,
+            partner_user_id,
             commission_category,
             third_parties,
             shipping_country_id,
@@ -90,6 +93,7 @@ class AccountInvoiceReport(models.Model):
             product_cost_dl,
             product_gross_weight,
             product_net_weight,
+            product_ecoembes_weight,
             sub.registration_date,
             sub.number
             """
@@ -108,6 +112,7 @@ class AccountInvoiceReport(models.Model):
                 when rpc.name is null then '(Sin categoría)'
                 else rpc.name
             end as partner_category,
+            partner.user_id as partner_user_id,
             case
                 when pc.name is null then '(Sin categoría)'
                 else pc.name
@@ -160,6 +165,11 @@ class AccountInvoiceReport(models.Model):
                     else 1
                 end * ail.quantity * pt.weight_net
             ) as product_net_weight,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.ecoembes_weight
+            ) as product_ecoembes_weight,
             ai.registration_date,
             ai.number
             """
@@ -209,6 +219,7 @@ class AccountInvoiceReport(models.Model):
             partner_recovery_date,
             partner_parent_category,
             partner_category,
+            partner_user_id,
             commission_category,
             pt.customer,
             spa.country_id,

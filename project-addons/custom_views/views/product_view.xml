@@ -165,6 +165,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <page string="Procurements" position="attributes">
                     <attribute name="groups">purchase.group_purchase_manager,account.group_account_invoice</attribute>
                 </page>
+                <field name="weight_net" position="after">
+                    <field name="ecoembes_weight"/>
+                </field>
             </field>
         </record>
 
@@ -262,6 +265,36 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   id="menu_product_description_tree"
                   parent="purchase.menu_procurement_management_product"
                   sequence="10"
+        />
+
+        <record id="custom_views_product_weights_tree" model="ir.ui.view">
+            <field name="name">Custom views - Product weights tree</field>
+            <field name="model">product.product</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="ean13"/>
+                    <field name="weight"/>
+                    <field name="weight_net"/>
+                    <field name="ecoembes_weight"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_product_weights_tree" model="ir.actions.act_window">
+            <field name="name">Products weights</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="custom_views_product_weights_tree"/>
+        </record>
+
+        <menuitem action="action_product_weights_tree"
+                  id="menu_product_weights_tree"
+                  parent="mrp.menu_mrp_bom"
+                  sequence="11"
         />
     </data>
 </openerp>

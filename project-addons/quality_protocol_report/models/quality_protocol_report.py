@@ -96,6 +96,10 @@ class QualityProtocolReportLine(models.Model):
     # sequence = fields.Integer("Sequence", default="1")
     # show_sequence = fields.Integer("Sequence to show", default="1")
     report_ids = fields.One2many('quality.protocol.report.lines.rel', 'line_id', 'Reports')
+    report_reference_ids = fields.One2many(
+        comodel_name='quality.protocol.report.reference',
+        inverse_name='report_line_id',
+        string='Quality protocol reports references')
     log_realization = fields.Boolean('Log realization')
 
     @api.multi
@@ -116,3 +120,24 @@ class QualityProtocolReportLine(models.Model):
         new_line.view_id.arch = new_line.view_id.arch.replace(
             self.view_id.xml_id, new_model.complete_name)
         return True
+
+
+class QualityProtocolReportType(models.Model):
+    _name = 'quality.protocol.report.type'
+
+    name = fields.Char('Type of report')
+    active = fields.Boolean(default=True)
+
+
+class QualityProtocolReportReference(models.Model):
+    _name = 'quality.protocol.report.reference'
+    _rec_name = 'model_id'
+    _order = 'model_id'
+
+    report_line_id = fields.Many2one(comodel_name='quality.protocol.report.line',
+                                     string='Quality protocol report section')
+    model_id = fields.Many2one(comodel_name='ir.model', string='Model', required=True)
+    data_reference = fields.Char(string='Data reference', required=True)
+    report_type_id = fields.Many2one(comodel_name='quality.protocol.report.type',
+                                     required=True)
+    active = fields.Boolean(default=True)
