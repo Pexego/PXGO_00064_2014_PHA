@@ -135,6 +135,7 @@ class ProductTemplate(models.Model):
     stock_move_ids = fields.One2many(string='Stock movements',
                                      comodel_name='stock.move',
                                      inverse_name='product_id')
+    ecoembes_weight = fields.Float(digits = dp.get_precision('Stock Weight'))
 
     @api.one
     @api.depends('seller_ids')

@@ -61,7 +61,13 @@ msgstr "Etiquetas de lote"
 #. module: quality_protocol_report
 #: field:stock.move.return.operations,acceptance_date:0
 msgid "Acceptance date"
-msgstr "Acceptance date"
+msgstr "Fecha aceptación"
+
+#. module: quality_protocol_report
+#: field:protocol.type,active:0
+#: field:quality.protocol.report.reference,active:0
+msgid "Active"
+msgstr "Activa"
 
 #. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,adjustsments_ids:0
@@ -255,6 +261,11 @@ msgstr "Created by"
 #: field:quality.report.all,create_date:0
 msgid "Created on"
 msgstr "Created on"
+
+#. module: quality_protocol_report
+#: field:quality.protocol.report.reference,data_reference:0
+msgid "Data reference"
+msgstr "Referencia al dato"
 
 #. module: quality_protocol_report
 #: field:mrp.print.comprobations,date:0
@@ -545,6 +556,7 @@ msgstr "Producción medio"
 #. module: quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_filter
 #: field:quality.protocol.report,model_id:0
+#: field:quality.protocol.report.reference,model_id:0
 msgid "Model"
 msgstr "Modelo"
 
@@ -790,6 +802,11 @@ msgid "Quality protocol reports"
 msgstr "Protocolos de reporte de calidad"
 
 #. module: quality_protocol_report
+#: field:quality.protocol.report.line,report_reference_ids:0
+msgid "Quality protocol reports references"
+msgstr "Referencias a informes de control de calidad"
+
+#. module: quality_protocol_report
 #: model:ir.ui.menu,name:quality_protocol_report.menu_quality_protocols
 msgid "Quality protocols"
 msgstr "Protocolos de calidad"
@@ -835,7 +852,12 @@ msgstr "Release all"
 #: view:quality.protocol.report.line:quality_protocol_report.quality_protocol_report_line_form
 #: field:quality.protocol.report.line,report_ids:0
 msgid "Reports"
-msgstr "Reports"
+msgstr "Protocolos"
+
+#. module: quality_protocol_report
+#: view:quality.protocol.report.line:quality_protocol_report.quality_protocol_report_line_form
+msgid "Reports references"
+msgstr "Referencias a informes"
 
 #. module: quality_protocol_report
 #: field:mrp.production,goods_request_date:0

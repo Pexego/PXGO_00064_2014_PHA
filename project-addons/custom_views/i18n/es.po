@@ -364,6 +364,12 @@ msgid "EAN13:"
 msgstr "EAN13:"
 
 #. module: custom_views
+#: field:product.product,ecoembes_weight:0
+#: field:product.template,ecoembes_weight:0
+msgid "Ecoembes weight"
+msgstr "Peso Ecoembes"
+
+#. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_edi_sale_orders
 #: model:ir.ui.menu,name:custom_views.menu_edi_sale_orders
 msgid "EDI sale orders"

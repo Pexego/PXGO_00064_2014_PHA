@@ -38,6 +38,7 @@ class SaleReport(models.Model):
     partner_recovery_date = fields.Date('Partner recovery date')
     partner_parent_category = fields.Char('Partner parent category')
     partner_category = fields.Char('Partner category')
+    partner_user_id = fields.Many2one('res.users', 'Customer\'s sales agent')
     commission_category = fields.Char('Commission category')
     categ_ids = fields.Many2many(related='product_id.categ_ids')
     third_parties = fields.Char('Third parties')
@@ -57,6 +58,7 @@ class SaleReport(models.Model):
     product_cost_dl = fields.Float('Product cost direct labor')
     product_gross_weight = fields.Float('Product gross weight')
     product_net_weight = fields.Float('Product net weight')
+    product_ecoembes_weight = fields.Float('Product ecoembes weight')
     is_delivery = fields.Boolean()  # Is a delivery carrier line?
 
     def _select(self):
@@ -78,6 +80,7 @@ class SaleReport(models.Model):
                 when rpc.name is null then '(Sin categoría)'
                 else rpc.name
             end as partner_category,
+            pa.user_id as partner_user_id,
             case
                 when pc.name is null then '(Sin categoría)'
                 else pc.name
@@ -101,6 +104,7 @@ class SaleReport(models.Model):
             sum(l.product_uom_qty * t.cost_price_dl) as product_cost_dl,
             sum(l.product_uom_qty * t.weight) as product_gross_weight,
             sum(l.product_uom_qty * t.weight_net) as product_net_weight,
+            sum(l.product_uom_qty * t.ecoembes_weight) as product_ecoembes_weight,
             l.is_delivery
             """
         res = super(SaleReport, self)._select() + select_str
@@ -156,6 +160,7 @@ class SaleReport(models.Model):
             partner_recovery_date,
             partner_parent_category,
             partner_category,
+            partner_user_id,
             commission_category,
             t.customer,
             pa.country_id,
