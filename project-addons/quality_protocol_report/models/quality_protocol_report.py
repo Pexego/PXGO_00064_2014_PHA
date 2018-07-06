@@ -122,6 +122,13 @@ class QualityProtocolReportLine(models.Model):
         return True
 
 
+class QualityProtocolReportType(models.Model):
+    _name = 'quality.protocol.report.type'
+
+    name = fields.Char('Type of report')
+    active = fields.Boolean(default=True)
+
+
 class QualityProtocolReportReference(models.Model):
     _name = 'quality.protocol.report.reference'
     _rec_name = 'model_id'
@@ -129,6 +136,8 @@ class QualityProtocolReportReference(models.Model):
 
     report_line_id = fields.Many2one(comodel_name='quality.protocol.report.line',
                                      string='Quality protocol report section')
-    model_id = fields.Many2one(comodel_name='ir.model', string='Model')
-    data_reference = fields.Char(string='Data reference')
+    model_id = fields.Many2one(comodel_name='ir.model', string='Model', required=True)
+    data_reference = fields.Char(string='Data reference', required=True)
+    report_type_id = fields.Many2one(comodel_name='quality.protocol.report.type',
+                                     required=True)
     active = fields.Boolean(default=True)

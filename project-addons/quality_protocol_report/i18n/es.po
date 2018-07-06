@@ -70,6 +70,11 @@ msgid "Active"
 msgstr "Activa"
 
 #. module: quality_protocol_report
+#: field:protocol.type,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: quality_protocol_report
 #: field:mrp.production.workcenter.line,adjustsments_ids:0
 msgid "Adjustments"
 msgstr "Ajustes"
@@ -720,6 +725,11 @@ msgid "Protocol"
 msgstr "Protocol"
 
 #. module: quality_protocol_report
+#: model:ir.ui.menu,name:quality_protocol_report.menu_quality_protocol_report_type
+msgid "Protocol report type"
+msgstr "Tipos de informes"
+
+#. module: quality_protocol_report
 #: field:print.protocol,protocol_type_id:0
 msgid "Protocol type"
 msgstr "Tipo de protocolo"
@@ -796,6 +806,11 @@ msgid "Quality protocol report"
 msgstr "Protocolo de reporte de calidad"
 
 #. module: quality_protocol_report
+#: model:ir.actions.act_window,name:quality_protocol_report.action_quality_protocol_report_type
+msgid "Quality protocol report types"
+msgstr "Tipos de informes de protocolos"
+
+#. module: quality_protocol_report
 #: model:ir.actions.act_window,name:quality_protocol_report.action_quality_protocol_report
 #: view:quality.protocol.report:quality_protocol_report.quality_protocol_report_tree
 msgid "Quality protocol reports"
@@ -847,6 +862,11 @@ msgstr "Liberar"
 #: view:mrp.production:quality_protocol_report.mrp_production_form_view_add_adjustments
 msgid "Release all"
 msgstr "Release all"
+
+#. module: quality_protocol_report
+#: field:quality.protocol.report.reference,report_type_id:0
+msgid "Report type id"
+msgstr "Tipo de informe"
 
 #. module: quality_protocol_report
 #: view:quality.protocol.report.line:quality_protocol_report.quality_protocol_report_line_form
