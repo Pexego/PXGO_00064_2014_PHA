@@ -136,8 +136,8 @@ class QualityProtocolReportReference(models.Model):
 
     report_line_id = fields.Many2one(comodel_name='quality.protocol.report.line',
                                      string='Quality protocol report section')
-    model_id = fields.Many2one(comodel_name='ir.model', string='Model', required=True)
-    data_reference = fields.Char(string='Data reference', required=True)
+    model_id = fields.Many2one(comodel_name='ir.model', string='Model')
+    data_reference = fields.Char(string='Data reference')
     report_type_id = fields.Many2one(comodel_name='quality.protocol.report.type',
                                      required=True)
     active = fields.Boolean(default=True)
