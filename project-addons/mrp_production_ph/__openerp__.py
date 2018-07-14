@@ -12,6 +12,8 @@
     'website': 'www.pharmadus.com',
     'depends': [
         'mrp',
+        'mrp_hoard',
+        'quality_protocol_report',
     ],
     'data': [
         'views/mrp_production_view.xml',

@@ -19,6 +19,11 @@ msgstr ""
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Display"
+msgstr "Pantalla"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 msgid "Do you really want to cancel production?"
 msgstr "¿Desea realmente cancelar esta producción?"
 

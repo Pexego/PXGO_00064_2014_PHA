@@ -11,6 +11,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
+                <button name="get_hoard" position="after">
+                    <button class="oe_inline oe_stat_button"
+                            name="action_call_update_display_url"
+                            type="object"
+                            icon="fa-desktop"
+                            attrs="{'invisible': [('final_lot_id', '=', False)]}">
+                        <div>Display</div>
+                    </button>
+                </button>
                 <field name="routing_id" position="before">
                     <field name="product_tmpl_id" invisible="1"/>
                 </field>
