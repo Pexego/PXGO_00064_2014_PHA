@@ -22,6 +22,7 @@ import subprocess
 import tempfile
 import os
 import base64
+import unicodedata
 from urlparse import urljoin
 from pyPdf import PdfFileWriter, PdfFileReader
 from contextlib import closing
@@ -74,9 +75,22 @@ class QualityReportAll(models.TransientModel):
                                 'workcenter_line_id': workcenter_line.id
                             })
             weight = workcenter_line.workcenter_id.protocol_type_id.weight
-            res.append(urljoin(base_url, 'protocol/print/%s/%s/%s?weight=%02d' %
-                               (slug(obj), slug(use_protocol),
-                                slug(workcenter_line), weight)))
+            production_name = obj.display_name
+            protocol_type = workcenter_line.workcenter_id.protocol_type_id.name
+            protocol_type = unicodedata.normalize('NFKD', protocol_type).\
+                encode('ascii', 'ignore').replace(' ', '_')
+            res.append(
+                urljoin(
+                    base_url,
+                    'protocol/print/%s/%s/%s?weight=%02d#prod=%s#prot=%s' % (
+                        slug(obj), slug(use_protocol),
+                        slug(workcenter_line),
+                        weight,
+                        production_name,
+                        protocol_type
+                    )
+                )
+            )
         return res
 
     def _merge_pdf(self, documents):
@@ -138,7 +152,7 @@ class QualityReportAll(models.TransientModel):
             fname = url.replace('/', '').replace(':', '')
             weight_pos = fname.find('?weight=')
             if weight_pos > -1:
-                fname = fname[-2:] + '-' + fname[:weight_pos]
+                fname = fname[weight_pos+8:weight_pos+10] + '-' + fname[:weight_pos]
             filenames.append('/tmp/' + fname + '.pdf')
         filepath = self._merge_pdf(sorted(filenames))
         fildecode = open(filepath, 'r')
@@ -146,9 +160,9 @@ class QualityReportAll(models.TransientModel):
         fildecode.close()
         attachment_data = {
             'name': 'quality_protocol.pdf' if print_url else 'quality_protocols' +
-            str(self.env.context.get('active_id', '')) + '.pdf',
+                str(self.env.context.get('active_id', '')) + '.pdf',
             'datas_fname': 'quality_protocols' +
-            str(self.env.context.get('active_id', '')) + '.pdf',
+                str(self.env.context.get('active_id', '')) + '.pdf',
             'datas': base64.b64encode(encode_data),
             'res_model': self.env.context.get('active_model', False),
             'res_id': 0 if print_url else self.env.context.get('active_id', False),
