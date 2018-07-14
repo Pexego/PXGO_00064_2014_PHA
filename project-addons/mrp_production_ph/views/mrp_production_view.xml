@@ -5,12 +5,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <openerp>
     <data>
-        <record id="action_call_update_display_url" model="ir.actions.act_url">
-            <field name="name">Update display</field>
-            <field name="target">new</field>
-            <field name="url">http://10.10.1.13/pantallas/producciones_odoo.php</field>
-        </record>
-
         <record id="mrp_production_ph_form_view" model="ir.ui.view">
             <field name="name">MRP Production form view</field>
             <field name="model">mrp.production</field>
@@ -19,8 +13,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <button name="get_hoard" position="after">
                     <button class="oe_inline oe_stat_button"
-                            name="%(action_call_update_display_url)d"
-                            type="action"
+                            name="action_call_update_display_url"
+                            type="object"
                             icon="fa-desktop">
                         <div>Display</div>
                     </button>
