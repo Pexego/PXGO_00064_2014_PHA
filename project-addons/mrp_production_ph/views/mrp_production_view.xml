@@ -15,7 +15,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <button class="oe_inline oe_stat_button"
                             name="action_call_update_display_url"
                             type="object"
-                            icon="fa-desktop">
+                            icon="fa-desktop"
+                            attrs="{'invisible': [('final_lot_id', '=', False)]}">
                         <div>Display</div>
                     </button>
                 </button>
