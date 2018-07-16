@@ -98,3 +98,15 @@ class StockWarehouseOrderpoint(models.Model):
 
     product_min_action_qty = fields.Float(string='Minimum action quantity',
                                           default=0.0)
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    last_picking_id = fields.Many2one(comodel_name='stock.picking',
+                                      compute='_last_picking_id')
+
+    @api.one
+    def _last_picking_id(self):
+        self.last_picking_id = self.move_ids[0].picking_id if self.move_ids \
+            else False
