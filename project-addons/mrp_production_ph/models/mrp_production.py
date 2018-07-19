@@ -108,3 +108,17 @@ class MrpProduction(models.Model):
             context.elapsed -= date_end - context.timewalker
 
         self.time_planned = context.elapsed.total_seconds() / 3600
+
+    @api.multi
+    def product_id_change(self, product_id, product_qty=0):
+        res = super(MrpProduction, self).product_id_change(product_id,
+                                                           product_qty)
+        if not res.get('domain', False):
+            res['domain'] = {}
+        product = self.env['product.product'].browse(product_id)
+        if product.routing_ids:
+            res['domain']['routing_id'] = [('product_ids', 'in', product.product_tmpl_id.id)]
+        else:
+            res['domain']['routing_id'] = [('wildcard_route', '=', True)]
+
+        return res

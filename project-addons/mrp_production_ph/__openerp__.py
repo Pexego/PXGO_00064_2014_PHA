@@ -17,6 +17,7 @@
     ],
     'data': [
         'views/mrp_production_view.xml',
+        'views/mrp_routing_view.xml',
     ],
     'installable': True
 }
