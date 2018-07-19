@@ -752,6 +752,11 @@ msgid "Recommended time"
 msgstr "Tiempo recomendado"
 
 #. module: stock_available_ph
+#: field:stock.quant,reservation_picking_id:0
+msgid "Reference"
+msgstr "Reservado en el albarán"
+
+#. module: stock_available_ph
 #: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
 msgid "Save"
 msgstr "Guardar"
