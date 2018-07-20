@@ -132,27 +132,27 @@ class PaletTagParser(models.AbstractModel):
                     'place_dir': ', '.join(place_dir),
                     'num_packs': total_packs,
                     'palet_number': palet_number,
-                    'barcode': pick.sscc,
+                    'barcode': op.sscc_ids.filtered(lambda x: x.type=='1').name,
                 }
 
         # Proceso paquetes parciales
         for package in partial_packs:
+            print package
             qty_by_lot = {}
             # Obtener lotes y cantidades por lote en los paquetes parciales
             # solo de los paquetes parciales, descontando la parte que va en
             # los completos
+            print partial_packs[package]
             for op in partial_packs[package]:
                 if op.lot_id not in qty_by_lot:
                     qty_by_lot[op.lot_id] = 0
                 complete_qty = (op.complete * op.product_id.box_elements)
                 qty_by_lot[op.lot_id] += (op.product_qty - complete_qty)
-
             for i in range(2):
                 dic = self.get_tag_info(op, pack_table_class, prod_lot_qty,
                                         qty_by_lot)
                 pack_table_class == 2 if pack_table_class == 1 else 1
                 package_dic[op.product_id].append(dic)
-
         docargs = {
             'doc_ids': [],
             'doc_model': 'stock.picking',

@@ -5,9 +5,14 @@
             <t t-foreach="docs" t-as="p">
                 <t t-set="partner" t-value="p.partner_id"/>
                 <t t-set="palets" t-value="[]"/>
+                <t t-set="palet_sscc" t-value="{}"/>
                 <t t-foreach="p.pack_operation_ids" t-as="po">
                     <t t-if="po.palet and po.palet not in palets">
                         <t t-esc="palets.append(po.palet)"/>
+                    </t>
+                    <t t-if="po.sscc_ids.filtered(lambda r: r.type=='1')">
+                        <t t-esc="palet_sscc.update({po.palet: po.sscc_ids.filtered(lambda r: r.type=='1').name})" />
+                        <!--t t-esc="palet_sscc[po.palet] = po.sscc_ids.filtered(lambda r: r.type=='1').name" /-->
                     </t>
                 </t>
                 <t t-esc="palets.sort()"/>
@@ -26,9 +31,7 @@
                                 <div style="float: left;">
                                     <span t-esc="'Palet %d de %d' % (palet_number, p.number_of_palets)"/>
                                     - Pegatina <span class="page"/> de <span class="topage"/>
-                                    <t t-if="p.sscc">
-                                        <br/>SSCC: <span t-field="p.sscc"/>
-                                    </t>
+                                        <br/>SSCC: <span t-esc="palet_sscc[palet_number]"/>
                                 </div>
 
                                 <div t-if="res_company.logo"

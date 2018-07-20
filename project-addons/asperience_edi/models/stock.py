@@ -22,11 +22,35 @@ from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
 
 
+class StockPackOperationSscc(models.Model):
+
+    _name = 'stock.pack.operation.sscc'
+
+    name = fields.Char()
+    type = fields.Selection(
+        (('1', 'Palet'), ('2', 'Complete'), ('3', 'package')))
+    parent = fields.Many2one('stock.pack.operation.sscc')
+    operation_ids = fields.Many2many(
+        'stock.pack.operation', 'operation_sscc_rel', 'sscc_id', 'operation_id')
+    child_ids = fields.One2many('stock.pack.operation.sscc', 'parent')
+
 class StockPackOperation(models.Model):
 
     _inherit = 'stock.pack.operation'
 
-    sscc = fields.Char('SSCC')
+    sscc_ids = fields.Many2many(
+        'stock.pack.operation.sscc', 'operation_sscc_rel', 'operation_id', 'sscc_id')
+
+
+    @api.multi
+    def get_package_qty(self, type):
+        """
+            Se calcula la cantidad que va dentro de un bulto.
+        """
+        if type == '2':
+            return self.product_id.box_elements
+        else:
+            return sum([x.qty for x in self.linked_move_operation_ids]) - (self.product_id.box_elements * self.complete)
 
 
 class StockMove(models.Model):

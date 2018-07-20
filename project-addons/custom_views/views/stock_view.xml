@@ -88,7 +88,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="priority">20</field>
             <field name="arch" type="xml">
-                <field name="name" position="after">
+                <!--field name="name" position="after">
                     <field name="picking_type_desc" class="oe_inline" readonly="1"/>
                     <field name="edi_desadv" invisible="1"/>
                     <span class="oe_right"
@@ -100,7 +100,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <span class="oe_right"
                           style="margin-bottom: -30px; font-size: 40px;"
                           attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
-                </field>
+                </field-->
                 <button name="force_assign" position="attributes">
                     <attribute name="groups">base.group_system</attribute>
                 </button>
