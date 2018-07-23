@@ -26,6 +26,18 @@ class edi_parser(models.Model):
 
     _name = 'edi.parser'
 
+    def make_partner_changes(self, partner, data, document):
+        for edi_change in partner.custom_edi.filtered(lambda r: r.document==document):
+            for line in data:
+                if line[0] == edi_change.section:
+                    for col_index in range(len(line)):
+                        if line[col_index] == edi_change.search_value:
+                            if edi_change.action == 'remove':
+                                line[col_index] = ''
+                            else:
+                                line[col_index] = edi_change.set_value
+        return data
+
     def parse_invoic(self, cr, uid, edi, data, context, _logger, structs):
         invoice_obj = self.pool.get('account.invoice')
         context['model_log'] = 'account.invoice'
@@ -246,6 +258,9 @@ class edi_parser(models.Model):
             context['id_log'] = invoice.id
             context['filename'] = filename
             self.pool.get('edi.edi')._log(cr, uid, [edi.id], context)
+            data[filename] = self.make_partner_changes(
+                invoice.partner_id.commercial_partner_id,
+                data[filename], 'invoic')
             return data
 
     def parse_desadv(self, cr, uid, edi, data, context, _logger, structs):
@@ -301,7 +316,7 @@ class edi_parser(models.Model):
         context['model_log'] = 'stock.picking'
         context['ids_log'] = context['active_ids']
         for pick in pick_obj.browse(cr, uid, context['active_ids'], context):
-            if not pick.partner_id.gln :
+            if not pick.partner_id.gln:
                 raise exceptions.Warning(_('GLN Error'), _('The partner %s does not have GLN configured') % pick.partner_id.name)
             if not pick.partner_id.commercial_partner_id.gln:
                 raise exceptions.Warning(_('GLN Error'), _('The partner %s does not have GLN configured') % pick.partner_id.commercial_partner_id.name)
@@ -431,6 +446,9 @@ class edi_parser(models.Model):
             context['id_log'] = pick.id
             context['filename'] = filename
             self.pool.get('edi.edi')._log(cr, uid, [edi.id], context)
+            data[filename] = self.make_partner_changes(
+                pick.partner_id.commercial_partner_id, data[filename],
+                'desadv')
             return data
 
     def parse_recadv(self, cr, uid, edi, data, filename):
