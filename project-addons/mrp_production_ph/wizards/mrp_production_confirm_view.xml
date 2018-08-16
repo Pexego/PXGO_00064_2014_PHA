@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2018 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="mrp_production_confirm_wizard" model="ir.ui.view">
+            <field name="name">MRP Production confirm wizard</field>
+            <field name="model">mrp.production.confirm</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group colspan="4" col="3" style="font-size: 26px;">
+                        <field name="product" readonly="1" colspan="3"/>
+                        <field name="bom" readonly="1" colspan="3" style="font-weight: bold;"/>
+                        <field name="routing" readonly="1" colspan="3"/>
+                        <field name="lot" readonly="1" colspan="3"/>
+                        <label for="quantity_text"/>
+                        <div id="product-quantity" colspan="2">
+                            <field name="quantity_text" readonly="1" nolabel="1"/>
+                            <field name="uom_id" readonly="1" nolabel="1" options="{'no_open': True}"/>
+                        </div>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button name="action_confirm_production"
+                                type="object"
+                                string="Confirm"
+                                class="oe_highlight"/>
+                        or
+                        <button name="action_cancel_production"
+                                type="object"
+                                string="Cancel"/>
+                    </footer>
+                    <style>
+                        td.oe_form_group_cell.oe_form_group_cell_label {
+                            vertical-align: middle;
+                        }
+                        div#product-quantity span.oe_form_field {
+                            width: auto;
+                        }
+                        button.close {
+                            display: none;
+                        }
+                    </style>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
