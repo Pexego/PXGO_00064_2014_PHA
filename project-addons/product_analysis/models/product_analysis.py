@@ -15,8 +15,7 @@ class ProductAnalysis(models.Model):
 class ProductAnalysisRel(models.Model):
     _name = 'product.analysis.rel'
     _order = 'sequence'
-
-    _order = 'sequence'
+    _rec_name = 'product_id'
 
     sequence = fields.Integer()
     product_id = fields.Many2one('product.template', 'Product')
@@ -57,3 +56,17 @@ class ProductAnalysisRel(models.Model):
     def on_change_boolean_selection(self):
         self.expected_result_boolean = self.boolean_selection in \
                                        ('conformant', 'qualify', 'presence')
+
+    @api.model
+    def create(self, vals):
+        if not vals.get('product_id'):
+            vals['product_id'] = self.env.context.get('active_id')
+        return super(ProductAnalysisRel, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        if vals.get('analysis_type') != 'boolean':
+            vals['boolean_selection'] = False
+        else:
+            vals['expected_result_expr'] = False
+        return super(ProductAnalysisRel, self).write(vals)

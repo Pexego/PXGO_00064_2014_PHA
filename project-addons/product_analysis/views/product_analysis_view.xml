@@ -63,18 +63,19 @@
             <field name="model">product.analysis.rel</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Analysis" editable="top" create="false" delete="false">
-                    <field name="analysis_id" readonly="True"/>
+                <tree editable="bottom">
+                    <field name="product_id" invisible="1"/>
+                    <field name="sequence" widget="handle"/>
+                    <field name="analysis_id" attrs="{'readonly': [('product_id', '!=', False)]}"/>
                     <field name="show_in_certificate" readonly="True"/>
                     <field name="raw_material_analysis" readonly="True"/>
                     <field name="method" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                     <field name="analysis_type" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                     <field name="boolean_selection" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
                     <field name="expected_result_boolean" invisible="1"/>
-                    <field name="expected_result_expr" attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)], 'required': [('analysis_type', '=', 'expr')]}"/>
+                    <field name="expected_result_expr" attrs="{'readonly': ['|', ('analysis_type', '==', 'boolean'), ('raw_material_analysis', '!=', False)], 'required': [('analysis_type', '=', 'expr')]}"/>
                     <field name="decimal_precision" digits="[42, 10]"  attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)]}"/>
                     <field name="criterion"/>
-                    <field name="product_id" invisible="1"/>
                 </tree>
             </field>
         </record>

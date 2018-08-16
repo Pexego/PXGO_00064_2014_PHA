@@ -222,9 +222,24 @@ class StockProductionLot(models.Model):
                 lambda r: r.product_id.categ_id.analysis_sequence)
             raw_lot = use_move and use_move[0].quant_ids and \
                 use_move[0].quant_ids[0].lot_id or False
+            if not raw_lot:
+                select_id = self.env['stock.production.lot.select'].create({
+                    'dest_lot_id': self.id
+                })
+                wizard = self.env.ref(
+                    'product_analysis.stock_production_lot_select_wizard')
+                return {
+                    'name': _('Lot from which the analysis parameters are to be copied'),
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': 'stock.production.lot.select',
+                    'views': [(wizard.id, 'form')],
+                    'view_id': wizard.id,
+                    'target': 'new',
+                    'res_id': select_id.id,
+                }
             for lot_analysis in self.analysis_ids.filtered('raw_material_analysis'):
-                if not raw_lot:
-                    raise exceptions.Warning(_(''), _(''))
                 copy_lot = raw_lot.analysis_ids.filtered(
                     lambda r: r.analysis_id.id == lot_analysis.analysis_id.id)
                 if copy_lot:

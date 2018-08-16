@@ -67,6 +67,7 @@ msgstr "Selección booleana"
 
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_analysis_wizard
+#: view:stock.production.lot.select:product_analysis.stock_production_lot_select_wizard
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -213,6 +214,11 @@ msgid "Decimal precision"
 msgstr "Precisión decimal"
 
 #. module: product_analysis
+#: view:stock.production.lot.select:product_analysis.stock_production_lot_select_wizard
+msgid "Destination lot"
+msgstr "Lote destino"
+
+#. module: product_analysis
 #: code:addons/product_analysis/models/stock.py:239
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 #, python-format
@@ -256,10 +262,19 @@ msgstr "Last Updated by"
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
+
 #. module: product_analysis
 #: field:stock.lot.analysis,lot_id:0
+#: field:stock.production.lot.select,dest_lot_id:0
+#: field:stock.production.lot.select,lot_id:0
 msgid "Lot"
 msgstr "Lote"
+
+#. module: product_analysis
+#: code:addons/product_analysis/models/stock.py:232
+#, python-format
+msgid "Lot from which the analysis parameters are to be copied"
+msgstr "Seleccione el lote desde el que se arrastrarán los parámetros de análisis"
 
 #. module: product_analysis
 #: model:ir.model,name:product_analysis.model_stock_production_lot
@@ -375,6 +390,11 @@ msgid "Origin country"
 msgstr "País de origen"
 
 #. module: product_analysis
+#: view:stock.production.lot.select:product_analysis.stock_production_lot_select_wizard
+msgid "Origin lot"
+msgstr "Lote de origen"
+
+#. module: product_analysis
 #: field:stock.production.lot,origin_type:0
 msgid "Origin type"
 msgstr "Origen"
@@ -393,8 +413,9 @@ msgid "Parameter"
 msgstr "Parámetro"
 
 #. module: product_analysis
-#: model:ir.model,name:product_analysis.model_product_product
 #: field:product.analysis.rel,product_id:0
+#: field:stock.production.lot.select,dest_product_id:0
+#: field:stock.production.lot.select,product_id:0
 msgid "Product"
 msgstr "Producto"
 
@@ -560,6 +581,11 @@ msgstr "Muestreo realizado por"
 #: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Sampling:"
 msgstr "Toma de muestras:"
+
+#. module: product_analysis
+#: view:stock.production.lot.select:product_analysis.stock_production_lot_select_wizard
+msgid "Select"
+msgstr "Seleccionar"
 
 #. module: product_analysis
 #: field:product.analysis.rel,sequence:0 field:stock.lot.analysis,sequence:0
