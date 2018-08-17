@@ -40,7 +40,7 @@ msgstr "Análisis de producto"
 #: model:ir.actions.report.xml,name:product_analysis.report_lot_analysis_certificate
 #: model:ir.ui.menu,name:product_analysis.quality_lot_menus
 msgid "Analysis certificate"
-msgstr "Certificado de análisis"
+msgstr "Rec. - Certificado de análisis"
 
 #. module: product_analysis
 #: field:product.analysis.rel,raw_material_analysis:0
@@ -141,7 +141,7 @@ msgstr "Análisis pasado"
 #. module: product_analysis
 #: model:ir.actions.report.xml,name:product_analysis.report_lot_analysis_sheet
 msgid "Analysis sheet"
-msgstr "Hoja de análisis"
+msgstr "Rec. - Hoja de análisis"
 
 #. module: product_analysis
 #: field:product.template,analytic_certificate:0
@@ -177,6 +177,12 @@ msgid "CERTIFICATE ANALYSIS OF RAW MATERIAL / PACKAGING MATERIAL"
 msgstr "CERTIFICADO DE ANÁLISIS DE MATERIA PRIMA / MATERIAL DE ACONDICIONAMIENTO"
 
 #. module: product_analysis
+#: field:stock.production.lot,production_review_ids:0
+#: field:stock.production.lot,technical_direction_review_ids:0
+msgid "Compliant with"
+msgstr "Conforme"
+
+#. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 #: view:website:product_analysis.report_stock_lot_analysis_data
@@ -200,6 +206,12 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: product_analysis
+#: field:stock.production.lot,production_review_date:0
+#: field:stock.production.lot,technical_direction_review_date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 #: view:website:product_analysis.report_stock_lot_analysis_data
@@ -219,6 +231,12 @@ msgid "Destination lot"
 msgstr "Lote destino"
 
 #. module: product_analysis
+#: field:stock.production.lot,production_review_done_by:0
+#: field:stock.production.lot,technical_direction_review_done_by:0
+msgid "Done by"
+msgstr "Revisado por"
+
+#. module: product_analysis
 #: code:addons/product_analysis/models/stock.py:239
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 #, python-format
@@ -234,6 +252,16 @@ msgstr "Producto UE"
 #: selection:stock.production.lot,origin_type:0
 msgid "EU/not EU product"
 msgstr "Producto UE/no UE"
+
+#. module: product_analysis
+#: view:website:product_analysis.finished_product_analysis_certificate_report
+msgid "FINISHED PRODUCT ANALYSIS CERTIFICATE"
+msgstr "CERTIFICADO DE ANÁLISIS DE PRODUCTO ACABADO"
+
+#. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_finished_product_analysis_certificate
+msgid "Finished product analysis certificate"
+msgstr "Prod. - Certificado de análisis producto acabado"
 
 #. module: product_analysis
 #: selection:product.analysis.rel,criterion:0
@@ -262,7 +290,6 @@ msgstr "Last Updated by"
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
-
 #. module: product_analysis
 #: field:stock.lot.analysis,lot_id:0
 #: field:stock.production.lot.select,dest_lot_id:0
@@ -271,10 +298,32 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: product_analysis
+#: view:website:product_analysis.lot_certification_and_release_report
+msgid "LOT CERTIFICATION AND RELEASE"
+msgstr "CERTIFICACIÓN Y LIBERACIÓN DE LOTE"
+
+#. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_lot_certification_and_release
+msgid "Lot certification and release"
+msgstr "Prod. - Certificación y liberación de lote"
+
+#. module: product_analysis
 #: code:addons/product_analysis/models/stock.py:232
 #, python-format
 msgid "Lot from which the analysis parameters are to be copied"
 msgstr "Seleccione el lote desde el que se arrastrarán los parámetros de análisis"
+
+#. module: product_analysis
+#: model:ir.actions.act_window,name:product_analysis.stock_lot_production_review_question_action
+#: model:ir.ui.menu,name:product_analysis.menu_stock_lot_production_review_question
+msgid "Lot production questions"
+msgstr "Preguntas producción lote"
+
+#. module: product_analysis
+#: model:ir.actions.act_window,name:product_analysis.stock_lot_technical_direction_review_question_action
+#: model:ir.ui.menu,name:product_analysis.menu_stock_lot_technical_direction_review_question
+msgid "Lot release questions"
+msgstr "Preguntas liberación lote"
 
 #. module: product_analysis
 #: model:ir.model,name:product_analysis.model_stock_production_lot
@@ -287,6 +336,11 @@ msgstr "Lot/Serial"
 #: view:website:product_analysis.report_stock_lot_state_label
 msgid "Lot:"
 msgstr "Lote:"
+
+#. module: product_analysis
+#: model:ir.ui.menu,name:product_analysis.menu_lot_analysis_config
+msgid "Lots"
+msgstr "Lotes"
 
 #. module: product_analysis
 #: field:product.analysis,method:0
@@ -304,6 +358,12 @@ msgstr "Nombre"
 #: selection:stock.production.lot,origin_type:0
 msgid "Not EU product"
 msgstr "Origen no UE"
+
+#. module: product_analysis
+#: field:stock.production.lot,production_review_notes:0
+#: field:stock.production.lot,technical_direction_review_notes:0
+msgid "Notes"
+msgstr "Notas"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
@@ -421,6 +481,32 @@ msgstr "Producto"
 
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Production"
+msgstr "Producción"
+
+#. module: product_analysis
+#: field:stock.lot.production.review,question_id:0
+#: field:stock.lot.technical.direction.review,question_id:0
+msgid "Question"
+msgstr "Cuestión"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Release"
+msgstr "Liberación"
+
+#. module: product_analysis
+#: view:website:product_analysis.revision_by_production_report
+msgid "REVISION BY PRODUCTION"
+msgstr "REVISIÓN POR PRODUCCIÓN"
+
+#. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_revision_by_production
+msgid "Revision by production"
+msgstr "Prod. - Revisión por producción"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Set all realized"
 msgstr "Marcar todos a realizar"
 
@@ -455,6 +541,17 @@ msgstr "Producto:"
 #: field:stock.lot.analysis,proposed:0
 msgid "Proposed"
 msgstr "Propuesto"
+
+#. module: product_analysis
+#: selection:stock.lot.technical.direction.review,result:0
+msgid "N/A"
+msgstr "N/A"
+
+#. module: product_analysis
+#: selection:stock.lot.production.review,result:0
+#: selection:stock.lot.technical.direction.review,result:0
+msgid "No"
+msgstr "No"
 
 #. module: product_analysis
 #: field:stock.production.lot,num_container_sample_proposed:0
@@ -528,6 +625,8 @@ msgstr "Etiqueta rechazado"
 #: field:stock.lot.analysis,result:0
 #: field:stock.lot.analysis,result_boolean:0
 #: field:stock.lot.analysis,result_str:0
+#: field:stock.lot.production.review,result:0
+#: field:stock.lot.technical.direction.review,result:0
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 msgid "Result"
@@ -698,3 +797,9 @@ msgstr "Análisis prod. (preguntas)"
 #: model:ir.ui.menu,name:product_analysis.menu_stock_production_lot_dates
 msgid "Stock production lot dates"
 msgstr "Fechas de caducidad"
+
+#. module: product_analysis
+#: selection:stock.lot.production.review,result:0
+#: selection:stock.lot.technical.direction.review,result:0
+msgid "Yes"
+msgstr "Sí"

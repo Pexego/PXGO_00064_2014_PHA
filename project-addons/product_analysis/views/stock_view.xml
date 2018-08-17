@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <record id="stock_production_lot_add_analysis" model="ir.ui.view">
-            <field name="name">stock.production.lot.form</field>
+            <field name="name">Product analysis - Stock production lot form</field>
             <field name="model">stock.production.lot</field>
             <field name="inherit_id" ref="stock.view_production_lot_form"/>
             <field name="arch" type="xml">
@@ -78,6 +78,34 @@
                         </group>
                         <group>
                             <field name="revised_by"/>
+                        </group>
+                    </page>
+                    <page string="Production">
+                        <group>
+                            <field name="production_review_ids">
+                                <tree create="false" delete="false" editable="top" default_order="sequence">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question_id" readonly="True"/>
+                                    <field name="result"/>
+                                </tree>
+                            </field>
+                            <field name="production_review_notes"/>
+                            <field name="production_review_done_by"/>
+                            <field name="production_review_date"/>
+                        </group>
+                    </page>
+                    <page string="Release">
+                        <group>
+                            <field name="technical_direction_review_ids">
+                                <tree create="false" delete="false" editable="top" default_order="sequence">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question_id" readonly="True"/>
+                                    <field name="result"/>
+                                </tree>
+                            </field>
+                            <field name="technical_direction_review_notes"/>
+                            <field name="technical_direction_review_done_by"/>
+                            <field name="technical_direction_review_date"/>
                         </group>
                     </page>
                 </notebook>
