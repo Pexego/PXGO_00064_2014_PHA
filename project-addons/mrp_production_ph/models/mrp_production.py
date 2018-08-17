@@ -2,7 +2,7 @@
 # © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 import urllib, unicodedata
 from datetime import datetime, timedelta
 from pytz import timezone
@@ -108,3 +108,45 @@ class MrpProduction(models.Model):
             context.elapsed -= date_end - context.timewalker
 
         self.time_planned = context.elapsed.total_seconds() / 3600
+
+    @api.multi
+    def product_id_change(self, product_id, product_qty=0):
+        res = super(MrpProduction, self).product_id_change(product_id,
+                                                           product_qty)
+        if not res.get('domain', False):
+            res['domain'] = {}
+        product = self.env['product.product'].browse(product_id)
+        if product.routing_ids:
+            res['domain']['routing_id'] = [('product_ids', 'in', product.product_tmpl_id.id)]
+        else:
+            res['domain']['routing_id'] = [('wildcard_route', '=', True)]
+
+        return res
+
+    @api.multi
+    def action_confirm(self):
+        confirm_id = self.env['mrp.production.confirm'].create({
+            'production_id': self.id,
+            'product': self.product_id.name,
+            'bom': self.bom_id.name,
+            'routing': self.routing_id.name,
+            'lot': self.next_lot,
+            'quantity': self.product_qty,
+            'uom_id': self.product_uom.id
+        })
+        wizard = self.env.ref('mrp_production_ph.mrp_production_confirm_wizard')
+        return {
+            'name': _('Is going to start the production of'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mrp.production.confirm',
+            'views': [(wizard.id, 'form')],
+            'view_id': wizard.id,
+            'target': 'new',
+            'res_id': confirm_id.id,
+        }
+
+    @api.multi
+    def action_confirm_production(self):
+        super(MrpProduction, self).action_confirm()

@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
-# © 2017 Pharmadus I.T.
+# © 2018 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from . import models, wizards
+import lot_wizard

@@ -98,3 +98,10 @@ class StockWarehouseOrderpoint(models.Model):
 
     product_min_action_qty = fields.Float(string='Minimum action quantity',
                                           default=0.0)
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    reservation_picking_id = fields.Many2one(comodel_name='stock.picking',
+                                             related='reservation_id.picking_id')

@@ -81,11 +81,20 @@ class ProductionPlanningOrders(models.Model):
                     format(order.product_id.name, order.product_qty, order.id)
 
     @api.onchange('product_id')
-    def update_bom(self):
+    def product_id_change(self):
         bom_dom = [('product_tmpl_id', '=', self.product_tmpl_id.id)]
         bom_ids = self.env['mrp.bom'].search(bom_dom)
         self.bom_id = bom_ids[0] if bom_ids else False
+
         self.line_id = False
+
+        res = {'domain': {'line_id': False}}
+        if self.product_id.routing_ids:
+            res['domain']['line_id'] = [('product_ids', 'in',
+                                         self.product_id.product_tmpl_id.id)]
+        else:
+            res['domain']['line_id'] = [('wildcard_route', '=', True)]
+        return res
 
     @api.onchange('date_start')
     def check_date_end(self):

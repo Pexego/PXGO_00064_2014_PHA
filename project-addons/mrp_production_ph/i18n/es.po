@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-10 08:18+0000\n"
-"PO-Revision-Date: 2017-11-10 09:22+0100\n"
+"POT-Creation-Date: 2018-07-30 08:18+0000\n"
+"PO-Revision-Date: 2017-07-30 15:22+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,21 @@ msgstr ""
 "Plural-Forms: \n"
 "Language: es\n"
 "X-Generator: Poedit 1.8.11\n"
+
+#. module: mrp_production_ph
+#: field:mrp.production.confirm,bom:0
+msgid "Bom"
+msgstr "Lista de materiales"
+
+#. module: mrp_production_ph
+#: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: mrp_production_ph
+#: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
+msgid "Confirm"
+msgstr "Confirmar"
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
@@ -28,6 +43,44 @@ msgid "Do you really want to cancel production?"
 msgstr "¿Desea realmente cancelar esta producción?"
 
 #. module: mrp_production_ph
+#: code:addons/mrp_production_ph/models/mrp_production.py:138
+#, python-format
+msgid "Is going to start the production of"
+msgstr "Se va a iniciar la producción con los siguientes parámetros"
+
+#. module: mrp_production_ph
+#: field:mrp.production.confirm,lot:0
+msgid "Lot"
+msgstr "Lote previsto"
+
+#. module: mrp_production_ph
 #: field:mrp.production,next_lot:0
 msgid "Next lot"
 msgstr "Siguiente lote"
+
+#. module: mrp_production_ph
+#: field:mrp.production.confirm,product:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: mrp_production_ph
+#: field:mrp.production.confirm,quantity:0
+#: field:mrp.production.confirm,quantity_text:0
+msgid "Quantity"
+msgstr "Cantidad a fabricar"
+
+#. module: mrp_production_ph
+#: model:ir.model,name:mrp_production_ph.model_mrp_routing
+#: field:mrp.production.confirm,routing:0
+msgid "Routing"
+msgstr "Proceso productivo"
+
+#. module: mrp_production_ph
+#: field:mrp.routing,wildcard_route:0
+msgid "Wildcard route"
+msgstr "Línea comodín"
+
+#. module: mrp_production_ph
+#: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
+msgid "or"
+msgstr "o "

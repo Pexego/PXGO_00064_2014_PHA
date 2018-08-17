@@ -100,11 +100,6 @@ class StockLotAnalysis(models.Model):
 
     @api.multi
     def write(self, vals):
-#        if len(self) == 1 and not vals.get('sequence', False):
-#            lot_id = self.lot_id or self.env['stock.production.lot'].browse
-#                self.lot_id and self.lot_id.analysis_ids:
-
-
         if vals.get('result_boolean_selection') and not vals.get('result_boolean'):
             vals['result_boolean'] = vals.get('result_boolean_selection') in \
                                      ('conformant', 'qualify', 'presence')
@@ -139,6 +134,22 @@ class StockProductionLot(models.Model):
     ], default='unspecified')
     origin_country_id = fields.Many2one(comodel_name='res.country',
                                         string='Origin country')
+    production_review_ids = fields.One2many(
+        comodel_name='stock.lot.production.review',
+        inverse_name='lot_id',
+        string='Compliant with'
+    )
+    production_review_notes = fields.Text('Notes')
+    production_review_done_by = fields.Char('Done by')
+    production_review_date = fields.Date('Date')
+    technical_direction_review_ids = fields.One2many(
+        comodel_name='stock.lot.technical.direction.review',
+        inverse_name='lot_id',
+        string='Compliant with'
+    )
+    technical_direction_review_notes = fields.Text('Notes')
+    technical_direction_review_done_by = fields.Char('Done by')
+    technical_direction_review_date = fields.Date('Date')
 
     @api.onchange('origin_type')
     def onchange_origin_type(self):
@@ -182,6 +193,24 @@ class StockProductionLot(models.Model):
 
     @api.model
     def create(self, vals):
+        vals['production_review_ids'] = []
+        question_ids = self.env['stock.lot.production.review.question'].\
+            search([])
+        for question_id in question_ids:
+            vals['production_review_ids'].append((0, 0, {
+                'question_id': question_id.id,
+                'sequence': question_id.sequence
+            }))
+
+        vals['technical_direction_review_ids'] = []
+        question_ids = \
+            self.env['stock.lot.technical.direction.review.question'].search([])
+        for question_id in question_ids:
+            vals['technical_direction_review_ids'].append((0, 0, {
+                'question_id': question_id.id,
+                'sequence': question_id.sequence
+            }))
+
         lot = super(StockProductionLot, self).create(vals)
         if lot.product_id.analytic_certificate:
             for line in lot.product_id.analysis_ids:
@@ -222,9 +251,24 @@ class StockProductionLot(models.Model):
                 lambda r: r.product_id.categ_id.analysis_sequence)
             raw_lot = use_move and use_move[0].quant_ids and \
                 use_move[0].quant_ids[0].lot_id or False
+            if not raw_lot:
+                select_id = self.env['stock.production.lot.select'].create({
+                    'dest_lot_id': self.id
+                })
+                wizard = self.env.ref(
+                    'product_analysis.stock_production_lot_select_wizard')
+                return {
+                    'name': _('Lot from which the analysis parameters are to be copied'),
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': 'stock.production.lot.select',
+                    'views': [(wizard.id, 'form')],
+                    'view_id': wizard.id,
+                    'target': 'new',
+                    'res_id': select_id.id,
+                }
             for lot_analysis in self.analysis_ids.filtered('raw_material_analysis'):
-                if not raw_lot:
-                    raise exceptions.Warning(_(''), _(''))
                 copy_lot = raw_lot.analysis_ids.filtered(
                     lambda r: r.analysis_id.id == lot_analysis.analysis_id.id)
                 if copy_lot:
@@ -251,3 +295,45 @@ class StockProductionLot(models.Model):
     def action_save_lot_analysis_wizard(self):
         self.analysis_ids._compute_passed()
         return self
+
+
+class StockLotProductionReviewQuestion(models.Model):
+    _name = 'stock.lot.production.review.question'
+    _order = 'sequence'
+
+    name = fields.Char(required=True)
+    sequence = fields.Integer()
+    active = fields.Boolean(default=True)
+
+
+class StockLotProductionReview(models.Model):
+    _name = 'stock.lot.production.review'
+    _order = 'sequence'
+
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True,
+                             ondelete='cascade')
+    question_id = fields.Many2one('stock.lot.production.review.question',
+                                  'Question')
+    result = fields.Selection([('yes', 'Yes'), ('no', 'No')])
+    sequence = fields.Integer()
+
+
+class StockLotTechnicalDirectionReviewQuestion(models.Model):
+    _name = 'stock.lot.technical.direction.review.question'
+    _order = 'sequence'
+
+    name = fields.Char(required=True)
+    sequence = fields.Integer()
+    active = fields.Boolean(default=True)
+
+
+class StockLotTechnicalDirectionReview(models.Model):
+    _name = 'stock.lot.technical.direction.review'
+    _order = 'sequence'
+
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True,
+                             ondelete='cascade')
+    question_id = fields.Many2one('stock.lot.technical.direction.review.question',
+                                  'Question')
+    result = fields.Selection([('yes', 'Yes'), ('no', 'No'), ('na', 'N/A')])
+    sequence = fields.Integer()
