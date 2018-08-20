@@ -44,5 +44,17 @@
         <record id="product_analysis.report_lot_analysis_certificate" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="product_analysis.paperformat_lot_analysis"/>
         </record>
+
+        <record id="product_analysis.finished_product_analysis_certificate_report" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="product_analysis.paperformat_lot_analysis"/>
+        </record>
+
+        <record id="product_analysis.lot_certification_and_release_report" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="product_analysis.paperformat_lot_analysis"/>
+        </record>
+
+        <record id="product_analysis.revision_by_production_report" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="product_analysis.paperformat_lot_analysis"/>
+        </record>
     </data>
 </openerp>
