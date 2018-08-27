@@ -439,7 +439,7 @@ $(function () {
             );
             $('div#realized_by').hide();
         };
-    }, 500);
+    }, 1000);
 });
 
 //Falta pepararlo para multiples tablas

@@ -12,9 +12,13 @@
     'website': 'www.pharmadus.com',
     'depends': [
         'mrp',
+        'mrp_hoard',
+        'quality_protocol_report',
     ],
     'data': [
         'views/mrp_production_view.xml',
+        'views/mrp_routing_view.xml',
+        'wizards/mrp_production_confirm_view.xml',
     ],
     'installable': True
 }

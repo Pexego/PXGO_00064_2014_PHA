@@ -266,6 +266,12 @@ msgid "Customer"
 msgstr "Cliente"
 
 #. module: custom_reports
+#: field:account.invoice.report,partner_user_id:0
+#: field:sale.report,partner_user_id:0
+msgid "Customer's sales agent"
+msgstr "Comercial asignado en ficha"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
 msgid "Date Ordered:"
 msgstr "Fecha pedido:"
@@ -657,6 +663,12 @@ msgstr "Coste de producto M.P."
 #: field:account.invoice.report,product_description:0
 msgid "Product description"
 msgstr "Producto - Descripción"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_ecoembes_weight:0
+#: field:sale.report,product_ecoembes_weight:0
+msgid "Product ecoembes weight"
+msgstr "Producto - Peso ecoembes"
 
 #. module: custom_reports
 #: field:account.invoice.report,product_form:0 field:sale.report,product_form:0

@@ -37,6 +37,33 @@
             name="product_analysis.report_stock_lot_rejected_label"
         />
 
+        <report
+            id="report_revision_by_production"
+            string="Revision by production"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.revision_by_production_report"
+            name="product_analysis.revision_by_production_report"
+        />
+
+        <report
+            id="report_finished_product_analysis_certificate"
+            string="Finished product analysis certificate"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.finished_product_analysis_certificate_report"
+            name="product_analysis.finished_product_analysis_certificate_report"
+        />
+
+        <report
+            id="report_lot_certification_and_release"
+            string="Lot certification and release"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.lot_certification_and_release_report"
+            name="product_analysis.lot_certification_and_release_report"
+        />
+
         <record model="ir.actions.report.xml" id="product_analysis.report_lot_analysis_certificate">
             <field name="attachment">'Certificado de análisis - ' + time.strftime('%d/%m/%Y') + '.pdf'</field>
         </record>

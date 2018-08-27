@@ -3,12 +3,17 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <openerp>
     <data>
+        <menuitem name="Lots"
+                  parent="quality_management_menu.menu_quality_management_config"
+                  id="menu_lot_analysis_config"/>
+
         <record id="product_analysis_tree" model="ir.ui.view">
             <field name="name">product.analysis.tree</field>
             <field name="model">product.analysis</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Analysis">
+                    <field name="id"/>
                     <field name="name"/>
                 </tree>
             </field>
@@ -23,6 +28,7 @@
                     <sheet>
                         <group>
                             <group>
+                                <field name="id"/>
                                 <field name="name"/>
                             </group>
                         </group>
@@ -52,27 +58,29 @@
         </record>
 
         <menuitem name="Product analysis"
-                  parent="quality_management_menu.menu_quality_management_config"
+                  parent="product_analysis.menu_lot_analysis_config"
                   action="product_analysis_action"
-                  id="menu_product_analysis"/>
+                  id="menu_product_analysis"
+                  sequence="10"/>
 
         <record id="product_analysis_rel_tree" model="ir.ui.view">
             <field name="name">product.analysis.rel.tree</field>
             <field name="model">product.analysis.rel</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Analysis" editable="top" create="false" delete="false">
-                    <field name="analysis_id" readonly="True"/>
+                <tree editable="bottom">
+                    <field name="product_id" invisible="1"/>
+                    <field name="sequence" widget="handle"/>
+                    <field name="analysis_id" attrs="{'readonly': [('product_id', '!=', False)]}"/>
                     <field name="show_in_certificate" readonly="True"/>
                     <field name="raw_material_analysis" readonly="True"/>
                     <field name="method" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                     <field name="analysis_type" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                     <field name="boolean_selection" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>
                     <field name="expected_result_boolean" invisible="1"/>
-                    <field name="expected_result_expr" attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)], 'required': [('analysis_type', '=', 'expr')]}"/>
+                    <field name="expected_result_expr" attrs="{'readonly': ['|', ('analysis_type', '==', 'boolean'), ('raw_material_analysis', '!=', False)], 'required': [('analysis_type', '=', 'expr')]}"/>
                     <field name="decimal_precision" digits="[42, 10]"  attrs="{'readonly': ['|', ('analysis_type', '!=', 'expr'), ('raw_material_analysis', '!=', False)]}"/>
                     <field name="criterion"/>
-                    <field name="product_id" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -164,6 +172,7 @@
             <field name="model">product.analysis</field>
             <field name="arch" type="xml">
                 <tree create="0" edit="0" delete="0">
+                    <field name="id"/>
                     <field name="name"/>
                 </tree>
             </field>
@@ -181,5 +190,99 @@
                   id="menu_product_analysis_available_questions"
                   parent="quality_management_menu.menu_qc_products"
                   sequence="22"/>
+
+        <!-- stock.lot.technical.direction.review.question -->
+
+        <record id="stock_lot_technical_direction_review_question_tree" model="ir.ui.view">
+            <field name="name">Stock lot technical direction review questions tree</field>
+            <field name="model">stock.lot.technical.direction.review.question</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Technical direction review questions" default_order="sequence">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_lot_technical_direction_review_question_form" model="ir.ui.view">
+            <field name="name">Stock lot technical direction review question form</field>
+            <field name="model">stock.lot.technical.direction.review.question</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Technical direction review question">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_lot_technical_direction_review_question_action" model="ir.actions.act_window">
+            <field name="name">Lot release questions</field>
+            <field name="res_model">stock.lot.technical.direction.review.question</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="stock_lot_technical_direction_review_question_tree"/>
+        </record>
+
+        <menuitem name="Lot release questions"
+                  parent="product_analysis.menu_lot_analysis_config"
+                  action="stock_lot_technical_direction_review_question_action"
+                  id="menu_stock_lot_technical_direction_review_question"
+                  sequence="11"/>
+
+        <!-- stock.lot.production.review.question -->
+
+        <record id="stock_lot_production_review_question_tree" model="ir.ui.view">
+            <field name="name">Stock lot production review questions tree</field>
+            <field name="model">stock.lot.production.review.question</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Production review questions" default_order="sequence">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_lot_production_review_question_form" model="ir.ui.view">
+            <field name="name">Stock lot production review question form</field>
+            <field name="model">stock.lot.production.review.question</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Production review question">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_lot_production_review_question_action" model="ir.actions.act_window">
+            <field name="name">Lot production questions</field>
+            <field name="res_model">stock.lot.production.review.question</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="stock_lot_production_review_question_tree"/>
+        </record>
+
+        <menuitem name="Lot production questions"
+                  parent="product_analysis.menu_lot_analysis_config"
+                  action="stock_lot_production_review_question_action"
+                  id="menu_stock_lot_production_review_question"
+                  sequence="12"/>
     </data>
 </openerp>

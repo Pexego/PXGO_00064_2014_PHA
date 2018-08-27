@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="revision_by_production_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size: 115%;">
+                        <div class="row">
+                            <div class="col-xs-3" style="margin-bottom: -20px;">
+                                <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 70px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <h4 style="font-size: 1.3em; font-weight: bolder;">REVISION BY PRODUCTION</h4>
+                            </div>
+                        </div>
+                        <div class="row" style="border: 2px solid black; font-size: 1.3em;">
+                            <div class="col-xs-2">
+                                Product:
+                            </div>
+                            <div class="col-xs-6">
+                                <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
+                            </div>
+                            <div class="col-xs-4">
+                                Lot: <b t-field="o.name"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

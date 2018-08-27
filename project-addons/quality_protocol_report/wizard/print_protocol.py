@@ -21,6 +21,7 @@
 from openerp import models, fields, api, exceptions, _
 from openerp.addons.website.models.website import slug
 from urlparse import urljoin
+import unicodedata
 
 
 class PrintProtocol(models.TransientModel):
@@ -94,7 +95,21 @@ class PrintProtocol(models.TransientModel):
                             'workcenter_line_id': wkcenter_line.id
                         })
 
-        self.print_url = urljoin(base_url, "protocol/print/%s/%s/%s" % (slug(obj), slug(use_protocol), slug(wkcenter_line)))
+        production_name = obj.display_name
+        protocol_type = wkcenter_line.workcenter_id.protocol_type_id.name
+        protocol_type = unicodedata.normalize('NFKD', protocol_type).\
+            encode('ascii', 'ignore').replace(' ', '_')
+
+        self.print_url = urljoin(
+            base_url,
+            "protocol/print/%s/%s/%s?weight=00#prod=%s#prot=%s" % (
+                slug(obj),
+                slug(use_protocol),
+                slug(wkcenter_line),
+                production_name,
+                protocol_type
+            )
+        )
 
     @api.onchange('protocol_type_id')
     def onchange_protocol_type_id(self):

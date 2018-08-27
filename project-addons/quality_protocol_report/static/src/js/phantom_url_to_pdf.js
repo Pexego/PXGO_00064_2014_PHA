@@ -12,7 +12,25 @@ function replaceAll(text, busca, reemplaza) {
 function extractWeight(text) {
     posWeight = text.indexOf('?weight=');
     if (posWeight != -1) {
-        return text.substring(posWeight);
+        return text.substring(posWeight + 8, posWeight + 10);
+    } else {
+        return '';
+    }
+};
+
+function extractProduction(text) {
+    posProd = text.indexOf('#prod=');
+    if (posProd != -1) {
+        return text.substring(posProd + 6, posProd + 13);
+    } else {
+        return '';
+    }
+};
+
+function extractProtocol(text) {
+    posProt = text.indexOf('#prot=');
+    if (posProt != -1) {
+        return text.substring(posProt + 6);
     } else {
         return '';
     }
@@ -35,6 +53,11 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
         if (urls.length > 0) {
             url = urls.shift();
             urlIndex++;
+            var prod = extractProduction(url);
+            var prot = extractProtocol(url);
+            var headerCallback = new Function('pageNum', 'numPages',
+                'return \'<span style="float: right; font-size: 12px;">' + prod +
+                ' - ' + prot + ' - \' + pageNum + \' de \' + numPages + \'</span>\';');
             var parser = document.createElement('a');
             parser.href = url;
             phantom.addCookie({
@@ -44,9 +67,13 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
             });
             page = webpage.create();
             page.paperSize = {
-              format: 'A4',
-              orientation: 'portrait',
-              margin: '0.5cm',
+                format: 'A4',
+                orientation: 'portrait',
+                margin: '0.5cm',
+                header: {
+                    height: '1.5cm',
+                    contents: phantom.callback(headerCallback)
+                },
             };
             page.settings.userAgent = "Phantom.js bot";
             return page.open(url, function(status) {
@@ -57,8 +84,7 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
                         dest_file = replaceAll(replaceAll(url, ':', ''), '/', '');
                         weight = extractWeight(dest_file);
                         if (weight > '') {
-                            dest_file = replaceAll(dest_file, weight, '');
-                            weight = weight.substring(8); // "?weight=XX"
+                            dest_file = dest_file.substring(0, dest_file.indexOf('?weight='));
                             dest_file = weight + '-' + dest_file;
                         };
                         dest_file = dest_path + '/' + dest_file + '.pdf';

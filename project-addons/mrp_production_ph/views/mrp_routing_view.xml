@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2018 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="mrp_production_ph_routing_tree_view" model="ir.ui.view">
+            <field name="name">MRP Routing tree view</field>
+            <field name="model">mrp.routing</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_tree_view"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="wildcard_route"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="mrp_production_ph_routing_form_view" model="ir.ui.view">
+            <field name="name">MRP Routing form view</field>
+            <field name="model">mrp.routing</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_form_view"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="wildcard_route"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
