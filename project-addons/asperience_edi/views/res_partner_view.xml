@@ -15,7 +15,7 @@
                     <field name="edi_partner"/>
                 </field>
                 <notebook position="inside">
-                    <page string="EDI">
+                    <page string="EDI" groups="asperience_edi.group_edi_manager,asperience_edi.group_edi_user">
                         <field name="custom_edi">
                             <tree editable="top">
                                 <field name="document"/>
