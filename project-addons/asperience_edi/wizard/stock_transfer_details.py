@@ -26,7 +26,7 @@ class StockTransferDetails(models.TransientModel):
         """Método con el que se calcula el sscc a partir de
         1 + aecoc + 4 digitos num albaran + secuencia 2 digitos + 1 checksum
         para escribir en el name del paquete"""
-        picking_name = picking.name.split('\\')[-1][:4]
+        picking_name = picking.name.split('\\')[-1][-4:]
         first_num = int(picking.name.split('\\')[-1][:1])
         sequence = str(counter).zfill(2)
         if counter > 99:
