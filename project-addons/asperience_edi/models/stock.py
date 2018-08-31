@@ -66,11 +66,12 @@ class StockMove(models.Model):
 
 
 class StockPicking(models.Model):
-
     _inherit = 'stock.picking'
 
-    channel_name = fields.Char('Channel name', related='sale_channel_id.name')
-    edi_desadv = fields.Boolean('Edi Desadv', related='partner_id.edi_desadv')
+    channel_name = fields.Char('Channel name', related='sale_channel_id.name',
+                               readonly=True)
+    edi_desadv = fields.Boolean('Edi Desadv', related='partner_id.edi_desadv',
+                                readonly=True)
 
     @api.model
     def _invoice_create_line(self, moves, journal_id, inv_type='out_invoice'):
