@@ -20,10 +20,9 @@ class PaletTagParser(models.AbstractModel):
         return abs(res - rounded_res)
 
     @api.model
-    def get_tag_info(self, sscc, pack_table_class, prod_lot_qty,
+    def get_tag_info(self, op, pack_table_class, prod_lot_qty, sscc,
                      qty_by_lot={}):
-        op = sscc.operation_ids
-        serie = sscc.operation_ids.product_id.ean13 and sscc.operation_ids.product_id.ean13[:-1] or ''
+        serie = op.product_id.ean13 and op.product_id.ean13[:-1] or ''
 
         barcode = sscc.name
 
@@ -102,33 +101,37 @@ class PaletTagParser(models.AbstractModel):
                 'barcode': sscc.name,
             }
             for sscc_child in sscc.child_ids.filtered(lambda r: r.type == '2'):
-                op == sscc_child.operation_ids
+                op = sscc_child.operation_ids
                 if op.product_id not in package_dic.keys():
                     package_dic[op.product_id] = []
                 # Info para paquetes completos, un solo lote
-                dic = self.get_tag_info(sscc_child, pack_table_class, prod_lot_qty)
+                dic = self.get_tag_info(op, pack_table_class, prod_lot_qty, sscc_child)
                 pack_table_class == 2 if pack_table_class == 1 else 1
                 package_dic[op.product_id].append(dic)
                 package_dic[op.product_id].append(dic)
 
-        # Proceso paquetes parciales
-        '''for package in partial_packs:
-            print package
-            qty_by_lot = {}
-            # Obtener lotes y cantidades por lote en los paquetes parciales
-            # solo de los paquetes parciales, descontando la parte que va en
-            # los completos
-            print partial_packs[package]
-            for op in partial_packs[package]:
-                if op.lot_id not in qty_by_lot:
-                    qty_by_lot[op.lot_id] = 0
-                complete_qty = (op.complete * op.product_id.box_elements)
-                qty_by_lot[op.lot_id] += (op.product_qty - complete_qty)
-            for i in range(2):
-                dic = self.get_tag_info(op, pack_table_class, prod_lot_qty,
-                                        qty_by_lot)
-                pack_table_class == 2 if pack_table_class == 1 else 1
-                package_dic[op.product_id].append(dic)'''
+
+
+            # Proceso paquetes parciales
+            for sscc_child in sscc.child_ids.filtered(lambda r: r.type == '3'):
+                # En estas etiquetas, los albaranes parciales serán siempre
+                # del mismo producto.
+                qty_by_lot = {}
+                # Obtener lotes y cantidades por lote en los paquetes parciales
+                # solo de los paquetes parciales, descontando la parte que va en
+                # los completos
+                for op in sscc_child.operation_ids:
+                    if op.lot_id not in qty_by_lot:
+                        qty_by_lot[op.lot_id] = 0
+                    complete_qty = (op.complete * op.product_id.box_elements)
+                    qty_by_lot[op.lot_id] += (op.product_qty - complete_qty)
+                for i in range(2):
+                    dic = self.get_tag_info(op, pack_table_class, prod_lot_qty, sscc_child,
+                                            qty_by_lot)
+                    pack_table_class == 2 if pack_table_class == 1 else 1
+                    if op.product_id not in package_dic.keys():
+                        package_dic[op.product_id] = []
+                    package_dic[op.product_id].append(dic)
         docargs = {
             'doc_ids': [],
             'doc_model': 'stock.picking',
