@@ -12,19 +12,115 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center">
-                                <h4 style="font-size: 1.3em; font-weight: bolder;">FINISHED PRODUCT ANALYSIS CERTIFICATE</h4>
+                                <b style="font-size: 1.6em;">CERTIFICADO DE ANÁLISIS DE PRODUCTO ACABADO</b>
                             </div>
                         </div>
-                        <div class="row" style="border: 2px solid black; font-size: 1.3em;">
-                            <div class="col-xs-2">
-                                Product:
+
+                        <!-- Producción donde se fabrica este lote -->
+                        <t t-set="production" t-value="o.env['mrp.production'].search([('final_lot_id', '=', o.id)])"/>
+
+                        <div class="row" style="border: 1px solid black; font-size: 1.2em; margin-bottom: 0.5em;">
+                            <div class="col-xs-9">
+                                <b>Producto: </b><span t-field="o.product_id"/>
                             </div>
-                            <div class="col-xs-6">
-                                <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
+                            <div class="col-xs-3">
+                                <b>Lote: </b><span t-field="o.name"/>
                             </div>
+                            <div class="col-xs-9">
+                                <b>Código: </b><span t-field="o.product_id.default_code"/>
+                            </div>
+                        </div>
+
+                        <!-- Materiales de partida -->
+                        <t t-set="quants" t-value="o.env['stock.quant'].search([('lot_id', '=', o.id)])"/>
+                        <t t-set="moves" t-value="quants.mapped('history_ids').filtered(lambda r: not r.parent_ids or r.production_id).mapped('parent_ids')"/>
+                        <t t-set="used_lots" t-value="moves.mapped('lot_ids').filtered(lambda r: r.product_id.categ_id.analysis_sequence)"/>
+
+                        <div class="row" style="min-height: 3em;">
+                            <b><u>Material de partida</u></b>
+                            <t t-if="used_lots">
+                                <t t-set="material" t-value="used_lots.sorted(key=lambda r: r.product_id.categ_id.analysis_sequence)[0]"/>
+                                <div class="col-xs-12">
+                                    <div t-field="material.product_id" class="col-xs-9"/>
+                                    <div t-field="material.name" class="col-xs-3"/>
+                                </div>
+                            </t>
+                        </div>
+
+                        <div class="row" style="min-height: 3em; margin-top: 1em;">
+                            <b><u>Control analítico</u></b>
+                            <div class="col-xs-12" style="border: 1px solid black; border-bottom: 2px solid black; font-weight: bold;">
+                                <div class="col-xs-6">DETERMINACIÓN</div>
+                                <div class="col-xs-3">ESPECIFICACIÓN</div>
+                                <div class="col-xs-3">RESULTADO</div>
+                            </div>
+                            <t t-foreach="o.analysis_ids" t-as="a">
+                                <t t-if="a.analysis_id.id not in (372, 373, 374)">
+                                    <div class="col-xs-12" style="border: 1px solid black; border-top: 0;">
+                                        <div t-field="a.analysis_id" class="col-xs-6"/>
+                                        <div t-field="a.expected_result" class="col-xs-3"/>
+                                        <div t-field="a.result_str" class="col-xs-3"/>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+
+                        <div class="row" style="min-height: 3em; margin-top: 1em;">
+                            <b><u>Materiales de partida</u></b><br/>
+                            <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 372)"/>
+                            <t t-if="analysis">
+                                <div t-field="analysis.analysis_id" class="col-xs-6"/>
+                                <div t-field="analysis.result_str" class="col-xs-3"/>
+                                <div class="col-xs-3"> </div>
+                            </t>
+                        </div>
+
+                        <div class="row" style="min-height: 3em; margin-top: 1em;">
+                            <b><u>Controles en proceso</u></b><br/>
+                            <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 374)"/>
+                            <t t-if="analysis">
+                                <div t-field="analysis.analysis_id" class="col-xs-6"/>
+                                <div t-field="analysis.result_str" class="col-xs-3"/>
+                                <div class="col-xs-3"> </div>
+                            </t>
+                        </div>
+
+                        <div class="row" style="min-height: 3em; margin-top: 1em;">
+                            <b><u>Controles analíticos producto final</u></b><br/>
+                            <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 373)"/>
+                            <t t-if="analysis">
+                                <div t-field="analysis.analysis_id" class="col-xs-6"/>
+                                <div t-field="analysis.result_str" class="col-xs-3"/>
+                                <div class="col-xs-3"> </div>
+                            </t>
+                        </div>
+
+                        <div class="row" style="min-height: 3em; margin-top: 1em;">
+                            <b><u>Calificación</u></b><br/>
+                            <div class="col-xs-2">Conforme</div>
                             <div class="col-xs-4">
-                                Lot: <b t-field="o.name"/>
+                                <t t-if="o.state in ('revised', 'approved')">
+                                    <label for="cbSi" style="padding-right: 0.5em;">Sí </label><input type="checkbox" name="cbSi" checked="checked"/>
+                                    <span style="width: 2em; display: inline-block;"/>
+                                    <label for="cbNo" style="padding-right: 0.5em;">No </label><input type="checkbox" name="cbNo"/>
+                                </t>
+                                <t t-if="o.state not in ('revised', 'approved')">
+                                    <label for="cbSi" style="padding-right: 0.5em;">Sí</label><input type="checkbox" name="cbSi"/>
+                                    <span style="width: 2em; display: inline-block;"/>
+                                    <label for="cbNo" style="padding-right: 0.5em;">No </label><input type="checkbox" name="cbNo" checked="checked"/>
+                                </t>
                             </div>
+                            <div class="col-xs-6"> </div>
+                        </div>
+
+                        <div class="row" style="min-height: 3em; margin-top: 1em;">
+                            <b><u>Observaciones</u></b><br/>
+                            <div class="col-xs-12" t-field="o.analysis_notes"/>
+                        </div>
+
+                        <div class="row" style="min-height: 3em; margin-top: 1em;">
+                            <b><u>Notas</u></b><br/>
+                            <div class="col-xs-12" t-field="o.notes"/>
                         </div>
                     </div>
                 </t>

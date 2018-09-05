@@ -5,11 +5,12 @@ from openerp import models, fields, api, exceptions, _
 
 
 class PrintMrpLabels(models.TransientModel):
-
     _name = 'print.mrp.labels'
 
     production_id = fields.Many2one('mrp.production', 'Production')
-    product_id = fields.Many2one('product.product', related='production_id.product_id')
+    product_id = fields.Many2one('product.product',
+                                 related='production_id.product_id',
+                                 readonly=True)
     gtin = fields.Many2one('product.gtin14')
 
     @api.model

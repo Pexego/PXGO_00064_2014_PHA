@@ -74,12 +74,13 @@ class product_product(models.Model):
 
 
 class ProductTemplate(models.Model):
-
-    _inherit = "product.template"
+    _inherit = 'product.template'
 
     protocol_count = fields.Integer('Protocols count',
                                     compute='_get_protocol_count')
-    raw_material = fields.Boolean('Raw material', related='categ_id.raw_material')
+    raw_material = fields.Boolean('Raw material',
+                                  related='categ_id.raw_material',
+                                  readonly=True)
 
     @api.one
     @api.depends('product_variant_ids.protocol_ids')

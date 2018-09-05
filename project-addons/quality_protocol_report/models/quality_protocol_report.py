@@ -24,13 +24,15 @@ import uuid
 
 
 class ProductProtocolLink(models.Model):
-
     _name = 'product.protocol.link'
 
     protocol = fields.Many2one('quality.protocol.report')
     product = fields.Many2one('product.product', required=True)
-    product_route_ids = fields.Many2many(related='product.routing_ids')
-    prod_tmpl_id = fields.Many2one('product.template', related='product.product_tmpl_id')
+    product_route_ids = fields.Many2many(related='product.routing_ids',
+                                         readonly=True)
+    prod_tmpl_id = fields.Many2one('product.template',
+                                   related='product.product_tmpl_id',
+                                   readonly=True)
     bom = fields.Many2one('mrp.bom')
     route = fields.Many2one('mrp.routing')
 
