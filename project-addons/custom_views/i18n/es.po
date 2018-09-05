@@ -1116,6 +1116,9 @@ msgstr "Ver productos proveedor"
 #. module: custom_views
 #: field:product.product,virtual_conservative:0
 #: field:product.template,virtual_conservative:0
+#: field:stock.move,virtual_conservative:0
+#: field:mrp.bom,virtual_conservative:0
+#: field:mrp.bom.line,virtual_conservative:0
 msgid "Virtual stock conservative"
 msgstr "Stock virtual conservador"
 

@@ -20,16 +20,16 @@ class ProductProduct(models.Model):
         domain="[('type_id.code', '=', 'product_manufacturing')]",
         string='Manufacturing procedure')
     manufacturing_procedure_attachment = fields.Binary(
-        related='manufacturing_procedure_id.attachment')
+        related='manufacturing_procedure_id.attachment', readonly=True)
     manufacturing_procedure_filename = fields.Char(
-        related='manufacturing_procedure_id.attachment_filename')
+        related='manufacturing_procedure_id.attachment_filename', readonly=True)
     packaging_procedure_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'product_packaging')]",
         string='Packaging procedure')
     packaging_procedure_attachment = fields.Binary(
-        related='packaging_procedure_id.attachment')
+        related='packaging_procedure_id.attachment', readonly=True)
     packaging_procedure_filename = fields.Char(
-        related='packaging_procedure_id.attachment_filename')
+        related='packaging_procedure_id.attachment_filename', readonly=True)
     specification_type = fields.Many2one(comodel_name='mrp.procedure.type',
         domain="[('code', 'ilike', 'specifications%')]",
         string='Specification type')
@@ -37,23 +37,23 @@ class ProductProduct(models.Model):
         domain="[('type_id', '=', specification_type)]",
         string='Specification')
     specification_attachment = fields.Binary(
-        related='specification_id.attachment')
+        related='specification_id.attachment', readonly=True)
     specification_filename = fields.Char(
-        related='specification_id.attachment_filename')
+        related='specification_id.attachment_filename', readonly=True)
     analysis_method_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'quality_control_analysis_methods')]",
         string='Analysis method')
     analysis_method_attachment = fields.Binary(
-        related='analysis_method_id.attachment')
+        related='analysis_method_id.attachment', readonly=True)
     analysis_method_filename = fields.Char(
-        related='analysis_method_id.attachment_filename')
+        related='analysis_method_id.attachment_filename', readonly=True)
     analysis_plan_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'quality_control_analysis_plans')]",
         string='Analysis plan')
     analysis_plan_attachment = fields.Binary(
-        related='analysis_plan_id.attachment')
+        related='analysis_plan_id.attachment', readonly=True)
     analysis_plan_filename = fields.Char(
-        related='analysis_plan_id.attachment_filename')
+        related='analysis_plan_id.attachment_filename', readonly=True)
     notes = fields.Text()
 
     @api.one
@@ -252,4 +252,4 @@ class ProductTemplate(models.Model):
 class PricelistPartnerinfo(models.Model):
     _inherit = 'pricelist.partnerinfo'
 
-    sequence = fields.Integer(related='suppinfo_id.sequence')
+    sequence = fields.Integer(related='suppinfo_id.sequence', readonly=True)

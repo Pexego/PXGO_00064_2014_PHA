@@ -7,4 +7,5 @@ from openerp import models, fields, api, _
 class ProductPricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
 
-    pricelist_id = fields.Many2one(related='price_version_id.pricelist_id')
+    pricelist_id = fields.Many2one(related='price_version_id.pricelist_id',
+                                   readonly=True)

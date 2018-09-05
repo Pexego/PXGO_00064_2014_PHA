@@ -124,6 +124,19 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         </group>
                     </div>
                 </page>
+                <field name="origin" position="replace">
+                    <label for="origin"/>
+                    <div>
+                        <field name="origin" class="oe_inline"/>
+                        <button name="action_show_origin"
+                                class="oe_inline"
+                                type="object"
+                                icon="terp-stock_zoom"
+                                style="margin-top: -4px;"
+                                attrs="{'invisible': [('origin', '=', False)]}"
+                        />
+                    </div>
+                </field>
             </field>
         </record>
 
@@ -298,5 +311,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             parent="quality_management_menu.menu_qc_products"
             sequence="4"
         />
+
+        <record model="ir.ui.view" id="custom_views_stock_move_form_view">
+            <field name="name">Custom views - Stock move form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="virtual_conservative"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

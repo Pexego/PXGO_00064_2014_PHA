@@ -16,7 +16,7 @@ class PurchasableProducts(models.TransientModel):
     partner_id = fields.Many2one(comodel_name='res.partner')
     product_id = fields.Many2one(comodel_name='product.product',
                                  string='Product', readonly=True)
-    default_code = fields.Char(related='product_id.default_code')
+    default_code = fields.Char(related='product_id.default_code', readonly=True)
     description = fields.Text(related='product_id.description', readonly=True)
     supplier_ref = fields.Char(string='Supplier reference', readonly=True)
     product_uom = fields.Many2one(comodel_name='product.uom')

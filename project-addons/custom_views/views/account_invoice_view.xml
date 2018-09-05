@@ -78,6 +78,16 @@
                                 attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('return_reason', '=', False)]}"/>
                     </div>
                 </div>
+                <field name="origin" position="before">
+                    <label for=""/>
+                    <button name="action_show_origin"
+                            class="oe_inline"
+                            type="object"
+                            icon="terp-stock_zoom"
+                            attrs="{'invisible': [('origin', '=', False)]}"
+                            style="position: absolute; margin-left: -55px;"
+                    />
+                </field>
             </field>
         </record>
 
@@ -109,6 +119,19 @@
                 </field>
                 <field name="partner_id" position="attributes">
                   <attribute name="domain">[('parent_id', '=', False)]</attribute>
+                </field>
+                <field name="origin" position="replace">
+                    <label for="origin"/>
+                    <div>
+                        <field name="origin" class="oe_inline"/>
+                        <button name="action_show_origin"
+                                class="oe_inline"
+                                type="object"
+                                icon="terp-stock_zoom"
+                                style="margin-top: -4px;"
+                                attrs="{'invisible': [('origin', '=', False)]}"
+                        />
+                    </div>
                 </field>
             </field>
         </record>
