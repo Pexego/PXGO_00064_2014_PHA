@@ -20,6 +20,17 @@
 ##############################################################################
 from openerp import models, fields
 
+class ResPartnerCustomEdi(models.Model):
+
+    _name = 'res.partner.custom.edi'
+
+    partner_id = fields.Many2one('res.partner', 'Partner')
+    document = fields.Selection((('desadv', 'DESADV'), ('invoic', 'INVOIC')))
+    section = fields.Char()
+    action = fields.Selection((('remove', 'Remove'), ('edit', 'Edit')))
+    search_value = fields.Char()
+    set_value = fields.Char()
+
 
 class ResPartner(models.Model):
 
@@ -29,3 +40,4 @@ class ResPartner(models.Model):
     edi_supplier_ref = fields.Char("Supplier EDI")
     edi_partner = fields.Char("Partner EDI")
     edi_desadv = fields.Boolean("EDI DESADV")
+    custom_edi = fields.One2many('res.partner.custom.edi', 'partner_id')

@@ -20,23 +20,11 @@ class PaletTagParser(models.AbstractModel):
         return abs(res - rounded_res)
 
     @api.model
-    def get_tag_info(self, op, pack_table_class, prod_lot_qty,
+    def get_tag_info(self, op, pack_table_class, prod_lot_qty, sscc,
                      qty_by_lot={}):
         serie = op.product_id.ean13 and op.product_id.ean13[:-1] or ''
 
-        gtin14 = ''
-        gtin_partner = op.picking_id.partner_id
-        if gtin_partner.type in ['delivery'] and gtin_partner.parent_id:
-            gtin_partner = gtin_partner.parent_id
-        for gtin_obj in op.product_id.gtin14_ids:
-            for part in gtin_obj.partner_ids:
-                if part.id == gtin_partner.id:
-                    gtin14 = gtin_obj.gtin14
-        barcode = ''
-        if len(gtin14) == 14:
-            parts = \
-                [gtin14[0], gtin14[1:3], gtin14[3:8], gtin14[8:13], gtin14[13]]
-            barcode = ' '.join(parts)
+        barcode = sscc.name
 
         # SI hay varios lotes en el paquete, imprimimos los nombres de los
         # lotes y la cantidad de cada uno.
@@ -83,7 +71,6 @@ class PaletTagParser(models.AbstractModel):
         palet_dic = {}
         num_palets = palet_number = 0
         pack_table_class = 1
-        palet_packs_dic = pick._get_num_packs_in_palets()
         partial_packs = {}
 
         prod_lot_qty = {}
@@ -95,64 +82,56 @@ class PaletTagParser(models.AbstractModel):
                 prod_lot_qty[op.product_id.id][op.lot_id.id] = 0
             prod_lot_qty[op.product_id.id][op.lot_id.id] += op.product_qty
 
-        for op in pick.pack_operation_ids:
-            # ETIQUETAS DE BULTO
-            if op.product_id not in package_dic:
-                package_dic[op.product_id] = []
-            # 2 Etiquetas por bulto completo
-            num_packs = op.complete
-            for i in range(2 * num_packs):
+        for sscc in [x for x in pick.mapped('pack_operation_ids.sscc_ids') if x.type=='1']:
+            palet_number += 1
+            num_palets += 1
+            place_dir = [(pick.partner_id.street and
+                          pick.partner_id.street.upper() or '')]
+            place_dir.append(pick.partner_id.zip)
+            place_dir.append(pick.partner_id.city)
+            if pick.partner_id.state_id:
+                place_dir.append('(' + pick.partner_id.state_id.name + ')')
+            op == sscc.operation_ids
+            total_packs = len(sscc.child_ids)
+            palet_dic[op.palet] = {
+                'place': pick.partner_id.name.upper(),
+                'place_dir': ', '.join(place_dir),
+                'num_packs': total_packs,
+                'palet_number': palet_number,
+                'barcode': sscc.name,
+            }
+            for sscc_child in sscc.child_ids.filtered(lambda r: r.type == '2'):
+                op = sscc_child.operation_ids
+                if op.product_id not in package_dic.keys():
+                    package_dic[op.product_id] = []
                 # Info para paquetes completos, un solo lote
-                dic = self.get_tag_info(op, pack_table_class, prod_lot_qty)
+                dic = self.get_tag_info(op, pack_table_class, prod_lot_qty, sscc_child)
                 pack_table_class == 2 if pack_table_class == 1 else 1
                 package_dic[op.product_id].append(dic)
-
-            # Agrupar los paquetes parciales
-            if op.package:
-                if op.package not in partial_packs:
-                    partial_packs[op.package] = []
-                partial_packs[op.package].append(op)
-
-            # ETIQUETAS DE PALET
-            if not op.palet:
-                continue
-            if op.palet not in palet_dic:
-                palet_number += 1
-                num_palets += 1
-                place_dir = [(pick.partner_id.street and
-                              pick.partner_id.street.upper() or '')]
-                place_dir.append(pick.partner_id.zip)
-                place_dir.append(pick.partner_id.city)
-                if pick.partner_id.state_id:
-                    place_dir.append('(' + pick.partner_id.state_id.name + ')')
-
-                total_packs = palet_packs_dic.get(op.palet, 0)
-                palet_dic[op.palet] = {
-                    'place': pick.partner_id.name.upper(),
-                    'place_dir': ', '.join(place_dir),
-                    'num_packs': total_packs,
-                    'palet_number': palet_number,
-                    'barcode': pick.sscc,
-                }
-
-        # Proceso paquetes parciales
-        for package in partial_packs:
-            qty_by_lot = {}
-            # Obtener lotes y cantidades por lote en los paquetes parciales
-            # solo de los paquetes parciales, descontando la parte que va en
-            # los completos
-            for op in partial_packs[package]:
-                if op.lot_id not in qty_by_lot:
-                    qty_by_lot[op.lot_id] = 0
-                complete_qty = (op.complete * op.product_id.box_elements)
-                qty_by_lot[op.lot_id] += (op.product_qty - complete_qty)
-
-            for i in range(2):
-                dic = self.get_tag_info(op, pack_table_class, prod_lot_qty,
-                                        qty_by_lot)
-                pack_table_class == 2 if pack_table_class == 1 else 1
                 package_dic[op.product_id].append(dic)
 
+
+
+            # Proceso paquetes parciales
+            for sscc_child in sscc.child_ids.filtered(lambda r: r.type == '3'):
+                # En estas etiquetas, los albaranes parciales serán siempre
+                # del mismo producto.
+                qty_by_lot = {}
+                # Obtener lotes y cantidades por lote en los paquetes parciales
+                # solo de los paquetes parciales, descontando la parte que va en
+                # los completos
+                for op in sscc_child.operation_ids:
+                    if op.lot_id not in qty_by_lot:
+                        qty_by_lot[op.lot_id] = 0
+                    complete_qty = (op.complete * op.product_id.box_elements)
+                    qty_by_lot[op.lot_id] += (op.product_qty - complete_qty)
+                for i in range(2):
+                    dic = self.get_tag_info(op, pack_table_class, prod_lot_qty, sscc_child,
+                                            qty_by_lot)
+                    pack_table_class == 2 if pack_table_class == 1 else 1
+                    if op.product_id not in package_dic.keys():
+                        package_dic[op.product_id] = []
+                    package_dic[op.product_id].append(dic)
         docargs = {
             'doc_ids': [],
             'doc_model': 'stock.picking',

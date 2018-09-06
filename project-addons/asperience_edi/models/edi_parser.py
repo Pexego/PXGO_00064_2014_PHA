@@ -26,6 +26,18 @@ class edi_parser(models.Model):
 
     _name = 'edi.parser'
 
+    def make_partner_changes(self, partner, data, document):
+        for edi_change in partner.custom_edi.filtered(lambda r: r.document==document):
+            for line in data:
+                if line[0] == edi_change.section:
+                    for col_index in range(len(line)):
+                        if line[col_index] == edi_change.search_value:
+                            if edi_change.action == 'remove':
+                                line[col_index] = ''
+                            else:
+                                line[col_index] = edi_change.set_value
+        return data
+
     def parse_invoic(self, cr, uid, edi, data, context, _logger, structs):
         invoice_obj = self.pool.get('account.invoice')
         context['model_log'] = 'account.invoice'
@@ -246,37 +258,65 @@ class edi_parser(models.Model):
             context['id_log'] = invoice.id
             context['filename'] = filename
             self.pool.get('edi.edi')._log(cr, uid, [edi.id], context)
+            data[filename] = self.make_partner_changes(
+                invoice.partner_id.commercial_partner_id,
+                data[filename], 'invoic')
             return data
 
-    def _checksum(self,sscc):
-        """Devuelve el sscc pasado mas un dígito calculado"""
-        iSum = 0
-        for i in xrange(len(sscc)-1,-1,-2):
-            iSum += int(sscc[i])
-        iSum *= 3
-        for i in xrange(len(sscc)-2,-1,-2):
-            iSum += int(sscc[i])
-
-        iCheckSum = (10 - (iSum % 10)) % 10
-
-        return "%s%s" % (sscc, iCheckSum)
-
-    def make_sscc(self, cr, uid, context=None):
-        """Método con el que se calcula el sscc a partir del 1+ aecoc + una sequencia de 6 caracteres + 1 digito checksum
-        para escribir en el name del paquete"""
-        sequence = self.pool.get('ir.sequence').get(cr, uid, 'scc.tracking.sequence') #sequencia definida en sscc_sequence.tracking
-        aecoc = self.pool.get('res.users').browse(cr,uid,uid).company_id.aecoc_code
-        try:
-            return str(self._checksum("1" + aecoc + sequence ))
-        except Exception:
-            return sequence
-
     def parse_desadv(self, cr, uid, edi, data, context, _logger, structs):
+        def _create_line_desadv(data, filename, edi, sscc=None):
+            for move_link in sscc.mapped('operation_ids.linked_move_operation_ids'):
+                line = move_link.operation_id
+                LIN = {
+                    'lineId': 'LIN',
+                    'col1': line.product_id.ean13,
+                    'col2': "EN"
+                }
+                data[filename].append(edi._create_line_csv(LIN,structs))
+                IMDLIN = {
+                    'lineId': 'IMDLIN',
+                    'col1': 'F',
+                    'col2': line.product_id.name
+                }
+                data[filename].append(edi._create_line_csv(IMDLIN,structs))
+                QTYLIN = {
+                    'lineId': 'QTYLIN',
+                    'col1': '12',
+                    'col2': line.get_package_qty(sscc.type),
+                    'col3': line.product_uom_id.edi_code or 'PCE'
+                }
+                data[filename].append(edi._create_line_csv(QTYLIN,structs))
+                MOALIN = {
+                    'lineId': 'MOALIN',
+                    'col1': str(move_link.move_id.price_subtotal_gross),
+                    'col2': str(move_link.move_id.price_subtotal),
+                    'col3': str(move_link.move_id.price_total),
+                }
+                data[filename].append(edi._create_line_csv(MOALIN,structs))
+
+                LOCLIN = {
+                    'lineId': 'LOCLIN',
+                    'col1': pick.partner_id.gln
+                }
+                data[filename].append(edi._create_line_csv(LOCLIN, structs))
+                PCILIN = {
+                    'lineId': 'PCILIN',
+                    'col1': '36E',
+                    'col2': line.lot_id.life_date and line.lot_id.life_date.split(" ")[0].replace("-","") or '',
+                    'col3': '',
+                    'col4': '',
+                    'col5': '',
+                    'col6': '',
+                    'col7': '',
+                    'col8': line.lot_id.name,
+                }
+                data[filename].append(edi._create_line_csv(PCILIN, structs))
+
         pick_obj = self.pool.get('stock.picking')
         context['model_log'] = 'stock.picking'
         context['ids_log'] = context['active_ids']
         for pick in pick_obj.browse(cr, uid, context['active_ids'], context):
-            if not pick.partner_id.gln :
+            if not pick.partner_id.gln:
                 raise exceptions.Warning(_('GLN Error'), _('The partner %s does not have GLN configured') % pick.partner_id.name)
             if not pick.partner_id.commercial_partner_id.gln:
                 raise exceptions.Warning(_('GLN Error'), _('The partner %s does not have GLN configured') % pick.partner_id.commercial_partner_id.name)
@@ -345,86 +385,53 @@ class edi_parser(models.Model):
             data[filename].append(edi._create_line_csv(CPS,structs))
 
             # Se recorren las operaciones ya que contienen los datos de empaquetado.
-            curr_pal = False
-            curr_sscc = False
-            for line in sorted(pick.pack_operation_ids, key=lambda x: x.palet):
-                for move_link in line.linked_move_operation_ids:
-                    if not line.product_id.ean13:
-                        raise exceptions.Warning(_('EAN Error'), _('The product %s not has an EAN') % line.product_id.name)
-                    if line.palet != curr_pal:
-                        curr_pal = line.palet
-                        CPS = {
-                            'lineId': 'CPS',
-                            'col1': line.palet + 1,
-                            'col2': 1
-                        }
-                        data[filename].append(edi._create_line_csv(CPS, structs))
+            curr_parent = 1
+            curr_cps = 1
+            for sscc in [x for x in pick.mapped('pack_operation_ids.sscc_ids') if x.type=='1']:
+                CPS = {
+                    'lineId': 'CPS',
+                    'col1': curr_cps,
+                    'col2': 1
+                }
+                curr_parent = curr_cps
+                curr_cps += 1
+                data[filename].append(edi._create_line_csv(CPS, structs))
 
-                        PAC = {
-                            'lineId': 'PAC',
-                            'col1': '201'
-                        }
-                        data[filename].append(edi._create_line_csv(PAC, structs))
-                        if not line.sscc:
-                            curr_sscc = self.make_sscc(cr, uid, context)
-                            line.with_context(no_recompute=True).write({'sscc': curr_sscc})
-                        else:
-                            curr_sscc = line.sscc
+                PAC = {
+                    'lineId': 'PAC',
+                    'col1': '201'
+                }
+                data[filename].append(edi._create_line_csv(PAC, structs))
+                PCI = {
+                    'lineId': 'PCI',
+                    'col1': '33E',
+                    'col2': 'BJ',
+                    'col3': sscc.name
+                }
+                data[filename].append(edi._create_line_csv(PCI, structs))
 
-                        PCI = {
-                            'lineId': 'PCI',
-                            'col1': '33E',
-                            'col2': 'BJ',
-                            'col3': curr_sscc
-                        }
-                        data[filename].append(edi._create_line_csv(PCI, structs))
-                    # si la linea no tiene sscc se le escribe el actual
-                    elif not line.sscc:
-                        line.with_context(no_recompute=True).write({'sscc': curr_sscc})
-                    LIN = {
-                        'lineId': 'LIN',
-                        'col1': line.product_id.ean13,
-                        'col2': "EN"
+                for sscc_child in sscc.child_ids:
+                    CPS = {
+                        'lineId': 'CPS',
+                        'col1': curr_cps,
+                        'col2': curr_parent
                     }
-                    data[filename].append(edi._create_line_csv(LIN,structs))
-                    IMDLIN = {
-                        'lineId': 'IMDLIN',
-                        'col1': 'F',
-                        'col2': line.product_id.name
-                    }
-                    data[filename].append(edi._create_line_csv(IMDLIN,structs))
-                    QTYLIN = {
-                        'lineId': 'QTYLIN',
-                        'col1': '12',
-                        'col2': move_link.qty,
-                        'col3': line.product_uom_id.edi_code or 'PCE'
-                    }
-                    data[filename].append(edi._create_line_csv(QTYLIN,structs))
-                    MOALIN = {
-                        'lineId': 'MOALIN',
-                        'col1': str(move_link.move_id.price_subtotal_gross),
-                        'col2': str(move_link.move_id.price_subtotal),
-                        'col3': str(move_link.move_id.price_total),
-                    }
-                    data[filename].append(edi._create_line_csv(MOALIN,structs))
+                    curr_cps += 1
+                    data[filename].append(edi._create_line_csv(CPS, structs))
 
-                    LOCLIN = {
-                        'lineId': 'LOCLIN',
-                        'col1': pick.partner_id.gln
+                    PAC = {
+                        'lineId': 'PAC',
+                        'col1': 'CT'
                     }
-                    data[filename].append(edi._create_line_csv(LOCLIN, structs))
-                    PCILIN = {
-                        'lineId': 'PCILIN',
-                        'col1': '36E',
-                        'col2': line.lot_id.life_date and line.lot_id.life_date.split(" ")[0].replace("-","") or '',
-                        'col3': '',
-                        'col4': '',
-                        'col5': '',
-                        'col6': '',
-                        'col7': '',
-                        'col8': line.lot_id.name,
+                    data[filename].append(edi._create_line_csv(PAC, structs))
+                    PCI = {
+                        'lineId': 'PCI',
+                        'col1': '33E',
+                        'col2': 'BJ',
+                        'col3': sscc_child.name
                     }
-                    data[filename].append(edi._create_line_csv(PCILIN, structs))
+                    data[filename].append(edi._create_line_csv(PCI, structs))
+                    _create_line_desadv(data, filename, edi, sscc_child)
 
             CNTRES = {
                 'lineId': 'CNTRES',
@@ -439,6 +446,9 @@ class edi_parser(models.Model):
             context['id_log'] = pick.id
             context['filename'] = filename
             self.pool.get('edi.edi')._log(cr, uid, [edi.id], context)
+            data[filename] = self.make_partner_changes(
+                pick.partner_id.commercial_partner_id, data[filename],
+                'desadv')
             return data
 
     def parse_recadv(self, cr, uid, edi, data, filename):

@@ -21,3 +21,4 @@
 
 from . import models
 from . import wizard
+from . import report_container_labels_parser
