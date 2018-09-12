@@ -22,7 +22,6 @@ from openerp import models, fields, api, exceptions, _
 from openerp.addons.website.models.website import slug
 from urlparse import urljoin
 import unicodedata
-import datetime
 
 
 class PrintProtocol(models.TransientModel):

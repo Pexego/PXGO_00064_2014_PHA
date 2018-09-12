@@ -26,11 +26,11 @@ function extractData(text) {
     posLot     = txt.indexOf('#lot=');
     posDate    = txt.indexOf('#date=');
     return {
-        production: txt.substring(posProd + 6, posProt),
-        protocol:   txt.substring(posProt + 6, posProduct),
-        product:    txt.substring(posProduct + 9, posLot),
-        lot:        txt.substring(posLot + 5, posDate),
-        date:       txt.substring(posDate + 6)
+        production: ((posProd > -1 && posProt > -1) ? txt.substring(posProd + 6, posProt) : '¿?'),
+        protocol: ((posProt > -1 && posProduct > -1) ? txt.substring(posProt + 6, posProduct) : '¿?'),
+        product: ((posProduct > -1 && posLot > -1) ? txt.substring(posProduct + 9, posLot) : '¿?'),
+        lot: ((posLot > -1 && posDate > -1) ? txt.substring(posLot + 5, posDate) : '¿?'),
+        date: ((posDate > -1) ? txt.substring(posDate + 6) : '¿?')
     };
 };
 
