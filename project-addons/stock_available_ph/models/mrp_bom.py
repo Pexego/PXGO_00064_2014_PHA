@@ -7,12 +7,21 @@ from openerp import models, fields, api
 class MrpBom(models.Model):
     _inherit = 'mrp.bom'
 
-    default_code = fields.Char(related='product_id.default_code')
-    qty_available = fields.Float(related='product_id.qty_available')
-    virtual_available = fields.Float(related='product_id.virtual_available')
-    virtual_conservative = fields.Float(related='product_id.virtual_conservative')
-    stock_by_day_i = fields.Float(related='product_id.stock_by_day_i')
-    stock_by_day_p = fields.Float(related='product_id.stock_by_day_p')
-    cons_by_day_i = fields.Float(related='product_id.cons_by_day_i')
-    cons_by_day_p = fields.Float(related='product_id.cons_by_day_p')
-    bom_member = fields.Boolean(related='product_id.bom_member')
+    default_code = fields.Char(related='product_id.default_code',
+                               readonly=True)
+    qty_available = fields.Float(related='product_id.qty_available',
+                                 readonly=True)
+    virtual_available = fields.Float(related='product_id.virtual_available',
+                                     readonly=True)
+    virtual_conservative = fields.Float(related='product_id.virtual_conservative',
+                                        readonly=True)
+    stock_by_day_i = fields.Float(related='product_id.stock_by_day_i',
+                                  readonly=True)
+    stock_by_day_p = fields.Float(related='product_id.stock_by_day_p',
+                                  readonly=True)
+    cons_by_day_i = fields.Float(related='product_id.cons_by_day_i',
+                                 readonly=True)
+    cons_by_day_p = fields.Float(related='product_id.cons_by_day_p',
+                                 readonly=True)
+    bom_member = fields.Boolean(related='product_id.bom_member',
+                                readonly=True)

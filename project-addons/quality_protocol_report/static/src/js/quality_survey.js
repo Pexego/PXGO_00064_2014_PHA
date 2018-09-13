@@ -567,7 +567,7 @@ function send_form_server() {
                     var records = {};
                     var elements = dat.split('&');
                     for (var i = 0; i< elements.length; i++) {
-                        elements[i] = elements[i].replace('+', ' ')
+                        elements[i] = elements[i].replace(/\+/g, ' ')
                         if (!elements[i].startsWith(table_id)){
                             continue;
                         }

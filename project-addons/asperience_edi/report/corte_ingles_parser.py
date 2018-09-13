@@ -103,7 +103,6 @@ class CorteInglesParser(models.AbstractModel):
                 total_tables[op.palet] = {'total_qty': 0.0,
                                           'total_lines': 0.0,
                                           'total_packs': total_packs,
-                                          'sscc': op.picking_id.sscc,
                                           'first': first}
                 first = False
             cant_ue = str(op.product_id.box_elements)
@@ -115,7 +114,6 @@ class CorteInglesParser(models.AbstractModel):
                     pick_partner = pick_partner.parent_id
                 if cus.name.id == pick_partner.id:
                     ref_eci = cus.product_code
-
             gtin14 = ''
             gtin_partner = pick.partner_id
             if gtin_partner.type in ['delivery'] and gtin_partner.parent_id:
@@ -141,8 +139,9 @@ class CorteInglesParser(models.AbstractModel):
             total_tables[op.palet]['total_qty'] += p_table['cant_fact']
             total_tables[op.palet]['total_lines'] += 1
 
-            if op.sscc:
-                total_tables[op.palet]['sscc'] = op.sscc
+            palet_sscc = op.sscc_ids.filtered(lambda x: x.type == '1')
+            if palet_sscc:
+                total_tables[op.palet]['sscc'] = palet_sscc.name
 
         return palet_tables, total_tables
 

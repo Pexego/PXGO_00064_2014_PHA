@@ -85,6 +85,13 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-xs-12" style="min-height: 3em; text-align: justify; margin: 0.5em 0 0.5em 0;">
+                                Notes: <span t-field="o.notes"/>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-xs-4 col-xs-offset-8">
                                 Revised by: <span t-field="o.revised_by"/>

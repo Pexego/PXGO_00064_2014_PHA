@@ -95,19 +95,34 @@ class PrintProtocol(models.TransientModel):
                             'workcenter_line_id': wkcenter_line.id
                         })
 
+        # Pasamos datos de la cabecera como parámetros de la url
         production_name = obj.display_name
-        protocol_type = wkcenter_line.workcenter_id.protocol_type_id.name
+        protocol_type = self.protocol_type_id.name
+        if self.protocol_type_id.is_continuation:
+            protocol_type += fields.Datetime.\
+                from_string(wkcenter_line.create_date).strftime(' %d-%m-%Y')
         protocol_type = unicodedata.normalize('NFKD', protocol_type).\
-            encode('ascii', 'ignore').replace(' ', '_')
+            encode('ascii', 'ignore').replace(' ', '~')
+        product_name = obj.product_id.display_name
+        product_name = unicodedata.normalize('NFKD', product_name).\
+            encode('ascii', 'ignore').replace(' ', '~')[0:50]
+        lot_name = obj.final_lot_id.display_name
+        lot_name = unicodedata.normalize('NFKD', lot_name). \
+            encode('ascii', 'ignore').replace(' ', '~')
+        date_planned = fields.Datetime.from_string(obj.date_planned).\
+            strftime('%d-%m-%Y')
 
         self.print_url = urljoin(
             base_url,
-            "protocol/print/%s/%s/%s?weight=00#prod=%s#prot=%s" % (
+            "protocol/print/%s/%s/%s?weight=00#prod=%s#prot=%s#product=%s#lot=%s#date=%s" % (
                 slug(obj),
                 slug(use_protocol),
                 slug(wkcenter_line),
                 production_name,
-                protocol_type
+                protocol_type,
+                product_name,
+                lot_name,
+                date_planned
             )
         )
 

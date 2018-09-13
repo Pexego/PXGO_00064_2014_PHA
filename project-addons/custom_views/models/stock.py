@@ -8,9 +8,14 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     lots_string = fields.Char(string='Lots', readonly=True, index=True)
-    categ_ids = fields.Many2many(related='product_id.categ_ids')
-    purchase_amount = fields.Float(related='purchase_line_id.gross_amount')
-    purchase_expected_date = fields.Date(related='picking_id.purchase_order.minimum_planned_date')
+    categ_ids = fields.Many2many(related='product_id.categ_ids', readonly=True)
+    purchase_amount = fields.Float(related='purchase_line_id.gross_amount',
+                                   readonly=True)
+    purchase_expected_date = fields.Date(
+        related='picking_id.purchase_order.minimum_planned_date',
+        readonly=True)
+    virtual_conservative = fields.Float(
+        related='product_id.virtual_conservative', readonly=True)
 
     @api.multi
     def _get_related_lots_str(self):
@@ -42,12 +47,13 @@ class StockMove(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    address_city = fields.Char(related='partner_id.city')
-    address_zip = fields.Char(related='partner_id.zip')
-    address_country = fields.Char(related='partner_id.country_id.name')
+    address_city = fields.Char(related='partner_id.city', readonly=True)
+    address_zip = fields.Char(related='partner_id.zip', readonly=True)
+    address_country = fields.Char(related='partner_id.country_id.name',
+                                  readonly=True)
     picking_type_desc = fields.Char(compute='_compute_picking_type_desc')
     send_invoice_by_email = fields.Boolean(
-        related='partner_id.send_invoice_by_email')
+        related='partner_id.send_invoice_by_email', readonly=True)
     photo_url = fields.Char('Photo(s) URL')
     responsible_uid = fields.Many2one(comodel_name='res.users',
                                       string='Responsible',
@@ -163,11 +169,41 @@ class StockPicking(models.Model):
             'context': self.env.context
         }
 
+    @api.multi
+    def action_show_origin(self):
+        self.ensure_one()
+        origin = self.origin
+        if origin and origin[0:2] in ('PO', 'SO', 'MO'):
+            if origin[0:2] == 'PO':
+                model = 'purchase.order'
+            elif origin[0:2] == 'SO':
+                model = 'sale.order'
+            else:
+                model = 'mrp.production'
+
+            order_id = self.env[model].search([
+                ('company_id', '=', self.company_id.id),
+                ('name', '=', origin.strip())
+            ])
+
+            if order_id:
+                return {
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': model,
+                    'res_id': order_id.id,
+                    'target': 'current',
+                    'nodestroy': True,
+                    'context': self.env.context
+                }
+
 
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
-    lot_state = fields.Selection(string='Lot state', related='lot_id.state')
+    lot_state = fields.Selection(string='Lot state', related='lot_id.state',
+                                 readonly=True)
 
     @api.multi
     def unlink(self):
@@ -180,24 +216,31 @@ class StockQuant(models.Model):
 class StockHistory(models.Model):
     _inherit = 'stock.history'
 
-    categ_ids = fields.Many2many(related='product_id.categ_ids')
-    active = fields.Boolean(related='product_id.active')
-    line = fields.Many2one(related='product_id.line')
-    subline = fields.Many2one(related='product_id.subline')
-    purchase_line = fields.Many2one(related='product_id.purchase_line')
-    purchase_subline = fields.Many2one(related='product_id.purchase_subline')
-    sale_ok = fields.Boolean(related='product_id.sale_ok')
-    purchase_ok = fields.Boolean(related='product_id.purchase_ok')
-    hr_expense_ok = fields.Boolean(related='product_id.hr_expense_ok')
-    type = fields.Selection(related='product_id.type')
+    categ_ids = fields.Many2many(related='product_id.categ_ids', readonly=True)
+    active = fields.Boolean(related='product_id.active', readonly=True)
+    line = fields.Many2one(related='product_id.line', readonly=True)
+    subline = fields.Many2one(related='product_id.subline', readonly=True)
+    purchase_line = fields.Many2one(related='product_id.purchase_line',
+                                    readonly=True)
+    purchase_subline = fields.Many2one(related='product_id.purchase_subline',
+                                       readonly=True)
+    sale_ok = fields.Boolean(related='product_id.sale_ok', readonly=True)
+    purchase_ok = fields.Boolean(related='product_id.purchase_ok',
+                                 readonly=True)
+    hr_expense_ok = fields.Boolean(related='product_id.hr_expense_ok',
+                                   readonly=True)
+    type = fields.Selection(related='product_id.type', readonly=True)
 
 
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
-    default_code = fields.Char(related='product_id.default_code', store=True)
-    categ_id = fields.Many2one(related='product_id.categ_id', store=True)
-    categ_ids = fields.Many2many(related='product_id.categ_ids', store=True)
+    default_code = fields.Char(related='product_id.default_code', store=True,
+                               readonly=True)
+    categ_id = fields.Many2one(related='product_id.categ_id', store=True,
+                               readonly=True)
+    categ_ids = fields.Many2many(related='product_id.categ_ids', store=True,
+                                 readonly=True)
     available_stock = fields.Float(string='Available stock',
                                    compute='_available_stock')
     input_qty = fields.Float(string='Income qty', compute='_input_qty')
@@ -241,7 +284,8 @@ class StockInventory(models.Model):
 class StockInventoryLine(models.Model):
     _inherit = 'stock.inventory.line'
 
-    product_description = fields.Text(related='product_id.description')
+    product_description = fields.Text(related='product_id.description',
+                                      readonly=True)
 
 
 class StockLocation(models.Model):

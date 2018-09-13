@@ -40,6 +40,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         Do you really want to cancel production?
                     </attribute>
                 </button>
+                <notebook position="after">
+                    <field name="notes" placeholder="Production notes"/>
+                </notebook>
             </field>
         </record>
     </data>

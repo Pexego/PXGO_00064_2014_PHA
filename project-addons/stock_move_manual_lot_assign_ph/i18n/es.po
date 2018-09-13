@@ -15,3 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#. module: stock_move_manual_lot_assign_ph
+#: field:stock.move,reserved_lots_available_qty:0
+msgid "Available"
+msgstr "Disponible"

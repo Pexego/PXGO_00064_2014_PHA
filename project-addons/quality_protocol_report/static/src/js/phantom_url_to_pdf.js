@@ -18,22 +18,20 @@ function extractWeight(text) {
     }
 };
 
-function extractProduction(text) {
-    posProd = text.indexOf('#prod=');
-    if (posProd != -1) {
-        return text.substring(posProd + 6, posProd + 13);
-    } else {
-        return '';
-    }
-};
-
-function extractProtocol(text) {
-    posProt = text.indexOf('#prot=');
-    if (posProt != -1) {
-        return text.substring(posProt + 6);
-    } else {
-        return '';
-    }
+function extractData(text) {
+    txt = text.replace(/~/g, ' ');
+    posProd    = txt.indexOf('#prod=');
+    posProt    = txt.indexOf('#prot=');
+    posProduct = txt.indexOf('#product=');
+    posLot     = txt.indexOf('#lot=');
+    posDate    = txt.indexOf('#date=');
+    return {
+        production: ((posProd > -1 && posProt > -1) ? txt.substring(posProd + 6, posProt) : '¿?'),
+        protocol: ((posProt > -1 && posProduct > -1) ? txt.substring(posProt + 6, posProduct) : '¿?'),
+        product: ((posProduct > -1 && posLot > -1) ? txt.substring(posProduct + 9, posLot) : '¿?'),
+        lot: ((posLot > -1 && posDate > -1) ? txt.substring(posLot + 5, posDate) : '¿?'),
+        date: ((posDate > -1) ? txt.substring(posDate + 6) : '¿?')
+    };
 };
 
 RenderUrlsToFile = function(urls, session_id, dest_path) {
@@ -53,11 +51,13 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
         if (urls.length > 0) {
             url = urls.shift();
             urlIndex++;
-            var prod = extractProduction(url);
-            var prot = extractProtocol(url);
+            var data = extractData(url);
             var headerCallback = new Function('pageNum', 'numPages',
-                'return \'<span style="float: right; font-size: 12px;">' + prod +
-                ' - ' + prot + ' - \' + pageNum + \' de \' + numPages + \'</span>\';');
+                'return \'<span style="float: right; text-align: right; font-size: 12px;">' +
+                data.production + ' - ' + data.protocol +
+                ' - \' + pageNum + \' de \' + numPages + ' +
+                '\'<br>' + data.product + ' - ' + data.lot + ' - ' +
+                data.date + '</span>\';');
             var parser = document.createElement('a');
             parser.href = url;
             phantom.addCookie({

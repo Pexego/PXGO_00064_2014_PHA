@@ -14,6 +14,19 @@
                     <field name="edi_supplier_ref"/>
                     <field name="edi_partner"/>
                 </field>
+                <notebook position="inside">
+                    <page string="EDI" groups="asperience_edi.group_edi_manager,asperience_edi.group_edi_user">
+                        <field name="custom_edi">
+                            <tree editable="top">
+                                <field name="document"/>
+                                <field name="section"/>
+                                <field name="action"/>
+                                <field name="search_value"/>
+                                <field name="set_value" attrs="{'invisible': [('action', '=', 'remove')]}"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
             </field>
         </record>
     </data>

@@ -25,5 +25,6 @@ from openerp import models, fields
 class ProductStockUnsafety(models.TransientModel):
     _inherit = 'product.stock.unsafety'
 
-    sale_ok = fields.Boolean(related='product_id.sale_ok')
-    purchase_ok = fields.Boolean(related='product_id.purchase_ok')
+    sale_ok = fields.Boolean(related='product_id.sale_ok', readonly=True)
+    purchase_ok = fields.Boolean(related='product_id.purchase_ok',
+                                 readonly=True)

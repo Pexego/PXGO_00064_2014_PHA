@@ -12,19 +12,243 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center">
-                                <h4 style="font-size: 1.3em; font-weight: bolder;">REVISION BY PRODUCTION</h4>
+                                <b style="font-size: 1.6em;">REVISIÓN POR PRODUCCIÓN</b>
                             </div>
                         </div>
-                        <div class="row" style="border: 2px solid black; font-size: 1.3em;">
+
+                        <!-- Producción donde se fabrica este lote -->
+                        <t t-set="production" t-value="o.env['mrp.production'].search([('final_lot_id', '=', o.id)])"/>
+
+                        <!-- Obtenemos y ordenamos los registros de producción -->
+                        <t t-set="aRegProd" t-value="[]"/>
+                        <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 2)])"/> <!-- Registros producción -->
+                        <t t-foreach="vistas" t-as="vista">
+                            <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                            <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                            <t t-set="secciones" t-value="modelo_tabla.x_section_id.search([('x_wcl_id', 'in', ordenes.ids), ('x_table_ids', '!=', False)])"/>
+                            <t t-foreach="secciones" t-as="seccion">
+                                <t t-foreach="seccion.x_table_ids" t-as="table_id">
+                                    <t t-set="aux" t-value="aRegProd.append(table_id)"/>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-set="aux" t-value="aRegProd.sort(key=lambda reg: reg.x_create_date + '_' + reg.x_init_time)"/>
+
+                        <div class="row" style="border: 1px solid black; font-size: 1.2em; margin-bottom: 0.5em;">
+                            <div class="col-xs-9">
+                                <b>Producto: </b><span t-field="o.product_id"/>
+                            </div>
+                            <div class="col-xs-3">
+                                <b>Lote: </b><span t-field="o.name"/>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border: 1px solid black; margin-bottom: 1em;">
                             <div class="col-xs-2">
-                                Product:
+                                <b>Sala:</b>
                             </div>
-                            <div class="col-xs-6">
-                                <span t-field="o.product_id"/> [<span t-field="o.product_id.default_code"/>]
+                            <div class="col-xs-10" style="border-left: 1px solid black; border-bottom: 1px solid black;">
+                                <div class="col-xs-8">
+                                    <b>Inicio de fabricación (día y hora de comienzo):</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[0].x_create_date"/>
+                                    </t>
+                                </div>
+                                <div class="col-xs-2">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[0].x_init_time"/>
+                                    </t>
+                                </div>
                             </div>
-                            <div class="col-xs-4">
-                                Lot: <b t-field="o.name"/>
+
+                            <div class="col-xs-2">
+                                <span t-field="production.routing_id.code"/>
                             </div>
+                            <div class="col-xs-10" style="border-left: 1px solid black;">
+                                <div class="col-xs-8">
+                                    <b>Fin de fabricación (día y hora de fin):</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[-1].x_create_date"/>
+                                    </t>
+                                </div>
+                                <div class="col-xs-2">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[-1].x_end_time"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <style>
+                            .tablaBordesNegros td,
+                            .tablaBordesNegros tbody tr th {
+                                border: 1px solid black;
+                                margin: 0;
+                            }
+                        </style>
+
+                        <div class="row">
+                            <b style="font-size: 1.2em;">REGISTROS PRODUCCIÓN</b>
+                            <table class="table tablaBordesNegros">
+                                <tr>
+                                    <th>Día</th>
+                                    <th>Hora inicio</th>
+                                    <th>Hora fin</th>
+                                    <th>Total prod.</th>
+                                    <th>Operario</th>
+                                </tr>
+                                <t t-foreach="aRegProd" t-as="reg">
+                                    <tr>
+                                        <td><span t-field="reg.x_create_date"/></td>
+                                        <td><span t-field="reg.x_init_time"/></td>
+                                        <td><span t-field="reg.x_end_time"/></td>
+                                        <td><span t-field="reg.x_quantity"/></td>
+                                        <td><span t-field="reg.x_initials"/></td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <b style="font-size: 1.2em;">PARADAS Y AJUSTES EN FABRICACIÓN INFUSIONES</b>
+                            <table class="table tablaBordesNegros">
+                                <tr>
+                                    <th>Día</th>
+                                    <th>Hora</th>
+                                    <th>Motivo</th>
+                                    <th>Día fin</th>
+                                    <th>Hora fin</th>
+                                    <th>Duración</th>
+                                    <th>Operario</th>
+                                </tr>
+                                <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 1)])"/> <!-- Paradas y ajustes -->
+                                <t t-foreach="vistas" t-as="vista">
+                                    <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                                    <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                                    <t t-set="secciones" t-value="modelo_tabla.x_section_id.search([('x_wcl_id', 'in', ordenes.ids), ('x_table_ids', '!=', False)])"/>
+                                    <t t-foreach="secciones" t-as="seccion">
+                                        <t t-foreach="seccion.x_table_ids" t-as="table_id">
+                                            <tr>
+                                                <td><span t-field="table_id.x_init_day"/></td>
+                                                <td><span t-field="table_id.x_init_time"/></td>
+                                                <td><span t-field="table_id.x_motive"/></td>
+                                                <td><span t-field="table_id.x_finalday"/></td>
+                                                <td><span t-field="table_id.x_final_time"/></td>
+                                                <td><span t-field="table_id.x_duration"/></td>
+                                                <td><span t-field="table_id.x_initials"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </table>
+                        </div>
+
+                        <!-- Obtenemos los campos de ratio dosificación -->
+                        <t t-set="ratiosDosificacion" t-value="[]"/>
+                        <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 4)])"/> <!-- Ratio dosificación -->
+                        <t t-foreach="vistas" t-as="vista">
+                            <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                            <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                            <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
+                            <t t-foreach="tablas" t-as="table_id">
+                                <t t-set="aux" t-value="ratiosDosificacion.append(table_id[vista.data_reference])"/>
+                            </t>
+                        </t>
+
+                        <!-- Obtenemos los campos de ratio fabricación -->
+                        <t t-set="ratiosFabricacion" t-value="[]"/>
+                        <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 5)])"/> <!-- Ratio fabricación -->
+                        <t t-foreach="vistas" t-as="vista">
+                            <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                            <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                            <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
+                            <t t-foreach="tablas" t-as="table_id">
+                                <t t-set="aux" t-value="ratiosFabricacion.append(table_id[vista.data_reference])"/>
+                            </t>
+                        </t>
+
+                        <!-- Obtenemos los campos de unidades fabricadas -->
+                        <t t-set="unidadesFabricadas" t-value="[]"/>
+                        <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 6)])"/> <!-- Unidades fabricadas -->
+                        <t t-foreach="vistas" t-as="vista">
+                            <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                            <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                            <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
+                            <t t-foreach="tablas" t-as="table_id">
+                                <t t-set="aux" t-value="unidadesFabricadas.append(table_id[vista.data_reference])"/>
+                            </t>
+                        </t>
+
+                        <!-- Obtenemos los campos de peso final obtenido -->
+                        <t t-set="pesosFinalesObtenidos" t-value="[]"/>
+                        <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 7)])"/> <!-- Peso final obtenido -->
+                        <t t-foreach="vistas" t-as="vista">
+                            <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                            <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                            <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
+                            <t t-foreach="tablas" t-as="table_id">
+                                <t t-set="aux" t-value="pesosFinalesObtenidos.append(table_id[vista.data_reference])"/>
+                            </t>
+                        </t>
+
+                        <div class="row" style="margin: 0 150px 2em 150px; border: 1px solid black;">
+                            <t t-if="unidadesFabricadas">
+                                <div class="col-xs-9"><b>Unidades fabricadas:</b></div>
+                                <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(unidadesFabricadas))"/></div>
+                            </t>
+                            <t t-if="pesosFinalesObtenidos">
+                                <div class="col-xs-9"><b>Peso final obtenido:</b></div>
+                                <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(pesosFinalesObtenidos))"/></div>
+                            </t>
+                            <t t-if="ratiosDosificacion">
+                                <div class="col-xs-9"><b>Ratio de dosificación:</b></div>
+                                <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(ratiosDosificacion))"/></div>
+                                <div class="col-xs-12" style="border-top: 1px solid black;"/>
+                            </t>
+                            <t t-if="ratiosFabricacion">
+                                <div class="col-xs-9"><b>Ratio de fabricación:</b></div>
+                                <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(ratiosFabricacion))"/></div>
+                                <div class="col-xs-12" style="border-top: 1px solid black;"/>
+                            </t>
+                        </div>
+
+                        <!-- Buscamos incidencias -->
+                        <t t-set="aIncidencias" t-value="[]"/>
+                        <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 8)])"/> <!-- Incidencias -->
+                        <t t-foreach="vistas" t-as="vista">
+                            <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                            <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                            <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
+                            <t t-foreach="tablas" t-as="table_id">
+                                <t t-set="aux" t-value="aIncidencias.append(table_id.x_issue)"/>
+                            </t>
+                        </t>
+
+                        <t t-if="aIncidencias">
+                            <div class="row" style="margin: 1em 0 1em 0;">
+                                <div class="col-xs-4 pull-left"><b>Producción con incidencia nº:</b></div>
+                                <div class="col-xs-8 pull-left">
+                                    <t t-foreach="aIncidencias" t-as="incidencia">
+                                        <span t-esc="incidencia"/><span><![CDATA[&nbsp;]]></span>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+
+                        <div class="row" style="min-height: 5em;">
+                            <b>COMENTARIOS PRODUCCIÓN:</b><br/>
+                            <span t-field="o.production_review_notes"/>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="text-right">
+                            Fdo.: Responsable de producción<br/>
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
                         </div>
                     </div>
                 </t>

@@ -104,4 +104,5 @@ class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
     reservation_picking_id = fields.Many2one(comodel_name='stock.picking',
-                                             related='reservation_id.picking_id')
+                                             related='reservation_id.picking_id',
+                                             readonly=True)

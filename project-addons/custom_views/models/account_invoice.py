@@ -13,20 +13,24 @@ class AccountInvoice(models.Model):
     latest_calculations = fields.Datetime(
             'Latest date and time when amounts were calculated')
     banking_mandate_needed = fields.Boolean(
-            related='payment_mode_id.banking_mandate_needed')
+            related='payment_mode_id.banking_mandate_needed', readonly=True)
     payment_document_delivered = fields.Boolean(default=False)
     payment_document_date = fields.Datetime()
     payment_date_planned = fields.Date()
     partner_vat = fields.Char(related='partner_id.vat', readonly=True)
     partner_vat_liens = fields.Char(related='partner_id.vat', readonly=True)
-    partner_liens = fields.Boolean(related='partner_id.liens')
-    partner_insured = fields.Boolean(related='partner_id.insured')
+    partner_liens = fields.Boolean(related='partner_id.liens', readonly=True)
+    partner_insured = fields.Boolean(related='partner_id.insured',
+                                     readonly=True)
+    partner_send_invoice_by_email = fields.Boolean(
+        related='partner_id.send_invoice_by_email', readonly=True)
     credit = fields.Float(compute='_get_credit')
     debit = fields.Float(compute='_get_debit')
     partner_parent_category_id = fields.Many2one(
         comodel_name='res.partner.category',
         compute='_get_partner_parent_category')
-    payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id')
+    payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id',
+                                           readonly=True)
     return_reason = fields.Many2one(comodel_name='return.reason')
 
     @api.one
@@ -250,6 +254,53 @@ class AccountInvoice(models.Model):
             for l in i.invoice_line:
                 l.account_id = i.return_reason.account_id
 
+    @api.multi
+    def action_show_origin(self):
+        self.ensure_one()
+        if self.origin:
+            picking_ids = []
+            origin = self.origin.split(',')
+            partner_ids = self.partner_id + self.partner_id.parent_id
+            if self.type in ('in_invoice', 'in_refund'):
+                picking_type_id = self.env.ref('stock.picking_type_in')
+            else:
+                picking_type_id = self.env.ref('stock.picking_type_out')
+            for name in origin:
+                p = self.env['stock.picking'].search([
+                    ('company_id', '=', self.company_id.id),
+                    '|',
+                    ('partner_id', 'in', partner_ids.ids),
+                    ('partner_id.parent_id', 'in', partner_ids.ids),
+                    ('picking_type_id', '=', picking_type_id.id),
+                    ('invoice_state', '=', 'invoiced'),
+                    ('name', '=', name.strip())
+                ])
+                if p:
+                    picking_ids.append(p.id)
+
+            if len(picking_ids) == 1:
+                return {
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': 'stock.picking',
+                    'res_id': picking_ids[0],
+                    'target': 'current',
+                    'nodestroy': True,
+                    'context': self.env.context
+                }
+            else:
+                return {
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'tree,form',
+                    'res_model': 'stock.picking',
+                    'domain': [('id', 'in', picking_ids)],
+                    'target': 'current',
+                    'nodestroy': True,
+                    'context': self.env.context
+                }
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -259,12 +310,14 @@ class AccountInvoiceLine(models.Model):
             ('in_invoice','Supplier Invoice'),
             ('out_refund','Customer Refund'),
             ('in_refund','Supplier Refund'),
-        ], related='invoice_id.type')
+        ], related='invoice_id.type', readonly=True)
     invoice_line_tax_id = fields.Many2many(required=True)  # Inherited field
-    default_code = fields.Char(related='product_id.default_code')
-    commercial_partner_id = fields.Many2one(comodel_name='res.partner',
-                                    related='invoice_id.commercial_partner_id')
-    date_invoice = fields.Date(related='invoice_id.date_invoice')
+    default_code = fields.Char(related='product_id.default_code', readonly=True)
+    commercial_partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        related='invoice_id.commercial_partner_id',
+        readonly=True)
+    date_invoice = fields.Date(related='invoice_id.date_invoice', readonly=True)
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',

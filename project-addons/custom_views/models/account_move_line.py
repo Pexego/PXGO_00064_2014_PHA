@@ -11,7 +11,8 @@ class AccountMoveLine(models.Model):
     partner_parent_category_id = fields.Many2one(
         comodel_name='res.partner.category',
         compute='_get_parent_category')
-    payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id')
+    payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id',
+                                           readonly=True)
 
     @api.one
     def _get_parent_category(self):

@@ -22,6 +22,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
+        <record id="view_mrp_bom_form" model="ir.ui.view">
+            <field name="name">Custom views - BoM form</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_qty']/.." position="after">
+                    <field name="virtual_conservative"/>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom']" position="after">
+                    <field name="virtual_conservative"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_mrp_bom_normal_tree" model="ir.ui.view">
             <field name="name">Custom views - BoM tree</field>
             <field name="model">mrp.bom</field>

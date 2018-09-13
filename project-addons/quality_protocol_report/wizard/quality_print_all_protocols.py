@@ -26,7 +26,7 @@ import unicodedata
 from urlparse import urljoin
 from pyPdf import PdfFileWriter, PdfFileReader
 from contextlib import closing
-from openerp import models, api, exceptions, _
+from openerp import models, fields, api, exceptions, _
 from openerp.addons.website.models.website import slug
 from openerp.addons.web.http import request
 
@@ -76,18 +76,35 @@ class QualityReportAll(models.TransientModel):
                             })
             weight = workcenter_line.workcenter_id.protocol_type_id.weight
             production_name = obj.display_name
-            protocol_type = workcenter_line.workcenter_id.protocol_type_id.name
-            protocol_type = unicodedata.normalize('NFKD', protocol_type).\
-                encode('ascii', 'ignore').replace(' ', '_')
+            protocol_type_id = workcenter_line.workcenter_id.protocol_type_id
+            protocol_type = protocol_type_id.name
+            if protocol_type_id.is_continuation:
+                protocol_type += fields.Datetime. \
+                    from_string(workcenter_line.create_date).strftime(' %d-%m-%Y')
+            protocol_type = unicodedata.normalize('NFKD', protocol_type). \
+                encode('ascii', 'ignore').replace(' ', '~')
+            product_name = obj.product_id.display_name
+            product_name = unicodedata.normalize('NFKD', product_name). \
+                               encode('ascii', 'ignore').replace(' ', '~')[0:50]
+            lot_name = obj.final_lot_id.display_name
+            lot_name = unicodedata.normalize('NFKD', lot_name). \
+                encode('ascii', 'ignore').replace(' ', '~')
+            date_planned = fields.Datetime.from_string(obj.date_planned). \
+                strftime('%d-%m-%Y')
+
             res.append(
                 urljoin(
                     base_url,
-                    'protocol/print/%s/%s/%s?weight=%02d#prod=%s#prot=%s' % (
-                        slug(obj), slug(use_protocol),
+                    "protocol/print/%s/%s/%s?weight=%02d#prod=%s#prot=%s#product=%s#lot=%s#date=%s" % (
+                        slug(obj),
+                        slug(use_protocol),
                         slug(workcenter_line),
                         weight,
                         production_name,
-                        protocol_type
+                        protocol_type,
+                        product_name,
+                        lot_name,
+                        date_planned
                     )
                 )
             )

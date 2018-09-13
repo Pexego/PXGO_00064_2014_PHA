@@ -22,11 +22,35 @@ from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
 
 
+class StockPackOperationSscc(models.Model):
+
+    _name = 'stock.pack.operation.sscc'
+
+    name = fields.Char()
+    type = fields.Selection(
+        (('1', 'Palet'), ('2', 'Complete'), ('3', 'package')))
+    parent = fields.Many2one('stock.pack.operation.sscc')
+    operation_ids = fields.Many2many(
+        'stock.pack.operation', 'operation_sscc_rel', 'sscc_id', 'operation_id')
+    child_ids = fields.One2many('stock.pack.operation.sscc', 'parent')
+
 class StockPackOperation(models.Model):
 
     _inherit = 'stock.pack.operation'
 
-    sscc = fields.Char('SSCC')
+    sscc_ids = fields.Many2many(
+        'stock.pack.operation.sscc', 'operation_sscc_rel', 'operation_id', 'sscc_id')
+
+
+    @api.multi
+    def get_package_qty(self, type):
+        """
+            Se calcula la cantidad que va dentro de un bulto.
+        """
+        if type == '2':
+            return self.product_id.box_elements
+        else:
+            return sum([x.qty for x in self.linked_move_operation_ids]) - (self.product_id.box_elements * self.complete)
 
 
 class StockMove(models.Model):
@@ -66,11 +90,12 @@ class StockMove(models.Model):
 
 
 class StockPicking(models.Model):
-
     _inherit = 'stock.picking'
 
-    channel_name = fields.Char('Channel name', related='sale_channel_id.name')
-    edi_desadv = fields.Boolean('Edi Desadv', related='partner_id.edi_desadv')
+    channel_name = fields.Char('Channel name', related='sale_channel_id.name',
+                               readonly=True)
+    edi_desadv = fields.Boolean('Edi Desadv', related='partner_id.edi_desadv',
+                                readonly=True)
 
     @api.model
     def _invoice_create_line(self, moves, journal_id, inv_type='out_invoice'):
@@ -123,33 +148,6 @@ class StockPicking(models.Model):
         rep_action = self.env["report"].get_action(self, rep_name)
         rep_action['data'] = custom_data
         return rep_action
-
-    @api.multi
-    def _get_num_packs_in_palets(self):
-        """
-        Retuens a dic, key = palet number, value = num of bulks
-        """
-        res = {}
-        package_list = {}
-        self.ensure_one()
-        for op in self.pack_operation_ids:
-            # Skip if no palet
-            if not op.palet:
-                continue
-            # If not consider palet, init
-            if op.palet not in res.keys():
-                res[op.palet] = 0
-                package_list[op.palet] = []
-
-            num_new_packs = 0
-            if op.package > 0 and op.package not in package_list[op.palet]:
-                num_new_packs += 1
-                package_list[op.palet].append(op.package)
-            res[op.palet] += op.complete + num_new_packs
-
-        return res
-
-
 
 
 class StockInvoiceOnshipping(models.TransientModel):

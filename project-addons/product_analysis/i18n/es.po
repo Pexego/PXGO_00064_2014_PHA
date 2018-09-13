@@ -581,7 +581,7 @@ msgstr "Cantidad:"
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
 #: view:website:product_analysis.report_stock_lot_analysis_data
 msgid "Realized"
-msgstr "Realizado"
+msgstr "Realiza"
 
 #. module: product_analysis
 #: field:stock.lot.analysis,realized:0

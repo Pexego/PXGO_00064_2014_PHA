@@ -8,6 +8,16 @@ class MrpBom(models.Model):
     _inherit = 'mrp.bom'
     _order = 'name'
 
+    virtual_conservative = fields.Float(
+        related='product_id.virtual_conservative', readonly=True)
+
+
+class MrpBomLine(models.Model):
+    _inherit = 'mrp.bom.line'
+
+    virtual_conservative = fields.Float(
+        related='product_id.virtual_conservative', readonly=True)
+
 
 class MrpProcedureType(models.Model):
     _name = 'mrp.procedure.type'

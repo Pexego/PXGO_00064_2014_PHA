@@ -11,7 +11,7 @@ class AccountInvoiceSpecial(models.TransientModel):
     invoice_id = fields.Many2one(comodel_name='account.invoice',
                                  required=True, ondelete='cascade')
     commercial_partner_id = fields.Many2one(
-        related='partner_id.commercial_partner_id')
+        related='partner_id.commercial_partner_id', readonly=True)
     aux_mandate_id = fields.Many2one(comodel_name='account.banking.mandate',
                                      string='Banking mandate')
     aux_payment_term = fields.Many2one(comodel_name='account.payment.term',
