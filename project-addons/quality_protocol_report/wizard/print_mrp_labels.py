@@ -30,7 +30,8 @@ class PrintMrpLabels(models.TransientModel):
         self.ensure_one()
         datas = {'ids': [self.production_id.id],
                  'gtin': self.gtin.gtin14,
-                 'box_elements': self.gtin.units}
+                 'box_elements': self.gtin.units if self.gtin else
+                                 self.product_id.box_elements}
         return self.env['report'].get_action(
             self.production_id, 'quality_protocol_report.report_mrp_label', data=datas)
 
@@ -41,6 +42,7 @@ class PrintMrpLabels(models.TransientModel):
         self.ensure_one()
         datas = {'ids': [self.production_id.id],
                  'gtin': self.gtin.gtin14,
-                 'box_elements': self.gtin.units}
+                 'box_elements': self.gtin.units if self.gtin else
+                                 self.product_id.box_elements}
         return self.env['report'].get_action(
             self.production_id, 'quality_protocol_report.report_mrp_tiny_label', data=datas)

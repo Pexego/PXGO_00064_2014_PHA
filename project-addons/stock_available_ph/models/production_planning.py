@@ -34,8 +34,10 @@ class ProductionPlanningOrders(models.Model):
     product_id = fields.Many2one(string='Final product',
                                  comodel_name='product.product',
                                  required=True)
-    default_code = fields.Char(related='product_id.default_code')
-    product_tmpl_id = fields.Many2one(related='product_id.product_tmpl_id')
+    default_code = fields.Char(related='product_id.default_code',
+                               readonly=True)
+    product_tmpl_id = fields.Many2one(related='product_id.product_tmpl_id',
+                                      readonly=True)
     bom_id = fields.Many2one(string='Bills of materials',
                              comodel_name='mrp.bom',
                              domain="[('product_tmpl_id', '=', product_tmpl_id)]",
@@ -57,15 +59,23 @@ class ProductionPlanningOrders(models.Model):
     production_order = fields.Many2one(comodel_name='mrp.production',
                                        readonly=True)
     note = fields.Char(string='Note for production')
-    cons_by_day_p_total = fields.Float(related='product_id.cons_by_day_p_total')
-    cons_by_day_p_month = fields.Float(related='product_id.cons_by_day_p_month')
-    cons_by_day_p_semester = fields.Float(related='product_id.cons_by_day_p_semester')
-    cons_by_day_p_year = fields.Float(related='product_id.cons_by_day_p_year')
-    cons_by_day_i_total = fields.Float(related='product_id.cons_by_day_i_total')
-    cons_by_day_i_month = fields.Float(related='product_id.cons_by_day_i_month')
-    cons_by_day_i_semester = fields.Float(related='product_id.cons_by_day_i_semester')
-    cons_by_day_i_year = fields.Float(related='product_id.cons_by_day_i_year')
-    uom_id = fields.Many2one(related='product_id.uom_id')
+    cons_by_day_p_total = fields.Float(related='product_id.cons_by_day_p_total',
+                                       readonly=True)
+    cons_by_day_p_month = fields.Float(related='product_id.cons_by_day_p_month',
+                                       readonly=True)
+    cons_by_day_p_semester = fields.Float(related='product_id.cons_by_day_p_semester',
+                                          readonly=True)
+    cons_by_day_p_year = fields.Float(related='product_id.cons_by_day_p_year',
+                                      readonly=True)
+    cons_by_day_i_total = fields.Float(related='product_id.cons_by_day_i_total',
+                                       readonly=True)
+    cons_by_day_i_month = fields.Float(related='product_id.cons_by_day_i_month',
+                                       readonly=True)
+    cons_by_day_i_semester = fields.Float(related='product_id.cons_by_day_i_semester',
+                                          readonly=True)
+    cons_by_day_i_year = fields.Float(related='product_id.cons_by_day_i_year',
+                                      readonly=True)
+    uom_id = fields.Many2one(related='product_id.uom_id', readonly=True)
     active = fields.Boolean(default=True)
 
     @api.multi
@@ -185,7 +195,8 @@ class ProductionPlanningOrders(models.Model):
             'date_end_planned': self.date_end,
             'time_planned': self.estimated_time,
             'user_id': self.env.user.id,
-            'origin': _('Production planning order Nº %s') % (self.id)
+            'origin': _('Production planning order Nº %s') % (self.id),
+            'notes': self.note
         }
 
         if self.product_id.categ_id.finished_dest_location_id:
@@ -193,11 +204,7 @@ class ProductionPlanningOrders(models.Model):
                 self.product_id.categ_id.finished_dest_location_id.id
 
         # Create production order and show it
-        order = self.env['mrp.production'].create(data)
-
-        self.production_order = order
-        if self.note:
-            order.message_post(body=self.note)
+        order = self.production_order.create(data)
 
         return {
             'type': 'ir.actions.act_window',
@@ -263,15 +270,18 @@ class ProductionPlanningMaterials(models.Model):
 
     product_id = fields.Many2one(string='Material',
                                  comodel_name='product.product')
-    default_code = fields.Char(related='product_id.default_code')
+    default_code = fields.Char(related='product_id.default_code',
+                               readonly=True)
     qty_required = fields.Float(string='Quantity required', digits=(16,2))
     qty_vsc_available = fields.Float(string='Virtual stock conservative',
                                  digits=(16,2))
-    qty_incoming = fields.Float(related='product_id.real_incoming_qty', digits=(16,2))
+    qty_incoming = fields.Float(related='product_id.real_incoming_qty',
+                                digits=(16,2), readonly=True)
     out_of_existences = fields.Float(related='product_id.out_of_existences',
-                                     digits=(16,2))
+                                     digits=(16,2), readonly=True)
     out_of_existences_dismissed = fields.Float(
-        related='product_id.out_of_existences_dismissed', digits=(16,2))
+        related='product_id.out_of_existences_dismissed', digits=(16,2),
+        readonly=True)
     uom = fields.Char(string='Unit of measure')
     orders = fields.Many2many(string='Orders',
                               comodel_name='production.planning.orders',

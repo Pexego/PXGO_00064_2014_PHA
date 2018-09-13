@@ -91,6 +91,26 @@
             </field>
         </record>
 
+        <record id="custom_views_account_invoice_filter" model="ir.ui.view">
+            <field name="name">Custom views - Account invoice filter</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <group string="Group By" position="before">
+                    <group string="Facturas de hoy">
+                        <filter string="Papel"
+                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('sale_channel_id', '!=', 6), ('partner_send_invoice_by_email', '=', False)]"/>
+                        <separator/>
+                        <filter string="EDI"
+                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('sale_channel_id', '=', 6)]"/>
+                        <separator/>
+                        <filter string="e-mail"
+                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('partner_send_invoice_by_email', '=', True)]"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
         <record id="custom_views_invoice_supplier_form" model="ir.ui.view">
             <field name="name">Custom views - Invoice supplier form</field>
             <field name="model">account.invoice</field>

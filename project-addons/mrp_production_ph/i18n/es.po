@@ -64,6 +64,11 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Production notes"
+msgstr "Notas sobre la producción"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,quantity:0
 #: field:mrp.production.confirm,quantity_text:0
 msgid "Quantity"

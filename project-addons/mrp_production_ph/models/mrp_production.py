@@ -11,9 +11,11 @@ class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
     product_tmpl_id = fields.Many2one(comodel_name='product.template',
-                                      related='product_id.product_tmpl_id')
+                                      related='product_id.product_tmpl_id',
+                                      readonly=True)
     next_lot = fields.Char(compute='_next_lot', readonly=True)
     time_planned = fields.Float(compute='_time_planned', readonly=True)
+    notes = fields.Text()
 
     @api.one
     def _next_lot(self):
