@@ -18,7 +18,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             attrs="{'invisible': [('show_manual_lot_assign_button', '=', False)]}"
                     />
                     <field name="reserved_lots_available_qty"
-                           attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}"/>
+                           attrs="{'invisible': [('show_manual_lot_assign_button', '=', False)]}"/>
                 </field>
             </field>
         </record>
