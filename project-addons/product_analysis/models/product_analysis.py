@@ -20,7 +20,7 @@ class ProductAnalysisRel(models.Model):
     sequence = fields.Integer()
     product_id = fields.Many2one('product.template', 'Product')
     analysis_id = fields.Many2one('product.analysis', 'Analysis')
-    show_in_certificate = fields.Boolean()
+    show_in_certificate = fields.Boolean(default=True)
     method = fields.Many2one('mrp.procedure', 'PNT')
     analysis_type = fields.Selection(
         (('boolean', 'Boolean'), ('expr', 'Expression'),
