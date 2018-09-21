@@ -352,6 +352,7 @@ msgid "Invoice Date:"
 msgstr "Fecha de factura:"
 
 #. module: custom_reports
+#: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Invoice affecting:"
 msgstr "Facturas que afecta:"
