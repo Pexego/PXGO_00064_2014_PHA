@@ -13,20 +13,12 @@ class ProductAnalysisRelWizard(models.TransientModel):
 
     @api.multi
     def action_copy_from(self):
-        fields_to_copy = ('method', 'analysis_type', 'boolean_selection',
-                          'expected_result_expr', 'decimal_precision')
         dest_ids = self.env.context.get('active_ids', False)
         src = self.copy_from
         if src and src.analysis_ids:
             for id in dest_ids:
-                dest = self.env['product.template'].browse(id)
-                for line in src.analysis_ids:
-                    analysis_id = dest.analysis_ids.filtered(
-                        lambda r: r.analysis_id == line.analysis_id)
-                    if analysis_id:
-                        dict = {}
-                        for field in line._fields:
-                            if field in fields_to_copy:
-                                dict[field] = getattr(line, field)
-                        analysis_id.update(dict)
+                self.env['product.template'].browse(id).analysis_ids.unlink()
+                for line in self.copy_from.analysis_ids:
+                    new_line = line.copy()
+                    new_line.product_id = id
         return self
