@@ -186,10 +186,6 @@ div.contenedor_si_no {
     .openerp .quality_view tfoot {
         display: none;
     }
-    table,
-    .openerp .quality_view table {
-        page-break-inside: avoid;
-    }
     .openerp .quality_row table,
     .openerp .quality_row tr,
     .openerp .quality_row tr td,

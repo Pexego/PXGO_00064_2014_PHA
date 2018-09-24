@@ -162,6 +162,13 @@
                                 <span t-field="o.payment_mode_id.bank_id.acc_number" style="display: inline-block; width: 260px; font-size: 11px;"/>
                             </t>
                         </p>
+                        <p t-if="o.origin_invoices_ids">
+                            <strong>Invoice affecting:</strong><br/>
+                            <t t-foreach="o.origin_invoices_ids" t-as="oi">
+                                <t t-set="invoices" t-value="oi.number + ', ' if not oi_last else oi.number"/>
+                                <span t-esc="invoices"/>
+                            </t>
+                        </p>
                     </div>
                     <div class="col-xs-4">
                         <div t-if="o.date_invoice">

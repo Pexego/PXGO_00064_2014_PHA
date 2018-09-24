@@ -79,11 +79,11 @@
                             </div>
                         </t>
                         <div class="row" style="font-size: 18px; margin-top: 60px;">
-                            <div class="col-xs-5">
-                                Fecha: <span t-field="o.acceptance_date" t-field-options="{&quot;format&quot;: &quot;dd-MM-y&quot;}"/>
+                            <div class="col-xs-6" style="margin-top: -5px;">
+                                Fecha: <span t-field="o.acceptance_date" t-field-options="{&quot;format&quot;: &quot;dd-MM-y&quot;}" style="font-size: 1.3em;"/>
                             </div>
-                            <div class="col-xs-7 text-right">
-                                Firma: ________________
+                            <div class="col-xs-6 text-right" style="margin-left: -30px; width: 240px;">
+                                Firma: _______________
                             </div>
                         </div>
                     </div>

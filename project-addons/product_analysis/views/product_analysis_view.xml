@@ -73,7 +73,7 @@
                     <field name="sequence" widget="handle"/>
                     <field name="analysis_id" attrs="{'readonly': [('product_id', '!=', False)]}"/>
                     <field name="show_in_certificate" readonly="True"/>
-                    <field name="raw_material_analysis" readonly="True"/>
+                    <field name="raw_material_analysis"/>
                     <field name="method" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                     <field name="analysis_type" attrs="{'readonly': [('raw_material_analysis', '!=', False)]}"/>
                     <field name="boolean_selection" attrs="{'readonly': ['|', ('analysis_type', '!=', 'boolean'), ('raw_material_analysis', '!=', False)]}"/>

@@ -260,6 +260,15 @@ function preparaSiNo() {
     };
 };
 
+function preparaTime() {
+    var inputsTime = $('input[name*="_time"]');
+    if (inputsTime.length > 0) {
+        inputsTime.each(function() {
+            $(this).prop('type', 'time');
+        });
+    };
+};
+
 $(function () {
     if($("#done").length) {
         $(":input").prop('disabled', true);
@@ -426,12 +435,21 @@ $(function () {
         // su input por dos botones de radio con ambas opciones
         preparaSiNo();
 
+        // Buscamos los campos con sufijo "_time" para poner el tipo correcto
+        // a su input y que aplique la máscara correcta para estos campos.
+        preparaTime();
+
         // Los inputs de con botones de flecha no se muestran bien al imprimir
         // con phantomjs, así que les cambiamos el tipo a texto y pista...
         if (/Phantom.js bot/.test(window.navigator.userAgent)) {
+            $('.quality_row input[type="date"]').each(function() {
+                fecha = $(this).val();
+                fecha = openerp.str_to_date(fecha).format("d/m/Y");
+                $(this).prop('type', 'text').val(fecha);
+            });
+
             $('.quality_row input[type="number"], ' +
               '.quality_row input[type="time"], ' +
-              '.quality_row input[type="date"], ' +
               '.quality_row input[type="datetime-local"]').each(
                 function() {
                     $(this).prop('type', 'text');
