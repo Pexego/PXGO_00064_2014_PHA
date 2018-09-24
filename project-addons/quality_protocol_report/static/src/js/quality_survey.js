@@ -444,8 +444,12 @@ $(function () {
         if (/Phantom.js bot/.test(window.navigator.userAgent)) {
             $('.quality_row input[type="date"]').each(function() {
                 fecha = $(this).val();
-                fecha = openerp.str_to_date(fecha).format("d/m/Y");
-                $(this).prop('type', 'text').val(fecha);
+                if (fecha.trim().length == 10) {  // isDate() no funciona bien aquí
+                    fecha = openerp.str_to_date(fecha).format("d/m/Y");
+                    $(this).prop('type', 'text').val(fecha);
+                } else {
+                    $(this).prop('type', 'text');
+                };
             });
 
             $('.quality_row input[type="number"], ' +
