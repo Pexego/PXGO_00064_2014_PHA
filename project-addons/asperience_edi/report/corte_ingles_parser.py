@@ -82,7 +82,6 @@ class CorteInglesParser(models.AbstractModel):
 
         p_table = {}
         first = True
-        palet_packs_dic = pick._get_num_packs_in_palets()
         op_by_product = {}
         visited_products = []
 
@@ -99,7 +98,7 @@ class CorteInglesParser(models.AbstractModel):
             if op.palet not in palet_tables:
                 palet_tables[op.palet] = []
             if op.palet not in total_tables:
-                total_packs = palet_packs_dic.get(op.palet, 0)
+                total_packs = len(op.sscc_ids.filtered(lambda x: x.type == '1').child_ids)
                 total_tables[op.palet] = {'total_qty': 0.0,
                                           'total_lines': 0.0,
                                           'total_packs': total_packs,

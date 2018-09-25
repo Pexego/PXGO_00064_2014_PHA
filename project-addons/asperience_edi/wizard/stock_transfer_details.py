@@ -47,27 +47,27 @@ class StockTransferDetails(models.TransientModel):
         package = {}
         counter = 0
         for lstits in [self.item_ids, self.packop_ids]:
-            for prod in lstits:
+            for packop in self.picking_id.pack_operation_ids:
                 """
                     Crearemos 1 sscc por palet, 1 por bulto completo y
                     1 por bulto multiproducto.
                 """
-                if prod.packop_id.palet not in palet.keys():
-                    counter, op_sscc = self.make_sscc(self.picking_id, prod.packop_id, counter, '1')
-                    palet[prod.packop_id.palet] = op_sscc
-                if prod.packop_id.complete:
+                if packop.palet not in palet.keys():
+                    counter, op_sscc = self.make_sscc(self.picking_id, packop, counter, '1')
+                    palet[packop.palet] = op_sscc
+                if packop.complete:
                     parent = False
-                    if prod.packop_id.palet != 0:
-                        parent = palet[prod.packop_id.palet].id
-                    for i in range(prod.packop_id.complete):
-                        counter, op_sscc = self.make_sscc(self.picking_id, prod.packop_id, counter, '2', parent=parent)
-                if prod.packop_id.package != 0:
-                    if prod.packop_id.package not in package.keys():
+                    if packop.palet != 0:
+                        parent = palet[packop.palet].id
+                    for i in range(packop.complete):
+                        counter, op_sscc = self.make_sscc(self.picking_id, packop, counter, '2', parent=parent)
+                if packop.package != 0:
+                    if packop.package not in package.keys():
                         parent = False
-                        if prod.packop_id.palet != 0:
-                            parent = palet[prod.packop_id.palet].id
-                        counter, op_sscc = self.make_sscc(self.picking_id, prod.packop_id, counter, '3', parent=parent)
-                        package[prod.packop_id.package] = op_sscc
+                        if packop.palet != 0:
+                            parent = palet[packop.palet].id
+                        counter, op_sscc = self.make_sscc(self.picking_id, packop, counter, '3', parent=parent)
+                        package[packop.package] = op_sscc
                     else:
-                        package[prod.packop_id.package].write({'operation_ids': [(4, prod.packop_id.id)]})
+                        package[packop.package].write({'operation_ids': [(4, packop.id)]})
         return res
