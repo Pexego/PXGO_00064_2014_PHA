@@ -270,9 +270,9 @@ function preparaTime() {
 };
 
 $(function () {
-    if($("#done").length) {
-        $(":input").prop('disabled', true);
-    }
+//    if($("#done").length) {
+//        $(":input").prop('disabled', true);
+//    }
     $("#bodyaccord").hide();
     $("#headeraccord").click(function(){
        if($("#bodyaccord").is(":visible")){
@@ -332,7 +332,7 @@ $(function () {
                                         extraAttrs[Exkey] = extra_attrs[key][Exkey]
                                     }
                                 }
-                                if (columns_options && columns_options[key] == "disabled" || $("#done").length) {
+                                if (columns_options && columns_options[key] == "disabled"/* || $("#done").length */) {
                                     ctrlProp['disabled'] = true;
                                 }
                                 if (columns_widths.length > 0) {
