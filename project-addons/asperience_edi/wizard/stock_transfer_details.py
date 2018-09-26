@@ -47,13 +47,14 @@ class StockTransferDetails(models.TransientModel):
         package = {}
         counter = 0
         for packop in self.picking_id.pack_operation_ids:
+            if packop.palet not in palet.keys() and packop.palet:
+                counter, op_sscc = self.make_sscc(self.picking_id, packop, counter, '1')
+                palet[packop.palet] = op_sscc
+        for packop in self.picking_id.pack_operation_ids:
             """
                 Crearemos 1 sscc por palet, 1 por bulto completo y
                 1 por bulto multiproducto.
             """
-            if packop.palet not in palet.keys() and packop.palet:
-                counter, op_sscc = self.make_sscc(self.picking_id, packop, counter, '1')
-                palet[packop.palet] = op_sscc
             if packop.complete:
                 parent = False
                 if packop.palet != 0:
