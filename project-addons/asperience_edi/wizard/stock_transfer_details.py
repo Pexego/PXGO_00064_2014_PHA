@@ -30,7 +30,8 @@ class StockTransferDetails(models.TransientModel):
         first_num = int(picking.name.split('\\')[-1][:1])
         sequence = str(counter).zfill(2)
         if counter > 99:
-            first_num += int(str(counter)[1])
+            first_num += 5
+            first_num += int(str(counter)[0])
             sequence = str(counter)[1:].zfill(2)
         aecoc = self.env.user.company_id.aecoc_code
         counter += 1
