@@ -49,10 +49,10 @@ class StockMoveAssignManualLot(models.TransientModel):
             lots[quant.lot_id.id][0] += quant.qty
         lines = []
         for lot in lots.keys():
-            if move.product_id.raw_material and move.is_hoard_move and not \
-                    move.picking_id.accept_multiple_raw_material:
-                if lots[lot][0] < move.product_uom_qty:
-                    continue
+#            if move.product_id.raw_material and move.is_hoard_move and not \
+#                    move.picking_id.accept_multiple_raw_material:
+#                if lots[lot][0] < move.product_uom_qty:
+#                    continue
             lines.append({
                 'lot_id': lot,
                 'available_qty': lots[lot][0],
