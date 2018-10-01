@@ -19,7 +19,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     />
                     <field name="reserved_lots_available_qty"
                            attrs="{'invisible': [('show_manual_lot_assign_button', '=', False)]}"/>
+                    <field name="old_lots_unused" invisible="1"/>
                 </field>
+                <tree position="attributes">
+                    <attribute name="colors">red:old_lots_unused</attribute>
+                </tree>
             </field>
         </record>
     </data>
