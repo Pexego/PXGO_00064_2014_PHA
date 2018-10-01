@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="custom_views_product_incoming_parameters_view" model="ir.ui.view">
+            <field name="name">Custom views - Product incoming parameters form</field>
+            <field name="model">product.incoming.parameters</field>
+            <field name="arch" type="xml">
+                <form string="Product incoming parameters">
+                    <span>Please, specify the period you wish to consult</span>
+                    <group>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>
+                    <footer>
+                        <button name="show_product_incoming"
+                                string="Continue"
+                                type="object"
+                                class="oe_highlight"
+                                icon="gtk-apply"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_incoming_parameters_form" model="ir.actions.act_window">
+            <field name="name">Product incoming</field>
+            <field name="res_model">product.incoming.parameters</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="custom_views_product_incoming_parameters_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_product_incoming_parameters_form"
+                  id="menu_qc_reports_product_incoming_parameters"
+                  parent="custom_views.menu_qc_reports"
+                  sequence="1"
+        />
+    </data>
+</openerp>

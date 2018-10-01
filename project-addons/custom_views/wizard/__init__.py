@@ -20,4 +20,4 @@
 ##############################################################################
 
 import account_move_line, product_stock_unsafety, warning, \
-    account_invoice_special
+    account_invoice_special, product_incoming_parameters

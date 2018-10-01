@@ -15,7 +15,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="default_code"/>
                     <field name="description"/>
                     <field name="supplier_ref"/>
-                    <field name="product_uom"/>
+                    <field name="uom_id"/>
                     <field name="qty_current_year"/>
                     <field name="price_current_year"/>
                     <field name="qty_last_year"/>
@@ -68,5 +68,36 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </form>
             </field>
         </record>
+
+        <record id="purchasable_products_tree_view_2" model="ir.ui.view">
+            <field name="name">Purchasable products tree</field>
+            <field name="model">purchasable.products</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0">
+                    <field name="id" invisible="1"/>
+                    <field name="product_id"/>
+                    <field name="default_code"/>
+                    <field name="categ_id"/>
+                    <field name="partner_id"/>
+                    <field name="supplier_ref"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_purchasable_products_tree_view_2" model="ir.actions.act_window">
+            <field name="name">Purchasable products</field>
+            <field name="res_model">purchasable.products</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="purchasable_products_tree_view_2"/>
+            <field name="context">{'show_all_suppliers': True}</field>
+        </record>
+
+        <menuitem name="Purchasable products"
+            action="action_purchasable_products_tree_view_2"
+            id="menu_purchasable_products"
+            parent="custom_views.menu_qc_reports"
+            sequence="3"
+        />
     </data>
 </openerp>

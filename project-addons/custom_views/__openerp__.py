@@ -73,6 +73,7 @@
         'wizard/cancel_picking_confirmation_view.xml',
         'wizard/account_invoice_special.xml',
         'wizard/purchasable_products_view.xml',
+        'wizard/product_incoming_parameters_view.xml',
         'data/remove_old_translations.xml',
         'data/wizards_units_precision.xml',
         'data/mrp_procedure_type.xml',
