@@ -296,5 +296,30 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   parent="mrp.menu_mrp_bom"
                   sequence="11"
         />
+
+        <record id="custom_views_quality_product_incoming_tree" model="ir.ui.view">
+            <field name="name">Custom views - Quality: Product incoming</field>
+            <field name="model">product.incoming</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false" delete="false">
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="categ_id"/>
+                    <field name="type"/>
+                    <field name="cumulative_incoming_qty"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="custom_views_quality_product_incoming_filter" model="ir.ui.view">
+            <field name="name">Custom views - Quality: Product incoming filter</field>
+            <field name="model">product.incoming</field>
+            <field name="arch" type="xml">
+                <search string="Quality: Search product incoming">
+                    <field name="product_id"/>
+               </search>
+            </field>
+        </record>
     </data>
 </openerp>

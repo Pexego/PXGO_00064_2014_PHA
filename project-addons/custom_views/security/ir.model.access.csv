@@ -4,3 +4,4 @@ access_mrp_procedure,mrp.procedure,model_mrp_procedure,base.group_user,1,1,1,1
 access_mrp_machinery,mrp.machinery,model_mrp_machinery,base.group_user,1,1,1,1
 access_sale_channel,access_sale_channel_stock_users,sale_channel.model_sale_channel,stock.group_stock_user,1,0,0,0
 access_return_reason,Return reason access,model_return_reason,,1,1,1,0
+access_product_incoming,Product incoming access,model_product_incoming,,1,0,0,0

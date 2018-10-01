@@ -12,6 +12,7 @@ class StockMove(models.Model):
         compute='_show_manual_lot_assign_button')
     reserved_lots_available_qty = fields.Float(string='Available',
         compute='_reserved_lots_available_qty')
+    old_lots_unused = fields.Boolean(compute='_reserved_lots_available_qty')
 
     @api.one
     def _show_manual_lot_assign_button(self):
@@ -40,6 +41,14 @@ class StockMove(models.Model):
                 if wizard_line_ids:
                     available_qty += sum(wizard_line_ids.mapped('available_qty'))
             self.reserved_lots_available_qty = available_qty
+
+            # Check if any old lot is unused
+            wizard_line_ids = wizard_id.line_ids.sorted(key=lambda r: r.lot_id)
+            flag = False
+            lines_count = len(wizard_line_ids)
+            for idx, line_id in enumerate(wizard_line_ids, start=1):
+                flag = flag or ((idx != lines_count) and (line_id.use_qty == 0.0))
+            self.old_lots_unused = flag
 
     @api.multi
     def action_manual_lot_assign_wizard(self):

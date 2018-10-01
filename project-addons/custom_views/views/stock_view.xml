@@ -312,6 +312,40 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             sequence="4"
         />
 
+        <record id="custom_views_lot_available_stock_tree" model="ir.ui.view">
+            <field name="name">Custom views - Lot available stock tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="arch" type="xml">
+                <tree default_order="create_date desc">
+                    <field name="product_id"/>
+                    <field name="default_code"/>
+                    <field name="categ_id"/>
+                    <field name="name"/>
+                    <field name="available_stock"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_lot_available_stock" model="ir.actions.act_window">
+            <field name="name">Lot available stock</field>
+            <field name="res_model">stock.production.lot</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="custom_views_lot_available_stock_tree"/>
+        </record>
+
+        <menuitem name="Reports"
+                  id="menu_qc_reports"
+                  parent="quality_management_menu.menu_quality_management"
+                  sequence="12"/>
+
+        <menuitem name="Lot available stock"
+            action="action_lot_available_stock"
+            id="menu_lot_available_stock"
+            parent="custom_views.menu_qc_reports"
+            sequence="2"
+        />
+
         <record model="ir.ui.view" id="custom_views_stock_move_form_view">
             <field name="name">Custom views - Stock move form</field>
             <field name="model">stock.move</field>

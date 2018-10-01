@@ -9,17 +9,16 @@ import time
 
 class PurchasableProducts(models.TransientModel):
     _name = 'purchasable.products'
+    _inherits = {'product.product': 'product_id'}
     _rec_name = 'product_id'
-    _order = 'product_id'
 
     request_id = fields.Integer()
     partner_id = fields.Many2one(comodel_name='res.partner')
-    product_id = fields.Many2one(comodel_name='product.product',
-                                 string='Product', readonly=True)
-    default_code = fields.Char(related='product_id.default_code', readonly=True)
-    description = fields.Text(related='product_id.description', readonly=True)
+    partner_ref = fields.Char(related='partner_id.ref', readonly=True)
+    product_id = fields.Many2one(string='Product',
+                                 comodel_name='product.product', required=True,
+                                 ondelete='cascade', readonly=True)
     supplier_ref = fields.Char(string='Supplier reference', readonly=True)
-    product_uom = fields.Many2one(comodel_name='product.uom')
     qty_current_year = fields.Float(digits=(16,2), string='Current year qty.')
     price_current_year = fields.Float(digits=(16,2), string='Current year amount')
     qty_last_year = fields.Float(digits=(16,2), string='Last year qty.')
@@ -79,7 +78,6 @@ class PurchasableProducts(models.TransientModel):
                     'partner_id': False,
                     'product_id': False,
                     'supplier_ref': '',
-                    'product_uom': False,
                     'qty_current_year': 0,
                     'price_current_year': 0,
                     'qty_last_year': 0,
@@ -100,7 +98,6 @@ class PurchasableProducts(models.TransientModel):
                 products[prod_idx] = dict(product_data)
                 products[prod_idx]['partner_id'] = partner_id.id
                 products[prod_idx]['product_id'] = ail.product_id.id
-                products[prod_idx]['product_uom'] = ail.uos_id.id
                 pl = price_lists.filtered(lambda r:
                                           r.product_tmpl_id ==
                                           ail.product_id.product_tmpl_id)
@@ -128,7 +125,6 @@ class PurchasableProducts(models.TransientModel):
                     products[prod_idx] = dict(product_data)
                     products[prod_idx]['partner_id'] = partner_id.id
                     products[prod_idx]['product_id'] = prod_idx
-                    products[prod_idx]['product_uom'] = pl.product_uom.id
                     products[prod_idx]['supplier_ref'] = pl.product_code
                 products[prod_idx]['price_list_member'] = True
 
@@ -151,3 +147,51 @@ class PurchasableProducts(models.TransientModel):
             'target': 'new',
             'context': self.env.context,
         }
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        if self.env.context.get('show_all_suppliers', False):
+            # Unique id for domain filtering
+            request_id = int(round(time.time()))
+
+            self.env.cr.execute("""
+                insert into purchasable_products (request_id, partner_id, supplier_ref,
+                    product_id, create_uid, create_date, write_uid, write_date)
+                select distinct
+                    {1:d} as request_id,
+                    suppliers.partner_id,
+                    rp.ref,
+                    suppliers.product_id,
+                    {0:d} as create_uid,
+                    current_date as create_date,
+                    {0:d} as write_uid,
+                    current_date as write_date                 
+                from (
+                    select distinct
+                        ai.commercial_partner_id "partner_id",
+                        ail.product_id "product_id"
+                    from account_invoice ai
+                    join account_invoice_line ail on ail.invoice_id = ai.id
+                    join product_product pp on pp.id = ail.product_id and pp.active
+                    where ai.company_id = 1
+                      and ai.date_invoice is not null
+                      and ai.state != 'cancel'
+                      and ai.type in ('in_invoice', 'in_refund')
+                
+                    union
+                
+                    select distinct
+                        ps.name "partner_id",
+                        pp.id "product_id"
+                    from product_supplierinfo ps
+                    join product_product pp on pp.product_tmpl_id = ps.product_tmpl_id and pp.active
+                    where ps.company_id = 1
+                      and ps.active_supplier
+                ) as suppliers
+                join res_partner rp on rp.id = suppliers.partner_id and rp.active
+            """.format(self.env.user.id, request_id))
+            args.append(('request_id', '=', request_id))
+
+        return super(PurchasableProducts, self).search(args, offset=offset,
+                                                       limit=limit, order=order,
+                                                       count=count)

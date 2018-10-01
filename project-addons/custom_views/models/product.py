@@ -253,3 +253,65 @@ class PricelistPartnerinfo(models.Model):
     _inherit = 'pricelist.partnerinfo'
 
     sequence = fields.Integer(related='suppinfo_id.sequence', readonly=True)
+
+
+class ProductIncoming(models.TransientModel):
+    _name = 'product.incoming'
+    _inherits = {'product.product': 'product_id'}
+    _rec_name = 'product_id'
+
+    product_id = fields.Many2one(string='Product',
+                                 comodel_name='product.product', required=True,
+                                 ondelete='cascade', readonly=True)
+    data_uid = fields.Many2one(comodel_name='res.users', readonly=True)
+    cumulative_incoming_qty = fields.Float(default=0, readonly=True)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        self.env.cr.execute('delete from product_incoming where data_uid = {:d}'.
+                            format(self.env.user.id))
+
+        query = """
+            insert into product_incoming (id, product_id,
+                cumulative_incoming_qty, data_uid,
+                create_uid, create_date, write_uid, write_date)
+            select
+                row_number() over (order by pp.name_template) as id,
+                pp.id as product_id,
+                sum(sm.product_uom_qty),
+                {0:d} as data_uid,
+                {0:d} as create_uid,
+                current_date as create_date,
+                {0:d} as write_uid,
+                current_date as write_date                
+            from product_product pp
+            join stock_move sm on sm.product_id = pp.id
+             and sm.state = 'done'
+             and sm.location_id = {1:d}  -- Suppliers locations
+             and sm.location_dest_id = {2:d}  -- Company incoming location            
+        """
+        group_by = """
+            group by 2, 4, 5, 6, 7
+            having sum(sm.product_uom_qty) != 0
+        """
+
+        if self.env.context.get('date_start', False):
+            query += """ where sm.date between '{3}' and '{4}'""" + group_by
+            self.env.cr.execute(query.format(
+                self.env.user.id,
+                self.env.ref('stock.stock_location_suppliers').id,
+                self.env.ref('stock.stock_location_company').id,
+                self.env.context.get('date_start'),
+                self.env.context.get('date_end')
+            ))
+        else:
+            query += group_by
+            self.env.cr.execute(query.format(
+                self.env.user.id,
+                self.env.ref('stock.stock_location_suppliers').id,
+                self.env.ref('stock.stock_location_company').id
+            ))
+
+        return super(ProductIncoming, self).search(args, offset=offset,
+                                                   limit=limit, order=order,
+                                                   count=count)
