@@ -151,84 +151,84 @@ div.contenedor_si_no {
 }
 
 @media print {
-    body {
-        overflow-x: hidden;
-    }
-    .openerp .quality_view * {
-        font-family: "DejaVu Sans", FreeSans !important;
-    }
-    .openerp .quality_view *,
-    .proto_fuente_normal,
-    .openerp .oe_form .js_question-wrapper *,
-    .openerp .oe_form .js_question-wrapper h2 span {
-        font-size: 10px;
-    }
-    .proto_fuente_grande,
-    .openerp .oe_form .survey .page-header h2,
-    .openerp .oe_form .survey .page-header h2 span,
-    .openerp .oe_form .quality_view h2,
-    .openerp .oe_form .quality_view h2 span {
-        font-size: 12px;
-    }
-    .openerp .oe_form .js_question-wrapper * {
-        font-weight: normal;
-    }
-    select,
-    .openerp .quality_view select {
-    -webkit-appearance: none;
-        appearance: none;
-    }
-    td input,
-    .openerp .quality_view td input {
-        border: none;
-    }
-    tfoot,
-    .openerp .quality_view tfoot {
-        display: none;
-    }
-    .openerp .quality_row table,
-    .openerp .quality_row tr,
-    .openerp .quality_row tr td,
-    .openerp .quality_row tr th,
-    .openerp .quality_row tr td input,
-    .openerp .quality_row tr td span:not(.campo_si_no_indicador),
-    .openerp .quality_view .quality_row table,
-    .openerp .quality_view .quality_row tr,
-    .openerp .quality_view .quality_row tr td,
-    .openerp .quality_view .quality_row tr th,
-    .openerp .quality_view .quality_row tr td input,
-    .openerp .quality_view .quality_row tr td span:not(.campo_si_no_indicador) {
-        font-size: 8px;
-        min-width: 4em;
-    }
+  body {
+    overflow-x: hidden;
+  }
+  .openerp .quality_view * {
+    font-family: "DejaVu Sans", FreeSans !important;
+  }
+  .openerp .quality_view *,
+  .proto_fuente_normal,
+  .openerp .oe_form .js_question-wrapper *,
+  .openerp .oe_form .js_question-wrapper h2 span {
+    font-size: 10px;
+  }
+  .proto_fuente_grande,
+  .openerp .oe_form .survey .page-header h2,
+  .openerp .oe_form .survey .page-header h2 span,
+  .openerp .oe_form .quality_view h2,
+  .openerp .oe_form .quality_view h2 span {
+    font-size: 12px;
+  }
+  .openerp .oe_form .js_question-wrapper * {
+    font-weight: normal;
+  }
+  select,
+  .openerp .quality_view select {
+  -webkit-appearance: none;
+    appearance: none;
+  }
+  td input,
+  .openerp .quality_view td input {
+    border: none;
+  }
+  tfoot,
+  .openerp .quality_view tfoot {
+    display: none;
+  }
+  .openerp .quality_row table,
+  .openerp .quality_row tr,
+  .openerp .quality_row tr td,
+  .openerp .quality_row tr th,
+  .openerp .quality_row tr td input,
+  .openerp .quality_row tr td span:not(.campo_si_no_indicador),
+  .openerp .quality_view .quality_row table,
+  .openerp .quality_view .quality_row tr,
+  .openerp .quality_view .quality_row tr td,
+  .openerp .quality_view .quality_row tr th,
+  .openerp .quality_view .quality_row tr td input,
+  .openerp .quality_view .quality_row tr td span:not(.campo_si_no_indicador) {
+    font-size: 8px;
+    min-width: 4em;
+  }
 
-    /*** Campo Sí/No ***/
-    .campo_si_no_indicador {
-        top: 2px;
-        left: 0;
-        height: 13px;
-        width: 13px;
-        border: 1px solid black;
-    }
-    .campo_si_no .campo_si_no_indicador:after {
-        left: 2px;
-        top: 2px;
-        height: 6px;
-        width: 7px;
-    }
-    .campo_si_no_separador {
-        height: 13px;
-        width: 13px;
-    }
-    .openerp .oe_form label.campo_si_no {
-        padding-left: 16px;
-    }
+  /*** Campo Sí/No ***/
+  .campo_si_no_indicador {
+    top: 2px;
+    left: 0;
+    height: 13px;
+    width: 13px;
+    border: 1px solid black;
+  }
+  .campo_si_no .campo_si_no_indicador:after {
+    left: 2px;
+    top: 2px;
+    height: 6px;
+    width: 7px;
+  }
+  .campo_si_no_separador {
+    height: 13px;
+    width: 13px;
+  }
+  .openerp .oe_form label.campo_si_no {
+    padding-left: 16px;
+  }
 
-    p.sangria{
-        margin-left: 1em;
-    }
+  p.sangria {
+    padding-left: 1em;
+  }
 
-    p.sangria2{
-        margin-left: 2em;
-    }
+  p.sangria2 {
+    padding-left: 2em;
+  }
 }

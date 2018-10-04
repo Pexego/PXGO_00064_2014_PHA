@@ -198,10 +198,14 @@ class StockExpeditions(models.Model):
     carrier_sale_line = fields.Many2one(
                               'sale.order.line',
                               store=True)
-    zip = fields.Char(related='move_lines.partner_id.zip')
-    city = fields.Char(related='move_lines.partner_id.city')
-    state_id = fields.Many2one(related='move_lines.partner_id.state_id')
-    country_id = fields.Many2one(related='move_lines.partner_id.country_id')
+    zip = fields.Char(related='move_lines.partner_id.zip',
+                      readonly=True)
+    city = fields.Char(related='move_lines.partner_id.city',
+                       readonly=True)
+    state_id = fields.Many2one(related='move_lines.partner_id.state_id',
+                               readonly=True)
+    country_id = fields.Many2one(related='move_lines.partner_id.country_id',
+                                 readonly=True)
     sent = fields.Integer('Sent', default=0)
     amount_gross_untaxed = fields.Float(
         'Amount',
