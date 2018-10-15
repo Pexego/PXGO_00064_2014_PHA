@@ -21,28 +21,39 @@
                     </div>
 
                     <div class="text-center">
-                        <span style="font-size:30px; font-weight:bold;">Contiene: <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
-                        <t t-if="gtin and gtin > ''">
+                        <span style="font-size:30px; font-weight:bold;">
+                            <t t-if="o.product_id.country.id in (2, 235)">Contains:</t>
+                            <t t-if="o.product_id.country.id == 185">Contém:</t>
+                            <t t-if="o.product_id.country.id not in (2, 235, 185)">Contiene:</t>
+                            <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/>
+                        </span>
+                        <t t-if="gtin and gtin &gt; ''">
                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1600, 500)" style="width:1600px;height:80px;margin-left:-300px;"/>
                             <br/>
                             <span style="font-size:24px; font-weight:bold;" t-esc="gtin"/>
                         </t>
                         <br/>
                         <t t-if="o.product_id.categ_id.id in (1199, 1224)"> <!-- Para materias primas y productos intermedios -->
-                            <span style="font-size:30px; font-weight:bold;">Fecha de fabricación:
-                                <span t-field="o.date_planned" t-field-options='{"format": "MM/y"}'/>
+                            <span style="font-size:30px; font-weight:bold;">
+                                <t t-if="o.product_id.country.id in (2, 235)">Manufacturing date:</t>
+                                <t t-if="o.product_id.country.id == 185">Data de fabricação:</t>
+                                <t t-if="o.product_id.country.id not in (2, 235, 185)">Fecha de fabricación:</t>
+                                <span t-field="o.date_planned" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
                             </span>
                         </t>
                         <t t-if="o.product_id.categ_id.id not in (1199, 1224)">
-                            <span style="font-size:30px; font-weight:bold;">Consumir preferentemente antes del fin de:
+                            <span style="font-size:30px; font-weight:bold;">
+                                <t t-if="o.product_id.country.id in (2, 235)">Best before end:</t>
+                                <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
+                                <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
                                 <t t-if="o.product_id.duration_type == 'exact'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "dd/MM/y"}'/>
+                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
                                 </t>
                                 <t t-if="o.product_id.duration_type == 'end_month'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "MM/y"}'/>
+                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
                                 </t>
                                 <t t-if="o.product_id.duration_type == 'end_year'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options='{"format": "y"}'/>
+                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;y&quot;}"/>
                                 </t>
                             </span>
                         </t>
@@ -84,20 +95,30 @@
                     </div>
 
                     <div class="text-center">
-                        <span style="font-size:24px; font-weight:bold;">Contiene: <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
-                        <t t-if="gtin and gtin > ''">
+                        <span style="font-size:24px; font-weight:bold;">
+                            <t t-if="o.product_id.country.id in (2, 235)">Contains:</t>
+                            <t t-if="o.product_id.country.id == 185">Contém:</t>
+                            <t t-if="o.product_id.country.id not in (2, 235, 185)">Contiene:</t>
+                            <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
+                        <t t-if="gtin and gtin &gt; ''">
                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 700, 250)" style="width: 1050px; margin-left: -195px; height: 60px;"/>
                             <br/>
                             <span style="font-size:18px; font-weight:bold;" t-esc="gtin"/>
                         </t>
                         <br/>
                         <t t-if="o.product_id.categ_id.id in (1199, 1224)"> <!-- Para materias primas y productos intermedios -->
-                            <span style="font-size: 24px; font-weight: bold;">Fecha de fabricación:
-                                <span t-field="o.date_planned" t-field-options='{"format": "MM/y"}'/>
+                            <span style="font-size: 24px; font-weight: bold;">
+                                <t t-if="o.product_id.country.id in (2, 235)">Manufacturing date:</t>
+                                <t t-if="o.product_id.country.id == 185">Data de fabricação:</t>
+                                <t t-if="o.product_id.country.id not in (2, 235, 185)">Fecha de fabricación:</t>
+                                <span t-field="o.date_planned" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
                             </span>
                         </t>
                         <t t-if="o.product_id.categ_id.id not in (1199, 1224)">
-                            <span style="font-size: 24px; font-weight: bold;">Consumir preferentemente antes del fin de:
+                            <span style="font-size: 24px; font-weight: bold;">
+                                <t t-if="o.product_id.country.id in (2, 235)">Best before end:</t>
+                                <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
+                                <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
                                 <t t-if="o.product_id.duration_type == 'exact'">
                                     <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
                                 </t>
