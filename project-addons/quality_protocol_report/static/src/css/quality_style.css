@@ -157,6 +157,12 @@ div.contenedor_si_no {
   .openerp .quality_view * {
     font-family: "DejaVu Sans", FreeSans !important;
   }
+  .openerp .quality_view input.form-control,
+  .openerp .quality_view textarea.form-control,
+  .openerp .quality_view select.form-control,
+  .openerp table.quality_field td {
+    border: 1px solid black;
+  }
   .openerp .quality_view *,
   .proto_fuente_normal,
   .openerp .oe_form .js_question-wrapper *,
