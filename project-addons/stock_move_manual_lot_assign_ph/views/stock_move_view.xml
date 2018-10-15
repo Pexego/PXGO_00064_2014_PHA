@@ -17,8 +17,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             icon="gtk-index"
                             attrs="{'invisible': [('show_manual_lot_assign_button', '=', False)]}"
                     />
-                    <field name="reserved_lots_available_qty"
-                           attrs="{'invisible': [('show_manual_lot_assign_button', '=', False)]}"/>
+                    <field name="reserved_lots_available_qty"/>
                     <field name="old_lots_unused" invisible="1"/>
                 </field>
                 <tree position="attributes">
