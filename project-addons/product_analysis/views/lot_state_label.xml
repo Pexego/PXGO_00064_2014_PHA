@@ -38,7 +38,7 @@
                                 </span>
                             </div>
                             <div class="col-xs-12">
-                                <div style="width: 415px;; overflow: hidden;">
+                                <div style="width: 415px; overflow: hidden;">
                                     <t t-set="barcode" t-value="o.product_id.default_code"/>
                                     <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1000, 80)" height="40" width="500" style="margin-left: -45px;"/>
