@@ -19,8 +19,12 @@ class PaletTagParser(models.AbstractModel):
         packages = {}
         for picking in picks:
             packages[picking.id] = []
-            for sscc in picking.mapped('pack_operation_ids.sscc_ids').filtered(lambda r: r.type in ('2', '3')):
+            sscc_list = picking.mapped('pack_operation_ids').mapped('sscc_ids').filtered(lambda r: r.type in ('2', '3'))
+            for sscc in sscc_list.filtered(lambda r: r.type == '2'):
                 packages[picking.id].append(sscc)
+            for sscc in sscc_list.filtered(lambda r: r.type == '3'):
+                index = sscc.operation_ids[0].package - 1
+                packages[picking.id].insert(index, sscc)
         docargs = {
             'doc_ids': [],
             'doc_model': 'stock.picking',
