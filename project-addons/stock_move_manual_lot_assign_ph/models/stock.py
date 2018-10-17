@@ -29,14 +29,12 @@ class StockMove(models.Model):
 
     @api.one
     def _reserved_lots_available_qty(self):
-        available_qty = 0
-        flag = False
-
-        if self.picking_id and self.picking_id.picking_type_code == 'internal' \
-                and self.state in ('assigned', 'confirmed'):
+        if self.show_manual_lot_assign_button and \
+           self.state in ('assigned', 'confirmed') and self.lot_ids:
             wizard_id = self.env['stock.move.assign.manual.lot'].\
                 with_context({'active_id': self.id, 'compute_only': True}).\
                 create({})
+            available_qty = 0
             for lot in self.lot_ids:
                 wizard_line_ids = wizard_id.line_ids.\
                     filtered(lambda l: l.lot_id == lot)
@@ -47,12 +45,10 @@ class StockMove(models.Model):
             # Check if any old lot is unused
             wizard_line_ids = wizard_id.line_ids.sorted(key=lambda r: r.lot_id)
             lines_count = len(wizard_line_ids)
+            flag = False
             for idx, line_id in enumerate(wizard_line_ids, start=1):
                 flag = flag or ((idx != lines_count) and (line_id.use_qty == 0.0))
             self.old_lots_unused = flag
-
-        self.write({'reserved_lots_available_qty': available_qty,
-                    'old_lots_unused': flag})
 
     @api.multi
     def action_manual_lot_assign_wizard(self):
