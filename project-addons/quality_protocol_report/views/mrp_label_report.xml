@@ -6,7 +6,7 @@
         <template id="report_mrp_label">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
-                    <div class="text-center">
+                    <div class="text-center" style="padding-top: 5px;">
                         <span t-att-style="'font-size:' + name_css_size + 'px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.product_id.name"/>
                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 1400, 500)" style="width:1400px;height:80px;margin-left:-200px;"/>
                         <br/>

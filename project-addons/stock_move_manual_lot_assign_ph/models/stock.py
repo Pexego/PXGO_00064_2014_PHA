@@ -29,8 +29,11 @@ class StockMove(models.Model):
 
     @api.one
     def _reserved_lots_available_qty(self):
-        if self.show_manual_lot_assign_button and \
-           self.state in ('assigned', 'confirmed') and self.lot_ids:
+        if self.picking_id and \
+           self.picking_id.picking_type_code == 'internal' and \
+           self.is_hoard_move and \
+           self.state in ('assigned', 'confirmed') and \
+           self.lot_ids:
             wizard_id = self.env['stock.move.assign.manual.lot'].\
                 with_context({'active_id': self.id, 'compute_only': True}).\
                 create({})
