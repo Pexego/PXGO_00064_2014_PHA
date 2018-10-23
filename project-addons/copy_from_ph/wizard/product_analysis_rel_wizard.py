@@ -21,4 +21,6 @@ class ProductAnalysisRelWizard(models.TransientModel):
                 for line in self.copy_from.analysis_ids:
                     new_line = line.copy()
                     new_line.product_id = id
+                    if line.boolean_selection:
+                        new_line.on_change_boolean_selection()
         return self

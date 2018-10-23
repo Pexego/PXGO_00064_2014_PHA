@@ -356,5 +356,19 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </field>
             </field>
         </record>
+
+        <record id="action_external_inventory_valuation" model="ir.actions.act_window">
+            <field name="name">External inventory valuation</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="domain" eval="[('location_id', 'child_of', [ref('__export__.stock_location_102')])]"/>
+        </record>
+
+        <menuitem name="External inventory valuation"
+            action="action_external_inventory_valuation"
+            id="menu_external_inventory_valuation"
+            parent="stock.menu_stock_inventory_control"
+            sequence="21"
+        />
     </data>
 </openerp>

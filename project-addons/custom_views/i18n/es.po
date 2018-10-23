@@ -396,6 +396,11 @@ msgid "Extended view"
 msgstr "Vista extendida (PNT)"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_external_inventory_valuation
+msgid "External inventory valuation"
+msgstr "Valorac. externa inventario"
+
+#. module: custom_views
 #: field:mrp.machinery,sop_extra_1_id:0
 msgid "Extra 1 procedure"
 msgstr "Procedimiento extra 1"

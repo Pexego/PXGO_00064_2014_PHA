@@ -37,14 +37,14 @@ class StockLotMove(models.Model):
     @api.one
     def _check_type(self):
         if (self.location_id.usage in
-                ['internal', 'view', 'procurement', 'transit']) and\
+                ['internal', 'view']) and\
            (self.location_dest_id.usage in
-                ['customer', 'inventory', 'supplier', 'production']):
+                ['customer', 'inventory', 'supplier', 'production', 'procurement', 'transit']):
             self.type = 'output'
         elif (self.location_id.usage in
-                  ['customer', 'inventory', 'supplier', 'production']) and\
+                  ['customer', 'inventory', 'supplier', 'production', 'procurement', 'transit']) and\
              (self.location_dest_id.usage in
-                  ['internal', 'view', 'procurement', 'transit']):
+                  ['internal', 'view']):
             self.type = 'input'
         else:
             self.type = 'internal'
@@ -117,11 +117,11 @@ class LotTracking(models.Model):
                 ('lot_id', '=', self.lot_id.id),
                 '|',
                 '&',
-                ('location_id.usage', 'in', ('internal', 'view', 'procurement', 'transit')),
-                ('location_dest_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
+                ('location_id.usage', 'in', ('internal', 'view')),
+                ('location_dest_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production', 'procurement', 'transit')),
                 '&',
-                ('location_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production')),
-                ('location_dest_id.usage', 'in', ('internal', 'view', 'procurement', 'transit'))
+                ('location_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production', 'procurement', 'transit')),
+                ('location_dest_id.usage', 'in', ('internal', 'view'))
             ])
 
         total = 0

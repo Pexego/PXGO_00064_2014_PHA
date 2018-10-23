@@ -65,7 +65,7 @@ class ProductAnalysisRel(models.Model):
 
     @api.multi
     def write(self, vals):
-        if vals.get('analysis_type') != 'boolean':
+        if vals.get('analysis_type', self[0].analysis_type) != 'boolean':
             vals['boolean_selection'] = False
         else:
             vals['expected_result_expr'] = False

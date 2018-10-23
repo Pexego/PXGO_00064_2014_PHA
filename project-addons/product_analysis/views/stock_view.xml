@@ -174,7 +174,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_stock_production_lot_dates"/>
-            <field name="domain">[('quant_ids.location_id.usage', 'in', ('internal', 'view', 'transit', 'procurement'))]</field>
+            <field name="domain">[('quant_ids.location_id.usage', 'in', ('internal', 'view'))]</field>
         </record>
 
         <menuitem action="action_stock_production_lot_dates"

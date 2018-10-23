@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-        <record model="ir.ui.view" id="custom_views_purchase_order_form">
+        <record model="ir.ui.view" id="custom_views_purchase_order_analytic_form">
             <field name="name">Custom views - Purchase order</field>
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase_analytic_plans.purchase_order_form_analytic_inherit"/>
@@ -13,7 +13,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="custom_views_purchase_order_line_form">
+        <record model="ir.ui.view" id="custom_views_purchase_order_line_analytic_form">
             <field name="name">Custom views - Purchase order line</field>
             <field name="model">purchase.order.line</field>
             <field name="inherit_id" ref="purchase_analytic_plans.purchase_order_line_form_inherit"/>

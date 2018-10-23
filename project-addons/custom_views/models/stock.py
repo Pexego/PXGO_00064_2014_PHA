@@ -252,8 +252,7 @@ class StockProductionLot(models.Model):
     def _available_stock(self):
         quantity = 0
         for q in self.quant_ids:
-            if q.location_id.usage in ('internal', 'procurement', 'transit',
-                                       'view'):
+            if q.location_id.usage in ('internal', 'view'):
                 quantity += q.qty
         self.available_stock = quantity
 
