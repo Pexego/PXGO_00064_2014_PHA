@@ -387,7 +387,31 @@ class edi_parser(models.Model):
             # Se recorren las operaciones ya que contienen los datos de empaquetado.
             curr_parent = 1
             curr_cps = 1
-            for sscc in [x for x in pick.mapped('pack_operation_ids.sscc_ids') if x.type=='1']:
+            sscc_lines = [x for x in pick.mapped('pack_operation_ids.sscc_ids') if x.type=='1']
+            if not sscc_lines:
+                for sscc in pick.mapped('pack_operation_ids.sscc_ids'):
+                    CPS = {
+                        'lineId': 'CPS',
+                        'col1': curr_cps,
+                        'col2': curr_parent
+                    }
+                    curr_cps += 1
+                    data[filename].append(edi._create_line_csv(CPS, structs))
+
+                    PAC = {
+                        'lineId': 'PAC',
+                        'col1': 'CT'
+                    }
+                    data[filename].append(edi._create_line_csv(PAC, structs))
+                    PCI = {
+                        'lineId': 'PCI',
+                        'col1': '33E',
+                        'col2': 'BJ',
+                        'col3': sscc.name
+                    }
+                    data[filename].append(edi._create_line_csv(PCI, structs))
+                    _create_line_desadv(data, filename, edi, sscc)
+            for sscc in sscc_lines:
                 CPS = {
                     'lineId': 'CPS',
                     'col1': curr_cps,
