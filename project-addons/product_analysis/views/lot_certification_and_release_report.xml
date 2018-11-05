@@ -21,7 +21,7 @@
 
                         <!-- Obtenemos y ordenamos los registros de producción -->
                         <t t-set="aRegProd" t-value="[]"/>
-                        <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 2)])"/> <!-- Registros producción -->
+                        <t t-set="vistas" t-value="production.product_id.protocol_ids.mapped('protocol').mapped('report_lines.line_id').mapped('report_reference_ids').filtered(lambda r: r.report_type_id.id == 2)"/> <!-- Registros producción -->
                         <t t-foreach="vistas" t-as="vista">
                             <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
                             <t t-set="ordenes" t-value="production.workcenter_lines"/>
@@ -32,7 +32,7 @@
                                 </t>
                             </t>
                         </t>
-                        <t t-set="aux" t-value="aRegProd.sort(key=lambda reg: reg.x_create_date + '_' + reg.x_init_time)"/>
+                        <t t-set="aux" t-value="aRegProd.sort(key=lambda reg: reg.x_create_date if reg.create_date else '31/12/2999' + '_' + reg.x_init_time if reg.x_init_time else '23:59:59')"/>
 
                         <div class="row" style="border: 1px solid black; font-size: 1.2em;">
                             <div class="col-xs-6">
@@ -43,19 +43,15 @@
                                 <t t-set="barcode" t-value="o.product_id.default_code"/>
                                 <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                 <div style="width: 100%; overflow: hidden;">
-                                    <img style="margin-left: -45px;"
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)"
-                                             height="30" width="280"/>
+                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
                                 </div>
                             </div>
                             <div class="col-xs-3" style="padding-bottom: 0.25em;">
-                                <b>Nº lote: </b><span t-field="o.name"/><br/>
+                                <b>Nº lote: <span t-field="o.name"/></b><br/>
                                 <t t-set="barcode" t-value="o.name"/>
                                 <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                 <div style="width: 100%; overflow: hidden;">
-                                    <img style="margin-left: -45px;"
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)"
-                                             height="30" width="280"/>
+                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
                                 </div>
                             </div>
                         </div>
@@ -80,37 +76,8 @@
                                 </div>
                             </div>
 
-                            <!-- Obtenemos los campos de unidades fabricadas -->
-                            <t t-set="unidadesFabricadas" t-value="[]"/>
-                            <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 6)])"/> <!-- Unidades fabricadas -->
-                            <t t-foreach="vistas" t-as="vista">
-                                <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
-                                <t t-set="ordenes" t-value="production.workcenter_lines"/>
-                                <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
-                                <t t-foreach="tablas" t-as="table_id">
-                                    <t t-set="aux" t-value="unidadesFabricadas.append(table_id[vista.data_reference])"/>
-                                </t>
-                            </t>
-
-                            <!-- Obtenemos los campos de peso final obtenido -->
-                            <t t-set="pesosFinalesObtenidos" t-value="[]"/>
-                            <t t-set="vistas" t-value="production.env['quality.protocol.report.reference'].search([('report_type_id', '=', 7)])"/> <!-- Peso final obtenido -->
-                            <t t-foreach="vistas" t-as="vista">
-                                <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
-                                <t t-set="ordenes" t-value="production.workcenter_lines"/>
-                                <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
-                                <t t-foreach="tablas" t-as="table_id">
-                                    <t t-set="aux" t-value="pesosFinalesObtenidos.append(table_id[vista.data_reference])"/>
-                                </t>
-                            </t>
-
                             <div class="col-xs-3">
-                                <t t-if="unidadesFabricadas and max(unidadesFabricadas) != 0">
-                                    <b>Unidades: </b><span t-esc="'{0:g}'.format(max(unidadesFabricadas))"/>
-                                </t>
-                                <t t-if="pesosFinalesObtenidos and max(pesosFinalesObtenidos) != 0">
-                                    <b>Peso (g): </b><span t-esc="'{0:g}'.format(max(pesosFinalesObtenidos))"/>
-                                </t>
+                                &amp;nbsp;
                             </div>
 
                             <div class="col-xs-9" style="border-right: 1px solid black;">
@@ -129,7 +96,7 @@
                                     </t>
                                 </div>
                             </div>
-                            <div class="col-xs-3"><![CDATA[&nbsp;]]></div>
+                            <div class="col-xs-3"><span t-field="production.routing_id.name"/></div>
 
                             <div class="col-xs-12" style="border-top: 1px solid black;">
                                 <div class="col-xs-12" style="font-weight: bold;">Informe de trazabilidad:</div>
@@ -141,30 +108,26 @@
                                         <td style="width: 30%;">Proveedor</td>
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
-                                    <t t-foreach="production.move_lines2" t-as="material">
+                                    <t t-set="material_ids" t-value="production.workcenter_lines.mapped('x_mrp_wcl_revifi_matentreg_ids').mapped('x_material_ids').filtered(lambda r: r.x_product_id.categ_id.id in (1199, 1195, 1224, 1525, 1494, 1493, 1497))"/> <!-- M.Prima, Ac.Prim., Interm., Vendibles (CVD, Manuf., Pack, Prod.) -->
+                                    <t t-foreach="material_ids" t-as="material">
+                                        <t t-set="lote" t-value="material.x_lot_id"/>
                                         <tr style="font-size: 0.8em;">
                                             <td>
-                                                <span t-field="material.product_id"/>
+                                                <span t-field="lote.product_id"/>
                                             </td>
                                             <td>
-                                                <span t-field="material.lot_str"/>
-                                            </td>
-                                            <td style="text-align: right; padding-right: 1em;">
-                                                <span t-field="material.product_qty"/>
+                                                <span t-field="lote.name"/>
                                             </td>
                                             <td>
-                                                <t t-if="material.lot_ids">
-                                                    <t t-foreach="material.lot_ids[0]" t-as="lot">
-                                                        <t t-set="move_ids" t-value="lot.move_related_ids.filtered(lambda r: r.picking_id.picking_type_id.id == 1 and r.picking_id.state == 'done')"/>
-                                                        <t t-set="supplier" t-value="move_ids[0].picking_id.partner_id.display_name if move_ids else ''"/>
-                                                        <span t-esc="supplier"/>
-                                                    </t>
-                                                </t>
+                                                <span t-esc="material.x_served_qty if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.x_served_qty)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="move_ids" t-value="lote.move_related_ids.filtered(lambda r: r.picking_id.picking_type_id.id == 1 and r.picking_id.state == 'done')"/>
+                                                <t t-set="supplier" t-value="move_ids[0].picking_id.partner_id.display_name if move_ids else ''"/>
+                                                <span t-esc="supplier"/>
                                             </td>
                                             <td style="text-align: right;">
-                                                <t t-if="material.lot_ids">
-                                                    <span t-field="material.lot_ids[0].acceptance_date"/>
-                                                </t>
+                                                <span t-field="lote.acceptance_date"/>
                                             </td>
                                         </tr>
                                     </t>
@@ -179,14 +142,14 @@
                                     <div class="col-xs-6">Conforme:</div>
                                     <div class="col-xs-2">SÍ</div>
                                     <div class="col-xs-2">NO</div>
-                                    <div class="col-xs-2"><![CDATA[&nbsp;]]></div>
+                                    <div class="col-xs-2">&amp;nbsp;</div>
                                 </div>
                                 <t t-foreach="o.production_review_ids" t-as="pr">
                                     <div class="row">
-                                        <div class="col-xs-6" style="padding-left: 2em;"><![CDATA[&#9679;]]> <span t-esc="pr.question_id.name"/></div>
-                                        <div class="col-xs-2" t-esc="'&#9745;' if pr.result == 'yes' else '&#9744;'"/>
-                                        <div class="col-xs-2" t-esc="'&#9745;' if pr.result == 'no' else '&#9744;'"/>
-                                        <div class="col-xs-2"><![CDATA[&nbsp;]]></div>
+                                        <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; <span t-esc="pr.question_id.name"/></div>
+                                        <div class="col-xs-2" t-esc="'☑' if pr.result == 'yes' else '☐'"/>
+                                        <div class="col-xs-2" t-esc="'☑' if pr.result == 'no' else '☐'"/>
+                                        <div class="col-xs-2">&amp;nbsp;</div>
                                     </div>
                                 </t>
                             </div>
@@ -197,8 +160,8 @@
                                 </div>
                                 <div class="col-xs-4">
                                     Revisado por:<br/>
-                                    <div class="col-xs-8" t-field="o.production_review_done_by"/>
-                                    <div class="col-xs-4" t-field="o.production_review_date"/>
+                                    <div class="col-xs-6" t-field="o.production_review_done_by"/>
+                                    <div class="col-xs-6" t-field="o.production_review_date"/>
                                 </div>
                             </div>
                         </div>
@@ -213,25 +176,25 @@
                                     <div class="col-xs-2">N/A</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-6" style="padding-left: 2em;"><![CDATA[&#9679;]]> Control materiales de partida</div>
+                                    <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; Control materiales de partida</div>
                                     <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 372)"/>
-                                    <div class="col-xs-2" t-esc="'&#9745;' if analysis.passed else '&#9744;'"/>
-                                    <div class="col-xs-2" t-esc="'&#9744;' if analysis.passed else '&#9745;'"/>
-                                    <div class="col-xs-2" t-esc="'&#9744;' if analysis.realized else '&#9745;'"/>
+                                    <div class="col-xs-2" t-esc="'☑' if analysis.passed and analysis.result_boolean_selection and analysis.realized else '☐'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.passed or not analysis.realized or not analysis.result_boolean_selection else '☑'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-6" style="padding-left: 2em;"><![CDATA[&#9679;]]> Controles en proceso</div>
+                                    <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; Controles en proceso</div>
                                     <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 374)"/>
-                                    <div class="col-xs-2" t-esc="'&#9745;' if analysis.passed else '&#9744;'"/>
-                                    <div class="col-xs-2" t-esc="'&#9744;' if analysis.passed else '&#9745;'"/>
-                                    <div class="col-xs-2" t-esc="'&#9744;' if analysis.realized else '&#9745;'"/>
+                                    <div class="col-xs-2" t-esc="'☑' if analysis.passed and analysis.result_boolean_selection and analysis.realized else '☐'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.passed or not analysis.realized or not analysis.result_boolean_selection else '☑'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-6" style="padding-left: 2em;"><![CDATA[&#9679;]]> Controles analíticos producto final</div>
+                                    <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; Controles analíticos producto final</div>
                                     <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 373)"/>
-                                    <div class="col-xs-2" t-esc="'&#9745;' if analysis.passed else '&#9744;'"/>
-                                    <div class="col-xs-2" t-esc="'&#9744;' if analysis.passed else '&#9745;'"/>
-                                    <div class="col-xs-2" t-esc="'&#9744;' if analysis.realized else '&#9745;'"/>
+                                    <div class="col-xs-2" t-esc="'☑' if analysis.passed and analysis.result_boolean_selection and analysis.realized else '☐'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.passed or not analysis.realized or not analysis.result_boolean_selection else '☑'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/>
                                 </div>
                             </div>
                             <div class="col-xs-12" style="border: 1px solid black; border-top: 0; min-height: 2.5em;">
@@ -241,8 +204,8 @@
                                 </div>
                                 <div class="col-xs-4">
                                     Revisado por:<br/>
-                                    <div class="col-xs-8" t-field="o.revised_by"/>
-                                    <div class="col-xs-4" t-field="o.sampling_date"/> <!-- No hay fecha de "Revisado por" de los análisis -->
+                                    <div class="col-xs-6" t-field="o.revised_by"/>
+                                    <div class="col-xs-6" t-field="o.sampling_date"/> <!-- No hay fecha de "Revisado por" de los análisis -->
                                 </div>
                             </div>
                         </div>
@@ -258,10 +221,10 @@
                                 </div>
                                 <t t-foreach="o.technical_direction_review_ids" t-as="td">
                                     <div class="row">
-                                        <div class="col-xs-6" style="padding-left: 2em;"><![CDATA[&#9679;]]> <span t-esc="td.question_id.name"/></div>
-                                        <div class="col-xs-2" t-esc="'&#9745;' if td.result == 'yes' else '&#9744;'"/>
-                                        <div class="col-xs-2" t-esc="'&#9745;' if td.result == 'no' else '&#9744;'"/>
-                                        <div class="col-xs-2" t-esc="'&#9745;' if td.result == 'na' else '&#9744;'"/>
+                                        <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; <span t-esc="td.question_id.name"/></div>
+                                        <div class="col-xs-2" t-esc="'☑' if td.result == 'yes' else '☐'"/>
+                                        <div class="col-xs-2" t-esc="'☑' if td.result == 'no' else '☐'"/>
+                                        <div class="col-xs-2" t-esc="'☑' if td.result == 'na' else '☐'"/>
                                     </div>
                                 </t>
                             </div>
@@ -272,8 +235,8 @@
                                 </div>
                                 <div class="col-xs-4">
                                     Revisado por:<br/>
-                                    <div class="col-xs-8" t-field="o.technical_direction_review_done_by"/>
-                                    <div class="col-xs-4" t-field="o.technical_direction_review_date"/>
+                                    <div class="col-xs-6" t-field="o.technical_direction_review_done_by"/>
+                                    <div class="col-xs-6" t-field="o.technical_direction_review_date"/>
                                 </div>
                             </div>
                         </div>
@@ -308,6 +271,13 @@
                                     </table>
                                 </h4>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="text-right">
+                            Fdo.: <span t-field="o.technical_direction_review_done_by"/><br/>
+                            <span t-field="o.technical_direction_review_date"/>
                         </div>
                     </div>
                 </t>

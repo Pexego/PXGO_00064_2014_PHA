@@ -19,92 +19,183 @@
                         <!-- Producción donde se fabrica este lote -->
                         <t t-set="production" t-value="o.env['mrp.production'].search([('final_lot_id', '=', o.id)])"/>
 
-                        <div class="row" style="border: 1px solid black; font-size: 1.2em; margin-bottom: 0.5em;">
-                            <div class="col-xs-9">
+                        <!-- Obtenemos y ordenamos los registros de producción -->
+                        <t t-set="aRegProd" t-value="[]"/>
+                        <t t-set="vistas" t-value="production.product_id.protocol_ids.mapped('protocol').mapped('report_lines.line_id').mapped('report_reference_ids').filtered(lambda r: r.report_type_id.id == 2)"/> <!-- Registros producción -->
+                        <t t-foreach="vistas" t-as="vista">
+                            <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                            <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                            <t t-set="secciones" t-value="modelo_tabla.x_section_id.search([('x_wcl_id', 'in', ordenes.ids), ('x_table_ids', '!=', False)])"/>
+                            <t t-foreach="secciones" t-as="seccion">
+                                <t t-foreach="seccion.x_table_ids" t-as="table_id">
+                                    <t t-set="aux" t-value="aRegProd.append(table_id)"/>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-set="aux" t-value="aRegProd.sort(key=lambda reg: reg.x_create_date if reg.create_date else '31/12/2999' + '_' + reg.x_init_time if reg.x_init_time else '23:59:59')"/>
+
+                        <div class="row" style="border: 1px solid black; font-size: 1.2em;">
+                            <div class="col-xs-6">
                                 <b>Producto: </b><span t-field="o.product_id"/>
                             </div>
-                            <div class="col-xs-3">
-                                <b>Lote: </b><span t-field="o.name"/>
+                            <div class="col-xs-3" style="border-right: 1px solid black; padding-bottom: 0.25em;">
+                                <span t-field="o.product_id.default_code"/><br/>
+                                <t t-set="barcode" t-value="o.product_id.default_code"/>
+                                <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                <div style="width: 100%; overflow: hidden;">
+                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
+                                </div>
                             </div>
-                            <div class="col-xs-9">
-                                <b>Código: </b><span t-field="o.product_id.default_code"/>
+                            <div class="col-xs-3" style="padding-bottom: 0.25em;">
+                                <b>Nº lote: <span t-field="o.name"/></b><br/>
+                                <t t-set="barcode" t-value="o.name"/>
+                                <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                <div style="width: 100%; overflow: hidden;">
+                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Materiales de partida -->
-                        <t t-set="quants" t-value="o.env['stock.quant'].search([('lot_id', '=', o.id)])"/>
-                        <t t-set="moves" t-value="quants.mapped('history_ids').filtered(lambda r: not r.parent_ids or r.production_id).mapped('parent_ids')"/>
-                        <t t-set="used_lots" t-value="moves.mapped('lot_ids').filtered(lambda r: r.product_id.categ_id.analysis_sequence)"/>
-
-                        <div class="row" style="min-height: 3em;">
-                            <b><u>Material de partida</u></b>
-                            <t t-if="used_lots">
-                                <t t-set="material" t-value="used_lots.sorted(key=lambda r: r.product_id.categ_id.analysis_sequence)[0]"/>
-                                <div class="col-xs-12">
-                                    <div t-field="material.product_id" class="col-xs-9"/>
-                                    <div t-field="material.name" class="col-xs-3"/>
+                        <div class="row" style="border: 1px solid black; border-top: 0;">
+                            <div class="col-xs-9" style="border: 1px solid black; border-top: 0; border-left: 0;">
+                                <div class="col-xs-4">
+                                    <b>Fecha de fabricación</b>
                                 </div>
-                            </t>
+                                <div class="col-xs-2">
+                                    <b>Inicio:</b>
+                                </div>
+                                <div class="col-xs-3">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[0].x_create_date"/>
+                                    </t>
+                                </div>
+                                <div class="col-xs-2">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[0].x_init_time"/>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-3">
+                                &amp;nbsp;
+                            </div>
+
+                            <div class="col-xs-9" style="border-right: 1px solid black;">
+                                <div class="col-xs-4"> </div>
+                                <div class="col-xs-2">
+                                    <b>Fin:</b>
+                                </div>
+                                <div class="col-xs-3">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[-1].x_create_date"/>
+                                    </t>
+                                </div>
+                                <div class="col-xs-2">
+                                    <t t-if="aRegProd">
+                                        <span t-field="aRegProd[-1].x_end_time"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col-xs-3"><span t-field="production.routing_id.name"/></div>
                         </div>
 
                         <div class="row" style="min-height: 3em; margin-top: 1em;">
-                            <b><u>Control analítico</u></b>
+                            <b>CONTROL ANALÍTICO:</b>
                             <div class="col-xs-12" style="border: 1px solid black; border-bottom: 2px solid black; font-weight: bold;">
-                                <div class="col-xs-6">DETERMINACIÓN</div>
-                                <div class="col-xs-3">ESPECIFICACIÓN</div>
-                                <div class="col-xs-3">RESULTADO</div>
+                                <div class="col-xs-6">Determinación</div>
+                                <div class="col-xs-3">Especificación</div>
+                                <div class="col-xs-3">Resultado</div>
                             </div>
                             <t t-foreach="o.analysis_ids" t-as="a">
                                 <t t-if="a.analysis_id.id not in (372, 373, 374)">
                                     <div class="col-xs-12" style="border: 1px solid black; border-top: 0;">
                                         <div t-field="a.analysis_id" class="col-xs-6"/>
                                         <div t-field="a.expected_result" class="col-xs-3"/>
-                                        <div t-field="a.result_str" class="col-xs-3"/>
+                                        <div class="col-xs-3">
+                                            <t t-if="a.realized">
+                                                <t t-if="a.result">
+                                                    <span t-field="a.result"/>
+                                                </t>
+                                                <t t-if="not a.result">
+                                                    <span>-</span>
+                                                </t>
+                                            </t>
+                                            <t t-if="not a.realized">
+                                                <span>&amp;nbsp;</span>
+                                            </t>
+                                        </div>
                                     </div>
                                 </t>
                             </t>
                         </div>
 
                         <div class="row" style="min-height: 3em; margin-top: 1em;">
-                            <b><u>Materiales de partida</u></b><br/>
+                            <b>CONTROL MATERIALES DE PARTIDA:</b><br/>
                             <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 372)"/>
                             <t t-if="analysis">
-                                <div t-field="analysis.analysis_id" class="col-xs-6"/>
-                                <div t-field="analysis.result_str" class="col-xs-3"/>
-                                <div class="col-xs-3"> </div>
+                                <div style="border: 1px solid black; height: 1.6em;">
+                                    <div t-field="analysis.analysis_id" class="col-xs-6"/>
+                                    <div class="col-xs-3"> </div>
+                                    <div class="col-xs-3">
+                                        <t t-if="analysis.result">
+                                            <span t-field="analysis.result"/>
+                                        </t>
+                                        <t t-if="not analysis.result">
+                                            <span>N/A</span>
+                                        </t>
+                                    </div>
+                                </div>
                             </t>
                         </div>
 
                         <div class="row" style="min-height: 3em; margin-top: 1em;">
-                            <b><u>Controles en proceso</u></b><br/>
+                            <b>CONTROLES EN PROCESO:</b><br/>
                             <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 374)"/>
                             <t t-if="analysis">
-                                <div t-field="analysis.analysis_id" class="col-xs-6"/>
-                                <div t-field="analysis.result_str" class="col-xs-3"/>
-                                <div class="col-xs-3"> </div>
+                                <div style="border: 1px solid black; height: 1.6em;">
+                                    <div t-field="analysis.analysis_id" class="col-xs-6"/>
+                                    <div class="col-xs-3"> </div>
+                                    <div class="col-xs-3">
+                                        <t t-if="analysis.result">
+                                            <span t-field="analysis.result"/>
+                                        </t>
+                                        <t t-if="not analysis.result">
+                                            <span>N/A</span>
+                                        </t>
+                                    </div>
+                                </div>
                             </t>
                         </div>
 
                         <div class="row" style="min-height: 3em; margin-top: 1em;">
-                            <b><u>Controles analíticos producto final</u></b><br/>
+                            <b>CONTROLES ANALÍTICOS PRODUCTO FINAL:</b><br/>
                             <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 373)"/>
                             <t t-if="analysis">
-                                <div t-field="analysis.analysis_id" class="col-xs-6"/>
-                                <div t-field="analysis.result_str" class="col-xs-3"/>
-                                <div class="col-xs-3"> </div>
+                                <div style="border: 1px solid black; height: 1.6em;">
+                                    <div t-field="analysis.analysis_id" class="col-xs-6"/>
+                                    <div class="col-xs-3"> </div>
+                                    <div class="col-xs-3">
+                                        <t t-if="analysis.result">
+                                            <span t-field="analysis.result"/>
+                                        </t>
+                                        <t t-if="not analysis.result">
+                                            <span>N/A</span>
+                                        </t>
+                                    </div>
+                                </div>
                             </t>
                         </div>
 
-                        <div class="row" style="min-height: 3em; margin-top: 1em;">
-                            <b><u>Calificación</u></b><br/>
+                        <div class="row" style="min-height: 3em; margin-top: 1em; border: 8px double black;">
+                            <b>CALIFICACIÓN:</b><br/>
                             <div class="col-xs-2">Conforme</div>
                             <div class="col-xs-4">
-                                <t t-if="o.state in ('revised', 'approved')">
+                                <t t-if="o.state in ('revised', 'approved') and o.analysis_passed">
                                     <label for="cbSi" style="padding-right: 0.5em;">Sí </label><input type="checkbox" name="cbSi" checked="checked"/>
                                     <span style="width: 2em; display: inline-block;"/>
                                     <label for="cbNo" style="padding-right: 0.5em;">No </label><input type="checkbox" name="cbNo"/>
                                 </t>
-                                <t t-if="o.state not in ('revised', 'approved')">
+                                <t t-if="o.state not in ('revised', 'approved') or not o.analysis_passed">
                                     <label for="cbSi" style="padding-right: 0.5em;">Sí</label><input type="checkbox" name="cbSi"/>
                                     <span style="width: 2em; display: inline-block;"/>
                                     <label for="cbNo" style="padding-right: 0.5em;">No </label><input type="checkbox" name="cbNo" checked="checked"/>
@@ -114,13 +205,20 @@
                         </div>
 
                         <div class="row" style="min-height: 3em; margin-top: 1em;">
-                            <b><u>Observaciones</u></b><br/>
+                            <b>NOTAS:</b><br/>
                             <div class="col-xs-12" t-field="o.analysis_notes"/>
                         </div>
 
                         <div class="row" style="min-height: 3em; margin-top: 1em;">
-                            <b><u>Notas</u></b><br/>
+                            <b>NOTAS LOTE:</b><br/>
                             <div class="col-xs-12" t-field="o.notes"/>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="text-right">
+                            Fdo.: <span t-field="o.revised_by"/><br/>
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
                         </div>
                     </div>
                 </t>
