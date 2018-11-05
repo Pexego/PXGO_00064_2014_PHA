@@ -14,7 +14,7 @@ class MrpLabelReport(models.AbstractModel):
         report = report_obj._get_report_from_name('quality_protocol_report.report_mrp_label')
         doc = self.env[report.model].browse(data['ids'])
         name_css_size = 52
-        if len(doc.product_id.name) > 51:
+        if len(doc.product_id.name) > 45:
             name_css_size = 22
         elif len(doc.product_id.name) > 39:
             name_css_size = 32
@@ -48,7 +48,7 @@ class MrpTinyLabelReport(models.AbstractModel):
         report = report_obj._get_report_from_name('quality_protocol_report.report_mrp_tiny_label')
         doc = self.env[report.model].browse(data['ids'])
         name_css_size = 28
-        if len(doc.product_id.name) > 51:
+        if len(doc.product_id.name) > 45:
             name_css_size = 18
         elif len(doc.product_id.name) > 39:
             name_css_size = 24
