@@ -222,31 +222,36 @@
                             </table>
                         </div>
 
+                        <!-- Buscamos su protocolo de revisión final -->
+                        <t t-set="proto" t-value="production.product_id.protocol_ids.with_context(p=production).filtered(lambda r: r.protocol.type_id.id == 7 and ((r.route == r._context['p'].routing_id) or not r.route) and ((r.bom == r._context['p'].bom_id) or not r.bom))"/>
+                        <!-- Si tiene más de un protocolo de este tipo, ordenamos por prioridad y devolvemos el prioritario -->
+                        <t t-if="proto and len(proto) > 1">
+                            <t t-set="proto" t-value="proto.sorted(key=lambda r: ('a' if r.route else 'b') + ('a' if r.bom else 'b'))[0]"/>
+                        </t>
                         <!-- Sección de revisión final del protocolo de producción -->
-                        <t t-set="seccion_revifi" t-value="production.product_id.protocol_ids.with_context(p=production).filtered(lambda r: r.protocol.type_id.id == 7 and ((r.route == r._context['p'].routing_id) or not r.route) and ((r.bom == r._context['p'].bom_id) or not r.bom)).mapped('protocol').mapped('report_lines.line_id').filtered(lambda r: r.report_reference_ids.mapped('report_type_id').filtered(lambda t: t.id == 10))"/>
-                        <t t-set="wkcenter_line" t-value="production.workcenter_lines.filtered(lambda r: r.workcenter_id.protocol_type_id.id == 7)"/>
-                        <style>
-                            #reviFi {
-                                border: 1px solid black;
-                                padding: 1em 1em 0 1em;
-                                margin: 0 -15px 1em -15px;
-                            }
-                            #reviFi * {
-                                font-size: 0.95em;
-                                color: black;
-                                margin: 0;
-                                padding: 0;
-                            }
-                            #reviFi .form-control {
-                                display: inline-block;
-                                width: auto !important;
-                                height: auto !important;
-                                border: none;
-                            }
-                        </style>
+                        <t t-set="seccion_revifi" t-value="proto.mapped('protocol.report_lines.line_id').filtered(lambda r: r.report_reference_ids.mapped('report_type_id').filtered(lambda t: t.id == 10))"/>
                         <t t-if="seccion_revifi">
+                            <style>
+                                #reviFi {
+                                    border: 1px solid black;
+                                    padding: 1em 1em 0 1em;
+                                    margin: 0 -15px 1em -15px;
+                                }
+                                #reviFi * {
+                                    font-size: 0.95em;
+                                    color: black;
+                                    margin: 0;
+                                    padding: 0;
+                                }
+                                #reviFi .form-control {
+                                    display: inline-block;
+                                    width: auto !important;
+                                    height: auto !important;
+                                    border: none;
+                                }
+                            </style>
+                            <t t-set="wkcenter_line" t-value="production.workcenter_lines.filtered(lambda r: r.workcenter_id.protocol_type_id.id == 7)"/>
                             <div id="reviFi">
-                                <!--t t-foreach="seccion_revifi.filtered(lambda s: ((s.route == production.routing_id) or not s.route) and ((s.bom == production.bom_id) or not s.bom))" t-as="seccion"-->
                                 <t t-foreach="seccion_revifi" t-as="seccion">
                                     <t t-call="{{seccion.view_id.id}}"/>
                                 </t>
