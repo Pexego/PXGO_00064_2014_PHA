@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2018 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="picking_form" model="ir.ui.view">
+            <field name="name">Asperience EDI PH - Picking form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority">21</field>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="picking_type_desc" class="oe_inline" readonly="1"/>
+                    <field name="edi_desadv" invisible="1"/>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('edi_desadv', '!=', True)]}">DESADV</span>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': ['|', ('edi_desadv', '!=', True), ('channel_name', '!=', 'EDI')]}"> - </span>
+                    <span class="oe_right"
+                          style="margin-bottom: -30px; font-size: 40px;"
+                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
