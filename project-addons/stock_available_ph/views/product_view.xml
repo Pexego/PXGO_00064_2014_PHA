@@ -17,6 +17,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </field>
                 <page string="Procurements" position="after">
                     <page string="Production" attrs="{'invisible': [('bom_ids', '=', [])]}">
+                        <separator string="Others"/>
+                        <group col="2">
+                            <field name="name_for_printing"/>
+                        </group>
                         <separator string="Associated production lines"/>
                         <field name="routing_ids"/>
                         <separator string="Time adviser"/>

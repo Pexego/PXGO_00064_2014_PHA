@@ -303,9 +303,19 @@ msgid "LOT CERTIFICATION AND RELEASE"
 msgstr "CERTIFICACIÓN Y LIBERACIÓN DE LOTE"
 
 #. module: product_analysis
+#: view:website:product_analysis.lot_certification_and_partial_release_report
+msgid "LOT CERTIFICATION AND PARTIAL RELEASE"
+msgstr "CERTIFICACIÓN Y LIBERACIÓN PARCIAL DE LOTE"
+
+#. module: product_analysis
 #: model:ir.actions.report.xml,name:product_analysis.report_lot_certification_and_release
 msgid "Lot certification and release"
 msgstr "Prod. - Certificación y liberación de lote"
+
+#. module: product_analysis
+#: model:ir.actions.report.xml,name:product_analysis.report_lot_certification_and_partial_release
+msgid "Lot certification and partial release"
+msgstr "Prod. - Certificación y liberación parcial de lote"
 
 #. module: product_analysis
 #: code:addons/product_analysis/models/stock.py:232

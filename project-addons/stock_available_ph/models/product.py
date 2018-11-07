@@ -137,6 +137,7 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    name_for_printing = fields.Char()
     production_orders = fields.One2many(
         string='Production orders',
         comodel_name='mrp.production',

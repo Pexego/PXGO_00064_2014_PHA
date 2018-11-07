@@ -447,9 +447,9 @@ msgid "Lots labels"
 msgstr "Etiquetas de lotes"
 
 #. module: custom_reports
-#: model:ir.actions.report.xml,name:custom_reports.action_report_lot_biosalud_label
-msgid "Lots labels (BIO)"
-msgstr "Etiquetas de lotes (BIO)"
+#: model:ir.actions.report.xml,name:custom_reports.action_report_lot_sample_label
+msgid "Sample label"
+msgstr "Rec. - Etiqueta de Muestreo"
 
 #. module: custom_reports
 #: field:report.product.category.message,name:0

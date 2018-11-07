@@ -13,15 +13,16 @@ class StockLotMove(models.Model):
     lot_id = fields.Many2one(comodel_name='stock.production.lot')
     move_id = fields.Many2one(comodel_name='stock.move')
     date = fields.Datetime(string='Date')
-    product_uom = fields.Many2one(string='Unit of Measure',
+    product_uom = fields.Many2one(string='Unit of measure',
                                   comodel_name='product.uom')
     location_id = fields.Many2one(string='Source Location',
                                   comodel_name='stock.location')
-    location_dest_id = fields.Many2one(string='Destination Location',
+    location_dest_id = fields.Many2one(string='Destination location',
                                        comodel_name='stock.location')
     partner_id = fields.Many2one(string='Partner', comodel_name='res.partner')
     picking_id = fields.Many2one(string='Reference',
                                  comodel_name='stock.picking')
+    origin = fields.Char()
     state = fields.Selection(string='Status', selection=[
         ('draft', 'Draft'),
         ('cancel', 'Cancelled'),
@@ -63,6 +64,7 @@ class StockLotMove(models.Model):
                     sm.location_dest_id,
                     sp.partner_id,
                     sm.picking_id,
+                    sp.origin,
                     sm.state,
                     lot_moves.qty
                 from (

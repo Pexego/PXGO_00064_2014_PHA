@@ -70,7 +70,7 @@
             menu="False"
         />
 
-        <template id="report_lot_biosalud_label">
+        <template id="report_lot_sample_label">
             <t t-call="report.html_container">
                 <style type="text/css">
                     p {
@@ -92,6 +92,7 @@
                             </div>
                             <div style="clear: both;"/>
                         </div>
+                        <t t-esc="res_company"/>
                         <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
                             <span t-field="o.product_id.description"/>
                             <t t-if="o.life_date">
@@ -124,11 +125,11 @@
         </template>
 
         <report
-            id="action_report_lot_biosalud_label"
+            id="action_report_lot_sample_label"
             model="stock.production.lot"
-            string="Lots labels (BIO)"
+            string="Sample label"
             report_type="qweb-pdf"
-            name="custom_reports.report_lot_biosalud_label"
+            name="custom_reports.report_lot_sample_label"
             attachment_use="False"
             menu="True"
         />

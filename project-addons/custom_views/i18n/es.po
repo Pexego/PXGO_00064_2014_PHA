@@ -464,6 +464,11 @@ msgid "Internal Reference"
 msgstr "Referencia interna"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_quality_inventory
+msgid "Inventory adjustment"
+msgstr "Ajuste de inventario"
+
+#. module: custom_views
 #: model:ir.model,name:custom_views.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"

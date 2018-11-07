@@ -158,6 +158,16 @@ msgid "ORIGIN"
 msgstr "ORIGEN"
 
 #. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking
+msgid "ORIGIN DOC."
+msgstr "DOC.ORIGEN"
+
+#. module: lot_tracking
+#: field:stock.lot.move,origin:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: lot_tracking
 #: field:stock.lot.move,partner_id:0
 msgid "Partner"
 msgstr "Destinatario"
@@ -214,6 +224,11 @@ msgid "Source Location"
 msgstr "Ubicación de origen"
 
 #. module: lot_tracking
+#: field:stock.lot.move,location_dest_id:0
+msgid "Destination location"
+msgstr "Ubicación de destino"
+
+#. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
 msgid "TYPE"
 msgstr "TIPO"
@@ -249,7 +264,7 @@ msgid "U.O.M."
 msgstr "U.D.M."
 
 #. module: lot_tracking
-#: field:stock.lot.move,product_uom_id:0
-msgid "Unit of Measure"
+#: field:stock.lot.move,product_uom:0
+msgid "Unit of measure"
 msgstr "Unidad de medida"
 

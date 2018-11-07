@@ -80,7 +80,8 @@
                                 <div style="width: 20%;">ORIGIN</div>
                                 <div style="width: 19%;">DESTINATION</div>
                                 <div style="width: 19%;">DESTINATARY</div>
-                                <div style="width: 10%;">PICKING</div>
+                                <div style="width: 5%;">PICKING</div>
+                                <div style="width: 5%;">ORIGIN DOC.</div>
                             </div>
 
                             <div t-foreach="o.lot_move_ids" t-as="move" class="movFila">
@@ -91,7 +92,8 @@
                                 <div style="width: 20%;"><span t-field="move.location_id"/></div>
                                 <div style="width: 19%;"><span t-field="move.location_dest_id"/></div>
                                 <div style="width: 19%;"><span t-field="move.partner_id"/></div>
-                                <div style="width: 10%;"><span t-field="move.picking_id"/></div>
+                                <div style="width: 5%;"><span t-field="move.picking_id"/></div>
+                                <div style="width: 5%;"><span t-field="move.origin"/></div>
                             </div>
                         </div>
                     </div>

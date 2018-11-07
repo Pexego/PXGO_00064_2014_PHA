@@ -46,6 +46,7 @@
         'views/stock_lot_analysis_report.xml',
         'views/finished_product_analysis_certificate_report.xml',
         'views/lot_certification_and_release_report.xml',
+        'views/lot_certification_and_partial_release_report.xml',
         'views/revision_by_production_report.xml',
         'views/lot_state_label.xml',
         'views/assets.xml',
