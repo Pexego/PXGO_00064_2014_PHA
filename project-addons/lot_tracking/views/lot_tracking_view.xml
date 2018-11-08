@@ -70,6 +70,7 @@
                                 <field name="location_dest_id"/>
                                 <field name="partner_id"/>
                                 <field name="picking_id"/>
+                                <field name="origin"/>
                                 <field name="type" invisible="1"/>
                                 <field name="state" invisible="1"/>
                             </tree>
@@ -90,5 +91,38 @@
         <menuitem id="menu_view_lot_tracking"
                   parent="quality_management_menu.menu_qc_products"
                   action="action_view_lot_tracking" sequence="3"/>
+
+        <record id="view_lot_tracking_move_form" model="ir.ui.view">
+            <field name="name">Lot tracking move form</field>
+            <field name="model">stock.lot.move</field>
+            <field name="arch" type="xml">
+                <form string="Lot tracking move">
+                    <sheet>
+                        <group cols="4">
+                            <group cols="2">
+                                <field name="date"/>
+                                <field name="qty"/>
+                                <field name="product_uom"/>
+                                <field name="location_id"/>
+                                <field name="location_dest_id"/>
+                                <field name="partner_id"/>
+                                <field name="picking_id"/>
+                                <label for="origin"/>
+                                <div>
+                                    <field name="origin" class="oe_inline"/>
+                                    <button name="action_show_origin"
+                                            class="oe_inline"
+                                            type="object"
+                                            icon="terp-stock_zoom"
+                                            style="margin-top: -4px;"
+                                            attrs="{'invisible': [('origin', '=', False)]}"
+                                    />
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>

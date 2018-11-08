@@ -490,6 +490,11 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: stock_available_ph
+#: field:product.product,name_for_printing:0
+msgid "Name for printing"
+msgstr "Nombre para impresión"
+
+#. module: stock_available_ph
 #: selection:production.planning.materials,stock_status:0
 #: selection:production.planning.orders,stock_status:0
 #: selection:stock.available.details,stock_status:0
@@ -517,6 +522,11 @@ msgstr "Órdenes"
 #: view:production.planning.orders:stock_available_ph.production_planning_tree_view
 msgid "Orders to compute"
 msgstr "Órdenes a calcular"
+
+#. module: stock_available_ph
+#: view:product.product:stock_available_ph.stock_available_product_normal_form
+msgid "Others"
+msgstr "Otros"
 
 #. module: stock_available_ph
 #: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_search

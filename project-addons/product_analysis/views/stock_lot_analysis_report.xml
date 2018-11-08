@@ -64,6 +64,15 @@
             name="product_analysis.lot_certification_and_release_report"
         />
 
+        <report
+            id="report_lot_certification_and_partial_release"
+            string="Lot certification and partial release"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            file="product_analysis.lot_certification_and_partial_release_report"
+            name="product_analysis.lot_certification_and_partial_release_report"
+        />
+
         <record model="ir.actions.report.xml" id="product_analysis.report_lot_analysis_certificate">
             <field name="attachment">'Certificado de análisis - ' + time.strftime('%d/%m/%Y') + '.pdf'</field>
         </record>

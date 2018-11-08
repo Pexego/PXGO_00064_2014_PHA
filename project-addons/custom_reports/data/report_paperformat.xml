@@ -70,7 +70,7 @@
             <field name="paperformat_id" ref="custom_reports.paperformat_lots_labels_biosalud"/>
         </record>
 
-        <record id="custom_reports.action_report_lot_biosalud_label" model="ir.actions.report.xml">
+        <record id="custom_reports.action_report_lot_sample_label" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_reports.paperformat_lots_labels_biosalud"/>
         </record>
 

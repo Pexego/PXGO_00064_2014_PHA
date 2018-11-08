@@ -13,15 +13,16 @@ class StockLotMove(models.Model):
     lot_id = fields.Many2one(comodel_name='stock.production.lot')
     move_id = fields.Many2one(comodel_name='stock.move')
     date = fields.Datetime(string='Date')
-    product_uom = fields.Many2one(string='Unit of Measure',
+    product_uom = fields.Many2one(string='Unit of measure',
                                   comodel_name='product.uom')
     location_id = fields.Many2one(string='Source Location',
                                   comodel_name='stock.location')
-    location_dest_id = fields.Many2one(string='Destination Location',
+    location_dest_id = fields.Many2one(string='Destination location',
                                        comodel_name='stock.location')
     partner_id = fields.Many2one(string='Partner', comodel_name='res.partner')
     picking_id = fields.Many2one(string='Reference',
                                  comodel_name='stock.picking')
+    origin = fields.Char()
     state = fields.Selection(string='Status', selection=[
         ('draft', 'Draft'),
         ('cancel', 'Cancelled'),
@@ -63,6 +64,7 @@ class StockLotMove(models.Model):
                     sm.location_dest_id,
                     sp.partner_id,
                     sm.picking_id,
+                    case when sp.origin is null or (trim(sp.origin) = '') then sm.origin else sp.origin end,
                     sm.state,
                     lot_moves.qty
                 from (
@@ -80,6 +82,32 @@ class StockLotMove(models.Model):
 	            order by lot_id, move_id
             )
         """ % (self._table,))
+
+    @api.multi
+    def action_show_origin(self):
+        self.ensure_one()
+        origin = self.origin
+        if origin and origin[0:2] in ('PO', 'SO', 'MO'):
+            if origin[0:2] == 'PO':
+                model = 'purchase.order'
+            elif origin[0:2] == 'SO':
+                model = 'sale.order'
+            else:
+                model = 'mrp.production'
+
+            order_id = self.env[model].search([('name', '=', origin.strip())])
+
+            if order_id:
+                return {
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': model,
+                    'res_id': order_id.id,
+                    'target': 'current',
+                    'nodestroy': True,
+                    'context': self.env.context
+                }
 
 
 class LotTracking(models.Model):

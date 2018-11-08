@@ -21,29 +21,30 @@
                     </div>
 
                     <div class="text-center">
-                        <span style="font-size:30px; font-weight:bold;">
+                        <span style="font-size: 30px; font-weight: bold;">
                             <t t-if="o.product_id.country.id in (2, 235)">Contains:</t>
                             <t t-if="o.product_id.country.id == 185">Contém:</t>
                             <t t-if="o.product_id.country.id not in (2, 235, 185)">Contiene:</t>
-                            <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/>
-                        </span>
+                            <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
                         <t t-if="gtin and gtin &gt; ''">
-                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1600, 500)" style="width:1600px;height:80px;margin-left:-300px;"/>
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1600, 500)" style="width: 1600px; height: 80px; margin-left: -300px;"/>
                             <br/>
-                            <span style="font-size:24px; font-weight:bold;" t-esc="gtin"/>
+                            <span style="font-size: 24px; font-weight:bold;" t-esc="gtin"/>
                         </t>
                         <br/>
-                        <t t-if="o.product_id.categ_id.id in (1199, 1224)"> <!-- Para materias primas y productos intermedios -->
-                            <span style="font-size:30px; font-weight:bold;">
-                                <t t-if="o.product_id.country.id in (2, 235)">Manufacturing date:</t>
+                        <t t-if="o.product_id.categ_id.id == 1199 or (o.product_id.categ_id.id == 1224 and o.product_id.clothing == 'naked') or o.product_id.country.id == 2"> <!-- Para materias primas o productos intermedios desnudos o destino emiratos -->
+                            <span style="font-size: 30px; font-weight: bold;">
+                                <t t-if="o.product_id.country.id == 2">Production date:</t>
+                                <t t-if="o.product_id.country.id == 235">Manufacturing date:</t>
                                 <t t-if="o.product_id.country.id == 185">Data de fabricação:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Fecha de fabricación:</t>
                                 <span t-field="o.date_planned" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
                             </span>
                         </t>
-                        <t t-if="o.product_id.categ_id.id not in (1199, 1224)">
-                            <span style="font-size:30px; font-weight:bold;">
-                                <t t-if="o.product_id.country.id in (2, 235)">Best before end:</t>
+                        <t t-if="o.product_id.categ_id.id != 1199 and not (o.product_id.categ_id.id == 1224 and o.product_id.clothing == 'naked')"> <!-- Se omite para materias primas o productos intermedios desnudos -->
+                            <span style="font-size: 30px; font-weight: bold;">
+                                <t t-if="o.product_id.country.id == 2">Expiry date:</t>
+                                <t t-if="o.product_id.country.id == 235">Best before end:</t>
                                 <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
                                 <t t-if="o.product_id.duration_type == 'exact'">
@@ -95,7 +96,7 @@
                     </div>
 
                     <div class="text-center">
-                        <span style="font-size:24px; font-weight:bold;">
+                        <span style="font-size: 24px; font-weight: bold;">
                             <t t-if="o.product_id.country.id in (2, 235)">Contains:</t>
                             <t t-if="o.product_id.country.id == 185">Contém:</t>
                             <t t-if="o.product_id.country.id not in (2, 235, 185)">Contiene:</t>
@@ -103,20 +104,22 @@
                         <t t-if="gtin and gtin &gt; ''">
                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 700, 250)" style="width: 1050px; margin-left: -195px; height: 60px;"/>
                             <br/>
-                            <span style="font-size:18px; font-weight:bold;" t-esc="gtin"/>
+                            <span style="font-size: 18px; font-weight:bold;" t-esc="gtin"/>
                         </t>
                         <br/>
-                        <t t-if="o.product_id.categ_id.id in (1199, 1224)"> <!-- Para materias primas y productos intermedios -->
+                        <t t-if="o.product_id.categ_id.id == 1199 or (o.product_id.categ_id.id == 1224 and o.product_id.clothing == 'naked') or o.product_id.country.id == 2"> <!-- Para materias primas o productos intermedios desnudos o destino emiratos -->
                             <span style="font-size: 24px; font-weight: bold;">
-                                <t t-if="o.product_id.country.id in (2, 235)">Manufacturing date:</t>
+                                <t t-if="o.product_id.country.id == 2">Production date:</t>
+                                <t t-if="o.product_id.country.id == 235">Manufacturing date:</t>
                                 <t t-if="o.product_id.country.id == 185">Data de fabricação:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Fecha de fabricación:</t>
                                 <span t-field="o.date_planned" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
                             </span>
                         </t>
-                        <t t-if="o.product_id.categ_id.id not in (1199, 1224)">
+                        <t t-if="o.product_id.categ_id.id != 1199 and not (o.product_id.categ_id.id == 1224 and o.product_id.clothing == 'naked')"> <!-- Se omite para materias primas o productos intermedios desnudos -->
                             <span style="font-size: 24px; font-weight: bold;">
-                                <t t-if="o.product_id.country.id in (2, 235)">Best before end:</t>
+                                <t t-if="o.product_id.country.id == 2">Expiry date:</t>
+                                <t t-if="o.product_id.country.id == 235">Best before end:</t>
                                 <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
                                 <t t-if="o.product_id.duration_type == 'exact'">

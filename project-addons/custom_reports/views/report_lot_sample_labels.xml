@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_lot_sample_label">
+            <t t-call="report.html_container">
+                <style type="text/css">
+                    p {
+                        padding: 0;
+                        margin: 0;
+                    }
+                </style>
+
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="margin-left: 5px;">
+                        <div style="min-height: 40px; margin-bottom: 5px;">
+                            <div style="position: relative; display: inline-block; float: left; padding: 0; z-index: 1;">
+                                <!-- Barcode reader uses english keyboard layout -->
+                                <t t-set="barcode" t-value="o.name"/>
+                                <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                <!-- Generate barcode image -->
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="65" width="600" style="margin-left: -90px;"/>
+                                <div t-field="o.name" style="position: absolute; bottom: 0px; left: 29%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
+                            </div>
+                            <div style="clear: both;"/>
+                        </div>
+                        <t t-if="res_company.id == 6">  <!-- Maricielo (Biosalud) -->
+                            <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
+                                <span t-field="o.product_id.description"/>
+                                <t t-if="o.life_date">
+                                    <span> - </span><span t-field="o.life_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                                </t>
+                                <t t-if="not o.life_date">
+                                    <span> - __/__/____</span>
+                                </t>
+                                <t t-if="o.alert_date">
+                                    <span> - </span><span t-field="o.alert_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                                </t>
+                                <t t-if="not o.alert_date">
+                                    <span> - __/__/____</span>
+                                </t>
+                            </p>
+                        </t>
+                        <p t-field="o.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
+                        <div style="display: inline-block; float: right; position: relative;">
+                            <!-- Barcode reader uses english keyboard layout -->
+                            <t t-set="product_barcode" t-value="o.product_id.default_code"/>
+                            <t t-if="product_barcode">
+                                <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
+                                <!-- Generate barcode image -->
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', product_barcode, 1200, 120)" height="65" width="600" style="margin-right: -130px;"/>
+                                <div t-field="o.product_id.default_code" style="position: absolute; bottom: 0px; right: 25%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
+                            </t>
+                        </div>
+                        <t t-if="res_company.id != 6">
+                            <p>
+                                <span style="min-width: 15em; display: inline-block;">Fecha toma muestra:</span><span t-field="o.sampling_date"/>
+                            </p>
+                            <p style="margin-top: -1em;">
+                                <span style="min-width: 15em; display: inline-block;">Realizado por:</span><span t-field="o.sampling_realized"/>
+                            </p>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="action_report_lot_sample_label"
+            model="stock.production.lot"
+            string="Sample label"
+            report_type="qweb-pdf"
+            name="custom_reports.report_lot_sample_label"
+            attachment_use="False"
+            menu="True"
+        />
+    </data>
+</openerp>

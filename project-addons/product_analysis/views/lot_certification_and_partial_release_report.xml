@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <template id="lot_certification_and_release_report">
+        <template id="lot_certification_and_partial_release_report">
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="page" style="font-size: 115%;">
@@ -12,7 +12,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center">
-                                <b style="font-size: 1.6em;">CERTIFICACIÓN Y LIBERACIÓN DE LOTE</b>
+                                <b style="font-size: 1.6em;">CERTIFICACIÓN Y LIBERACIÓN PARCIAL DE LOTE</b>
                             </div>
                         </div>
 
@@ -271,6 +271,13 @@
                                     </table>
                                 </h4>
                             </div>
+                            <br/><br/>
+                            <div class="col-xs-12"><b>MOTIVOS LIBERACIÓN PARCIAL</b></div>
+                            <t t-foreach="production.release_log_ids" t-as="release">
+                                <div class="col-xs-2"><span t-field="release.date"/></div>
+                                <div class="col-xs-2"><span t-field="release.quantity"/></div>
+                                <div class="col-xs-8"><span t-field="release.reason"/></div>
+                            </t>
                         </div>
                     </div>
 

@@ -88,19 +88,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="priority">20</field>
             <field name="arch" type="xml">
-                <!--field name="name" position="after">
-                    <field name="picking_type_desc" class="oe_inline" readonly="1"/>
-                    <field name="edi_desadv" invisible="1"/>
-                    <span class="oe_right"
-                          style="margin-bottom: -30px; font-size: 40px;"
-                          attrs="{'invisible': [('edi_desadv', '!=', True)]}">DESADV</span>
-                    <span class="oe_right"
-                          style="margin-bottom: -30px; font-size: 40px;"
-                          attrs="{'invisible': ['|', ('edi_desadv', '!=', True), ('channel_name', '!=', 'EDI')]}"> - </span>
-                    <span class="oe_right"
-                          style="margin-bottom: -30px; font-size: 40px;"
-                          attrs="{'invisible': [('channel_name', '!=', 'EDI')]}">EDI</span>
-                </field-->
                 <button name="force_assign" position="attributes">
                     <attribute name="groups">base.group_system</attribute>
                 </button>
@@ -369,6 +356,65 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             id="menu_external_inventory_valuation"
             parent="stock.menu_stock_inventory_control"
             sequence="21"
+        />
+
+        <record id="custom_views_quality_inventory_form" model="ir.ui.view">
+            <field name="name">Custom views - Quality - Stock inventory form</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="custom_views.custom_views_inventory_form"/>
+            <field name="mode">primary</field>
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="location_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="filter" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="period_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_code']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_uom_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='location_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='prod_lot_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='theoretical_qty']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="delete">0</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="action_quality_inventory" model="ir.actions.act_window">
+            <field name="name">Inventory adjustment</field>
+            <field name="res_model">stock.inventory</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="custom_views.custom_views_quality_inventory_form"/>
+            <field name="domain" eval="[('location_id', '=', ref('__export__.stock_location_73'))]"/>
+            <field name="context">{'default_name': time.strftime('%Y%m%d_%H%M'), 'default_location_id': 73}</field>
+        </record>
+        <menuitem name="Inventory adjustment"
+                  action="action_quality_inventory"
+                  id="menu_quality_inventory"
+                  parent="quality_management_menu.menu_qc_products"
+                  sequence="23"
         />
     </data>
 </openerp>

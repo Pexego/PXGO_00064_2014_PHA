@@ -53,6 +53,10 @@
             <field name="paperformat_id" ref="product_analysis.paperformat_lot_analysis"/>
         </record>
 
+        <record id="product_analysis.report_lot_certification_and_partial_release" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="product_analysis.paperformat_lot_analysis"/>
+        </record>
+
         <record id="product_analysis.report_revision_by_production" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="product_analysis.paperformat_lot_analysis"/>
         </record>
