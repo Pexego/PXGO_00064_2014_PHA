@@ -122,6 +122,19 @@ class edi_parser(models.Model):
                 'col2': '4'
             }
             data[filename].append(edi._create_line_csv(CUX,structs))
+            expiration_dates = invoice._get_date_due_list()
+            if len(expiration_dates) == 1:
+                mod = 35
+            else:
+                mod = 21
+            for expiration_date in expiration_dates:
+                PAT = {
+                    'lineId': 'PAT',
+                    'col1': mod,
+                    'col2': expiration_date[0],
+                    'col3': expiration_date[1]
+                }
+                data[filename].append(edi._create_line_csv(PAT, structs))
             fin_seq = 1
             if invoice.commercial_discount_amount > 0.0:
                 fin_seq = 2
