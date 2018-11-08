@@ -8,13 +8,13 @@ $(document).ready(function(){
         fill_data();
     }
 
-if (typeof String.prototype.startsWith != 'function') {
-    // see below for better implementation!
-    String.prototype.startsWith = function (str){ return this.indexOf(str) == 0; };
-}
-if (typeof String.prototype.contains != 'function') {
-    String.prototype.contains = function(it){ return this.indexOf(it) != -1; };
-}
+    if (typeof String.prototype.startsWith != 'function') {
+        // see below for better implementation!
+        String.prototype.startsWith = function (str){ return this.indexOf(str) == 0; };
+    }
+    if (typeof String.prototype.contains != 'function') {
+        String.prototype.contains = function(it){ return this.indexOf(it) != -1; };
+    }
 });
 
 var JQUERY_UI_TYPES = {
@@ -269,6 +269,20 @@ function preparaTime() {
     };
 };
 
+function preparaTexto() {
+    var inputsTexto = $('input[name*="_texto"]');
+    if (inputsTexto.length > 0) {
+        inputsTexto.each(function() {
+            var textbox = $(document.createElement('textarea'));
+            textbox.attr('style', $(this).attr('style'))
+                   .css({'width': '100%', 'height': '100%'})
+                   .attr({'name': $(this).attr('name'), 'id': $(this).attr('id')})
+                   .text($(this).val());
+            $(this).replaceWith(textbox);
+        });
+    };
+};
+
 $(function () {
 //    if($("#done").length) {
 //        $(":input").prop('disabled', true);
@@ -439,6 +453,10 @@ $(function () {
         // a su input y que aplique la máscara correcta para estos campos.
         preparaTime();
 
+        // Localizamos los campos con sufijo "_texto" para reemplazar
+        // los inputs por textarea
+        preparaTexto();
+
         // Los inputs de con botones de flecha no se muestran bien al imprimir
         // con phantomjs, así que les cambiamos el tipo a texto y pista...
         if (/Phantom.js bot/.test(window.navigator.userAgent)) {
@@ -461,7 +479,7 @@ $(function () {
             );
             $('div#realized_by').hide();
         };
-    }, 1000);
+    }, 2000);
 });
 
 //Falta pepararlo para multiples tablas
