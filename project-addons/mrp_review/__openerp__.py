@@ -10,10 +10,11 @@
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
     "depends": ['mrp', 'mrp_hoard'],
-    "data": ['security/mrp_review_security.xml',
-             'mrp_workflow.xml',
+    "data": ['mrp_workflow.xml',
+             'wizard/mrp_set_final_quantity.xml',
+             'wizard/mrp_release_all.xml',
              'views/mrp.xml',
-             'views/product.xml',
+             'views/mrp_routing.xml',
             ],
     "installable": True
 }

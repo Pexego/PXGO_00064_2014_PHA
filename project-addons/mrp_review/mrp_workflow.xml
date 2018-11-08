@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <openerp>
     <data>
 
-        <record id="prod_act_review" model="workflow.activity">
+        <record id="prod_act_final_qty" model="workflow.activity">
             <field name="wkf_id" ref="mrp.wkf_prod"/>
+            <field name="name">final_qty</field>
             <field name="kind">function</field>
-            <field name="action">action_production_review()</field>
-            <field name="name">Review</field>
+            <field name="action">prod_act_final_qty()</field>
         </record>
 
-        <record id="prod_act_unrelease" model="workflow.activity">
+        <record id="prod_act_release" model="workflow.activity">
             <field name="wkf_id" ref="mrp.wkf_prod"/>
+            <field name="name">release</field>
             <field name="kind">function</field>
-            <field name="action">action_finish_prod()</field>
-            <field name="name">Wait release</field>
+            <field name="action">prod_act_release()</field>
         </record>
-
-        <record id="trans_end_production" model="workflow.transition">
-            <field name="act_from" ref="mrp.prod_act_in_production"/>
-            <field name="act_to" ref="prod_act_unrelease"/>
-            <field name="signal">end_production</field>
-        </record>
-
 
         <record id="mrp.prod_trans_in_production_done" model="workflow.transition">
-            <field name="act_from" ref="prod_act_unrelease"/>
-            <field name="act_to" ref="prod_act_review"/>
-            <field name="signal">button_produce_done</field>
-            <field name="condition">test_production_done_review()</field>
+            <field name="act_from" ref="mrp.prod_act_in_production"/>
+            <field name="act_to" ref="prod_act_final_qty"/>
+            <field name="signal">button_final_qty</field>
+            <field name="condition">True</field>
         </record>
 
-        <record id="mrp.prod_trans_in_production_done_2" model="workflow.transition">
-            <field name="act_from" ref="prod_act_unrelease"/>
-            <field name="act_to" ref="mrp.prod_act_done"/>
-            <field name="signal">button_produce_done</field>
-            <field name="condition">test_production_done_not_review()</field>
+        <record id="prod_trans_final_qty_released" model="workflow.transition">
+            <field name="act_from" ref="prod_act_final_qty"/>
+            <field name="act_to" ref="prod_act_release"/>
+            <field name="signal">button_release_all</field>
+            <field name="condition">True</field>
         </record>
 
-        <record id="trans_end_review" model="workflow.transition">
-            <field name="act_from" ref="prod_act_review"/>
+        <record id="prod_trans_in_production_done" model="workflow.transition">
+            <field name="act_from" ref="prod_act_release"/>
             <field name="act_to" ref="mrp.prod_act_done"/>
-            <field name="signal">end_review</field>
+            <field name="signal">button_produce_done</field>
+            <field name="condition">test_production_done()</field>
+        </record>
+
+        <record id="prod_trans_set_qty_cancel" model="workflow.transition">
+            <field name="act_from" ref="prod_act_final_qty"/>
+            <field name="act_to" ref="mrp.prod_act_cancel"/>
+            <field name="signal">button_cancel</field>
         </record>
 
     </data>

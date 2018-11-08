@@ -153,6 +153,7 @@ class StockPicking(models.Model):
     accept_multiple_raw_material = fields.Boolean(
         related='move_lines.move_dest_id.raw_material_production_id.\
 accept_multiple_raw_material')
+    return_for_production = fields.Many2one('mrp.production')
 
     @api.multi
     def do_transfer(self):

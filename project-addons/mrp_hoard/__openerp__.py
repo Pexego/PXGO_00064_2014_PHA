@@ -30,6 +30,6 @@
                 'quality_management_menu', 'custom_views'],
     "data": ['wizard/mrp_consume_quarantine.xml',
              'wizard/mrp_product_produce_view.xml', 'mrp_view.xml',
-             'stock_view.xml', 'security/ir.model.access.csv'],
+             'stock_view.xml', 'security/ir.model.access.csv', 'product_category.xml'],
     "installable": True
 }

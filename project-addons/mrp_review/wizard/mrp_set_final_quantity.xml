@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="mrp_set_final_quantity_form_view" model="ir.ui.view">
+            <field name="name">mrp.set.final.quantity.form</field>
+            <field name="model">mrp.set.final.quantity</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                    <field name="number_of_cases"/>
+                    <field name="number_of_infusions"/>
+                    </group>
+                    <footer>
+                        <button name="release" string="Set quantity" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Set final quantity"
+            res_model="mrp.set.final.quantity"
+            view_id="mrp_set_final_quantity_form_view"
+            view_mode="form"
+            target="new"
+            id="action_mrp_set_final_quantity"/>
+
+    </data>
+</openerp>
