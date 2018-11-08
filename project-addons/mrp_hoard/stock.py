@@ -196,6 +196,26 @@ accept_multiple_raw_material')
                     )
         return res
 
+    @api.model
+    def _prepare_values_extra_move(self, op, product, remaining_qty):
+        res = super(StockPicking, self)._prepare_values_extra_move(
+            op=op, product=product, remaining_qty=remaining_qty)
+        if op.picking_id.is_hoard:
+            # en este momento solo debería de haber 1 movimiento
+            # Pero puede haber varios links.
+            move = op.mapped('linked_move_operation_ids.move_id')
+            res['move_dest_id'] = move.move_dest_id.id
+        return res
+
+    @api.model
+    def _create_extra_moves(self, picking):
+        res = super(StockPicking, self)._create_extra_moves(picking)
+        if res and picking.is_hoard:
+            for move in self.env['stock.move'].browse(res):
+                if move.move_dest_id:
+                    move.move_dest_id.product_uom_qty += move.product_uom_qty
+        return res
+
 
 class StockQuant(models.Model):
 

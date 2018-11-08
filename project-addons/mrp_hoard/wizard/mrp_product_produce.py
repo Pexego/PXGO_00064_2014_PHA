@@ -186,21 +186,21 @@ class MrpProductProduce(models.TransientModel):
                     restrict_lot_id=consume.lot_id.id,
                     consumed_for=main_production_move)
                 remaining_qty -= consumed_qty
-            if split_id:
-                split_move = self.env['stock.move'].browse(split_id)
-                if split_move.product_uom_qty == 0.0:
-                    continue
-                return_line = self.return_lines.filtered(lambda r: r.product_id == consume.product_id and r.lot_id == consume.lot_id)
-                split_move.do_unreserve()
-                split_move.write({
-                    'product_uom_qty': return_line.product_qty,
-                    'restrict_lot_id': return_line.lot_id.id,
-                    'return_production_move': True,
-                    'consumed_for': main_production_move,
-                    'location_dest_id': return_line.location_id.id
-                })
-                split_move.action_assign()
-                split_move.action_done()
+                if split_id:
+                    split_move = self.env['stock.move'].browse(split_id)
+                    if split_move.product_uom_qty == 0.0:
+                        continue
+                    return_line = self.return_lines.filtered(lambda r: r.product_id == consume.product_id and r.lot_id == consume.lot_id)
+                    split_move.do_unreserve()
+                    split_move.write({
+                        'product_uom_qty': return_line.product_qty,
+                        'restrict_lot_id': return_line.lot_id.id,
+                        'return_production_move': True,
+                        'consumed_for': main_production_move,
+                        'location_dest_id': return_line.location_id.id
+                    })
+                    split_move.action_assign()
+                    split_move.action_done()
         production.move_created_ids.action_cancel()
         production.signal_workflow('button_produce_done')
         return {}
