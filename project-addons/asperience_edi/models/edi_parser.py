@@ -400,7 +400,8 @@ class edi_parser(models.Model):
 
                     PAC = {
                         'lineId': 'PAC',
-                        'col1': 'CT'
+                        'col1': 1,
+                        'col2': 'CT'
                     }
                     data[filename].append(edi._create_line_csv(PAC, structs))
                     PCI = {
@@ -423,7 +424,8 @@ class edi_parser(models.Model):
 
                 PAC = {
                     'lineId': 'PAC',
-                    'col1': '201'
+                    'col1': len(sscc.child_ids),
+                    'col2': '201'
                 }
                 data[filename].append(edi._create_line_csv(PAC, structs))
                 PCI = {
@@ -445,7 +447,8 @@ class edi_parser(models.Model):
 
                     PAC = {
                         'lineId': 'PAC',
-                        'col1': 'CT'
+                        'col1': 1,
+                        'col2': 'CT'
                     }
                     data[filename].append(edi._create_line_csv(PAC, structs))
                     PCI = {
