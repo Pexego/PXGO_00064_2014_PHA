@@ -64,7 +64,7 @@ class StockLotMove(models.Model):
                     sm.location_dest_id,
                     sp.partner_id,
                     sm.picking_id,
-                    sp.origin,
+                    case when sp.origin is null or (trim(sp.origin) = '') then sm.origin else sp.origin end,
                     sm.state,
                     lot_moves.qty
                 from (
@@ -82,6 +82,32 @@ class StockLotMove(models.Model):
 	            order by lot_id, move_id
             )
         """ % (self._table,))
+
+    @api.multi
+    def action_show_origin(self):
+        self.ensure_one()
+        origin = self.origin
+        if origin and origin[0:2] in ('PO', 'SO', 'MO'):
+            if origin[0:2] == 'PO':
+                model = 'purchase.order'
+            elif origin[0:2] == 'SO':
+                model = 'sale.order'
+            else:
+                model = 'mrp.production'
+
+            order_id = self.env[model].search([('name', '=', origin.strip())])
+
+            if order_id:
+                return {
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': model,
+                    'res_id': order_id.id,
+                    'target': 'current',
+                    'nodestroy': True,
+                    'context': self.env.context
+                }
 
 
 class LotTracking(models.Model):

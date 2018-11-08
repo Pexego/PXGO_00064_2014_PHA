@@ -37,6 +37,7 @@
         'views/report_invoice_biosalud.xml',
         'views/report_lot_labels.xml',
         'views/report_lot_labels_biosalud.xml',
+        'views/report_lot_sample_labels.xml',
         'views/report_shipping_address.xml',
         'views/report_footer.xml',
         'views/report_footer_message.xml',

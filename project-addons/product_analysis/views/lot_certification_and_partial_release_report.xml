@@ -271,8 +271,13 @@
                                     </table>
                                 </h4>
                             </div>
-                            <br/>
-                            <!--span t-field="production.reason"/-->
+                            <br/><br/>
+                            <div class="col-xs-12"><b>MOTIVOS LIBERACIÓN PARCIAL</b></div>
+                            <t t-foreach="production.release_log_ids" t-as="release">
+                                <div class="col-xs-2"><span t-field="release.date"/></div>
+                                <div class="col-xs-2"><span t-field="release.quantity"/></div>
+                                <div class="col-xs-8"><span t-field="release.reason"/></div>
+                            </t>
                         </div>
                     </div>
 
