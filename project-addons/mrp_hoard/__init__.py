@@ -21,3 +21,4 @@
 from . import stock
 from . import mrp_production
 from . import wizard
+from . import product_category

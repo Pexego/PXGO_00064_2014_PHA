@@ -45,7 +45,6 @@
     "data": ['data/report_paperformat.xml',
              'data/remove_old_translations.xml',
              'views/mrp_label_report.xml',
-             'wizard/mrp_release_all.xml',
              'wizard/duplicate_protocol_wizard.xml',
              'wizard/print_protocol_view.xml',
              'wizard/print_mrp_labels_view.xml',

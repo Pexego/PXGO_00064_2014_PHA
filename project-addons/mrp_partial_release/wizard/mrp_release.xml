@@ -10,7 +10,6 @@
             <field name="arch" type="xml">
                 <form string="Partial release">
                     <group>
-                        <field name="release_percent"/>
                         <field name="release_qty"/>
                     </group>
                     <group>
@@ -30,4 +29,3 @@
             id="act_wiz_release"/>
     </data>
 </openerp>
-
