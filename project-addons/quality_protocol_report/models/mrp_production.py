@@ -35,7 +35,7 @@ class MrpProduction(models.Model):
     workcenter_lines = fields.One2many(readonly=False)
     date_end_planned = fields.Datetime()
     time_planned = fields.Float()
-    final_qty = fields.Float('Final quantity', default=0)
+    final_qty = fields.Float('Final quantity', copy=False)
 
     def _create_previous_move(self, cr, uid, move_id, product,
                               source_location_id, dest_location_id,

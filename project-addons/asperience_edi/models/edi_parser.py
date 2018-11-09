@@ -74,11 +74,11 @@ class edi_parser(models.Model):
                     'col1':  'IV',
                     'col2': invoice.type == "out_refund" and invoice.origin_invoices_ids
                 }
-            elif invoice.type == "out_invoice" and invoice.origin:
+            elif invoice.type == "out_invoice" and invoice.name:
                 RFF = {
                     'lineId': 'RFF',
-                    'col1': invoice.origin.startswith("SO") and 'ON' or 'DQ',
-                    'col2': invoice.origin
+                    'col1': 'ON',
+                    'col2': invoice.name
                 }
             else:
                 RFF = False
@@ -122,6 +122,19 @@ class edi_parser(models.Model):
                 'col2': '4'
             }
             data[filename].append(edi._create_line_csv(CUX,structs))
+            expiration_dates = invoice._get_date_due_list()
+            if len(expiration_dates) == 1:
+                mod = 35
+            else:
+                mod = 21
+            for expiration_date in expiration_dates:
+                PAT = {
+                    'lineId': 'PAT',
+                    'col1': mod,
+                    'col2': expiration_date[0],
+                    'col3': expiration_date[1]
+                }
+                data[filename].append(edi._create_line_csv(PAT, structs))
             fin_seq = 1
             if invoice.commercial_discount_amount > 0.0:
                 fin_seq = 2
@@ -400,7 +413,8 @@ class edi_parser(models.Model):
 
                     PAC = {
                         'lineId': 'PAC',
-                        'col1': 'CT'
+                        'col1': 1,
+                        'col2': 'CT'
                     }
                     data[filename].append(edi._create_line_csv(PAC, structs))
                     PCI = {
@@ -423,7 +437,8 @@ class edi_parser(models.Model):
 
                 PAC = {
                     'lineId': 'PAC',
-                    'col1': '201'
+                    'col1': len(sscc.child_ids),
+                    'col2': '201'
                 }
                 data[filename].append(edi._create_line_csv(PAC, structs))
                 PCI = {
@@ -445,7 +460,8 @@ class edi_parser(models.Model):
 
                     PAC = {
                         'lineId': 'PAC',
-                        'col1': 'CT'
+                        'col1': 1,
+                        'col2': 'CT'
                     }
                     data[filename].append(edi._create_line_csv(PAC, structs))
                     PCI = {

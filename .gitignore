@@ -24,3 +24,4 @@ devel_*
 *.pidb
 *.userprefs
 .mr.developer.cfg
+.vscode/

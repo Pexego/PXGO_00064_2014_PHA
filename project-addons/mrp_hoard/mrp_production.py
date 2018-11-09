@@ -28,6 +28,8 @@ class MrpProduction(models.Model):
     hoard_ids = fields.Many2many('stock.picking', string='hoard',
                                 compute='_get_hoard_picking')
     hoard_len = fields.Integer('hoard len', compute='_get_hoard_len')
+    manual_return_pickings = fields.One2many('stock.picking', 'return_for_production', string='Returns')
+    return_len = fields.Integer('Returns len', compute='_get_return_len')
     return_operation_ids = fields.One2many('stock.move.return.operations',
                                            'production_id',
                                            'Return operations')
@@ -70,6 +72,29 @@ class MrpProduction(models.Model):
         action['context'] = False
         return action
 
+
+    @api.one
+    @api.depends('manual_return_pickings')
+    def _get_return_len(self):
+        self.return_len = len(self.manual_return_pickings)
+
+    @api.multi
+    def get_return_pickings(self):
+        action = self.env.ref('stock.action_picking_tree')
+        if not action:
+            return
+        action = action.read()[0]
+        if len(self.manual_return_pickings) > 1:
+            action['domain'] = "[('id','in',[" + ','.join(map(str, self.manual_return_pickings.ids)) + "])]"
+        else:
+            res = self.env.ref('stock.view_picking_form')
+            action['views'] = [(res.id, 'form')]
+            action['res_id'] = self.manual_return_pickings.id
+        warehouse_id = self.env['stock.location'].get_warehouse(self.location_src_id)
+        internal_type = self.env['stock.warehouse'].browse(warehouse_id).int_type_id
+        action['context'] = {'default_return_for_production': self.id, 'default_picking_type_id': internal_type.id, 'default_origin': self.name}
+        return action
+
     def action_cancel(self, cr, uid, ids, context=None):
         """ Cancels the production order and related stock moves.
         @return: True
@@ -102,3 +127,17 @@ class MrpProduction(models.Model):
             proc_obj.write(cr, uid, procs, {'state': 'exception'},
                            context=context)
         return True
+
+
+class MrpProductionWorkcenterLines(models.Model):
+
+    _inherit = 'mrp.production.workcenter.line'
+
+    @api.multi
+    def modify_production_order_state(self, action):
+        oper_obj = self[0]
+        prod_obj = oper_obj.production_id
+        if prod_obj.state in ('qty_set', 'released'):
+            return
+        return super(MrpProductionWorkcenterLines,
+                     self).modify_production_order_state(action)

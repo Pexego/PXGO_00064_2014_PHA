@@ -20,6 +20,8 @@
 ##############################################################################
 from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
+from openerp.exceptions import ValidationError, Warning
+from openerp.tools.float_utils import float_round
 
 
 class MrpProductProduceLine(models.TransientModel):
@@ -39,6 +41,7 @@ class MrpProductProduceReturnLine(models.TransientModel):
     location_id = fields.Many2one('stock.location', 'Dest location')
     produce_id = fields.Many2one('mrp.product.produce')
     operation_id = fields.Many2one('stock.move.return.operations', 'Operation')
+    total_qty = fields.Float()
 
 
 class MrpProductProduce(models.TransientModel):
@@ -51,6 +54,35 @@ class MrpProductProduce(models.TransientModel):
     return_lines = fields.One2many('mrp.product.produce.return.line',
                                    'produce_id', 'Products To return')
 
+    @api.onchange('return_lines')
+    def onchange_return_lines(self):
+        for line in self.return_lines:
+            consume_line = line.produce_id.consume_lines.filtered(lambda r: r.product_id == line.product_id and r.lot_id == line.lot_id)
+            if line.product_qty > line.total_qty:
+                raise ValidationError(_('.'))
+            if consume_line:
+                consume_line.product_qty = line.total_qty - line.product_qty
+
+    @api.multi
+    def _calculate_consumptions(self, production):
+        bom_point = production.bom_id
+        # get components and workcenter_lines from BoM structure
+        factor = self.env['product.uom']._compute_qty(
+            production.product_uom.id,
+            production.final_qty,
+            bom_point.product_uom.id)
+        # product_lines, workcenter_lines
+        return self.env['mrp.bom']._bom_explode(
+            bom_point, production.product_id, factor / bom_point.product_qty,
+            None, routing_id=production.routing_id.id)[0]
+
+    @api.model
+    def _get_source_location(self, product_id, lot_id):
+        production = self.env['mrp.production'].browse(self._context['active_id'])
+        quants = production.mapped('move_lines.reserved_quant_ids').filtered(lambda r: r.product_id.id==product_id and r.lot_id.id==lot_id)
+        if quants:
+            return quants[0].reservation_id.move_orig_ids[0].linked_move_operation_ids[0].operation_id.location_id.id
+
     def on_change_qty(self, cr, uid, ids, product_qty, consume_lines,
                       context=None):
         prod_obj = self.pool.get("mrp.production")
@@ -58,21 +90,50 @@ class MrpProductProduce(models.TransientModel):
                                      context=context)
         new_consume_lines = []
         return_lines = []
-        for line in production.return_operation_ids:
-            new_consume_lines.append((0, 0, {
-                'product_id': line.product_id.id,
-                'product_qty': line.hoard_served_qty - line.hoard_returned_qty
-                - line.qty_scrapped,
-                'lot_id': line.lot_id,
-                'operation_id': line.id,
-            }))
-            return_lines.append((0, 0, {
-                'product_id': line.product_id.id,
-                'product_qty': line.hoard_returned_qty,
-                'lot_id': line.lot_id,
-                'operation_id': line.id,
-                'location_id': line.location_id.id
-            }))
+        calculated_consumption = self._calculate_consumptions(
+            cr, uid, ids, production, context)
+        product_lines = {}
+        for line in calculated_consumption:
+            product = self.pool.get('product.product').browse(cr, uid, line['product_id'], context)
+            product_lines[line['product_id']] = float_round(line['product_qty'] * (1 + product.categ_id.decrease_percentage / 100), precision_rounding=product.uom_id.rounding)
+        quant_ids = production.mapped('move_lines.reserved_quant_ids.id')
+        product_lot_qty = self.pool.get('stock.quant').read_group(
+            cr, uid, [('id', 'in', quant_ids)],
+            ['product_id', 'lot_id', 'qty'], ['product_id', 'lot_id'],
+            context=context, orderby='product_id', lazy=False)
+        for product in product_lines.keys():
+            product_qty = product_lines[product]
+            current_product_lots = [x for x in product_lot_qty if x['product_id'][0] == product]
+            for line in current_product_lots:
+                if product_qty >= line['qty']:
+                    line_qty = line['qty']
+                    product_qty -= line['qty']
+                    return_lines.append((0, 0, {
+                        'product_id': line['product_id'][0],
+                        'lot_id': line['lot_id'][0],
+                        'product_qty': 0,
+                        'total_qty': line['qty'],
+                        'location_id': self._get_source_location(cr, uid, line['product_id'][0], line['lot_id'][0], context)
+                    }))
+                else:
+                    rest = line['qty'] - product_qty
+                    line_qty = line['qty'] - rest
+                    return_lines.append((0, 0, {
+                        'product_id': line['product_id'][0],
+                        'lot_id': line['lot_id'][0],
+                        'product_qty': rest,
+                        'total_qty': line['qty'],
+                        'location_id': self._get_source_location(cr, uid, line['product_id'][0], line['lot_id'][0], context)
+                    }))
+                    product_qty = 0
+                new_consume_lines.append((0, 0, {
+                    'product_id': line['product_id'][0],
+                    'lot_id': line['lot_id'][0],
+                    'product_qty': line_qty,
+                }))
+                if product_qty <= 0:
+                    break
+
         return {'value': {'consume_lines': new_consume_lines,
                           'return_lines': return_lines}}
 
@@ -89,12 +150,6 @@ class MrpProductProduce(models.TransientModel):
 
     @api.multi
     def do_produce(self):
-        """
-            Se actualizan las operaciones con los datos finales.
-            Si se han añadido lineas se crean opearciones.
-            Cuando la cantidad servida - cantidad(de movimiento) > devuelta
-            solo se resta a la servida. Si no hay movimiento siempre se resta.
-        """
         scrap_location = self.env['stock.location'].search(
             [('scrap_location', '=', True)])
         if not scrap_location:
@@ -106,136 +161,85 @@ class MrpProductProduce(models.TransientModel):
             return super(
                 MrpProductProduce,
                 self.with_context(no_return_operations=True)).do_produce()
-        originals = self.env['stock.move']
         production = self.env['mrp.production'].browse(
             self.env.context.get('active_id', False))
         main_production_move = False
-        for produce_product in production.move_created_ids:
+        for produce_product in production.move_created_ids + production.move_created_ids2:
                 if produce_product.product_id.id == production.product_id.id:
                     main_production_move = produce_product.id
-        for move in production.move_lines:
-            move.do_unreserve()
-        lines = []
-        for consume_line in self.consume_lines:
-            '''Se guarda en 1 diccionario cantidad consumida(de acopio),
-               sobreconsumida(consumida despues de acopio), devuelta,
-               estropeada'''
-            line_dict = {
-                'product_id': consume_line.product_id,
-                'lot_id': consume_line.lot_id,
-                'operation_id': consume_line.operation_id,
-                'returned_qty': 0.0,
-            }
-            if consume_line.operation_id:
-                line_dict.update({
-                    'consumed_qty': consume_line.operation_id.qty >=
-                    consume_line.product_qty and consume_line.product_qty or
-                    consume_line.operation_id.qty,
-                    'over_consumed': consume_line.operation_id.qty <
-                    consume_line.product_qty and consume_line.product_qty -
-                    consume_line.operation_id.qty or 0.0,
-                    'make_return': consume_line.operation_id.qty >=
-                    consume_line.product_qty,
-                })
-            else:
-                line_dict.update({
-                    'consumed_qty': 0.0,
-                    'over_consumed': consume_line.product_qty,
-                    'make_return': False
-                })
-            lines.append(line_dict)
-        for return_line in self.return_lines:
-            for line in lines:
-                if line['lot_id'] == return_line.lot_id:
-                    line['returned_qty'] = return_line.product_qty
-                    if line.get('make_return', False):
-                        line['return_location_id'] = return_line.location_id
-        for line in lines:
-            if not line['operation_id']:
-                self.env['stock.move.return.operations'].create(
-                    {'production_id': production.id,
-                     'lot_id': line['lot_id'].id,
-                     'hoard_served_qty': line['consumed_qty'] +
-                     line['over_consumed'] + line['returned_qty'],
-                     'hoardreturned_qty': line['returned_qty']})
-            else:
-                if line['operation_id'].hoard_served_qty != \
-                        line['consumed_qty'] + line['over_consumed'] + \
-                        line['returned_qty']:
-                    line['operation_id'].hoard_served_qty = \
-                        line['consumed_qty'] + line['over_consumed'] + \
-                        line['returned_qty']
-                if line['operation_id'].hoard_returned_qty != \
-                        line['returned_qty']:
-                    line['operation_id'].hoard_returned_qty = \
-                        line['returned_qty']
-            if line['operation_id'].move_id:
-                move = line['operation_id'].move_id
-                if move.state != 'done':
-                    move.do_unreserve()
-                    move.product_uom_qty = line['consumed_qty']
-                    move.restrict_lot_id = line['lot_id'].id
-                    move.consumed_for = main_production_move
-                    move.with_context(no_return_operations=True).action_assign()
-                    move.action_done()
-                else:
-                    new_move = move.copy({
-                        'product_uom_qty': line['consumed_qty'],
-                        'restrict_lot_id': line['lot_id'].id,
+        # Nunca se consumirá una cantidad mayor a la de los movimientos
+        # ya existentes, por lo que simplemente tenemos que preocuparnos
+        # por las devoluciones.
+        for consume in self.consume_lines:
+            split_ids = None
+            remaining_qty = consume['product_qty']
+            for raw_material_line in production.move_lines:
+                if raw_material_line.state in ('done', 'cancel'):
+                    continue
+                if remaining_qty <= 0:
+                    break
+                if consume.product_id.id != raw_material_line.product_id.id:
+                    continue
+                consumed_qty = min(remaining_qty, raw_material_line.product_qty)
+                split_id = raw_material_line.action_consume(
+                    consumed_qty, raw_material_line.location_id.id,
+                    restrict_lot_id=consume.lot_id.id,
+                    consumed_for=main_production_move)
+                remaining_qty -= consumed_qty
+                if split_id:
+                    split_move = self.env['stock.move'].browse(split_id)
+                    if split_move.product_uom_qty == 0.0:
+                        continue
+                    return_line = self.return_lines.filtered(lambda r: r.product_id == consume.product_id and r.lot_id == consume.lot_id)
+                    split_move.do_unreserve()
+                    split_move.write({
+                        'product_uom_qty': return_line.product_qty,
+                        'restrict_lot_id': return_line.lot_id.id,
                         'return_production_move': True,
                         'consumed_for': main_production_move,
-                        })
-                    new_move.action_confirm()
-                    new_move.action_assign()
-                    new_move.action_done()
-            else:
-                move = self.env['stock.move'].search(
-                    [('product_id', '=', line['product_id'].id),
-                     ('raw_material_production_id', '=', production.id),
-                     ('return_production_move', '=', False)])
-            if line['over_consumed']:
-                over_move = move.copy({
-                    'product_uom_qty': line['over_consumed'],
-                    'restrict_lot_id': line['lot_id'].id,
-                    'location_id': production.location_src_id.id,
-                    'return_production_move': True,
-                        'consumed_for': main_production_move,
+                        'location_dest_id': return_line.location_id.id
                     })
-                over_move.action_confirm()
-                over_move.action_assign()
-                over_move.action_done()
-            if line['make_return'] and line['returned_qty'] > 0:
-                return_dict = {
-                    'product_uom_qty': line['returned_qty'],
-                    'restrict_lot_id': line['lot_id'].id,
-                    'return_production_move': True,
-                    'consumed_for': main_production_move,
-                }
-                if move.original_move:
-                    if move.original_move.state != 'done':
-                        move.original_move.do_unreserve()
-                        move.original_move.product_uom_qty += line['returned_qty']
-                        return_dict['location_dest_id'] = move.original_move.location_id.id
-                        return_dict['move_dest_id'] = move.original_move.id
-                    else:
-                        return_dict['location_dest_id'] = move.original_move.location_dest_id.id
-                else:
-                    return_dict['location_dest_id'] = line['return_location_id'].id
-                return_move = move.copy(return_dict)
-                return_move.action_confirm()
-                return_move.action_assign()
-                return_move.action_done()
-                if move.original_move:
-                    move.original_move.action_assign()
-            if line['operation_id'].qty_scrapped > 0:
-                scrap_move = move.copy({
-                    'product_uom_qty': line['operation_id'].qty_scrapped,
-                    'restrict_lot_id': line['lot_id'].id,
-                    'location_dest_id': scrap_location.id,
-                    'return_production_move': True,
-                    'consumed_for': main_production_move,
-                    })
-                scrap_move.action_confirm()
-                scrap_move.action_assign()
-                scrap_move.action_done()
+                    split_move.action_assign()
+                    split_move.action_done()
+        production.move_created_ids.action_cancel()
+        production.signal_workflow('button_produce_done')
         return {}
+
+
+        # for return_line in self.return_lines:
+        #     moves = production.move_lines.filtered(lambda r: r.product_id == return_line.product_id)
+        #     if len(moves) > 1:
+        #         # Buscamos el movimiento idoneo al que restarle la cantidad
+        #         use_move = None
+        #         for move in moves:
+        #             if move.product_uom_qty >= return_line.product_qty:
+        #                 if move.reserved_quant_ids.filtered(lambda r: r.lot_id == return_line.lot_id):
+        #                     use_move = move
+        #         if not use_move:
+        #             raise Warning(_('Error'))
+        #     else:
+        #         use_move = moves
+        #     if use_move.product_uom_qty == return_line.product_qty:
+        #         use_move.do_unreserve()
+        #         use_move.location_dest_id = return_line.location_id.id
+        #         use_move.consumed_for = main_production_move
+        #         use_move.with_context(no_return_operations=True).action_assign()
+        #         use_move.action_done()
+        #     else:
+        #         new_move = use_move.copy({
+        #             'product_uom_qty': return_line.product_qty,
+        #             'restrict_lot_id': return_line.lot_id.id,
+        #             'return_production_move': True,
+        #             'consumed_for': main_production_move,
+        #             'location_dest_id': return_line.location_id.id
+        #         })
+        #         new_move.action_confirm()
+        #         use_move.do_unreserve()
+        #         new_move.action_assign()
+        #         new_move.action_done()
+        #         use_move.product_uom_qty -= return_line.product_qty
+        #         use_move.consumed_for = main_production_move
+        #         use_move.with_context(no_return_operations=True).action_assign()
+        #         use_move.action_done()
+        # # Se finaliza la producción.
+

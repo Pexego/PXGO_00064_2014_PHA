@@ -17,6 +17,12 @@
                             <field string="Hoard" name="hoard_len" widget="statinfo" />
                         </button>
                     </div>
+                    <div class="oe_right">
+                        <button class="oe_inline oe_stat_button" name="get_return_pickings" type="object"
+                                icon="fa-shopping-cart" attrs="{'invisible': [('state', '!=', 'done')]}">
+                            <field string="Returns" name="return_len" widget="statinfo" />
+                        </button>
+                    </div>
                 </xpath>
             </field>
         </record>
