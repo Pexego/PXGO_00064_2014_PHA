@@ -74,11 +74,11 @@ class edi_parser(models.Model):
                     'col1':  'IV',
                     'col2': invoice.type == "out_refund" and invoice.origin_invoices_ids
                 }
-            elif invoice.type == "out_invoice" and invoice.origin:
+            elif invoice.type == "out_invoice" and invoice.name:
                 RFF = {
                     'lineId': 'RFF',
-                    'col1': invoice.origin.startswith("SO") and 'ON' or 'DQ',
-                    'col2': invoice.origin
+                    'col1': 'ON',
+                    'col2': invoice.name
                 }
             else:
                 RFF = False
