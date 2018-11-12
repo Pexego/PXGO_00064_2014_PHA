@@ -67,7 +67,9 @@ class StockMoveAssignManualLot(models.TransientModel):
             if record.line_ids:
                 move = self.env['stock.move'].browse(
                     self.env.context['active_id'])
-                if record.lines_qty != float_round(
+                if float_round(record.lines_qty,
+                        precision_rounding=move.product_uom.rounding,
+                        rounding_method='UP') != float_round(
                         move.product_uom_qty,
                         precision_rounding=move.product_uom.rounding,
                         rounding_method='UP'):
