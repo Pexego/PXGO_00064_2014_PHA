@@ -95,7 +95,13 @@ class MrpProductProduce(models.TransientModel):
         product_lines = {}
         for line in calculated_consumption:
             product = self.pool.get('product.product').browse(cr, uid, line['product_id'], context)
-            product_lines[line['product_id']] = float_round(line['product_qty'] * (1 + product.categ_id.decrease_percentage / 100), precision_rounding=product.uom_id.rounding)
+            product_lines[line['product_id']] = float_round(
+                line['product_qty'] * (1 + product.categ_id.decrease_percentage / 100),
+                precision_rounding=product.uom_id.rounding)
+        all_bom_products = [x['product_id'] for x in calculated_consumption]
+        added_moves = [x for x in production.mapped('move_lines') if x.product_id.id not in all_bom_products]
+        for move in added_moves:
+            product_lines[move.product_id.id] = move.product_uom_qty
         quant_ids = production.mapped('move_lines.reserved_quant_ids.id')
         product_lot_qty = self.pool.get('stock.quant').read_group(
             cr, uid, [('id', 'in', quant_ids)],
