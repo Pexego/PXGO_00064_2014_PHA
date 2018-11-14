@@ -228,28 +228,39 @@ class StockQuant(models.Model):
             Se controla la asignacion de materias primas para que no se asigne
             mas de un lote para materia prima en albaranes de acopio
             cuya ruta no tenga mezcladora.
+            Si ya hay un lote en el domain, saltamos la comprobación.
         '''
-        if product.raw_material:
-            if self._context.get('active_model', False) == 'stock.picking':
-                picking = self.env['stock.picking'].browse(
-                    self._context.get('active_id', False))
-                if picking.is_hoard and not \
-                        picking.accept_multiple_raw_material:
-                    available_quants = self.env['stock.quant'].search([
-                        ('location_id', 'child_of', location.id),
-                        ('product_id', '=', product.id),
-                        ('qty', '>', 0),
-                        ('reservation_id', '=', False)])
-                    lots = {}
-                    for quant in available_quants:
-                        if quant.lot_id.id not in lots:
-                            lots[quant.lot_id.id] = 0.0
-                        lots[quant.lot_id.id] += quant.qty
-                    available_lots = []
-                    for lot in lots.keys():
-                        if lots[lot] >= quantity:
-                            available_lots.append(lot)
-                    domain.append(['lot_id', 'in', available_lots])
+        if 'lot_id' not in [x[0] for x in domain]:
+            if product.raw_material:
+                if self._context.get('active_model', False) == 'stock.picking':
+                    picking = self.env['stock.picking'].browse(
+                        self._context.get('active_id', False))
+                    if picking.is_hoard and not \
+                            picking.accept_multiple_raw_material:
+                        custom_domain = domain
+                        custom_domain += location and [
+                            ('location_id', 'child_of', location.id)] or []
+                        custom_domain += [('product_id', '=', product.id)]
+                        if self._context.get('force_company'):
+                            custom_domain += [
+                                ('company_id', '=',
+                                 self._context.get('force_company'))]
+                        else:
+                            custom_domain += [
+                                ('company_id', '=',
+                                 self.env.user.company_id.id)]
+                        available_quants = self.env['stock.quant'].search(
+                            custom_domain)
+                        lots = {}
+                        for quant in available_quants:
+                            if quant.lot_id.id not in lots:
+                                lots[quant.lot_id.id] = 0.0
+                            lots[quant.lot_id.id] += quant.qty
+                        available_lots = []
+                        for lot in lots.keys():
+                            if lots[lot] >= quantity:
+                                available_lots.append(lot)
+                        domain.append(['lot_id', 'in', available_lots])
         return super(StockQuant, self)._quants_get_order(location, product,
                                                          quantity, domain,
                                                          orderby)
