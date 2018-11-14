@@ -34,6 +34,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <attribute name="confirm">
                         Do you really want to cancel production?
                     </attribute>
+                    <attribute name="states">draft,confirmed</attribute>
                 </button>
                 <button name="action_cancel" position="attributes">
                     <attribute name="confirm">

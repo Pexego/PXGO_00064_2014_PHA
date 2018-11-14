@@ -40,7 +40,7 @@
                                 </t>
                             </p>
                         </t>
-                        <p t-field="o.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
+                        <p t-esc="o.product_id.name[:40]" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
                         <div style="display: inline-block; float: right; position: relative;">
                             <!-- Barcode reader uses english keyboard layout -->
                             <t t-set="product_barcode" t-value="o.product_id.default_code"/>
