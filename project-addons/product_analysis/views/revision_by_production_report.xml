@@ -111,7 +111,7 @@
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
                                     <t t-set="material_ids" t-value="production.workcenter_lines.mapped('x_mrp_wcl_revifi_matentreg_ids').mapped('x_material_ids')"/>
-                                    <t t-foreach="material_ids" t-as="material">
+                                    <t t-foreach="material_ids.sorted(key=lambda r: r.x_order)" t-as="material">
                                         <t t-set="lote" t-value="material.x_lot_id"/>
                                         <t t-if="lote">
                                             <tr style="font-size: 0.8em;">
@@ -225,7 +225,7 @@
                         <!-- Buscamos su protocolo de revisión final -->
                         <t t-set="proto" t-value="production.product_id.protocol_ids.with_context(p=production).filtered(lambda r: r.protocol.type_id.id == 7 and ((r.route == r._context['p'].routing_id) or not r.route) and ((r.bom == r._context['p'].bom_id) or not r.bom))"/>
                         <!-- Si tiene más de un protocolo de este tipo, ordenamos por prioridad y devolvemos el prioritario -->
-                        <t t-if="proto and len(proto) > 1">
+                        <t t-if="proto and len(proto) &gt; 1">
                             <t t-set="proto" t-value="proto.sorted(key=lambda r: ('a' if r.route else 'b') + ('a' if r.bom else 'b'))[0]"/>
                         </t>
                         <!-- Sección de revisión final del protocolo de producción -->
@@ -344,27 +344,27 @@
 
                         <div class="row" style="margin: 0 150px 1em 150px; border: 8px double black; font-weight: bold;">
                             <t t-if="contadorInfusiones">
-                                <div class="col-xs-9">Número de infusiones por contador:</div>
+                                <div class="col-xs-9">Número de infusiones por contador (IC):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(contadorInfusiones))"/> uds</div>
                             </t>
-                          <t t-if="contadorUnidades">
-                                <div class="col-xs-9">Número de unidades por contador:</div>
+                           <t t-if="contadorUnidades">
+                                <div class="col-xs-9">Número de unidades por contador (UC):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(contadorUnidades))"/> uds</div>
                             </t>
                             <t t-if="unidadesFabricadas">
-                                <div class="col-xs-9">Unidades fabricadas:</div>
+                                <div class="col-xs-9">Número de unidades fabricadas (UF):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(unidadesFabricadas))"/> uds</div>
                             </t>
                             <t t-if="pesosFinalesObtenidos">
-                                <div class="col-xs-9">Peso final obtenido:</div>
+                                <div class="col-xs-9">Peso fabricado (PF):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(pesosFinalesObtenidos))"/> kg</div>
                             </t>
                             <t t-if="ratiosDosificacion">
-                                <div class="col-xs-9">Ratio de dosificación:</div>
+                                <div class="col-xs-9">Ratio de dosificación (RD):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(ratiosDosificacion))"/> %</div>
                             </t>
                             <t t-if="ratiosFabricacion">
-                                <div class="col-xs-9">Ratio de fabricación:</div>
+                                <div class="col-xs-9">Ratio de fabricación (RF):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(ratiosFabricacion))"/> %</div>
                             </t>
                         </div>
@@ -381,7 +381,7 @@
                             </t>
                         </t>
 
-                        <t t-if="sum(aIncidencias) > 0">
+                        <t t-if="sum(aIncidencias) &gt; 0">
                             <div class="row" style="margin: 1em 0 1em 0;">
                                 <div class="col-xs-4 pull-left"><b>Producción con incidencia nº:</b></div>
                                 <div class="col-xs-8 pull-left">

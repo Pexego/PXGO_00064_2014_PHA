@@ -109,7 +109,7 @@
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
                                     <t t-set="material_ids" t-value="production.workcenter_lines.mapped('x_mrp_wcl_revifi_matentreg_ids').mapped('x_material_ids').filtered(lambda r: r.x_product_id.categ_id.id in (1199, 1195, 1224, 1525, 1494, 1493, 1497))"/> <!-- M.Prima, Ac.Prim., Interm., Vendibles (CVD, Manuf., Pack, Prod.) -->
-                                    <t t-foreach="material_ids" t-as="material">
+                                    <t t-foreach="material_ids.sorted(key=lambda r: r.x_order)" t-as="material">
                                         <t t-set="lote" t-value="material.x_lot_id"/>
                                         <tr style="font-size: 0.8em;">
                                             <td>

@@ -106,9 +106,30 @@ class StockLotAnalysis(models.Model):
         return super(StockLotAnalysis, self).write(vals)
 
 
+class StockProductionLotStateChange(models.Model):
+    _name = 'stock.production.lot.state.change'
+
+    lot_id = fields.Many2one(comodel_name='stock.production.lot')
+    state_old = fields.Selection((
+        ('draft', 'New'),
+        ('in_rev', 'Revision(Q)'),
+        ('revised', 'Revised'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected')
+    ))
+    state_new = fields.Selection((
+        ('draft', 'New'),
+        ('in_rev', 'Revision(Q)'),
+        ('revised', 'Revised'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected')
+    ))
+
+
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
+    compliant_qualification = fields.Boolean(default=False)
     analysis_ids = fields.One2many('stock.lot.analysis', 'lot_id', 'Analysis')
     analysis_notes = fields.Text('Analysis notes')
     num_container_sample_proposed = fields.Integer(
@@ -150,6 +171,12 @@ class StockProductionLot(models.Model):
     technical_direction_review_notes = fields.Text('Notes')
     technical_direction_review_done_by = fields.Char('Done by')
     technical_direction_review_date = fields.Date('Date')
+    state_change_ids = fields.One2many(
+        comodel_name='stock.production.lot.state.change',
+        inverse_name='lot_id',
+        readonly=True,
+        string='State changes'
+    )
 
     @api.onchange('origin_type')
     def onchange_origin_type(self):
@@ -211,6 +238,10 @@ class StockProductionLot(models.Model):
                 'sequence': question_id.sequence
             }))
 
+        vals['state_change_ids'] = [(0, 0, {
+            'state_new': vals.get('state', 'draft')
+        })]
+
         lot = super(StockProductionLot, self).create(vals)
         if lot.product_id.analytic_certificate:
             for line in lot.product_id.analysis_ids:
@@ -229,6 +260,16 @@ class StockProductionLot(models.Model):
                     'sequence': line.sequence
                 })
         return lot
+
+    @api.multi
+    def write(self, vals):
+        state = vals.get('state', False)
+        if state:
+            vals['state_change_ids'] = [(0, 0, {
+                'state_old': self[0].state,
+                'state_new': vals.get('state', 'draft')
+            })]
+        return super(StockProductionLot, self).write(vals)
 
     @api.multi
     def action_approve(self):

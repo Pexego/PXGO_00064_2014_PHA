@@ -49,9 +49,20 @@ msgid "Is going to start the production of"
 msgstr "Se va a iniciar la producción con los siguientes parámetros"
 
 #. module: mrp_production_ph
+#: field:mrp.production.quality.consumption,lot_id:0
+#: field:mrp.production.store.consumption,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,lot:0
 msgid "Lot"
 msgstr "Lote previsto"
+
+#. module: mrp_production_ph
+#: model:ir.model,name:mrp_production_ph.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Órden de producción"
 
 #. module: mrp_production_ph
 #: field:mrp.production,next_lot:0
@@ -59,7 +70,20 @@ msgid "Next lot"
 msgstr "Siguiente lote"
 
 #. module: mrp_production_ph
+#: field:mrp.production,notes:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: mrp_production_ph
+#: field:mrp.production.quality.consumption,order:0
+#: field:mrp.production.store.consumption,order:0
+msgid "Order"
+msgstr "Orden"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,product:0
+#: field:mrp.production.quality.consumption,product_id:0
+#: field:mrp.production.store.consumption,product_id:0
 msgid "Product"
 msgstr "Producto"
 
@@ -69,16 +93,50 @@ msgid "Production notes"
 msgstr "Notas sobre la producción"
 
 #. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+#: field:mrp.production,quality_consumption_ids:0
+msgid "Quality consumption"
+msgstr "Consumos calidad"
+
+#. module: mrp_production_ph
+#: field:mrp.production.quality.consumption,quantity:0
+#: field:mrp.production.store.consumption,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,quantity:0
 #: field:mrp.production.confirm,quantity_text:0
 msgid "Quantity"
 msgstr "Cantidad a fabricar"
 
 #. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Real Consumption"
+msgstr "Consumo real"
+
+#. module: mrp_production_ph
 #: model:ir.model,name:mrp_production_ph.model_mrp_routing
 #: field:mrp.production.confirm,routing:0
 msgid "Routing"
 msgstr "Proceso productivo"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+#: field:mrp.production,store_consumption_ids:0
+msgid "Store consumption"
+msgstr "Consumos almacén"
+
+#. module: mrp_production_ph
+#: field:mrp.production.quality.consumption,uom_id:0
+#: field:mrp.production.store.consumption,uom_id:0
+msgid "UoM"
+msgstr "UdM"
+
+#. module: mrp_production_ph
+#: field:mrp.production.confirm,uom_id:0
+msgid "Uom id"
+msgstr "UdM"
 
 #. module: mrp_production_ph
 #: field:mrp.routing,wildcard_route:0

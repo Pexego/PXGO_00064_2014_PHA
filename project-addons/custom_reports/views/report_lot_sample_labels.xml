@@ -52,12 +52,12 @@
                             </t>
                         </div>
                         <t t-if="res_company.id != 6">
-                            <p>
+                            <div>
                                 <span style="min-width: 15em; display: inline-block;">Fecha toma muestra:</span><span t-field="o.sampling_date"/>
-                            </p>
-                            <p style="margin-top: -1em;">
+                            </div>
+                            <div>
                                 <span style="min-width: 15em; display: inline-block;">Realizado por:</span><span t-field="o.sampling_realized"/>
-                            </p>
+                            </div>
                         </t>
                     </div>
                 </t>

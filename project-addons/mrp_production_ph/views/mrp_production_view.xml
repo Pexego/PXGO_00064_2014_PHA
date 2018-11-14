@@ -43,6 +43,34 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <notebook position="after">
                     <field name="notes" placeholder="Production notes"/>
                 </notebook>
+                <page string="Extra Information" position="after">
+                    <page string="Real Consumption">
+                        <group>
+                            <group string="Store consumption">
+                                <field name="store_consumption_ids" nolabel="1" options="{'reload_on_button': true}">
+                                    <tree default_order="order,lot_id" create="0" edit="0" delete="0">
+                                        <field name="product_id"/>
+                                        <field name="lot_id"/>
+                                        <field name="quantity"/>
+                                        <field name="uom_id"/>
+                                        <field name="order"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Quality consumption">
+                                <field name="quality_consumption_ids" nolabel="1" options="{'reload_on_button': true}">
+                                    <tree default_order="order,lot_id" create="0" edit="0" delete="0">
+                                        <field name="product_id"/>
+                                        <field name="lot_id"/>
+                                        <field name="quantity"/>
+                                        <field name="uom_id"/>
+                                        <field name="order"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </page>
+                </page>
             </field>
         </record>
     </data>
