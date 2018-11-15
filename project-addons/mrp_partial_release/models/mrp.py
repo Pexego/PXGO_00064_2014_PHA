@@ -33,9 +33,18 @@ class MrpProduction(models.Model):
     def action_produce(self, production_id, production_qty, production_mode,
                        wiz=False):
         if production_mode == 'only_produce':
+            production = self.browse(production_id)
+            prod_name = production.name
+            procurement_group = self.env['procurement.group'].search(
+                [('name', '=', prod_name)], limit=1)
+            if not procurement_group:
+                procurement_group = self.env['procurement.group'].create(
+                    {'name': prod_name})
+            self = self.with_context(set_push_group=procurement_group.id)
+            # Volvemos a hacer browse para que use el context correcto
+            production = self.browse(production_id)
             precision = self.env['decimal.precision'].precision_get(
                 'Product Unit of Measure')
-            production = self.browse(production_id)
             production_qty_uom = self.env['product.uom']._compute_qty(
                 production.product_uom.id, production_qty,
                 production.product_id.uom_id.id)
@@ -68,7 +77,15 @@ class MrpProduction(models.Model):
                     extra_move = produce_product.copy(
                         default={'product_uom_qty': remaining_qty,
                                  'production_id': production_id})
+                    # Cancelamos disponibilidad de albaranes ya creados
+                    # Para que asigne con el nuevo movimiento
+                    pickings = (production.move_created_ids +
+                                production.move_created_ids2).mapped(
+                                    'move_dest_id.picking_id').filtered(
+                                        lambda r: r.state == 'assigned')
+                    pickings.do_unreserve()
                     extra_move.action_confirm()
+                    pickings.rereserve_pick()
                     extra_move.action_done()
 
         return super(MrpProduction, self).action_produce(

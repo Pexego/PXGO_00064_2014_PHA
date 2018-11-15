@@ -29,6 +29,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </field>
                 <field name="final_lot_id" position="after">
                     <field name="next_lot" attrs="{'invisible': [('final_lot_id', '!=', False)]}"/>
+                    <label style="font-weight: bold;" string="Copy use date and duration type from another lot" attrs="{'invisible': [('final_lot_id', '!=', False)]}"/>
+                    <button string="Copy from lot..." name="copy_from_lot" type="object" attrs="{'invisible': [('final_lot_id', '!=', False)]}"/>
+                    <field name="use_date"/>
+                    <field name="duration_type" style="max-width: 10em;"/>
+                </field>
+                <field name="final_lot_id" position="attributes">
+                    <attribute name="style">max-width: 20em;</attribute>
                 </field>
                 <button name="button_cancel" position="attributes">
                     <attribute name="confirm">

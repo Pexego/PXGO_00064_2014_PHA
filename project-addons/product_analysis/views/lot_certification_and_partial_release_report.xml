@@ -108,9 +108,9 @@
                                         <td style="width: 30%;">Proveedor</td>
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
-                                    <t t-set="material_ids" t-value="production.workcenter_lines.mapped('x_mrp_wcl_revifi_matentreg_ids').mapped('x_material_ids').filtered(lambda r: r.x_product_id.categ_id.id in (1199, 1195, 1224, 1525, 1494, 1493, 1497))"/> <!-- M.Prima, Ac.Prim., Interm., Vendibles (CVD, Manuf., Pack, Prod.) -->
-                                    <t t-foreach="material_ids.sorted(key=lambda r: r.x_order)" t-as="material">
-                                        <t t-set="lote" t-value="material.x_lot_id"/>
+                                    <t t-set="material_ids" t-value="production.quality_consumption_ids.filtered(lambda r: r.product_id.categ_id.id in (1199, 1195, 1224, 1525, 1494, 1493, 1497))"/> <!-- M.Prima, Ac.Prim., Interm., Vendibles (CVD, Manuf., Pack, Prod.) -->
+                                    <t t-foreach="material_ids.sorted(key=lambda r: r.order)" t-as="material">
+                                        <t t-set="lote" t-value="material.lot_id"/>
                                         <tr style="font-size: 0.8em;">
                                             <td>
                                                 <span t-field="lote.product_id"/>
@@ -119,12 +119,11 @@
                                                 <span t-field="lote.name"/>
                                             </td>
                                             <td>
-                                                <span t-esc="material.x_served_qty if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.x_served_qty)"/>
+                                                <span t-esc="material.quantity if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
                                             </td>
                                             <td>
                                                 <t t-set="move_ids" t-value="lote.move_related_ids.filtered(lambda r: r.picking_id.picking_type_id.id == 1 and r.picking_id.state == 'done')"/>
-                                                <t t-set="supplier" t-value="move_ids[0].picking_id.partner_id.display_name if move_ids else ''"/>
-                                                <span t-esc="supplier"/>
+                                                <span t-esc="', '.join(move_ids.mapped('picking_id.partner_id.display_name'))"/>
                                             </td>
                                             <td style="text-align: right;">
                                                 <span t-field="lote.acceptance_date"/>

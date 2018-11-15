@@ -110,9 +110,8 @@
                                         <td style="width: 30%;">Proveedor</td>
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
-                                    <t t-set="material_ids" t-value="production.workcenter_lines.mapped('x_mrp_wcl_revifi_matentreg_ids').mapped('x_material_ids')"/>
-                                    <t t-foreach="material_ids.sorted(key=lambda r: r.x_order)" t-as="material">
-                                        <t t-set="lote" t-value="material.x_lot_id"/>
+                                    <t t-foreach="production.quality_consumption_ids.sorted(key=lambda r: r.order)" t-as="material">
+                                        <t t-set="lote" t-value="material.lot_id"/>
                                         <t t-if="lote">
                                             <tr style="font-size: 0.8em;">
                                                 <td>
@@ -122,7 +121,7 @@
                                                     <span t-field="lote.name"/>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="material.x_served_qty if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.x_served_qty)"/>
+                                                    <span t-esc="material.quantity if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="move_ids" t-value="lote.mapped('move_related_ids').filtered(lambda r: r.picking_id.picking_type_id.id == 1 and r.picking_id.state == 'done')"/>
@@ -136,13 +135,13 @@
                                         <t t-if="not lote">
                                             <tr style="font-size: 0.8em;">
                                                 <td>
-                                                    <span t-field="material.x_product_id.name"/>
+                                                    <span t-field="material.product_id.name"/>
                                                 </td>
                                                 <td>
                                                     <span>&amp;nbsp;</span>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="material.x_served_qty if material.x_product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.x_served_qty)"/>
+                                                    <span t-esc="material.quantity if material.x_product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
                                                 </td>
                                                 <td>
                                                     <span>&amp;nbsp;</span>
@@ -210,7 +209,7 @@
                                             <tr>
                                                 <td><span t-field="table_id.x_init_day"/></td>
                                                 <td><span t-field="table_id.x_init_time"/></td>
-                                                <td><span t-field="table_id.x_motive"/></td>
+                                                <td><span t-field="table_id.x_motive_texto"/></td>
                                                 <td><span t-field="table_id.x_finalday"/></td>
                                                 <td><span t-field="table_id.x_final_time"/></td>
                                                 <td><span t-field="table_id.x_duration"/></td>
@@ -344,15 +343,15 @@
 
                         <div class="row" style="margin: 0 150px 1em 150px; border: 8px double black; font-weight: bold;">
                             <t t-if="contadorInfusiones">
-                                <div class="col-xs-9">Número de infusiones por contador (IC):</div>
+                                <div class="col-xs-9">Nº infusiones fabricadas por contador (IC):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(contadorInfusiones))"/> uds</div>
                             </t>
                            <t t-if="contadorUnidades">
-                                <div class="col-xs-9">Número de unidades por contador (UC):</div>
+                                <div class="col-xs-9">Nº unidades fabricadas por contador (UC):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(contadorUnidades))"/> uds</div>
                             </t>
                             <t t-if="unidadesFabricadas">
-                                <div class="col-xs-9">Número de unidades fabricadas (UF):</div>
+                                <div class="col-xs-9">Nº unidades fabricadas por recuento final (UF):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(unidadesFabricadas))"/> uds</div>
                             </t>
                             <t t-if="pesosFinalesObtenidos">
