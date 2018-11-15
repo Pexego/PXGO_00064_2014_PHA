@@ -16,3 +16,15 @@ class StockMove(models.Model):
         """
         if not self._context.get('not_cancel'):
             return super(StockMove, self).action_cancel()
+
+
+class StockLocationPath(models.Model):
+
+    _inherit = 'stock.location.path'
+
+    @api.model
+    def _prepare_push_apply(self, rule, move):
+        res = super(StockLocationPath, self)._prepare_push_apply(rule, move)
+        if self._context.get('set_push_group', False):
+            res['group_id'] = self._context.get('set_push_group')
+        return res
