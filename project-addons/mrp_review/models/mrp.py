@@ -37,3 +37,14 @@ class MrpProduction(models.Model):
     @api.multi
     def prod_act_release(self):
         return self.write({'state': 'released'})
+
+    @api.model
+    def _make_production_produce_line(self, production):
+        prod_name = production.name
+        procurement_group = self.env['procurement.group'].search(
+            [('name', '=', prod_name)], limit=1)
+        if not procurement_group:
+            procurement_group = self.env['procurement.group'].create(
+                {'name': prod_name})
+        self = self.with_context(set_push_group=procurement_group.id)
+        return super(MrpProduction, self)._make_production_produce_line(production)
