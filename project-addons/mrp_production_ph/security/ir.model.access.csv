@@ -1,1 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_production_available_lot,access_mrp_production_available_lot,model_mrp_production_available_lot,base.group_user,1,1,1,1

@@ -42,6 +42,12 @@ class MrpProduction(models.Model):
                                       related='product_id.product_tmpl_id',
                                       readonly=True)
     next_lot = fields.Char(compute='_next_lot', readonly=True)
+    use_date = fields.Datetime(related='final_lot_id.use_date')
+    duration_type = fields.Selection(selection=[
+            ('exact', 'Exact'),
+            ('end_month', 'End of month'),
+            ('end_year', 'End of year')
+        ], related='final_lot_id.duration_type')
     time_planned = fields.Float(compute='_time_planned', readonly=True)
     notes = fields.Text()
     store_consumption_ids = fields.One2many(
@@ -150,6 +156,25 @@ class MrpProduction(models.Model):
                                      sequence.number_next_actual + suffix
         else:
             self.next_lot = False
+
+    @api.multi
+    def copy_from_lot(self):
+        use_id = self.env['mrp.production.use.lot'].create({
+            'production_id': self.id
+        })
+        wizard = self.env.ref('mrp_production_ph.mrp_production_use_lot_wizard')
+        return {
+            'name': _('Lot from which the use date and duration type are to be '
+                      'copied'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mrp.production.use.lot',
+            'views': [(wizard.id, 'form')],
+            'view_id': wizard.id,
+            'target': 'new',
+            'res_id': use_id.id,
+        }
 
     @api.multi
     def action_call_update_display_url(self):

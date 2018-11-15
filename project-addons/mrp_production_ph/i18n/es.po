@@ -18,6 +18,13 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 
 #. module: mrp_production_ph
+#: field:mrp.production,use_date:0
+#: field:mrp.production.available.lot,use_date:0
+#: field:mrp.production.use.lot,use_date:0
+msgid "Best before Date"
+msgstr "Consumir preferentemente antes de"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,bom:0
 msgid "Bom"
 msgstr "Lista de materiales"
@@ -34,6 +41,17 @@ msgstr "Confirmar"
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_use_lot_wizard
+msgid "Copy from lot..."
+msgstr "Copiar del lote..."
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Copy use date and duration type from another lot"
+msgstr "Utilizar lote y fecha de consumo de la materia prima"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 msgid "Display"
 msgstr "Pantalla"
 
@@ -41,6 +59,28 @@ msgstr "Pantalla"
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 msgid "Do you really want to cancel production?"
 msgstr "¿Desea realmente cancelar esta producción?"
+
+#. module: mrp_production_ph
+#: field:mrp.production,duration_type:0
+#: field:mrp.production.available.lot,duration_type:0
+#: field:mrp.production.use.lot,duration_type:0
+msgid "Duration type"
+msgstr "Tipo de duración"
+
+#. module: mrp_production_ph
+#: selection:mrp.production.available.lot,duration_type:0
+msgid "End of month"
+msgstr "Fin de mes"
+
+#. module: mrp_production_ph
+#: selection:mrp.production.available.lot,duration_type:0
+msgid "End of year"
+msgstr "Fin de año"
+
+#. module: mrp_production_ph
+#: selection:mrp.production.available.lot,duration_type:0
+msgid "Exact"
+msgstr "Exacta"
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/models/mrp_production.py:138
@@ -51,6 +91,7 @@ msgstr "Se va a iniciar la producción con los siguientes parámetros"
 #. module: mrp_production_ph
 #: field:mrp.production.quality.consumption,lot_id:0
 #: field:mrp.production.store.consumption,lot_id:0
+#: field:mrp.production.use.lot,lot_id:0
 msgid "Lot"
 msgstr "Lote"
 
@@ -58,6 +99,12 @@ msgstr "Lote"
 #: field:mrp.production.confirm,lot:0
 msgid "Lot"
 msgstr "Lote previsto"
+
+#. module: mrp_production_ph
+#: code:addons/mrp_production_ph/models/mrp_production.py:167
+#, python-format
+msgid "Lot from which the use date and duration type are to be copied"
+msgstr "Lote del cual se copiará el nombre, fecha de consumo y tipo de duración"
 
 #. module: mrp_production_ph
 #: model:ir.model,name:mrp_production_ph.model_mrp_production
