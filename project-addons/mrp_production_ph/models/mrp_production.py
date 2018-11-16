@@ -6,6 +6,34 @@ from openerp import models, fields, api, _
 import urllib, unicodedata
 from datetime import datetime, timedelta
 from pytz import timezone
+import openerp.addons.decimal_precision as dp
+
+
+class MrpProductionStoreConsumption(models.TransientModel):
+    _name = 'mrp.production.store.consumption'
+    _order = 'order'
+
+    production_id = fields.Many2one('mrp.production')
+    product_id = fields.Many2one(comodel_name='product.product',
+                                 string='Product')
+    lot_id = fields.Many2one(comodel_name='stock.production.lot', string='Lot')
+    quantity = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
+    uom_id = fields.Many2one(comodel_name='product.uom', string='UoM')
+    order = fields.Integer()
+
+
+class MrpProductionQualityConsumption(models.TransientModel):
+    _name = 'mrp.production.quality.consumption'
+    _order = 'order'
+
+    production_id = fields.Many2one('mrp.production')
+    product_id = fields.Many2one(comodel_name='product.product',
+                                 string='Product')
+    lot_id = fields.Many2one(comodel_name='stock.production.lot', string='Lot')
+    quantity = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
+    uom_id = fields.Many2one(comodel_name='product.uom', string='UoM')
+    order = fields.Integer()
+
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
@@ -14,8 +42,104 @@ class MrpProduction(models.Model):
                                       related='product_id.product_tmpl_id',
                                       readonly=True)
     next_lot = fields.Char(compute='_next_lot', readonly=True)
+    use_date = fields.Datetime(related='final_lot_id.use_date')
+    duration_type = fields.Selection(selection=[
+            ('exact', 'Exact'),
+            ('end_month', 'End of month'),
+            ('end_year', 'End of year')
+        ], related='final_lot_id.duration_type')
     time_planned = fields.Float(compute='_time_planned', readonly=True)
     notes = fields.Text()
+    store_consumption_ids = fields.One2many(
+        comodel_name='mrp.production.store.consumption',
+        inverse_name='production_id',
+        compute='_compute_consumption',
+        string='Store consumption')
+    quality_consumption_ids = fields.One2many(
+        comodel_name='mrp.production.quality.consumption',
+        inverse_name='production_id',
+        compute='_compute_consumption',
+        string='Quality consumption')
+
+    @api.one
+    def _compute_consumption(self):
+        consumptions = []
+
+        # Gathering pickings
+        for po in self.hoard_ids.mapped('pack_operation_ids'):
+            idx = -1
+            for i, obj in enumerate(consumptions):
+                if obj['product_id'] == po.product_id.id and \
+                    obj['lot_id'] == po.lot_id.id:
+                   idx = i
+            if idx > -1:
+                consumptions[idx]['quantity'] += po.product_qty
+            else:
+                bom_line_id = self.bom_id.bom_line_ids.\
+                    filtered(lambda r: r.product_id == po.product_id)
+                consumptions.append({
+                    'production_id': self.id,
+                    'product_id': po.product_id.id,
+                    'lot_id': po.lot_id.id,
+                    'quantity': po.product_qty,
+                    'uom_id': po.product_uom_id.id,
+                    'order': bom_line_id.sequence if bom_line_id else 999
+                 })
+
+        # Return moves
+        for m in self.move_lines2.filtered(
+                lambda r: r.location_id.usage == 'internal' and
+                          r.location_dest_id.usage == 'internal'):
+            idx = -1
+            for i, obj in enumerate(consumptions):
+                if obj['product_id'] == m.product_id.id and \
+                    obj['lot_id'] == (m.lot_ids[0].id if m.lot_ids else False):
+                   idx = i
+            if idx > -1:
+                consumptions[idx]['quantity'] -= m.product_qty
+            else:
+                bom_line_id = self.bom_id.bom_line_ids.\
+                    filtered(lambda r: r.product_id == m.product_id)
+                consumptions.append({
+                    'production_id': self.id,
+                    'product_id': m.product_id.id,
+                    'lot_id': m.lot_ids[0].id if m.lot_ids else False,
+                    'quantity': -m.product_qty,
+                    'uom_id': m.product_uom.id,
+                    'order': bom_line_id.sequence if bom_line_id else 999
+                })
+
+        for c in consumptions:
+            if c['quantity'] != 0:
+                self.store_consumption_ids |= \
+                    self.store_consumption_ids.create(c)
+
+        # Return pickings
+        for po in self.manual_return_pickings.mapped('pack_operation_ids'):
+            idx = -1
+            for i, obj in enumerate(consumptions):
+                if obj['product_id'] == po.product_id.id and \
+                    obj['lot_id'] == po.lot_id.id:
+                   idx = i
+            sign = -1 if po.location_dest_id.usage == 'internal' else 1
+            if idx > -1:
+                consumptions[idx]['quantity'] += po.product_qty * sign
+            else:
+                bom_line_id = self.bom_id.bom_line_ids.\
+                    filtered(lambda r: r.product_id == po.product_id)
+                consumptions.append({
+                    'production_id': self.id,
+                    'product_id': po.product_id.id,
+                    'lot_id': po.lot_id.id,
+                    'quantity': po.product_qty * sign,
+                    'uom_id': po.product_uom_id.id,
+                    'order': bom_line_id.sequence if bom_line_id else 999
+                })
+
+        for c in consumptions:
+            if c['quantity'] != 0:
+                self.quality_consumption_ids |= \
+                    self.quality_consumption_ids.create(c)
 
     @api.one
     def _next_lot(self):
@@ -32,6 +156,25 @@ class MrpProduction(models.Model):
                                      sequence.number_next_actual + suffix
         else:
             self.next_lot = False
+
+    @api.multi
+    def copy_from_lot(self):
+        use_id = self.env['mrp.production.use.lot'].create({
+            'production_id': self.id
+        })
+        wizard = self.env.ref('mrp_production_ph.mrp_production_use_lot_wizard')
+        return {
+            'name': _('Lot from which the use date and duration type are to be '
+                      'copied'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mrp.production.use.lot',
+            'views': [(wizard.id, 'form')],
+            'view_id': wizard.id,
+            'target': 'new',
+            'res_id': use_id.id,
+        }
 
     @api.multi
     def action_call_update_display_url(self):

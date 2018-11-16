@@ -12,7 +12,7 @@ class MrpLabelReport(models.AbstractModel):
     def render_html(self, data=None):
         report_obj = self.env['report']
         report = report_obj._get_report_from_name('quality_protocol_report.report_mrp_label')
-        doc = self.env[report.model].browse(data['ids'])
+        doc = self.env[report.model].browse(data['id'])
         name_css_size = 52
         if len(doc.product_id.name) > 45:
             name_css_size = 22
@@ -28,7 +28,7 @@ class MrpLabelReport(models.AbstractModel):
             lot_css_size = 110
 
         docargs = {
-            'doc_ids': data['ids'],
+            'doc_ids': [data['id']],
             'doc_model': report.model,
             'docs': doc,
             'gtin': data.get('gtin', False),
@@ -46,7 +46,7 @@ class MrpTinyLabelReport(models.AbstractModel):
     def render_html(self, data=None):
         report_obj = self.env['report']
         report = report_obj._get_report_from_name('quality_protocol_report.report_mrp_tiny_label')
-        doc = self.env[report.model].browse(data['ids'])
+        doc = self.env[report.model].browse(data['id'])
         name_css_size = 28
         if len(doc.product_id.name) > 45:
             name_css_size = 18
@@ -62,7 +62,7 @@ class MrpTinyLabelReport(models.AbstractModel):
             lot_css_size = 65
 
         docargs = {
-            'doc_ids': data['ids'],
+            'doc_ids': [data['id']],
             'doc_model': report.model,
             'docs': doc,
             'gtin': data.get('gtin', False),

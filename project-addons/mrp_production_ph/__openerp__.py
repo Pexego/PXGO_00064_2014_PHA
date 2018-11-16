@@ -2,7 +2,7 @@
 # © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    'name': 'MRP Production customizations',
+    'name': 'MRP Production PH',
     'version': '8.0',
     'category': 'mrp',
     'summary' : 'MRP Production customizations',
@@ -19,6 +19,8 @@
         'views/mrp_production_view.xml',
         'views/mrp_routing_view.xml',
         'wizards/mrp_production_confirm_view.xml',
+        'wizards/mrp_production_use_lot_view.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True
 }

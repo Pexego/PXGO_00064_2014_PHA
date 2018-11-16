@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- © 2017 Comunitea & Pharmadus I.T.
+<!-- © 2018 Comunitea & Pharmadus I.T.
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <openerp>
     <data>
@@ -25,7 +25,8 @@
                             <t t-if="o.product_id.country.id in (2, 235)">Contains:</t>
                             <t t-if="o.product_id.country.id == 185">Contém:</t>
                             <t t-if="o.product_id.country.id not in (2, 235, 185)">Contiene:</t>
-                            <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
+                            <span t-esc="'{0:g}'.format(box_elements)"/> <span t-field="o.product_id.container_id.name"/>
+                        </span>
                         <t t-if="gtin and gtin &gt; ''">
                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1600, 500)" style="width: 1600px; height: 80px; margin-left: -300px;"/>
                             <br/>
@@ -100,7 +101,8 @@
                             <t t-if="o.product_id.country.id in (2, 235)">Contains:</t>
                             <t t-if="o.product_id.country.id == 185">Contém:</t>
                             <t t-if="o.product_id.country.id not in (2, 235, 185)">Contiene:</t>
-                            <span t-esc="box_elements"/> <span t-field="o.product_id.container_id.name"/></span>
+                            <span t-esc="'{0:g}'.format(box_elements)"/> <span t-field="o.product_id.container_id.name"/>
+                        </span>
                         <t t-if="gtin and gtin &gt; ''">
                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 700, 250)" style="width: 1050px; margin-left: -195px; height: 60px;"/>
                             <br/>

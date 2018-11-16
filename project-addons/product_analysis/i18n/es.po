@@ -72,6 +72,11 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: product_analysis
+#: field:stock.production.lot,compliant_qualification:0
+msgid "Compliant qualification"
+msgstr "Calificación conforme"
+
+#. module: product_analysis
 #: field:product.analysis.rel,criterion:0 field:stock.lot.analysis,criterion:0
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 msgid "Criterion"
