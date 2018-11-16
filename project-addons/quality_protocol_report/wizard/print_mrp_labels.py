@@ -28,21 +28,45 @@ class PrintMrpLabels(models.TransientModel):
         if not self.production_id.final_lot_id:
             raise exceptions.Warning(_('Lot error'), _('Confirma la producción para que le asigne el lote final'))
         self.ensure_one()
-        datas = {'ids': [self.production_id.id],
+
+        if self.production_id.product_id.uom_id.category_id == 1:
+            box_elements = self.gtin.units if self.gtin else\
+                           self.product_id.box_elements
+        else:
+            box_elements = self.production_id.product_id.qty
+
+        datas = {#'ids': [self.production_id.id],
+                 'id': self.production_id.id,
                  'gtin': self.gtin.gtin14,
-                 'box_elements': self.gtin.units if self.gtin else
-                                 self.product_id.box_elements}
-        return self.env['report'].get_action(
-            self.production_id, 'quality_protocol_report.report_mrp_label', data=datas)
+                 'box_elements': box_elements}
+#        return self.env['report'].get_action(
+#            self.production_id, 'quality_protocol_report.report_mrp_label', data=datas)
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'quality_protocol_report.report_mrp_label',
+            'datas': datas
+        }
 
     @api.multi
     def print_tiny_labels(self):
         if not self.production_id.final_lot_id:
             raise exceptions.Warning(_('Lot error'), _('Confirma la producción para que le asigne el lote final'))
         self.ensure_one()
-        datas = {'ids': [self.production_id.id],
+
+        if self.production_id.product_id.uom_id.category_id == 1:
+            box_elements = self.gtin.units if self.gtin else\
+                           self.product_id.box_elements
+        else:
+            box_elements = self.production_id.product_id.qty
+
+        datas = {#'ids': [self.production_id.id],
+                 'id': self.production_id.id,
                  'gtin': self.gtin.gtin14,
-                 'box_elements': self.gtin.units if self.gtin else
-                                 self.product_id.box_elements}
-        return self.env['report'].get_action(
-            self.production_id, 'quality_protocol_report.report_mrp_tiny_label', data=datas)
+                 'box_elements': box_elements}
+#        return self.env['report'].get_action(
+#            self.production_id, 'quality_protocol_report.report_mrp_tiny_label', data=datas)
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'quality_protocol_report.report_mrp_tiny_label',
+            'datas': datas
+        }
