@@ -109,11 +109,11 @@ class edi_parser(models.Model):
             data[filename].append(edi._create_line_csv(FACT,structs))
             NADDP = {
                 'lineId': 'NADDP',
-                'col1': invoice.partner_id.gln,
-                'col2': invoice.partner_id.name,
-                'col3': invoice.partner_id.street or " ",
-                'col4': invoice.partner_id.city or " ",
-                'col5': invoice.partner_id.zip or " "
+                'col1': invoice.partner_shipping_id.gln,
+                'col2': invoice.partner_shipping_id.name,
+                'col3': invoice.partner_shipping_id.street or " ",
+                'col4': invoice.partner_shipping_id.city or " ",
+                'col5': invoice.partner_shipping_id.zip or " "
             }
             data[filename].append(edi._create_line_csv(NADDP,structs))
             CUX = {

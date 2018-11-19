@@ -5,7 +5,7 @@
 from openerp import models, fields, api
 
 
-class MrpProductionAvailableLot(models.Model):
+class MrpProductionAvailableLot(models.AbstractModel):
     _name = 'mrp.production.available.lot'
     _inherit = 'stock.production.lot'
     _auto = False
@@ -19,6 +19,12 @@ class MrpProductionAvailableLot(models.Model):
                    rec.product_id.name if rec.product_id else '( --- )'
             res.append((rec.id, name))
         return res
+
+    def unlink(self, cr, user, ids, context=None):
+        return True
+
+    def _drop_table(self, cr, uid, ids, context=None):
+        return True
 
 
 class MrpProductionUseLot(models.TransientModel):
