@@ -36,7 +36,8 @@ class MrpLabelReport(models.AbstractModel):
             'name_css_size': str(name_css_size),
             'lot_css_size': str(lot_css_size)
         }
-        return report_obj.render('quality_protocol_report.report_mrp_label', docargs)
+        return report_obj.render('quality_protocol_report.report_mrp_label',
+                                 docargs)
 
 
 class MrpTinyLabelReport(models.AbstractModel):
@@ -70,4 +71,5 @@ class MrpTinyLabelReport(models.AbstractModel):
             'name_css_size': str(name_css_size),
             'lot_css_size': str(lot_css_size)
         }
-        return report_obj.render('quality_protocol_report.report_mrp_tiny_label', docargs)
+        return report_obj.render('quality_protocol_report.report_mrp_tiny_label',
+                                 docargs)

@@ -29,7 +29,7 @@ class PrintMrpLabels(models.TransientModel):
             raise exceptions.Warning(_('Lot error'), _('Confirma la producción para que le asigne el lote final'))
         self.ensure_one()
 
-        if self.production_id.product_id.uom_id.category_id == 1:
+        if self.production_id.product_id.uom_id.category_id.id == 1:
             box_elements = self.gtin.units if self.gtin else\
                            self.product_id.box_elements
         else:
