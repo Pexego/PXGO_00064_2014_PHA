@@ -7,7 +7,7 @@
                     <div style="position: relative; display: inline-block; float: left; padding-top: 10px; z-index: 1;">
                         <t t-set="barcode" t-value="o.product_id.default_code"/>
                         <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-left: -60px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-left: -60px;"/>
                         <div t-field="o.product_id.default_code" style="position: absolute; bottom: -6px; left: 30%; padding: 2px 5px 0 5px; font-size: 14px; background-color: white;"/>
                     </div>
                 </div>
@@ -15,7 +15,7 @@
                     <div style="position: relative; display: inline-block; float: right; padding-top: 10px; z-index: 1;">
                         <t t-set="barcode" t-value="o.name"/>
                         <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-right: -60px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-right: -60px;"/>
                         <div t-field="o.name" style="position: absolute; bottom: -6px; right: 30%; padding: 2px 5px 0 5px; font-size: 14px; background-color: white;"/>
                     </div>
                 </div>
