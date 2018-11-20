@@ -141,14 +141,14 @@
                                     <div class="col-xs-6">Conforme:</div>
                                     <div class="col-xs-2">SÍ</div>
                                     <div class="col-xs-2">NO</div>
-                                    <div class="col-xs-2">&amp;nbsp;</div>
+                                    <div class="col-xs-2">N/A</div>
                                 </div>
                                 <t t-foreach="o.production_review_ids" t-as="pr">
                                     <div class="row">
                                         <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; <span t-esc="pr.question_id.name"/></div>
                                         <div class="col-xs-2" t-esc="'☑' if pr.result == 'yes' else '☐'"/>
                                         <div class="col-xs-2" t-esc="'☑' if pr.result == 'no' else '☐'"/>
-                                        <div class="col-xs-2">&amp;nbsp;</div>
+                                        <div class="col-xs-2" t-esc="'☑' if not pr.result else '☐'"/>
                                     </div>
                                 </t>
                             </div>
@@ -179,21 +179,21 @@
                                     <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 372)"/>
                                     <div class="col-xs-2" t-esc="'☑' if analysis.passed and analysis.result_boolean_selection and analysis.realized else '☐'"/>
                                     <div class="col-xs-2" t-esc="'☐' if analysis.passed or not analysis.realized or not analysis.result_boolean_selection else '☑'"/>
-                                    <div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.result else '☑'"/> <!--div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/-->
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; Controles en proceso</div>
                                     <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 374)"/>
                                     <div class="col-xs-2" t-esc="'☑' if analysis.passed and analysis.result_boolean_selection and analysis.realized else '☐'"/>
                                     <div class="col-xs-2" t-esc="'☐' if analysis.passed or not analysis.realized or not analysis.result_boolean_selection else '☑'"/>
-                                    <div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.result else '☑'"/> <!--div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/-->
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-6" style="padding-left: 2em;">&amp;#9679; Controles analíticos producto final</div>
                                     <t t-set="analysis" t-value="o.analysis_ids.filtered(lambda r: r.analysis_id.id == 373)"/>
                                     <div class="col-xs-2" t-esc="'☑' if analysis.passed and analysis.result_boolean_selection and analysis.realized else '☐'"/>
                                     <div class="col-xs-2" t-esc="'☐' if analysis.passed or not analysis.realized or not analysis.result_boolean_selection else '☑'"/>
-                                    <div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/>
+                                    <div class="col-xs-2" t-esc="'☐' if analysis.result else '☑'"/> <!--div class="col-xs-2" t-esc="'☐' if analysis.realized or analysis.result_boolean_selection else '☑'"/-->
                                 </div>
                             </div>
                             <div class="col-xs-12" style="border: 1px solid black; border-top: 0; min-height: 2.5em;">
