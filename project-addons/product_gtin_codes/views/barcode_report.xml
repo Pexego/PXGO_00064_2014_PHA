@@ -8,7 +8,7 @@
                         <div class="row">
                             <t t-set="barcode" t-value="o.gtin"/>
                             <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 200, True)" height="100" width="600"/>
+                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 200, 1)" height="100" width="600"/>
                         </div>
                     </div>
                 </t>
