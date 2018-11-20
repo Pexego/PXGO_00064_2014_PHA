@@ -109,6 +109,7 @@ class MrpProduction(models.Model):
                     'order': bom_line_id.sequence if bom_line_id else 999
                 })
 
+        self.store_consumption_ids.unlink()
         for c in consumptions:
             if c['quantity'] != 0:
                 self.store_consumption_ids |= \
@@ -136,6 +137,7 @@ class MrpProduction(models.Model):
                     'order': bom_line_id.sequence if bom_line_id else 999
                 })
 
+        self.quality_consumption_ids.unlink()
         for c in consumptions:
             if c['quantity'] != 0:
                 self.quality_consumption_ids |= \
