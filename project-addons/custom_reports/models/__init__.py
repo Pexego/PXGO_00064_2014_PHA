@@ -4,4 +4,4 @@
 
 import product, account_payment, account, sale_report, account_invoice_report, \
        stock, account_invoice, purchase, purchase_report, res_company, \
-       report_product_category_message
+       report_product_category_message, report
