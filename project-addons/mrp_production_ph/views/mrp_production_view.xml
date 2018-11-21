@@ -37,11 +37,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <field name="final_lot_id" position="attributes">
                     <attribute name="style">max-width: 20em;</attribute>
                 </field>
-                <button name="button_cancel" position="attributes">
-                    <attribute name="confirm">
-                        Do you really want to cancel production?
-                    </attribute>
-                    <attribute name="states">draft,confirmed</attribute>
+                <button name="button_cancel" position="replace">
                 </button>
                 <button name="action_cancel" position="attributes">
                     <attribute name="confirm">

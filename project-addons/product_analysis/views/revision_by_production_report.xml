@@ -45,7 +45,7 @@
                                 <t t-set="barcode" t-value="o.product_id.default_code"/>
                                 <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                 <div style="width: 100%; overflow: hidden;">
-                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
+                                    <img style="margin-left: -45px;" t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 200)" height="30" width="280"/>
                                 </div>
                             </div>
                             <div class="col-xs-3" style="padding-bottom: 0.25em;">
@@ -53,7 +53,7 @@
                                 <t t-set="barcode" t-value="o.name"/>
                                 <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                 <div style="width: 100%; overflow: hidden;">
-                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
+                                    <img style="margin-left: -45px;" t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 200)" height="30" width="280"/>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
                                     <t t-foreach="production.quality_consumption_ids.sorted(key=lambda r: r.order)" t-as="material">
-                                        <t t-set="lote" t-value="material.lot_id"/>
+                                        <t t-set="lote" t-value="material.lot_id if material.product_id.categ_id.id in (1195,1199,1224,1525,1494,1493,1197) else False"/>
                                         <t t-if="lote">
                                             <tr style="font-size: 0.8em;">
                                                 <td>
@@ -141,7 +141,7 @@
                                                     <span>&amp;nbsp;</span>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="material.quantity if material.x_product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
+                                                    <span t-esc="material.quantity if material.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
                                                 </td>
                                                 <td>
                                                     <span>&amp;nbsp;</span>

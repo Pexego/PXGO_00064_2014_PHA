@@ -43,7 +43,7 @@
                                 <t t-set="barcode" t-value="o.product_id.default_code"/>
                                 <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                 <div style="width: 100%; overflow: hidden;">
-                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
+                                    <img style="margin-left: -45px;" t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 200)" height="30" width="280"/>
                                 </div>
                             </div>
                             <div class="col-xs-3" style="padding-bottom: 0.25em;">
@@ -51,7 +51,7 @@
                                 <t t-set="barcode" t-value="o.name"/>
                                 <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                 <div style="width: 100%; overflow: hidden;">
-                                    <img style="margin-left: -45px;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('Code128', barcode, 1200, 200)" height="30" width="280"/>
+                                    <img style="margin-left: -45px;" t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', barcode, 1200, 200)" height="30" width="280"/>
                                 </div>
                             </div>
                         </div>
