@@ -8,14 +8,14 @@
                 <div class="page">
                     <div class="text-center" style="padding-top: 5px;">
                         <span t-att-style="'font-size:' + name_css_size + 'px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.product_id.name"/>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 1400, 500)" style="width:1400px;height:80px;margin-left:-200px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', o.product_id.default_code, 1400, 500)" style="width:1400px;height:80px;margin-left:-200px;"/>
                         <br/>
                         <span style="font-size:24px; font-weight:bold;" t-field="o.product_id.default_code"/>
                     </div>
 
                     <div class="text-center">
                         <span t-att-style="'font-size: ' + lot_css_size + 'px; line-height:120px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.final_lot_id.name"/>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 1400, 500)" style="width:1400px;height:80px;margin-left:-200px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', o.final_lot_id.name.replace('-', '/'), 1400, 500)" style="width:1400px;height:80px;margin-left:-200px;"/>
                         <br/>
                         <span style="font-size:24px; font-weight:bold;" t-field="o.final_lot_id.name"/>
                     </div>
@@ -28,7 +28,7 @@
                             <span t-esc="'{0:g}'.format(box_elements)"/> <span t-field="o.product_id.container_id.name"/>
                         </span>
                         <t t-if="gtin and gtin &gt; ''">
-                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 1600, 500)" style="width: 1600px; height: 80px; margin-left: -300px;"/>
+                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', gtin, 1600, 500)" style="width: 1600px; height: 80px; margin-left: -300px;"/>
                             <br/>
                             <span style="font-size: 24px; font-weight:bold;" t-esc="gtin"/>
                         </t>
@@ -84,14 +84,14 @@
                 <div class="page">
                     <div class="text-center">
                         <span t-att-style="'font-size:' + name_css_size + 'px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.product_id.name"/>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.product_id.default_code, 700, 250)" style="width: 900px; margin-left: -120px; height: 40px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', o.product_id.default_code, 700, 250)" style="width: 900px; margin-left: -120px; height: 40px;"/>
                         <br/>
                         <span style="font-size: 18px; font-weight:bold;" t-field="o.product_id.default_code"/>
                     </div>
 
                     <div class="text-center">
                         <span t-att-style="'font-size: ' + lot_css_size + 'px; line-height:60px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.final_lot_id.name"/>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.final_lot_id.name.replace('-', '/'), 700, 250)" style="width: 900px; margin-left: -120px; height: 40px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', o.final_lot_id.name.replace('-', '/'), 700, 250)" style="width: 900px; margin-left: -120px; height: 40px;"/>
                         <br/>
                         <span style="font-size:18px; font-weight:bold;" t-field="o.final_lot_id.name"/>
                     </div>
@@ -104,7 +104,7 @@
                             <span t-esc="'{0:g}'.format(box_elements)"/> <span t-field="o.product_id.container_id.name"/>
                         </span>
                         <t t-if="gtin and gtin &gt; ''">
-                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', gtin, 700, 250)" style="width: 1050px; margin-left: -195px; height: 60px;"/>
+                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode('Code128', gtin, 700, 250)" style="width: 1050px; margin-left: -195px; height: 60px;"/>
                             <br/>
                             <span style="font-size: 18px; font-weight:bold;" t-esc="gtin"/>
                         </t>
