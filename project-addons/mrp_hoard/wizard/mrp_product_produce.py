@@ -84,7 +84,7 @@ class MrpProductProduce(models.TransientModel):
             self._context['active_id'])
         quants = production.mapped('move_lines.reserved_quant_ids').filtered(
             lambda r: r.product_id.id == product_id and r.lot_id.id == lot_id)
-        if quants:
+        if quants and quants[0].reservation_id.move_orig_ids:
             return quants[0].reservation_id.move_orig_ids[0].\
                 linked_move_operation_ids[0].operation_id.location_id.id
 
@@ -201,39 +201,37 @@ class MrpProductProduce(models.TransientModel):
                     continue
                 consumed_qty = min(
                     remaining_qty, raw_material_line.product_qty)
-                split_id = raw_material_line.action_consume(
+                raw_material_line.action_consume(
                     consumed_qty, raw_material_line.location_id.id,
                     restrict_lot_id=consume.lot_id.id,
                     consumed_for=main_production_move)
                 remaining_qty -= consumed_qty
-                if split_id:
-                    split_move = self.env['stock.move'].browse(split_id)
-                    if split_move.product_uom_qty == 0.0:
-                        continue
-                    return_line = self.return_lines.filtered(
-                        lambda r: r.product_id == consume.product_id and
-                        r.lot_id == consume.lot_id)
-                    if return_line.product_qty == 0.0:
-                        continue
-                    split_move.do_unreserve()
-                    old_location = split_move.location_dest_id.id
-                    split_move.write({
-                        'return_production_move': True,
-                        'location_dest_id': return_line.location_id.id
+        for return_line in self.return_lines.filtered(lambda r: r.product_qty > 0):
+            for raw_material_line in production.move_lines:
+                if raw_material_line.state in ('done', 'cancel'):
+                    continue
+                if return_line.product_id.id != raw_material_line.product_id.id:
+                    continue
+                raw_material_line.do_unreserve()
+                old_location = raw_material_line.location_dest_id.id
+                raw_material_line.write({
+                    'return_production_move': True,
+                    'location_dest_id': return_line.location_id.id
+                })
+                raw_material_line.action_assign()
+                new_split_id = raw_material_line.action_consume(
+                    return_line.product_qty,
+                    restrict_lot_id=return_line.lot_id.id,
+                    consumed_for=main_production_move)
+                if new_split_id:
+                    new_split = self.env['stock.move'].browse(new_split_id)
+                    new_split.write({
+                        'return_production_move': False,
+                        'location_dest_id': old_location
                     })
-                    split_move.action_assign()
-                    new_split_id = split_move.action_consume(
-                        return_line.product_qty,
-                        restrict_lot_id=return_line.lot_id.id,
-                        consumed_for=main_production_move)
-                    if new_split_id:
-
-                        new_split = self.env['stock.move'].browse(new_split_id)
-                        new_split.write({
-                            'return_production_move': False,
-                            'location_dest_id': old_location
-                        })
-
+        if production.move_lines:
+            raise ValidationError(
+                'Error al finalizar. Quedan movimientos sin finalizar.')
         production.move_created_ids.action_cancel()
         production.signal_workflow('button_produce_done')
         return {}
