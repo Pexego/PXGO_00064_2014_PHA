@@ -41,7 +41,8 @@ class MrpProductProduceReturnLine(models.TransientModel):
     location_id = fields.Many2one('stock.location', 'Dest location')
     produce_id = fields.Many2one('mrp.product.produce')
     operation_id = fields.Many2one('stock.move.return.operations', 'Operation')
-    total_qty = fields.Float()
+    total_qty = fields.Float(
+        digits=dp.get_precision('Product Unit of Measure'))
 
 
 class MrpProductProduce(models.TransientModel):
