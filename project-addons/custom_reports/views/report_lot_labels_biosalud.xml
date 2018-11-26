@@ -19,7 +19,7 @@
                                     <t t-set="barcode" t-value="po.lot_id.name"/>
                                     <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
                                     <!-- Generate barcode image -->
-                                    <img t-att-src="'data:image/png;base64,%s' % po.env['report'].barcode('Code128', barcode, 1200, 120)"
+                                    <img t-att-src="'data:image/png;base64,%s' % po.env['report'].barcode_base64('Code128', barcode, 1200, 120)"
                                          height="65" width="600" style="margin-left: -90px;"/>
                                     <div t-field="po.lot_id.name"
                                          style="position: absolute; bottom: 0px; left: 29%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
@@ -48,7 +48,7 @@
                                 <t t-if="product_barcode">
                                     <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
                                     <!-- Generate barcode image -->
-                                    <img t-att-src="'data:image/png;base64,%s' % po.env['report'].barcode('Code128', product_barcode, 1200, 120)"
+                                    <img t-att-src="'data:image/png;base64,%s' % po.env['report'].barcode_base64('Code128', product_barcode, 1200, 120)"
                                          height="65" width="600" style="margin-right: -130px;"/>
                                     <div t-field="po.lot_id.product_id.default_code"
                                          style="position: absolute; bottom: 0px; right: 25%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
