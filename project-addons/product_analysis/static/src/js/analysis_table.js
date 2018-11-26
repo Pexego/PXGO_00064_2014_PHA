@@ -29,16 +29,21 @@ function aplicarRestricciones(tabla) {
     $(tabla).find('tr').not('[data-id="false"]').each(function(idx) {
         var tr = this;
 
+/* ORIGINAL
         desactivarCampos(tr, [
             'proposed', 'method', 'analysis_type', 'expected_result',
             'decimal_precision', 'raw_material_analysis',
             'expected_result_expr', 'expected_result_boolean', 'criterion'
         ]);
-
-//        if ($(tr).find('td[data-field="raw_material_analysis"] input:checked').length == 1) {
-//            desactivarCampos(tr, ['result_boolean_selection', 'result_str', 'realized_by']);
-//        };
-
+*/
+        desactivarCampos(tr, [
+            'proposed'
+        ]);
+/* Desactivado permanentemente
+        if ($(tr).find('td[data-field="raw_material_analysis"] input:checked').length == 1) {
+            desactivarCampos(tr, ['result_boolean_selection', 'result_str', 'realized_by']);
+        };
+*/
         if ($(tr).find('td[data-field="proposed"] input:checked').length == 1) {
             desactivarCampos(tr, ['analysis_id']);
         };

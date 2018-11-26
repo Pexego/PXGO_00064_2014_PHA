@@ -124,6 +124,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         />
                     </div>
                 </field>
+                <xpath expr="//field[@name='pack_operation_ids']//field[@name='lot_id']" position="after">
+                    <button name="action_show_lot" type="object" icon="gtk-dnd"/>
+                </xpath>
             </field>
         </record>
 

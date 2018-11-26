@@ -20,13 +20,14 @@
                     </group>
                     <group>
                         <field name="detail_ids">
-                            <tree editable="bottom">
+                            <tree editable="bottom" default_order="date">
                                 <field name="date"/>
                                 <field name="state"/>
                                 <field name="quantity"/>
                             </tree>
                         </field>
                     </group>
+                    <button string="Details from movements" name="button_fill_by_moves" type="object" icon="gtk-dnd-multiple" class="oe_left"/>
                     <button string="Accept" name="button_approve" type="object" icon="gtk-ok" class="oe_right"/>
                     <button string="Cancel" special="cancel" icon="gtk-cancel" class="oe_right"/>
                 </form>
