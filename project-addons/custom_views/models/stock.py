@@ -291,3 +291,18 @@ class StockLocation(models.Model):
     _inherit = 'stock.location'
 
     dismissed_location = fields.Boolean(default=False)
+
+
+class StockPackOperation(models.Model):
+    _inherit = 'stock.pack.operation'
+
+    @api.multi
+    def action_show_lot(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'stock.production.lot',
+            'target': 'current',
+            'res_id': self.lot_id.id,
+        }

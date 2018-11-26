@@ -128,6 +128,11 @@ msgid "Detail ids"
 msgstr "Detalles"
 
 #. module: lot_states
+#: view:stock.lot.detail.wizard:lot_states.stock_lot_details_form
+msgid "Details from movements"
+msgstr "Detalles desde movimientos"
+
+#. module: lot_states
 #: field:stock.lot.detail,display_name:0
 #: field:stock.lot.detail.wizard,display_name:0
 #: field:stock.lot.reject.partial,display_name:0
