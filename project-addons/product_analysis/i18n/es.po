@@ -527,6 +527,11 @@ msgstr "Marcar todos a realizar"
 
 #. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Set full raw material analysis"
+msgstr "Copiar análisis completo de material de origen"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Set raw material analysis"
 msgstr "Arrastrar análisis de su materia prima"
 
