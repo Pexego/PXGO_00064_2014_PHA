@@ -181,6 +181,26 @@ class MrpProduction(models.Model):
         }
 
     @api.multi
+    def add_suffix_from_lot(self):
+        use_id = self.env['mrp.production.use.lot'].create({
+            'production_id': self.id
+        })
+        wizard = self.env.\
+            ref('mrp_production_ph.mrp_production_add_suffix_from_lot_wizard')
+        return {
+            'name': _('Lot from which the year and serial suffix are to be '
+                      'copied'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mrp.production.use.lot',
+            'views': [(wizard.id, 'form')],
+            'view_id': wizard.id,
+            'target': 'new',
+            'res_id': use_id.id,
+        }
+
+    @api.multi
     def action_call_update_display_url(self):
         def toASCII(text):
             return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
