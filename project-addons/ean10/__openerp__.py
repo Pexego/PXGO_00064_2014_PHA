@@ -15,7 +15,9 @@
     ],
     'data': [
         'views/ean10_view.xml',
+        'wizard/create_ean13_wizard.xml',
         'security/ir.model.access.csv',
     ],
+    'qweb': ['static/src/xml/qweb.xml'],
     'installable': True
 }

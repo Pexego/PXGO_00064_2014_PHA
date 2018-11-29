@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+© 2018 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<templates id="template" xml:space="preserve">
+    <t t-extend="ListView.buttons">
+        <t t-jquery="div.oe_list_buttons" t-operation="append">
+            <t t-if="widget.model == 'ean13.international'">
+                <button class="oe_button oe_highlight oe_ean10_create_ean13_int"
+                        type="button">Add new code</button>
+            </t>
+        </t>
+    </t>
+</templates>
