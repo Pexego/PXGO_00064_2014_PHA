@@ -2,4 +2,4 @@
 # © 2018 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from . import models, wizard
+import create_ean13_wizard
