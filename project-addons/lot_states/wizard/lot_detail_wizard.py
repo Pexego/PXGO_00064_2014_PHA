@@ -79,24 +79,27 @@ class StockLotDetailWizard(models.TransientModel):
             '!',
             ('location_dest_id', 'child_of', wh.lot_stock_id.id),
         ])
-        detail_ids = [(5, 0, 0)]  # To clear all previous existing details
-        for m in approved_move_ids:
-            detail_ids += [(0, 0, {
-                'date': m.date,
-                'state': 'approved',
-                'quantity': sum(m.quant_ids.
-                            filtered(lambda q: q.lot_id == self.lot_id).
-                            mapped('qty'))
-            })]
-        for m in rejected_move_ids:
-            detail_ids += [(0, 0, {
-                'date': m.date,
-                'state': 'rejected',
-                'quantity': sum(m.quant_ids.
-                            filtered(lambda q: q.lot_id == self.lot_id).
-                            mapped('qty'))
-            })]
-        self.lot_id.write({'detail_ids': detail_ids})
+        detail_ids = []
+        for m in approved_move_ids + rejected_move_ids:
+            new_detail = True
+            for d in detail_ids:
+                # Movements of the same picking have identical datetime
+                if d[2]['date'] == m.date:
+                    new_detail = False
+                    d[2]['quantity'] += sum(m.quant_ids.
+                                filtered(lambda q: q.lot_id == self.lot_id).
+                                mapped('qty'))
+            if new_detail:
+                detail_ids += [(0, 0, {
+                    'date': m.date,
+                    'state': 'approved' if m in approved_move_ids else 'rejected',
+                    'quantity': sum(m.quant_ids.
+                                filtered(lambda q: q.lot_id == self.lot_id).
+                                mapped('qty'))
+                })]
+        # Write back all collected data
+        # (5, 0, 0) to clear all previous existing details
+        self.lot_id.write({'detail_ids': [(5, 0, 0)] + detail_ids})
 
         # Re-create wizard to recompute all
         wizard_id = self.env['stock.lot.detail.wizard']. \
