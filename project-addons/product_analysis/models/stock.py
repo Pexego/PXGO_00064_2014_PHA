@@ -280,6 +280,21 @@ class StockProductionLot(models.Model):
                     _('the consignment has not passed all analysis'))
         return super(StockProductionLot, self).action_approve()
 
+    @api.one
+    def copy_analysis_results(self, origin_lot_id):
+        if self.env.context.get('full_analysis_copy'):
+            analysis_ids = self.analysis_ids
+        else:
+            analysis_ids = self.analysis_ids.filtered('raw_material_analysis')
+
+        for dest_analysis in analysis_ids:
+            orig_analysis = origin_lot_id.analysis_ids.filtered(
+                lambda r: r.analysis_id.id == dest_analysis.analysis_id.id)
+            if orig_analysis:
+                dest_analysis.unlink()
+                orig_analysis.copy(default={'lot_id': self.id,
+                                            'raw_material_analysis': True})
+
     @api.multi
     def set_raw_material_analysis(self):
         for lot in self:
@@ -309,13 +324,8 @@ class StockProductionLot(models.Model):
                     'target': 'new',
                     'res_id': select_id.id,
                 }
-            for lot_analysis in self.analysis_ids.filtered('raw_material_analysis'):
-                copy_lot = raw_lot.analysis_ids.filtered(
-                    lambda r: r.analysis_id.id == lot_analysis.analysis_id.id)
-                if copy_lot:
-                    lot_analysis.unlink()
-                    copy_lot.copy(default={'lot_id': lot.id,
-                                           'raw_material_analysis': True})
+            else:
+                lot.copy_analysis_results(raw_lot)
 
     @api.multi
     def action_stock_lot_analysis_wizard(self):

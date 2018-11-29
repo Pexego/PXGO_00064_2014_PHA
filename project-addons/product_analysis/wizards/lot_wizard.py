@@ -20,12 +20,5 @@ class StockProductionLotSelect(models.TransientModel):
     @api.multi
     def action_select_lot(self):
         self.ensure_one()
-        for analysis_rel_id in self.dest_lot_id.analysis_ids.\
-                filtered('raw_material_analysis'):
-            copy_analysis_id = self.lot_id.analysis_ids.filtered(
-                lambda r: r.analysis_id.id == analysis_rel_id.analysis_id.id)
-            if copy_analysis_id:
-                analysis_rel_id.unlink()
-                copy_analysis_id.copy(default={'lot_id': self.dest_lot_id.id,
-                                               'raw_material_analysis': True})
+        self.dest_lot_id.copy_analysis_results(self.lot_id)
         return True

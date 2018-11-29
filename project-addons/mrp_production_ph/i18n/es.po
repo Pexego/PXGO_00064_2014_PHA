@@ -18,6 +18,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 
 #. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_add_suffix_from_lot_wizard
+msgid "Add suffix from lot..."
+msgstr "Añadir sufijo del lote..."
+
+#. module: mrp_production_ph
 #: field:mrp.production,use_date:0
 #: field:mrp.production.available.lot,use_date:0
 #: field:mrp.production.use.lot,use_date:0
@@ -31,6 +37,8 @@ msgstr "Lista de materiales"
 
 #. module: mrp_production_ph
 #: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_add_suffix_from_lot_wizard
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_use_lot_wizard
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -101,10 +109,17 @@ msgid "Lot"
 msgstr "Lote previsto"
 
 #. module: mrp_production_ph
-#: code:addons/mrp_production_ph/models/mrp_production.py:167
+#: code:addons/mrp_production_ph/models/mrp_production.py:171
 #, python-format
 msgid "Lot from which the use date and duration type are to be copied"
 msgstr "Lote del cual se copiará el nombre, fecha de consumo y tipo de duración"
+
+
+#. module: mrp_production_ph
+#: code:addons/mrp_production_ph/models/mrp_production.py:191
+#, python-format
+msgid "Lot from which the year and serial suffix are to be copied"
+msgstr "Lote del cual se copiará el sufijo con el año y la serie"
 
 #. module: mrp_production_ph
 #: model:ir.model,name:mrp_production_ph.model_mrp_production
@@ -120,6 +135,13 @@ msgstr "Siguiente lote"
 #: field:mrp.production,notes:0
 msgid "Notes"
 msgstr "Notas"
+
+#. module: mrp_production_ph
+#: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_add_suffix_from_lot_wizard
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_use_lot_wizard
+msgid "or"
+msgstr "o "
 
 #. module: mrp_production_ph
 #: field:mrp.production.quality.consumption,order:0
@@ -169,10 +191,22 @@ msgid "Routing"
 msgstr "Proceso productivo"
 
 #. module: mrp_production_ph
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_add_suffix_from_lot_wizard
+#: view:mrp.production.use.lot:mrp_production_ph.mrp_production_use_lot_wizard
+msgid "Select"
+msgstr "Seleccionar"
+
+#. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 #: field:mrp.production,store_consumption_ids:0
 msgid "Store consumption"
 msgstr "Consumos almacén"
+
+#. module: mrp_production_ph
+#: code:addons/mrp_production_ph/wizards/mrp_production_use_lot.py:95
+#, python-format
+msgid "The selected lot do not have the expected suffix format."
+msgstr "El lote seleccionado no tiene el formato de sufijo esperado."
 
 #. module: mrp_production_ph
 #: field:mrp.production.quality.consumption,uom_id:0

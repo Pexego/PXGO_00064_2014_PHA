@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2018 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="ean10_tree_view" model="ir.ui.view">
+            <field name="name">EAN10 tree view</field>
+            <field name="model">ean10.code</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                    <button name="generate_and_search_ean13"
+                            type="object"
+                            icon="gtk-dnd"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ean13_tree_view" model="ir.ui.view">
+            <field name="name">EAN13 tree view</field>
+            <field name="model">ean13.product</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0" default_order="name">
+                    <field name="name"/>
+                    <field name="uses"/>
+                    <field name="default_code"/>
+                    <field name="product_id"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="ean13_search">
+            <field name="name">Generated EAN13 search</field>
+            <field name="model">ean13.product</field>
+            <field name="arch" type="xml">
+                <search string="Generated EAN13 search">
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="product_id"/>
+                    <field name="country_id"/>
+                    <group expand="1" string="Group By">
+                        <filter string="EAN13" context="{'group_by': 'name'}"/>
+                        <filter string="Country" context="{'group_by': 'country_id'}"/>
+                        <separator/>
+                        <filter string="Available EAN"
+                                name="available_ean"
+                                icon="terp-accessories-archiver"
+                                domain="[('product_id', '=', False)]"/>
+                        <filter string="Used EAN"
+                                name="used_ean"
+                                icon="terp-accessories-archiver"
+                                domain="[('product_id', '!=', False)]"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_ean10" model="ir.actions.act_window">
+            <field name="name">EAN10</field>
+            <field name="res_model">ean10.code</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem action="action_ean10"
+                  name="EAN10"
+                  id="menu_action_ean10"
+                  parent="stock.menu_stock_product"
+                  sequence="19"/>
+    </data>
+</openerp>

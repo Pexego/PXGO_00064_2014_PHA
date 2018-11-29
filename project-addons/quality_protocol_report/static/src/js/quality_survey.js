@@ -275,6 +275,7 @@ function preparaTexto() {
         inputsTexto.each(function() {
             var textbox = $(document.createElement('textarea'));
             textbox.attr('style', $(this).attr('style'))
+                   .addClass('form-control')
                    .css({'width': '100%', 'height': '100%'})
                    .attr({'name': $(this).attr('name'), 'id': $(this).attr('id')})
                    .text($(this).val());

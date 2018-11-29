@@ -28,5 +28,31 @@
                 </form>
             </field>
         </record>
+
+        <record id="mrp_production_add_suffix_from_lot_wizard" model="ir.ui.view">
+            <field name="name">MRP Production add suffix from lot wizard</field>
+            <field name="model">mrp.production.use.lot</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <group col="2">
+                            <separator string="Add suffix from lot..." colspan="2"/>
+                            <field name="lot_id" required="1"
+                                   domain="[('product_id.company_id', '!=', False)]"/>
+                            <field name="use_date"/>
+                            <field name="duration_type"/>
+                        </group>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button name="action_use_lot"
+                                type="object"
+                                string="Select"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>

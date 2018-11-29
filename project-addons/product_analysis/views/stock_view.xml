@@ -49,7 +49,15 @@
                                     type="object"
                                     string="Edit questionnaire"
                                     class="oe_read_only oe_highlight"/>
-                            <button name="set_raw_material_analysis" string="Set raw material analysis" type="object"/>
+                            <group>
+                                <button name="set_raw_material_analysis"
+                                        string="Set raw material analysis"
+                                        type="object"/>
+                                <button name="set_raw_material_analysis"
+                                        string="Set full raw material analysis"
+                                        type="object"
+                                        context="{'full_analysis_copy': True}"/>
+                            </group>
                         </group>
                         <group>
                             <field name="analysis_ids" nolabel="1">
