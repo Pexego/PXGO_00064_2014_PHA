@@ -151,8 +151,6 @@ class MrpProductProduce(models.TransientModel):
                     'lot_id': line['lot_id'][0],
                     'product_qty': line_qty,
                 }))
-                if product_qty <= 0:
-                    break
 
         return {'value': {'consume_lines': new_consume_lines,
                           'return_lines': return_lines}}
