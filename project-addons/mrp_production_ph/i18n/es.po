@@ -104,16 +104,15 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: mrp_production_ph
-#: field:mrp.production.confirm,lot:0
-msgid "Lot"
-msgstr "Lote previsto"
+#: field:mrp.production.confirm,final_lot:0
+msgid "Final lot"
+msgstr "Lote final"
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/models/mrp_production.py:171
 #, python-format
 msgid "Lot from which the use date and duration type are to be copied"
 msgstr "Lote del cual se copiará el nombre, fecha de consumo y tipo de duración"
-
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/models/mrp_production.py:191
@@ -130,6 +129,11 @@ msgstr "Órden de producción"
 #: field:mrp.production,next_lot:0
 msgid "Next lot"
 msgstr "Siguiente lote"
+
+#. module: mrp_production_ph
+#: field:mrp.production.confirm,next_lot:0
+msgid "Next lot"
+msgstr "Lote previsto"
 
 #. module: mrp_production_ph
 #: field:mrp.production,notes:0

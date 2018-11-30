@@ -299,7 +299,8 @@ class MrpProduction(models.Model):
             'product': self.product_id.name,
             'bom': self.bom_id.name,
             'routing': self.routing_id.name,
-            'lot': self.next_lot,
+            'final_lot': self.final_lot_id.name,
+            'next_lot': self.next_lot,
             'quantity': self.product_qty,
             'uom_id': self.product_uom.id
         })
