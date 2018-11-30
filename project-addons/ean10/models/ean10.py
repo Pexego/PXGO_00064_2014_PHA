@@ -90,7 +90,7 @@ class Ean13Product(models.Model):
                 self.env.context.get('generating_ean13')):
             ean13_ids = self.env['ean10.code'].search([]).\
                 _generate_and_search_ean13()
-            args = [('id', 'in', ean13_ids.ids)]
+            args = [('id', 'in', ean13_ids.ids)] + args
         return super(models.Model, self).search(args, offset=offset,
                                                 limit=limit, order=order,
                                                 count=count)
@@ -140,7 +140,7 @@ class Ean13International(models.Model):
     def search(self, args, offset=0, limit=None, order=None, count=False):
         if not self.env.context.get('generating_ean13'):
             ean13_ids = self._generate_and_search_ean13()
-            args = [('id', 'in', ean13_ids.ids)]
+            args = [('id', 'in', ean13_ids.ids)] + args
         return super(models.Model, self).search(args, offset=offset,
                                                 limit=limit, order=order,
                                                 count=count)
