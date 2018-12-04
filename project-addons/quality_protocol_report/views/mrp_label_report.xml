@@ -48,14 +48,14 @@
                                 <t t-if="o.product_id.country.id == 235">Best before end:</t>
                                 <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
-                                <t t-if="o.product_id.duration_type == 'exact'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                                <t t-if="o.duration_type == 'exact'">
+                                    <span t-field="o.use_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
                                 </t>
-                                <t t-if="o.product_id.duration_type == 'end_month'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
+                                <t t-if="o.duration_type == 'end_month'">
+                                    <span t-field="o.use_date" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
                                 </t>
-                                <t t-if="o.product_id.duration_type == 'end_year'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;y&quot;}"/>
+                                <t t-if="o.duration_type == 'end_year'">
+                                    <span t-field="o.use_date" t-field-options="{&quot;format&quot;: &quot;y&quot;}"/>
                                 </t>
                             </span>
                         </t>
@@ -124,14 +124,14 @@
                                 <t t-if="o.product_id.country.id == 235">Best before end:</t>
                                 <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
-                                <t t-if="o.product_id.duration_type == 'exact'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                                <t t-if="o.duration_type == 'exact'">
+                                    <span t-field="o.use_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
                                 </t>
-                                <t t-if="o.product_id.duration_type == 'end_month'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
+                                <t t-if="o.duration_type == 'end_month'">
+                                    <span t-field="o.use_date" t-field-options="{&quot;format&quot;: &quot;MM/y&quot;}"/>
                                 </t>
-                                <t t-if="o.product_id.duration_type == 'end_year'">
-                                    <span t-field="o.final_lot_id.use_date" t-field-options="{&quot;format&quot;: &quot;y&quot;}"/>
+                                <t t-if="o.duration_type == 'end_year'">
+                                    <span t-field="o.use_date" t-field-options="{&quot;format&quot;: &quot;y&quot;}"/>
                                 </t>
                             </span>
                         </t>
