@@ -3,6 +3,8 @@
 #
 #    Copyright (C) 2014 Pexego Sistemas Informáticos All Rights Reserved
 #    $Omar Castiñeira Saavedra <omar@pexego.es>$
+#    Copyright (C) 2018 Pharmadus I.T. All Rights Reserved
+#    $Oscar Salvador Páez <oscar.salvador@pharmadus.com>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -28,13 +30,20 @@ class ProductProtocolLink(models.Model):
 
     protocol = fields.Many2one('quality.protocol.report')
     product = fields.Many2one('product.product', required=True)
-    product_route_ids = fields.Many2many(related='product.routing_ids',
+    product_route_ids = fields.Many2many(comodel_name='mrp.routing',
+                                         compute='_product_route_ids',
                                          readonly=True)
     prod_tmpl_id = fields.Many2one('product.template',
                                    related='product.product_tmpl_id',
                                    readonly=True)
     bom = fields.Many2one('mrp.bom')
     route = fields.Many2one('mrp.routing')
+
+    @api.one
+    def _product_route_ids(self):
+        self.product_route_ids = self.product.routing_ids + \
+                                 self.env['mrp.routing'].\
+                                     search([('wildcard_route', '=', True)])
 
 
 class QualityProtocolReportLineRel(models.Model):
