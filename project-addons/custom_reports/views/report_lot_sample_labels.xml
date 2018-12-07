@@ -1,6 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <template id="report_lot_sample_label_biosalud">
+            <div style="min-height: 40px; margin-bottom: 5px;">
+                <div style="position: relative; display: inline-block; float: left; padding: 0; z-index: 1;">
+                    <!-- Barcode reader uses english keyboard layout -->
+                    <t t-set="barcode" t-value="o.name"/>
+                    <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                    <!-- Generate barcode image -->
+                    <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', barcode, 1200, 130)" width="600" height="65" style="margin-left: -90px;"/>
+                    <div t-field="o.name" style="position: absolute; bottom: 0px; left: 29%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
+                </div>
+                <div style="clear: both;"/>
+            </div>
+            <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
+                <span t-field="o.product_id.description"/>
+                <t t-if="o.life_date">
+                    <span> - </span><span t-field="o.life_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                </t>
+                <t t-if="not o.life_date">
+                    <span> - __/__/____</span>
+                </t>
+                <t t-if="o.alert_date">
+                    <span> - </span><span t-field="o.alert_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                </t>
+                <t t-if="not o.alert_date">
+                    <span> - __/__/____</span>
+                </t>
+            </p>
+            <p t-esc="o.product_id.name[:40]" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
+            <div style="display: inline-block; float: right; position: relative;">
+                <!-- Barcode reader uses english keyboard layout -->
+                <t t-set="product_barcode" t-value="o.product_id.default_code"/>
+                <t t-if="product_barcode">
+                    <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
+                    <!-- Generate barcode image -->
+                    <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', product_barcode, 1200, 130)" width="600" height="65" style="margin-right: -130px;"/>
+                    <div t-field="o.product_id.default_code" style="position: absolute; bottom: 0px; right: 25%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
+                </t>
+            </div>
+        </template>
+
+        <template id="report_lot_sample_label_pharmadus">
+            <div style="position: relative; width: 400px; height: 180px; margin-left: -20px;">
+                <div style="position: absolute; top: 0; left: 0; height: 179px; width: 45px; overflow: hidden;">
+                    <!-- Barcode reader uses english keyboard layout -->
+                    <t t-set="barcode" t-value="o.name"/>
+                    <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                    <!-- Generate barcode image -->
+                    <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', barcode, 1100, 220, 0, 90)" width="44" height="221" style="margin-top: -20px; margin-left: -1px;"/>
+                    <div t-field="o.name" style="position: absolute; left: 0px; bottom: 80px; padding: 0px 2px 0px 2px; margin: 0; font-size: 8px; font-weight: bold; text-align: center; background-color: white; width: 80px; height: 10px; -webkit-transform: rotate(-90deg);"/>
+                </div>
+
+                <div style="position: absolute; top: 0; right: 0; height: 179px; width: 45px; overflow: hidden;">
+                    <!-- Barcode reader uses english keyboard layout -->
+                    <t t-set="product_barcode" t-value="o.product_id.default_code"/>
+                    <t t-if="product_barcode">
+                        <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
+                        <!-- Generate barcode image -->
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', product_barcode, 1100, 220, 0, -90)" width="44" height="221" style="margin-top: -20px; margin-left: -1px;"/>
+                        <div t-field="o.product_id.default_code" style="position: absolute; right: 0px; bottom: 80px; padding: 0px 2px 0px 2px; margin: 0; font-size: 8px; font-weight: bold; text-align: center; background-color: white; width: 80px; height: 10px; -webkit-transform: rotate(90deg);"/>
+                    </t>
+                </div>
+
+                <p t-esc="o.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0 50px 0 50px;"/>
+                <p t-esc="o.name" style="font-size: 30px; font-weight: bold; line-height: 30px; padding: 4px 0; margin: 0 50px 0 50px;"/>
+
+                <div style="margin: 0 50px 0 50px;">
+                    <span style="min-width: 10em; display: inline-block;">Fecha toma muestra:</span><span t-field="o.sampling_date"/>
+                </div>
+                <div style="margin: 0 50px 0 50px;">
+                    <span style="min-width: 10em; display: inline-block;">Realizado por:</span><span t-field="o.sampling_realized"/>
+                </div>
+            </div>
+        </template>
+
         <template id="report_lot_sample_label">
             <t t-call="report.html_container">
                 <style type="text/css">
@@ -12,52 +86,11 @@
 
                 <t t-foreach="docs" t-as="o">
                     <div class="page" style="margin-left: 5px;">
-                        <div style="min-height: 40px; margin-bottom: 5px;">
-                            <div style="position: relative; display: inline-block; float: left; padding: 0; z-index: 1;">
-                                <!-- Barcode reader uses english keyboard layout -->
-                                <t t-set="barcode" t-value="o.name"/>
-                                <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                                <!-- Generate barcode image -->
-                                <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', barcode, 1200, 120)" height="65" width="600" style="margin-left: -90px;"/>
-                                <div t-field="o.name" style="position: absolute; bottom: 0px; left: 29%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
-                            </div>
-                            <div style="clear: both;"/>
-                        </div>
-                        <t t-if="res_company.id == 6">  <!-- Maricielo (Biosalud) -->
-                            <p style="font-size: 26px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;">
-                                <span t-field="o.product_id.description"/>
-                                <t t-if="o.life_date">
-                                    <span> - </span><span t-field="o.life_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
-                                </t>
-                                <t t-if="not o.life_date">
-                                    <span> - __/__/____</span>
-                                </t>
-                                <t t-if="o.alert_date">
-                                    <span> - </span><span t-field="o.alert_date" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
-                                </t>
-                                <t t-if="not o.alert_date">
-                                    <span> - __/__/____</span>
-                                </t>
-                            </p>
+                        <t t-if="res_company.id == 6">
+                            <t t-call="custom_reports.report_lot_sample_label_biosalud"/>
                         </t>
-                        <p t-esc="o.product_id.name[:40]" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
-                        <div style="display: inline-block; float: right; position: relative;">
-                            <!-- Barcode reader uses english keyboard layout -->
-                            <t t-set="product_barcode" t-value="o.product_id.default_code"/>
-                            <t t-if="product_barcode">
-                                <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
-                                <!-- Generate barcode image -->
-                                <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', product_barcode, 1200, 120)" height="65" width="600" style="margin-right: -130px;"/>
-                                <div t-field="o.product_id.default_code" style="position: absolute; bottom: 0px; right: 25%; padding: 0; margin: 0; font-size: 18px; line-height: 18px; font-weight: bold; background-color: white;"/>
-                            </t>
-                        </div>
                         <t t-if="res_company.id != 6">
-                            <div>
-                                <span style="min-width: 15em; display: inline-block;">Fecha toma muestra:</span><span t-field="o.sampling_date"/>
-                            </div>
-                            <div>
-                                <span style="min-width: 15em; display: inline-block;">Realizado por:</span><span t-field="o.sampling_realized"/>
-                            </div>
+                            <t t-call="custom_reports.report_lot_sample_label_pharmadus"/>
                         </t>
                     </div>
                 </t>
