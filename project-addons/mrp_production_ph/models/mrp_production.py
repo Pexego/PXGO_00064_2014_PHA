@@ -115,7 +115,8 @@ class MrpProduction(models.Model):
             p.store_consumption_ids = sc
             for c in consumptions:
                 if c['quantity'] != 0:
-                    p.store_consumption_ids |= sc.create(c)
+                    sc |= sc.create(c)
+            p.store_consumption_ids = sc
 
             # Return pickings
             for po in self.manual_return_pickings.mapped('pack_operation_ids'):
@@ -143,7 +144,8 @@ class MrpProduction(models.Model):
             p.quality_consumption_ids = qc
             for c in consumptions:
                 if c['quantity'] != 0:
-                    p.quality_consumption_ids |= qc.create(c)
+                    qc |= qc.create(c)
+            p.quality_consumption_ids = qc
 
     @api.one
     def _next_lot(self):
