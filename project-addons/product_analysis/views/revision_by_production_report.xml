@@ -248,12 +248,29 @@
                                     height: auto !important;
                                     border: none;
                                 }
+                                #reviFi .hideAtRevByProd {
+                                    display: none;
+                                }
                             </style>
-                            <t t-set="wkcenter_line" t-value="production.workcenter_lines.filtered(lambda r: r.workcenter_id.protocol_type_id.id == 7)"/>
+                            <t t-set="wkcenter_line" t-value="production.workcenter_lines.filtered(lambda r: r.workcenter_id.protocol_type_id.id == 7)"/> <!-- Revisión final -->
                             <div id="reviFi">
                                 <t t-foreach="seccion_revifi" t-as="seccion">
                                     <t t-call="{{seccion.view_id.id}}"/>
                                 </t>
+                                <!-- Obtenemos los campos de observaciones -->
+                                <t t-set="observaciones" t-value="[]"/>
+                                <t t-set="vistas" t-value="production.product_id.protocol_ids.mapped('protocol').mapped('report_lines.line_id').mapped('report_reference_ids').filtered(lambda r: r.report_type_id.id == 13)"/> <!-- Observaciones -->
+                                <t t-foreach="vistas" t-as="vista">
+                                    <t t-set="modelo_tabla" t-value="production.env[vista.model_id.model]"/>
+                                    <t t-set="ordenes" t-value="production.workcenter_lines"/>
+                                    <t t-set="tablas" t-value="modelo_tabla.search([('x_wcl_id', 'in', ordenes.ids)])"/>
+                                    <t t-foreach="tablas" t-as="table_id">
+                                        <t t-if="table_id[vista.data_reference]">
+                                            <t t-set="aux" t-value="observaciones.append(table_id[vista.data_reference])"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <p style="font-size: 13px;">Observaciones: <span t-esc="' | '.join(observaciones)"/></p>
                             </div>
                         </t>
 
