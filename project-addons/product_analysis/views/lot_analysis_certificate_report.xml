@@ -64,10 +64,10 @@
                                                         <span t-field="analysis.method.name"/>
                                                     </td>
                                                     <td class="text-center" style="padding: 1px;">
-                                                        <t t-if="analysis.criterion == 'normal'">
+                                                        <t t-if="analysis.criterion != 'informative'">
                                                             <span t-field="analysis.expected_result"/>
                                                         </t>
-                                                        <t t-if="analysis.criterion != 'normal'">
+                                                        <t t-if="analysis.criterion == 'informative'">
                                                             <span t-field="analysis.criterion"/>
                                                         </t>
                                                     </td>
