@@ -304,6 +304,7 @@ $(function () {
         var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
         $(this).find('.quality_field').each(function() {
             var field_to_represent = $(this).attr("qfield");
+            var order_by = $(this).attr('order_by');
             var filter = $(this).attr("filter") ? JSON.parse($(this).attr("filter")) : [];
             var filter_model = $(this).attr("filter-model")
             var columns = $(this).attr("columns").split(",");
@@ -370,7 +371,7 @@ $(function () {
                         if (response[field_to_represent].length > 0) {
                             var initData = [];
                             var read_filter = filter.concat([['id', 'in', response[field_to_represent]]]);
-                            view_model.call('search_read', [read_filter, columns], {context: context}).then(function(rows_data) {
+                            view_model.call('search_read', [read_filter, columns], {order: order_by, context: context}).then(function(rows_data) {
                                 for (var j = 0; j<rows_data.length;j++) {
                                     var gridRow = {};
                                     for (var k=0; k<columns.length; k++) {
