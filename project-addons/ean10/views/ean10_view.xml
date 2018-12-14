@@ -34,6 +34,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="default_code"/>
                     <field name="product_id"/>
                     <field name="country_id"/>
+                    <field name="product_active"/>
                 </tree>
             </field>
         </record>
@@ -74,6 +75,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="default_code"/>
                     <field name="product_id"/>
                     <field name="country_id"/>
+                    <field name="product_active"/>
                 </tree>
             </field>
         </record>
@@ -87,6 +89,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="default_code"/>
                     <field name="product_id"/>
                     <field name="country_id"/>
+                    <field name="product_active"/>
                     <group expand="1" string="Group By">
                         <filter string="EAN13" context="{'group_by': 'name'}"/>
                         <filter string="Country" context="{'group_by': 'country_id'}"/>

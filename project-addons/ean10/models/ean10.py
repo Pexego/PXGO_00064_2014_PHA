@@ -35,7 +35,9 @@ class Ean10Code(models.Model):
             for pair in range(100):
                 control_digit = control_code13('{}{:02d}'.format(ean10.name, pair))
                 ean13 = '{}{:02d}{:d}'.format(ean10.name, pair, control_digit)
-                product_ids = product_ids.search([('ean13', '=', ean13)])
+                product_ids = product_ids.\
+                    search([('ean13', '=', ean13), '|',
+                            ('active', '=', True), ('active', '=', False)])
                 if product_ids:
                     for product_id in product_ids:
                         ean10_ean13_ids |= ean13_ids.create({
@@ -43,7 +45,8 @@ class Ean10Code(models.Model):
                             'product_id': product_id.id,
                             'default_code': product_id.default_code,
                             'country_id': product_id.country.id,
-                            'uses': len(product_ids)
+                            'uses': len(product_ids),
+                            'product_active': product_id.active
                         })
                 else:
                     ean10_ean13_ids |= ean13_ids.create({
@@ -51,7 +54,8 @@ class Ean10Code(models.Model):
                         'product_id': False,
                         'default_code': False,
                         'country_id': False,
-                        'uses': 0
+                        'uses': 0,
+                        'product_active': product_id.active
                     })
         return ean10_ean13_ids
 
@@ -83,6 +87,7 @@ class Ean13Product(models.Model):
     default_code = fields.Char(readonly=True)
     country_id = fields.Many2one(comodel_name='res.country', readonly=True)
     uses = fields.Integer(readonly=True)
+    product_active = fields.Boolean()
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
@@ -104,6 +109,7 @@ class Ean13International(models.Model):
     default_code = fields.Char(readonly=True)
     country_id = fields.Many2one(comodel_name='res.country', readonly=True)
     uses = fields.Integer(readonly=True)
+    product_active = fields.Boolean()
 
     @api.model
     def _generate_and_search_ean13(self):
@@ -116,7 +122,9 @@ class Ean13International(models.Model):
         ean13_ids = self.env['ean13.international']
 
         for ean13 in ean13_names:
-            product_ids = product_ids.search([('ean13', '=', ean13)])
+            product_ids = product_ids.search([('ean13', '=', ean13), '|',
+                                              ('active', '=', True),
+                                              ('active', '=', False)])
             if product_ids:
                 for product_id in product_ids:
                     ean13_ids |= ean13_ids.with_context(generating_ean13=True).create({
@@ -124,7 +132,8 @@ class Ean13International(models.Model):
                         'product_id': product_id.id,
                         'default_code': product_id.default_code,
                         'country_id': product_id.country.id,
-                        'uses': len(product_ids)
+                        'uses': len(product_ids),
+                        'product_active': product_id.active
                     })
             else:
                 ean13_ids |= ean13_ids.with_context(generating_ean13=True).create({
@@ -132,7 +141,8 @@ class Ean13International(models.Model):
                     'product_id': False,
                     'default_code': False,
                     'country_id': False,
-                    'uses': 0
+                    'uses': 0,
+                    'product_active': product_id.active
                 })
         return ean13_ids
 
