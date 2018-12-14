@@ -168,6 +168,11 @@ msgid "Product id"
 msgstr "Producto"
 
 #. module: ean10
+#: field:ean13.international,reserved:0 field:ean13.product,reserved:0
+msgid "Reserved"
+msgstr "Reservado"
+
+#. module: ean10
 #: view:ean13.international:ean10.ean13_international_search
 #: view:ean13.product:ean10.ean13_search
 msgid "Used EAN"
