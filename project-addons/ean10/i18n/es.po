@@ -158,11 +158,6 @@ msgid "Name"
 msgstr "Código"
 
 #. module: ean10
-#: field:ean13.international,product_active:0 field:ean13.product,product_active:0
-msgid "Product active"
-msgstr "Producto activo"
-
-#. module: ean10
 #: field:ean13.international,product_id:0 field:ean13.product,product_id:0
 msgid "Product id"
 msgstr "Producto"
