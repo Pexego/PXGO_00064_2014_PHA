@@ -30,6 +30,8 @@ var JQUERY_UI_TYPES = {
 
 var to_remove_rows = [];
 
+var contador_espera = 0, contador_referencia = -1, bucleEspera;
+
 function check_name(event, fill_field){
     var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
     var element_id = event.target.id;
@@ -51,6 +53,7 @@ function check_name(event, fill_field){
         if (typeof model !== typeof undefined && model !== false){
             var obj = new openerp.web.Model(model, context);
             obj.call('search', [[['name', '=', text]]]).then(function(result) {
+                contador_espera++;
                 if(result.length === 0){
                     event.target.style.backgroundColor = "red";
                     $('input#'.concat(fill_id)).val('');
@@ -60,6 +63,7 @@ function check_name(event, fill_field){
                     event.target.style.backgroundColor = "transparent";
                     if(fill_field != ''){
                         obj.query([fill_field]).filter([['id', 'in', result]]).context(context).all().then(function(result){
+                            contador_espera++;
                             fill_value = result[0][fill_field][1];
                             $('input#'.concat(fill_id)).val(fill_value);
                             //Se hace dentro de la funcion para esperar por el resultado
@@ -284,6 +288,43 @@ function preparaTexto() {
     };
 };
 
+function preparaInputs() {
+    // Buscamos los campos con sufijo "_box_sino" para reemplazar
+    // su input por dos botones de radio con ambas opciones
+    preparaSiNo();
+
+    // Buscamos los campos con sufijo "_time" para poner el tipo correcto
+    // a su input y que aplique la máscara correcta para estos campos.
+    preparaTime();
+
+    // Localizamos los campos con sufijo "_texto" para reemplazar
+    // los inputs por textarea
+    preparaTexto();
+
+    // Los inputs de con botones de flecha no se muestran bien al imprimir
+    // con phantomjs, así que les cambiamos el tipo a texto y pista...
+    if (/Phantom.js bot/.test(window.navigator.userAgent)) {
+        $('.quality_row input[type="date"]').each(function() {
+            fecha = $(this).val();
+            if (fecha.trim().length == 10) {  // isDate() no funciona bien aquí
+                fecha = openerp.str_to_date(fecha).format("d/m/Y");
+                $(this).prop('type', 'text').val(fecha);
+            } else {
+                $(this).prop('type', 'text');
+            };
+        });
+
+        $('.quality_row input[type="number"], ' +
+          '.quality_row input[type="time"], ' +
+          '.quality_row input[type="datetime-local"]').each(
+            function() {
+                $(this).prop('type', 'text');
+            }
+        );
+        $('div#realized_by').hide();
+    };
+};
+
 $(function () {
 //    if($("#done").length) {
 //        $(":input").prop('disabled', true);
@@ -320,10 +361,12 @@ $(function () {
             var obj = new openerp.web.Model(model, context);
             /* Se rellena la tabla con las propiedades de cada columna*/
             obj.call("fields_get", [field_to_represent], {context: context}).then(function(field_data) {
+                contador_espera++;
                 var view_model = new openerp.web.Model(field_data[field_to_represent].relation, context);
                 var table_columns = [];
                 var format_columns = {};
                 view_model.call("fields_get", [columns], {context: context}).then(function(fields) {
+                    contador_espera++;
                     for (var i = 0; i<columns.length; i++) {
                         var key = columns[i];
                         if (key === "id") {
@@ -367,11 +410,13 @@ $(function () {
                     }
                     /*Se rellena la tabla con los datos de los registros*/
                     obj.call('read', [record, [field_to_represent]], {context: context}).then(function(response) {
+                        contador_espera++;
                         var tablaAG = false;
                         if (response[field_to_represent].length > 0) {
                             var initData = [];
                             var read_filter = filter.concat([['id', 'in', response[field_to_represent]]]);
                             view_model.call('search_read', [read_filter, columns], {order: order_by, context: context}).then(function(rows_data) {
+                                contador_espera++;
                                 for (var j = 0; j<rows_data.length;j++) {
                                     var gridRow = {};
                                     for (var k=0; k<columns.length; k++) {
@@ -446,42 +491,15 @@ $(function () {
         });
     });
 
-    setTimeout(function() {
-        // Buscamos los campos con sufijo "_box_sino" para reemplazar
-        // su input por dos botones de radio con ambas opciones
-        preparaSiNo();
-
-        // Buscamos los campos con sufijo "_time" para poner el tipo correcto
-        // a su input y que aplique la máscara correcta para estos campos.
-        preparaTime();
-
-        // Localizamos los campos con sufijo "_texto" para reemplazar
-        // los inputs por textarea
-        preparaTexto();
-
-        // Los inputs de con botones de flecha no se muestran bien al imprimir
-        // con phantomjs, así que les cambiamos el tipo a texto y pista...
-        if (/Phantom.js bot/.test(window.navigator.userAgent)) {
-            $('.quality_row input[type="date"]').each(function() {
-                fecha = $(this).val();
-                if (fecha.trim().length == 10) {  // isDate() no funciona bien aquí
-                    fecha = openerp.str_to_date(fecha).format("d/m/Y");
-                    $(this).prop('type', 'text').val(fecha);
-                } else {
-                    $(this).prop('type', 'text');
-                };
-            });
-
-            $('.quality_row input[type="number"], ' +
-              '.quality_row input[type="time"], ' +
-              '.quality_row input[type="datetime-local"]').each(
-                function() {
-                    $(this).prop('type', 'text');
-                }
-            );
-            $('div#realized_by').hide();
+    // Esperamos a que todos los datos estén cargados...
+    bucleEspera = setInterval(function() {
+        if (contador_espera > contador_referencia) {
+            contador_referencia = contador_espera;
+        } else {
+            clearInterval(bucleEspera);
+            preparaInputs();
         };
-    }, 2000);
+    }, 250);
 });
 
 //Falta pepararlo para multiples tablas
