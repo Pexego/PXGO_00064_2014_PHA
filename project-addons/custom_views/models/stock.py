@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-# © 2017 Pharmadus I.T.
+# © 2018 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from openerp import models, fields, api, SUPERUSER_ID, _, exceptions
+from openerp import models, fields, api, _, exceptions
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    lots_string = fields.Char(string='Lots', readonly=True, index=True)
+    lots_string = fields.Char(string='Lots', readonly=True, store=True, index=True)
     categ_ids = fields.Many2many(related='product_id.categ_ids', readonly=True)
     purchase_amount = fields.Float(related='purchase_line_id.gross_amount',
                                    readonly=True)
@@ -17,31 +17,24 @@ class StockMove(models.Model):
     virtual_conservative = fields.Float(
         related='product_id.virtual_conservative', readonly=True)
 
-    @api.multi
-    def _get_related_lots_str(self):
-        for move in self:
-            lot_str = u", ".join([x.name for x in move.lot_ids])
-            if move.lots_string != lot_str:
-                move.lots_string = lot_str
-
-    @api.multi
-    def write(self, vals):
-        res = super(StockMove, self).write(vals)
-        for move in self:
-            if len(move.lot_ids) > 0:
-                self._get_related_lots_str()
-        return res
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        move_ids = super(StockMove, self).search(args, offset=offset,
+                                                 limit=limit, order=order,
+                                                 count=count)
+        for move_id in move_ids:
+            lots_string = u", ".join(
+                (move_id.reserved_quant_ids + move_id.quant_ids).
+                    mapped('lot_id.name')
+            )
+            if lots_string != move_id.lots_string:
+                move_id.lots_string = lots_string
+        return move_ids
 
     @api.one
     @api.constrains('state')
     def compute_detailed_stock(self):
         self.product_id.product_tmpl_id.compute_detailed_stock()
-
-    def init(self, cr):
-        move_ids = self.search(cr, SUPERUSER_ID,
-                               [('lots_string', 'in', (False, ''))])
-        moves = self.browse(cr, SUPERUSER_ID, move_ids)
-        moves._get_related_lots_str()
 
 
 class StockPicking(models.Model):
