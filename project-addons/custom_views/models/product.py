@@ -7,6 +7,19 @@ import openerp.addons.decimal_precision as dp
 import datetime
 
 
+class ProductProductAnalysisMethod(models.Model):
+    _name = 'product.product.analysis.method'
+
+    product_id = fields.Many2one(comodel_name='product.product')
+    procedure_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id.code', '=', 'quality_control_analysis_methods')]",
+        string='Analysis method')
+    attachment = fields.Binary(
+        related='procedure_id.attachment', readonly=True)
+    filename = fields.Char(
+        related='procedure_id.attachment_filename', readonly=True)
+
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
@@ -30,23 +43,23 @@ class ProductProduct(models.Model):
         related='packaging_procedure_id.attachment', readonly=True)
     packaging_procedure_filename = fields.Char(
         related='packaging_procedure_id.attachment_filename', readonly=True)
-    specification_type = fields.Many2one(comodel_name='mrp.procedure.type',
-        domain="[('code', 'ilike', 'specifications%')]",
-        string='Specification type')
-    specification_id = fields.Many2one(comodel_name='mrp.procedure',
-        domain="[('type_id', '=', specification_type)]",
+    generic_specification_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id.code', 'ilike', 'specifications%')]",
         string='Specification')
-    specification_attachment = fields.Binary(
-        related='specification_id.attachment', readonly=True)
-    specification_filename = fields.Char(
-        related='specification_id.attachment_filename', readonly=True)
-    analysis_method_id = fields.Many2one(comodel_name='mrp.procedure',
-        domain="[('type_id.code', '=', 'quality_control_analysis_methods')]",
-        string='Analysis method')
-    analysis_method_attachment = fields.Binary(
-        related='analysis_method_id.attachment', readonly=True)
-    analysis_method_filename = fields.Char(
-        related='analysis_method_id.attachment_filename', readonly=True)
+    generic_specification_attachment = fields.Binary(
+        related='generic_specification_id.attachment', readonly=True)
+    generic_specification_filename = fields.Char(
+        related='generic_specification_id.attachment_filename', readonly=True)
+    model_specification_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id.code', 'ilike', 'specifications%')]",
+        string='Model specification')
+    model_specification_attachment = fields.Binary(
+        related='model_specification_id.attachment', readonly=True)
+    model_specification_filename = fields.Char(
+        related='model_specification_id.attachment_filename', readonly=True)
+    analysis_method_ids = fields.One2many(
+        comodel_name='product.product.analysis.method',
+        inverse_name='product_id', string="Analysis method")
     analysis_plan_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'quality_control_analysis_plans')]",
         string='Analysis plan')

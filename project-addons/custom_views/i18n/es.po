@@ -90,7 +90,8 @@ msgid "Analysis"
 msgstr "Análisis"
 
 #. module: custom_views
-#: field:product.product,analysis_method_id:0
+#: field:product.product,analysis_method_ids:0
+#: field:product.product.analysis.method,procedure_id:0
 msgid "Analysis method"
 msgstr "Método de análisis"
 
@@ -123,6 +124,11 @@ msgstr "Maquinaria asociada"
 #: view:mrp.machinery:custom_views.view_mrp_machinery_form
 msgid "Associated routing lines"
 msgstr "Rutas de producción asociadas"
+
+#. module: custom_views
+#: field:product.product.analysis.method,attachment:0
+msgid "Attachment"
+msgstr "Fichero adjunto"
 
 #. module: custom_views
 #: field:account.invoice.special,aux_mandate_id:0
@@ -592,6 +598,11 @@ msgid "Medicine"
 msgstr "Medicamento"
 
 #. module: custom_views
+#: field:product.product,model_specification_id:0
+msgid "Model specification"
+msgstr "Especificación modelo"
+
+#. module: custom_views
 #: field:mrp.procedure,notes:0
 #: view:product.product:custom_views.custom_views_product_notes_form
 #: field:product.product,notes:0
@@ -955,6 +966,11 @@ msgstr "Factura simplificada"
 #: view:res.partner:custom_views.view_partner_special_form
 msgid "Special form"
 msgstr "Formulario especial"
+
+#. module: custom_views
+#: field:product.product,generic_specification_id:0
+msgid "Generic specification"
+msgstr "Especificación genérica"
 
 #. module: custom_views
 #: view:account.invoice:custom_views.view_invoice_special_tree

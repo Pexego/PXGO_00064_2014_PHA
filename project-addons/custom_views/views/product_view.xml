@@ -225,18 +225,40 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="manufacturing_procedure_attachment" filename="manufacturing_procedure_filename" nolabel="1" class="oe_read_only"/>
                             <field name="packaging_procedure_id"/>
                             <field name="packaging_procedure_attachment" filename="packaging_procedure_filename" nolabel="1" class="oe_read_only"/>
-                            <separator/><newline/>
-                            <field name="specification_type" nolabel="1"/>
-                            <field name="specification_id" nolabel="1"/>
-                            <field name="specification_attachment" filename="specification_filename" nolabel="1" class="oe_read_only"/>
-                            <separator/><newline/>
-                            <field name="analysis_method_id"/>
-                            <field name="analysis_method_attachment" filename="analysis_method_filename" nolabel="1" class="oe_read_only"/>
+                            <field name="generic_specification_id"/>
+                            <field name="generic_specification_attachment" filename="generic_specification_filename" nolabel="1" class="oe_read_only"/>
+                            <field name="model_specification_id"/>
+                            <field name="model_specification_attachment" filename="model_specification_filename" nolabel="1" class="oe_read_only"/>
+                            <group col="1" colspan="3">
+                                <field name="analysis_method_ids" nolabel="1"/>
+                            </group>
                             <field name="analysis_plan_id"/>
                             <field name="analysis_plan_attachment" filename="analysis_plan_filename" nolabel="1" class="oe_read_only"/>
                         </group>
                     </page>
                 </page>
+            </field>
+        </record>
+
+        <record id="custom_views_product_analysis_method_tree" model="ir.ui.view">
+            <field name="name">Custom views - Product analysis method tree</field>
+            <field name="model">product.product.analysis.method</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="procedure_id"/>
+                    <field name="attachment" filename="analysis_method_filename" nolabel="1" class="oe_read_only"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="custom_views_product_analysis_method_form" model="ir.ui.view">
+            <field name="name">Custom views - Product analysis method form</field>
+            <field name="model">product.product.analysis.method</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="procedure_id"/>
+                    <field name="attachment" filename="analysis_method_filename" nolabel="1" class="oe_read_only"/>
+                </form>
             </field>
         </record>
 
