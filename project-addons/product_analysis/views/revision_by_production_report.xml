@@ -110,7 +110,7 @@
                                         <td style="width: 30%;">Proveedor</td>
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
-                                    <t t-foreach="production.quality_consumption_ids.sorted(key=lambda r: r.order)" t-as="material">
+                                    <t t-foreach="production.quality_consumption_ids.sorted(key=lambda r: (r.order * 100000000) + r.lot_id.id)" t-as="material">
                                         <t t-set="lote" t-value="material.lot_id if material.product_id.categ_id.id in (1195,1199,1224,1525,1494,1493,1197) else False"/>
                                         <t t-if="lote">
                                             <tr style="font-size: 0.8em;">
@@ -252,7 +252,7 @@
                                     display: none;
                                 }
                             </style>
-                            <t t-set="wkcenter_line" t-value="production.workcenter_lines.filtered(lambda r: r.workcenter_id.protocol_type_id.id == 7)"/> <!-- Revisión final -->
+                            <t t-set="wkcenter_line" t-value="production.workcenter_lines.filtered(lambda r: r.workcenter_id.protocol_type_id.id == 7)"/> <!-- Workcenter con protocolo de revisión final -->
                             <div id="reviFi">
                                 <t t-foreach="seccion_revifi" t-as="seccion">
                                     <t t-call="{{seccion.view_id.id}}"/>
