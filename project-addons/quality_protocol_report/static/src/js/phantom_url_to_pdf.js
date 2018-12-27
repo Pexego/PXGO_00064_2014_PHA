@@ -53,11 +53,12 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
             urlIndex++;
             var data = extractData(url);
             var headerCallback = new Function('pageNum', 'numPages',
-                'return \'<span style="float: right; text-align: right; font-size: 12px;">' +
+                'return \'<div style="border-bottom: 1px solid black; ' +
+                'width: 100%; text-align: right; font-size: 12px;">' +
                 data.production + ' - ' + data.protocol +
-                ' - \' + pageNum + \' de \' + numPages + ' +
-                '\'<br>' + data.product + ' - ' + data.lot + ' - ' +
-                data.date + '</span>\';');
+                ' - \' + pageNum + \' de \' + numPages + ' + '\'<br>' +
+                data.product + ' - ' + data.lot + ' - ' + data.date +
+                '</div>\';');
             var parser = document.createElement('a');
             parser.href = url;
             phantom.addCookie({
