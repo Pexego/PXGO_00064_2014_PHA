@@ -60,6 +60,14 @@ class MrpProduction(models.Model):
         inverse_name='production_id',
         compute='_compute_consumption',
         string='Quality consumption')
+    hoards_quants_reserved = fields.Boolean(compute='_hoards_quants_reserved')
+
+    @api.multi
+    def _hoards_quants_reserved(self):
+        for production in self:
+            hoard_ids = production.hoard_ids.filtered(
+                lambda h: h.state in ('assigned', 'partially_available'))
+            production.hoards_quants_reserved = True if hoard_ids else False
 
     @api.multi
     def _compute_consumption(self):
