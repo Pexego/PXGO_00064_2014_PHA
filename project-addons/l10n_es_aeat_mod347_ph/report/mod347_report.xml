@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="mailing_body_report">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
+            <div class="header">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+                    </div>
+                </div>
+                <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <style>
+                            div#company_address {
+                                font-size: 10px;
+                            }
+                            div#company_address p {
+                                margin: 1.5px 0;
+                            }
+                            a {
+                                color: black;
+                            }
+                        </style>
+                        <div id="company_address">
+                            <p>
+                                <span t-field="company.partner_id.name"></span>
+                            </p>
+                            <p>
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                                <span t-field="company.partner_id.street"></span>
+                            </p>
+                            <p>
+                                <span t-field="company.partner_id.zip" style="margin-left: 13px;"></span>
+                                <span t-field="company.partner_id.city"></span> -
+                                <span t-field="company.partner_id.state_id"></span>
+                                (<span t-field="company.partner_id.country_id"></span>)
+                            </p>
+                            <p>
+                                <t t-if="company.partner_id.phone">
+                                    <i class="glyphicon glyphicon-earphone"></i>
+                                    <span t-field="company.partner_id.phone"></span>
+                                </t>
+                                <t t-if="company.partner_id.phone and company.partner_id.fax"><span> /</span></t>
+                                <t t-if="company.partner_id.fax">
+                                    <i class="glyphicon glyphicon-print"></i>
+                                    <span t-field="company.partner_id.fax"></span>
+                                </t>
+                            </p>
+                            <p t-if="company.partner_id.website">
+                                <i class="glyphicon glyphicon-globe"></i>
+                                <a t-field="company.partner_id.website"></a>
+                            </p>
+                            <p t-if="company.partner_id.email">
+                                <i class="glyphicon glyphicon-envelope"></i>
+                                <a t-field="company.partner_id.email"></a>
+                            </p>
+                            <p>
+                                <i class="glyphicon glyphicon-briefcase"></i>
+                                <span t-field="company.partner_id.vat"/>
+                            </p>
+                            <p><br/></p>
+                            <p style="font-size: 14px; font-style: italic;">
+                                <span t-field="company.report_header_message"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-xs-offset-1" style="margin-top: 25px; min-height: 120px;">
+                        <t t-set="shipadd" t-value="partner_record_id.partner_id"/>
+                        <t t-call="custom_reports.report_shipping_address"/>
+                        <br/>
+                        <span t-field="shipadd.email"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" style="padding: 0 40px;">
+                <style>
+                    div#cuerpo p {
+                        padding: 0.4em 0;
+                    }
+                </style>
+                <div id="cuerpo" class="row" style="font-size: 18px;">
+                    <p><b style="font-size: 20px;" t-esc="time.strftime('%d-%m-%Y')"/></p>
+                    <p>Muy Sr/s nuestro/s:</p>
+                    <p>En cumplimiento de las disposiciones vigentes, sobre la declaración anual de operaciones con terceros, les informamos que, según nuestras anotaciones, hemos de incluirles en dicha declaración con el importe de:</p>
+                    <p>Año: <span t-field="o.fiscalyear_id"/>  Total facturado: <span t-field="partner_record_id.amount"/> €</p>
+                    <p>Desglosado de la siguiente forma:</p>
+                    <p>T1: <span t-field="partner_record_id.first_quarter"/> €</p>
+                    <p>T2: <span t-field="partner_record_id.second_quarter"/> €</p>
+                    <p>T3: <span t-field="partner_record_id.third_quarter"/> €</p>
+                    <p>T4: <span t-field="partner_record_id.fourth_quarter"/> €</p>
+                    <p>En caso de existir diferencias con estos datos, les rogamos nos lo comuniquen para poder comprobar los posibles errores.</p>
+                    <p>(Teléfono de Contabilidad: <span t-field="company.phone"/>; mail: <span t-field="user.login"/>)</p>
+                    <p>Sin otro particular aprovechamos la ocasión para saludarles.</p>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="row zero_min_height">
+                    <div class="col-xs-12" style="text-align: right;">
+                        <span t-field="partner_record_id.operation_key"/>
+                    </div>
+                    <div class="col-xs-12" style="border-bottom: 1px solid grey;"/>
+                </div>
+                <div class="row">
+                    <div class="list-inline" style="padding: 20px 10px 0 0; text-align: center; color: grey;">
+                        <li>Página:</li>
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="mailing_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-foreach="o.partner_record_ids" t-as="partner_record_id">
+                        <t t-call="l10n_es_aeat_mod347_ph.mailing_body_report"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="action_l10n_es_aeat_mod347_mailing_report"
+            string="Mailing"
+            model="l10n.es.aeat.mod347.report"
+            name="l10n_es_aeat_mod347_ph.mailing_report"
+            report_type="qweb-pdf"
+            menu="True"/>
+
+        <record id="action_l10n_es_aeat_mod347_mailing_report" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="custom_reports.paperformat_orders"/>
+        </record>
+    </data>
+</openerp>

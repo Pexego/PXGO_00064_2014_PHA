@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_l10n_es_aeat_mod347_ph_report_form" model="ir.ui.view">
+            <field name="name">l10n_es.aeat.mod347.ph.report.form</field>
+            <field name="model">l10n.es.aeat.mod347.report</field>
+            <field name="inherit_id" ref="l10n_es_aeat_mod347.view_l10n_es_aeat_mod347_report_form"/>
+            <field name="arch" type="xml">
+                <page string="Partner records" position="after">
+                    <page string="Extended partner records">
+                        <field name="extended_partner_record_ids" nolabel="1"
+                               context="{'report_id': active_id}"
+                               readonly="True">
+                            <tree>
+                                <field name="operation_key"/>
+                                <field name="partner_ref"/>
+                                <field name="partner_id"/>
+                                <field name="partner_vat"/>
+                                <field name="amount"/>
+                                <field name="first_quarter"/>
+                                <field name="second_quarter"/>
+                                <field name="third_quarter"/>
+                                <field name="fourth_quarter"/>
+                                <field name="partner_comercial"/>
+                                <field name="partner_street"/>
+                                <field name="partner_street2"/>
+                                <field name="partner_zip"/>
+                                <field name="partner_city"/>
+                                <field name="partner_state_id"/>
+                                <field name="partner_country_id"/>
+                                <field name="partner_email"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</openerp>
