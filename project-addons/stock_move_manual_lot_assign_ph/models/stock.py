@@ -31,7 +31,7 @@ class StockMove(models.Model):
     def _reserved_lots_available_qty(self):
         if self.picking_id and \
            self.picking_id.picking_type_code == 'internal' and \
-           self.state in ('assigned', 'confirmed') and \
+           self.state in ('assigned', 'confirmed', 'partially_available', 'done') and \
            self.lot_ids:
             quant_ids = self.env['stock.quant'].search([
                 ('lot_id', 'in', self.lot_ids.ids),
