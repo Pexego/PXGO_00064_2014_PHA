@@ -98,5 +98,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </page>
             </field>
         </record>
+
+        <record id="mrp_production_ph_filter_view" model="ir.ui.view">
+            <field name="name">MRP Production filter view</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="arch" type="xml">
+                <field name="routing_id" position="after">
+                    <field name="final_lot_id"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
