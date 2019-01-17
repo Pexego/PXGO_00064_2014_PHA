@@ -85,6 +85,7 @@ class MrpProductionUseLot(models.TransientModel):
 
     @api.multi
     def action_use_lot(self):
+        self.ensure_one()
         if self.env.context.get('add_suffix_from_lot'):
             suffix = self.lot_id.name
             aPos = [pos for pos, char in enumerate(suffix) if char == '-']
@@ -101,7 +102,6 @@ class MrpProductionUseLot(models.TransientModel):
                                          _('The selected lot do not have the '
                                            'expected suffix format.'))
         else:
-            self.ensure_one()
             lot_id = self.production_id.final_lot_id.create({
                 'name': self.lot_id.name,
                 'product_id': self.production_id.product_id.id,
