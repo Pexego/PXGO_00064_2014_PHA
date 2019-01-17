@@ -92,7 +92,9 @@ class MrpProductionUseLot(models.TransientModel):
                 lot_id = self.production_id.final_lot_id
                 # Using sudo() to avoid mail warnings about modified lot names
                 lot_id.sudo().write({
-                    'name': lot_id.name + suffix[aPos[-2]:]
+                    'name': lot_id.name + suffix[aPos[-2]:],
+                    'use_date': self.use_date,
+                    'duration_type': self.duration_type
                 })
             else:
                 raise exceptions.Warning(_('Lot error'),
