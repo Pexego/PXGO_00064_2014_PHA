@@ -69,7 +69,7 @@ msgid "Bill of materials details"
 msgstr "Detalles de la lista de materiales"
 
 #. module: stock_available_ph
-#: field:bom.member.of,bom_id:0 field:production.planning.orders,bom_id:0
+#: field:bom.member.of,bom_ids:0 field:production.planning.orders,bom_id:0
 #: field:stock.available,bom_id:0
 msgid "Bills of materials"
 msgstr "Listas de materiales"
@@ -77,8 +77,10 @@ msgstr "Listas de materiales"
 #. module: stock_available_ph
 #: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
 #: model:ir.actions.act_window,name:stock_available_ph.action_bom_member_of_wizard
+#: view:product.product:stock_available_ph.stock_available_product_stat_button_form
 #: view:product.product:stock_available_ph.stock_available_product_tree
 #: view:product.stock.unsafety:stock_available_ph.stock_available_product_stock_unsafety_tree
+#: view:stock.available.details:stock_available_ph.stock_available_details_tree_view
 msgid "BoM member of"
 msgstr "Miembro de LdM"
 
@@ -387,7 +389,13 @@ msgid "Incoming qty. <> 0"
 msgstr "Cdad. entrante <> 0"
 
 #. module: stock_available_ph
-#: field:bom.member.of,default_code:0 field:mrp.bom,default_code:0
+#: view:bom.member.of:stock_available_ph.view_bom_member_of_wizard
+msgid "Indirect lists of materials"
+msgstr "Listas de materiales indirectas"
+
+#. module: stock_available_ph
+#: field:bom.member.of,default_code:0
+#: field:mrp.bom,default_code:0
 #: field:product.stock.unsafety,default_code:0
 #: field:production.planning.materials,default_code:0
 #: field:production.planning.orders,default_code:0
@@ -589,7 +597,7 @@ msgstr "Procurements"
 
 #. module: stock_available_ph
 #: model:ir.model,name:stock_available_ph.model_product_product
-#: field:stock.available,product_id:0 field:stock.available.details,product:0
+#: field:stock.available,product_id:0 field:stock.available.details,product_id:0
 msgid "Product"
 msgstr "Producto"
 
@@ -603,6 +611,11 @@ msgstr "Cantidad mínima acción"
 #: model:ir.model,name:stock_available_ph.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
+
+#. module: stock_available_ph
+#: field:bom.member.of,product_id:0
+msgid "Product that is part of BoM"
+msgstr "Producto que es miembro de LdM"
 
 #. module: stock_available_ph
 #: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
