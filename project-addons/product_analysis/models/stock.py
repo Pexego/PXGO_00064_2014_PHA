@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2014 Pexego
-# © 2018 Pharmadus I.T.
+# © 2019 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, exceptions, _
@@ -147,6 +147,10 @@ class StockProductionLot(models.Model):
     analysis_passed = fields.Boolean('Analysis passed')
     revised_by = fields.Char('Revised by')
     used_lots = fields.Text(compute='_compute_used_lots')
+    production_id = fields.Many2one(string='Manufacturing order',
+                                    comodel_name='mrp.production',
+                                    compute='_compute_used_lots',
+                                    readonly=True)
     origin_type = fields.Selection([
         ('unspecified', 'Unspecified'),
         ('eu', 'EU product'),
@@ -190,8 +194,9 @@ class StockProductionLot(models.Model):
                           '<thead><tr><th>Product</th><th>Ref F</th>'
                           '<th>Lot</th><th>Approbation date</th><th>Lot state</th>'
                           '</tr></thead><tbody>')]
-            consumption_ids = self.env['mrp.production'].search([
-                ('final_lot_id', '=', lot.id)]).mapped('quality_consumption_ids')
+            lot.production_id = self.env['mrp.production'].search([
+                ('final_lot_id', '=', lot.id)])
+            consumption_ids = lot.production_id.mapped('quality_consumption_ids')
             for consumption_id in consumption_ids:
                 lot_state_str = dict(
                     consumption_id.lot_id.fields_get(

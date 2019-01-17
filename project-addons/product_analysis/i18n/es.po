@@ -358,6 +358,11 @@ msgid "Lots"
 msgstr "Lotes"
 
 #. module: product_analysis
+#: field:stock.production.lot,production_id:0
+msgid "Manufacturing order"
+msgstr "Órden de producción"
+
+#. module: product_analysis
 #: field:product.analysis,method:0
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
