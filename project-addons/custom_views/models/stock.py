@@ -22,14 +22,17 @@ class StockMove(models.Model):
         move_ids = super(StockMove, self).search(args, offset=offset,
                                                  limit=limit, order=order,
                                                  count=count)
-        for move_id in move_ids:
-            lots_string = u", ".join(
-                (move_id.reserved_quant_ids + move_id.quant_ids).
-                    mapped('lot_id.name')
-            )
-            if lots_string != move_id.lots_string:
-                move_id.lots_string = lots_string
-        return move_ids
+        try:
+            for move_id in move_ids:
+                lots_string = u", ".join(
+                    (move_id.reserved_quant_ids + move_id.quant_ids).
+                        mapped('lot_id.name')
+                )
+                if lots_string != move_id.lots_string:
+                    move_id.lots_string = lots_string
+            return move_ids
+        except TypeError:
+            return move_ids
 
     @api.one
     @api.constrains('state')
