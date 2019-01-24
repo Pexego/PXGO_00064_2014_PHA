@@ -127,7 +127,7 @@ class MrpProduction(models.Model):
             p.store_consumption_ids = sc
 
             # Return pickings
-            for po in self.manual_return_pickings.mapped('pack_operation_ids'):
+            for po in p.manual_return_pickings.mapped('pack_operation_ids'):
                 idx = -1
                 for i, obj in enumerate(consumptions):
                     if obj['product_id'] == po.product_id.id and \
@@ -137,10 +137,10 @@ class MrpProduction(models.Model):
                 if idx > -1:
                     consumptions[idx]['quantity'] += po.product_qty * sign
                 else:
-                    bom_line_id = self.bom_id.bom_line_ids.\
+                    bom_line_id = p.bom_id.bom_line_ids.\
                         filtered(lambda r: r.product_id == po.product_id)
                     consumptions.append({
-                        'production_id': self.id,
+                        'production_id': p.id,
                         'product_id': po.product_id.id,
                         'lot_id': po.lot_id.id,
                         'quantity': po.product_qty * sign,
