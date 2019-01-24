@@ -69,91 +69,90 @@ class MrpProduction(models.Model):
                 lambda h: h.state in ('assigned', 'partially_available'))
             production.hoards_quants_reserved = True if hoard_ids else False
 
-    @api.multi
+    @api.one
     def _compute_consumption(self):
-        for p in self:
-            consumptions = []
+        consumptions = []
 
-            # Gathering pickings
-            for po in p.hoard_ids.mapped('pack_operation_ids'):
-                idx = -1
-                for i, obj in enumerate(consumptions):
-                    if obj['product_id'] == po.product_id.id and \
-                        obj['lot_id'] == po.lot_id.id:
-                       idx = i
-                if idx > -1:
-                    consumptions[idx]['quantity'] += po.product_qty
-                else:
-                    bom_line_id = p.bom_id.bom_line_ids.\
-                        filtered(lambda r: r.product_id == po.product_id)
-                    consumptions.append({
-                        'production_id': p.id,
-                        'product_id': po.product_id.id,
-                        'lot_id': po.lot_id.id,
-                        'quantity': po.product_qty,
-                        'uom_id': po.product_uom_id.id,
-                        'order': bom_line_id.sequence if bom_line_id else 999
-                     })
+        # Gathering pickings
+        for po in self.hoard_ids.mapped('pack_operation_ids'):
+            idx = -1
+            for i, obj in enumerate(consumptions):
+                if obj['product_id'] == po.product_id.id and \
+                    obj['lot_id'] == po.lot_id.id:
+                   idx = i
+            if idx > -1:
+                consumptions[idx]['quantity'] += po.product_qty
+            else:
+                bom_line_id = self.bom_id.bom_line_ids.\
+                    filtered(lambda r: r.product_id == po.product_id)
+                consumptions.append({
+                    'production_id': self.id,
+                    'product_id': po.product_id.id,
+                    'lot_id': po.lot_id.id,
+                    'quantity': po.product_qty,
+                    'uom_id': po.product_uom_id.id,
+                    'order': bom_line_id.sequence if bom_line_id else 999
+                 })
 
-            # Return moves
-            for m in p.move_lines2.filtered(
-                    lambda r: r.location_id.usage == 'internal' and
-                              r.location_dest_id.usage == 'internal'):
-                idx = -1
-                for i, obj in enumerate(consumptions):
-                    if obj['product_id'] == m.product_id.id and \
-                        obj['lot_id'] == (m.lot_ids[0].id if m.lot_ids
-                                                          else False):
-                       idx = i
-                if idx > -1:
-                    consumptions[idx]['quantity'] -= m.product_qty
-                else:
-                    bom_line_id = p.bom_id.bom_line_ids.\
-                        filtered(lambda r: r.product_id == m.product_id)
-                    consumptions.append({
-                        'production_id': p.id,
-                        'product_id': m.product_id.id,
-                        'lot_id': m.lot_ids[0].id if m.lot_ids else False,
-                        'quantity': -m.product_qty,
-                        'uom_id': m.product_uom.id,
-                        'order': bom_line_id.sequence if bom_line_id else 999
-                    })
+        # Return moves
+        for m in self.move_lines2.filtered(
+                lambda r: r.location_id.usage == 'internal' and
+                          r.location_dest_id.usage == 'internal'):
+            idx = -1
+            for i, obj in enumerate(consumptions):
+                if obj['product_id'] == m.product_id.id and \
+                    obj['lot_id'] == (m.lot_ids[0].id if m.lot_ids
+                                                      else False):
+                   idx = i
+            if idx > -1:
+                consumptions[idx]['quantity'] -= m.product_qty
+            else:
+                bom_line_id = self.bom_id.bom_line_ids.\
+                    filtered(lambda r: r.product_id == m.product_id)
+                consumptions.append({
+                    'production_id': self.id,
+                    'product_id': m.product_id.id,
+                    'lot_id': m.lot_ids[0].id if m.lot_ids else False,
+                    'quantity': -m.product_qty,
+                    'uom_id': m.product_uom.id,
+                    'order': bom_line_id.sequence if bom_line_id else 999
+                })
 
-            sc = p.env['mrp.production.store.consumption']
-            p.store_consumption_ids = sc
-            for c in consumptions:
-                if c['quantity'] != 0:
-                    sc |= sc.create(c)
-            p.store_consumption_ids = sc
+        sc = self.env['mrp.production.store.consumption']
+        self.store_consumption_ids = sc
+        for c in consumptions:
+            if c['quantity'] != 0:
+                sc |= sc.create(c)
+        self.store_consumption_ids = sc
 
-            # Return pickings
-            for po in p.manual_return_pickings.mapped('pack_operation_ids'):
-                idx = -1
-                for i, obj in enumerate(consumptions):
-                    if obj['product_id'] == po.product_id.id and \
-                        obj['lot_id'] == po.lot_id.id:
-                       idx = i
-                sign = -1 if po.location_dest_id.usage == 'internal' else 1
-                if idx > -1:
-                    consumptions[idx]['quantity'] += po.product_qty * sign
-                else:
-                    bom_line_id = p.bom_id.bom_line_ids.\
-                        filtered(lambda r: r.product_id == po.product_id)
-                    consumptions.append({
-                        'production_id': p.id,
-                        'product_id': po.product_id.id,
-                        'lot_id': po.lot_id.id,
-                        'quantity': po.product_qty * sign,
-                        'uom_id': po.product_uom_id.id,
-                        'order': bom_line_id.sequence if bom_line_id else 999
-                    })
+        # Return pickings
+        for po in self.manual_return_pickings.mapped('pack_operation_ids'):
+            idx = -1
+            for i, obj in enumerate(consumptions):
+                if obj['product_id'] == po.product_id.id and \
+                    obj['lot_id'] == po.lot_id.id:
+                   idx = i
+            sign = -1 if po.location_dest_id.usage == 'internal' else 1
+            if idx > -1:
+                consumptions[idx]['quantity'] += po.product_qty * sign
+            else:
+                bom_line_id = self.bom_id.bom_line_ids.\
+                    filtered(lambda r: r.product_id == po.product_id)
+                consumptions.append({
+                    'production_id': self.id,
+                    'product_id': po.product_id.id,
+                    'lot_id': po.lot_id.id,
+                    'quantity': po.product_qty * sign,
+                    'uom_id': po.product_uom_id.id,
+                    'order': bom_line_id.sequence if bom_line_id else 999
+                })
 
-            qc = p.env['mrp.production.quality.consumption']
-            p.quality_consumption_ids = qc
-            for c in consumptions:
-                if c['quantity'] != 0:
-                    qc |= qc.create(c)
-            p.quality_consumption_ids = qc
+        qc = self.env['mrp.production.quality.consumption']
+        self.quality_consumption_ids = qc
+        for c in consumptions:
+            if c['quantity'] != 0:
+                qc |= qc.create(c)
+        self.quality_consumption_ids = qc
 
     @api.one
     def _next_lot(self):
