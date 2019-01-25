@@ -18,6 +18,9 @@ class Ean10Code(models.Model):
                 sum += int(code[d]) * (1 if d % 2 == 0 else 3)
             return (10 - sum % 10) % 10
 
+        # Reserved EAN for company
+        reserved_ean = self.env.user.company_id.partner_id.gln
+
         # Search and delete all previously generated ean13 codes
         ean13_ids = self.env['ean13.product']
         for ean10 in self:
@@ -35,7 +38,9 @@ class Ean10Code(models.Model):
             for pair in range(100):
                 control_digit = control_code13('{}{:02d}'.format(ean10.name, pair))
                 ean13 = '{}{:02d}{:d}'.format(ean10.name, pair, control_digit)
-                product_ids = product_ids.search([('ean13', '=', ean13)])
+                reserved = ean13 == reserved_ean
+                product_ids = product_ids.\
+                    search([('ean13', '=', ean13)])
                 if product_ids:
                     for product_id in product_ids:
                         ean10_ean13_ids |= ean13_ids.create({
@@ -43,15 +48,18 @@ class Ean10Code(models.Model):
                             'product_id': product_id.id,
                             'default_code': product_id.default_code,
                             'country_id': product_id.country.id,
-                            'uses': len(product_ids)
+                            'uses': len(product_ids),
+                            'reserved': reserved or product_id.type == 'service'
                         })
                 else:
                     ean10_ean13_ids |= ean13_ids.create({
                         'name': ean13,
                         'product_id': False,
-                        'default_code': False,
+                        'default_code': self.env.user.company_id.name if reserved
+                                                                      else False,
                         'country_id': False,
-                        'uses': 0
+                        'uses': 1 if reserved else 0,
+                        'reserved': reserved
                     })
         return ean10_ean13_ids
 
@@ -83,6 +91,7 @@ class Ean13Product(models.Model):
     default_code = fields.Char(readonly=True)
     country_id = fields.Many2one(comodel_name='res.country', readonly=True)
     uses = fields.Integer(readonly=True)
+    reserved = fields.Boolean()
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
@@ -104,9 +113,13 @@ class Ean13International(models.Model):
     default_code = fields.Char(readonly=True)
     country_id = fields.Many2one(comodel_name='res.country', readonly=True)
     uses = fields.Integer(readonly=True)
+    reserved = fields.Boolean()
 
     @api.model
     def _generate_and_search_ean13(self):
+        # Reserved EAN for company
+        reserved_ean = self.env.user.company_id.partner_id.gln
+
         ean13_ids = self.env['ean13.international'].\
             with_context(generating_ean13=True).search([])
         ean13_names = list(set(ean13_ids.mapped('name')))  # Avoid duplicates
@@ -116,6 +129,7 @@ class Ean13International(models.Model):
         ean13_ids = self.env['ean13.international']
 
         for ean13 in ean13_names:
+            reserved = ean13 == reserved_ean
             product_ids = product_ids.search([('ean13', '=', ean13)])
             if product_ids:
                 for product_id in product_ids:
@@ -124,15 +138,18 @@ class Ean13International(models.Model):
                         'product_id': product_id.id,
                         'default_code': product_id.default_code,
                         'country_id': product_id.country.id,
-                        'uses': len(product_ids)
+                        'uses': len(product_ids),
+                        'reserved': reserved or product_id.type == 'service'
                     })
             else:
                 ean13_ids |= ean13_ids.with_context(generating_ean13=True).create({
                     'name': ean13,
                     'product_id': False,
-                    'default_code': False,
+                    'default_code': self.env.user.company_id.name if reserved
+                                                                  else False,
                     'country_id': False,
-                    'uses': 0
+                    'uses': 1 if reserved else 0,
+                    'reserved': reserved
                 })
         return ean13_ids
 

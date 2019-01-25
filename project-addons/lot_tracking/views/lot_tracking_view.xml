@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="paperformat_lot_tracking" model="report.paperformat">
-            <field name="name">Lot tracking</field>
-            <field name="default" eval="True"/>
-            <field name="format">custom</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">13</field>
-            <field name="margin_bottom">3</field>
-            <field name="margin_left">3</field>
-            <field name="margin_right">3</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">10</field>
-            <field name="dpi">90</field>
-        </record>
-
-        <report
-            id="action_report_lot_tracking"
-            model="lot.tracking"
-            string="Lot tracking"
-            report_type="qweb-pdf"
-            name="lot_tracking.report_lot_tracking"
-            attachment_use="False"
-        />
-
-        <record id="action_report_lot_tracking" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="paperformat_lot_tracking"/>
-        </record>
-
         <record id="view_lot_tracking_tree" model="ir.ui.view">
             <field name="name">Lot tracking tree</field>
             <field name="model">lot.tracking</field>
@@ -57,9 +30,15 @@
                                 <field name="total"/>
                             </group>
                         </group>
-                        <separator string="Lot movements"/>
+                        <button string="Get traceability"
+                                name="get_traceability"
+                                type="object"
+                                class="oe_highlight oe_read_only"/>
+                        <separator string="Lot movements" style="margin-bottom: -5px;"/>
                         <field name="lot_move_ids">
-                            <button onclick="$('div.oe_view_manager_view_form div.oe_view_manager a#button_export_excel').trigger('click');">Export to excel</button>
+                            <button onclick="$('div.oe_view_manager_view_form div.oe_view_manager a#button_export_excel').trigger('click');"
+                                    class="oe_right"
+                                    style="margin-top: -30px;">Exportar a excel</button>
                             <tree string="Lot movements"
                                   default_order="date"
                                   colors="red:type=='input';green:type=='output';blue:type=='internal'">
@@ -80,17 +59,46 @@
             </field>
         </record>
 
+        <menuitem id="menu_lot_tracking"
+                  name="Lot tracking"
+                  parent="quality_management_menu.menu_qc_products"
+                  sequence="3"/>
+
         <record id="action_view_lot_tracking" model="ir.actions.act_window">
-            <field name="name">Lot tracking</field>
+            <field name="name">Simple</field>
             <field name="res_model">lot.tracking</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_lot_tracking_tree"/>
         </record>
 
-        <menuitem id="menu_view_lot_tracking"
-                  parent="quality_management_menu.menu_qc_products"
-                  action="action_view_lot_tracking" sequence="3"/>
+        <menuitem id="menu_lot_tracking_simple"
+                  parent="lot_tracking.menu_lot_tracking"
+                  action="action_view_lot_tracking" sequence="1"/>
+
+        <record id="action_view_lot_tracking_from_origin" model="ir.actions.act_window">
+            <field name="name">From origin</field>
+            <field name="res_model">lot.tracking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_lot_tracking_tree"/>
+        </record>
+
+        <!--menuitem id="menu_lot_tracking_complete_from_origin"
+                  parent="lot_tracking.menu_lot_tracking"
+                  action="action_view_lot_tracking_from_origin" sequence="3"/>
+
+        <record id="action_view_lot_tracking_from_destination" model="ir.actions.act_window">
+            <field name="name">From destination</field>
+            <field name="res_model">lot.tracking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_lot_tracking_tree"/>
+        </record>
+
+        <menuitem id="menu_lot_tracking_complete_from_destination"
+                  parent="lot_tracking.menu_lot_tracking"
+                  action="action_view_lot_tracking_from_destination" sequence="4"/-->
 
         <record id="view_lot_tracking_move_form" model="ir.ui.view">
             <field name="name">Lot tracking move form</field>

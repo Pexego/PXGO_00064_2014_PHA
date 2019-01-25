@@ -27,9 +27,9 @@ class StockAvailable(models.TransientModel):
 class StockAvailableDetails(models.TransientModel):
     _name = 'stock.available.details'
     _description = 'Available stock for bill of materials lines'
-    _rec_name = 'product'
+    _rec_name = 'product_id'
 
-    product = fields.Char(string='Product')
+    product_id = fields.Many2one(string='Product', comodel_name='product.product')
     default_code = fields.Char(string='Internal Reference')
     qty_required = fields.Float(string='Quantity required', digits=(16,2))
     qty_vsc_available = fields.Float(string='Virtual stock conservative',
@@ -45,6 +45,7 @@ class StockAvailableDetails(models.TransientModel):
                                      ('incoming', 'Incoming'),
                                      ('no_stock', 'Not available')],
                                     string='Stock status', default='ok')
+    bom_member = fields.Boolean(default=False)
 
 
 class StockAvailable(models.TransientModel):
@@ -79,7 +80,7 @@ class StockAvailable(models.TransientModel):
                 stock_status = 'ok'
 
             self.bom_lines.create({
-                'product': line.product_id.name,
+                'product_id': line.product_id.id,
                 'default_code': line.product_id.default_code,
                 'qty_required': qty_required,
                 'qty_vsc_available': qty_vsc_available,
@@ -88,7 +89,8 @@ class StockAvailable(models.TransientModel):
                 'qty_incoming': qty_incoming,
                 'uom': line.product_uom.name,
                 'bom_stock': self.id,
-                'stock_status': stock_status
+                'stock_status': stock_status,
+                'bom_member': line.product_id.bom_member
             })
         return self
 

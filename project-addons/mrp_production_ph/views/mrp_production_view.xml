@@ -11,6 +11,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
+                <field name="product_uom" position="after">
+                    <field name="hoards_quants_reserved" invisible="1"/>
+                </field>
+                <button string="Update" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible': ['|', ('hoards_quants_reserved', '=', True)]}
+                    </attribute>
+                </button>
                 <button name="get_hoard" position="after">
                     <button class="oe_inline oe_stat_button"
                             name="action_call_update_display_url"
@@ -88,6 +96,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         </group>
                     </page>
                 </page>
+            </field>
+        </record>
+
+        <record id="mrp_production_ph_filter_view" model="ir.ui.view">
+            <field name="name">MRP Production filter view</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="arch" type="xml">
+                <field name="routing_id" position="after">
+                    <field name="final_lot_id"/>
+                </field>
             </field>
         </record>
     </data>

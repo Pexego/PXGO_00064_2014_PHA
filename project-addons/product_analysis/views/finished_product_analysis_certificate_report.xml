@@ -110,7 +110,14 @@
                                 <t t-if="a.analysis_id.id not in (372, 373, 374) and a.show_in_certificate">
                                     <div class="col-xs-12" style="border: 1px solid black; border-top: 0;">
                                         <div t-field="a.analysis_id" class="col-xs-6"/>
-                                        <div t-field="a.expected_result" class="col-xs-3"/>
+                                        <div class="col-xs-3">
+                                            <t t-if="a.criterion != 'informative'">
+                                                <span t-field="a.expected_result"/>
+                                            </t>
+                                            <t t-if="a.criterion == 'informative'">
+                                                <span t-field="a.criterion"/>
+                                            </t>
+                                        </div>
                                         <div class="col-xs-3">
                                             <t t-if="a.realized">
                                                 <t t-if="a.result">

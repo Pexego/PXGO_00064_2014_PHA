@@ -18,10 +18,24 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="default_code"/>
                     </group>
                     <separator string="Lists of materials"/>
-                    <field name="bom_id">
+                    <field name="bom_ids">
                         <tree default_order="stock_by_day_p">
                             <field name="default_code"/>
-                            <field name="product_id" string="Bill of materials"/>
+                            <field name="name" string="Bill of materials"/>
+                            <field name="qty_available"/>
+                            <field name="virtual_available"/>
+                            <field name="virtual_conservative"/>
+                            <field name="cons_by_day_p"/>
+                            <field name="cons_by_day_i"/>
+                            <field name="stock_by_day_p"/>
+                            <field name="stock_by_day_i"/>
+                        </tree>
+                    </field>
+                    <separator string="Indirect lists of materials"/>
+                    <field name="indirect_bom_ids">
+                        <tree default_order="stock_by_day_p">
+                            <field name="default_code"/>
+                            <field name="name" string="Bill of materials"/>
                             <field name="qty_available"/>
                             <field name="virtual_available"/>
                             <field name="virtual_conservative"/>

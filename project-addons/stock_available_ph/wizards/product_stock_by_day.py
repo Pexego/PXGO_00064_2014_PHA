@@ -9,6 +9,10 @@ import logging
 class ProductStockByDay(models.TransientModel):
     _name = 'product.stock.by.day'
 
+    data = {}
+    bom_member_of_ids = False
+    bom_line_dict = {}
+
     @api.multi
     def compute_stock_by_day(self):
         FLAG = 9999999.99  # Flag to detect unaltered data
@@ -33,18 +37,12 @@ class ProductStockByDay(models.TransientModel):
         # Compute a year ago date
         a_year_ago = (date.today() + timedelta(days=-365)).strftime('%Y-%m-%d')
 
-        # Dictionary to minimize database writes
-        data = {}
-
         # Closures to avoid code repetition
         def sbd_formula(cbd, vc):  # Consumption by day, virtual conservative stock
             if vc > 0:
                 return (vc / cbd) if cbd > 0 else FLAG
             elif vc < 0:
-                if cbd == 0:
-                    return -FLAG
-                else:
-                    return (vc / cbd) * (1 if cbd > 0 else -1)
+                return -FLAG if cbd == 0 else (vc / cbd) * (1 if cbd > 0 else -1)
             else:
                 return 0
 
@@ -52,19 +50,46 @@ class ProductStockByDay(models.TransientModel):
             cons_by_day_i = invoiced_qty / 365
             stock_by_day_i = sbd_formula(cons_by_day_i,
                                          product_id.virtual_conservative)
-            if not data.has_key(product_id.id):
-                data[product_id.id] = empty_dict.copy()
-            data[product_id.id]['stock_by_day_i'] = stock_by_day_i
-            data[product_id.id]['cons_by_day_i'] = cons_by_day_i
+            if not self.data.has_key(product_id.id):
+                self.data[product_id.id] = empty_dict.copy()
+            self.data[product_id.id]['stock_by_day_i'] = stock_by_day_i
+            self.data[product_id.id]['cons_by_day_i'] = cons_by_day_i
 
         def save_sbd_and_cbd_p():
             cons_by_day_p = moved_qty / 365
             stock_by_day_p = sbd_formula(cons_by_day_p,
                                          product_id.virtual_conservative)
-            if not data.has_key(product_id.id):
-                data[product_id.id] = empty_dict.copy()
-            data[product_id.id]['stock_by_day_p'] = stock_by_day_p
-            data[product_id.id]['cons_by_day_p'] = cons_by_day_p
+            if not self.data.has_key(product_id.id):
+                self.data[product_id.id] = empty_dict.copy()
+            self.data[product_id.id]['stock_by_day_p'] = stock_by_day_p
+            self.data[product_id.id]['cons_by_day_p'] = cons_by_day_p
+
+        def compute_indirect_consumption(product_id):
+            bom_line_dict_list = []
+            for key, value in self.bom_line_dict.items():
+                if value['product_id'] == product_id:
+                    bom_line_dict_list.append(self.bom_line_dict.pop(key))
+
+            for bom_line in bom_line_dict_list:
+                # If final product of BoM is yet to be calculated, do it before
+                if bom_line['final_product_id'] in self.bom_member_of_ids:
+                    compute_indirect_consumption(bom_line['final_product_id'])
+
+                fp = bom_line['final_product_id'].id  # Final product
+                c = product_id.id  # Component of BoM
+                if self.data.has_key(fp):
+                    qty = bom_line['product_qty']
+                    if not self.data.has_key(c):
+                        self.data[c] = empty_dict.copy()
+                    self.data[c]['cons_by_day_i_ind'] += \
+                        self.data[fp]['cons_by_day_i'] * qty
+                    self.data[c]['cons_by_day_p_ind'] += \
+                        self.data[fp]['cons_by_day_p'] * qty
+                    if self.data[fp]['stock_by_day_p'] < \
+                            self.data[c]['stock_by_day_p_ind_min']:
+                        self.data[c]['stock_by_day_p_ind_min'] = \
+                            self.data[fp]['stock_by_day_p']
+                self.bom_member_of_ids -= product_id
 
         # Products invoiced quantities in last year
         logger.info('Stock by Day: Computing stock by day based on invoices...')
@@ -136,33 +161,30 @@ class ProductStockByDay(models.TransientModel):
         logger.info('Stock by Day: Computing indirect stock by day of BoM '
                     'members...')
 
-        bom_lines = self.env['mrp.bom.line'].search([
+        # Get all active BoM lines and products that are members of any BoM
+        bom_line_ids = self.env['mrp.bom.line'].search([
             ('product_id.active', '=', True),
-            ('product_id.type', '=', 'product'),
             ('bom_id.active', '=', True),
-            ('bom_id.product_id.active', '=', True)
+            ('bom_id.product_id.active', '=', True),
+            ('bom_id.sequence', '<', 100)
         ], order='product_id')
-        if bom_lines:
-            for bom_line in bom_lines:
-                fp = bom_line.bom_id.product_id.id  # Final product
-                c = bom_line.product_id.id  # Component of BoM
-                qty = bom_line.product_qty
-                if data.has_key(fp):
-                    if not data.has_key(c):
-                        data[c] = empty_dict.copy()
-                    data[c]['cons_by_day_i_ind'] += \
-                        data[fp]['cons_by_day_i'] * qty
-                    data[c]['cons_by_day_p_ind'] += \
-                        data[fp]['cons_by_day_p'] * qty
-                    if data[fp]['stock_by_day_p'] < \
-                            data[c]['stock_by_day_p_ind_min']:
-                        data[c]['stock_by_day_p_ind_min'] = \
-                            data[fp]['stock_by_day_p']
+        self.bom_member_of_ids = bom_line_ids.mapped('product_id')
+        # Iterating dictionaries are much faster than model recursive searching
+        for bom_line_id in bom_line_ids:
+            self.bom_line_dict[bom_line_id.id] = {
+                'product_id': bom_line_id.product_id,
+                'final_product_id': bom_line_id.bom_id.product_id,
+                'product_qty': bom_line_id.product_qty
+            }
+        del bom_line_ids  # Free resources
+
+        while self.bom_member_of_ids:
+            compute_indirect_consumption(self.bom_member_of_ids[0])
 
         # Now, iterate dictionary to do final calculations and
         # write computed data back to database
         logger.info('Stock by Day: Doing final calculations and writing data '
-                    'back to %d products' % (len(data)))
+                    'back to %d products' % (len(self.data)))
 
         products = self.env['product.product']
         product_stock_unsafety = self.env['product.stock.unsafety']
@@ -172,7 +194,7 @@ class ProductStockByDay(models.TransientModel):
             {'sbd': 'stock_by_day_i_total', 'cbd': 'cons_by_day_i_total'},
             {'sbd': 'stock_by_day_p_total', 'cbd': 'cons_by_day_p_total'}
         ]
-        for id, values in data.iteritems():
+        for id, values in self.data.iteritems():
             product_id = products.browse(id)
             values['cons_by_day_i_total'] = values['cons_by_day_i'] + \
                                             values['cons_by_day_i_ind']
@@ -205,13 +227,13 @@ class ProductStockByDay(models.TransientModel):
 
         products.search([
             ('type', '=', 'product'),
-            ('id', 'not in', data.keys())
+            ('id', 'not in', self.data.keys())
         ]).with_context(disable_notify_changes=True).write(empty_dict)
 
         product_stock_unsafety.search([
             ('product_id.type', '=', 'product'),
             ('state', '!=', 'cancelled'),
-            ('product_id.id', 'not in', data.keys())
+            ('product_id.id', 'not in', self.data.keys())
         ]).write({
             'stock_by_day_i': FLAG,
             'stock_by_day_p': FLAG,

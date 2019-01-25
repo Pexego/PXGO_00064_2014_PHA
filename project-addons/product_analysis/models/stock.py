@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2014 Pexego
-# © 2018 Pharmadus I.T.
+# © 2019 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, exceptions, _
@@ -147,6 +147,10 @@ class StockProductionLot(models.Model):
     analysis_passed = fields.Boolean('Analysis passed')
     revised_by = fields.Char('Revised by')
     used_lots = fields.Text(compute='_compute_used_lots')
+    production_id = fields.Many2one(string='Manufacturing order',
+                                    comodel_name='mrp.production',
+                                    compute='_compute_used_lots',
+                                    readonly=True)
     origin_type = fields.Selection([
         ('unspecified', 'Unspecified'),
         ('eu', 'EU product'),
@@ -186,30 +190,29 @@ class StockProductionLot(models.Model):
     @api.multi
     def _compute_used_lots(self):
         for lot in self:
-            quants = self.env['stock.quant'].search([('lot_id', '=', lot.id)])
-            moves = self.env['stock.move']
-            moves = quants.mapped('history_ids').filtered(
-                lambda r: not r.parent_ids or r.production_id).mapped(
-                'parent_ids')
             lots_str = [_('<table class="product_analysis_used_lots_table">'
                           '<thead><tr><th>Product</th><th>Ref F</th>'
-                          '<th>Lot</th><th>Aprobation date</th><th>Lot state</th>'
+                          '<th>Lot</th><th>Approbation date</th><th>Lot state</th>'
                           '</tr></thead><tbody>')]
-            for used_lot in moves.mapped('lot_ids'):
+            lot.production_id = self.env['mrp.production'].search([
+                ('final_lot_id', '=', lot.id)])
+            consumption_ids = lot.production_id.mapped('quality_consumption_ids')
+            for consumption_id in consumption_ids:
                 lot_state_str = dict(
-                    used_lot.fields_get(
-                        ['state'])['state']['selection'])[used_lot.state]
-                if used_lot.acceptance_date:
+                    consumption_id.lot_id.fields_get(
+                        ['state'])['state']['selection'])[consumption_id.lot_id.state]
+                if consumption_id.lot_id.acceptance_date:
                     acceptance_date = datetime.strptime(
-                        used_lot.acceptance_date, '%Y-%m-%d').strftime('%d/%m/%Y')
+                        consumption_id.lot_id.acceptance_date, '%Y-%m-%d').\
+                        strftime('%d/%m/%Y')
                 else:
                     acceptance_date = ''
                 lots_str.append(
                     u'<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td>'
                     '<td>{}</td></tr>'.format(
-                        used_lot.product_id.name,
-                        used_lot.product_id.default_code,
-                        used_lot.name,
+                        consumption_id.lot_id.product_id.name,
+                        consumption_id.product_id.default_code,
+                        consumption_id.lot_id.name,
                         acceptance_date,
                         lot_state_str))
 
@@ -307,7 +310,7 @@ class StockProductionLot(models.Model):
                 lambda r: r.product_id.categ_id.analysis_sequence)
             raw_lot = use_move and use_move[0].quant_ids and \
                 use_move[0].quant_ids[0].lot_id or False
-            if not raw_lot:
+            if not raw_lot or self.env.context.get('full_analysis_copy'):
                 select_id = self.env['stock.production.lot.select'].create({
                     'dest_lot_id': self.id
                 })

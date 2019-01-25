@@ -85,17 +85,23 @@ class MrpProductionUseLot(models.TransientModel):
 
     @api.multi
     def action_use_lot(self):
+        self.ensure_one()
         if self.env.context.get('add_suffix_from_lot'):
             suffix = self.lot_id.name
             aPos = [pos for pos, char in enumerate(suffix) if char == '-']
             if len(aPos) > 1:
-                self.production_id.final_lot_id.name += suffix[aPos[-2]:]
+                lot_id = self.production_id.final_lot_id
+                # Using sudo() to avoid mail warnings about modified lot names
+                lot_id.sudo().write({
+                    'name': lot_id.name + suffix[aPos[-2]:],
+                    'use_date': self.use_date,
+                    'duration_type': self.duration_type
+                })
             else:
                 raise exceptions.Warning(_('Lot error'),
                                          _('The selected lot do not have the '
                                            'expected suffix format.'))
         else:
-            self.ensure_one()
             lot_id = self.production_id.final_lot_id.create({
                 'name': self.lot_id.name,
                 'product_id': self.production_id.product_id.id,

@@ -1,22 +1,25 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* lot_tracking
+# 	* lot_tracking
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-20 13:14+0000\n"
-"PO-Revision-Date: 2017-01-20 13:14+0000\n"
+"POT-Creation-Date: 2019-01-25 13:54+0000\n"
+"PO-Revision-Date: 2019-01-25 15:06+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
 msgid "&nbsp;"
 msgstr "&nbsp;"
 
@@ -26,9 +29,9 @@ msgid "All movements"
 msgstr "Todos los movimientos"
 
 #. module: lot_tracking
-#: view:website:lot_tracking.report_lot_tracking
-msgid "QUANTITY"
-msgstr "CANTIDAD"
+#: selection:stock.lot.move,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
 
 #. module: lot_tracking
 #: field:lot.tracking,company_id:0
@@ -36,14 +39,25 @@ msgid "Company"
 msgstr "Empresa"
 
 #. module: lot_tracking
-#: field:lot.tracking,create_uid:0
+#: field:lot.tracking,create_uid:0 field:lot.tracking.productions,create_uid:0
+#: field:stock.lot.move,create_uid:0
+#: field:stock.lot.move.productions,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: lot_tracking
 #: field:lot.tracking,create_date:0
+#: field:lot.tracking.productions,create_date:0
+#: field:stock.lot.move,create_date:0
+#: field:stock.lot.move.productions,create_date:0
 msgid "Created on"
 msgstr "Creado el"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "DATE"
+msgstr "FECHA"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
@@ -56,30 +70,19 @@ msgid "DESTINATION"
 msgstr "DESTINO"
 
 #. module: lot_tracking
-#: field:stock.lot.move,in_date:0
+#: field:stock.lot.move,date:0 field:stock.lot.move.productions,date:0
 msgid "Date"
 msgstr "Fecha"
 
 #. module: lot_tracking
-#: field:stock.lot.move,location_id:0
-msgid "Destination Location"
-msgstr "Ubicación de destino"
+#: field:lot.tracking.productions,date_received:0
+msgid "Date received"
+msgstr "Fecha recepción"
 
 #. module: lot_tracking
-#: field:lot.tracking,display_name:0
-#: field:stock.lot.move,display_name:0
-msgid "Display Name"
-msgstr "Nombre"
-
-#. module: lot_tracking
-#: view:lot.tracking:lot_tracking.view_lot_tracking_form
-msgid "Export to excel"
-msgstr "Exportar a excel"
-
-#. module: lot_tracking
-#: view:website:lot_tracking.report_lot_tracking
-msgid "DATE"
-msgstr "FECHA"
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "Date received:"
+msgstr "Fecha recepción:"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
@@ -87,8 +90,60 @@ msgid "Date:"
 msgstr "Fecha:"
 
 #. module: lot_tracking
-#: field:lot.tracking,id:0
-#: field:stock.lot.move,id:0
+#: field:stock.lot.move,location_dest_id:0
+#: field:stock.lot.move.productions,location_dest_id:0
+msgid "Destination location"
+msgstr "Ubicación de destino"
+
+#. module: lot_tracking
+#: field:lot.tracking,display_name:0
+#: field:lot.tracking.productions,display_name:0
+#: field:stock.lot.move,display_name:0
+#: field:stock.lot.move.productions,display_name:0
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: lot_tracking
+#: selection:stock.lot.move,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: lot_tracking
+#: view:lot.tracking:lot_tracking.view_lot_tracking_form
+#: view:lot.tracking.productions:lot_tracking.view_lot_tracking_productions_form
+msgid "Exportar a excel"
+msgstr "Exportar a excel"
+
+#. module: lot_tracking
+#: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking_from_origin
+msgid "From origin"
+msgstr "Desde origen"
+
+#. module: lot_tracking
+#: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking_from_productions
+#: model:ir.ui.menu,name:lot_tracking.menu_lot_tracking_from_productions
+msgid "From productions"
+msgstr "Desde producciones"
+
+#. module: lot_tracking
+#: view:lot.tracking:lot_tracking.view_lot_tracking_form
+#: view:lot.tracking.productions:lot_tracking.view_lot_tracking_productions_form
+msgid "Get traceability"
+msgstr "Obtener trazabilidad"
+
+#. module: lot_tracking
+#: field:lot.tracking.productions,harnessing:0
+msgid "Harnessing"
+msgstr "Aprovechamiento"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "Harnessing:"
+msgstr "Aprovechamiento:"
+
+#. module: lot_tracking
+#: field:lot.tracking,id:0 field:lot.tracking.productions,id:0
+#: field:stock.lot.move,id:0 field:stock.lot.move.productions,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -98,34 +153,56 @@ msgid "Inputs & Outputs"
 msgstr "Entradas y salidas"
 
 #. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "LOT"
+msgstr "LOTE"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "LOT TRACKING FROM PRODUCTIONS:"
+msgstr "TRAZABILIDAD DESDE PRODUCCIONES:"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking
+msgid "LOT TRACKING:"
+msgstr "SEGUIMIENTO DEL LOTE:"
+
+#. module: lot_tracking
 #: field:lot.tracking,__last_update:0
+#: field:lot.tracking.productions,__last_update:0
 #: field:stock.lot.move,__last_update:0
+#: field:stock.lot.move.productions,__last_update:0
 msgid "Last Modified on"
 msgstr "Última modificación"
 
 #. module: lot_tracking
-#: field:lot.tracking,write_uid:0
+#: field:lot.tracking,write_uid:0 field:lot.tracking.productions,write_uid:0
+#: field:stock.lot.move,write_uid:0
+#: field:stock.lot.move.productions,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: lot_tracking
-#: field:lot.tracking,write_date:0
+#: field:lot.tracking,write_date:0 field:lot.tracking.productions,write_date:0
+#: field:stock.lot.move,write_date:0
+#: field:stock.lot.move.productions,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización"
 
 #. module: lot_tracking
-#: help:stock.lot.move,destination_id:0
-msgid "Location where the system will stock the finished products."
-msgstr "Ubicación donde el sistema almacenará los productos terminados."
+#: field:lot.tracking.productions,lot_id:0
+#: field:stock.lot.move.productions,lot_id:0
+msgid "Lot"
+msgstr "Lote"
 
 #. module: lot_tracking
-#: field:lot.tracking,lot_id:0
-#: field:stock.lot.move,lot_id:0
+#: field:lot.tracking,lot_id:0 field:stock.lot.move,lot_id:0
 msgid "Lot id"
 msgstr "Lote"
 
 #. module: lot_tracking
 #: field:lot.tracking,lot_move_ids:0
+#: field:lot.tracking.productions,lot_move_ids:0
 msgid "Lot move ids"
 msgstr "Movimientos"
 
@@ -135,17 +212,38 @@ msgid "Lot movements"
 msgstr "Movimientos de lote"
 
 #. module: lot_tracking
-#: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking
+#: view:lot.tracking.productions:lot_tracking.view_lot_tracking_productions_form
+msgid "Lot movements from productions"
+msgstr "Movimientos de lote desde producciones"
+
+#. module: lot_tracking
 #: model:ir.actions.report.xml,name:lot_tracking.action_report_lot_tracking
-#: model:ir.ui.menu,name:lot_tracking.menu_view_lot_tracking
+#: model:ir.ui.menu,name:lot_tracking.menu_lot_tracking
 #: view:lot.tracking:lot_tracking.view_lot_tracking_form
 msgid "Lot tracking"
 msgstr "Trazabilidad de lotes"
 
 #. module: lot_tracking
-#: help:stock.lot.move,date:0
-msgid "Move date: scheduled date until move is done, then date of actual move processing"
-msgstr "Fecha movimiento: Fecha programada hasta realización del movimiento, después fecha del movimiento"
+#: model:ir.actions.report.xml,name:lot_tracking.action_report_lot_tracking_productions
+#: view:lot.tracking.productions:lot_tracking.view_lot_tracking_productions_form
+msgid "Lot tracking from productions"
+msgstr "Trazabilidad desde producciones"
+
+#. module: lot_tracking
+#: view:stock.lot.move.productions:lot_tracking.view_lot_tracking_productions_move_form
+msgid "Lot tracking from productions movements"
+msgstr "Trazabilidad desde movimientos de producciones"
+
+#. module: lot_tracking
+#: field:stock.lot.move,lot_tracking_id:0
+#: field:stock.lot.move.productions,lot_tracking_id:0
+msgid "Lot tracking id"
+msgstr "ID de trazabilidad de lote"
+
+#. module: lot_tracking
+#: view:stock.lot.move:lot_tracking.view_lot_tracking_move_form
+msgid "Lot tracking move"
+msgstr "Movimiento de trazabilidad de lote"
 
 #. module: lot_tracking
 #: field:stock.lot.move,move_id:0
@@ -154,18 +252,40 @@ msgstr "ID movimiento"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
 msgid "ORIGIN"
-msgstr "ORIGEN"
+msgstr "DOCUMENTO DE ORIGEN"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
 msgid "ORIGIN DOC."
-msgstr "DOC.ORIGEN"
+msgstr "DOC. ORIGEN"
 
 #. module: lot_tracking
-#: field:stock.lot.move,origin:0
+#: field:stock.lot.move,origin:0 field:stock.lot.move.productions,origin:0
 msgid "Origin"
 msgstr "Origen"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking
+msgid "PICKING"
+msgstr "Albarán"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "PRODUCT"
+msgstr "PRODUCTO"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "Page:"
+msgstr "Página:"
+
+#. module: lot_tracking
+#: selection:stock.lot.move,state:0
+msgid "Partially Available"
+msgstr "Parcialmente disponible"
 
 #. module: lot_tracking
 #: field:stock.lot.move,partner_id:0
@@ -173,15 +293,10 @@ msgid "Partner"
 msgstr "Destinatario"
 
 #. module: lot_tracking
-#: field:stock.lot.move,picking_id:0
-#: field:stock.move,picking_id:0
-msgid "Reference"
-msgstr "Albarán"
-
-#. module: lot_tracking
-#: view:website:lot_tracking.report_lot_tracking
-msgid "PICKING"
-msgstr "Albarán"
+#: field:lot.tracking.productions,product_id:0
+#: field:stock.lot.move.productions,product_id:0
+msgid "Product"
+msgstr "Producto"
 
 #. module: lot_tracking
 #: field:lot.tracking,product_id:0
@@ -190,13 +305,19 @@ msgstr "Producto"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
 msgid "Product:"
 msgstr "Producto:"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
-msgid "Page:"
-msgstr "Página:"
+msgid "QUANTITY"
+msgstr "CANTIDAD"
+
+#. module: lot_tracking
+#: field:lot.tracking.productions,qty_received:0
+msgid "Qty received"
+msgstr "Cdad. recibida"
 
 #. module: lot_tracking
 #: field:stock.lot.move,qty:0
@@ -204,29 +325,96 @@ msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: lot_tracking
-#: model:ir.model,name:lot_tracking.model_stock_quant
-msgid "Quants"
-msgstr "Quants"
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "Quantity received:"
+msgstr "Cantidad recibida:"
 
 #. module: lot_tracking
-#: help:stock.lot.move,location_id:0
-msgid "Sets a location if you produce at a fixed location. This can be a partner location if you subcontract the manufacturing operations."
-msgstr "Ubicación de origen del producto."
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "REAL CONS. QUANTITY"
+msgstr "CANTIDAD REAL CONSUMIDA"
 
 #. module: lot_tracking
-#: view:website:lot_tracking.report_lot_tracking
-msgid "LOT TRACKING:"
-msgstr "SEGUIMIENTO DEL LOTE:"
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "REAL PROD. UNITS"
+msgstr "UNIDADES REALES FABRICADAS"
+
+#. module: lot_tracking
+#: selection:stock.lot.move,state:0
+msgid "Ready to Transfer"
+msgstr "Listo para transferir"
+
+#. module: lot_tracking
+#: field:stock.lot.move.productions,real_consumed_qty:0
+msgid "Real consumed qty"
+msgstr "Cdad. real consumida"
+
+#. module: lot_tracking
+#: field:stock.lot.move.productions,real_produced_units:0
+msgid "Real produced units"
+msgstr "Unid. reales fabr."
+
+#. module: lot_tracking
+#: field:stock.lot.move,picking_id:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "STOCK QUANTITY"
+msgstr "CANTIDAD STOCK"
+
+#. module: lot_tracking
+#: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking
+#: model:ir.ui.menu,name:lot_tracking.menu_lot_tracking_simple
+msgid "Simple"
+msgstr "Simple"
 
 #. module: lot_tracking
 #: field:stock.lot.move,location_id:0
+#: field:stock.lot.move.productions,location_id:0
 msgid "Source Location"
 msgstr "Ubicación de origen"
 
 #. module: lot_tracking
-#: field:stock.lot.move,location_dest_id:0
-msgid "Destination location"
-msgstr "Ubicación de destino"
+#: field:stock.lot.move,state:0
+msgid "Status"
+msgstr "Estado"
+
+#. module: lot_tracking
+#: field:stock.lot.move.productions,stock_qty:0
+msgid "Stock qty"
+msgstr "Cdad. stock"
+
+#. module: lot_tracking
+#: field:lot.tracking.productions,supplier_id:0
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: lot_tracking
+#: field:lot.tracking.productions,supplier_lot:0
+msgid "Supplier lot"
+msgstr "Lote proveedor"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "Supplier lot:"
+msgstr "Lote de proveedor:"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "Supplier:"
+msgstr "Proveedor:"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "THEOR. CONS. QUANTITY"
+msgstr "CANTIDAD TEÓRICA CONSUMIDA"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "THEOR. PROD. UNITS"
+msgstr "UNIDADES TEÓRICAS FABRICADAS"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking
@@ -234,9 +422,14 @@ msgid "TYPE"
 msgstr "TIPO"
 
 #. module: lot_tracking
-#: view:website:lot_tracking.report_lot_tracking
-msgid "Type of movements:"
-msgstr "Tipo de movimientos:"
+#: field:stock.lot.move.productions,theoretical_consumed_qty:0
+msgid "Theoretical consumed qty"
+msgstr "Cdad. teórica cons."
+
+#. module: lot_tracking
+#: field:stock.lot.move.productions,theoretical_produced_units:0
+msgid "Theoretical produced units"
+msgstr "Unid. teóricas fabr."
 
 #. module: lot_tracking
 #: field:lot.tracking,total:0
@@ -249,9 +442,19 @@ msgid "Total:"
 msgstr "Total:"
 
 #. module: lot_tracking
+#: selection:stock.lot.move,state:0
+msgid "Transferred"
+msgstr "Transferido"
+
+#. module: lot_tracking
 #: field:stock.lot.move,type:0
 msgid "Type"
 msgstr "Tipo"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking
+msgid "Type of movements:"
+msgstr "Tipo de movimientos:"
 
 #. module: lot_tracking
 #: field:lot.tracking,type_of_move:0
@@ -268,3 +471,12 @@ msgstr "U.D.M."
 msgid "Unit of measure"
 msgstr "Unidad de medida"
 
+#. module: lot_tracking
+#: selection:stock.lot.move,state:0
+msgid "Waiting Another Operation"
+msgstr "Esperando otra operación"
+
+#. module: lot_tracking
+#: selection:stock.lot.move,state:0
+msgid "Waiting Availability"
+msgstr "Esperando disponibilidad"

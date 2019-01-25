@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import lot_tracking
+import lot_tracking, lot_tracking_productions

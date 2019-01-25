@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-# © 2017 Pharmadus I.T.
+# © 2019 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, tools
 
 
-class StockLotMove(models.Model):
+class StockLotMove(models.TransientModel):
     _name = 'stock.lot.move'
-    _auto = False
     _order = 'date'
 
+    lot_tracking_id = fields.Many2one(comodel_name='lot.tracking')
     lot_id = fields.Many2one(comodel_name='stock.production.lot')
     move_id = fields.Many2one(comodel_name='stock.move')
     date = fields.Datetime(string='Date')
@@ -50,39 +50,6 @@ class StockLotMove(models.Model):
         else:
             self.type = 'internal'
 
-    def init(self, cr):
-        tools.drop_view_if_exists(cr, self._table)
-        cr.execute("""
-            create view %s as (
-            	select
-                    row_number() over(order by lot_moves.lot_id, lot_moves.move_id) as id,
-                    lot_moves.lot_id,
-                    lot_moves.move_id,
-                    sm.date,
-                    sm.product_uom,
-                    sm.location_id,
-                    sm.location_dest_id,
-                    sp.partner_id,
-                    sm.picking_id,
-                    case when sp.origin is null or (trim(sp.origin) = '') then sm.origin else sp.origin end,
-                    sm.state,
-                    lot_moves.qty
-                from (
-	                select
-	                    spl.id lot_id,
-	                    sqmr.move_id,
-	                    sum(sq.qty) qty
-	                from stock_production_lot spl
-	                join stock_quant sq on sq.lot_id = spl.id
-	                join stock_quant_move_rel sqmr on sqmr.quant_id = sq.id
-	                group by 1, 2
-	            ) as lot_moves
-	            join stock_move sm on sm.id = lot_moves.move_id
-	            left join stock_picking sp on sp.id = sm.picking_id
-	            order by lot_id, move_id
-            )
-        """ % (self._table,))
-
     @api.multi
     def action_show_origin(self):
         self.ensure_one()
@@ -113,6 +80,7 @@ class StockLotMove(models.Model):
 class LotTracking(models.Model):
     _name = 'lot.tracking'
     _rec_name = 'product_id'
+    _order = 'write_date desc'
 
     product_id = fields.Many2one(comodel_name='product.product',
                                  domain="[('sequence_id', '!=', False)]")
@@ -123,43 +91,81 @@ class LotTracking(models.Model):
         default='io', required=True)
 
     lot_move_ids = fields.One2many(comodel_name='stock.lot.move',
-                                   compute='_get_lot_moves')
-    total = fields.Float(string='Total', compute='_get_lot_moves')
+                                   inverse_name='lot_tracking_id',
+                                   readonly=True)
+    total = fields.Float(string='Total', readonly=True)
     company_id = fields.Many2one(comodel_name='res.company',
                                  related='product_id.company_id')
+
+    @api.one
+    def _get_lot_moves(self):
+        if self.type_of_move == 'all':
+            quant_ids = self.lot_id.quant_ids
+            move_ids = quant_ids.mapped('move_ids')
+        else:
+            quant_ids = self.env['stock.quant']
+            move_ids = self.env['stock.move']
+            for quant_id in self.lot_id.quant_ids:
+                for move_id in quant_id.move_ids:
+                    if (move_id.location_id.usage in ('internal', 'view') and \
+                        move_id.location_dest_id.usage in \
+                        ('customer', 'inventory', 'supplier', 'production',
+                         'procurement', 'transit')) \
+                       or \
+                       (move_id.location_id.usage in ('customer', 'inventory',
+                           'supplier', 'production', 'procurement',
+                           'transit') and \
+                        move_id.location_dest_id.usage in ('internal', 'view')):
+                        quant_ids |= quant_id
+                        move_ids |= move_id
+
+        lot_move_ids = self.env['stock.lot.move']
+        for quant_id in quant_ids:
+            for move_id in quant_id.move_ids:
+                if move_id in move_ids:
+                    lm_id = lot_move_ids.filtered(lambda m:
+                        m.date == move_id.date and \
+                        m.location_id == move_id.location_id and \
+                        m.location_dest_id == move_id.location_dest_id
+                    )
+                    if lm_id:
+                        lm_id.qty += quant_id.qty
+                    else:
+                        lot_move_ids |= self.env['stock.lot.move'].create({
+                            'lot_tracking_id': self.id,
+                            'lot_id': self.lot_id.id,
+                            'move_id': move_id.id,
+                            'date': move_id.date,
+                            'product_uom': move_id.product_uom.id,
+                            'location_id': move_id.location_id.id,
+                            'location_dest_id': move_id.location_dest_id.id,
+                            'partner_id': move_id.picking_id.partner_id.id,
+                            'picking_id': move_id.picking_id.id,
+                            'origin': move_id.picking_id.origin
+                            if move_id.picking_id.origin else move_id.origin,
+                            'state': move_id.state,
+                            'qty': quant_id.qty
+                        })
+        self.lot_move_ids = lot_move_ids
+
+        total = 0
+        for move_id in lot_move_ids:
+            if move_id.type == 'input':
+                total += move_id.qty
+            elif move_id.type == 'output':
+                total -= move_id.qty
+        self.total = total
 
     @api.onchange('product_id')
     def clear_lot(self):
         self.lot_id = False
-
-    @api.one
-    def _get_lot_moves(self):
-        lot_moves = self.env['stock.lot.move']
-        if self.type_of_move == 'all':
-            self.lot_move_ids = lot_moves.search([
-                ('lot_id', '=', self.lot_id.id)
-            ])
-        else:
-            self.lot_move_ids = lot_moves.search([
-                '&',
-                ('lot_id', '=', self.lot_id.id),
-                '|',
-                '&',
-                ('location_id.usage', 'in', ('internal', 'view')),
-                ('location_dest_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production', 'procurement', 'transit')),
-                '&',
-                ('location_id.usage', 'in', ('customer', 'inventory', 'supplier', 'production', 'procurement', 'transit')),
-                ('location_dest_id.usage', 'in', ('internal', 'view'))
-            ])
-
-        total = 0
-        for move in self.lot_move_ids:
-            if move.type == 'input':
-                total += move.qty
-            elif move.type == 'output':
-                total -= move.qty
-        self.total = total
+        self.clear_lot_moves()
 
     @api.onchange('lot_id', 'type_of_move')
-    def get_lot_moves(self):
+    def clear_lot_moves(self):
+        self.lot_move_ids = False
+        self.total = 0
+
+    @api.multi
+    def get_traceability(self):
         self._get_lot_moves()

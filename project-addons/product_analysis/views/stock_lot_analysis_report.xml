@@ -74,7 +74,23 @@
         />
 
         <record model="ir.actions.report.xml" id="product_analysis.report_lot_analysis_certificate">
-            <field name="attachment">'Certificado de análisis - ' + time.strftime('%d/%m/%Y') + '.pdf'</field>
+            <field name="attachment">'Certificado de análisis (' + time.strftime('%d-%m-%Y') + ').pdf'</field>
+        </record>
+
+        <record model="ir.actions.report.xml" id="product_analysis.report_revision_by_production">
+            <field name="attachment">'Revisión por producción (' + time.strftime('%d-%m-%Y') + ').pdf'</field>
+        </record>
+
+        <record model="ir.actions.report.xml" id="product_analysis.report_finished_product_analysis_certificate">
+            <field name="attachment">'Certificado de análisis producto acabado (' + time.strftime('%d-%m-%Y') + ').pdf'</field>
+        </record>
+
+        <record model="ir.actions.report.xml" id="product_analysis.report_lot_certification_and_release">
+            <field name="attachment">'Certificación y liberación de lote (' + time.strftime('%d-%m-%Y') + ').pdf'</field>
+        </record>
+
+        <record model="ir.actions.report.xml" id="product_analysis.report_lot_certification_and_partial_release">
+            <field name="attachment">'Certificación y liberación parcial de lote (' + time.strftime('%d-%m-%Y') + ').pdf'</field>
         </record>
     </data>
 </openerp>

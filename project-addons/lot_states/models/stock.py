@@ -73,7 +73,7 @@ class StockMove(models.Model):
                 lot_id = operation.operation_id.lot_id
                 if source_location in quality_locs and \
                         dest_location in stock_locs:
-                    if lot_id.state not in ('revised', 'approved'):
+                    if lot_id.state != 'approved':
                         errors += '\n' + _('Cannot move to stock, the lot %s'
                                            ' is in %s state') % \
                                          (lot_id.name, lot_id.state)

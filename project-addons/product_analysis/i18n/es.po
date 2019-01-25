@@ -358,6 +358,11 @@ msgid "Lots"
 msgstr "Lotes"
 
 #. module: product_analysis
+#: field:stock.production.lot,production_id:0
+msgid "Manufacturing order"
+msgstr "Órden de producción"
+
+#. module: product_analysis
 #: field:product.analysis,method:0
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 #: view:website:product_analysis.report_stock_lot_analysis_sheet
@@ -538,8 +543,8 @@ msgstr "Arrastrar análisis de su materia prima"
 #. module: product_analysis
 #: code:addons/product_analysis/models/stock.py:130
 #, python-format
-msgid "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Product</th><th>Ref F</th><th>Lot</th><th>Aprobation date</th><th>Lot state</th></tr></thead><tbody>"
-msgstr "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Producto</th><th>Ref F</th><th>Lote</th><th>Fecha de aprobación</th><th>Estado de lote</th></tr></thead><tbody>"
+msgid "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Product</th><th>Ref F</th><th>Lot</th><th>Approbation date</th><th>Lot state</th></tr></thead><tbody>"
+msgstr "<table class=\"product_analysis_used_lots_table\"><thead><tr><th>Producto</th><th>Referencia</th><th>Lote</th><th>Fecha de aprobación</th><th>Estado de lote</th></tr></thead><tbody>"
 
 #. module: product_analysis
 #: field:product.category,analysis_sequence:0

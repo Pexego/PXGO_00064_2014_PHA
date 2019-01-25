@@ -14,10 +14,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="product" readonly="1" colspan="3"/>
                         <field name="bom" readonly="1" colspan="3" style="font-weight: bold;"/>
                         <field name="routing" readonly="1" colspan="3"/>
-                        <field name="lot" readonly="1" colspan="3"/>
+                        <field name="final_lot" readonly="1" colspan="3" attrs="{'invisible': [('final_lot', '=', False)]}"/>
+                        <field name="next_lot" readonly="1" colspan="3" attrs="{'invisible': [('final_lot', '!=', False)]}"/>
                         <label for="quantity_text"/>
                         <div id="product-quantity" colspan="2">
                             <field name="quantity_text" readonly="1" nolabel="1"/>
+                            <div style="display: inline-block; height: 1em; width: 0.5em;"/>
                             <field name="uom_id" readonly="1" nolabel="1" options="{'no_open': True}"/>
                         </div>
                     </group>

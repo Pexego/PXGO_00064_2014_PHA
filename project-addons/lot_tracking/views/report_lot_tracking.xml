@@ -29,7 +29,7 @@
                         <div style="font-size: 2em;">
                             LOT TRACKING: <b t-field="o.lot_id"/><br/>
                         </div>
-                        <div style="font-size: 1.2em; border: 2px solid black; padding: 1em; width: 100%;">
+                        <div style="font-size: 1.2em; border: 2px solid black; padding: 1em; width: 95%;">
                             <b>Product:</b> <span t-field="o.product_id"/><br/>
                             <b>Type of movements:</b> <span t-field="o.type_of_move"/><br/>
                             <b>Total:</b> <span t-field="o.total"/><br/>
@@ -70,6 +70,9 @@
                                 margin: 0;
                                 padding: 0;
                             }
+                            div.text-right {
+                                text-align: right;
+                            }
                         </style>
                         <div class="movimientos">
                             <div class="movCabecera">
@@ -86,7 +89,7 @@
 
                             <div t-foreach="o.lot_move_ids" t-as="move" class="movFila">
                                 <div style="width: 10%;"><span t-field="move.date"/></div>
-                                <div class="text-right" style="width: 6%;"><span t-field="move.qty"/><![CDATA[&nbsp;]]></div>
+                                <div class="text-right" style="width: 6%;"><span t-esc="'{:.2f}'.format(move.qty)"/><![CDATA[&nbsp;]]></div>
                                 <div style="width: 8%;"><span t-field="move.product_uom"/></div>
                                 <div style="width: 4%;"><span t-field="move.type"/></div>
                                 <div style="width: 20%;"><span t-field="move.location_id"/></div>
@@ -100,5 +103,32 @@
                 </t>
             </t>
         </template>
+
+        <record id="paperformat_lot_tracking" model="report.paperformat">
+            <field name="name">Lot tracking</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">13</field>
+            <field name="margin_bottom">3</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="action_report_lot_tracking"
+            model="lot.tracking"
+            string="Lot tracking"
+            report_type="qweb-pdf"
+            name="lot_tracking.report_lot_tracking"
+            attachment_use="False"
+        />
+
+        <record id="action_report_lot_tracking" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_lot_tracking"/>
+        </record>
     </data>
 </openerp>

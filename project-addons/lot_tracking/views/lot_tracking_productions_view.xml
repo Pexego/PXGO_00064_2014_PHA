@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_lot_tracking_productions_tree" model="ir.ui.view">
+            <field name="name">Lot tracking productions tree</field>
+            <field name="model">lot.tracking.productions</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_id"/>
+                    <field name="lot_id"/>
+                    <field name="harnessing"/>
+                    <field name="supplier_id"/>
+                    <field name="date_received"/>
+                    <field name="supplier_lot"/>
+                    <field name="qty_received"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_lot_tracking_productions_form" model="ir.ui.view">
+            <field name="name">Lot tracking productions form</field>
+            <field name="model">lot.tracking.productions</field>
+            <field name="arch" type="xml">
+                <form string="Lot tracking from productions">
+                    <sheet class="oe_form_sheet_custom_width_screen">
+                        <group cols="4">
+                            <group cols="2">
+                                <field name="product_id"/>
+                                <field name="lot_id"/>
+                                <field name="harnessing"/>
+                            </group>
+                            <group cols="2">
+                                <field name="supplier_id"/>
+                                <field name="date_received"/>
+                                <field name="supplier_lot"/>
+                                <field name="qty_received"/>
+                            </group>
+                        </group>
+                        <button string="Get traceability"
+                                name="get_traceability"
+                                type="object"
+                                class="oe_highlight oe_read_only"/>
+                        <separator string="Lot movements from productions" style="margin-bottom: -5px;"/>
+                        <field name="lot_move_ids">
+                            <button onclick="$('div.oe_view_manager_view_form div.oe_view_manager a#button_export_excel').trigger('click');"
+                                    class="oe_right"
+                                    style="margin-top: -30px;">Exportar a excel</button>
+                            <tree default_order="date"
+                                  colors="red:real_consumed_qty&gt;0;green:real_consumed_qty&lt;0">
+                                <field name="origin"/>
+                                    <button name="action_show_origin"
+                                            class="oe_inline"
+                                            type="object"
+                                            icon="terp-stock_zoom"
+                                            style="margin-top: -4px;"
+                                            attrs="{'invisible': [('origin', '=', False)]}"
+                                    />
+                                <field name="date"/>
+                                <field name="product_id"/>
+                                <field name="lot_id"/>
+                                <field name="real_consumed_qty"/>
+                                <field name="theoretical_produced_units"/>
+                                <field name="stock_qty"/>
+                                <field name="real_produced_units"/>
+                                <field name="theoretical_consumed_qty"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_lot_tracking_from_productions" model="ir.actions.act_window">
+            <field name="name">From productions</field>
+            <field name="res_model">lot.tracking.productions</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_lot_tracking_productions_tree"/>
+        </record>
+
+        <menuitem id="menu_lot_tracking_from_productions"
+                  parent="lot_tracking.menu_lot_tracking"
+                  action="action_view_lot_tracking_from_productions" sequence="2"/>
+
+        <record id="view_lot_tracking_productions_move_form" model="ir.ui.view">
+            <field name="name">Lot tracking productions move form</field>
+            <field name="model">stock.lot.move.productions</field>
+            <field name="arch" type="xml">
+                <form string="Lot tracking from productions movements">
+                    <sheet>
+                        <group cols="4">
+                            <group cols="2">
+                                <label for="origin"/>
+                                <div>
+                                    <field name="origin" class="oe_inline"/>
+                                    <button name="action_show_origin"
+                                            class="oe_inline"
+                                            type="object"
+                                            icon="terp-stock_zoom"
+                                            style="margin-top: -4px;"
+                                            attrs="{'invisible': [('origin', '=', False)]}"
+                                    />
+                                </div>
+                                <field name="date"/>
+                                <field name="product_id"/>
+                                <field name="lot_id"/>
+                                <field name="location_id"/>
+                                <field name="location_dest_id"/>
+                            </group>
+                            <group cols="2">
+                                <field name="real_consumed_qty"/>
+                                <field name="theoretical_produced_units"/>
+                                <field name="stock_qty"/>
+                                <field name="real_produced_units"/>
+                                <field name="theoretical_consumed_qty"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

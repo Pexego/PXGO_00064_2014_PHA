@@ -14,11 +14,11 @@ class MrpLabelReport(models.AbstractModel):
         report = report_obj._get_report_from_name('quality_protocol_report.report_mrp_label')
         doc = self.env[report.model].browse(data['id'])
         name_css_size = 52
-        if len(doc.product_id.name) > 45:
+        if len(doc.product_id.name) > 90:
             name_css_size = 22
-        elif len(doc.product_id.name) > 39:
+        elif len(doc.product_id.name) > 80:
             name_css_size = 32
-        elif len(doc.product_id.name) > 31:
+        elif len(doc.product_id.name) > 70:
             name_css_size = 42
 
         lot_css_size = 140
@@ -49,17 +49,17 @@ class MrpTinyLabelReport(models.AbstractModel):
         report = report_obj._get_report_from_name('quality_protocol_report.report_mrp_tiny_label')
         doc = self.env[report.model].browse(data['id'])
         name_css_size = 28
-        if len(doc.product_id.name) > 45:
+        if len(doc.product_id.name) > 50:
             name_css_size = 18
-        elif len(doc.product_id.name) > 39:
-            name_css_size = 24
-        elif len(doc.product_id.name) > 31:
-            name_css_size = 28
+        elif len(doc.product_id.name) > 42:
+            name_css_size = 22
+        elif len(doc.product_id.name) > 37:
+            name_css_size = 26
 
         lot_css_size = 70
-        if len(doc.final_lot_id.name) > 14:
+        if len(doc.final_lot_id.name) > 16:
             lot_css_size = 55
-        elif len(doc.final_lot_id.name) > 11:
+        elif len(doc.final_lot_id.name) > 14:
             lot_css_size = 65
 
         docargs = {
