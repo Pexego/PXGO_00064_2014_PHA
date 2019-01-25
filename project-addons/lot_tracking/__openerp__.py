@@ -1,23 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2016 Pharmadus I.T. Department All Rights Reserved
-#    $Óscar Salvador Páez <oscar.salvador@pharmadus.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program. If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2019 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     'name': 'Lot tracking',
@@ -31,7 +14,9 @@
     'depends': ['stock', 'quality_management_menu', 'custom_widths'],
     'data': [
         'views/lot_tracking_view.xml',
+        'views/lot_tracking_productions_view.xml',
         'views/report_lot_tracking.xml',
+        'views/report_lot_tracking_productions.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True
