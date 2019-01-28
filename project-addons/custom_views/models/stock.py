@@ -7,6 +7,7 @@ from openerp import models, fields, api, _, exceptions
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
+    computed_lots_string = fields.Char(compute='_compute_lots_string')
     lots_string = fields.Char(string='Lots', readonly=True, store=True, index=True)
     categ_ids = fields.Many2many(related='product_id.categ_ids', readonly=True)
     purchase_amount = fields.Float(related='purchase_line_id.gross_amount',
@@ -17,27 +18,19 @@ class StockMove(models.Model):
     virtual_conservative = fields.Float(
         related='product_id.virtual_conservative', readonly=True)
 
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        move_ids = super(StockMove, self).search(args, offset=offset,
-                                                 limit=limit, order=order,
-                                                 count=count)
-        try:
-            for move_id in move_ids:
-                lots_string = u", ".join(
-                    (move_id.reserved_quant_ids + move_id.quant_ids).
-                        mapped('lot_id.name')
-                )
-                if lots_string != move_id.lots_string:
-                    move_id.lots_string = lots_string
-            return move_ids
-        except TypeError:
-            return move_ids
-
     @api.one
     @api.constrains('state')
     def compute_detailed_stock(self):
         self.product_id.product_tmpl_id.compute_detailed_stock()
+
+    @api.one
+    def _compute_lots_string(self):
+        lots_string = u", ".join(
+            (self.reserved_quant_ids + self.quant_ids).mapped('lot_id.name')
+        )
+        self.computed_lots_string = lots_string
+        if lots_string != self.lots_string:
+            self.lots_string = lots_string
 
 
 class StockPicking(models.Model):

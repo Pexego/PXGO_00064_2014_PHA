@@ -11,7 +11,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="custom_views.custom_views_move_picking_tree"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
-                <field name="lots_string" position="after">
+                <field name="computed_lots_string" position="after">
                     <field name="show_manual_lot_assign_button" invisible="1"/>
                     <button name="action_manual_lot_assign_wizard" type="object"
                             icon="gtk-index"
