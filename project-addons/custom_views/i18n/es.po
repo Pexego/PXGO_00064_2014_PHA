@@ -562,6 +562,7 @@ msgstr "Lote"
 
 #. module: custom_views
 #: field:stock.move,lots_string:0
+#: field:stock.move,computed_lots_string:0
 msgid "Lots"
 msgstr "Lotes"
 
