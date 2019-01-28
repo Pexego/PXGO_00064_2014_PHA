@@ -34,8 +34,10 @@ class ProductStockByDay(models.TransientModel):
             'cons_by_day_p_total': 0
         }
 
-        # Compute a year ago date
-        a_year_ago = (date.today() + timedelta(days=-365)).strftime('%Y-%m-%d')
+        # Years back to compute
+        years_back = 2
+        start_date = (date.today() + timedelta(days=-(365 * years_back))).\
+            strftime('%Y-%m-%d')
 
         # Closures to avoid code repetition
         def sbd_formula(cbd, vc):  # Consumption by day, virtual conservative stock
@@ -47,7 +49,7 @@ class ProductStockByDay(models.TransientModel):
                 return 0
 
         def save_sbd_and_cbd_i():
-            cons_by_day_i = invoiced_qty / 365
+            cons_by_day_i = invoiced_qty / (365 * years_back)
             stock_by_day_i = sbd_formula(cons_by_day_i,
                                          product_id.virtual_conservative)
             if not self.data.has_key(product_id.id):
@@ -56,7 +58,7 @@ class ProductStockByDay(models.TransientModel):
             self.data[product_id.id]['cons_by_day_i'] = cons_by_day_i
 
         def save_sbd_and_cbd_p():
-            cons_by_day_p = moved_qty / 365
+            cons_by_day_p = moved_qty / (365 * years_back)
             stock_by_day_p = sbd_formula(cons_by_day_p,
                                          product_id.virtual_conservative)
             if not self.data.has_key(product_id.id):
@@ -97,7 +99,7 @@ class ProductStockByDay(models.TransientModel):
         ai_lines = self.env['account.invoice.line'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
-            ('invoice_id.date_invoice', '>=', a_year_ago),
+            ('invoice_id.date_invoice', '>=', start_date),
             ('invoice_id.type', 'in', ('out_invoice', 'out_refund')),
             ('invoice_id.state', 'in', ('open', 'paid'))
         ], order='product_id')
@@ -124,7 +126,7 @@ class ProductStockByDay(models.TransientModel):
         sm_lines = self.env['stock.move'].search([
             ('product_id.active', '=', True),
             ('product_id.type', '=', 'product'),
-            ('date', '>=', a_year_ago),
+            ('date', '>=', start_date),
             ('state', '=', 'done'),
             '|',
             '&',
