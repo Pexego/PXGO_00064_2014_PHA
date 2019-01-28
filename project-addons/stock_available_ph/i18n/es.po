@@ -458,6 +458,12 @@ msgid "Materials needed"
 msgstr "Materiales necesarios"
 
 #. module: stock_available_ph
+#: field:stock.available,max_available_to_produce:0
+msgid "Max available to produce"
+msgstr "Cantidad máxima producible"
+
+
+#. module: stock_available_ph
 #: field:product.product,max_fixed:0 field:product.template,max_fixed:0
 msgid "Max fixed"
 msgstr "Máximo fijado"

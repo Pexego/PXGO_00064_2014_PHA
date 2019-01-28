@@ -27,6 +27,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             attrs="{'invisible': [('final_lot_id', '=', False)]}">
                         <div>Display</div>
                     </button>
+                    <button class="oe_inline oe_stat_button"
+                            name="action_stock_ldm_previsor"
+                            type="object"
+                            icon="fa-calculator"
+                            attrs="{'invisible': ['|', ('product_id', '=', False), ('bom_id', '=', False)]}">
+                        <div>Stock / BoM</div>
+                    </button>
                 </button>
                 <field name="routing_id" position="before">
                     <field name="product_tmpl_id" invisible="1"/>

@@ -329,3 +329,24 @@ class MrpProduction(models.Model):
     @api.multi
     def action_confirm_production(self):
         super(MrpProduction, self).action_confirm()
+
+    @api.multi
+    def action_stock_ldm_previsor(self):
+        sa_id = self.env['stock.available'].create({
+            'product_id': self.product_id.product_tmpl_id.id,
+            'bom_id': self.bom_id.id,
+            'product_qty': self.product_qty
+        })
+        sa_id.action_compute()
+
+        view_id = self.env.ref('stock_available_ph.stock_available_form_view')
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'stock.available',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id.id,
+            'res_id': sa_id.id,
+            'target': 'current',
+            'context': self.env.context,
+        }

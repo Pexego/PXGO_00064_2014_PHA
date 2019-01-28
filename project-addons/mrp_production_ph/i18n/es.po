@@ -202,6 +202,11 @@ msgstr "Seleccionar"
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Stock / BoM"
+msgstr "Stock / LdM"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 #: field:mrp.production,store_consumption_ids:0
 msgid "Store consumption"
 msgstr "Consumos almacén"
