@@ -18,6 +18,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="bom_id" style="width:40%;"/>
                             <newline/>
                             <field name="product_qty"/>
+                            <field name="max_available_to_produce"
+                                   class="oe_inline"/>
                             <newline/>
                             <button name="action_compute"
                                     string="Compute data"
@@ -61,14 +63,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="view_mode">form</field>
             <field name="view_id" ref="stock_available_form_view"/>
         </record>
-
-        <menuitem id="menu_mrp_production_planning"
-                  name="Production planning"
-                  parent="base.menu_mrp_root" sequence="3"/>
-
-        <menuitem id="menu_view_stock_available_form"
-                  parent="stock_available_ph.menu_mrp_production_planning"
-                  action="action_view_bom_stock" sequence="140"/>
 
         <record id="stock_warehouse_orderpoint_form_view" model="ir.ui.view">
             <field name="name">Stock warehouse orderpoint form</field>

@@ -293,6 +293,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             />
         </record>
 
+        <menuitem id="menu_mrp_production_planning"
+                  name="Production planning"
+                  parent="base.menu_mrp_root" sequence="3"/>
+
         <menuitem id="menu_view_stock_available_form"
                   parent="stock_available_ph.menu_mrp_production_planning"
                   action="action_view_bom_stock" sequence="140"/>

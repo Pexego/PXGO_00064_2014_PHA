@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from openerp import models, api
+from openerp import models, fields, api
 from datetime import date, timedelta
 import logging
 
@@ -49,7 +49,9 @@ class ProductStockByDay(models.TransientModel):
                 return 0
 
         def save_sbd_and_cbd_i():
-            cons_by_day_i = invoiced_qty / (365 * years_back)
+            then = fields.Datetime.from_string(date_first_invoice)
+            days_passed = (fields.datetime.now() - then).days
+            cons_by_day_i = invoiced_qty / days_passed if days_passed else 1
             stock_by_day_i = sbd_formula(cons_by_day_i,
                                          product_id.virtual_conservative)
             if not self.data.has_key(product_id.id):
@@ -58,7 +60,9 @@ class ProductStockByDay(models.TransientModel):
             self.data[product_id.id]['cons_by_day_i'] = cons_by_day_i
 
         def save_sbd_and_cbd_p():
-            cons_by_day_p = moved_qty / (365 * years_back)
+            then = fields.Datetime.from_string(date_first_move)
+            days_passed = (fields.datetime.now() - then).days
+            cons_by_day_p = moved_qty / days_passed if days_passed else 1
             stock_by_day_p = sbd_formula(cons_by_day_p,
                                          product_id.virtual_conservative)
             if not self.data.has_key(product_id.id):
@@ -84,13 +88,11 @@ class ProductStockByDay(models.TransientModel):
                     if not self.data.has_key(c):
                         self.data[c] = empty_dict.copy()
                     self.data[c]['cons_by_day_i_ind'] += \
-                        self.data[fp]['cons_by_day_i'] * qty
+                        (self.data[fp]['cons_by_day_i'] + \
+                         self.data[fp]['cons_by_day_i_ind']) * qty
                     self.data[c]['cons_by_day_p_ind'] += \
-                        self.data[fp]['cons_by_day_p'] * qty
-                    if self.data[fp]['stock_by_day_p'] < \
-                            self.data[c]['stock_by_day_p_ind_min']:
-                        self.data[c]['stock_by_day_p_ind_min'] = \
-                            self.data[fp]['stock_by_day_p']
+                        (self.data[fp]['cons_by_day_p'] + \
+                         self.data[fp]['cons_by_day_p_ind']) * qty
                 self.bom_member_of_ids -= product_id
 
         # Products invoiced quantities in last year
@@ -102,14 +104,16 @@ class ProductStockByDay(models.TransientModel):
             ('invoice_id.date_invoice', '>=', start_date),
             ('invoice_id.type', 'in', ('out_invoice', 'out_refund')),
             ('invoice_id.state', 'in', ('open', 'paid'))
-        ], order='product_id')
+        ], order='product_id, create_date')
         if ai_lines:
             product_id = ai_lines[0].product_id
+            date_first_invoice = ai_lines[0].date_invoice
             invoiced_qty = 0
             for ail in ai_lines:
                 if product_id <> ail.product_id:
                     save_sbd_and_cbd_i()
                     product_id = ail.product_id  # Next product
+                    date_first_invoice = ail.date_invoice
                     invoiced_qty = 0
 
                 if ail.invoice_id.type == 'out_invoice':
@@ -137,14 +141,16 @@ class ProductStockByDay(models.TransientModel):
             ('location_dest_id.usage', 'in', ('internal', 'view', 'production',
                                          'procurement', 'transit', 'supplier')),
             ('location_id.usage', 'in', ('customer', 'inventory'))
-        ], order='product_id')
+        ], order='product_id, date')
         if sm_lines:
             product_id = sm_lines[0].product_id
+            date_first_move = sm_lines[0].date
             moved_qty = 0
             for sm in sm_lines:
                 if product_id <> sm.product_id:
                     save_sbd_and_cbd_p()
                     product_id = sm.product_id  # Next product
+                    date_first_move = sm.date
                     moved_qty = 0
 
                 if sm.location_id.usage in ('internal', 'view', 'production',

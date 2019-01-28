@@ -16,6 +16,8 @@ class StockAvailable(models.TransientModel):
                              comodel_name='mrp.bom',
                              domain="[('product_tmpl_id', '=', product_id)]")
     product_qty = fields.Integer(string='Quantity to calculate')
+    max_available_to_produce = fields.Float(string='Max available to produce',
+                                            readonly=True)
 
     @api.onchange('product_id')
     def update_bom(self):
@@ -58,6 +60,7 @@ class StockAvailable(models.TransientModel):
     @api.one
     def action_compute(self):
         self.bom_lines.unlink()
+        max_available_to_produce = 99999999
         for line in self.bom_id.bom_line_ids:
             qty_required = line.product_qty * self.product_qty
             qty_vsc_available = line.product_id.virtual_conservative
@@ -65,6 +68,11 @@ class StockAvailable(models.TransientModel):
             out_of_existences_dismissed = \
                 line.product_id.out_of_existences_dismissed
             qty_incoming = line.product_id.real_incoming_qty
+
+            # Search for maximum available quantity to produce now
+            producible = qty_vsc_available / line.product_qty
+            if producible < max_available_to_produce:
+                max_available_to_produce = producible
 
             # Check material level of availability
             if qty_vsc_available + out_of_existences + qty_incoming < qty_required:
@@ -92,6 +100,8 @@ class StockAvailable(models.TransientModel):
                 'stock_status': stock_status,
                 'bom_member': line.product_id.bom_member
             })
+        self.max_available_to_produce = max_available_to_produce if \
+            max_available_to_produce > 0 else 0
         return self
 
 
