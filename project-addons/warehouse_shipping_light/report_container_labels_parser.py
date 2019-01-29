@@ -3,8 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, api
-from openerp.exceptions import except_orm
-from openerp.tools.translate import _
 
 
 class PaletTagParser(models.AbstractModel):
@@ -19,10 +17,12 @@ class PaletTagParser(models.AbstractModel):
         packages = {}
         for picking in picks:
             packages[picking.id] = []
-            sscc_list = picking.mapped('pack_operation_ids').mapped('sscc_ids').filtered(lambda r: r.type in ('2', '3'))
+            sscc_list = picking.mapped('pack_operation_ids').mapped(
+                'sscc_ids').filtered(lambda r: r.type in ('2', '3'))
             for sscc in sscc_list.filtered(lambda r: r.type == '2'):
                 packages[picking.id].append(sscc)
-            for sscc in sscc_list.filtered(lambda r: r.type == '3'):
+            for sscc in sscc_list.filtered(lambda r: r.type == '3').sorted(
+                    lambda x: x.operation_ids[0].package):
                 index = sscc.operation_ids[0].package - 1
                 packages[picking.id].insert(index, sscc)
         docargs = {
