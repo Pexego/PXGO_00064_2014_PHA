@@ -28,9 +28,10 @@ class StockMove(models.Model):
         lots_string = u", ".join(
             (self.reserved_quant_ids + self.quant_ids).mapped('lot_id.name')
         )
-        self.computed_lots_string = lots_string
-        if lots_string != self.lots_string:
-            self.lots_string = lots_string
+        self.write({
+            'computed_lots_string': lots_string,
+            'lots_string':lots_string
+        })
 
 
 class StockPicking(models.Model):
