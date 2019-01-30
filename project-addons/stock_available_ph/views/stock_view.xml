@@ -12,10 +12,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <form string="Estimated quantity">
                     <sheet class="oe_form_sheet_custom_width_screen">
                         <group col="4">
-                            <field name="product_id" style="width:40%;"
+                            <field name="product_id"
                                    domain="[('bom_ids','!=',False),('bom_ids.type','!=','phantom')]"/>
                             <newline/>
-                            <field name="bom_id" style="width:40%;"/>
+                            <field name="bom_id"/>
                             <newline/>
                             <field name="product_qty"/>
                             <field name="max_available_to_produce"
