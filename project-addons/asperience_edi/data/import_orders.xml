@@ -631,5 +631,32 @@ name = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
             <field name="type" eval="'char'" />
         </record>
 
+        <record forcecreate="True" id="edi_edi_orders_line_28" model="edi.edi.line.csv">
+            <field name="name">DTMLIN</field>
+            <field name="sequence" eval="28" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_28_field_1" model="edi.edi.line.csv.field">
+            <field name="name">caducidad</field>
+            <field name="line" ref="edi_edi_orders_line_27" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_28_field_2" model="edi.edi.line.csv.field">
+            <field name="name">vacio</field>
+            <field name="line" ref="edi_edi_orders_line_28" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_line_28_field_3" model="edi.edi.line.csv.field">
+            <field name="name">ultima</field>
+            <field name="line" ref="edi_edi_orders_line_28" />
+            <field name="sequence" eval="3" />
+            <field name="type" eval="'char'" />
+        </record>
+
     </data>
 </openerp>
