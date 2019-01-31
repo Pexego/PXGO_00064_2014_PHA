@@ -114,17 +114,7 @@ class StockMoveAssignManualLot(models.TransientModel):
             self.env.cr, self.env.uid, quants, move, context=self.env.context)
         move.create_return_operations()
 
-        return {
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': self.env.ref('stock.view_picking_form').id,
-            'res_model': 'stock.picking',
-            'res_id': move.picking_id.id,
-            'target': 'current',
-            'nodestroy': True,
-            'context': self.env.context
-        }
+        return {'type': 'ir.actions.act_window_close'}
 
 
 class StockMoveAssignManualLotLine(models.TransientModel):
