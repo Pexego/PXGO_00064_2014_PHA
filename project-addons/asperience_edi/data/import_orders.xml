@@ -639,7 +639,7 @@ name = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
 
         <record forcecreate="True" id="edi_edi_orders_line_28_field_1" model="edi.edi.line.csv.field">
             <field name="name">caducidad</field>
-            <field name="line" ref="edi_edi_orders_line_27" />
+            <field name="line" ref="edi_edi_orders_line_28" />
             <field name="sequence" eval="1" />
             <field name="type" eval="'char'" />
         </record>
