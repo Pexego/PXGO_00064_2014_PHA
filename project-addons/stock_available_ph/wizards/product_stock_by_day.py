@@ -93,7 +93,8 @@ class ProductStockByDay(models.TransientModel):
                     self.data[c]['cons_by_day_p_ind'] += \
                         (self.data[fp]['cons_by_day_p'] + \
                          self.data[fp]['cons_by_day_p_ind']) * qty
-                self.bom_member_of_ids -= product_id
+
+            self.bom_member_of_ids -= product_id
 
         # Products invoiced quantities in last year
         logger.info('Stock by Day: Computing stock by day based on invoices...')
@@ -179,11 +180,15 @@ class ProductStockByDay(models.TransientModel):
         self.bom_member_of_ids = bom_line_ids.mapped('product_id')
         # Iterating dictionaries are much faster than model recursive searching
         for bom_line_id in bom_line_ids:
-            self.bom_line_dict[bom_line_id.id] = {
-                'product_id': bom_line_id.product_id,
-                'final_product_id': bom_line_id.bom_id.product_id,
-                'product_qty': bom_line_id.product_qty
-            }
+            # Only computes consumption on the final product BoM of lowest sequence
+            primary_bom_id = bom_line_id.bom_id.product_id.bom_ids.\
+                sorted(key=lambda b: b.sequence)[0]
+            if bom_line_id.bom_id == primary_bom_id:
+                self.bom_line_dict[bom_line_id.id] = {
+                    'product_id': bom_line_id.product_id,
+                    'final_product_id': bom_line_id.bom_id.product_id,
+                    'product_qty': bom_line_id.product_qty
+                }
         del bom_line_ids  # Free resources
 
         while self.bom_member_of_ids:

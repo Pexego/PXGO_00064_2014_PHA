@@ -119,11 +119,11 @@ class LotTracking(models.Model):
                         quant_ids |= quant_id
                         move_ids |= move_id
 
-        lot_move_ids = self.env['stock.lot.move']
+        self.lot_move_ids.unlink()
         for quant_id in quant_ids:
             for move_id in quant_id.move_ids:
                 if move_id in move_ids:
-                    lm_id = lot_move_ids.filtered(lambda m:
+                    lm_id = self.lot_move_ids.filtered(lambda m:
                         m.date == move_id.date and \
                         m.location_id == move_id.location_id and \
                         m.location_dest_id == move_id.location_dest_id
@@ -131,8 +131,7 @@ class LotTracking(models.Model):
                     if lm_id:
                         lm_id.qty += quant_id.qty
                     else:
-                        lot_move_ids |= self.env['stock.lot.move'].create({
-                            'lot_tracking_id': self.id,
+                        self.write({'lot_move_ids': [(0, 0, {
                             'lot_id': self.lot_id.id,
                             'move_id': move_id.id,
                             'date': move_id.date,
@@ -145,11 +144,10 @@ class LotTracking(models.Model):
                             if move_id.picking_id.origin else move_id.origin,
                             'state': move_id.state,
                             'qty': quant_id.qty
-                        })
-        self.lot_move_ids = lot_move_ids
+                        })]})
 
         total = 0
-        for move_id in lot_move_ids:
+        for move_id in self.lot_move_ids:
             if move_id.type == 'input':
                 total += move_id.qty
             elif move_id.type == 'output':
