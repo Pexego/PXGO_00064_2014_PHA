@@ -9,6 +9,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <t t-if="widget.name == 'Quants'">
                 <button class="oe_button oe_quants_to_picking"
                         type="button">Create picking</button>
+                <button class="oe_button oe_group_in_the_same_picking"
+                        type="button">Group in the same picking</button>
             </t>
         </t>
     </t>

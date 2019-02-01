@@ -12,6 +12,9 @@ openerp.quants_to_picking_ph = function(instance) {
                     this.$buttons.find('.oe_quants_to_picking')
                         .unbind('click')
                         .click(this.proxy('on_quants_to_picking'));
+                    this.$buttons.find('.oe_group_in_the_same_picking')
+                        .unbind('click')
+                        .click(this.proxy('on_group_in_the_same_picking'));
                 }
             }
         },
@@ -24,7 +27,7 @@ openerp.quants_to_picking_ph = function(instance) {
                 alert(_t('You have not selected any quant!'));
             } else {
                 new instance.web.Model('stock.quant')
-                    .call('quants_to_picking', [ids])
+                    .call('action_quants_to_picking', [ids])
                     .then(function(data) {
                         new instance.web.Model('ir.model.data')
                             .call('xmlid_to_res_id',
@@ -41,6 +44,35 @@ openerp.quants_to_picking_ph = function(instance) {
                                         'default_picking_id': data.picking_id,
                                         'default_location_dest_id': data.location_dest_id
                                     },
+                                };
+                                self.do_action(action);
+                            });
+                    });
+            };
+        },
+        on_group_in_the_same_picking: function () {
+            var self = this;
+            var ids = self.get_selected_ids();
+            var _t = instance.web._t;
+
+            if (ids.length == 0) {
+                alert(_t('You have not selected any quant!'));
+            } else {
+                new instance.web.Model('stock.quant')
+                    .call('action_group_in_the_same_picking', [ids])
+                    .then(function(data) {
+                        new instance.web.Model('ir.model.data')
+                            .call('xmlid_to_res_id',
+                                  ['stock.view_picking_form'])
+                            .then(function(view_data) {
+                                var action = {
+                                    type: 'ir.actions.act_window',
+                                    res_model: 'stock.picking',
+                                    view_mode: 'form',
+                                    view_type: 'form',
+                                    views: [[view_data, 'form']],
+                                    target: 'current',
+                                    res_id: data.picking_id,
                                 };
                                 self.do_action(action);
                             });
