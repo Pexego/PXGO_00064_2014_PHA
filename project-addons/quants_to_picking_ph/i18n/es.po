@@ -92,6 +92,13 @@ msgstr "Quants"
 
 #. module: quants_to_picking_ph
 #. openerp-web
+#: code:addons/quants_to_picking_ph/static/src/xml/stock_quant.xml:13
+#, python-format
+msgid "Group in the same picking"
+msgstr "Agrupar en un mismo albarán"
+
+#. module: quants_to_picking_ph
+#. openerp-web
 #: code:addons/quants_to_picking_ph/static/src/js/stock_quant.js:23
 #, python-format
 msgid "You have not selected any quant!"

@@ -9,7 +9,7 @@ class StockLotMoveProductions(models.TransientModel):
     _name = 'stock.lot.move.productions'
     _order = 'date'
 
-    lot_tracking_id = fields.Many2one(comodel_name='lot.tracking')
+    lot_tracking_id = fields.Many2one(comodel_name='lot.tracking.productions')
     origin = fields.Char(string='Origin')
     date = fields.Datetime(string='Date')
     product_id = fields.Many2one(comodel_name='product.product',
@@ -124,7 +124,7 @@ class LotTrackingProductions(models.Model):
                 moves_by_origin[key]['qty'] += m_id.qty * sign
         lt_id.unlink()
 
-        lot_move_ids = self.env['stock.lot.move.productions']
+        lot_move_ids = [(5, 0, 0)]
         for key in moves_by_origin:
             production_id = moves_by_origin[key]['production']
             real_consumed_qty = moves_by_origin[key]['qty']
@@ -177,8 +177,7 @@ class LotTrackingProductions(models.Model):
                     theo_consumed_qty = real_manuf_units * bom_qty * \
                                         -1 if real_consumed_qty < 0 else 1
 
-            lot_move_ids |= lot_move_ids.create({
-                'lot_tracking_id': self.id,
+            lot_move_ids += [(0, 0, {
                 'origin': key if key[:2] in ('PO', 'SO', 'MO') else '',
                 'date': move_date if move_date else
                         moves_by_origin[key]['date'],
@@ -193,12 +192,13 @@ class LotTrackingProductions(models.Model):
                 'real_produced_units': real_manuf_units,
                 'theoretical_consumed_qty': theo_consumed_qty,
                 'stock_qty': 0
-            })
+            })]
+        self.write({'lot_move_ids': lot_move_ids})
 
         qty = 0
         h_input = 0
         h_output = 0
-        for lm_id in lot_move_ids.sorted(key=lambda m: m.date):
+        for lm_id in self.lot_move_ids.sorted(key=lambda m: m.date):
             qty += lm_id.real_consumed_qty
             lm_id.stock_qty = qty
             if lm_id.real_consumed_qty > 0:
@@ -210,7 +210,6 @@ class LotTrackingProductions(models.Model):
                     h_output -= lm_id.real_consumed_qty
 
         self.harnessing = '{:.2%}'.format(h_output / (h_input if h_input else 1))
-        self.lot_move_ids = lot_move_ids
 
     @api.onchange('product_id')
     def clear_all_data(self):
