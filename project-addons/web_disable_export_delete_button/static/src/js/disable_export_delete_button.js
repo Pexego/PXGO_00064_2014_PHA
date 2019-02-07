@@ -9,12 +9,14 @@ openerp.web_disable_export_delete_button = function(instance) {
             if ((this.session.uid == 1) || (hasExportButton && hasDeleteButton)) {
                 this._super.apply(this, arguments);
             } else {
-                var new_items = items;
+                var new_items = items,
+                    labelExport = _t('Export'),
+                    labelDelete = _t('Delete');
                 if (section_code == 'other') {
                     new_items = [];
                     for (var i = 0; i < items.length; i++) {
-                        if (!hasExportButton && items[i]['label'] == _t('Export')) { continue; }
-                        if (!hasDeleteButton && items[i]['label'] == _t('Delete')) { continue; }
+                        if (!hasExportButton && items[i]['label'] == labelExport) { continue; }
+                        if (!hasDeleteButton && items[i]['label'] == labelDelete) { continue; }
                         new_items.push(items[i]);
                     };
                 };
