@@ -322,7 +322,7 @@
                 </table>
 
                 <div class="row" style="position: relative;">
-                    <div class="col-xs-6 pull-left" t-if="o.tax_line" style="position: absolute; bottom: 0;">
+                    <div id="tax_breakdown" class="col-xs-6 pull-left" t-if="o.tax_line" style="position: absolute; bottom: 0;">
                         <table class="table table-condensed">
                             <thead>
                                 <tr>

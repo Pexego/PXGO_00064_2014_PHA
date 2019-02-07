@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="report_invoice_pharmadus_be" model="ir.ui.view">
+            <field name="name">report_invoice_pharmadus_be</field>
+            <field name="inherit_id" ref="custom_reports.report_invoice_pharmadus"/>
+            <field name="mode">primary</field>
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <div id="tax_breakdown" position="replace">
+
+                </div>
+            </field>
+        </record>
+    </data>
+</openerp>

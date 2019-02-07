@@ -14,16 +14,21 @@
             <t t-set="purchase_ok" t-value="o.type in ('in_invoice', 'in_refund')"></t>
 
             <!-- LABORATORIO BIOSALUD -->
-            <t t-if="o.env.user.company_id == company.env.ref('__export__.res_company_6')">
+            <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_6')">
                 <t t-call="custom_reports.report_invoice_biosalud"/>
             </t>
             <!-- SEAL -->
-            <t t-if="o.env.user.company_id == company.env.ref('__export__.res_company_5')">
+            <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_5')">
                 <t t-call="custom_reports.report_invoice_pharmadus"/>
             </t>
             <!-- HOTEL / MARBEMSA -->
-            <t t-if="o.env.user.company_id == company.env.ref('__export__.res_company_7')">
+            <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_7')">
                 <t t-call="custom_reports.report_invoice_pharmadus"/>
+            </t>
+            <!-- PHARMADUS B.E. (EEUU) -->
+            <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_8')">
+                <t t-set="view_id" t-value="o.env.ref('custom_reports.report_invoice_pharmadus_be')"/>
+                <t t-call="{{view_id.id}}"/>
             </t>
             <!-- PROCESOS FARMACÉUTICOS INDUSTRIALES -->
             <t t-if="o.env.user.company_id == company.env.ref('base.main_company')">
