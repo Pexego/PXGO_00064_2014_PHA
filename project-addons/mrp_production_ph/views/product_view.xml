@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2019 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="product_warning_form_view" model="ir.ui.view">
+            <field name="name">Product warning form inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <page string="Warnings" position="inside">
+                    <group string="Warning when manufacturing this product">
+                        <field name="production_warning"/>
+                    </group>
+                </page>
+            </field>
+        </record>
+    </data>
+</openerp>

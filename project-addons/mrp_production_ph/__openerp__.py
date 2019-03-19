@@ -18,6 +18,7 @@
     'data': [
         'views/mrp_production_view.xml',
         'views/mrp_routing_view.xml',
+        'views/product_view.xml',
         'wizards/mrp_production_confirm_view.xml',
         'wizards/mrp_production_use_lot_view.xml',
         'security/ir.model.access.csv',

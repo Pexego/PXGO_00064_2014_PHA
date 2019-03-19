@@ -166,6 +166,12 @@ msgid "Production notes"
 msgstr "Notas sobre la producción"
 
 #. module: mrp_production_ph
+#: field:mrp.production,production_warning:0
+#: field:product.template,production_warning:0
+msgid "Production warning"
+msgstr "Aviso producción"
+
+#. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 #: field:mrp.production,quality_consumption_ids:0
 msgid "Quality consumption"
@@ -227,6 +233,11 @@ msgstr "UdM"
 #: field:mrp.production.confirm,uom_id:0
 msgid "Uom id"
 msgstr "UdM"
+
+#. module: mrp_production_ph
+#: view:product.template:mrp_production_ph.product_warning_form_view
+msgid "Warning when manufacturing this product"
+msgstr "Aviso cuando se fabrica este producto"
 
 #. module: mrp_production_ph
 #: field:mrp.routing,wildcard_route:0

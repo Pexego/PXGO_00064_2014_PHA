@@ -61,6 +61,8 @@ class MrpProduction(models.Model):
         compute='_compute_consumption',
         string='Quality consumption')
     hoards_quants_reserved = fields.Boolean(compute='_hoards_quants_reserved')
+    production_warning = fields.Char(related='product_id.production_warning',
+                                     readonly=True)
 
     @api.multi
     def _hoards_quants_reserved(self):

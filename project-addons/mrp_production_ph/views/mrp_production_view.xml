@@ -42,6 +42,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <attribute name="domain">[('product_ids', 'in', product_tmpl_id)]</attribute>
                     <attribute name="required">1</attribute>
                 </field>
+                <field name="final_qty" position="after">
+                    <field name="production_warning"
+                           style="font-weight: bold;"
+                           attrs="{'invisible': [('production_warning', '=', False)]}"/>
+                </field>
                 <field name="final_lot_id" position="after">
                     <field name="next_lot" attrs="{'invisible': [('final_lot_id', '!=', False)]}"/>
                     <label style="font-weight: bold;"
