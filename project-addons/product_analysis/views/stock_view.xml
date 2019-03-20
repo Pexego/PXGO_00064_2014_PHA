@@ -5,6 +5,7 @@
             <field name="name">Product analysis - Stock production lot form</field>
             <field name="model">stock.production.lot</field>
             <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="priority">19</field>
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="attributes">
                     <attribute name="class">oe_form_sheet_full_screen</attribute>
@@ -120,6 +121,11 @@
                         </group>
                     </page>
                 </notebook>
+                <group string="Dates" position="after">
+                    <group col="2" colspan="4">
+                        <field name="reception_notes"/>
+                    </group>
+                </group>
             </field>
         </record>
 

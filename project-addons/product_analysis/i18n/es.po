@@ -641,6 +641,11 @@ msgstr "Fecha de entrada:"
 msgid "Receive data:"
 msgstr "Recepción:"
 
+#. module: custom_reports
+#: field:stock.production.lot,reception_notes:0
+msgid "Reception notes"
+msgstr "Notas para recepción"
+
 #. module: product_analysis
 #: model:ir.actions.report.xml,name:product_analysis.report_lot_rejected_label
 msgid "Rejected label"

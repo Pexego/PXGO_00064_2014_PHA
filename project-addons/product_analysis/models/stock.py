@@ -181,6 +181,7 @@ class StockProductionLot(models.Model):
         readonly=True,
         string='State changes'
     )
+    reception_notes = fields.Char()
 
     @api.onchange('origin_type')
     def onchange_origin_type(self):
