@@ -25,9 +25,10 @@ class StockMove(models.Model):
 
     @api.one
     def _compute_lots_string(self):
-        lots_string = u", ".join(
-            (self.reserved_quant_ids + self.quant_ids).mapped('lot_id.name')
-        )
+        quant_ids = self.sudo().with_context(active_test=False).\
+                        reserved_quant_ids + \
+                    self.sudo().with_context(active_test=False).quant_ids
+        lots_string = u", ".join(quant_ids.mapped('lot_id.name'))
         self.computed_lots_string = lots_string
         if self.lots_string != lots_string:
             self.write({

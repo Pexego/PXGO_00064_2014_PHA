@@ -76,7 +76,7 @@ class MrpProduction(models.Model):
         consumptions = []
 
         # Gathering pickings
-        for po in self.hoard_ids.mapped('pack_operation_ids'):
+        for po in self.hoard_ids.sudo().mapped('pack_operation_ids'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \
@@ -97,7 +97,7 @@ class MrpProduction(models.Model):
                  })
 
         # Return moves
-        for m in self.move_lines2.filtered(
+        for m in self.move_lines2.sudo().filtered(
                 lambda r: r.location_id.usage == 'internal' and
                           r.location_dest_id.usage == 'internal'):
             idx = -1
@@ -109,7 +109,7 @@ class MrpProduction(models.Model):
             if idx > -1:
                 consumptions[idx]['quantity'] -= m.product_qty
             else:
-                bom_line_id = self.bom_id.bom_line_ids.\
+                bom_line_id = self.bom_id.bom_line_ids.sudo().\
                     filtered(lambda r: r.product_id == m.product_id)
                 consumptions.append({
                     'production_id': self.id,
@@ -128,7 +128,7 @@ class MrpProduction(models.Model):
         self.store_consumption_ids = sc
 
         # Return pickings
-        for po in self.manual_return_pickings.mapped('pack_operation_ids'):
+        for po in self.manual_return_pickings.sudo().mapped('pack_operation_ids'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \
@@ -138,7 +138,7 @@ class MrpProduction(models.Model):
             if idx > -1:
                 consumptions[idx]['quantity'] += po.product_qty * sign
             else:
-                bom_line_id = self.bom_id.bom_line_ids.\
+                bom_line_id = self.bom_id.bom_line_ids.sudo().\
                     filtered(lambda r: r.product_id == po.product_id)
                 consumptions.append({
                     'production_id': self.id,
