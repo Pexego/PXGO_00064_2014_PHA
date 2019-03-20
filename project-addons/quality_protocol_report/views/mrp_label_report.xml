@@ -44,8 +44,7 @@
                         </t>
                         <t t-if="o.product_id.categ_id.id != 1199 and not (o.product_id.categ_id.id == 1224 and o.product_id.clothing == 'naked')"> <!-- Se omite para materias primas o productos intermedios desnudos -->
                             <span style="font-size: 30px; font-weight: bold;">
-                                <t t-if="o.product_id.country.id == 2">Expiry date:</t>
-                                <t t-if="o.product_id.country.id == 235">Best before end:</t>
+                                <t t-if="o.product_id.country.id in (2, 235)">Best before end:</t>
                                 <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
                                 <t t-if="o.duration_type == 'exact'">
@@ -120,8 +119,7 @@
                         </t>
                         <t t-if="o.product_id.categ_id.id != 1199 and not (o.product_id.categ_id.id == 1224 and o.product_id.clothing == 'naked')"> <!-- Se omite para materias primas o productos intermedios desnudos -->
                             <span style="font-size: 24px; font-weight: bold;">
-                                <t t-if="o.product_id.country.id == 2">Expiry date:</t>
-                                <t t-if="o.product_id.country.id == 235">Best before end:</t>
+                                <t t-if="o.product_id.country.id in (2, 235)">Best before end:</t>
                                 <t t-if="o.product_id.country.id == 185">Consumir de preferência antes do fim de:</t>
                                 <t t-if="o.product_id.country.id not in (2, 235, 185)">Consumir preferentemente antes del fin de:</t>
                                 <t t-if="o.duration_type == 'exact'">
