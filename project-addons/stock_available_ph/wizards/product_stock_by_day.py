@@ -35,9 +35,10 @@ class ProductStockByDay(models.TransientModel):
             'cons_by_day_p_total': 0
         }
 
-        # Years back to compute
-        years_back = 2
-        start_date = (date.today() + timedelta(days=-(365 * years_back))).\
+        # Dates of periods to compute
+        a_year_ago = (date.today() + timedelta(days=-365)).\
+            strftime('%Y-%m-%d')
+        two_years_ago = (date.today() + timedelta(days=-(365 * 2))).\
             strftime('%Y-%m-%d')
 
         current_datetime = fields.datetime.now()
@@ -97,7 +98,7 @@ class ProductStockByDay(models.TransientModel):
                 if value['product_id'] == product_id:
                     bom_line_dict_list.append(bom_line_dict.pop(key))
 
-            # Data dictionary for this product
+            # Data dictionaries for this product
             if not data.has_key(product_id):
                 data[product_id] = empty_dict.copy()
             if not bom_data.has_key(product_id):
@@ -119,7 +120,7 @@ class ProductStockByDay(models.TransientModel):
 
             bom_member_of_ids.remove(product_id)
 
-        # Products invoiced quantities in last "years_back"
+        # Products invoiced quantities in last two years
         logger.info('Stock by Day: Computing stock by day based on invoices...')
 
         sql = """
@@ -131,15 +132,32 @@ class ProductStockByDay(models.TransientModel):
                 ail.quantity
             from account_invoice ai
             join account_invoice_line ail on ail.invoice_id = ai.id
-            join product_product pp on pp.id = ail.product_id and pp.active
+            join product_product pp on pp.id = ail.product_id and pp.active {2} {3}
             join product_template pt on pt.id = pp.product_tmpl_id and pt.type = 'product'
             where ai.company_id = {0}
               and ai.date_invoice >= '{1}'
               and ai.type in ('out_invoice', 'out_refund')
               and ai.state in ('open', 'paid')
             order by pp.id, ai.date_invoice;        
-        """.format(self.env.user.company_id.id, start_date)
-        self.env.cr.execute(sql)
+        """
+        # Fetch all products invoiced in last year
+        select_sql = sql.format(
+            self.env.user.company_id.id,
+            a_year_ago,
+            '',
+            ''
+        )
+        self.env.cr.execute(select_sql)
+        ai_lines_data = self.env.cr.fetchall()
+        # Fetch all products invoiced int the last two years and have invoices
+        # in the last year
+        select_sql = sql.format(
+            self.env.user.company_id.id,
+            two_years_ago,
+            'and pp.id in ',
+            tuple(set([d[0] for d in ai_lines_data]))  # Set to remove dupes
+        )
+        self.env.cr.execute(select_sql)
         ai_lines_data = self.env.cr.fetchall()
         if ai_lines_data:
             product_id = ai_lines_data[0][0]
@@ -160,7 +178,7 @@ class ProductStockByDay(models.TransientModel):
             save_sbd_and_cbd_i()
         del ai_lines_data  # Free resources
 
-        # Products moved quantities in last "years_back"
+        # Products moved quantities in last two years
         logger.info('Stock by Day: Computing stock by day based on pickings...')
 
         sql = """
@@ -176,7 +194,7 @@ class ProductStockByDay(models.TransientModel):
                 else 'in' end,
                 sm.product_uom_qty
             from stock_move sm
-            join product_product pp on pp.id = sm.product_id and pp.active
+            join product_product pp on pp.id = sm.product_id and pp.active {2} {3}
             join product_template pt on pt.id = pp.product_tmpl_id and pt.type = 'product'
             join stock_location sl on sl.id = sm.location_id
             join stock_location sld on sld.id = sm.location_dest_id
@@ -193,8 +211,25 @@ class ProductStockByDay(models.TransientModel):
                   sld.usage = 'internal'
               ))
             order by pp.id, sm.date;       
-        """.format(self.env.user.company_id.id, start_date)
-        self.env.cr.execute(sql)
+        """
+        # Fetch all products moved in last year
+        select_sql = sql.format(
+            self.env.user.company_id.id,
+            a_year_ago,
+            '',
+            ''
+        )
+        self.env.cr.execute(select_sql)
+        moves_data = self.env.cr.fetchall()
+        # Fetch all products moved in the las two years and have moves in
+        # the last year
+        select_sql = sql.format(
+            self.env.user.company_id.id,
+            two_years_ago,
+            'and pp.id in',
+            tuple(set([d[0] for d in moves_data]))  # Set to remove dupes
+        )
+        self.env.cr.execute(select_sql)
         moves_data = self.env.cr.fetchall()
         if moves_data:
             product_id = moves_data[0][0]
