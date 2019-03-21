@@ -318,6 +318,11 @@ msgid "For any doubt or explanation, be contacted with"
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el"
 
 #. module: custom_reports
+#: field:account.invoice.report,gross_amount:0
+msgid "Gross amount"
+msgstr "Total bruto"
+
+#. module: custom_reports
 #: field:payment.mode,hide_account_at_invoice:0
 msgid "Hide bank account when payment mode shown in an invoice"
 msgstr "Oculta la cuenta bancaria cuando se muestra el modo de pago en una factura"
@@ -1039,6 +1044,11 @@ msgstr "Total"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Total Without Taxes"
 msgstr "Total sin impuestos"
+
+#. module: custom_reports
+#: field:account.invoice.report,price_total_dollars:0
+msgid "Total Without Taxes in Dollars"
+msgstr "Total sin impuestos en dólares"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document
