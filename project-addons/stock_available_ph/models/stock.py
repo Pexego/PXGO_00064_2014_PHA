@@ -18,6 +18,12 @@ class StockAvailable(models.TransientModel):
     product_qty = fields.Integer(string='Quantity to calculate')
     max_available_to_produce = fields.Float(string='Max available to produce',
                                             readonly=True)
+    qty_available = fields.Float(related='product_id.qty_available',
+                                 readonly=True)
+    virtual_available = fields.Float(related='product_id.virtual_available',
+                                     readonly=True)
+    virtual_conservative = fields.Float(related='product_id.virtual_conservative',
+                                        readonly=True)
 
     @api.onchange('product_id')
     def update_bom(self):
