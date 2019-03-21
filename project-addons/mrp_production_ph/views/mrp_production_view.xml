@@ -64,6 +64,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             type="object"
                             context="{'add_suffix_from_lot': True}"
                             attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                    <label style="font-weight: bold;"
+                           string="Set use date from raw material"
+                           attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                    <button string="Set date"
+                            name="set_date_from_raw_material"
+                            type="object"
+                            attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
                     <field name="use_date"/>
                     <field name="duration_type" style="max-width: 10em;"/>
                 </field>

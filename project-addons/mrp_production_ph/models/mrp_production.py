@@ -212,6 +212,25 @@ class MrpProduction(models.Model):
         }
 
     @api.multi
+    def set_date_from_raw_material(self):
+        if self.bom_id.bom_line_ids:
+            lowest_sequence = min(self.bom_id.\
+                mapped('bom_line_ids.product_id.categ_id').\
+                filtered(lambda c: c.analysis_sequence > 0).\
+                mapped('analysis_sequence'))
+            product_ids = self.bom_id.mapped('bom_line_ids.product_id').\
+                filtered(lambda p: p.categ_id.analysis_sequence == lowest_sequence)
+            lot_ids = self.hoard_ids.sudo().\
+                mapped('move_lines.reserved_quant_ids').\
+                filtered(lambda q: q.product_id in product_ids).\
+                mapped('lot_id').sorted(key=lambda l: l.use_date)
+            if lot_ids:
+                self.final_lot_id.write({
+                    'use_date': lot_ids[0].use_date,
+                    'duration_type': lot_ids[0].duration_type
+                })
+
+    @api.multi
     def action_call_update_display_url(self):
         def toASCII(text):
             return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')

@@ -19,6 +19,11 @@ msgstr ""
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Add suffix from another lot"
+msgstr "Añadir sufijo de otro lote"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 #: view:mrp.production.use.lot:mrp_production_ph.mrp_production_add_suffix_from_lot_wizard
 msgid "Add suffix from lot..."
 msgstr "Añadir sufijo del lote..."
@@ -205,6 +210,16 @@ msgstr "Proceso productivo"
 #: view:mrp.production.use.lot:mrp_production_ph.mrp_production_use_lot_wizard
 msgid "Select"
 msgstr "Seleccionar"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Set date"
+msgstr "Establecer fecha"
+
+#. module: mrp_production_ph
+#: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
+msgid "Set use date from raw material"
+msgstr "Establecer fecha de consumo de materia prima"
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
