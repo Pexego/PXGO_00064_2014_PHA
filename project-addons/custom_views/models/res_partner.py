@@ -47,7 +47,7 @@ class ResPartner(models.Model):
     invoicing_period = fields.Selection([('daily', 'Daily'),
                                          ('weekly', 'Weekly'),
                                          ('monthly', 'Monthly')],
-                                        default='daily')
+                                        default=False)
 
     @api.one
     @api.constrains('active')
