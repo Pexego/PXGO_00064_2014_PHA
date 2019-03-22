@@ -10,7 +10,7 @@
     'website': 'https://www.pharmadus.com',
     "description": """Using this module you can zoom image of product on mouse click.""",
     "summary": "This module can be useful for adding image zoom functionality on mouse click.",
-    'depends': ['product'],
+    'depends': ['product', 'website'],
     'data': [
         'views/template.xml',
     ],

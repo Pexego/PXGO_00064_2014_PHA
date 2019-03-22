@@ -74,16 +74,22 @@ class edi_parser(models.Model):
                     'col1':  'IV',
                     'col2': invoice.type == "out_refund" and invoice.origin_invoices_ids
                 }
+                data[filename].append(edi._create_line_csv(RFF, structs))
             elif invoice.type == "out_invoice" and invoice.name:
                 RFF = {
                     'lineId': 'RFF',
                     'col1': 'ON',
                     'col2': invoice.name
                 }
-            else:
-                RFF = False
-            if RFF:
-                data[filename].append(edi._create_line_csv(RFF,structs))
+                data[filename].append(edi._create_line_csv(RFF, structs))
+            if invoice.picking_ids:
+                for picking in invoice.picking_ids:
+                    RFF = {
+                        'lineId': 'RFF',
+                        'col1': 'DQ',
+                        'col2': picking.name
+                    }
+                    data[filename].append(edi._create_line_csv(RFF, structs))
             NADSU = {
                 'lineId': 'NADSU',
                 'col1': invoice.company_id.partner_id.gln,
@@ -315,8 +321,8 @@ class edi_parser(models.Model):
                 PCILIN = {
                     'lineId': 'PCILIN',
                     'col1': '36E',
-                    'col2': line.lot_id.life_date and line.lot_id.life_date.split(" ")[0].replace("-","") or '',
-                    'col3': '',
+                    'col2': line.lot_id.life_date and line.lot_id.life_date.split(" ")[0].replace("-", "") or '',
+                    'col3': line.lot_id.use_date and line.lot_id.use_date.split(" ")[0].replace("-", "") or '',
                     'col4': '',
                     'col5': '',
                     'col6': '',
@@ -386,6 +392,11 @@ class edi_parser(models.Model):
                 'col1': pick.partner_id.commercial_partner_id.gln
             }
             data[filename].append(edi._create_line_csv(NADMR,structs))
+            NADSU = {
+                'lineId': 'NADSU',
+                'col1': pick.company_id.partner_id.gln
+            }
+            data[filename].append(edi._create_line_csv(NADSU,structs))
             NADDP = {
                 'lineId': 'NADDP',
                 'col1': pick.partner_id.gln,
