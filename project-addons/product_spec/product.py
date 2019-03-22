@@ -30,12 +30,6 @@ class ProductPurchaseSubline(models.Model):
 
     name = fields.Char('Name', size=64, required=True)
 
-
-class ProductPackingInternal(models.Model):
-    _name = 'product.packing.internal'
-
-    name = fields.Char('Name', required=True)
-
 class ProductPackingProduction(models.Model):
     _name = 'product.packing.production'
 
@@ -161,8 +155,7 @@ class ProductTemplate(models.Model):
     objective = fields.Selection((('alimentation', 'Alimentation'),
                                   ('pharmacy', 'Pharmacy')), 'Objective')
     packing = fields.Float('Packing')
-    packing_internal = fields.Many2one('product.packing.internal',
-                                       'Packing Internal')
+    packing_internal = fields.Float('Packing Internal')
     packing_production = fields.Many2one('product.packing.production',
                                          'Packing Production')
     packing_base = fields.Many2one('product.packing.base', 'Packing Base')

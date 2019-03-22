@@ -301,11 +301,6 @@ msgid "Information"
 msgstr "Información"
 
 #. module: product_spec
-#: view:product.packing.internal:product_spec.product_packing_internal_form
-msgid "Internal packing format"
-msgstr "Formato de packing interno"
-
-#. module: product_spec
 #: field:product.container,__last_update:0
 #: field:product.extra.category,__last_update:0
 #: field:product.form,__last_update:0 field:product.line,__last_update:0
@@ -369,6 +364,7 @@ msgstr "Directo"
 
 #. module: product_spec
 #: field:product.template,box_elements:0
+#: field:product.product,box_elements:0
 msgid "Number of elements in a box"
 msgstr "Elementos por caja(Completo)"
 
@@ -379,8 +375,9 @@ msgstr "Objetivo"
 
 #. module: product_spec
 #: field:product.template,packing:0
+#: field:product.product,packing:0
 msgid "Packing"
-msgstr "Packing Externo"
+msgstr "Elementos por caja expositora"
 
 #. module: product_spec
 #: field:product.template,packing_base:0
@@ -389,8 +386,9 @@ msgstr "Packing Base"
 
 #. module: product_spec
 #: field:product.template,packing_internal:0
+#: field:product.product,packing_internal:0
 msgid "Packing Internal"
-msgstr "Packing Interno"
+msgstr "Elementos por caja contenedora"
 
 #. module: product_spec
 #: field:product.template,packing_production:0
