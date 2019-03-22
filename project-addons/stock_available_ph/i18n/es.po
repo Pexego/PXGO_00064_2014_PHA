@@ -329,8 +329,10 @@ msgid "Fixed time"
 msgstr "Tiempo fijo"
 
 #. module: stock_available_ph
-#: field:product.stock.unsafety,virtual_available:0
+#: field:bom.member.of,virtual_available:0
 #: field:mrp.bom,virtual_available:0
+#: field:product.stock.unsafety,virtual_available:0
+#: field:stock.available,virtual_available:0
 msgid "Forecast Quantity"
 msgstr "Cantidad prevista"
 
@@ -737,7 +739,10 @@ msgid "Products that have stock under minimum"
 msgstr "Productos que tienen el stock bajo mínimos."
 
 #. module: stock_available_ph
-#: field:mrp.bom,qty_available:0 field:product.stock.unsafety,qty_available:0
+#: field:bom.member.of,qty_available:0
+#: field:mrp.bom,qty_available:0
+#: field:product.stock.unsafety,qty_available:0
+#: field:stock.available,qty_available:0
 msgid "Quantity On Hand"
 msgstr "Cantidad a mano"
 
@@ -955,9 +960,11 @@ msgid "Variable time"
 msgstr "Tiempo variable"
 
 #. module: stock_available_ph
+#: field:bom.member.of,virtual_conservative:0
 #: field:mrp.bom,virtual_conservative:0
 #: field:product.stock.unsafety,virtual_conservative:0
 #: field:production.planning.materials,qty_vsc_available:0
+#: field:stock.available,virtual_conservative:0
 #: field:stock.available.details,qty_vsc_available:0
 msgid "Virtual stock conservative"
 msgstr "Stock virtual conservador"

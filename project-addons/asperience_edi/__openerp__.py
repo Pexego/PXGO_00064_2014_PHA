@@ -29,7 +29,8 @@
     "license": "",
     "depends": ["board", "account_payment_sale", "sale",
                 "commercial_and_financial_discount", "stock_picking_valued",
-                "product_supplierinfo_for_customer", "product_gtin_codes", "warehouse_shipping_light"],
+                "product_supplierinfo_for_customer", "product_gtin_codes",
+                "warehouse_shipping_light", 'stock_picking_invoice_link'],
     "category": "Generic Modules/EDI",
     "complexity": "easy",
     "description": """

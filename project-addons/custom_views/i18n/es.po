@@ -302,6 +302,11 @@ msgid "Custom views - Partners special form"
 msgstr "Formulario especial edición de clientes"
 
 #. module: custom_views
+#: selection:res.partner,invoicing_period:0
+msgid "Daily"
+msgstr "Diario"
+
+#. module: custom_views
 #: field:mrp.procedure,date_authorized:0
 msgid "Date authorized"
 msgstr "Fecha autorización"
@@ -507,6 +512,11 @@ msgstr "Factura Nº: "
 msgid "Invoices"
 msgstr "Facturas"
 
+#. module: custom_views
+#: field:res.partner,invoicing_period:0
+msgid "Invoicing period"
+msgstr "Período facturación"
+
 #. module: base
 #: field:res.partner,is_company:0
 msgid "Is a Company"
@@ -602,6 +612,11 @@ msgstr "Medicamento"
 #: field:product.product,model_specification_id:0
 msgid "Model specification"
 msgstr "Especificación modelo"
+
+#. module: custom_views
+#: selection:res.partner,invoicing_period:0
+msgid "Monthly"
+msgstr "Mensual"
 
 #. module: custom_views
 #: field:mrp.procedure,notes:0
@@ -1159,6 +1174,11 @@ msgstr "ATENCIÓN: Las cantidades de producto del albarán no coinciden con la r
 #: view:custom.views.warning:custom_views.custom_views_warning_form
 msgid "Warning message"
 msgstr "Mensaje de aviso"
+
+#. module: custom_views
+#: selection:res.partner,invoicing_period:0
+msgid "Weekly"
+msgstr "Semanal"
 
 #. module: custom_views
 #: field:purchasable.products,price_year_before:0

@@ -275,49 +275,6 @@
                   parent="purchase.menu_product_in_config_purchase"
         />
 
-        <!-- product.packing.internal views -->
-        <record model="ir.ui.view" id="product_packing_internal_tree">
-            <field name="name">product.packing.internal.tree</field>
-            <field name="model">product.packing.internal</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="Product packing internals">
-                    <field name="name"  select="1"/>
-                </tree>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="product_packing_internal_form">
-            <field name="name">Product packing.internal</field>
-            <field name="model">product.packing.internal</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Product packings">
-                    <sheet>
-                        <group>
-                            <separator string="Internal packing format" colspan="4"/>
-                            <field name="name" select="1"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-
-        <record model="ir.actions.act_window" id="action_product_packing_internal_form">
-            <field name="name">Product packing internals</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.packing.internal</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="product_packing_internal_tree"/>
-
-        </record>
-
-        <menuitem action="action_product_packing_internal_form"
-            id="menu_product_product_packing_internals"
-            parent="product.prod_config_main"/>
-
         <!-- product.packing.production views -->
         <record model="ir.ui.view" id="product_packing_production_tree">
             <field name="name">product.packing.production.tree</field>

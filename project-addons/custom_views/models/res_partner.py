@@ -44,12 +44,22 @@ class ResPartner(models.Model):
                                      'after a long period of commercial '
                                      'inactivity', readonly=True)
     it_is_an_individual = fields.Boolean(default=False)
+    invoicing_period = fields.Selection([('daily', 'Daily'),
+                                         ('weekly', 'Weekly'),
+                                         ('monthly', 'Monthly')],
+                                        default=False)
 
     @api.one
     @api.constrains('active')
     def _cascade_deactivation(self):
         if (not self.active) and self.child_ids:
             self.child_ids.write({'active': False})
+
+    @api.one
+    @api.constrains('invoicing_period')
+    def _cascade_invoicing_period(self):
+        if self.child_ids:
+            self.child_ids.write({'invoicing_period': self.invoicing_period})
 
     @api.one
     def _total_invoiced(self):

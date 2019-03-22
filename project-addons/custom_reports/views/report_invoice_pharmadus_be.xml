@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="report_invoice_pharmadus_be" model="ir.ui.view">
+            <field name="name">report_invoice_pharmadus_be</field>
+            <field name="inherit_id" ref="custom_reports.report_invoice_pharmadus"/>
+            <field name="mode">primary</field>
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <data inherit_id="custom_reports.report_invoice_pharmadus" name="report_invoice_pharmadus_be">
+                    <div id="company_address" position="replace">
+                        <div id="company_address">
+                            <p>
+                                <span t-field="company.partner_id.name"/>
+                            </p>
+                            <p>
+                                <i class="glyphicon glyphicon-map-marker"/>
+                                <span t-field="company.partner_id.street"/>
+                            </p>
+                            <p>
+                                <span t-field="company.partner_id.city" style="margin-left: 13px;"/>,
+                                <span t-field="company.partner_id.state_id.code"/>
+                                <span t-field="company.partner_id.zip"/>
+                            </p>
+                            <p>
+                                <t t-if="company.partner_id.phone">
+                                    <i class="glyphicon glyphicon-earphone"/>
+                                    <span t-field="company.partner_id.phone"/>
+                                </t>
+                                <t t-if="company.partner_id.phone and company.partner_id.fax"><span> /</span></t>
+                                <t t-if="company.partner_id.fax">
+                                    <i class="glyphicon glyphicon-print"/>
+                                    <span t-field="company.partner_id.fax"/>
+                                </t>
+                            </p>
+                            <p t-if="company.partner_id.website">
+                                <i class="glyphicon glyphicon-globe"/>
+                                <a t-field="company.partner_id.website"/>
+                            </p>
+                            <p t-if="company.partner_id.email">
+                                <i class="glyphicon glyphicon-envelope"/>
+                                <a t-field="company.partner_id.email"/>
+                            </p>
+                            <p>
+                                <i class="glyphicon glyphicon-briefcase"/>
+                                <span t-field="company.partner_id.vat"/>
+                            </p>
+                            <p><br/></p>
+                            <p style="font-size: 14px; font-style: italic;">
+                                <span t-field="company.report_header_message"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <t t-call="custom_reports.report_shipping_address" position="replace">
+                        <t t-if="shipadd">
+                            <span t-field="shipadd.display_name"/><br/>
+                            <t t-if="shipadd.comercial">
+                                <span t-field="shipadd.comercial"/><br/>
+                            </t>
+                            <span t-field="shipadd.street"/><br/>
+                            <t t-if="shipadd.street2">
+                                <span t-field="shipadd.street2"/><br/>
+                            </t>
+                            <span t-field="shipadd.city"/>,
+                            <span t-field="shipadd.state_id.code"/>
+                            <span t-field="shipadd.zip"/>
+                        </t>
+                        <t t-if="not shipadd">
+                            <p>
+                                WARNING: UNKNOWN ADDRESS!!<br/>
+                                VARIABLE "shipadd" NOT DEFINED IN TEMPLATE
+                            </p>
+                        </t>
+                    </t>
+
+                    <xpath expr="//span[text()='Invoice']" position="replace">
+                        <span>Invoice Number:</span>
+                    </xpath>
+
+                    <div id="invoicing_address" position="replace">
+                        <div id="invoicing_address" class="col-xs-5">
+                            <strong>Invoicing address:</strong><br/>
+
+                            <span t-field="o.commercial_partner_id.name"/><br/>
+
+                            <i class="glyphicon glyphicon-map-marker"/>
+                            <span t-field="o.commercial_partner_id.street"/><br/>
+
+                            <span t-field="o.commercial_partner_id.city" style="margin-left: 17px;"/>,
+                            <span t-field="o.commercial_partner_id.state_id.code"/>
+                            <span t-field="o.commercial_partner_id.zip"/><br/>
+
+                            <t t-if="o.partner_id.phone">
+                                <i class="glyphicon glyphicon-earphone"/>
+                                <span t-field="o.commercial_partner_id.phone"/>
+                            </t>
+                            <t t-if="o.partner_id.phone and o.partner_id.fax"><span> /</span></t>
+                            <t t-if="o.partner_id.fax">
+                                <i class="glyphicon glyphicon-print"/>
+                                <span t-field="o.commercial_partner_id.fax"/><br/>
+                            </t>
+                            <t t-if="o.partner_id.phone and not o.partner_id.fax">
+                                <br/>
+                            </t>
+
+                            <t t-if="o.partner_id.website">
+                                <i class="glyphicon glyphicon-globe"/>
+                                <a t-field="o.commercial_partner_id.website"/><br/>
+                            </t>
+
+                            <t t-if="o.partner_id.email">
+                                <i class="glyphicon glyphicon-envelope"/>
+                                <a t-field="o.commercial_partner_id.email"/><br/>
+                            </t>
+
+                            <t t-if="o.partner_id.vat">
+                                <i class="glyphicon glyphicon-briefcase"/>
+                                <span t-field="o.commercial_partner_id.vat"/>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div id="sales_person" position="replace"></div>
+
+                    <xpath expr="//strong[text()='Closing date:']" position="replace">
+                        <strong>Due by:</strong>
+                    </xpath>
+
+                    <xpath expr="//strong[text()='Client quotation ref.:']" position="replace">
+                        <strong>PO Number:</strong>
+                    </xpath>
+
+                    <div id="tax_breakdown" position="replace"></div>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>

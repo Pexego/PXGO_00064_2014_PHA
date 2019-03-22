@@ -42,6 +42,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <attribute name="domain">[('product_ids', 'in', product_tmpl_id)]</attribute>
                     <attribute name="required">1</attribute>
                 </field>
+                <field name="final_qty" position="after">
+                    <field name="production_warning"
+                           style="font-weight: bold;"
+                           attrs="{'invisible': [('production_warning', '=', False)]}"/>
+                </field>
                 <field name="final_lot_id" position="after">
                     <field name="next_lot" attrs="{'invisible': [('final_lot_id', '!=', False)]}"/>
                     <label style="font-weight: bold;"
@@ -58,6 +63,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             name="add_suffix_from_lot"
                             type="object"
                             context="{'add_suffix_from_lot': True}"
+                            attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                    <label style="font-weight: bold;"
+                           string="Set use date from raw material"
+                           attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                    <button string="Set date"
+                            name="set_date_from_raw_material"
+                            type="object"
                             attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
                     <field name="use_date"/>
                     <field name="duration_type" style="max-width: 10em;"/>

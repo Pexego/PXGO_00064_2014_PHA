@@ -28,6 +28,8 @@ class AccountInvoiceReport(models.Model):
     partner_id = fields.Many2one('res.partner', 'Partner (invoice send address)')
     partner_creation_date = fields.Date('Partner creation date')
     partner_recovery_date = fields.Date('Partner recovery date')
+    partner_commercial_discount = fields.Float('Commercial discount (%)', digits=(5, 2))
+    partner_financial_discount = fields.Float('Financial discount (%)', digits=(5, 2))
     commercial_partner_id = fields.Many2one('res.partner', 'Partner (invoicing address)')
     commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
@@ -62,12 +64,16 @@ class AccountInvoiceReport(models.Model):
     product_ecoembes_weight = fields.Float('Product ecoembes weight')
     registration_date = fields.Date('Registration date')
     number = fields.Char('Invoice number')
+    price_total_dollars = fields.Float('Total Without Tax in Dollars')
+    gross_amount = fields.Float('Gross amount')
 
     def _select(self):
         select_str = super(AccountInvoiceReport, self)._select() + """,
             commercial_name,
             partner_creation_date,
             partner_recovery_date,
+            partner_commercial_discount,
+            partner_financial_discount,
             partner_parent_category,
             partner_category,
             partner_user_id,
@@ -95,7 +101,9 @@ class AccountInvoiceReport(models.Model):
             product_net_weight,
             product_ecoembes_weight,
             sub.registration_date,
-            sub.number
+            sub.number,
+            sub.price_total_dollars / cr.rate as price_total_dollars,
+            sub.gross_amount
             """
         return select_str
 
@@ -104,6 +112,8 @@ class AccountInvoiceReport(models.Model):
             partner.comercial as commercial_name,
             partner.create_date as partner_creation_date,
             partner.recovery_date as partner_recovery_date,
+            partner.commercial_discount::numeric(5,2) as partner_commercial_discount,
+            partner.financial_discount::numeric(5,2) as partner_financial_discount,
             case
                 when parent_rpc.name is null then '(Sin categoría)'
                 else parent_rpc.name
@@ -171,7 +181,15 @@ class AccountInvoiceReport(models.Model):
                 end * ail.quantity * pt.ecoembes_weight
             ) as product_ecoembes_weight,
             ai.registration_date,
-            ai.number
+            ai.number,
+            sum(case
+                when ai.type::text = any(array['out_refund'::character varying::text, 'in_invoice'::character varying::text]) then - ail.price_subtotal
+                else ail.price_subtotal
+            end) * crd.rate as price_total_dollars,
+            sum(case
+                when ai.type::text = any(array['out_refund'::character varying::text, 'in_invoice'::character varying::text]) then - ail.gross_amount
+                else ail.gross_amount
+            end) as gross_amount                               
             """
         return select_str
 
@@ -199,7 +217,7 @@ class AccountInvoiceReport(models.Model):
                     from product_categ_rel pcr
                     join product_category pc_aux on pc_aux.id = pcr.categ_id
             		join product_category cpc on cpc.id = pc_aux.parent_id
-            		 and cpc.commissions_parent_category is True
+            		 and cpc.commissions_parent_category is true
                     where pcr.product_id = pt.id
                     limit 1
                 )
@@ -209,6 +227,11 @@ class AccountInvoiceReport(models.Model):
             left join res_country_state scs on scs.id = spa.state_id
             left join ir_model_fields imf on imf.model = 'product.template' and imf.name = 'standard_price'
             left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || pt.id::text
+            join currency_rate crd on (
+            	crd.currency_id = 3 and
+              crd.date_start <= coalesce(ai.date_invoice, now()) and
+              (crd.date_end is null or crd.date_end > coalesce(ai.date_invoice, now()))
+            )
             """
         return from_str
 
@@ -217,6 +240,8 @@ class AccountInvoiceReport(models.Model):
             commercial_name,
             partner_creation_date,
             partner_recovery_date,
+            partner_commercial_discount,
+            partner_financial_discount,
             partner_parent_category,
             partner_category,
             partner_user_id,
@@ -237,6 +262,7 @@ class AccountInvoiceReport(models.Model):
             pt.clothing,
             pr.year_appearance,
             ai.registration_date,
-            ai.number
+            ai.number,
+            crd.rate
             """
         return group_by_str

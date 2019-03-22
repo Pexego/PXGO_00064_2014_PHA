@@ -33,17 +33,14 @@ class ProductProduct(models.Model):
             'purchase_line', 'purchase_subline', 'country', 'customer',
             'packing_base', 'packing_production', 'packing_internal', 'packing',
             'box_elements', 'objective', 'categ_ids', 'cost_method', 'uom_po_id',
-            'description_purchase', 'routing_ids', 'manufacturing_procedure_id',
-            'packaging_procedure_id', 'specification_type', 'specification_id',
-            'analysis_method_id', 'analysis_plan_id', 'track_all', 'sequence_id',
+            'description_purchase', 'routing_ids', 'track_all', 'sequence_id',
             'state', 'product_manager', 'loc_rack', 'loc_row', 'loc_case',
             'life_time', 'use_time', 'removal_time', 'alert_time',
             'duration_type', 'warranty', 'sale_delay', 'produce_delay',
             'commission_exent', 'product_agent_ids', 'description_sale',
             'qc_aspects', 'qc_species', 'categ_id', 'property_account_income',
             'taxes_id', 'property_account_expense', 'supplier_taxes_id',
-            'sii_exempt_cause', 'quality_limits', 'sale_line_warn',
-            'sale_line_warn_msg', 'purchase_line_warn', 'purchase_line_warn_msg'
+            'sii_exempt_cause'
         )
         swo_fields_to_copy = {
             'product_uom', 'group_id', 'product_min_action_qty',

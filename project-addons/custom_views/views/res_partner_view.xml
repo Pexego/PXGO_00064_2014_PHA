@@ -51,6 +51,7 @@
                 <field name="credit_limit" position="after">
                     <field name="liens"/>
                     <field name="insured"/>
+                    <field name="invoicing_period"/>
                 </field>
 
                 <field name="date" position="after">

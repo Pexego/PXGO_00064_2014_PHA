@@ -21,6 +21,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="max_available_to_produce"
                                    class="oe_inline"/>
                             <newline/>
+                            <group colspan="4" col="6">
+                                <field name="qty_available"/>
+                                <field name="virtual_available"/>
+                                <field name="virtual_conservative"/>
+                            </group>
                             <button name="action_compute"
                                     string="Compute data"
                                     type="object"

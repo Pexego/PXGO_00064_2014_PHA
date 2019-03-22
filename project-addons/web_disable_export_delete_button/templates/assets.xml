@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend"
+                  name="web_disable_export_delete_button assets"
+                  inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <t t-set="wdedb_export_group"
+                   t-value="request.env.ref('web_disable_export_delete_button.group_export_button')"/>
+                <t t-set="wdedb_delete_group"
+                   t-value="request.env.ref('web_disable_export_delete_button.group_delete_button')"/>
+                <t t-set="wdedb_user_group_ids"
+                   t-value="request.env.user.groups_id"/>
+                <span id="web_disable_export_delete_button"
+                      style="display: none;"
+                      t-att-user_in_export_group="1 if wdedb_export_group in wdedb_user_group_ids else 0"
+                      t-att-user_in_delete_group="1 if wdedb_delete_group in wdedb_user_group_ids else 0"
+                />
+                <script type="text/javascript"
+                        src="/web_disable_export_delete_button/static/src/js/disable_export_delete_button.js"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

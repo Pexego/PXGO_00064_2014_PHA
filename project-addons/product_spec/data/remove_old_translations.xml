@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <delete model="ir.translation"
+                search="[('name','=','product.template,packing_internal'),('lang','=','es_ES'),('type','=','field')]"/>
+        <delete model="ir.translation"
+                search="[('name','=','product.template,packing'),('lang','=','es_ES'),('type','=','field')]"/>
+    </data>
+</openerp>

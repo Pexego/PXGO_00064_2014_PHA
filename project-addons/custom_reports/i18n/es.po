@@ -218,6 +218,11 @@ msgid "Comment:"
 msgstr "Comentario:"
 
 #. module: custom_reports
+#: field:account.invoice.report,partner_commercial_discount:0
+msgid "Commercial discount (%)"
+msgstr "Descuento comercial (%)"
+
+#. module: custom_reports
 #: field:account.invoice.report,commission_category:0
 #: field:sale.report,commission_category:0
 msgid "Commission category"
@@ -312,10 +317,20 @@ msgid "Fiscal Position Remark:"
 msgstr "Observaciones de la posición fiscal"
 
 #. module: custom_reports
+#: field:account.invoice.report,partner_financial_discount:0
+msgid "Financial discount (%)"
+msgstr "Descuento financiero (%)"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_footer
 #: view:website:custom_reports.report_invoice_biosalud
 msgid "For any doubt or explanation, be contacted with"
 msgstr "Para cualquier duda o aclaración, póngase en contacto con el"
+
+#. module: custom_reports
+#: field:account.invoice.report,gross_amount:0
+msgid "Gross amount"
+msgstr "Total bruto"
 
 #. module: custom_reports
 #: field:payment.mode,hide_account_at_invoice:0
@@ -1039,6 +1054,11 @@ msgstr "Total"
 #: view:website:custom_reports.report_saleorder_document
 msgid "Total Without Taxes"
 msgstr "Total sin impuestos"
+
+#. module: custom_reports
+#: field:account.invoice.report,price_total_dollars:0
+msgid "Total Without Taxes in Dollars"
+msgstr "Total sin impuestos en dólares"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_saleorder_document

@@ -61,6 +61,8 @@ class MrpProduction(models.Model):
         compute='_compute_consumption',
         string='Quality consumption')
     hoards_quants_reserved = fields.Boolean(compute='_hoards_quants_reserved')
+    production_warning = fields.Char(related='product_id.production_warning',
+                                     readonly=True)
 
     @api.multi
     def _hoards_quants_reserved(self):
@@ -74,7 +76,7 @@ class MrpProduction(models.Model):
         consumptions = []
 
         # Gathering pickings
-        for po in self.hoard_ids.mapped('pack_operation_ids'):
+        for po in self.hoard_ids.sudo().mapped('pack_operation_ids'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \
@@ -95,7 +97,7 @@ class MrpProduction(models.Model):
                  })
 
         # Return moves
-        for m in self.move_lines2.filtered(
+        for m in self.move_lines2.sudo().filtered(
                 lambda r: r.location_id.usage == 'internal' and
                           r.location_dest_id.usage == 'internal'):
             idx = -1
@@ -107,7 +109,7 @@ class MrpProduction(models.Model):
             if idx > -1:
                 consumptions[idx]['quantity'] -= m.product_qty
             else:
-                bom_line_id = self.bom_id.bom_line_ids.\
+                bom_line_id = self.bom_id.bom_line_ids.sudo().\
                     filtered(lambda r: r.product_id == m.product_id)
                 consumptions.append({
                     'production_id': self.id,
@@ -126,7 +128,7 @@ class MrpProduction(models.Model):
         self.store_consumption_ids = sc
 
         # Return pickings
-        for po in self.manual_return_pickings.mapped('pack_operation_ids'):
+        for po in self.manual_return_pickings.sudo().mapped('pack_operation_ids'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \
@@ -136,7 +138,7 @@ class MrpProduction(models.Model):
             if idx > -1:
                 consumptions[idx]['quantity'] += po.product_qty * sign
             else:
-                bom_line_id = self.bom_id.bom_line_ids.\
+                bom_line_id = self.bom_id.bom_line_ids.sudo().\
                     filtered(lambda r: r.product_id == po.product_id)
                 consumptions.append({
                     'production_id': self.id,
@@ -208,6 +210,25 @@ class MrpProduction(models.Model):
             'target': 'new',
             'res_id': use_id.id,
         }
+
+    @api.multi
+    def set_date_from_raw_material(self):
+        if self.bom_id.bom_line_ids:
+            lowest_sequence = min(self.bom_id.\
+                mapped('bom_line_ids.product_id.categ_id').\
+                filtered(lambda c: c.analysis_sequence > 0).\
+                mapped('analysis_sequence'))
+            product_ids = self.bom_id.mapped('bom_line_ids.product_id').\
+                filtered(lambda p: p.categ_id.analysis_sequence == lowest_sequence)
+            lot_ids = self.hoard_ids.sudo().\
+                mapped('move_lines.reserved_quant_ids').\
+                filtered(lambda q: q.product_id in product_ids).\
+                mapped('lot_id').sorted(key=lambda l: l.use_date)
+            if lot_ids:
+                self.final_lot_id.write({
+                    'use_date': lot_ids[0].use_date,
+                    'duration_type': lot_ids[0].duration_type
+                })
 
     @api.multi
     def action_call_update_display_url(self):

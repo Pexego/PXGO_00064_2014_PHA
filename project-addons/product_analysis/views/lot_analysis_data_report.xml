@@ -62,7 +62,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12" style="min-height: 3em; text-align: justify;">
-                        Notes: <!--span t-field="o.notes"/-->
+                        Notes: <span t-field="o.reception_notes"/>
                     </div>
                 </div>
                  <div class="row">

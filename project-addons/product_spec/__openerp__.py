@@ -41,6 +41,10 @@
     'author': 'Pexego & Pharmadus',
     'website': '',
     "depends": ['product', 'quality_management_menu', 'purchase', 'stock', 'mrp'],
-    "data": ['product_view.xml', 'security/ir.model.access.csv'],
+    "data": [
+        'data/remove_old_translations.xml',
+        'product_view.xml',
+        'security/ir.model.access.csv',
+    ],
     "installable": True
 }

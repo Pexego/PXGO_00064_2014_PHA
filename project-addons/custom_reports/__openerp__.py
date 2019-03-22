@@ -34,6 +34,7 @@
         'views/report_saleorder.xml',
         'views/report_invoice.xml',
         'views/report_invoice_pharmadus.xml',
+        'views/report_invoice_pharmadus_be.xml',
         'views/report_invoice_biosalud.xml',
         'views/report_lot_labels.xml',
         'views/report_lot_labels_biosalud.xml',
