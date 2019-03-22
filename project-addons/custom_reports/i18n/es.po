@@ -218,6 +218,11 @@ msgid "Comment:"
 msgstr "Comentario:"
 
 #. module: custom_reports
+#: field:account.invoice.report,partner_commercial_discount:0
+msgid "Commercial discount (%)"
+msgstr "Descuento comercial (%)"
+
+#. module: custom_reports
 #: field:account.invoice.report,commission_category:0
 #: field:sale.report,commission_category:0
 msgid "Commission category"
@@ -310,6 +315,11 @@ msgstr "Fin de"
 #: view:website:custom_reports.report_invoice_pharmadus
 msgid "Fiscal Position Remark:"
 msgstr "Observaciones de la posición fiscal"
+
+#. module: custom_reports
+#: field:account.invoice.report,partner_financial_discount:0
+msgid "Financial discount (%)"
+msgstr "Descuento financiero (%)"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_footer

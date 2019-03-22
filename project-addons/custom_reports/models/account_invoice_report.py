@@ -28,6 +28,8 @@ class AccountInvoiceReport(models.Model):
     partner_id = fields.Many2one('res.partner', 'Partner (invoice send address)')
     partner_creation_date = fields.Date('Partner creation date')
     partner_recovery_date = fields.Date('Partner recovery date')
+    partner_commercial_discount = fields.Float('Commercial discount (%)', digits=(5, 2))
+    partner_financial_discount = fields.Float('Financial discount (%)', digits=(5, 2))
     commercial_partner_id = fields.Many2one('res.partner', 'Partner (invoicing address)')
     commercial_name = fields.Char('Partner (commercial name)')
     partner_parent_category = fields.Char('Partner parent category')
@@ -70,6 +72,8 @@ class AccountInvoiceReport(models.Model):
             commercial_name,
             partner_creation_date,
             partner_recovery_date,
+            partner_commercial_discount,
+            partner_financial_discount,
             partner_parent_category,
             partner_category,
             partner_user_id,
@@ -108,6 +112,8 @@ class AccountInvoiceReport(models.Model):
             partner.comercial as commercial_name,
             partner.create_date as partner_creation_date,
             partner.recovery_date as partner_recovery_date,
+            partner.commercial_discount::numeric(5,2) as partner_commercial_discount,
+            partner.financial_discount::numeric(5,2) as partner_financial_discount,
             case
                 when parent_rpc.name is null then '(Sin categoría)'
                 else parent_rpc.name
@@ -234,6 +240,8 @@ class AccountInvoiceReport(models.Model):
             commercial_name,
             partner_creation_date,
             partner_recovery_date,
+            partner_commercial_discount,
+            partner_financial_discount,
             partner_parent_category,
             partner_category,
             partner_user_id,
