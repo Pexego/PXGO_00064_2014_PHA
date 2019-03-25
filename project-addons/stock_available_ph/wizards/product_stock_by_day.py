@@ -118,7 +118,8 @@ class ProductStockByDay(models.TransientModel):
                     prod_bom_qty = bom_line['product_qty']
                     add_consumption_based_on_bom(fp, product_id, prod_bom_qty)
 
-            bom_member_of_ids.remove(product_id)
+            if product_id in bom_member_of_ids:
+                bom_member_of_ids.remove(product_id)
 
         # Products invoiced quantities in last two years
         logger.info('Stock by Day: Computing stock by day based on invoices...')
