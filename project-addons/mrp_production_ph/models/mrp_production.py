@@ -2,7 +2,7 @@
 # © 2017 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, _, exceptions
 import urllib, unicodedata
 from datetime import datetime, timedelta
 from pytz import timezone
@@ -191,6 +191,23 @@ class MrpProduction(models.Model):
             'res_id': use_id.id,
         }
 
+    def _search_oldest_raw_material_lot(self):
+        if self.bom_id.bom_line_ids:
+            lowest_sequence = min(self.bom_id.\
+                mapped('bom_line_ids.product_id.categ_id').\
+                filtered(lambda c: c.analysis_sequence > 0).\
+                mapped('analysis_sequence'))
+            product_ids = self.bom_id.mapped('bom_line_ids.product_id').\
+                filtered(lambda p: p.categ_id.analysis_sequence == lowest_sequence)
+            lot_ids = self.hoard_ids.sudo().\
+                mapped('move_lines.reserved_quant_ids').\
+                filtered(lambda q: q.product_id in product_ids).\
+                mapped('lot_id').sorted(key=lambda l: l.use_date)
+            return lot_ids[0] if lot_ids else False
+        else:
+            return False
+
+    """ Old code that calls wizard to choose one raw material lot
     @api.multi
     def add_suffix_from_lot(self):
         use_id = self.env['mrp.production.use.lot'].create({
@@ -210,25 +227,34 @@ class MrpProduction(models.Model):
             'target': 'new',
             'res_id': use_id.id,
         }
+    """
+    @api.multi
+    def add_suffix_from_lot(self):
+        rm_lot_id = self._search_oldest_raw_material_lot()
+        if rm_lot_id:
+            suffix = rm_lot_id.name
+            aPos = [pos for pos, char in enumerate(suffix) if char == '-']
+            if len(aPos) > 1:
+                final_lot_id = self.final_lot_id
+                # Using sudo() to avoid mail warnings about modified lot names
+                final_lot_id.sudo().write({
+                    'name': final_lot_id.name + suffix[aPos[-2]:],
+                    'use_date': rm_lot_id.use_date,
+                    'duration_type': rm_lot_id.duration_type
+                })
+            else:
+                raise exceptions.Warning(_('Lot error'),
+                                         _('The selected lot do not have the '
+                                           'expected suffix format.'))
 
     @api.multi
     def set_date_from_raw_material(self):
-        if self.bom_id.bom_line_ids:
-            lowest_sequence = min(self.bom_id.\
-                mapped('bom_line_ids.product_id.categ_id').\
-                filtered(lambda c: c.analysis_sequence > 0).\
-                mapped('analysis_sequence'))
-            product_ids = self.bom_id.mapped('bom_line_ids.product_id').\
-                filtered(lambda p: p.categ_id.analysis_sequence == lowest_sequence)
-            lot_ids = self.hoard_ids.sudo().\
-                mapped('move_lines.reserved_quant_ids').\
-                filtered(lambda q: q.product_id in product_ids).\
-                mapped('lot_id').sorted(key=lambda l: l.use_date)
-            if lot_ids:
-                self.final_lot_id.write({
-                    'use_date': lot_ids[0].use_date,
-                    'duration_type': lot_ids[0].duration_type
-                })
+        lot_id = self._search_oldest_raw_material_lot()
+        if lot_id:
+            self.final_lot_id.write({
+                'use_date': lot_id.use_date,
+                'duration_type': lot_id.duration_type
+            })
 
     @api.multi
     def action_call_update_display_url(self):
