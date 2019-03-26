@@ -285,6 +285,11 @@
                 <tree position="attributes">
                     <attribute name="create">0</attribute>
                 </tree>
+                <field name="city" position="before">
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                </field>
                 <field name="state_id" position="after">
                     <field name="country_id"/>
                 </field>
