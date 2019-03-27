@@ -112,6 +112,7 @@ class QualityProtocolReportLine(models.Model):
         inverse_name='report_line_id',
         string='Quality protocol reports references')
     log_realization = fields.Boolean('Log realization')
+    active = fields.Boolean(default=True)
 
     @api.multi
     def duplicate_line(self):
