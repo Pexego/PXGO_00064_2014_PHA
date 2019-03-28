@@ -234,6 +234,7 @@ msgstr "Consumos almacén"
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/wizards/mrp_production_use_lot.py:95
+#: code:addons/mrp_production_ph/models/mrp_production.py:246
 #, python-format
 msgid "The selected lot do not have the expected suffix format."
 msgstr "El lote seleccionado no tiene el formato de sufijo esperado."

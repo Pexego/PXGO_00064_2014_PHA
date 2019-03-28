@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 
 #. module: quality_protocol_report
+#: field:quality.protocol.report.line,active:0
+msgid "Active"
+msgstr "Sección en uso"
+
+#. module: quality_protocol_report
 #: field:quality.protocol.report.lines.rel,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
