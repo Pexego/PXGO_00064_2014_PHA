@@ -375,7 +375,7 @@ class MrpProduction(models.Model):
 
     @api.multi
     def action_confirm_production(self):
-        super(MrpProduction, self).action_confirm()
+        self.action_confirm()
 
     @api.multi
     def action_stock_ldm_previsor(self):
