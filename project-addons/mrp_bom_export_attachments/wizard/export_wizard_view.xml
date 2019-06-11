@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2019 Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="view_bom_attachments_export_wizard" model="ir.ui.view">
+            <field name="name">BoM attachments export wizard</field>
+            <field name="model">bom.attachments.export.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <group>
+                            <field name="location"/>
+                        </group>
+                        <group>
+                            <span>(Odoo must have permissions to write the new structure in this location)</span>
+                        </group>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Begin export" name="export_attachments"
+                                type="object" icon="gtk-ok" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Export attachments"
+            res_model="bom.attachments.export.wizard"
+            view_mode="form"
+            view_id="view_bom_attachments_export_wizard"
+            target="new"
+            id="action_bom_attachments_export_wizard"/>
+
+        <menuitem id="menu_view_bom_attachments_export_wizard"
+                  parent="mrp.menu_mrp_bom_form_action"
+                  action="action_bom_attachments_export_wizard"
+                  groups="base.group_no_one"/>
+    </data>
+</openerp>
