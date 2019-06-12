@@ -61,7 +61,7 @@ class MrpProduction(models.Model):
         compute='_compute_consumption',
         string='Quality consumption')
     hoards_quants_reserved = fields.Boolean(compute='_hoards_quants_reserved')
-    production_warning = fields.Char(related='product_id.production_warning',
+    production_warning = fields.Char(compute='_production_warning',
                                      readonly=True)
 
     @api.multi
@@ -70,6 +70,17 @@ class MrpProduction(models.Model):
             hoard_ids = production.hoard_ids.filtered(
                 lambda h: h.state in ('assigned', 'partially_available'))
             production.hoards_quants_reserved = True if hoard_ids else False
+
+    @api.multi
+    def _production_warning(self):
+        for production_id in self:
+            if production_id.routing_id.code[0:3] == 'REP':
+                production_id.production_warning = \
+                    self.env['ir.config_parameter'].\
+                        get_param('reprocessing_route_warning')
+            else:
+                production_id.production_warning = \
+                    production_id.product_id.production_warning
 
     @api.one
     def _compute_consumption(self):
