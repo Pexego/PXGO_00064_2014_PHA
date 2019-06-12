@@ -1146,6 +1146,11 @@ msgid "Types of Standard Operating Procedures"
 msgstr "Tipos de Procedimientos Normalizados de Trabajo"
 
 #. module: custom_views
+#: view:sale.order:0
+msgid "Total w/o Tax"
+msgstr "Total sin impuestos"
+
+#. module: custom_views
 #: field:mrp.procedure,revision:0
 msgid "Version"
 msgstr "Revisión"
