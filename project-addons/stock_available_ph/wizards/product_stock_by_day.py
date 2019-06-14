@@ -256,21 +256,37 @@ class ProductStockByDay(models.TransientModel):
                     'members...')
 
         # Get all active BoM lines and products that are members of any BoM
-        bom_line_ids = self.env['mrp.bom.line'].search([
-            ('product_id.active', '=', True),
-            ('bom_id.active', '=', True),
-            ('bom_id.product_id.active', '=', True),
-            ('bom_id.sequence', '<', 100)
-        ], order='product_id')
-        bom_member_of_ids = bom_line_ids.mapped('product_id.id')
+        select_sql = """
+            select
+              row_number() over (order by ppl.id, pp.id) "id",
+              ppl.id "product_id",
+              pp.id "final_product_id",
+              sum(mbl.product_qty) "product_qty"
+            from mrp_bom_line mbl
+            join product_product ppl on ppl.id = mbl.product_id and ppl.active
+            join mrp_bom mb on mb.id = mbl.bom_id and mb.active
+            join product_product pp on pp.id = mb.product_id and pp.active
+            where mb.sequence < 100
+              and mb.sequence = (
+                select min(mb_aux.sequence)
+                from mrp_bom mb_aux
+                where mb_aux.product_id = mb.product_id
+                  and mb_aux.active
+            )
+            group by ppl.id, pp.id, mbl.id;
+        """
+        self.env.cr.execute(select_sql)
+        mbl_data = self.env.cr.fetchall()
+
         # Iterating dictionaries are much faster than model recursive searching
-        for bom_line_id in bom_line_ids:
-            bom_line_dict[bom_line_id.id] = {
-                'product_id': bom_line_id.product_id.id,
-                'final_product_id': bom_line_id.bom_id.product_id.id,
-                'product_qty': bom_line_id.product_qty
+        for bl in mbl_data:
+            bom_member_of_ids.append(bl[1])
+            bom_line_dict[bl[0]] = {
+                'product_id': bl[1],
+                'final_product_id': bl[2],
+                'product_qty': bl[3]
             }
-        del bom_line_ids  # Free resources
+        del mbl_data  # Free resources
 
         while bom_member_of_ids:
             compute_indirect_consumption(bom_member_of_ids[0])
