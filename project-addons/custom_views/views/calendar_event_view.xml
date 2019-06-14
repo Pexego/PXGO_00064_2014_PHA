@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2019 Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="view_calendar_event_form" model="ir.ui.view">
+            <field name="name">Custom views - Calendar event form</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('custom_permissions.group_salesman_ph')])]"/>
+            <field name="arch" type="xml">
+                <field name="partner_ids" position="attributes">
+                    <attribute name="domain">
+                        [('user_id', '=', uid)]
+                    </attribute>
+                </field>
+            </field>
+        </record>
+
+        <menuitem id="menu_sales_crm"
+                  name="Crm"
+                  parent="base.menu_base_partner"
+                  sequence="2"/>
+
+        <menuitem id="menu_sales_crm_meetings"
+                  name="Meetings"
+                  action="calendar.action_calendar_event"
+                  parent="menu_sales_crm"
+                  sequence="1"/>
+    </data>
+</openerp>
