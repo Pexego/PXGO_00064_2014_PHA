@@ -51,7 +51,7 @@ msgstr "Display Name"
 #: model:ir.actions.act_window,name:mrp_bom_export_attachments.action_bom_attachments_export_wizard
 #: model:ir.ui.menu,name:mrp_bom_export_attachments.menu_view_bom_attachments_export_wizard
 msgid "Export attachments"
-msgstr "Exportar adjuntos"
+msgstr "Exportar adjuntos de LdM"
 
 #. module: mrp_bom_export_attachments
 #: field:bom.attachments.export.wizard,id:0

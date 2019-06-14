@@ -33,8 +33,9 @@
             id="action_bom_attachments_export_wizard"/>
 
         <menuitem id="menu_view_bom_attachments_export_wizard"
-                  parent="mrp.menu_mrp_bom_form_action"
+                  parent="mrp.menu_mrp_configuration"
                   action="action_bom_attachments_export_wizard"
+                  sequence="36"
                   groups="base.group_no_one"/>
     </data>
 </openerp>
