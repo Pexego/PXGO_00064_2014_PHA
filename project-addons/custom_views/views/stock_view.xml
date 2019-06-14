@@ -126,6 +126,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </field>
                 <xpath expr="//field[@name='pack_operation_ids']//field[@name='lot_id']" position="after">
                     <button name="action_show_lot" type="object" icon="gtk-dnd"/>
+                    <field name="has_lot_certification_and_release" invisible="1"/>
+                    <button name="action_get_last_certificate"
+                            type="object" icon="gtk-paste-v"
+                            attrs="{'invisible': [('has_lot_certification_and_release', '=', False)]}"/>
                 </xpath>
             </field>
         </record>
