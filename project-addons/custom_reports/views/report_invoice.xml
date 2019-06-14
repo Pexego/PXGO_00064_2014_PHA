@@ -77,5 +77,29 @@
             name="custom_reports.report_invoice_bio_without_iso"
             groups="custom_permissions.group_reports_bio"
         />
+
+        <template id="report_invoice_document_grouped">
+            <t t-set="grouped_by_origin" t-value="True"/>
+            <t t-call="custom_reports.report_invoice_document"/>
+        </template>
+
+        <template id="report_invoice_grouped_by_origin">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'custom_reports.report_invoice_document_grouped')"/>
+                </t>
+            </t>
+        </template>
+
+        <report
+            string="Invoice gouped by origin"
+            id="action_invoice_grouped_by_origin"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="custom_reports.report_invoice_grouped_by_origin"
+            file="custom_reports.report_invoice_grouped_by_origin"
+            attachment_use="True"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+        />
     </data>
 </openerp>
