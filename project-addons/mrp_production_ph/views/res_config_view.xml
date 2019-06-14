@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2019 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="view_mrp_config" model="ir.ui.view">
+            <field name="name">MRP Settings</field>
+            <field name="model">mrp.config.settings</field>
+            <field name="inherit_id" ref="mrp.view_mrp_config"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <form position="inside">
+                    <separator string="Production messages"/>
+                    <group >
+                        <label for="id" string="Messages"/>
+                        <div>
+                            <div>
+                                <label for="reprocessing_route_warning"/>
+                                <field name="reprocessing_route_warning"
+                                       class="oe_inline"
+                                       style="width: 100% !important;"/>
+                            </div>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

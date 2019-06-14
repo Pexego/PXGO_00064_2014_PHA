@@ -770,7 +770,7 @@ msgstr "Firma y fecha"
 
 #. module: product_analysis
 #: code:addons/product_analysis/models/stock.py:0
-#: code:addons/product_analysis/models/stock.py:210
+#: code:addons/product_analysis/models/stock.py:285
 #, python-format
 msgid "the consignment has not passed all analysis"
 msgstr "El lote no ha pasado todos los análisis"
@@ -784,7 +784,7 @@ msgstr "Sin especificar"
 #: selection:product.analysis.rel,boolean_selection:0
 #: selection:stock.lot.analysis,result_boolean_selection:0
 msgid "ABSENCE"
-msgstr "AUSENCIA"
+msgstr "NO DETECTADO"
 
 #. module: product_analysis
 #: selection:product.analysis.rel,boolean_selection:0
@@ -827,6 +827,16 @@ msgstr "Análisis prod. (preguntas)"
 #: model:ir.ui.menu,name:product_analysis.menu_stock_production_lot_dates
 msgid "Stock production lot dates"
 msgstr "Fechas de caducidad"
+
+#. module: product_analysis
+#: view:stock.picking:product_analysis.view_picking_form
+msgid "Transfer and approve"
+msgstr "Aprobar y transferir"
+
+#. module: product_analysis
+#: field:stock.picking,transfer_and_approve_available:0
+msgid "Transfer and approve available"
+msgstr "Aprobar y transferir disponible"
 
 #. module: product_analysis
 #: selection:stock.lot.production.review,result:0

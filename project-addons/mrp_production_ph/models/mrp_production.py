@@ -3,7 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, _, exceptions
-import urllib, unicodedata
+import urllib
+import unicodedata
 from datetime import datetime, timedelta
 from pytz import timezone
 import openerp.addons.decimal_precision as dp
@@ -61,7 +62,7 @@ class MrpProduction(models.Model):
         compute='_compute_consumption',
         string='Quality consumption')
     hoards_quants_reserved = fields.Boolean(compute='_hoards_quants_reserved')
-    production_warning = fields.Char(related='product_id.production_warning',
+    production_warning = fields.Char(compute='_production_warning',
                                      readonly=True)
 
     @api.multi
@@ -70,6 +71,17 @@ class MrpProduction(models.Model):
             hoard_ids = production.hoard_ids.filtered(
                 lambda h: h.state in ('assigned', 'partially_available'))
             production.hoards_quants_reserved = True if hoard_ids else False
+
+    @api.multi
+    def _production_warning(self):
+        for production_id in self:
+            if production_id.routing_id.code[0:3] == 'REP':
+                production_id.production_warning = \
+                    self.env['ir.config_parameter'].\
+                        get_param('reprocessing_route_warning')
+            else:
+                production_id.production_warning = \
+                    production_id.product_id.production_warning
 
     @api.one
     def _compute_consumption(self):
@@ -80,8 +92,8 @@ class MrpProduction(models.Model):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \
-                    obj['lot_id'] == po.lot_id.id:
-                   idx = i
+                        obj['lot_id'] == po.lot_id.id:
+                    idx = i
             if idx > -1:
                 consumptions[idx]['quantity'] += po.product_qty
             else:
@@ -99,13 +111,13 @@ class MrpProduction(models.Model):
         # Return moves
         for m in self.move_lines2.sudo().filtered(
                 lambda r: r.location_id.usage == 'internal' and
-                          r.location_dest_id.usage == 'internal'):
+                r.location_dest_id.usage == 'internal'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == m.product_id.id and \
-                    obj['lot_id'] == (m.lot_ids[0].id if m.lot_ids
-                                                      else False):
-                   idx = i
+                        obj['lot_id'] == (m.lot_ids[0].id if m.lot_ids
+                                          else False):
+                    idx = i
             if idx > -1:
                 consumptions[idx]['quantity'] -= m.product_qty
             else:
@@ -132,8 +144,8 @@ class MrpProduction(models.Model):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \
-                    obj['lot_id'] == po.lot_id.id:
-                   idx = i
+                        obj['lot_id'] == po.lot_id.id:
+                    idx = i
             sign = -1 if po.location_dest_id.usage == 'internal' else 1
             if idx > -1:
                 consumptions[idx]['quantity'] += po.product_qty * sign
@@ -350,6 +362,8 @@ class MrpProduction(models.Model):
 
     @api.multi
     def action_confirm(self):
+        if self._context.get('from_wizard'):
+            return super(MrpProduction, self).action_confirm()
         confirm_id = self.env['mrp.production.confirm'].create({
             'production_id': self.id,
             'product': self.product_id.name,
@@ -372,10 +386,6 @@ class MrpProduction(models.Model):
             'target': 'new',
             'res_id': confirm_id.id,
         }
-
-    @api.multi
-    def action_confirm_production(self):
-        super(MrpProduction, self).action_confirm()
 
     @api.multi
     def action_stock_ldm_previsor(self):

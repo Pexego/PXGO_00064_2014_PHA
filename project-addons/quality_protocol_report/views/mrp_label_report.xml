@@ -7,17 +7,17 @@
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <div class="text-center" style="padding-top: 5px;">
-                        <span t-att-style="'font-size:' + name_css_size + 'px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.product_id.name"/>
-                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', o.product_id.default_code, 1400, 500)" style="width:1400px;height:80px;margin-left:-200px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', o.product_id.default_code)" style="width:1100px; height:60px; margin-left:-50px;"/>
                         <br/>
                         <span style="font-size:24px; font-weight:bold;" t-field="o.product_id.default_code"/>
+                        <br/>
+                        <span t-att-style="'font-size:' + name_css_size + 'px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.product_id.name"/>
                     </div>
 
                     <div class="text-center">
-                        <span t-att-style="'font-size: ' + lot_css_size + 'px; line-height:120px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.final_lot_id.name"/>
-                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', o.final_lot_id.name.replace('-', '/'), 1400, 500)" style="width:1400px;height:80px;margin-left:-200px;"/>
+                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', o.final_lot_id.name.replace('-', '/'))" style="width:1100px; height:60px; margin-left:-50px;"/>
                         <br/>
-                        <span style="font-size:24px; font-weight:bold;" t-field="o.final_lot_id.name"/>
+                        <span t-att-style="'font-size: ' + lot_css_size + 'px; line-height:120px; font-weight:bold; font-family: Droid Sans Mono, monospace;'" t-field="o.final_lot_id.name"/>
                     </div>
 
                     <div class="text-center">
@@ -28,7 +28,7 @@
                             <span t-esc="'{0:g}'.format(box_elements)"/> <span t-field="o.product_id.container_id.name"/>
                         </span>
                         <t t-if="gtin and gtin &gt; ''">
-                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', gtin, 1600, 500)" style="width: 1600px; height: 80px; margin-left: -300px;"/>
+                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', gtin)" style="width: 1100px; height: 60px; margin-left: -50px;"/>
                             <br/>
                             <span style="font-size: 24px; font-weight:bold;" t-esc="gtin"/>
                         </t>
@@ -58,6 +58,18 @@
                                 </t>
                             </span>
                         </t>
+
+                        <span>
+                            <t t-set="data" t-value="(('01' + gtin) if gtin and gtin &gt; '' else '')"/>
+                            <t t-set="data" t-value="data + (('15' + time.strftime('%y%m%d', time.strptime(o.use_date,'%Y-%m-%d %H:%M:%S'))) if o.use_date else '')"/>
+                            <t t-set="data" t-value="data + (('10' + o.final_lot_id.name.replace('-', '/')) if o.final_lot_id else '')"/>
+                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', data)" style="width:1050px; height:60px; margin-left:-25px;"/>
+                            <br/>
+                            <t t-set="data" t-value="(('(01)' + gtin) if gtin and gtin &gt; '' else '')"/>
+                            <t t-set="data" t-value="data + (('(15)' + time.strftime('%y%m%d', time.strptime(o.use_date,'%Y-%m-%d %H:%M:%S'))) if o.use_date else '')"/>
+                            <t t-set="data" t-value="data + (('(10)' + o.final_lot_id.name) if o.final_lot_id else '')"/>
+                            <span style="font-size: 24px; font-weight:bold;" t-esc="data"/>
+                        </span>
                     </div>
                 </div>
             </t>

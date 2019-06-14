@@ -41,8 +41,17 @@
                     </div>
                     <div class="col-xs-4">
                         <t t-set="quantity" t-value="0"/>
-                        <t t-foreach="o.quant_ids" t-as="q">
-                            <t t-set="quantity" t-value="quantity + q.qty"/>
+                        <t t-set="wh" t-value="o.env['stock.warehouse'].search([('company_id', '=', o.env.user.company_id.id)])"/>
+                        <t t-foreach="o.move_related_ids" t-as="m">
+                            <t t-set="parent_move_loc_ids" t-value="m.move_orig_ids.mapped('location_id')"/>
+                            <t t-set="parent_move_loc_dest_ids" t-value="m.move_orig_ids.mapped('location_dest_id')"/>
+                            <t t-if="wh.wh_input_stock_loc_id in parent_move_loc_dest_ids and o.env.ref('stock.stock_location_suppliers') in parent_move_loc_ids">
+                                <t t-foreach="m.quant_ids" t-as="q">
+                                    <t t-if="q.lot_id == o">
+                                        <t t-set="quantity" t-value="quantity + q.qty"/>
+                                    </t>
+                                </t>
+                            </t>
                         </t>
                         Quantity: <span t-esc="quantity"/> <span t-field="o.product_id.uom_id"/>
                     </div>

@@ -392,3 +392,113 @@ class StockLotTechnicalDirectionReview(models.Model):
                                   'Question')
     result = fields.Selection([('yes', 'Yes'), ('no', 'No'), ('na', 'N/A')])
     sequence = fields.Integer()
+
+
+class StockTransferDetails(models.TransientModel):
+    _inherit = 'stock.transfer_details'
+
+    @api.multi
+    def do_detailed_transfer_multi(self):
+        super(StockTransferDetails, self).do_detailed_transfer()
+
+        for lot_id in self.picking_id.mapped('pack_operation_ids.lot_id'):
+            lot_id.compute_details_from_moves()
+            if lot_id.production_id.state == 'in_production':
+                report_name = 'product_analysis.' \
+                              'lot_certification_and_partial_release_report'
+            else:
+                report_name = 'product_analysis.' \
+                              'lot_certification_and_release_report'
+            pdf = self.env['report'].get_pdf(lot_id, report_name)
+
+        return {'type': 'ir.actions.act_window_close'}
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    transfer_and_approve_available = fields.Boolean(
+        compute='_transfer_and_approve_available')
+
+    @api.multi
+    def _transfer_and_approve_available(self):
+        for picking_id in self:
+            result = False
+            if picking_id.state in ('assigned', 'partially_available') and \
+                    picking_id.move_lines:
+                quality_location_id = self.env.ref('__export__.stock_location_95')
+                # True if move is in any child location of Quality Control,
+                # any move reserved lot are revised and have analysis passed
+                for move_id in picking_id.move_lines:
+                    for lot_id in move_id.lot_ids:
+                        result = result or (
+                            (move_id.location_id.location_id ==
+                             quality_location_id) and \
+                            ((lot_id.state == u'revised') and \
+                             lot_id.analysis_passed)
+                        )
+            picking_id.transfer_and_approve_available = result
+
+    @api.multi
+    def transfer_and_approve(self):
+        self.ensure_one()
+        aErrors = []
+        quality_location_id = self.env.ref('__export__.stock_location_95')
+        # True if move is in any child location of Quality Control,
+        # any move reserved lot are revised and have analysis passed
+        for move_id in self.move_lines:
+            for lot_id in move_id.lot_ids:
+                if (move_id.location_id.location_id != quality_location_id):
+                    aErrors.append(move_id.product_id.name + ' - Lote: ' +
+                                   lot_id.name + ' - Motivo: Ubicación no es '
+                                                 'de Calidad')
+                if (lot_id.state != 'revised') or not lot_id.analysis_passed:
+                    aErrors.append(move_id.product_id.name + ' - Lote: ' +
+                                   lot_id.name + ' - Motivo: Lote no está '
+                                                 'revisado y/o análisis pasado')
+        if aErrors:
+            txtErrors = '';
+            for error in aErrors:
+                txtErrors += error + '<br/>'
+            raise exceptions.Warning('Algunos movimientos no cumplen los '
+                                     'requisitos', txtErrors)
+
+        for move_id in self.move_lines:
+            for lot_id in move_id.lot_ids:
+                if not lot_id.production_id:
+                    continue
+
+                for tdr_id in lot_id.technical_direction_review_ids:
+                    if tdr_id.question_id.id != 2:
+                        tdr_id.result = 'yes'
+                    else:
+                        lowest_weight = 99999
+                        lowest_weight_material_id = False
+                        for bom_line_id in lot_id.production_id.bom_id.\
+                                bom_line_ids:
+                            weight = bom_line_id.product_id.categ_id.\
+                                analysis_sequence
+                            if weight < lowest_weight:
+                                lowest_weight = weight
+                                lowest_weight_material_id = bom_line_id.\
+                                    product_id
+
+                        if lowest_weight_material_id and \
+                           lowest_weight_material_id.categ_id.\
+                            analysis_sequence == 10 and \
+                            lowest_weight_material_id.container_id.id == 25:
+                            tdr_id.result = 'na'
+                        elif lowest_weight_material_id and \
+                           lowest_weight_material_id.categ_id.\
+                            analysis_sequence != 10:
+                            tdr_id.result = 'na'
+                        else:
+                            tdr_id.result = 'yes'
+
+                lot_id.technical_direction_review_done_by = self.env.user.\
+                    partner_id.name
+                lot_id.technical_direction_review_date = fields.Date.today()
+                lot_id.action_approve()
+
+        return self.with_context(transfer_and_approve = True).\
+            do_enter_transfer_details()

@@ -274,6 +274,45 @@ class StockProductionLot(models.Model):
             self.env.ref('lot_states.stock_location_rejected').id)
         self.is_returned = True
 
+    @api.one
+    def compute_details_from_moves(self):
+        wh = self.env['stock.warehouse'].search(
+            [('company_id', '=', self.env.user.company_id.id)])
+        approved_packop_ids = self.env['stock.pack.operation'].search([
+            ('lot_id', '=', self.id),
+            ('location_id', 'child_of', wh.wh_qc_stock_loc_id.id),
+            ('location_dest_id.usage', '=', 'internal'),
+            ('location_dest_id', 'child_of', wh.lot_stock_id.id),
+        ])
+        rejected_packop_ids = self.env['stock.pack.operation'].search([
+            ('lot_id', '=', self.id),
+            ('location_id', 'child_of', wh.wh_qc_stock_loc_id.id),
+            ('location_dest_id.usage', '=', 'internal'),
+            '!',
+            ('location_dest_id', 'child_of', wh.lot_stock_id.id),
+        ])
+        detail_ids = []
+        for po in approved_packop_ids + rejected_packop_ids:
+            new_detail = True
+            for d in detail_ids:
+                # Packops of the same picking have identical datetime
+                if d[2]['date'] == po.date:
+                    new_detail = False
+                    d[2]['quantity'] += po.product_qty
+            if new_detail:
+                state = 'approved' if po in approved_packop_ids else 'rejected'
+                if state == 'approved' and self.production_id and \
+                        self.production_id.create_date > self.create_date:
+                    state = 'reprocessed'
+                detail_ids += [(0, 0, {
+                    'date': po.date,
+                    'state': state,
+                    'quantity': po.product_qty
+                })]
+        # Write back all collected data
+        # (5, 0, 0) to clear all previous existing details
+        self.write({'detail_ids': [(5, 0, 0)] + detail_ids})
+
 
 class LotDetail(models.Model):
     _name = 'stock.lot.detail'
@@ -282,5 +321,6 @@ class LotDetail(models.Model):
     lot_id = fields.Many2one(comodel_name='stock.production.lot')
     date = fields.Date(required=True)
     state = fields.Selection([('approved', 'Approved'),
-                              ('rejected', 'Rejected')], required=True)
+                              ('rejected', 'Rejected'),
+                              ('reprocessed', 'Reprocessed')], required=True)
     quantity = fields.Float(digits=dp.get_precision('Product Unit of Measure'))

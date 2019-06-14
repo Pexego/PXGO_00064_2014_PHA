@@ -62,44 +62,7 @@ class StockLotDetailWizard(models.TransientModel):
 
     @api.multi
     def button_fill_by_moves(self):
-        wh = self.env['stock.warehouse'].search(
-            [('company_id', '=', self.env.user.company_id.id)])
-        approved_move_ids = self.env['stock.move'].search([
-            ('id', 'in', self.lot_id.move_related_ids.ids),
-            ('state', '=', 'done'),
-            ('location_id', 'child_of', wh.wh_qc_stock_loc_id.id),
-            ('location_dest_id.usage', '=', 'internal'),
-            ('location_dest_id', 'child_of', wh.lot_stock_id.id),
-        ])
-        rejected_move_ids = self.env['stock.move'].search([
-            ('id', 'in', self.lot_id.move_related_ids.ids),
-            ('state', '=', 'done'),
-            ('location_id', 'child_of', wh.wh_qc_stock_loc_id.id),
-            ('location_dest_id.usage', '=', 'internal'),
-            '!',
-            ('location_dest_id', 'child_of', wh.lot_stock_id.id),
-        ])
-        detail_ids = []
-        for m in approved_move_ids + rejected_move_ids:
-            new_detail = True
-            for d in detail_ids:
-                # Movements of the same picking have identical datetime
-                if d[2]['date'] == m.date:
-                    new_detail = False
-                    d[2]['quantity'] += sum(m.quant_ids.
-                                filtered(lambda q: q.lot_id == self.lot_id).
-                                mapped('qty'))
-            if new_detail:
-                detail_ids += [(0, 0, {
-                    'date': m.date,
-                    'state': 'approved' if m in approved_move_ids else 'rejected',
-                    'quantity': sum(m.quant_ids.
-                                filtered(lambda q: q.lot_id == self.lot_id).
-                                mapped('qty'))
-                })]
-        # Write back all collected data
-        # (5, 0, 0) to clear all previous existing details
-        self.lot_id.write({'detail_ids': [(5, 0, 0)] + detail_ids})
+        self.lot_id.compute_details_from_moves()
 
         # Re-create wizard to recompute all
         wizard_id = self.env['stock.lot.detail.wizard']. \

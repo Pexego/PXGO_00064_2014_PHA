@@ -131,6 +131,12 @@ msgid "Manufacturing Order"
 msgstr "Órden de producción"
 
 #. module: mrp_production_ph
+#: view:mrp.config.settings:mrp_production_ph.view_mrp_config
+#: field:mrp.production.available.lot,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: mrp_production_ph
 #: field:mrp.production,next_lot:0
 msgid "Next lot"
 msgstr "Siguiente lote"
@@ -166,6 +172,11 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: mrp_production_ph
+#: view:mrp.config.settings:mrp_production_ph.view_mrp_config
+msgid "Production messages"
+msgstr "Mensajes en producciones"
+
+#. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 msgid "Production notes"
 msgstr "Notas sobre la producción"
@@ -198,6 +209,11 @@ msgstr "Cantidad a fabricar"
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 msgid "Real Consumption"
 msgstr "Consumo real"
+
+#. module: mrp_production_ph
+#: field:mrp.config.settings,reprocessing_route_warning:0
+msgid "Reprocessing route warning"
+msgstr "Aviso para rutas de reprocesado"
 
 #. module: mrp_production_ph
 #: model:ir.model,name:mrp_production_ph.model_mrp_routing

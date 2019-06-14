@@ -27,7 +27,7 @@ class MrpProductionConfirm(models.TransientModel):
 
     @api.multi
     def action_confirm_production(self):
-        self.production_id.action_confirm_production()
+        self.production_id.with_context(from_wizard=True).action_confirm()
 
     @api.multi
     def action_cancel_production(self):
