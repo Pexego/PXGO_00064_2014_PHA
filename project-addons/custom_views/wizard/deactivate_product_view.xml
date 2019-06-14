@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2019 Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="view_deactivate_product_wizard" model="ir.ui.view">
+            <field name="name">Deactivate product wizard</field>
+            <field name="model">deactivate.product</field>
+            <field name="arch" type="xml">
+                <form string="Deactivate product(s)">
+                    <group>
+                        <label string="Selected products will be deactivated"/>
+                    </group>
+                    <footer>
+                        <button name="deactivate_product"
+                                string="Deactivate product(s)"
+                                type="object"
+                                class="oe_read_only oe_highlight"
+                                icon="gtk-dialog-warning"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Deactivate product(s)"
+                    res_model="deactivate.product"
+                    src_model="product.product"
+                    view_mode="form"
+                    view_type="form"
+                    view_id="view_deactivate_product_wizard"
+                    target="new"
+                    key2="client_action_multi"
+                    multi="True"
+                    groups="base.group_no_one"
+                    id="action_deactivate_product_wizard"/>
+    </data>
+</openerp>
