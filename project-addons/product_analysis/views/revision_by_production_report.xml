@@ -373,7 +373,7 @@
                             </t>
                             <t t-if="pesosFinalesObtenidos">
                                 <div class="col-xs-9">
-                                    <span t-if="production.product_id.uom_id.category_id.id == 1">Unidades fabricadas (UF):</span>
+                                    <span t-if="production.product_id.uom_id.category_id.id == 1">Unid. fabricadas (UF):</span>
                                     <span t-if="production.product_id.uom_id.category_id.id != 1">Peso fabricado (PF):</span>
                                 </div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(pesosFinalesObtenidos))"/> <span t-field="production.product_id.uom_id"/></div>
