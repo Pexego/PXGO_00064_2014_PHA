@@ -363,7 +363,7 @@
                                 <div class="col-xs-9">Nº infusiones fabricadas por contador (IC):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(contadorInfusiones))"/> uds</div>
                             </t>
-                           <t t-if="contadorUnidades">
+                            <t t-if="contadorUnidades">
                                 <div class="col-xs-9">Nº unidades fabricadas por contador (UC):</div>
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(contadorUnidades))"/> uds</div>
                             </t>
@@ -372,8 +372,11 @@
                                 <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(unidadesFabricadas))"/> uds</div>
                             </t>
                             <t t-if="pesosFinalesObtenidos">
-                                <div class="col-xs-9">Peso fabricado (PF):</div>
-                                <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(pesosFinalesObtenidos))"/> kg</div>
+                                <div class="col-xs-9">
+                                    <span t-if="production.product_id.uom_id.category_id.id == 1">Unidades fabricadas (UF):</span>
+                                    <span t-if="production.product_id.uom_id.category_id.id != 1">Peso fabricado (PF):</span>
+                                </div>
+                                <div class="col-xs-3"><span t-esc="'{0:g}'.format(max(pesosFinalesObtenidos))"/> <span t-field="production.product_id.uom_id"/></div>
                             </t>
                             <t t-if="ratiosDosificacion">
                                 <div class="col-xs-9">Ratio de dosificación (RD):</div>
