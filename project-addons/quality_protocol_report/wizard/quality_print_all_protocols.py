@@ -81,6 +81,8 @@ class QualityReportAll(models.TransientModel):
             if protocol_type_id.is_continuation:
                 protocol_type += fields.Datetime. \
                     from_string(workcenter_line.create_date).strftime(' %d-%m-%Y')
+            protocol_name = unicodedata.normalize('NFKD', use_protocol.name). \
+                encode('ascii', 'ignore').replace(' ', '~')
             protocol_type = unicodedata.normalize('NFKD', protocol_type). \
                 encode('ascii', 'ignore').replace(' ', '~')
             product_name = obj.product_id.display_name
@@ -95,12 +97,14 @@ class QualityReportAll(models.TransientModel):
             res.append(
                 urljoin(
                     base_url,
-                    "protocol/print/%s/%s/%s?weight=%02d#prod=%s#prot=%s#product=%s#lot=%s#date=%s" % (
+                    "protocol/print/%s/%s/%s?weight=%02d#prod=%s#protname=%s#"
+                    "prot=%s#product=%s#lot=%s#date=%s" % (
                         slug(obj),
                         slug(use_protocol),
                         slug(workcenter_line),
                         weight,
                         production_name,
+                        protocol_name,
                         protocol_type,
                         product_name,
                         lot_name,

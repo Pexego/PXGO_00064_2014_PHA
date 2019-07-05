@@ -20,13 +20,15 @@ function extractWeight(text) {
 
 function extractData(text) {
     txt = text.replace(/~/g, ' ');
-    posProd    = txt.indexOf('#prod=');
-    posProt    = txt.indexOf('#prot=');
-    posProduct = txt.indexOf('#product=');
-    posLot     = txt.indexOf('#lot=');
-    posDate    = txt.indexOf('#date=');
+    posProd     = txt.indexOf('#prod=');
+    posProtName = txt.indexOf('#protname=');
+    posProt     = txt.indexOf('#prot=');
+    posProduct  = txt.indexOf('#product=');
+    posLot      = txt.indexOf('#lot=');
+    posDate     = txt.indexOf('#date=');
     return {
-        production: ((posProd > -1 && posProt > -1) ? txt.substring(posProd + 6, posProt) : '¿?'),
+        production: ((posProd > -1 && posProtName > -1) ? txt.substring(posProd + 6, posProtName) : '¿?'),
+        protocolName: ((posProtName > -1 && posProt > -1) ? txt.substring(posProtName + 10, posProt) : '¿?'),
         protocol: ((posProt > -1 && posProduct > -1) ? txt.substring(posProt + 6, posProduct) : '¿?'),
         product: ((posProduct > -1 && posLot > -1) ? txt.substring(posProduct + 9, posLot) : '¿?'),
         lot: ((posLot > -1 && posDate > -1) ? txt.substring(posLot + 5, posDate) : '¿?'),
@@ -55,8 +57,9 @@ RenderUrlsToFile = function(urls, session_id, dest_path) {
             var headerCallback = new Function('pageNum', 'numPages',
                 'return \'<div style="border-bottom: 1px solid black; ' +
                 'width: 100%; text-align: right; font-size: 12px;">' +
-                data.production + ' - ' + data.protocol +
-                ' - \' + pageNum + \' de \' + numPages + ' + '\'<br>' +
+                data.production + ' - ' + data.protocolName + ' - ' +
+                data.protocol + ' - \' + pageNum + \' de \' + numPages + ' +
+                '\'<br>' +
                 data.product + ' - ' + data.lot + ' - ' + data.date +
                 '</div>\';');
             var parser = document.createElement('a');
