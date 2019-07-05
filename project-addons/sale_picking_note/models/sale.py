@@ -19,10 +19,19 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     internal_note = fields.Text(string='Internal note')
+    sale_dept_note = fields.Text(string='Sale Department note')
+
+    @api.multi
+    def _onchange_partner_shipping_id(self, partner_id):
+        partner_shipping_id = self.env['res.partner'].browse(partner_id)
+        return {'value': {
+            'sale_dept_note': partner_shipping_id.sale_warn_msg
+        }}
+
