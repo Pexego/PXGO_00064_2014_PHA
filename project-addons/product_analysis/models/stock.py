@@ -486,7 +486,7 @@ class StockPicking(models.Model):
                         if lowest_weight_material_id and \
                            lowest_weight_material_id.categ_id.\
                             analysis_sequence == 10 and \
-                            lot_id.production_id.product_id.container_id.id == 25:
+                            lot_id.production_id.product_id.container_id.id in (25, 31):
                             tdr_id.result = 'na'
                         elif lowest_weight_material_id and \
                            lowest_weight_material_id.categ_id.\
