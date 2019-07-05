@@ -1385,13 +1385,19 @@ msgid "Selected products will be deactivated"
 msgstr "Los productos seleccionados se desactivarán"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:56
+#: code:addons/custom_views/wizard/deactivate_product.py:62
 #, python-format
 msgid "The deactivation of the selected product(s) has been carried out correctly"
 msgstr "La desactivación del producto o productos seleccionados se ha realizado correctamente"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:60
+#: code:addons/custom_views/wizard/deactivate_product.py:63
+#, python-format
+msgid "Exceptions"
+msgstr "Excepciones"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:67
 #, python-format
 msgid "There is nothing to deactivate"
 msgstr "No hay nada que desactivar"
