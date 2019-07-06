@@ -96,11 +96,14 @@ class PrintProtocol(models.TransientModel):
                         })
 
         # Pasamos datos de la cabecera como parámetros de la url
+        weight = wkcenter_line.workcenter_id.protocol_type_id.weight
         production_name = obj.display_name
         protocol_type = self.protocol_type_id.name
         if self.protocol_type_id.is_continuation:
             protocol_type += fields.Datetime.\
                 from_string(wkcenter_line.create_date).strftime(' %d-%m-%Y')
+        protocol_name = unicodedata.normalize('NFKD', use_protocol.name). \
+            encode('ascii', 'ignore').replace(' ', '~')
         protocol_type = unicodedata.normalize('NFKD', protocol_type).\
             encode('ascii', 'ignore').replace(' ', '~')
         product_name = obj.product_id.display_name
@@ -114,11 +117,14 @@ class PrintProtocol(models.TransientModel):
 
         self.print_url = urljoin(
             base_url,
-            "protocol/print/%s/%s/%s?weight=00#prod=%s#prot=%s#product=%s#lot=%s#date=%s" % (
+            "protocol/print/%s/%s/%s?weight=%02d#prod=%s#protname=%s#"
+            "prot=%s#product=%s#lot=%s#date=%s" % (
                 slug(obj),
                 slug(use_protocol),
                 slug(wkcenter_line),
+                weight,
                 production_name,
+                protocol_name,
                 protocol_type,
                 product_name,
                 lot_name,

@@ -8,9 +8,13 @@
             <field name="arch" type="xml">
                 <field name="note" position="replace">
                     <group colspan="4">
+                        <field name="sale_dept_note" placeholder="Sale Department note..."/>
                         <field name="internal_note" placeholder="Internal note..."/>
                         <field name="note" placeholder="Terms and conditions..."/>
                     </group>
+                </field>
+                <field name="partner_shipping_id" position="attributes">
+                    <attribute name="on_change">_onchange_partner_shipping_id(partner_shipping_id)</attribute>
                 </field>
             </field>
         </record>

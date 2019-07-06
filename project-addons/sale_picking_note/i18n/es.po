@@ -33,6 +33,16 @@ msgid "Note from sale order"
 msgstr "Nota desde pedido de venta"
 
 #. module: sale_picking_note
+#: field:sale.order,sale_dept_note:0
+msgid "Sale Department note"
+msgstr "Nota para Dpto. Ventas"
+
+#. module: sale_picking_note
+#: view:sale.order:sale_picking_note.order_form_sale_picking_note
+msgid "Sale Department note..."
+msgstr "Nota para el Departamento de Ventas..."
+
+#. module: sale_picking_note
 #: view:sale.order:sale_picking_note.order_form_sale_picking_note
 msgid "Terms and conditions..."
 msgstr "Nota en factura..."

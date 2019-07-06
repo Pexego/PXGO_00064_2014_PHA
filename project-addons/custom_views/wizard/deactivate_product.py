@@ -19,41 +19,48 @@ class DeactivateProduct(models.TransientModel):
             mrp_bom_line = self.env['mrp.bom.line']
             mrp_bom = self.env['mrp.bom']
             protocol_link = self.env['product.protocol.link']
+            # Exceptions messages
+            exceptions = ''
 
             product_ids = self.env['product.product'].browse(
                 self.env.context.get('active_ids'))
             for product_id in product_ids:
-                ql = quality_limits.search([('name', '=', product_id.product_tmpl_id.id)])
-                if ql:
-                    ql.active = False
+                if product_id.qty_available == 0:
+                    ql = quality_limits.search([('name', '=', product_id.product_tmpl_id.id)])
+                    if ql:
+                        ql.active = False
 
-                pi = pricelist_items.search([('product_id', '=', product_id.id)])
-                if pi:
-                    pi.unlink()
+                    pi = pricelist_items.search([('product_id', '=', product_id.id)])
+                    if pi:
+                        pi.unlink()
 
-                swo = stock_warehouse_op.search([('product_id', '=', product_id.id)])
-                if swo:
-                    swo.active = False
+                    swo = stock_warehouse_op.search([('product_id', '=', product_id.id)])
+                    if swo:
+                        swo.active = False
 
-                mbl = mrp_bom_line.search([('product_id', '=', product_id.id)])
-                if mbl:
-                    mbl.unlink()
+                    mbl = mrp_bom_line.search([('product_id', '=', product_id.id)])
+                    if mbl:
+                        mbl.unlink()
 
-                mb = mrp_bom.search([('product_id', '=', product_id.id)])
-                if mb:
-                    mb.active = False
+                    mb = mrp_bom.search([('product_id', '=', product_id.id)])
+                    if mb:
+                        mb.active = False
 
-                pl = protocol_link.search([('product', '=', product_id.id)])
-                if pl:
-                    pl.unlink()
+                    pl = protocol_link.search([('product', '=', product_id.id)])
+                    if pl:
+                        pl.unlink()
 
-                # Finally, deactivate targeted product
-                product_id.product_tmpl_id.active = False
-                product_id.active = False
+                    # Finally, deactivate targeted product
+                    product_id.product_tmpl_id.active = False
+                    product_id.active = False
+                else:
+                    exceptions += '- ' + product_id.name + ' (' + \
+                                  product_id.qty_available_text + ')\n'
 
             return self.env['custom.views.warning'].show_message(
                 _('Product(s) deactivated'),
-                _('The deactivation of the selected product(s) has been carried out correctly')
+                _('The deactivation of the selected product(s) has been carried out correctly') +
+                ('\n\n' + _('Exceptions') + ':\n' + exceptions if exceptions > '' else '')
             )
         else:
             return self.env['custom.views.warning'].show_message(
