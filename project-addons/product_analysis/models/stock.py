@@ -197,11 +197,12 @@ class StockProductionLot(models.Model):
                           '</tr></thead><tbody>')]
             lot.production_id = self.env['mrp.production'].search([
                 ('final_lot_id', '=', lot.id)])
-            consumption_ids = lot.production_id.mapped('quality_consumption_ids')
+            consumption_ids = lot.production_id.sudo().mapped('quality_consumption_ids')
             for consumption_id in consumption_ids:
+                state = consumption_id.lot_id.state
                 lot_state_str = dict(
-                    consumption_id.lot_id.fields_get(
-                        ['state'])['state']['selection'])[consumption_id.lot_id.state]
+                    consumption_id.lot_id.fields_get(['state'])['state']['selection']
+                )[state]
                 if consumption_id.lot_id.acceptance_date:
                     acceptance_date = datetime.strptime(
                         consumption_id.lot_id.acceptance_date, '%Y-%m-%d').\
