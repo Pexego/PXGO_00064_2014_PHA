@@ -138,5 +138,59 @@
                 </button>
             </field>
         </record>
+
+        <!-- ##################################################### -->
+        <!-- # Add "amount_untaxed" to all sale order tree views # -->
+        <!-- ##################################################### -->
+        <record id="view_sale_order_tree_1" model="ir.ui.view">
+            <field name="name">Sale order tree 1</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="amount_total" position="after">
+                    <field name="amount_untaxed" sum="Total w/o Tax"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_sale_order_tree_2" model="ir.ui.view">
+            <field name="name">Sale order tree 2</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="amount_total" position="after">
+                    <field name="amount_untaxed" sum="Total w/o Tax"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_sale_order_tree_3" model="ir.ui.view">
+            <field name="name">Sale order tree 3</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_replacement.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="amount_total" position="after">
+                    <field name="amount_untaxed" sum="Total w/o Tax"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_sale_order_tree_4" model="ir.ui.view">
+            <field name="name">Sale order tree 4</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_transfer.view_transfer_sales"/>
+            <field name="arch" type="xml">
+                <field name="amount_total" position="after">
+                    <field name="amount_untaxed" sum="Total w/o Tax"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_sale_order_tree_5" model="ir.ui.view">
+            <field name="name">Sale order tree 5</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_transfer_sample_rel.view_all_sales"/>
+            <field name="arch" type="xml">
+                <field name="amount_total" position="after">
+                    <field name="amount_untaxed" sum="Total w/o Tax"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

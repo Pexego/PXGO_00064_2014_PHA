@@ -94,10 +94,9 @@ class ProductProduct(models.Model):
         return self.env.context.get('pricelist', False) in pricelist
 
     def _search_is_in_current_pricelist(self, operator, value):
-        # This domain filter by price list is only for Pharmadus and
-        # sale orders that aren't for sample/advertising purposes
-        if (self.env.user.company_id != self.env.ref('base.main_company')) or\
-                self.env.context.get('is_a_sample_order', False):
+        # This domain filter by price list is for sale orders that aren't for
+        # sample/advertising purposes
+        if self.env.context.get('is_a_sample_order', False):
             return [('active', '=', True)]
 
         current_pricelist_product_list = []

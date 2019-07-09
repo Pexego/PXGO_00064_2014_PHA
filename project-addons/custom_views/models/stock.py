@@ -288,6 +288,9 @@ class StockLocation(models.Model):
 class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
 
+    has_lot_certification_and_release = fields.Boolean(
+        compute='_has_lot_certification_and_release')
+
     @api.multi
     def action_show_lot(self):
         return {
@@ -298,3 +301,31 @@ class StockPackOperation(models.Model):
             'target': 'current',
             'res_id': self.lot_id.id,
         }
+
+    @api.multi
+    def _has_lot_certification_and_release(self):
+        for po in self:
+            attachment_id = self.env['ir.attachment'].search(
+                [('res_model', '=', po.lot_id._name),
+                 ('res_id', '=', po.lot_id.id),
+                 ('datas_fname', '=ilike', 'certificac%')])
+            po.has_lot_certification_and_release = True if attachment_id \
+                else False
+
+    @api.multi
+    def action_get_last_certificate(self):
+        attachment_id = self.env['ir.attachment'].search(
+            [('res_model', '=', self.lot_id._name),
+             ('res_id', '=', self.lot_id.id),
+             ('datas_fname', '=ilike', 'certificac%')],
+            order='id desc')
+        if attachment_id:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': '/web/binary/saveas?model=ir.attachment&field=datas' +
+                       '&filename_field=name&id=%s' % (attachment_id[0].id),
+                'target': 'self',
+            }
+        else:
+            raise exceptions.Warning('No se generó ningún certificado de '
+                                     'liberación de lote...')

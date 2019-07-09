@@ -372,6 +372,10 @@ msgstr "Fecha de factura:"
 msgid "Invoice affecting:"
 msgstr "Facturas que afecta:"
 
+#: model:ir.actions.report.xml,name:custom_reports.action_invoice_grouped_by_origin
+msgid "Invoice gouped by origin"
+msgstr "Facturas agrupadas por origen"
+
 #. module: custom_reports
 #: field:account.invoice.report,number:0
 msgid "Invoice number"

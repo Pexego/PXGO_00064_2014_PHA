@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mrp_bom_export_attachments
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-11 14:09+0000\n"
+"PO-Revision-Date: 2019-06-11 16:11+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2.3\n"
+
+#. module: mrp_bom_export_attachments
+#: view:bom.attachments.export.wizard:mrp_bom_export_attachments.view_bom_attachments_export_wizard
+msgid "(Odoo must have permissions to write the new structure in this location)"
+msgstr "(Odoo debe tener permisos para escribir la nueva estructura en esta ubicación)"
+
+#. module: mrp_bom_export_attachments
+#: view:bom.attachments.export.wizard:mrp_bom_export_attachments.view_bom_attachments_export_wizard
+msgid "Begin export"
+msgstr "Comenzar exportación"
+
+#. module: mrp_bom_export_attachments
+#: view:bom.attachments.export.wizard:mrp_bom_export_attachments.view_bom_attachments_export_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: mrp_bom_export_attachments
+#: model:ir.actions.act_window,name:mrp_bom_export_attachments.action_bom_attachments_export_wizard
+#: model:ir.ui.menu,name:mrp_bom_export_attachments.menu_view_bom_attachments_export_wizard
+msgid "Export attachments"
+msgstr "Exportar adjuntos de LdM"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: mrp_bom_export_attachments
+#: code:addons/mrp_bom_export_attachments/wizard/export_wizard.py:19
+#, python-format
+msgid "Invalid location"
+msgstr "Ubicación no válida"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: mrp_bom_export_attachments
+#: field:bom.attachments.export.wizard,location:0
+msgid "Location where directory structure will be generated"
+msgstr "Ubicación donde se generará la nueva estructura de directorios"
+
+#. module: mrp_bom_export_attachments
+#: code:addons/mrp_bom_export_attachments/wizard/export_wizard.py:20
+#, python-format
+msgid "The specified location does not exists"
+msgstr "La ubicación especificada no existe"

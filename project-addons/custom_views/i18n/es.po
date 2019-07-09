@@ -1146,6 +1146,11 @@ msgid "Types of Standard Operating Procedures"
 msgstr "Tipos de Procedimientos Normalizados de Trabajo"
 
 #. module: custom_views
+#: view:sale.order:0
+msgid "Total w/o Tax"
+msgstr "Total sin impuestos"
+
+#. module: custom_views
 #: field:mrp.procedure,revision:0
 msgid "Version"
 msgstr "Revisión"
@@ -1361,3 +1366,43 @@ msgstr "Clientes fact. x años"
 #: field:crm.claim.stage,name:0
 msgid "In Progress"
 msgstr "Finalizada"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:61
+#, python-format
+msgid "No products selected to process!"
+msgstr "¡No se han seleccionado productos a desactivar!"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:55
+#, python-format
+msgid "Product(s) deactivated"
+msgstr "Producto(s) desactivado(s)"
+
+#. module: custom_views
+#: view:deactivate.product:custom_views.view_deactivate_product_wizard
+msgid "Selected products will be deactivated"
+msgstr "Los productos seleccionados se desactivarán"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:62
+#, python-format
+msgid "The deactivation of the selected product(s) has been carried out correctly"
+msgstr "La desactivación del producto o productos seleccionados se ha realizado correctamente"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:63
+#, python-format
+msgid "Exceptions"
+msgstr "Excepciones"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:67
+#, python-format
+msgid "There is nothing to deactivate"
+msgstr "No hay nada que desactivar"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_sales_crm_meetings
+msgid "Meetings"
+msgstr "Reuniones"

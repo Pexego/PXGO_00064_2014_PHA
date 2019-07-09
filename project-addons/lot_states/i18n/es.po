@@ -386,6 +386,11 @@ msgid "Remaining"
 msgstr "Pendiente"
 
 #. module: lot_states
+#: selection:stock.lot.detail,state:0 field:stock.lot.detail.wizard,approved:0
+msgid "Reprocessed"
+msgstr "Reprocesado"
+
+#. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
 msgid "Return to draft"
 msgstr "Volver a nuevo"

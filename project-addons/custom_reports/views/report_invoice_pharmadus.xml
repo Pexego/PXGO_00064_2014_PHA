@@ -233,91 +233,118 @@
                         font-size: 12px;
                     }
                 </style>
-                <table class="table table-condensed details">
-                    <thead>
-                        <tr>
-                            <th>CN Code</th>
-                            <th>Product | EAN13<br/>Lot | Approved | Best before</th>
-                            <th class="text-right">Qty</th>
-                            <th class="text-right">Unit price</th>
-                            <th class="text-right">Disc.(%)</th>
-                            <th class="text-right">Price w/discount</th>
-                            <th class="text-right">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody class="invoice_tbody">
-                        <tr t-foreach="o.invoice_line" t-as="l">
-                            <td>
-                                <span t-field="l.product_id.cn_code"/>
-                            </td>
-                            <td style="min-width: 40%;">
-                                <span t-field="l.name"/>&amp;nbsp;|&amp;nbsp;<span t-field="l.product_id.ean13"/>
-                                <br/>
-                                <table t-if="l.move_id">
-                                    <tbody>
-                                        <t t-foreach="l.move_id" t-as="m">
-                                            <t t-set="pack_operations" t-value="[]"/>
-                                            <t t-foreach="m.linked_move_operation_ids" t-as="mo">
-                                                <t t-if="mo.operation_id not in pack_operations">
-                                                    <t t-set="pack_operations" t-value="pack_operations + [mo.operation_id]"/>
-                                                </t>
-                                            </t>
-                                            <t t-foreach="pack_operations" t-as="po">
-                                                <tr>
-                                                    <td><span t-field="po.lot_id.name"/></td>
-                                                    <td>&amp;nbsp;|&amp;nbsp;</td>
-                                                    <td>
-                                                        <span t-if="po.lot_id.acceptance_date" t-field="po.lot_id.acceptance_date"/>
-                                                        <span t-if="not po.lot_id.acceptance_date">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
-                                                    </td>
-                                                    <td>&amp;nbsp;|&amp;nbsp;</td>
-                                                    <td style="white-space: nowrap;">
-                                                        <t t-set="u_date" t-value="po.lot_id.use_date"/>
-                                                        <t t-if="u_date">
-                                                            <t t-set="orig_use_date" t-value="time.strptime(u_date,'%Y-%m-%d %H:%M:%S')"/>
-                                                            <t t-if="po.lot_id.duration_type == 'end_month'">
-                                                                <span>End of <t t-esc="time.strftime('%m/%Y', orig_use_date)"/></span>
-                                                            </t>
-                                                            <t t-if="po.lot_id.duration_type == 'end_year'">
-                                                                <span>End of <t t-esc="time.strftime('%Y', orig_use_date)"/></span>
-                                                            </t>
-                                                            <t t-if="po.lot_id.duration_type == 'exact'">
-                                                                <span t-esc="time.strftime('%d/%m/%Y', orig_use_date)"/>
+
+                <t t-set="origins" t-value="['normal']"/>
+                <t t-set="extraLines" t-value="[]"/>
+                <t t-if="grouped_by_origin">
+                    <t t-set="origins" t-value="o.origin.split(', ')"/>
+                    <t t-esc="origins.sort()"/>
+                    <t t-foreach="o.invoice_line" t-as="l">
+                        <t t-if="l.origin not in origins">
+                            <t t-esc="extraLines.append(l.id)"/>
+                        </t>
+                    </t>
+                </t>
+
+                <t t-foreach="origins" t-as="origin">
+                    <t t-if="grouped_by_origin">
+                        <h4 style="margin-bottom: -1.3em;">Albarán: <t t-esc="origin"/></h4><br/>
+                        <t t-set="extraAdded" t-value="False"/>
+                    </t>
+                    <table class="table table-condensed details">
+                        <thead>
+                            <tr>
+                                <th>CN Code</th>
+                                <th>Product | EAN13<br/>Lot | Approved | Best before</th>
+                                <th class="text-right">Qty</th>
+                                <th class="text-right">Unit price</th>
+                                <th class="text-right">Disc.(%)</th>
+                                <th class="text-right">Price w/discount</th>
+                                <th class="text-right">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-foreach="o.invoice_line" t-as="l">
+                                <t t-if="origin == 'normal' or l.origin == origin or ((not extraAdded or origin_index + 1 == len(origins)) and l.id in extraLines)">
+                                    <t t-if="l.id in extraLines">
+                                        <t t-esc="extraLines.remove(l.id)"/>
+                                        <t t-set="extraAdded" t-value="True"/>
+                                    </t>
+                                    <tr>
+                                        <td>
+                                            <span t-field="l.product_id.cn_code"/>
+                                        </td>
+                                        <td style="min-width: 40%;">
+                                            <span t-field="l.name"/>&amp;nbsp;|&amp;nbsp;<span t-field="l.product_id.ean13"/>
+                                            <br/>
+                                            <table t-if="l.move_id">
+                                                <tbody>
+                                                    <t t-foreach="l.move_id" t-as="m">
+                                                        <t t-set="pack_operations" t-value="[]"/>
+                                                        <t t-foreach="m.linked_move_operation_ids" t-as="mo">
+                                                            <t t-if="mo.operation_id not in pack_operations">
+                                                                <t t-set="pack_operations" t-value="pack_operations + [mo.operation_id]"/>
                                                             </t>
                                                         </t>
-                                                        <t t-if="not u_date">
-                                                            <span>(Unspecified)</span>
+                                                        <t t-foreach="pack_operations" t-as="po">
+                                                            <tr>
+                                                                <td><span t-field="po.lot_id.name"/></td>
+                                                                <td>&amp;nbsp;|&amp;nbsp;</td>
+                                                                <td>
+                                                                    <span t-if="po.lot_id.acceptance_date" t-field="po.lot_id.acceptance_date"/>
+                                                                    <span t-if="not po.lot_id.acceptance_date">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+                                                                </td>
+                                                                <td>&amp;nbsp;|&amp;nbsp;</td>
+                                                                <td style="white-space: nowrap;">
+                                                                    <t t-set="u_date" t-value="po.lot_id.use_date"/>
+                                                                    <t t-if="u_date">
+                                                                        <t t-set="orig_use_date" t-value="time.strptime(u_date,'%Y-%m-%d %H:%M:%S')"/>
+                                                                        <t t-if="po.lot_id.duration_type == 'end_month'">
+                                                                            <span>End of <t t-esc="time.strftime('%m/%Y', orig_use_date)"/></span>
+                                                                        </t>
+                                                                        <t t-if="po.lot_id.duration_type == 'end_year'">
+                                                                            <span>End of <t t-esc="time.strftime('%Y', orig_use_date)"/></span>
+                                                                        </t>
+                                                                        <t t-if="po.lot_id.duration_type == 'exact'">
+                                                                            <span t-esc="time.strftime('%d/%m/%Y', orig_use_date)"/>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-if="not u_date">
+                                                                        <span>(Unspecified)</span>
+                                                                    </t>
+                                                                </td>
+                                                                <td>&amp;nbsp;|&amp;nbsp;</td>
+                                                                <td><span t-esc="'%g %s' % (po.move_quants_qty(m), po.product_uom_id.name)"/></td>
+                                                            </tr>
                                                         </t>
-                                                    </td>
-                                                    <td>&amp;nbsp;|&amp;nbsp;</td>
-                                                    <td><span t-esc="'%g %s' % (po.move_quants_qty(m), po.product_uom_id.name)"/></td>
-                                                </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="'%g' % l.quantity"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="'%g' % l.price_unit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="'%g' % l.discount" style="padding-left: 10px;"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="l.discounted_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-if="l.gross_amount == 0">PROMO</t>
+                                            <t t-if="l.gross_amount != 0">
+                                                <span t-field="l.gross_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                             </t>
-                                        </t>
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="'%g' % l.quantity"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="'%g' % l.price_unit"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="'%g' % l.discount" style="padding-left: 10px;"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-field="l.discounted_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
-                            </td>
-                            <td class="text-right">
-                                <t t-if="l.gross_amount == 0">PROMO</t>
-                                <t t-if="l.gross_amount != 0">
-                                    <span t-field="l.gross_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                        </td>
+                                    </tr>
                                 </t>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
 
                 <div class="row" style="position: relative;">
                     <div id="tax_breakdown" class="col-xs-6 pull-left" t-if="o.tax_line" style="position: absolute; bottom: 0;">
