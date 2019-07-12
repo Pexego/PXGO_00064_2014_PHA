@@ -37,7 +37,10 @@ class PartnerPricelistAdapter(GenericAdapter):
                     5: 50 * 60})
 def export_partner_pricelist(session, model_name, record_id):
     partner_pricelist_exporter = _get_exporter(
-        session, 'bananas.pricelist.customer', record_id, PartnerPricelistExporter)
+        session,
+        'bananas.pricelist.customer',
+        record_id,
+        PartnerPricelistExporter)
     return partner_pricelist_exporter.insert(record_id, "insert")
 
 
@@ -45,7 +48,10 @@ def export_partner_pricelist(session, model_name, record_id):
                     5: 50 * 60})
 def unlink_partner_pricelist(session, model_name, record_id):
     partner_pricelist_exporter = _get_exporter(
-        session, 'bananas.pricelist.customer', record_id, PartnerPricelistExporter)
+        session,
+        'bananas.pricelist.customer',
+        record_id,
+        PartnerPricelistExporter)
     return partner_pricelist_exporter.delete(record_id)
 
 

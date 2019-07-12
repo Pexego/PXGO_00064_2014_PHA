@@ -11,7 +11,7 @@ from ..unit.backend_adapter import GenericAdapter
 
 
 @bananas
-class productExporter(Exporter):
+class ProductExporter(Exporter):
 
     _model_name = ['product.product']
 
@@ -41,7 +41,7 @@ class productExporter(Exporter):
 
 
 @bananas
-class productAdapter(GenericAdapter):
+class ProductAdapter(GenericAdapter):
     _model_name = 'product.product'
     _bananas_model = 'articulos'
 
@@ -106,7 +106,7 @@ def delay_export_product_write(session, model_name, record_id, vals):
 def delay_unlink_product(session, model_name, record_id):
     product = session.env[model_name].browse(record_id)
     if product.bananas_synchronized:
-        unlink_product.delay(session, model_name, record_id, eta= 60)
+        unlink_product.delay(session, model_name, record_id, eta=60)
 
 
 @job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60,
@@ -115,7 +115,7 @@ def export_product(session, model_name, record_id):
     product = session.env[model_name].browse(record_id)
     session.env['bananas.customer.rate'].calculate(product=product)
     product_exporter = _get_exporter(session, model_name, record_id,
-                                     productExporter)
+                                     ProductExporter)
     return product_exporter.update(record_id, "insert")
 
 
@@ -123,7 +123,7 @@ def export_product(session, model_name, record_id):
                     5: 50 * 60})
 def update_product(session, model_name, record_id):
     product_exporter = _get_exporter(session, model_name, record_id,
-                                     productExporter)
+                                     ProductExporter)
     return product_exporter.update(record_id, "update")
 
 
@@ -133,5 +133,5 @@ def unlink_product(session, model_name, record_id):
     product = session.env[model_name].browse(record_id)
     session.env['bananas.customer.rate'].remove(product=product)
     product_exporter = _get_exporter(session, model_name, record_id,
-                                     productExporter)
+                                     ProductExporter)
     return product_exporter.delete(record_id)

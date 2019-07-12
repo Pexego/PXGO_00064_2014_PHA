@@ -48,7 +48,8 @@ class SaleOrderBatchImport(Importer):
 
 
 @job()
-def import_record(session, model_name, backend_id, external_id, date, force=False):
+def import_record(session, model_name, backend_id, external_id, date,
+                  force=False):
     """ Import a record from 20 bananas """
     env = get_environment(session, model_name, backend_id)
     importer = env.get_connector_unit(SaleOrderImporter)
@@ -90,7 +91,8 @@ class SaleOrderLineImportMapper(ImportMapper):
     @mapping
     def quantity(self, record):
         if record['unidad'] == 'caja':
-            product = self.env['product.product'].browse(int(record['referencia']))
+            product = self.env['product.product'].browse(
+                int(record['referencia']))
             cantidad_unidades = record['cantidad'] * product.box_elements
             return {'product_uom_qty': cantidad_unidades}
         else:

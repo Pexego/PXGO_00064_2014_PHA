@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 # © 2019 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from openerp.addons.connector.event import on_record_create, on_record_write, \
-    on_record_unlink
+from openerp.addons.connector.event import (
+    on_record_create,
+    on_record_write,
+    on_record_unlink)
 from openerp.addons.connector.queue.job import job
 from .utils import _get_exporter
-from .pricelist_events import export_partner_pricelist, export_pricelist, unlink_partner_pricelist, unlink_pricelist
+from .pricelist_events import (
+    export_partner_pricelist,
+    export_pricelist,
+    unlink_partner_pricelist,
+    unlink_pricelist)
 from ..backend import bananas
 from openerp.addons.connector.unit.synchronizer import Exporter
 from ..unit.backend_adapter import GenericAdapter
@@ -20,13 +26,15 @@ class PartnerExporter(Exporter):
     def update(self, binding_id, mode):
         partner = self.model.browse(binding_id)
         if not partner.user_id:
-            raise Warning('Comercial no encontrado para el cliente %s' % partner.name)
+            raise Warning(
+                'Comercial no encontrado para el cliente %s' % partner.name)
         if not partner.mobile:
-            raise Warning('movil no encontrado para el cliente %s' % partner.name)
+            raise Warning(
+                'movil no encontrado para el cliente %s' % partner.name)
         vals = {
             "nombrecliente": partner.name,
             "codcliente": str(partner.id),
-            "codcomercial": 'PG5A0',#partner.user_id.id,
+            "codcomercial": str(partner.user_id.id),
             "cif": partner.vat or "",
             "direccion": partner.street or "",
             "ciudad": partner.city or "",
