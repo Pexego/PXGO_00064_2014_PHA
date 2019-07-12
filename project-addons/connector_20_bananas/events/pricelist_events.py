@@ -101,12 +101,20 @@ class CustomerRateExporter(Exporter):
             "precio": customer_rate.last_sync_price,
         }
         if mode == "insert":
-            return self.backend_adapter.insert(vals)
+            self.backend_adapter.insert(vals)
+            self.backend_adapter.insert_whitelist({
+                'codcliente': vals['codtarifa'],
+                'codproducto': vals['referencia']
+            })
         else:
-            return self.backend_adapter.update(binding_id, vals)
+            self.backend_adapter.update(binding_id, vals)
 
     def delete(self, data):
-        return self.backend_adapter.remove_vals(data)
+        self.backend_adapter.remove_vals(data)
+        self.backend_adapter.remove_whitelist({
+            'codcliente': data['codtarifa'],
+            'codproducto': data['referencia']
+        })
 
 
 @bananas

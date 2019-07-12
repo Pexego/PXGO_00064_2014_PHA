@@ -12,6 +12,7 @@ from openerp.addons.connector.unit.mapper import (mapping,
                                                   ImportMapper
                                                   )
 
+
 @bananas
 class SaleOrderAdapter(GenericAdapter):
     _model_name = 'sale.order'

@@ -25,7 +25,7 @@ class PartnerExporter(Exporter):
             raise Warning('movil no encontrado para el cliente %s' % partner.name)
         vals = {
             "nombrecliente": partner.name,
-            "codcliente": partner.id,
+            "codcliente": str(partner.id),
             "codcomercial": 'PG5A0',#partner.user_id.id,
             "cif": partner.vat or "",
             "direccion": partner.street or "",

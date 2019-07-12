@@ -161,3 +161,9 @@ class GenericAdapter(BananasCRUDAdapter):
 
     def remove_vals(self, data):
         return self.delete(self._bananas_model, [data])
+
+    def insert_whitelist(self, data):
+        return self.create('listablanca', [data])
+
+    def remove_whitelist(self, data):
+        return self.delete('listablanca', [data])

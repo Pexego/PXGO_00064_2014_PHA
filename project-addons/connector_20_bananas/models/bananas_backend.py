@@ -14,7 +14,7 @@ class BananasBackend(models.Model):
 
     @api.model
     def _select_versions(self):
-        return [('1.5', '20 bananas 1.5')]
+        return [('1.6', '20 bananas 1.6')]
 
     name = fields.Char(required=True)
     location = fields.Char(
@@ -46,3 +46,8 @@ class BananasBackend(models.Model):
                 priority=1)
             curr_date = curr_date + timedelta(days=1)
         self.import_orders_from_date = date.today()
+
+    @api.model
+    def import_sale_orders_cron(self):
+        for conf in self.env['bananas.backend'].search([]):
+            conf.import_sale_orders()

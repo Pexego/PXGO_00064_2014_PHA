@@ -18,7 +18,7 @@ class productExporter(Exporter):
     def update(self, binding_id, mode):
         product = self.model.browse(binding_id)
         vals = {
-            "referencia": product.id,
+            "referencia": str(product.id),
             "nombre": product.name,
             "unidad": product.container_id.name,
             "unidadbulto": 'caja',
@@ -27,7 +27,7 @@ class productExporter(Exporter):
             "subfamilia": product.subline.name,
             "vendounidad": 1,
             "vendobulto": 1,
-            "descripcion": product.description_sale,
+            "descripcion": product.description_sale or '',
             "foto": product.external_image_url,
             'precio': 9999.99  # La app siempre muestra el precio mas bajo.
         }
