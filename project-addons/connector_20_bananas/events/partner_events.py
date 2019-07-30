@@ -28,9 +28,6 @@ class PartnerExporter(Exporter):
         if not partner.user_id:
             raise Warning(
                 'Comercial no encontrado para el cliente %s' % partner.name)
-        if not partner.mobile:
-            raise Warning(
-                'movil no encontrado para el cliente %s' % partner.name)
         vals = {
             "nombrecliente": partner.name,
             "codcliente": str(partner.id),
