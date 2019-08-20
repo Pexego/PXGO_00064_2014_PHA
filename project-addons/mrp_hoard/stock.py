@@ -162,11 +162,11 @@ accept_multiple_raw_material')
         '''
         for picking in self:
             if picking.is_hoard and not picking.accept_multiple_raw_material:
-                if len(picking.mapped(
-                        'move_lines.product_id').filtered(lambda r: r.raw_material==True)) > 1:
-                    raise exceptions.Warning(
-                        _('Multiple raw material'),
-                        _('The route not accepts multiple raw material'))
+#                if len(picking.mapped(
+#                        'move_lines.product_id').filtered(lambda r: r.raw_material==True)) > 1:
+#                    raise exceptions.Warning(
+#                        _('Multiple raw material'),
+#                        _('The route not accepts multiple raw material'))
                 for move in picking.move_lines:
                     if move.product_id.raw_material:
                         if len(move.mapped('linked_move_operation_ids.operation_id.lot_id')) > 1:
