@@ -270,7 +270,10 @@
                                         </t>
                                     </t>
                                 </t>
-                                <p style="font-size: 13px;">Observaciones: <span t-esc="' | '.join(observaciones)"/></p>
+                                <!-- p style="font-size: 13px;">Observaciones: <span t-esc="' | '.join(observaciones)"/></p-->
+                                <t t-if="observaciones"> <!-- Solo queremos sacar una vez las observaciones... -->
+                                    <p style="font-size: 13px;">Observaciones: <pre style="font-size: 13px; background-color: transparent; border: none;" t-esc="observaciones[0]"/></p>
+                                </t>
                             </div>
                         </t>
 

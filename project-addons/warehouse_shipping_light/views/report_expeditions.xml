@@ -82,7 +82,7 @@
                                         <br/><span t-field="partner.street2"/>
                                     </t>
                                 </td>
-                                <td><span t-field="partner.phone"/></td>
+                                <td><span t-esc="(partner.phone if partner.phone and partner.phone != '.' else '') + (', ' if partner.phone and partner.phone != '.' and partner.mobile else '') + (partner.mobile if partner.mobile else '')"/></td>
                                 <td><span t-field="partner.zip"/></td>
                                 <td><span t-field="partner.city"/></td>
                                 <td><span t-field="p.real_weight"/></td>
