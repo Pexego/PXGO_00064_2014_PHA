@@ -136,9 +136,9 @@ msgid "Banking mandate"
 msgstr "Mandato SEPA"
 
 #. module: custom_views
-#: field:account.invoice.special,aux_payment_term_id:0
-msgid "Banking mandate"
-msgstr "Mandato SEPA"
+#: field:account.invoice.special,aux_date_due:0
+msgid "Date due"
+msgstr "Fecha vencimiento"
 
 #. module: custom_views
 #: field:account.invoice.special,aux_payment_mode_id:0
