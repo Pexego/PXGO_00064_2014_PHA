@@ -114,34 +114,35 @@ class SaleReport(models.Model):
     def _from(self):
         from_str = """
             left join res_partner cp on cp.id = s.notified_partner_id
-            left join res_partner pa
-                   on (pa.id = s.partner_id and pa.company_id = s.company_id)
+            left join res_partner pa on (pa.id = s.partner_id and pa.company_id = s.company_id)
             left join res_partner_category parent_rpc on parent_rpc.id = (
-                    select
-                        case
-                            when rpc_aux.parent_id is null then parent_rpcr.category_id
-                            else rpc_aux.parent_id
-                        end
-                    from res_partner_res_partner_category_rel parent_rpcr
-                    join res_partner_category rpc_aux on rpc_aux.id = parent_rpcr.category_id
-                    where parent_rpcr.partner_id = s.partner_id
-                    limit 1
-                )
+                select
+                    case
+                        when rpc.parent_id is null then parent_rpcr.category_id
+                        else rpc.parent_id
+                    end
+                from res_partner_res_partner_category_rel parent_rpcr
+                join res_partner_category rpc on rpc.id = parent_rpcr.category_id
+                join res_partner rp on rp.id = s.partner_id
+                where parent_rpcr.partner_id = (case when rp.parent_id is null then rp.id else rp.parent_id end)
+                limit 1
+            )
             left join res_partner_category rpc on rpc.id = (
-                    select rpcr.category_id
-                    from res_partner_res_partner_category_rel rpcr
-                    where rpcr.partner_id = s.partner_id
-                    limit 1
-                )
+                select rpcr.category_id
+                from res_partner_res_partner_category_rel rpcr
+                join res_partner rp on rp.id = s.partner_id
+                where rpcr.partner_id = (case when rp.parent_id is null then rp.id else rp.parent_id end)
+                limit 1
+            )
             left join product_category pc on pc.id = (
-                    select pcr.categ_id
-                    from product_categ_rel pcr
-                    join product_category pc_aux on pc_aux.id = pcr.categ_id
-            		join product_category cpc on cpc.id = pc_aux.parent_id
-            		 and cpc.commissions_parent_category is True
-                    where pcr.product_id = p.id
-                    limit 1
-                )
+                select pcr.categ_id
+                from product_categ_rel pcr
+                join product_category pc_aux on pc_aux.id = pcr.categ_id
+                join product_category cpc on cpc.id = pc_aux.parent_id
+                 and cpc.commissions_parent_category is True
+                where pcr.product_id = p.id
+                limit 1
+            )
             left join res_country_state ics on ics.id = pa.state_id
             left join res_country_state scs on scs.id = spa.state_id
             left join ir_model_fields imf on imf.model = 'product.template' and imf.name = 'standard_price'

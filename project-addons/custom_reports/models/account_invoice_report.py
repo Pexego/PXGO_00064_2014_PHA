@@ -369,18 +369,20 @@ class AccountInvoiceReport(models.Model):
             left join res_partner_category parent_rpc on parent_rpc.id = (
               select
                 case
-                  when rpc_aux.parent_id is null then parent_rpcr.category_id
-                  else rpc_aux.parent_id
+                  when rpc.parent_id is null then parent_rpcr.category_id
+                  else rpc.parent_id
                 end
               from res_partner_res_partner_category_rel parent_rpcr
-              join res_partner_category rpc_aux on rpc_aux.id = parent_rpcr.category_id
-              where parent_rpcr.partner_id = sub.partner_id
+              join res_partner_category rpc on rpc.id = parent_rpcr.category_id
+              join res_partner rp on rp.id = sub.partner_id
+              where parent_rpcr.partner_id = (case when rp.parent_id is null then rp.id else rp.parent_id end)
               limit 1
             )
             left join res_partner_category rpc on rpc.id = (
               select rpcr.category_id
               from res_partner_res_partner_category_rel rpcr
-              where rpcr.partner_id = sub.partner_id
+              join res_partner rp on rp.id = sub.partner_id
+              where rpcr.partner_id = (case when rp.parent_id is null then rp.id else rp.parent_id end)
               limit 1
             )
             left join product_category pc on pc.id = (
