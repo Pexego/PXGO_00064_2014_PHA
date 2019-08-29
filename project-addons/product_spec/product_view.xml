@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
         <record model="ir.ui.view" id="product_template_add_limits">
             <field name="name">product.template.form</field>
             <field name="model">product.template</field>
@@ -17,6 +16,18 @@
                         </group>
                     </page>
                 </notebook>
+            </field>
+        </record>
+
+        <record id="product_template_add_limits_qc" model="ir.ui.view">
+            <field name="name">Product template - Quality limits writable for QC users</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product_spec.product_template_add_limits" />
+            <field name="groups_id" eval="[(6,0, [ref('quality_management_menu.group_quality_user')])]" />
+            <field name="arch" type="xml">
+                <field name="quality_limits" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
             </field>
         </record>
 
