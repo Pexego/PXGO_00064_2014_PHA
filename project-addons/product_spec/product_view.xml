@@ -13,7 +13,7 @@
                 <notebook position="inside">
                     <page string="Process control" attrs="{'invisible': [('process_control', '=', False)]}">
                         <group>
-                            <field name="quality_limits" readonly="1"/>
+                            <field name="quality_limits" nolabel="1" readonly="1"/>
                         </group>
                     </page>
                 </notebook>
