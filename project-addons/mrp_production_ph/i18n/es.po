@@ -256,6 +256,11 @@ msgid "The selected lot do not have the expected suffix format."
 msgstr "El lote seleccionado no tiene el formato de sufijo esperado."
 
 #. module: mrp_production_ph
+#: field:stock.move,theorical_uom_qty:0
+msgid "Theorical qty."
+msgstr "Cant. teórica"
+
+#. module: mrp_production_ph
 #: field:mrp.production.quality.consumption,uom_id:0
 #: field:mrp.production.store.consumption,uom_id:0
 msgid "UoM"
