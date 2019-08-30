@@ -198,19 +198,35 @@ class MrpProductProduce(models.TransientModel):
                     break
                 if consume.product_id.id != raw_material_line.product_id.id:
                     continue
+                lot_qty = sum([
+                    x.qty or 0 for
+                    x in raw_material_line.reserved_quant_ids.filtered(
+                        lambda r: r.lot_id == consume.lot_id)])
+                if not lot_qty:
+                    continue
                 consumed_qty = min(
-                    remaining_qty, raw_material_line.product_qty)
+                    remaining_qty, lot_qty)
                 raw_material_line.action_consume(
                     consumed_qty, raw_material_line.location_id.id,
                     restrict_lot_id=consume.lot_id.id,
                     consumed_for=main_production_move)
                 remaining_qty -= consumed_qty
         for return_line in self.return_lines.filtered(lambda r: r.product_qty > 0):
+            remaining_qty = return_line.product_qty
             for raw_material_line in production.move_lines:
+                if remaining_qty <= 0:
+                    break
                 if raw_material_line.state in ('done', 'cancel'):
                     continue
                 if return_line.product_id.id != raw_material_line.product_id.id:
                     continue
+                lot_qty = sum([x.qty or 0 for x in
+                               raw_material_line.reserved_quant_ids.filtered(
+                                lambda r: r.lot_id == return_line.lot_id)])
+                if not lot_qty:
+                    continue
+                consumed_qty = min(
+                    remaining_qty, lot_qty)
                 raw_material_line.do_unreserve()
                 old_location = raw_material_line.location_dest_id.id
                 raw_material_line.write({
@@ -219,7 +235,7 @@ class MrpProductProduce(models.TransientModel):
                 })
                 raw_material_line.action_assign()
                 new_split_id = raw_material_line.action_consume(
-                    return_line.product_qty,
+                    consumed_qty,
                     restrict_lot_id=return_line.lot_id.id,
                     consumed_for=main_production_move)
                 if new_split_id:
@@ -228,6 +244,7 @@ class MrpProductProduce(models.TransientModel):
                         'return_production_move': False,
                         'location_dest_id': old_location
                     })
+                remaining_qty -= consumed_qty
         if production.move_lines:
             raise ValidationError(
                 'Error al finalizar. Quedan movimientos sin finalizar.')
