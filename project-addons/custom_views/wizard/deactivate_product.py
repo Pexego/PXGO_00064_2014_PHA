@@ -21,10 +21,24 @@ class DeactivateProduct(models.TransientModel):
             protocol_link = self.env['product.protocol.link']
             # Exceptions messages
             exceptions = ''
+            bom_members = ''
 
             product_ids = self.env['product.product'].browse(
                 self.env.context.get('active_ids'))
             for product_id in product_ids:
+                if product_id.bom_member_of_count:
+                    bom_members += _('- The product ') + product_id.name + \
+                                   _(' was a member of the following BoM:\n')
+                    bom_line_ids = self.env['mrp.bom.line'].search([
+                        ('product_id', '=', product_id.id),
+                        ('bom_id.active', '=', True),
+                        ('bom_id.product_id.active', '=', True),
+                        ('bom_id.sequence', '<', 100)
+                    ])
+                    for bom_id in bom_line_ids.mapped('bom_id'):
+                        bom_members += '   ' + bom_id.name + '\n'
+                    bom_members += '\n'
+
                 if product_id.qty_available == 0:
                     ql = quality_limits.search([('name', '=', product_id.product_tmpl_id.id)])
                     if ql:
@@ -60,7 +74,8 @@ class DeactivateProduct(models.TransientModel):
             return self.env['custom.views.warning'].show_message(
                 _('Product(s) deactivated'),
                 _('The deactivation of the selected product(s) has been carried out correctly') +
-                ('\n\n' + _('Exceptions') + ':\n' + exceptions if exceptions > '' else '')
+                (('\n\n' + _('Exceptions') + ':\n' + exceptions) if exceptions > '' else '') +
+                (('\n\n' + _('BoM members') + ':\n' + bom_members) if bom_members > '' else '')
             )
         else:
             return self.env['custom.views.warning'].show_message(

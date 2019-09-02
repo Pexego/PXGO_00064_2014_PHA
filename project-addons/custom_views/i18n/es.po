@@ -18,6 +18,20 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:0
+#, python-format
+msgid " was a member of the following BoM:\n"
+""
+msgstr " era un miembro de las siguientes LdM:\n"
+""
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:0
+#, python-format
+msgid "- The product "
+msgstr "- El producto "
+
+#. module: custom_views
 #: model:ir.actions.act_window,help:custom_views.product_normal_action_puchased_tree_view_custom_view
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
@@ -134,6 +148,12 @@ msgstr "Fichero adjunto"
 #: field:account.invoice.special,aux_mandate_id:0
 msgid "Banking mandate"
 msgstr "Mandato SEPA"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:0
+#, python-format
+msgid "BoM members"
+msgstr "Miembros de LdM"
 
 #. module: custom_views
 #: field:account.invoice.special,aux_date_due:0
@@ -325,6 +345,12 @@ msgstr "Fecha en la que el cliente fue recuperado tras un largo período de inac
 #: field:mrp.procedure,date_validated:0
 msgid "Date validated"
 msgstr "Fecha validación"
+
+#. module: custom_views
+#: view:deactivate.product:custom_views.view_deactivate_product_wizard
+#: model:ir.actions.act_window,name:custom_views.action_deactivate_product_wizard
+msgid "Deactivate product(s)"
+msgstr "Desactivar producto(s)"
 
 #. module: custom_views
 #: field:product.template,cost_price_dl:0
@@ -1368,13 +1394,13 @@ msgid "In Progress"
 msgstr "Finalizada"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:61
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "No products selected to process!"
 msgstr "¡No se han seleccionado productos a desactivar!"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:55
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "Product(s) deactivated"
 msgstr "Producto(s) desactivado(s)"
@@ -1385,19 +1411,19 @@ msgid "Selected products will be deactivated"
 msgstr "Los productos seleccionados se desactivarán"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:62
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "The deactivation of the selected product(s) has been carried out correctly"
-msgstr "La desactivación del producto o productos seleccionados se ha realizado correctamente"
+msgstr "La desactivación del producto o productos seleccionados se ha realizado correctamente."
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:63
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "Exceptions"
-msgstr "Excepciones"
+msgstr "Excepciones (no se desactivaron por tener stock)"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:67
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "There is nothing to deactivate"
 msgstr "No hay nada que desactivar"
