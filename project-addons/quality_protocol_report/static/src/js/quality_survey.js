@@ -30,7 +30,12 @@ var JQUERY_UI_TYPES = {
 
 var to_remove_rows = [];
 
-var contador_espera = 0, contador_referencia = -1, bucleEspera;
+var contador_espera = 0, contador_referencia = -1, bucleEspera,
+    fechaServidor = false, horaServidor = false, fechaHoraServidor = false;
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function check_name(event, fill_field){
     var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
@@ -288,6 +293,68 @@ function preparaTexto() {
     };
 };
 
+function preparaBotonRellenar() {
+    var elementos = $('[botonrellenar]');
+    if (elementos.length > 0) {
+        elementos.each(function () {
+            var data = {},
+                tipoNodo = $(this).prop('nodeName').toLowerCase(),
+                idNodo = (tipoNodo == 'table') ? $(this).attr('id') : $(this).attr('name');
+            try {
+                data = $(this).attr('botonrellenar');
+                // Descodificamos las cadenas unicode de python
+                data = data.replace(/\':u\'/g, '\': \'')
+                           .replace(/\': u\'/g, '\': \'')
+                           .replace(/%/g, '%25')
+                           .replace(/\\x/g, '%');
+                data = decodeURIComponent(data);
+                data = eval('(' + data + ')');
+            } catch(error) {
+                alert('Parece que hay un error en los parámetros del atributo ' +
+                      '"botonrellenar" en ' + tipoNodo + ' ' + idNodo);
+            }
+            var txtData = '';
+            for (var key in data) {
+                txtData += ' data-' + key + '="' + data[key] + '"';
+            }
+            if (tipoNodo == 'table') {
+                $(this).find('tbody tr').each(function() {
+                    $(this).append('<td><button type="button" class="botonRellenar"' +
+                                   txtData + '>Rellenar</button></td>');
+                });
+            } else {
+                $(this).after('&nbsp;<button type="button" class="botonRellenar"' +
+                              txtData + '>Rellenar</button>');
+            }
+        });
+    }
+};
+
+function DameFechaHoraServidor(formato) {
+    var context = {lang: 'es_ES', tz: 'Europe/Madrid'},
+        obj = new openerp.web.Model('quality.protocol.report', context),
+        method = '';
+    switch (formato) {
+        case 'fecha':
+            fechaServidor = false;
+            obj.call('get_current_date').then(function(response) {
+                fechaServidor = response;
+            });
+            break;
+        case 'hora':
+            horaServidor = false;
+            obj.call('get_current_time').then(function(response) {
+                horaServidor = response;
+            });
+            break;
+        default:
+            fechaHoraServidor = false;
+            obj.call('get_current_datetime').then(function(response) {
+                fechaHoraServidor = response;
+            });
+    }
+}
+
 function preparaInputs() {
     // Buscamos los campos con sufijo "_box_sino" para reemplazar
     // su input por dos botones de radio con ambas opciones
@@ -301,7 +368,7 @@ function preparaInputs() {
     // los inputs por textarea
     preparaTexto();
 
-    // Los inputs de con botones de flecha no se muestran bien al imprimir
+    // Los inputs con botones de flecha no se muestran bien al imprimir
     // con phantomjs, así que les cambiamos el tipo a texto y pista...
     if (/Phantom.js bot/.test(window.navigator.userAgent)) {
         $('.quality_row input[type="date"]').each(function() {
@@ -322,6 +389,57 @@ function preparaInputs() {
             }
         );
         $('div#realized_by').hide();
+    } else {
+        // Agrega un botón "Rellenar" al lado del input que tenga el atributo
+        // "botonrellenar" establecido.
+        // Aquellas tablas que tengan el atributo "botonrellenar" establecido,
+        // necesitan agregar un botón por cada fila de la misma, para disponer de
+        // la funcionalidad de rellenado automático.
+        preparaBotonRellenar();
+
+        // Evento para el botón de relleno automático de datos
+        $(document).on('click', '.botonRellenar', function() {
+            var data = $(this).data(),
+                parent = $(this).parent(),
+                template = '';
+
+            if (parent[0].nodeName == 'TD') {  // Si el botón está en una celda de una tabla
+                parent = parent.parent();  // Subimos al tr padre
+                template = parent.attr('id');
+            } else {
+                parent = $(this.form);  // Si no estamos en una tabla, buscamos el formulario
+            }
+
+            parent.find('input, textarea').each(async function(idx, field) {
+                var fieldName = field.name;
+                if (template > '') {
+                    var pos = template.indexOf('_Row_'),
+                        beginWord = template.substring(0, pos + 1),
+                        endWord = template.substring(pos + 4);
+                    fieldName = fieldName.match(new RegExp(beginWord + "(.*)" + endWord))[1];
+                }
+                if (fieldName in data) {
+                    var txt = data[fieldName];
+
+                    if (txt.includes('[hora]')) {
+                        DameFechaHoraServidor('hora');
+                        do {await sleep(200);} while (!horaServidor);
+                        txt = txt.replace('[hora]', horaServidor);
+                    }
+                    if (txt.includes('[fecha]')) {
+                        DameFechaHoraServidor('fecha');
+                        do {await sleep(200);} while (!fechaServidor);
+                        txt = txt.replace('[fecha]', fechaServidor);
+                    }
+                    if (txt.includes('[fecha_hora]')) {
+                        DameFechaHoraServidor('fecha_hora');
+                        do {await sleep(200);} while (!fechaHoraServidor);
+                        txt = txt.replace('[fecha_hora]', fechaHoraServidor);
+                    }
+                    field.value = txt;
+                }
+            });
+        });
     };
 };
 
@@ -499,7 +617,7 @@ $(function () {
             clearInterval(bucleEspera);
             preparaInputs();
         };
-    }, 250);
+    }, 500);
 });
 
 //Falta pepararlo para multiples tablas
@@ -776,35 +894,35 @@ function send_form_server() {
     }
 }
 
-    var jqVal = $.fn.val;
-    var rreturn = /\r/g;
-    $.fn.val = function( value ) {
-        var hooks, ret, isFunction,
-            elem = this[0];
-        if ( !arguments.length ) {
-            if ( elem ) {
-                hooks = jQuery.valHooks[ elem.type ] || jQuery.valHooks[ elem.nodeName.toLowerCase() ];
+var jqVal = $.fn.val;
+var rreturn = /\r/g;
+$.fn.val = function( value ) {
+    var hooks, ret, isFunction,
+        elem = this[0];
+    if ( !arguments.length ) {
+        if ( elem ) {
+            hooks = jQuery.valHooks[ elem.type ] || jQuery.valHooks[ elem.nodeName.toLowerCase() ];
 
-                if ( hooks && "get" in hooks && (ret = hooks.get( elem, "value" )) !== undefined ) {
-                    return ret;
-                }
-                var quality_protocol_value = this.attr('quality_protocol_value');
-                if (typeof quality_protocol_value !== typeof undefined && quality_protocol_value !== false) {
-                    ret = quality_protocol_value;
-                }
-                else{
-                    ret = elem.value;
-                }
-
-                return typeof ret === "string" ?
-                    // handle most common string cases
-                    ret.replace(rreturn, "") :
-                    // handle cases where value is null/undef or number
-                    ret == null ? "" : ret;
+            if ( hooks && "get" in hooks && (ret = hooks.get( elem, "value" )) !== undefined ) {
+                return ret;
             }
-            return;
+            var quality_protocol_value = this.attr('quality_protocol_value');
+            if (typeof quality_protocol_value !== typeof undefined && quality_protocol_value !== false) {
+                ret = quality_protocol_value;
+            }
+            else{
+                ret = elem.value;
+            }
+
+            return typeof ret === "string" ?
+                // handle most common string cases
+                ret.replace(rreturn, "") :
+                // handle cases where value is null/undef or number
+                ret == null ? "" : ret;
         }
-        else{
-            return jqVal.call(this, value);
-        }
+        return;
     }
+    else{
+        return jqVal.call(this, value);
+    }
+}

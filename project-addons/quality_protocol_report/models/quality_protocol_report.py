@@ -22,6 +22,8 @@
 ##############################################################################
 
 from openerp import models, fields, api, exceptions, _
+from datetime import datetime
+from pytz import timezone
 import uuid
 
 
@@ -77,6 +79,21 @@ class QualityProtocolReport(models.Model):
     def _compute_line_ids(self):
         for report in self:
             report.report_line_ids = report.mapped('report_lines.line_id')
+
+    def current_datetime(self):
+        return datetime.now(timezone(self.env.user.tz or 'Europe/Madrid'))
+
+    @api.model
+    def get_current_date(self):
+        return self.current_datetime().strftime('%d/%m/%Y')
+
+    @api.model
+    def get_current_time(self):
+        return self.current_datetime().strftime('%H:%M:%S')
+
+    @api.model
+    def get_current_datetime(self):
+        return self.current_datetime().strftime('%d/%m/%Y %H:%M:%S')
 
 
 class ProtocolType(models.Model):
