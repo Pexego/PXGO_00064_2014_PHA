@@ -404,7 +404,12 @@ class StockTransferDetails(models.TransientModel):
 
         for lot_id in self.picking_id.mapped('pack_operation_ids.lot_id'):
             lot_id.compute_details_from_moves()
-            if lot_id.production_id.state == 'in_production':
+            # If location is "Control de calidad (Recepción)"
+            if self.picking_id.location_id == \
+                    self.env.ref('__export__.stock_location_14'):
+                report_name = 'product_analysis.' \
+                              'report_stock_lot_analysis_certificate'
+            elif lot_id.production_id.state == 'in_production':
                 report_name = 'product_analysis.' \
                               'lot_certification_and_partial_release_report'
             else:
@@ -435,7 +440,7 @@ class StockPicking(models.Model):
                         result = result or (
                             (move_id.location_id.location_id ==
                              quality_location_id) and \
-                            ((lot_id.state == u'revised') and \
+                            ((lot_id.state in ('revised', 'approved')) and \
                              lot_id.analysis_passed)
                         )
             picking_id.transfer_and_approve_available = result
@@ -453,10 +458,12 @@ class StockPicking(models.Model):
                     aErrors.append(move_id.product_id.name + ' - Lote: ' +
                                    lot_id.name + ' - Motivo: Ubicación no es '
                                                  'de Calidad')
-                if (lot_id.state != 'revised') or not lot_id.analysis_passed:
+                if (lot_id.state not in ('revised', 'approved')) or \
+                        not lot_id.analysis_passed:
                     aErrors.append(move_id.product_id.name + ' - Lote: ' +
                                    lot_id.name + ' - Motivo: Lote no está '
-                                                 'revisado y/o análisis pasado')
+                                                 'revisado/aprobado y/o '
+                                                 'análisis pasado')
         if aErrors:
             txtErrors = '';
             for error in aErrors:
@@ -466,39 +473,39 @@ class StockPicking(models.Model):
 
         for move_id in self.move_lines:
             for lot_id in move_id.lot_ids:
-                if not lot_id.production_id:
-                    continue
-
-                for tdr_id in lot_id.technical_direction_review_ids:
-                    if tdr_id.question_id.id != 2:
-                        tdr_id.result = 'yes'
-                    else:
-                        lowest_weight = 99999
-                        lowest_weight_material_id = False
-                        for bom_line_id in lot_id.production_id.bom_id.\
-                                bom_line_ids:
-                            weight = bom_line_id.product_id.categ_id.\
-                                analysis_sequence
-                            if weight < lowest_weight:
-                                lowest_weight = weight
-                                lowest_weight_material_id = bom_line_id.\
-                                    product_id
-
-                        if lowest_weight_material_id and \
-                           lowest_weight_material_id.categ_id.\
-                            analysis_sequence == 10 and \
-                            lot_id.production_id.product_id.container_id.id in (25, 31):
-                            tdr_id.result = 'na'
-                        elif lowest_weight_material_id and \
-                           lowest_weight_material_id.categ_id.\
-                            analysis_sequence != 10:
-                            tdr_id.result = 'na'
-                        else:
+                if lot_id.production_id:
+                    for tdr_id in lot_id.technical_direction_review_ids:
+                        if tdr_id.question_id.id != 2:
                             tdr_id.result = 'yes'
+                        else:
+                            lowest_weight = 99999
+                            lowest_weight_material_id = False
+                            for bom_line_id in lot_id.production_id.bom_id.\
+                                    bom_line_ids:
+                                weight = bom_line_id.product_id.categ_id.\
+                                    analysis_sequence
+                                if weight < lowest_weight:
+                                    lowest_weight = weight
+                                    lowest_weight_material_id = bom_line_id.\
+                                        product_id
 
-                lot_id.technical_direction_review_done_by = self.env.user.\
-                    partner_id.name
-                lot_id.technical_direction_review_date = fields.Date.today()
+                            if lowest_weight_material_id and \
+                               lowest_weight_material_id.categ_id.\
+                                    analysis_sequence == 10 and \
+                               lot_id.production_id.product_id.container_id.id \
+                                    in (25, 31):
+                                tdr_id.result = 'na'
+                            elif lowest_weight_material_id and \
+                               lowest_weight_material_id.categ_id.\
+                                    analysis_sequence != 10:
+                                tdr_id.result = 'na'
+                            else:
+                                tdr_id.result = 'yes'
+
+                    lot_id.technical_direction_review_done_by = self.env.user.\
+                        partner_id.name
+                    lot_id.technical_direction_review_date = fields.Date.today()
+
                 lot_id.action_approve()
 
         return self.with_context(transfer_and_approve = True).\

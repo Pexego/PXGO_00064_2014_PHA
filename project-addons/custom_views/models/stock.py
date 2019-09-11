@@ -308,7 +308,7 @@ class StockPackOperation(models.Model):
             attachment_id = self.env['ir.attachment'].search(
                 [('res_model', '=', po.lot_id._name),
                  ('res_id', '=', po.lot_id.id),
-                 ('datas_fname', '=ilike', 'certificac%')])
+                 ('datas_fname', '=ilike', 'certifica%')])
             po.has_lot_certification_and_release = True if attachment_id \
                 else False
 
@@ -317,7 +317,7 @@ class StockPackOperation(models.Model):
         attachment_id = self.env['ir.attachment'].search(
             [('res_model', '=', self.lot_id._name),
              ('res_id', '=', self.lot_id.id),
-             ('datas_fname', '=ilike', 'certificac%')],
+             ('datas_fname', '=ilike', 'certifica%')],
             order='id desc')
         if attachment_id:
             return {
