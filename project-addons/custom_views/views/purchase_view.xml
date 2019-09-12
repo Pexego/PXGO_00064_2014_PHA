@@ -90,7 +90,7 @@
             <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
-                <field name="date_planned" position="before">
+                <field name="order_id" position="before">
                     <field name="date_order"/>
                 </field>
                 <field name="date_planned" position="after">
