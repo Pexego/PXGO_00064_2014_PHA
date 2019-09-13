@@ -617,7 +617,7 @@ $(function () {
             clearInterval(bucleEspera);
             preparaInputs();
         };
-    }, 500);
+    }, 1000);
 });
 
 //Falta pepararlo para multiples tablas
