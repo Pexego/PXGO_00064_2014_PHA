@@ -241,7 +241,7 @@
                         </div>
 
                         <div class="row" style="text-align: left; padding: 0;">
-                            <div style="display: inline-block; page-break-inside: avoid; border: 8px double black; padding: 5px 5px 0 5px; margin-top: 15px; width: 50%;">
+                            <div class="col-xs-6" style="display: inline-block; page-break-inside: avoid; border: 8px double black; padding: 5px 5px 0 5px; margin-top: 15px;">
                                 <h4>
                                     <table t-if="o.detail_ids" class="table table-condensed">
                                         <tbody>
@@ -270,6 +270,17 @@
                                     </table>
                                 </h4>
                             </div>
+                            <div class="col-xs-6" style="position: relative; margin-bottom: -3em;">
+                                <div style="position: absolute; top: -20; right: 0; width: 150px; height: 100px;">
+                                    <img t-if="o.technical_direction_review_done_by_id and o.technical_direction_review_done_by_id.signature"
+                                             t-att-src="'data:image/png;base64,%s' % o.technical_direction_review_done_by_id.signature"
+                                             style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px;"/>
+                                </div>
+                                <div class="text-right" style="margin-top: 85px;">
+                                    Fdo.: <span t-field="o.technical_direction_review_done_by"/><br/>
+                                    <span t-field="o.technical_direction_review_date"/>
+                                </div>
+                            </div>
                             <br/><br/>
                             <div class="col-xs-12"><b>MOTIVOS LIBERACIÓN PARCIAL</b></div>
                             <t t-foreach="production.release_log_ids" t-as="release">
@@ -277,13 +288,6 @@
                                 <div class="col-xs-2"><span t-field="release.quantity"/></div>
                                 <div class="col-xs-8"><span t-field="release.reason"/></div>
                             </t>
-                        </div>
-                    </div>
-
-                    <div class="footer">
-                        <div class="text-right">
-                            Fdo.: <span t-field="o.technical_direction_review_done_by"/><br/>
-                            <span t-field="o.technical_direction_review_date"/>
                         </div>
                     </div>
                 </t>

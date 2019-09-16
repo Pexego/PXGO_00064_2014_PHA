@@ -211,6 +211,7 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: product_analysis
+#: field:stock.production.lot,revised_date:0
 #: field:stock.production.lot,production_review_date:0
 #: field:stock.production.lot,technical_direction_review_date:0
 msgid "Date"
@@ -726,6 +727,11 @@ msgstr "Secuencia"
 #: field:stock.lot.analysis,show_in_certificate:0
 msgid "Show in certificate"
 msgstr "Mostrar en certificado"
+
+#. module: product_analysis
+#: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
+msgid "Sign"
+msgstr "Firmar"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate

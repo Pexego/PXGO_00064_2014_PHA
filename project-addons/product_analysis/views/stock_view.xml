@@ -43,7 +43,11 @@
                                 <field name="sampling_realized"/>
                             </group>
                             <group>
-                                <separator/>
+                                <button name="action_sign_document"
+                                        type="object"
+                                        string="Sign"
+                                        class="oe_read_only"
+                                        context="{'sign_document_type': 'sampling'}"/>
                             </group>
                         </group>
                         <separator string="Analysis"/>
@@ -87,37 +91,73 @@
                                 </tree>
                             </field>
                             <field name="analysis_notes" placeholder="Analysis notes" nolabel="1" colspan="4"/>
-                        </group>
-                        <group>
-                            <field name="revised_by"/>
+                            <group>
+                                <group>
+                                    <field name="revised_by" readonly="1"/>
+                                    <field name="revised_date" readonly="1"/>
+                                </group>
+                                <group>
+                                    <button name="action_sign_document"
+                                            type="object"
+                                            string="Sign"
+                                            class="oe_read_only"
+                                            context="{'sign_document_type': 'revision'}"/>
+                                </group>
+                            </group>
                         </group>
                     </page>
                     <page string="Production">
-                        <group>
-                            <field name="production_review_ids">
-                                <tree create="false" delete="false" editable="top" default_order="sequence">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="question_id" readonly="True"/>
-                                    <field name="result"/>
-                                </tree>
-                            </field>
-                            <field name="production_review_notes"/>
-                            <field name="production_review_done_by"/>
-                            <field name="production_review_date"/>
+                        <group col="1">
+                            <group>
+                                <field name="production_review_ids">
+                                    <tree create="false" delete="false" editable="top" default_order="sequence">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="question_id" readonly="True"/>
+                                        <field name="result"/>
+                                    </tree>
+                                </field>
+                                <field name="production_review_notes"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="production_review_done_by" readonly="1"/>
+                                    <field name="production_review_date" readonly="1"/>
+                                </group>
+                                <group>
+                                    <button name="action_sign_document"
+                                            type="object"
+                                            string="Sign"
+                                            class="oe_read_only"
+                                            context="{'sign_document_type': 'production'}"/>
+                                </group>
+                            </group>
                         </group>
                     </page>
                     <page string="Release">
-                        <group>
-                            <field name="technical_direction_review_ids">
-                                <tree create="false" delete="false" editable="top" default_order="sequence">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="question_id" readonly="True"/>
-                                    <field name="result"/>
-                                </tree>
-                            </field>
-                            <field name="technical_direction_review_notes"/>
-                            <field name="technical_direction_review_done_by"/>
-                            <field name="technical_direction_review_date"/>
+                        <group col="1">
+                            <group>
+                                <field name="technical_direction_review_ids">
+                                    <tree create="false" delete="false" editable="top" default_order="sequence">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="question_id" readonly="True"/>
+                                        <field name="result"/>
+                                    </tree>
+                                </field>
+                                <field name="technical_direction_review_notes"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="technical_direction_review_done_by" readonly="1"/>
+                                    <field name="technical_direction_review_date" readonly="1"/>
+                                </group>
+                                <group>
+                                    <button name="action_sign_document"
+                                            type="object"
+                                            string="Sign"
+                                            class="oe_read_only"
+                                            context="{'sign_document_type': 'technical_direction'}"/>
+                                </group>
+                            </group>
                         </group>
                     </page>
                 </notebook>
