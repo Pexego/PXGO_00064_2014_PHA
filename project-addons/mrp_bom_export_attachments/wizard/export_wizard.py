@@ -7,6 +7,7 @@ from openerp.exceptions import Warning
 from os.path import splitext
 from shutil import rmtree
 import os, base64, sys, tempfile, zipfile, time
+from datetime import datetime, timedelta
 
 
 class BomAttachmentsExportWizard(models.TransientModel):
@@ -102,7 +103,7 @@ class BomAttachmentsExportWizard(models.TransientModel):
             self.env.ref('mrp_bom_export_attachments.empty_zip_file').sudo().\
                 write({
                     'active': True,
-                    'nextcall': time.
+                    'nextcall': (datetime.now() + timedelta(hours=1)).
                         strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
                 })
 
