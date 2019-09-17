@@ -156,6 +156,11 @@ msgid "BoM members"
 msgstr "Miembros de LdM"
 
 #. module: custom_views
+#: field:account.invoice,cc_amount_total_with_sign:0
+msgid "Company cur. total with sign"
+msgstr "Total moneda compañía con signo"
+
+#. module: custom_views
 #: field:account.invoice.special,aux_date_due:0
 msgid "Date due"
 msgstr "Fecha vencimiento"
