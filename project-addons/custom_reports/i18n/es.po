@@ -337,16 +337,6 @@ msgstr "Total bruto"
 msgid "Hide bank account when payment mode shown in an invoice"
 msgstr "Oculta la cuenta bancaria cuando se muestra el modo de pago en una factura"
 
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-msgid "In agreement with the law 11/97 of packings and residues of packings, we inform that the last supplier of the packing will be the manager of the management of the residue."
-msgstr "De acuerdo con la ley 11/97 de envases y residuos de envases, informamos que el último proveedor del envase será el encargado de la gestión del residuo."
-
-#. module: custom_reports
-#: view:website:custom_reports.report_footer
-#: view:website:custom_reports.report_invoice_biosalud
-msgid "In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated."
-msgstr "A los efectos previstos en la Ley Orgánica 15/1999, de 13 de diciembre, sobre Protección de Datos de Carácter Personal, se le informa que los datos personales proporcionados se incorporarán (o actualizarán) al fichero de clientes, propiedad de la entidad con NIF y dirección arriba indicados y registrada en la AGPD con el Nº 2061730537. La finalidad del tratamiento de los datos será la de ejecución de los servicios contratados, no siendo cedidos a terceros. Ud. tiene derecho al acceso, rectificación, cancelación y oposición en los términos previstos en la ley, que podrá ejercitar mediante escrito dirigido al responsable de los mismos en la dirección anteriormente indicada."
 
 #. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
@@ -870,6 +860,16 @@ msgstr "e-mail de compras"
 #: field:res.company,report_purchases_footer_message:0
 msgid "Report purchases footer message"
 msgstr "Mensaje del pie de pág. para compras"
+
+#. module: custom_reports
+#: field:res.company,report_gdpr_footer_message:0
+msgid "Report GDPR footer message"
+msgstr "Mensaje del pie de pág. del RGPD"
+
+#. module: custom_reports
+#: field:res.company,report_waste_disposal_footer_message:0
+msgid "Report waste disposal footer message"
+msgstr "Mensaje del pie de pág. de gestión de resíduos"
 
 #. module: custom_reports
 #: field:res.company,report_sales_email:0
