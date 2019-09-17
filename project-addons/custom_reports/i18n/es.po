@@ -1052,6 +1052,11 @@ msgid "Total"
 msgstr "Total"
 
 #. module: custom_reports
+#: field:account.invoice.report,total_with_taxes field:sale.report,total_with_taxes:0
+msgid "Total with taxes"
+msgstr "Total con impuestos"
+
+#. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
 #: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document

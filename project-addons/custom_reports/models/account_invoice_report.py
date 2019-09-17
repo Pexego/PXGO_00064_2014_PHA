@@ -49,6 +49,7 @@ class AccountInvoiceReport(models.Model):
     number = fields.Char('Invoice number')
     price_total_dollars = fields.Float('Total Without Tax in Dollars')
     gross_amount = fields.Float('Gross amount')
+    total_with_taxes = fields.Float('Total with taxes')
 
     def _select(self):
         # select_str = super(AccountInvoiceReport, self)._select() + """,
@@ -130,7 +131,8 @@ class AccountInvoiceReport(models.Model):
             sub.registration_date,
             sub.number,
             sub.price_subtotal * sub.currency_rate_dollars / sub.currency_rate as price_total_dollars,
-            sub.gross_amount
+            sub.gross_amount,
+            sub.total_with_taxes / sub.currency_rate as total_with_taxes        
         """
         return select_str
 
@@ -273,7 +275,15 @@ class AccountInvoiceReport(models.Model):
             sum(case
                 when ai.type in ('out_refund', 'in_invoice') then - ail.gross_amount
                 else ail.gross_amount
-            end) as gross_amount
+            end) as gross_amount,
+            sum(case when ai.type in ('out_refund', 'in_invoice') then -1 else 1 end *
+            	ail.price_subtotal  * (1 + (
+            		select sum(tax.amount)
+            		from account_invoice_line_tax ailt
+            		join account_tax tax on tax.id = ailt.tax_id
+            		where ailt.invoice_line_id = ail.id
+            	))
+            ) as total_with_taxes
         """
         return select_str
 
@@ -395,6 +405,6 @@ class AccountInvoiceReport(models.Model):
             )
             join product_template pt on pt.id = sub.product_template_id
             left join ir_model_fields imf on imf.model = 'product.template' and imf.name = 'standard_price'
-            left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || sub.product_template_id::text            
+            left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || sub.product_template_id::text
         )""" % (self._table, self._select(), self._sub_select(), self._from(),
                 self._group_by()))

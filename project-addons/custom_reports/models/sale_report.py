@@ -60,6 +60,7 @@ class SaleReport(models.Model):
     product_net_weight = fields.Float('Product net weight')
     product_ecoembes_weight = fields.Float('Product ecoembes weight')
     is_delivery = fields.Boolean()  # Is a delivery carrier line?
+    total_with_taxes = fields.Float('Total with taxes')
 
     def _select(self):
         select_str = """,
@@ -105,7 +106,18 @@ class SaleReport(models.Model):
             sum(l.product_uom_qty * t.weight) as product_gross_weight,
             sum(l.product_uom_qty * t.weight_net) as product_net_weight,
             sum(l.product_uom_qty * t.ecoembes_weight) as product_ecoembes_weight,
-            l.is_delivery
+            l.is_delivery,
+            sum(l.product_uom_qty * l.price_unit / cr.rate *
+                (1 - (l.discount / 100)) * 
+                (1 - (l.financial_discount / 100)) *
+                (1 - (l.commercial_discount / 100)) *
+                (1 + (
+            		select sum(tax.amount)
+  	          		from sale_order_tax sot
+   	        		join account_tax tax on tax.id = sot.tax_id
+      	      		where sot.order_line_id = l.id
+           		))            
+            ) as total_with_taxes
             """
         res = super(SaleReport, self)._select() + select_str
         res = res.replace(' min(l.id) as id,', ' l.id as id,')
