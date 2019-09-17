@@ -8,6 +8,7 @@ class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     discount_from_external_storage = fields.Boolean(default=False)
+    reception_warehouse_warning = fields.Text()
 
     @api.multi
     def duplicate(self):
@@ -27,10 +28,21 @@ class PurchaseOrder(models.Model):
     @api.multi
     def confirm_purchase_order(self):
         res = self.signal_workflow('purchase_confirm')
+        incoming_picking_id = self.mapped('all_picking_ids'). \
+            filtered(lambda r: r.picking_type_code == 'incoming')
+
+        # Gather all notes from order and products for incoming picking
+        if incoming_picking_id:
+            note = self.reception_warehouse_warning
+            note = note if note else ''
+            for move_id in incoming_picking_id:
+                if move_id.product_id.reception_warehouse_warning:
+                    note += '\n' + move_id.product_id.reception_warehouse_warning
+            if note.strip():
+                incoming_picking_id.note = note
+
         if self.discount_from_external_storage:
             # Disable invoicing for incoming picking
-            incoming_picking_id = self.mapped('all_picking_ids').\
-                filtered(lambda r: r.picking_type_code == 'incoming')
             if incoming_picking_id:
                 incoming_picking_id.invoice_state = 'none'
 
@@ -42,8 +54,9 @@ class PurchaseOrder(models.Model):
                 'partner_id': self.partner_id.id,
                 'supplier_delivery_note': self.name
             })
+            stock_move = self.env['stock.move']
             for line in self.order_line:
-                self.env['stock.move'].create({
+                stock_move.create({
                     'picking_id': picking_id.id,
                     'picking_type_id': picking_id.picking_type_id.id,
                     'origin': self.name,

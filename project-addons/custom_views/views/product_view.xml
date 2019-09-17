@@ -237,6 +237,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         </group>
                     </page>
                 </page>
+                <field name="uom_po_id" position="after">
+                    <field name="reception_warehouse_warning"/>
+                </field>
             </field>
         </record>
 

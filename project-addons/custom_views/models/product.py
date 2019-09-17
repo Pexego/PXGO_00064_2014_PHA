@@ -68,6 +68,7 @@ class ProductProduct(models.Model):
     analysis_plan_filename = fields.Char(
         related='analysis_plan_id.attachment_filename', readonly=True)
     notes = fields.Text()
+    reception_warehouse_warning = fields.Text()
 
     @api.one
     @api.constrains('year_appearance')

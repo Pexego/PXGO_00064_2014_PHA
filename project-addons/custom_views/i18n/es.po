@@ -913,6 +913,15 @@ msgid "Raw material cost price"
 msgstr "Precio de coste M.P."
 
 #. module: custom_views
+#: field:product.incoming,reception_warehouse_warning:0
+#: field:product.product,reception_warehouse_warning:0
+#: field:purchasable.products,reception_warehouse_warning:0
+#: field:purchase.order,reception_warehouse_warning:0
+#: view:purchase.order:custom_views.custom_views_purchase_order_form
+msgid "Reception warehouse warning"
+msgstr "Aviso para almacén de recepciones"
+
+#. module: custom_views
 #: field:res.partner,recovery_date:0
 msgid "Recovery date"
 msgstr "Fecha recuperación"
