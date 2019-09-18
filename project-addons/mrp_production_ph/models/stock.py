@@ -21,3 +21,20 @@ class StockMove(models.Model):
             if bl:
                 qty = bl.product_qty * pr.product_qty
         self.theorical_uom_qty = qty
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    production_state = fields.Selection([('draft', 'New'), ('cancel', 'Cancelled'),
+        ('confirmed', 'Awaiting Raw Materials'), ('ready', 'Ready to Produce'),
+        ('in_production', 'Production Started'), ('qty_set', 'Final quantity set'),
+        ('released', 'Released'), ('done', 'Done'), ('n/a', '')],
+                                        compute='_production_state')
+
+    @api.one
+    def _production_state(self):
+        if self.lot_id.production_id:
+            self.production_state = self.lot_id.production_id.state
+        else:
+            self.production_state = 'n/a'

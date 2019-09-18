@@ -152,7 +152,7 @@ class StockProductionLot(models.Model):
     used_lots = fields.Text(compute='_compute_used_lots')
     production_id = fields.Many2one(string='Manufacturing order',
                                     comodel_name='mrp.production',
-                                    compute='_compute_used_lots',
+                                    compute='_compute_production_id',
                                     readonly=True)
     origin_type = fields.Selection([
         ('unspecified', 'Unspecified'),
@@ -194,14 +194,18 @@ class StockProductionLot(models.Model):
             self.origin_country_id = False
 
     @api.multi
+    def _compute_production_id(self):
+        for lot in self:
+            lot.production_id = self.env['mrp.production'].search([
+                ('final_lot_id', '=', lot.id)])
+
+    @api.multi
     def _compute_used_lots(self):
         for lot in self:
             lots_str = [_('<table class="product_analysis_used_lots_table">'
                           '<thead><tr><th>Product</th><th>Ref F</th>'
                           '<th>Lot</th><th>Approbation date</th><th>Lot state</th>'
                           '</tr></thead><tbody>')]
-            lot.production_id = self.env['mrp.production'].search([
-                ('final_lot_id', '=', lot.id)])
             consumption_ids = lot.production_id.sudo().mapped('quality_consumption_ids')
             for consumption_id in consumption_ids:
                 state = consumption_id.lot_id.state

@@ -29,6 +29,12 @@ msgid "Add suffix from lot..."
 msgstr "Añadir sufijo del lote..."
 
 #. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "Awaiting Raw Materials"
+msgstr "Esperando materias primas"
+
+#. module: mrp_production_ph
 #: field:mrp.production,use_date:0
 #: field:mrp.production.available.lot,use_date:0
 #: field:mrp.production.use.lot,use_date:0
@@ -46,6 +52,12 @@ msgstr "Lista de materiales"
 #: view:mrp.production.use.lot:mrp_production_ph.mrp_production_use_lot_wizard
 msgid "Cancel"
 msgstr "Cancelar"
+
+#. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "Cancelled"
+msgstr "Cancelada"
 
 #. module: mrp_production_ph
 #: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
@@ -74,6 +86,12 @@ msgid "Do you really want to cancel production?"
 msgstr "¿Desea realmente cancelar esta producción?"
 
 #. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "Done"
+msgstr "Realizada"
+
+#. module: mrp_production_ph
 #: field:mrp.production,duration_type:0
 #: field:mrp.production.available.lot,duration_type:0
 #: field:mrp.production.use.lot,duration_type:0
@@ -94,6 +112,12 @@ msgstr "Fin de año"
 #: selection:mrp.production.available.lot,duration_type:0
 msgid "Exact"
 msgstr "Exacta"
+
+#. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "Final quantity set"
+msgstr "Cantidad final fijada"
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/models/mrp_production.py:138
@@ -147,6 +171,12 @@ msgid "Next lot"
 msgstr "Lote previsto"
 
 #. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "New"
+msgstr "Nueva"
+
+#. module: mrp_production_ph
 #: field:mrp.production,notes:0
 msgid "Notes"
 msgstr "Notas"
@@ -180,6 +210,17 @@ msgstr "Mensajes en producciones"
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 msgid "Production notes"
 msgstr "Notas sobre la producción"
+
+#. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "Production Started"
+msgstr "Producción iniciada"
+
+#. module: mrp_production_ph
+#: field:stock.quant,production_state:0
+msgid "Production state"
+msgstr "Estado producción"
 
 #. module: mrp_production_ph
 #: field:mrp.production,production_warning:0
@@ -249,6 +290,18 @@ msgid "Store consumption"
 msgstr "Consumos almacén"
 
 #. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "Ready to Produce"
+msgstr "Lista para producir"
+
+#. module: mrp_production_ph
+#: selection:mrp.production.available.lot,state:0
+#: selection:stock.quant,production_state:0
+msgid "Released"
+msgstr "Liberada"
+
+#. module: mrp_production_ph
 #: code:addons/mrp_production_ph/wizards/mrp_production_use_lot.py:95
 #: code:addons/mrp_production_ph/models/mrp_production.py:246
 #, python-format
@@ -280,8 +333,3 @@ msgstr "Aviso cuando se fabrica este producto"
 #: field:mrp.routing,wildcard_route:0
 msgid "Wildcard route"
 msgstr "Línea comodín"
-
-#. module: mrp_production_ph
-#: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
-msgid "or"
-msgstr "o "
