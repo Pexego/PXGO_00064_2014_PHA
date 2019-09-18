@@ -299,7 +299,8 @@ function preparaBotonRellenar() {
         elementos.each(function () {
             var data = {},
                 tipoNodo = $(this).prop('nodeName').toLowerCase(),
-                idNodo = (tipoNodo == 'table') ? $(this).attr('id') : $(this).attr('name');
+                idNodo = (tipoNodo == 'table') ? $(this).attr('id') : $(this).attr('name'),
+                campoFoco = $(this).attr('botonrellenar-foco');
             try {
                 data = $(this).attr('botonrellenar');
                 // Descodificamos las cadenas unicode de python
@@ -317,10 +318,13 @@ function preparaBotonRellenar() {
             for (var key in data) {
                 txtData += ' data-' + key + '="' + data[key] + '"';
             }
+            if (campoFoco !== undefined) {
+                txtData += ' foco="' + campoFoco + '"';
+            }
             if (tipoNodo == 'table') {
                 $(this).find('tbody tr').each(function() {
                     $(this).append('<td><button type="button" class="botonRellenar"' +
-                                   txtData + '>Rellenar</button></td>');
+                                   txtData + '">Rellenar</button></td>');
                 });
             } else {
                 $(this).after('&nbsp;<button type="button" class="botonRellenar"' +
@@ -330,7 +334,61 @@ function preparaBotonRellenar() {
     }
 };
 
-function DameFechaHoraServidor(formato) {
+function botonRellenarClick(e) {
+    var data = $(this).data(),
+        parent = $(this).parent(),
+        template = '',
+        campoFoco = $(this).attr('foco');
+
+    if (parent[0].nodeName == 'TD') {  // Si el botón está en una celda de una tabla
+        parent = parent.parent();  // Subimos al tr padre
+        template = parent.attr('id');
+    } else {
+        parent = $(this.form);  // Si no estamos en una tabla, buscamos el formulario
+    }
+
+    parent.find('input, textarea').each(async function(idx, field) {
+        var fieldName = field.name;
+        if (template > '') {
+            var pos = template.indexOf('_Row_'),
+                beginWord = template.substring(0, pos + 1),
+                endWord = template.substring(pos + 4);
+            fieldName = fieldName.match(new RegExp(beginWord + "(.*)" + endWord))[1];
+        }
+        if (fieldName in data) {
+            var txt = data[fieldName];
+
+            if (txt.includes('[hora]')) {
+                dameFechaHoraServidor('hora');
+                do {await sleep(200);} while (!horaServidor);
+                txt = txt.replace('[hora]', horaServidor);
+            }
+            if (txt.includes('[fecha]')) {
+                dameFechaHoraServidor('fecha');
+                do {await sleep(200);} while (!fechaServidor);
+                txt = txt.replace('[fecha]', fechaServidor);
+            }
+            if (txt.includes('[fecha_hora]')) {
+                dameFechaHoraServidor('fecha_hora');
+                do {await sleep(200);} while (!fechaHoraServidor);
+                txt = txt.replace('[fecha_hora]', fechaHoraServidor);
+            }
+            field.value = txt;
+        }
+    });
+
+    if (campoFoco !== undefined) {
+        if (template > '') {
+            var pos = template.indexOf('_Row_'),
+                beginWord = template.substring(0, pos + 1),
+                endWord = template.substring(pos + 4);
+            campoFoco = beginWord + campoFoco + endWord;
+        }
+        parent.find('[name="' + campoFoco + '"]').focus();
+    }
+}
+
+function dameFechaHoraServidor(formato) {
     var context = {lang: 'es_ES', tz: 'Europe/Madrid'},
         obj = new openerp.web.Model('quality.protocol.report', context),
         method = '';
@@ -398,48 +456,7 @@ function preparaInputs() {
         preparaBotonRellenar();
 
         // Evento para el botón de relleno automático de datos
-        $(document).on('click', '.botonRellenar', function() {
-            var data = $(this).data(),
-                parent = $(this).parent(),
-                template = '';
-
-            if (parent[0].nodeName == 'TD') {  // Si el botón está en una celda de una tabla
-                parent = parent.parent();  // Subimos al tr padre
-                template = parent.attr('id');
-            } else {
-                parent = $(this.form);  // Si no estamos en una tabla, buscamos el formulario
-            }
-
-            parent.find('input, textarea').each(async function(idx, field) {
-                var fieldName = field.name;
-                if (template > '') {
-                    var pos = template.indexOf('_Row_'),
-                        beginWord = template.substring(0, pos + 1),
-                        endWord = template.substring(pos + 4);
-                    fieldName = fieldName.match(new RegExp(beginWord + "(.*)" + endWord))[1];
-                }
-                if (fieldName in data) {
-                    var txt = data[fieldName];
-
-                    if (txt.includes('[hora]')) {
-                        DameFechaHoraServidor('hora');
-                        do {await sleep(200);} while (!horaServidor);
-                        txt = txt.replace('[hora]', horaServidor);
-                    }
-                    if (txt.includes('[fecha]')) {
-                        DameFechaHoraServidor('fecha');
-                        do {await sleep(200);} while (!fechaServidor);
-                        txt = txt.replace('[fecha]', fechaServidor);
-                    }
-                    if (txt.includes('[fecha_hora]')) {
-                        DameFechaHoraServidor('fecha_hora');
-                        do {await sleep(200);} while (!fechaHoraServidor);
-                        txt = txt.replace('[fecha_hora]', fechaHoraServidor);
-                    }
-                    field.value = txt;
-                }
-            });
-        });
+        $(document).on('click', '.botonRellenar', botonRellenarClick);
     };
 };
 
