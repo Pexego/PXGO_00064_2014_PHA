@@ -302,6 +302,11 @@ msgid "Released"
 msgstr "Liberada"
 
 #. module: mrp_production_ph
+#: field:mrp.product.produce,tare:0
+msgid "Tare"
+msgstr "Tara"
+
+#. module: mrp_production_ph
 #: code:addons/mrp_production_ph/wizards/mrp_production_use_lot.py:95
 #: code:addons/mrp_production_ph/models/mrp_production.py:246
 #, python-format

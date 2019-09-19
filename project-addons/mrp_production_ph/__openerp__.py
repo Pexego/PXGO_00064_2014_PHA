@@ -23,6 +23,7 @@
         'views/res_config_view.xml',
         'wizards/mrp_production_confirm_view.xml',
         'wizards/mrp_production_use_lot_view.xml',
+        'wizards/mrp_product_produce_view.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True
