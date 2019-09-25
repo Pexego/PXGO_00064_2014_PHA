@@ -75,14 +75,14 @@ def delay_export_product_write(session, model_name, record_id, vals):
     up_fields = ["name" "container_id", "box_elements",
                  "line", "subline", "description_sale"]
     if vals.get("bananas_synchronized", False) and \
-            vals.get('active', product.active):
+            vals.get('active', product.active) and not product.bananas_synchronized:
         export_product.delay(session, model_name, record_id,
                              priority=1, eta=60)
 
     elif vals.get("active", False) and \
             vals.get('bananas_synchronized', False) and \
             product.bananas_synchronized:
-        export_product.delay(session, model_name, record_id,
+        update_product.delay(session, model_name, record_id,
                              priority=1, eta=60)
 
     elif "bananas_synchronized" in vals and not vals["bananas_synchronized"]:
@@ -112,8 +112,6 @@ def delay_unlink_product(session, model_name, record_id):
 @job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60,
                     5: 50 * 60})
 def export_product(session, model_name, record_id):
-    product = session.env[model_name].browse(record_id)
-    session.env['bananas.customer.rate'].calculate(product=product)
     product_exporter = _get_exporter(session, model_name, record_id,
                                      ProductExporter)
     return product_exporter.update(record_id, "insert")
@@ -130,8 +128,6 @@ def update_product(session, model_name, record_id):
 @job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60,
                     5: 50 * 60})
 def unlink_product(session, model_name, record_id):
-    product = session.env[model_name].browse(record_id)
-    session.env['bananas.customer.rate'].remove(product=product)
     product_exporter = _get_exporter(session, model_name, record_id,
                                      ProductExporter)
     return product_exporter.delete(record_id)

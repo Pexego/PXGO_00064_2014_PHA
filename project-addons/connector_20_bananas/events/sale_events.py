@@ -70,7 +70,14 @@ class SaleOrderImportMapper(ImportMapper):
 
     @mapping
     def partner_id(self, record):
-        return {'partner_id': int(record['codcliente'])}
+        sale_partner = self.env['res.partner'].search(
+            [('bananas_id', '=', int(record['codcliente']))])
+        if sale_partner.parent_id:
+            return {
+                'partner_id': sale_partner.parent_id.id,
+                'partner_shipping_id': sale_partner.id}
+        else:
+            return {'partner_id': sale_partner.id}
 
     @mapping
     def sale_channel(self, record):
@@ -167,6 +174,10 @@ class SaleOrderImporter(Importer):
         self.backend_adapter.update(
             self.bananas_id,
             {'idpedido': self.bananas_id, 'integradoERP10': '1'})
+        backend = self.backend_record
+        self.backend_adapter.send_message(
+            binding.partner_id.bananas_id,
+            backend.order_message.format(order=binding.client_order_ref), True)
         return
 
     def run(self, bananas_id, date, force=False):

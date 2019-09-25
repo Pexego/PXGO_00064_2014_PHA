@@ -25,6 +25,8 @@ class BananasBackend(models.Model):
         selection='_select_versions',
         required=True,
     )
+    order_message = fields.Char(
+        help="you can use the format key {order} to se the order number into the message")
     import_orders_from_date = fields.Date()
 
     @api.multi

@@ -4,5 +4,6 @@
 from . import bananas_backend
 from . import res_partner
 from . import product
-from . import bananas_customer_rate
 from . import sale
+from . import product_pricelist_custom_partner
+from . import product_pricelist

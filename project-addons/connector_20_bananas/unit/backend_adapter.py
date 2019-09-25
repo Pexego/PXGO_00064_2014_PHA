@@ -167,3 +167,9 @@ class GenericAdapter(BananasCRUDAdapter):
 
     def remove_whitelist(self, data):
         return self.delete('listablanca', [data])
+
+    def send_message(self, partner_id, message, central=False):
+        response = self.create('notificacion/%s' % partner_id,
+            {'mensaje': message, 'comolacentral': central})
+        if not response.json()['sended']:
+            raise Exception('message not sended')

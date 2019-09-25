@@ -22,7 +22,8 @@
         'views/sale.xml',
         'data/ir_cron.xml',
         'data/sale_channel.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        'data/ir_sequence.xml'
     ],
     'installable': True,
 }

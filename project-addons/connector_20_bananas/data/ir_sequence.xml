@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="sequence_partner_bananas_id" model="ir.sequence">
+            <field name="name">20 bananas partner id</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <record id="sequence_partner_custom_pricelist_bananas_id" model="ir.sequence">
+            <field name="name">20 bananas partner custom pricelist id</field>
+            <field name="prefix">CT</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+    </data>
+</openerp>
