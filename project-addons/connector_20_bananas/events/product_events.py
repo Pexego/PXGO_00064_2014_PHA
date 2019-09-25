@@ -75,14 +75,8 @@ def delay_export_product_write(session, model_name, record_id, vals):
     up_fields = ["name" "container_id", "box_elements",
                  "line", "subline", "description_sale"]
     if vals.get("bananas_synchronized", False) and \
-            vals.get('active', product.active) and not product.bananas_synchronized:
+            vals.get('active', product.active):
         export_product.delay(session, model_name, record_id,
-                             priority=1, eta=60)
-
-    elif vals.get("active", False) and \
-            vals.get('bananas_synchronized', False) and \
-            product.bananas_synchronized:
-        update_product.delay(session, model_name, record_id,
                              priority=1, eta=60)
 
     elif "bananas_synchronized" in vals and not vals["bananas_synchronized"]:
