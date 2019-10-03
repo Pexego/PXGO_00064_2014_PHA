@@ -77,10 +77,7 @@ def delay_export_partner_create(session, model_name, record_id, vals):
             partner.commercial_discount, partner.financial_discount)
     elif vals.get('parent_id') and partner.parent_id.bananas_synchronized and \
             vals.get('type') == 'delivery':
-        if partner.parent_id.bananas_id:
-            partner.parent_id.move_bananas_id(partner)
-        else:
-            partner.create_bananas_id()
+        partner.create_bananas_id()
     if vals.get("bananas_synchronized", False) and \
             vals.get('active', partner.active):
         export_partner.delay(session, model_name, record_id, priority=1)

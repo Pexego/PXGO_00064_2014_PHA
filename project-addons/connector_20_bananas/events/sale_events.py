@@ -175,9 +175,10 @@ class SaleOrderImporter(Importer):
             self.bananas_id,
             {'idpedido': self.bananas_id, 'integradoERP10': '1'})
         backend = self.backend_record
-        self.backend_adapter.send_message(
-            binding.partner_id.bananas_id,
-            backend.order_message.format(order=binding.client_order_ref), True)
+        if backend.order_message:
+            self.backend_adapter.send_message(
+                binding.partner_id.bananas_id,
+                backend.order_message.format(order=binding.client_order_ref), True)
         return
 
     def run(self, bananas_id, date, force=False):
