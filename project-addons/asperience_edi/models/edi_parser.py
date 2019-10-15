@@ -728,15 +728,17 @@ class edi_parser(models.Model):
                     elif line[1]['calificador'] == '59':
                         line_vals['units_per_package'] = line[1]['qty']
 
-
                 elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAA':
                     if not line_vals.get('price_unit'):
-                        line_vals['price_unit'] = line[1]['precio']
-                    line_vals['net_price'] = line[1]['precio']
+                        if line[1]['precio']:
+                            line_vals['price_unit'] = line[1]['precio']
+                    if line[1]['precio']:
+                        line_vals['net_price'] = line[1]['precio']
 
                 elif line[0] == 'PRILIN' and line_vals and line[1]['tipo'] == 'AAB':
-                    line_vals['price_unit'] = line[1]['precio']
-                    line_vals['brut_price'] = line[1]['precio']
+                    if line[1]['precio']:
+                        line_vals['price_unit'] = line[1]['precio']
+                        line_vals['brut_price'] = line[1]['precio']
                     sale_obj.write(cr, uid,
                                    new_sale_id,
                                    {'commercial_discount_input': commercial_discount,
