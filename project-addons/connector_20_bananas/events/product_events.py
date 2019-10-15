@@ -49,7 +49,7 @@ class ProductAdapter(GenericAdapter):
 @on_record_create(model_names='product.product')
 def delay_export_product_create(session, model_name, record_id, vals):
     product = session.env[model_name].browse(record_id)
-    up_fields = ["name" "container_id", "box_elements",
+    up_fields = ["name", "container_id", "box_elements",
                  "line", "subline", "description_sale"]
 
     if vals.get("bananas_synchronized", False) and \
@@ -72,7 +72,7 @@ def delay_export_product_create(session, model_name, record_id, vals):
 @on_record_write(model_names='product.product')
 def delay_export_product_write(session, model_name, record_id, vals):
     product = session.env[model_name].browse(record_id)
-    up_fields = ["name" "container_id", "box_elements",
+    up_fields = ["name", "container_id", "box_elements",
                  "line", "subline", "description_sale"]
     if vals.get("bananas_synchronized", False) and \
             vals.get('active', product.active):
