@@ -108,7 +108,7 @@
                                         <td style="width: 30%;">Proveedor</td>
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
-                                    <t t-set="material_ids" t-value="production.quality_consumption_ids.filtered(lambda r: r.product_id.categ_id.id in (1199, 1195, 1224, 1525, 1494, 1493, 1197))"/> <!-- M.Prima, Ac.Prim., Interm., Vendibles (CVD, Manuf., Pack, Prod.) -->
+                                    <t t-set="material_ids" t-value="production.quality_consumption_ids.filtered(lambda r: r.quantity > 0 and r.product_id.categ_id.id in (1199, 1195, 1224, 1525, 1494, 1493, 1197))"/> <!-- M.Prima, Ac.Prim., Interm., Vendibles (CVD, Manuf., Pack, Prod.) -->
                                     <t t-foreach="material_ids.sorted(key=lambda r: r.order)" t-as="material">
                                         <t t-set="lote" t-value="material.lot_id"/>
                                         <tr style="font-size: 0.8em;">
@@ -119,7 +119,7 @@
                                                 <span t-field="lote.name"/>
                                             </td>
                                             <td>
-                                                <span t-esc="material.quantity if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
+                                                <span t-esc="material.quantity if lote.product_id.uom_id.rounding &lt; 1 else '{:.0f}'.format(material.quantity)"/>
                                             </td>
                                             <td>
                                                 <t t-set="move_ids" t-value="lote.move_related_ids.filtered(lambda r: r.picking_id.picking_type_id.id == 1 and r.picking_id.state == 'done')"/>

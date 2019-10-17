@@ -110,7 +110,7 @@
                                         <td style="width: 30%;">Proveedor</td>
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
-                                    <t t-foreach="production.quality_consumption_ids.sorted(key=lambda r: (r.order * 100000000) + r.lot_id.id)" t-as="material">
+                                    <t t-foreach="production.quality_consumption_ids.filtered(lambda m: m.quantity &gt; 0).sorted(key=lambda r: (r.order * 100000000) + r.lot_id.id)" t-as="material">
                                         <t t-set="lote" t-value="material.lot_id if material.product_id.categ_id.id in (1195,1199,1224,1525,1494,1493,1197) else False"/>
                                         <t t-if="lote">
                                             <tr style="font-size: 0.8em;">
@@ -121,7 +121,7 @@
                                                     <span t-field="lote.name"/>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="material.quantity if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
+                                                    <span t-esc="material.quantity if lote.product_id.uom_id.rounding &lt; 1 else '{:.0f}'.format(material.quantity)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="move_ids" t-value="lote.mapped('move_related_ids').filtered(lambda r: r.picking_id.picking_type_id.id == 1 and r.picking_id.state == 'done')"/>
@@ -141,7 +141,7 @@
                                                     <span>&amp;nbsp;</span>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="material.quantity if material.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
+                                                    <span t-esc="material.quantity if material.product_id.uom_id.rounding &lt; 1 else '{:.0f}'.format(material.quantity)"/>
                                                 </td>
                                                 <td>
                                                     <span>&amp;nbsp;</span>
@@ -180,7 +180,7 @@
                                         <td><span t-field="reg.x_create_date"/></td>
                                         <td><span t-field="reg.x_init_time"/></td>
                                         <td><span t-field="reg.x_end_time"/></td>
-                                        <td><span t-esc="reg.x_quantity if production.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(reg.x_quantity)"/></td>
+                                        <td><span t-esc="reg.x_quantity if production.product_id.uom_id.rounding &lt; 1 else '{:.0f}'.format(reg.x_quantity)"/></td>
                                         <td><span t-field="reg.x_initials"/></td>
                                     </tr>
                                 </t>
