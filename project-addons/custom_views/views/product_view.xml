@@ -243,6 +243,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
+        <record id="product_dimensions_form" model="ir.ui.view">
+            <field name="name">Custom views - Product dimensions form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">19</field>
+            <field name="arch" type="xml">
+                <group string="Dates" position="after">
+                    <group name="dimensions" string="Dimensions" attrs="{'invisible':[('type','=','service')]}">
+                        <field name="width"/>
+                        <field name="height"/>
+                        <field name="depth"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
         <record id="custom_views_product_analysis_method_tree" model="ir.ui.view">
             <field name="name">Custom views - Product analysis method tree</field>
             <field name="model">product.product.analysis.method</field>

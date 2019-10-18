@@ -1446,3 +1446,23 @@ msgstr "No hay nada que desactivar"
 #: model:ir.ui.menu,name:custom_views.menu_sales_crm_meetings
 msgid "Meetings"
 msgstr "Reuniones"
+
+#. module: custom_views
+#: view:product.product:custom_views.product_dimensions_form
+msgid "Dimensions"
+msgstr "Dimensiones"
+
+#. module: custom_views
+#: field:product.product,width:0
+msgid "Width"
+msgstr "Ancho"
+
+#. module: custom_views
+#: field:product.product,height:0
+msgid "Height"
+msgstr "Alto"
+
+#. module: custom_views
+#: field:product.product,depth:0
+msgid "Depth"
+msgstr "Fondo"

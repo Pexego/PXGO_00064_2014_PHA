@@ -69,6 +69,9 @@ class ProductProduct(models.Model):
         related='analysis_plan_id.attachment_filename', readonly=True)
     notes = fields.Text()
     reception_warehouse_warning = fields.Text()
+    width = fields.Float()
+    height = fields.Float()
+    depth = fields.Float()
 
     @api.one
     @api.constrains('year_appearance')
