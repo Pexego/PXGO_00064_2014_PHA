@@ -2,21 +2,20 @@
 # © 2019 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import _
-from openerp.addons.connector.queue.job import job
-from ..connector import get_environment
-from ..backend import bananas
-from openerp.addons.connector.unit.synchronizer import Importer
-from ..unit.backend_adapter import GenericAdapter
 from openerp.addons.connector.exception import IDMissingInBackend
-from openerp.addons.connector.unit.mapper import (mapping,
-                                                  ImportMapper
-                                                  )
+from openerp.addons.connector.queue.job import job
+from openerp.addons.connector.unit.mapper import ImportMapper, mapping
+from openerp.addons.connector.unit.synchronizer import Importer
+
+from ..backend import bananas
+from ..connector import get_environment
+from ..unit.backend_adapter import GenericAdapter
 
 
 @bananas
 class SaleOrderAdapter(GenericAdapter):
-    _model_name = 'sale.order'
-    _bananas_model = 'pedidos'
+    _model_name = "sale.order"
+    _bananas_model = "pedidos"
 
 
 @job
@@ -29,27 +28,30 @@ def sale_order_import_batch(session, model_name, backend_id, date=None):
 
 @bananas
 class SaleOrderBatchImport(Importer):
-    _model_name = ['sale.order']
+    _model_name = ["sale.order"]
 
     def _import_record(self, record_id, date, **kwargs):
         """ Delay the import of the records"""
-        import_record.delay(self.session,
-                            self.model._name,
-                            self.backend_record.id,
-                            record_id, date,
-                            **kwargs)
+        import_record.delay(
+            self.session,
+            self.model._name,
+            self.backend_record.id,
+            record_id,
+            date,
+            **kwargs
+        )
 
     def run(self, date):
         """ Run the synchronization """
-        record_ids = self.backend_adapter.search(
-            date=date)
+        record_ids = self.backend_adapter.search(date=date)
         for record_id in record_ids:
             self._import_record(record_id, date)
 
 
 @job()
-def import_record(session, model_name, backend_id, external_id, date,
-                  force=False):
+def import_record(
+    session, model_name, backend_id, external_id, date, force=False
+):
     """ Import a record from 20 bananas """
     env = get_environment(session, model_name, backend_id)
     importer = env.get_connector_unit(SaleOrderImporter)
@@ -58,58 +60,65 @@ def import_record(session, model_name, backend_id, external_id, date,
 
 @bananas
 class SaleOrderImportMapper(ImportMapper):
-    _model_name = 'sale.order'
+    _model_name = "sale.order"
 
-    direct = [('comentarios', 'note'),
-              ('idpedido', 'client_order_ref'),
-              ('fecha', 'date_order'),
-              ]
+    direct = [
+        ("comentarios", "note"),
+        ("idpedido", "client_order_ref"),
+        ("fecha", "date_order"),
+    ]
 
-    children = [('productos', 'order_line', 'sale.order.line'),
-                ]
+    children = [("productos", "order_line", "sale.order.line")]
 
     @mapping
     def partner_id(self, record):
-        sale_partner = self.env['res.partner'].search(
-            [('bananas_id', '=', int(record['codcliente']))])
+        sale_partner = self.env["res.partner"].search(
+            [("bananas_id", "=", int(record["codcliente"]))]
+        )
         if sale_partner.parent_id:
             return {
-                'partner_id': sale_partner.parent_id.id,
-                'partner_shipping_id': sale_partner.id}
+                "partner_id": sale_partner.parent_id.id,
+                "partner_shipping_id": sale_partner.id,
+            }
         else:
-            return {'partner_id': sale_partner.id}
+            return {"partner_id": sale_partner.id}
 
     @mapping
     def sale_channel(self, record):
-        return {'sale_channel_id': self.env.ref(
-            'connector_20_bananas.20_bananas_channel').id}
+        return {
+            "sale_channel_id": self.env.ref(
+                "connector_20_bananas.20_bananas_channel"
+            ).id
+        }
 
 
 @bananas
 class SaleOrderLineImportMapper(ImportMapper):
-    _model_name = 'sale.order.line'
+    _model_name = "sale.order.line"
 
-    direct = [('observaciones', 'customer_notes')]
+    direct = [("observaciones", "customer_notes")]
 
     @mapping
     def product_id(self, record):
-        return {'product_id': int(record['referencia'])}
+        return {"product_id": int(record["referencia"])}
 
     @mapping
     def quantity(self, record):
-        if record['unidad'] == 'caja':
-            product = self.env['product.product'].browse(
-                int(record['referencia']))
-            cantidad_unidades = record['cantidad'] * product.box_elements
-            return {'product_uom_qty': cantidad_unidades}
+        if record["unidad"] == "caja":
+            product = self.env["product.product"].browse(
+                int(record["referencia"])
+            )
+            cantidad_unidades = record["cantidad"] * product.box_elements
+            return {"product_uom_qty": cantidad_unidades}
         else:
-            return{'product_uom_qty': record['cantidad']}
+            return {"product_uom_qty": record["cantidad"]}
 
 
 @bananas
 class SaleOrderImporter(Importer):
     """ Base importer for 20 bananas """
-    _model_name = ['sale.order']
+
+    _model_name = ["sale.order"]
     _base_mapper = SaleOrderImportMapper
 
     def __init__(self, connector_env):
@@ -154,7 +163,7 @@ class SaleOrderImporter(Importer):
 
         :returns: None | str | unicode
         """
-        if self.bananas_record['integradoERP10'] != '0':
+        if self.bananas_record["integradoERP10"] != "0":
             return True
         return
 
@@ -173,12 +182,15 @@ class SaleOrderImporter(Importer):
         """ Hook called at the end of the import """
         self.backend_adapter.update(
             self.bananas_id,
-            {'idpedido': self.bananas_id, 'integradoERP10': '1'})
+            {"idpedido": self.bananas_id, "integradoERP10": "1"},
+        )
         backend = self.backend_record
         if backend.order_message:
             self.backend_adapter.send_message(
                 binding.partner_id.bananas_id,
-                backend.order_message.format(order=binding.client_order_ref), True)
+                backend.order_message.format(order=binding.client_order_ref),
+                True,
+            )
         return
 
     def run(self, bananas_id, date, force=False):
@@ -188,7 +200,7 @@ class SaleOrderImporter(Importer):
         """
         self.bananas_id = bananas_id
         self.date = date
-        lock_name = 'import({}, {}, {}, {})'.format(
+        lock_name = "import({}, {}, {}, {})".format(
             self.backend_record._name,
             self.backend_record.id,
             self.model._name,
@@ -197,7 +209,7 @@ class SaleOrderImporter(Importer):
         try:
             self.bananas_record = self._get_bananas_data()
         except IDMissingInBackend:
-            return _('Record does no longer exist in bananas')
+            return _("Record does no longer exist in bananas")
         skip = self._must_skip()
         if skip:
             return skip
