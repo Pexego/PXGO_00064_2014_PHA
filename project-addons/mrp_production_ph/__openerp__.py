@@ -24,6 +24,7 @@
         'wizards/mrp_production_confirm_view.xml',
         'wizards/mrp_production_use_lot_view.xml',
         'wizards/mrp_product_produce_view.xml',
+        'wizards/stock_transfer_details_view.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True

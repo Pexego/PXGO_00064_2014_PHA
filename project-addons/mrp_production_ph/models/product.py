@@ -9,3 +9,9 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     production_warning = fields.Char()
+
+
+class ProductCategory(models.Model):
+    _inherit = 'product.category'
+
+    lot_assignment_by_quality_dept = fields.Boolean(default=False)

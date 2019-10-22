@@ -138,6 +138,16 @@ msgid "Final lot"
 msgstr "Lote final"
 
 #. module: mrp_production_ph
+#: field:product.category,lot_assignment_by_quality_dept:0
+msgid "Lot assignment by quality dept"
+msgstr "Loteado por Calidad"
+
+#. module: mrp_production_ph
+#: field:stock.transfer_details_items,lot_barcode:0
+msgid "Lot barcode"
+msgstr "Cód. barras lote"
+
+#. module: mrp_production_ph
 #: code:addons/mrp_production_ph/models/mrp_production.py:171
 #, python-format
 msgid "Lot from which the use date and duration type are to be copied"

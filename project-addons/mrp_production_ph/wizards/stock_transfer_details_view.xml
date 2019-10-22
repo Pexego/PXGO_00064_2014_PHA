@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2019 Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="view_transfer_with_barcodes_wizard" model="ir.ui.view">
+            <field name="name">Transfer with barcodes wizard</field>
+            <field name="model">stock.transfer_details</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="sourceloc_id" position="before">
+                    <field name="lot_barcode"/>
+                </field>
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='destinationloc_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='product_uom_id']" position="replace"/>
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="product_uom_id" string="Medida" options="{&quot;no_open&quot;: True}" groups="product.group_uom"/>
+                </xpath>
+                <button name="do_detailed_transfer" position="attributes">
+                    <attribute name="name">do_transfer_with_barcodes</attribute>
+                    <attribute name="confirm">¿Confirmar la transferencia?</attribute>
+                </button>
+            </field>
+        </record>
+    </data>
+</openerp>

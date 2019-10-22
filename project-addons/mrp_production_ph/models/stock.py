@@ -38,3 +38,32 @@ class StockQuant(models.Model):
             self.production_state = self.lot_id.production_id.state
         else:
             self.production_state = 'n/a'
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    @api.multi
+    def do_transfer_with_barcodes(self):
+        self.ensure_one()
+        res_id = self.env['stock.transfer_details'].with_context(
+                {'active_ids': self.ids, 'active_model': self._name}).create({
+            'picking_id': self.id
+        })
+        view = self.env.ref('mrp_production_ph.view_transfer_with_barcodes_wizard')
+        return {
+            'name': 'Transferir con cód. de barras',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'stock.transfer_details',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'target': 'new',
+            'res_id': res_id.id,
+            'context': self.with_context({
+                    'active_ids': self.ids,
+                    'active_model': self._name,
+                    'picking_type': self.picking_type_code
+                }).env.context,
+        }
