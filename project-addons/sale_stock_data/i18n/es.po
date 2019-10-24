@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-15 11:02+0000\n"
-"PO-Revision-Date: 2015-09-15 11:02+0000\n"
+"POT-Creation-Date: 2019-10-24 12:14+0000\n"
+"PO-Revision-Date: 2019-10-24 12:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,12 +16,31 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: sale_stock_data
+#: field:sale.order.line,virtual_available:0
+msgid "Virtual Available"
+msgstr "Stock virtual conservador"
+
+#. module: sale_stock_data
+#: field:sale.order.line,box_elements:0
+msgid "Box elements"
+msgstr "Elementos por caja (completo)"
+
+#. module: sale_stock_data
+#: field:sale.order.line,packing:0
+msgid "Packing"
+msgstr "Elementos por caja expositora"
+
+#. module: sale_stock_data
 #: model:ir.model,name:sale_stock_data.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línea pedido de venta"
 
 #. module: sale_stock_data
+#: field:sale.order.line,stock_url:0
+msgid "Stock url"
+msgstr "Ver stock"
+
+#. module: sale_stock_data
 #: view:sale.order:sale_stock_data.view_order_add_stock_form
 msgid "View stock"
 msgstr "Ver stock"
-

@@ -26,6 +26,22 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     stock_url = fields.Char('Stock url', compute='_get_stock_url')
+    qty_available = fields.Float('Quantity On Hand',
+                                 related='product_id.qty_available',
+                                 readonly=True,
+                                 digits=(16, 2))
+    virtual_available = fields.Float('Virtual Available',
+                                     related='product_id.virtual_available',
+                                     readonly=True,
+                                     digits=(16, 2))
+    packing = fields.Float(string='Packing',
+                           related='product_id.packing',
+                           readonly=True,
+                           digits=(16, 2))
+    box_elements = fields.Float(string='Box elements',
+                                related='product_id.box_elements',
+                                readonly=True,
+                                digits=(16, 2))
 
     @api.one
     @api.depends('product_id')
