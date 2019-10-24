@@ -294,7 +294,7 @@ msgstr "Delimitador"
 #. module: asperience_edi
 #: field:sale.order,delivery_date:0
 msgid "Delivery date"
-msgstr "Fecga entrega"
+msgstr "Fecha entrega"
 
 #. module: asperience_edi
 #: view:website:asperience_edi.corte_ingles_report
