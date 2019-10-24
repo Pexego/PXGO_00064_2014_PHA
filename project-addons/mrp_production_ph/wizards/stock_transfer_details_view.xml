@@ -6,6 +6,8 @@
         <record id="view_transfer_with_barcodes_wizard" model="ir.ui.view">
             <field name="name">Transfer with barcodes wizard</field>
             <field name="model">stock.transfer_details</field>
+            <field name="inherit_id" ref="stock.view_stock_enter_transfer_details"/>
+            <field name="priority">18</field>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <field name="sourceloc_id" position="before">
