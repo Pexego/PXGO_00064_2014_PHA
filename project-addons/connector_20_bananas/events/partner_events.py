@@ -176,7 +176,15 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                 update_partner.delay(
                     session, model_name, record_id, priority=2, eta=120
                 )
+                if partner.has_delivery_address:
+                    for child in partner.child_ids.filtered(
+                        lambda r: r.type == "delivery"
+                    ):
+                        update_partner.delay(
+                            session, model_name, child.id, priority=2, eta=120
+                        )
                 break
+
     if "bananas_synchronized" not in vals and (
         vals.get("property_product_pricelist")
         or "commercial_discount" in vals
