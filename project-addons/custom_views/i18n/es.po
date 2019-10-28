@@ -506,6 +506,11 @@ msgid "Income unit of measure"
 msgstr "Unidad de medida"
 
 #. module: custom_views
+#: field:stock.quant,incoming_picking_id:0
+msgid "Incoming picking"
+msgstr "Albarán de entrada"
+
+#. module: custom_views
 #: field:account.invoice,partner_insured:0
 #: field:account.invoice.special,partner_insured:0
 #: field:res.partner,insured:0
