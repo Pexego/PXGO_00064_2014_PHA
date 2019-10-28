@@ -362,5 +362,33 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                </search>
             </field>
         </record>
+
+        <record id="product_earliest_picking_tree" model="ir.ui.view">
+            <field name="name">Custom views - Product earliest picking tree</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="priority">17</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="earliest_picking"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="product_earliest_picking_tree_action" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="custom_views.product_earliest_picking_tree"/>
+        </record>
+
+        <menuitem id="product_earliest_picking_tree_menu"
+                  action="custom_views.product_earliest_picking_tree_action"
+                  name="Products by delivery date"
+                  parent="stock.menu_stock_product" sequence="13"
+        />
     </data>
 </openerp>

@@ -358,6 +358,16 @@ msgid "Deactivate product(s)"
 msgstr "Desactivar producto(s)"
 
 #. module: custom_views
+#: field:sale.order,delivery_date:0
+msgid "Delivery date"
+msgstr "Fecha de entrega"
+
+#. module: asperience_edi
+#: field:sale.order,delivery_date:0
+msgid "Delivery date"
+msgstr "Fecha de entrega"
+
+#. module: custom_views
 #: field:product.template,cost_price_dl:0
 msgid "Direct labor cost price"
 msgstr "Precio de coste M.O.D."
@@ -404,6 +414,11 @@ msgstr "Ubicación de producto desechado"
 #: view:product.product:custom_views.product_kanban_view
 msgid "EAN13:"
 msgstr "EAN13:"
+
+#. module: custom_views
+#: field:product.product,earliest_picking:0
+msgid "Earliest picking"
+msgstr "Entrega pedido"
 
 #. module: custom_views
 #: field:product.product,ecoembes_weight:0
@@ -880,6 +895,11 @@ msgstr "Maquinaria de producción"
 #: model:ir.actions.act_window,name:custom_views.product_template_action_warehouse_custom_view
 msgid "Products"
 msgstr "Productos"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.product_earliest_picking_tree_menu
+msgid "Products by delivery date"
+msgstr "Productos por fecha entrega"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_product_description_tree
