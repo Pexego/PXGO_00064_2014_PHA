@@ -456,6 +456,11 @@ msgid "Lots labels"
 msgstr "Etiquetas de lotes"
 
 #. module: custom_reports
+#: field:account.entries.report,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: custom_reports
 #: model:ir.actions.report.xml,name:custom_reports.action_report_lot_sample_label
 msgid "Sample label"
 msgstr "Rec. - Etiqueta de Muestreo"
