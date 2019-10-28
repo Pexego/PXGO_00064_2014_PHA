@@ -112,7 +112,7 @@
                                     <table t-if="o.detail_ids" class="table table-condensed">
                                         <tbody>
                                             <t t-foreach="o.detail_ids" t-as="detail">
-                                                <tr t-if="detail.state != 'reprocessed'">
+                                                <tr t-if="detail.state in ('approved', 'rejected')">
                                                     <td style="padding: 1px; border: 0;"><span t-field="detail.date"/></td>
                                                     <td style="padding: 1px; border: 0;"><b t-field="detail.state"/></td>
                                                     <td style="padding: 1px; border: 0;"><span t-esc="'{0:g}'.format(detail.quantity)"/> <span t-field="o.product_id.uom_id"/></td>
@@ -138,19 +138,17 @@
                             </div>
                         </div>
 
-                        <t t-set="reprocessed_move_ids" t-value="o.detail_ids.filtered(lambda d: d.state == 'reprocessed')"/>
-                        <div t-if="reprocessed_move_ids" class="row" style="text-align: left; padding: 0;">
+                        <t t-set="move_ids" t-value="o.detail_ids.filtered(lambda d: d.state not in ('approved', 'rejected'))"/>
+                        <div t-if="move_ids" class="row" style="text-align: left; padding: 0;">
                             <div class="col-xs-6" style="display: inline-block; page-break-inside: avoid; border: 1px solid black; padding: 5px 5px 0 5px; margin-top: 10px;">
                                 <h4>
                                     <table class="table table-condensed">
                                         <tbody>
-                                            <t t-foreach="reprocessed_move_ids" t-as="detail">
-                                                <tr t-if="detail.state == 'reprocessed'">
-                                                    <td style="padding: 1px; border: 0;"><span t-field="detail.date"/></td>
-                                                    <td style="padding: 1px; border: 0;"><b t-field="detail.state"/></td>
-                                                    <td style="padding: 1px; border: 0;"><span t-esc="'{0:g}'.format(detail.quantity)"/> <span t-field="o.product_id.uom_id"/></td>
-                                                </tr>
-                                            </t>
+                                            <tr t-foreach="move_ids" t-as="detail">
+                                                <td style="padding: 1px; border: 0;"><span t-field="detail.date"/></td>
+                                                <td style="padding: 1px; border: 0;"><b t-field="detail.state"/></td>
+                                                <td style="padding: 1px; border: 0;"><span t-esc="'{0:g}'.format(detail.quantity)"/> <span t-field="o.product_id.uom_id"/></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </h4>

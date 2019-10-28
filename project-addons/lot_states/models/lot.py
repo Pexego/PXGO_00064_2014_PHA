@@ -322,5 +322,8 @@ class LotDetail(models.Model):
     date = fields.Date(required=True)
     state = fields.Selection([('approved', 'Approved'),
                               ('rejected', 'Rejected'),
-                              ('reprocessed', 'Reprocessed')], required=True)
+                              ('reprocessed', 'Reprocessed'),
+                              ('approved_for_reanalysis', 'Approved for reanalysis'),
+                              ('rejected_for_reanalysis', 'Rejected for reanalysis')],
+                             required=True)
     quantity = fields.Float(digits=dp.get_precision('Product Unit of Measure'))

@@ -51,6 +51,11 @@ msgid "Approved"
 msgstr "Aprobado"
 
 #. module: lot_states
+#: selection:stock.lot.detail,state:0
+msgid "Approved for reanalysis"
+msgstr "Aprobado por reanálisis"
+
+#. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
 msgid "Approved lot details"
 msgstr "Detalles de lote aprobado"
@@ -386,9 +391,14 @@ msgid "Remaining"
 msgstr "Pendiente"
 
 #. module: lot_states
-#: selection:stock.lot.detail,state:0 field:stock.lot.detail.wizard,approved:0
+#: selection:stock.lot.detail,state:0
 msgid "Reprocessed"
 msgstr "Reprocesado"
+
+#. module: lot_states
+#: selection:stock.lot.detail,state:0
+msgid "Rejected for reanalysis"
+msgstr "Rechazado por reanálisis"
 
 #. module: lot_states
 #: view:stock.production.lot:lot_states.lot_add_states
