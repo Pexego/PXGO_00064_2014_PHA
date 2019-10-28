@@ -48,7 +48,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                 </tree>
                             </field>
                             <field name="id" invisible="1"/>
-                            <field name="gtin14_default" domain="[('product_id', '=', id)]"/>
+                        </group>
+                        <group col="4">
+                            <field name="gtin14_default" domain="[('product_id', '=', id)]"/><separator colspan="2"/>
+                            <field name="gtin_asociado_01"/><separator colspan="2"/>
+                            <field name="gtin_asociado_02"/><separator colspan="2"/>
                         </group>
                     </page>
                 </page>
