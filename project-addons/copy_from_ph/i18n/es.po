@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* copy_from_ph
+#	* copy_from_ph
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-23 19:01+0000\n"
-"PO-Revision-Date: 2018-05-24 12:00+0200\n"
+"POT-Creation-Date: 2019-10-29 12:21+0000\n"
+"PO-Revision-Date: 2019-10-29 12:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
 
 #. module: copy_from_ph
 #: view:product.template:copy_from_ph.product_template_copy_from_form_view
@@ -33,6 +31,7 @@ msgid "Bill of Material"
 msgstr "Lista de material"
 
 #. module: copy_from_ph
+#: view:lot.copy.analysis.to.wizard:copy_from_ph.lot_copy_analysis_to_wizard
 #: view:product.analysis.rel.wizard:copy_from_ph.product_analysis_rel_wizard
 msgid "Cancel"
 msgstr "Cancelar"
@@ -52,12 +51,18 @@ msgid "Copy analysis parameters from..."
 msgstr "Copiar parámetros de análisis de..."
 
 #. module: copy_from_ph
+#: view:lot.copy.analysis.to.wizard:copy_from_ph.lot_copy_analysis_to_wizard
+msgid "Copy analysis to selected lots"
+msgstr "Copiar a lotes seleccionados"
+
+#. module: copy_from_ph
 #: field:product.product,copy_data_from:0
 msgid "Copy data from..."
 msgstr "Copiar datos de..."
 
 #. module: copy_from_ph
-#: field:mrp.bom,copy_from:0 field:product.analysis.rel.wizard,copy_from:0
+#: field:mrp.bom,copy_from:0
+#: field:product.analysis.rel.wizard,copy_from:0
 #: field:product.product,copy_analysis_from:0
 #: field:product.quality.limits,copy_from:0
 #: field:stock.production.lot,copy_analysis_from:0
@@ -70,44 +75,47 @@ msgid "Copy parameters"
 msgstr "Copiar parámetros"
 
 #. module: copy_from_ph
-#: field:product.analysis.rel.wizard,create_uid:0
-msgid "Created by"
-msgstr "Created by"
+#: view:stock.production.lot:copy_from_ph.copy_from_stock_production_lot_form
+msgid "Copy to..."
+msgstr "Copiar a..."
 
 #. module: copy_from_ph
-#: field:product.analysis.rel.wizard,create_date:0
-msgid "Created on"
-msgstr "Created on"
+#: field:lot.copy.analysis.to.wizard,item_ids:0
+msgid "Destination lots"
+msgstr "Lotes destino"
 
 #. module: copy_from_ph
+#: field:lot.copy.analysis.to.items,display_name:0
+#: field:lot.copy.analysis.to.wizard,display_name:0
 #: field:product.analysis.rel.wizard,display_name:0
 msgid "Display Name"
 msgstr "Nombre a mostrar"
 
 #. module: copy_from_ph
-#: field:product.analysis.rel.wizard,id:0
-msgid "ID"
-msgstr "ID"
-
-#. module: copy_from_ph
-#: field:product.analysis.rel.wizard,__last_update:0
-msgid "Last Modified on"
-msgstr "Last Modified on"
-
-#. module: copy_from_ph
-#: field:product.analysis.rel.wizard,write_uid:0
-msgid "Last Updated by"
-msgstr "Last Updated by"
-
-#. module: copy_from_ph
-#: field:product.analysis.rel.wizard,write_date:0
-msgid "Last Updated on"
-msgstr "Last Updated on"
+#: field:lot.copy.analysis.to.items,lot_id:0
+msgid "Lot id"
+msgstr "ID Lote"
 
 #. module: copy_from_ph
 #: model:ir.model,name:copy_from_ph.model_stock_production_lot
 msgid "Lot/Serial"
 msgstr "Lote"
+
+#. module: copy_from_ph
+#: code:addons/copy_from_ph/models/stock_production_lot.py:65
+#, python-format
+msgid "Lots to which the analysis parameters are to be copied"
+msgstr "Lotes donde se copiarán los parámetros de análisis"
+
+#. module: copy_from_ph
+#: field:lot.copy.analysis.to.items,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: copy_from_ph
+#: field:lot.copy.analysis.to.wizard,origin_lot_id:0
+msgid "Origin lot"
+msgstr "Lote origen"
 
 #. module: copy_from_ph
 #: field:stock.production.lot,sequence_id:0
@@ -126,9 +134,14 @@ msgid "Product Template"
 msgstr "Plantilla de producto"
 
 #. module: copy_from_ph
+#: field:product.product,production_warning:0
+msgid "Production warning"
+msgstr "Aviso producción"
+
+#. module: copy_from_ph
 #: view:product.product:copy_from_ph.copy_from_product_product_form
 msgid "Technical tools"
-msgstr "Technical tools"
+msgstr "Herramientas técnicas"
 
 #. module: copy_from_ph
 #: view:product.product:copy_from_ph.copy_from_product_product_form
@@ -136,6 +149,17 @@ msgid "Warnings"
 msgstr "Avisos"
 
 #. module: copy_from_ph
+#: field:lot.copy.analysis.to.items,wizard_filter_id:0
+msgid "Wizard filter id"
+msgstr "Filtro de asistente"
+
+#. module: copy_from_ph
+#: field:lot.copy.analysis.to.items,wizard_id:0
+msgid "Wizard id"
+msgstr "ID asistente"
+
+#. module: copy_from_ph
+#: view:lot.copy.analysis.to.wizard:copy_from_ph.lot_copy_analysis_to_wizard
 #: view:product.analysis.rel.wizard:copy_from_ph.product_analysis_rel_wizard
 msgid "or"
 msgstr "o"
