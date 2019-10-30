@@ -941,6 +941,11 @@ msgid "Salesperson:"
 msgstr "Comercial:"
 
 #. module: custom_reports
+#: model:ir.actions.report.xml,name:custom_reports.action_report_lot_sampled_package_label
+msgid "Sampled package label"
+msgstr "Rec. - Envase muestreado"
+
+#. module: custom_reports
 #: view:sale.report:custom_reports.sale_report_search_custom_reports
 msgid "Samples"
 msgstr "Muestras/publicitario"
