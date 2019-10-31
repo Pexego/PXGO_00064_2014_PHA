@@ -31,11 +31,18 @@ var JQUERY_UI_TYPES = {
 var to_remove_rows = [];
 
 var contador_espera = 0, contador_referencia = -1, bucleEspera,
-    fechaServidor = false, horaServidor = false, fechaHoraServidor = false;
+    fechaServidor = false, horaServidor = false, fechaHoraServidor = false,
+    imprimiendoEnPhantomJS = (/Phantom.js bot/.test(window.navigator.userAgent));
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+// Si estamos con PhantomJS, evitamos cargar código javascript problemático
+if (!imprimiendoEnPhantomJS) {
+    $.holdReady(true);
+    script = document.currentScript.src;
+    script = script.replace('quality_survey.js', 'phantom_incompatible_code.js');
+    $.getScript(script, function() {
+        $.holdReady(false);
+    });
+};
 
 function check_name(event, fill_field){
     var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
@@ -278,6 +285,21 @@ function preparaTime() {
     };
 };
 
+function preparaDate() {
+    var inputsDate = $('.quality_row input[type="date"]');
+    if (inputsDate.length > 0){
+        inputsDate.each(function() {
+            fecha = $(this).val();
+            if (fecha.trim().length == 10) {  // isDate() no interpreta este formato
+                fecha = openerp.str_to_date(fecha).format("d/m/Y");
+                $(this).prop('type', 'text').val(fecha);
+            } else {
+                $(this).prop('type', 'text');
+            };
+        });
+    };
+};
+
 function preparaTexto() {
     var inputsTexto = $('input[name*="_texto"]');
     if (inputsTexto.length > 0) {
@@ -335,57 +357,7 @@ function preparaBotonRellenar() {
 };
 
 function botonRellenarClick(e) {
-    var data = $(this).data(),
-        parent = $(this).parent(),
-        template = '',
-        campoFoco = $(this).attr('foco');
-
-    if (parent[0].nodeName == 'TD') {  // Si el botón está en una celda de una tabla
-        parent = parent.parent();  // Subimos al tr padre
-        template = parent.attr('id');
-    } else {
-        parent = $(this.form);  // Si no estamos en una tabla, buscamos el formulario
-    }
-
-    parent.find('input, textarea').each(async function(idx, field) {
-        var fieldName = field.name;
-        if (template > '') {
-            var pos = template.indexOf('_Row_'),
-                beginWord = template.substring(0, pos + 1),
-                endWord = template.substring(pos + 4);
-            fieldName = fieldName.match(new RegExp(beginWord + "(.*)" + endWord))[1];
-        }
-        if (fieldName in data) {
-            var txt = data[fieldName];
-
-            if (txt.includes('[hora]')) {
-                dameFechaHoraServidor('hora');
-                do {await sleep(200);} while (!horaServidor);
-                txt = txt.replace('[hora]', horaServidor);
-            }
-            if (txt.includes('[fecha]')) {
-                dameFechaHoraServidor('fecha');
-                do {await sleep(200);} while (!fechaServidor);
-                txt = txt.replace('[fecha]', fechaServidor);
-            }
-            if (txt.includes('[fecha_hora]')) {
-                dameFechaHoraServidor('fecha_hora');
-                do {await sleep(200);} while (!fechaHoraServidor);
-                txt = txt.replace('[fecha_hora]', fechaHoraServidor);
-            }
-            field.value = txt;
-        }
-    });
-
-    if (campoFoco !== undefined) {
-        if (template > '') {
-            var pos = template.indexOf('_Row_'),
-                beginWord = template.substring(0, pos + 1),
-                endWord = template.substring(pos + 4);
-            campoFoco = beginWord + campoFoco + endWord;
-        }
-        parent.find('[name="' + campoFoco + '"]').focus();
-    }
+    return true;
 }
 
 function dameFechaHoraServidor(formato) {
@@ -422,23 +394,17 @@ function preparaInputs() {
     // a su input y que aplique la máscara correcta para estos campos.
     preparaTime();
 
+    // Buscamos los campos de tipo "date" para convertir el campo a tipo texto
+    // y formatear correctamente la fecha. También ayuda con phantomjs.
+    preparaDate();
+
     // Localizamos los campos con sufijo "_texto" para reemplazar
     // los inputs por textarea
     preparaTexto();
 
     // Los inputs con botones de flecha no se muestran bien al imprimir
     // con phantomjs, así que les cambiamos el tipo a texto y pista...
-    if (/Phantom.js bot/.test(window.navigator.userAgent)) {
-        $('.quality_row input[type="date"]').each(function() {
-            fecha = $(this).val();
-            if (fecha.trim().length == 10) {  // isDate() no funciona bien aquí
-                fecha = openerp.str_to_date(fecha).format("d/m/Y");
-                $(this).prop('type', 'text').val(fecha);
-            } else {
-                $(this).prop('type', 'text');
-            };
-        });
-
+    if (imprimiendoEnPhantomJS) {
         $('.quality_row input[type="number"], ' +
           '.quality_row input[type="time"], ' +
           '.quality_row input[type="datetime-local"]').each(
@@ -873,6 +839,13 @@ function send_form_server() {
                             input_value = null;
                         } else if ($(this).attr('type') == 'float') {
                             input_value = input_value.replace(',', '.');
+                        } else if ($(this).attr('type') != 'date') {
+                            if (isDateTime(input_value) === true) {
+                                input_value = openerp.web.datetime_to_str(Date.parse(input_value));
+                            }
+                            else if (isDate(input_value) === true) {
+                                input_value = openerp.web.date_to_str(Date.parseExact(input_value, "d/M/yyyy"));
+                            }
                         }
                         if (name in write_vals[index]) {
                             alert('Se sobreescribe el valor del input ' + name);
