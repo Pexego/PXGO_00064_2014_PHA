@@ -124,22 +124,6 @@ class product_quality_limits(models.Model):
             spec.filter_gross_weight_str = 'kg (%s g)' % \
                                            (spec.filter_gross_weight * 1000)
 
-    @api.model
-    def create(self, vals):
-        res = super(product_quality_limits, self).create(vals)
-        if res.name:
-            res.name.quality_limits = res
-        return res
-
-    @api.multi
-    def write(self, vals):
-        if 'name' in vals:
-            self.name.quality_limits = False
-        res = super(product_quality_limits, self).write(vals)
-        if vals.get('name', False):
-            self.name.quality_limits = self
-        return res
-
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -172,8 +156,9 @@ class ProductTemplate(models.Model):
                                        'Purchase SubLine')
     base_form_id = fields.Many2one('product.form', 'Base form')
     container_id = fields.Many2one('product.container', 'Container')
-    quality_limits = fields.Many2one('product.quality.limits',
-                                     'Process control')
+    quality_limits = fields.One2many(comodel_name='product.quality.limits',
+                                     inverse_name='name',
+                                     string='Process control')
     process_control = fields.Boolean('Process control')
 
     # For column search and sorting in views

@@ -18,6 +18,20 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:0
+#, python-format
+msgid " was a member of the following BoM:\n"
+""
+msgstr " era un miembro de las siguientes LdM:\n"
+""
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:0
+#, python-format
+msgid "- The product "
+msgstr "- El producto "
+
+#. module: custom_views
 #: model:ir.actions.act_window,help:custom_views.product_normal_action_puchased_tree_view_custom_view
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
@@ -136,9 +150,20 @@ msgid "Banking mandate"
 msgstr "Mandato SEPA"
 
 #. module: custom_views
-#: field:account.invoice.special,aux_payment_term_id:0
-msgid "Banking mandate"
-msgstr "Mandato SEPA"
+#: code:addons/custom_views/wizard/deactivate_product.py:0
+#, python-format
+msgid "BoM members"
+msgstr "Miembros de LdM"
+
+#. module: custom_views
+#: field:account.invoice,cc_amount_total_with_sign:0
+msgid "Company cur. total with sign"
+msgstr "Total moneda compañía con signo"
+
+#. module: custom_views
+#: field:account.invoice.special,aux_date_due:0
+msgid "Date due"
+msgstr "Fecha vencimiento"
 
 #. module: custom_views
 #: field:account.invoice.special,aux_payment_mode_id:0
@@ -327,6 +352,22 @@ msgid "Date validated"
 msgstr "Fecha validación"
 
 #. module: custom_views
+#: view:deactivate.product:custom_views.view_deactivate_product_wizard
+#: model:ir.actions.act_window,name:custom_views.action_deactivate_product_wizard
+msgid "Deactivate product(s)"
+msgstr "Desactivar producto(s)"
+
+#. module: custom_views
+#: field:sale.order,delivery_date:0
+msgid "Delivery date"
+msgstr "Fecha de entrega"
+
+#. module: asperience_edi
+#: field:sale.order,delivery_date:0
+msgid "Delivery date"
+msgstr "Fecha de entrega"
+
+#. module: custom_views
 #: field:product.template,cost_price_dl:0
 msgid "Direct labor cost price"
 msgstr "Precio de coste M.O.D."
@@ -373,6 +414,11 @@ msgstr "Ubicación de producto desechado"
 #: view:product.product:custom_views.product_kanban_view
 msgid "EAN13:"
 msgstr "EAN13:"
+
+#. module: custom_views
+#: field:product.product,earliest_picking:0
+msgid "Earliest picking"
+msgstr "Entrega pedido"
 
 #. module: custom_views
 #: field:product.product,ecoembes_weight:0
@@ -458,6 +504,11 @@ msgstr "Ctdad. entrante"
 #: field:stock.production.lot,input_uom:0
 msgid "Income unit of measure"
 msgstr "Unidad de medida"
+
+#. module: custom_views
+#: field:stock.quant,incoming_picking_id:0
+msgid "Incoming picking"
+msgstr "Albarán de entrada"
 
 #. module: custom_views
 #: field:account.invoice,partner_insured:0
@@ -851,6 +902,11 @@ msgid "Products"
 msgstr "Productos"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.product_earliest_picking_tree_menu
+msgid "Products by delivery date"
+msgstr "Productos por fecha entrega"
+
+#. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_product_description_tree
 #: model:ir.ui.menu,name:custom_views.menu_product_description_tree
 msgid "Products by description"
@@ -880,6 +936,15 @@ msgstr "Quants"
 #: field:product.template,cost_price_rm:0
 msgid "Raw material cost price"
 msgstr "Precio de coste M.P."
+
+#. module: custom_views
+#: field:product.incoming,reception_warehouse_warning:0
+#: field:product.product,reception_warehouse_warning:0
+#: field:purchasable.products,reception_warehouse_warning:0
+#: field:purchase.order,reception_warehouse_warning:0
+#: view:purchase.order:custom_views.custom_views_purchase_order_form
+msgid "Reception warehouse warning"
+msgstr "Aviso para almacén de recepciones"
 
 #. module: custom_views
 #: field:res.partner,recovery_date:0
@@ -1368,13 +1433,13 @@ msgid "In Progress"
 msgstr "Finalizada"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:61
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "No products selected to process!"
 msgstr "¡No se han seleccionado productos a desactivar!"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:55
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "Product(s) deactivated"
 msgstr "Producto(s) desactivado(s)"
@@ -1385,19 +1450,19 @@ msgid "Selected products will be deactivated"
 msgstr "Los productos seleccionados se desactivarán"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:62
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "The deactivation of the selected product(s) has been carried out correctly"
-msgstr "La desactivación del producto o productos seleccionados se ha realizado correctamente"
+msgstr "La desactivación del producto o productos seleccionados se ha realizado correctamente."
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:63
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "Exceptions"
-msgstr "Excepciones"
+msgstr "Excepciones (no se desactivaron por tener stock)"
 
 #. module: custom_views
-#: code:addons/custom_views/wizard/deactivate_product.py:67
+#: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "There is nothing to deactivate"
 msgstr "No hay nada que desactivar"
@@ -1406,3 +1471,23 @@ msgstr "No hay nada que desactivar"
 #: model:ir.ui.menu,name:custom_views.menu_sales_crm_meetings
 msgid "Meetings"
 msgstr "Reuniones"
+
+#. module: custom_views
+#: view:product.product:custom_views.product_dimensions_form
+msgid "Dimensions"
+msgstr "Dimensiones"
+
+#. module: custom_views
+#: field:product.product,width:0
+msgid "Width"
+msgstr "Ancho"
+
+#. module: custom_views
+#: field:product.product,height:0
+msgid "Height"
+msgstr "Alto"
+
+#. module: custom_views
+#: field:product.product,depth:0
+msgid "Depth"
+msgstr "Fondo"

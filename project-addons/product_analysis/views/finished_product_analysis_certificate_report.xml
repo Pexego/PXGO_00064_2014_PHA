@@ -220,12 +220,20 @@
                             <b>NOTAS LOTE:</b><br/>
                             <div class="col-xs-12" t-field="o.notes"/>
                         </div>
-                    </div>
 
-                    <div class="footer">
-                        <div class="text-right">
-                            Fdo.: <span t-field="o.revised_by"/><br/>
-                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                        <div class="row">
+                            <div class="col-xs-6"><span t-esc="' '"/></div>
+                            <div class="col-xs-6" style="position: relative;">
+                                <div style="position: absolute; top: -20; right: 0; width: 150px; height: 100px;">
+                                    <img t-if="o.revised_by_id and o.revised_by_id.signature"
+                                             t-att-src="'data:image/png;base64,%s' % o.revised_by_id.signature"
+                                             style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px;"/>
+                                </div>
+                                <div class="text-right" style="margin-top: 85px;">
+                                    Fdo.: <span t-field="o.revised_by"/><br/>
+                                    <span t-field="o.revised_date"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </t>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="bananas_backend_form" model="ir.ui.view">
+            <field name="name">bananas.backend.form</field>
+            <field name="model">bananas.backend</field>
+            <field name="arch" type="xml">
+                <form string="bananas backend">
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <field name="name"/>
+                            <field name="location"/>
+                            <field name="api_key"/>
+                            <field name="version"/>
+                            <field name="order_message"/>
+                        </group>
+                        <group>
+                            <div>
+                                <label string="Import sales orders since date" class="oe_inline"/>
+                                <field name="import_orders_from_date"
+                                    class="oe_inline"
+                                    nolabel="1"/>
+                            </div>
+                            <button name="import_sale_orders"
+                                type="object"
+                                class="oe_highlight"
+                                string="Import in background"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="bananas_backend_tree" model="ir.ui.view">
+            <field name="name">bananas.backend.tree</field>
+            <field name="model">bananas.backend</field>
+            <field name="arch" type="xml">
+                <tree string="bananas backend">
+                        <field name="name"/>
+                        <field name="location"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_bananas_backend">
+            <field name="name">bananas Backends</field>
+            <field name="res_model">bananas.backend</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bananas_backend_tree"/>
+        </record>
+
+        <menuitem name="bananas Backends" parent="connector.menu_connector"
+            action="action_bananas_backend" id="menu_bananas_backend"/>
+
+    </data>
+</openerp>

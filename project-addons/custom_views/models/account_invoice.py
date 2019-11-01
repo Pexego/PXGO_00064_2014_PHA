@@ -17,7 +17,8 @@ class AccountInvoice(models.Model):
     payment_document_delivered = fields.Boolean(default=False)
     payment_document_date = fields.Datetime()
     payment_date_planned = fields.Date()
-    partner_vat = fields.Char(related='partner_id.vat', readonly=True)
+    partner_vat = fields.Char(related='partner_id.vat', readonly=True,
+                              store=True)
     partner_vat_liens = fields.Char(related='partner_id.vat', readonly=True)
     partner_liens = fields.Boolean(related='partner_id.liens', readonly=True)
     partner_insured = fields.Boolean(related='partner_id.insured',
@@ -32,6 +33,14 @@ class AccountInvoice(models.Model):
     payment_mode_bank_id = fields.Many2one(related='payment_mode_id.bank_id',
                                            readonly=True)
     return_reason = fields.Many2one(comodel_name='return.reason')
+    cc_amount_total_with_sign = fields.Float(
+        string='Company cur. total with sign',
+        compute='_cc_amount_total_with_sign')
+
+    @api.one
+    def _cc_amount_total_with_sign(self):
+        self.cc_amount_total_with_sign = self.cc_amount_total * \
+                        (-1 if self.type in ('in_invoice', 'out_refund') else 1)
 
     @api.one
     def _get_partner_parent_category(self):

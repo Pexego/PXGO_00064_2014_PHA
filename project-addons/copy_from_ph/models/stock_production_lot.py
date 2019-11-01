@@ -2,7 +2,7 @@
 # © 2018 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 
 
 class StockProductionLot(models.Model):
@@ -55,3 +55,21 @@ class StockProductionLot(models.Model):
                                     dict[field] = getattr(line, field)
                             analysis_id.update(dict)
         return self
+
+    @api.multi
+    def action_copy_analysis_to(self):
+        rec_id = self.env['lot.copy.analysis.to.wizard'].\
+            create({'origin_lot_id': self.id})
+        wizard_id = self.env.ref('copy_from_ph.lot_copy_analysis_to_wizard')
+        return {
+            'name': _(
+                'Lots to which the analysis parameters are to be copied'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'tree',
+            'view_mode': 'form',
+            'res_model': 'lot.copy.analysis.to.wizard',
+            'views': [(wizard_id.id, 'form')],
+            'view_id': wizard_id.id,
+            'res_id': rec_id.id,
+            'target': 'new',
+        }

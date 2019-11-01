@@ -20,6 +20,7 @@
         'views/stock_production_lot_view.xml',
         'views/product_quality_limits_view.xml',
         'wizard/product_analysis_rel_wizard_view.xml',
+        'wizard/lot_copy_analysis_to_wizard.xml',
     ],
     'installable': True
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="sync_20_bananas_sales" model="ir.cron">
+            <field name="name">Import 20 bananas sales</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'bananas.backend'"/>
+            <field name="function" eval="'import_sale_orders_cron'" />
+            <field name="args" eval="'()'"/>
+        </record>
+    </data>
+</openerp>

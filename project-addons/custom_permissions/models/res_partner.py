@@ -28,7 +28,8 @@ class ResPartner(models.Model):
     @api.model
     def create(self, vals):
         salesmangroup_id = self.env.ref('custom_permissions.group_salesman_ph')
-        if self.env.user in salesmangroup_id.users:
+        if (not vals.get('parent_id')) and \
+                self.env.user in salesmangroup_id.users:
             vals['user_id'] = self.env.user.id
         return super(ResPartner, self).create(vals)
 

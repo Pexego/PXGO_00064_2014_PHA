@@ -115,6 +115,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         </group>
                     </page>
                 </page>
+                <xpath expr="//field[@name='move_lines']/tree//field[@name='product_id']" position="after">
+                    <field name="theorical_uom_qty"/>
+                </xpath>
             </field>
         </record>
 

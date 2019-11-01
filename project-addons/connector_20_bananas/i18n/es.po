@@ -1,0 +1,151 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* connector_20_bananas
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-12 07:52+0000\n"
+"PO-Revision-Date: 2019-07-12 07:52+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,api_key:0
+msgid "Api key"
+msgstr "Clave API"
+
+#. module: connector_20_bananas
+#: model:ir.model,name:connector_20_bananas.model_bananas_backend
+msgid "Connector Backend"
+msgstr "Connector Backend"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: connector_20_bananas
+#: field:sale.order.line,customer_notes:0
+msgid "Customer notes"
+msgstr "Notas de cliente"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: connector_20_bananas
+#: field:product.product,external_image_url:0
+msgid "External image url"
+msgstr "External image url"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: connector_20_bananas
+#: view:bananas.backend:connector_20_bananas.bananas_backend_form
+msgid "Import in background"
+msgstr "Importar en segundo plano"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,import_orders_from_date:0
+msgid "Import orders from date"
+msgstr "Importar pedidos desde fecha"
+
+#. module: connector_20_bananas
+#: view:bananas.backend:connector_20_bananas.bananas_backend_form
+msgid "Import sales orders since date"
+msgstr "Importar pedidos desde fecha"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,location:0
+msgid "Location"
+msgstr "Url API"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: connector_20_bananas
+#: model:ir.model,name:connector_20_bananas.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: connector_20_bananas
+#: model:ir.model,name:connector_20_bananas.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: connector_20_bananas
+#: code:addons/connector_20_bananas/events/sale_events.py:186
+#, python-format
+msgid "Record does no longer exist in bananas"
+msgstr "El registro no existe en 20 bananas"
+
+#. module: connector_20_bananas
+#: model:ir.model,name:connector_20_bananas.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: connector_20_bananas
+#: field:product.product,bananas_synchronized:0
+#: field:res.partner,bananas_synchronized:0
+msgid "Synchronized with 20 bananas"
+msgstr "Sincronizado con 20 bananas"
+
+#. module: connector_20_bananas
+#: help:bananas.backend,location:0
+msgid "Url to 20 bananas api"
+msgstr "URL de la api"
+
+#. module: connector_20_bananas
+#: field:bananas.backend,version:0
+msgid "Version"
+msgstr "Versión"
+
+#. module: connector_20_bananas
+#: model:ir.actions.act_window,name:connector_20_bananas.action_bananas_backend
+#: model:ir.ui.menu,name:connector_20_bananas.menu_bananas_backend
+msgid "bananas Backends"
+msgstr "bananas Backends"
+
+#. module: connector_20_bananas
+#: view:bananas.backend:connector_20_bananas.bananas_backend_form
+#: view:bananas.backend:connector_20_bananas.bananas_backend_tree
+msgid "bananas backend"
+msgstr "bananas backend"
+
+#. module: connector_20_bananas
+#: view:sale.order:connector_20_bananas.view_order_form
+msgid "customer notes"
+msgstr "Notas de cliente"
+

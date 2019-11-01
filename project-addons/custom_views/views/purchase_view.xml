@@ -90,6 +90,9 @@
             <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
+                <field name="order_id" position="before">
+                    <field name="date_order"/>
+                </field>
                 <field name="date_planned" position="after">
                     <field name="date_done"/>
                 </field>
@@ -125,6 +128,10 @@
                             type="object"
                             readonly="0"/>
                 </button>
+                <group class="oe_subtotal_footer oe_right" position="before">
+                    <field name="reception_warehouse_warning" class="oe_inline"
+                           placeholder="Reception warehouse warning"/>
+                </group>
             </field>
         </record>
 

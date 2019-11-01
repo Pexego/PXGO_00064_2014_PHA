@@ -71,6 +71,11 @@
                 </div>
                 <div style="margin: 0 50px 0 50px;">
                     <span style="min-width: 10em; display: inline-block;">Realizado por:</span><span t-field="o.sampling_realized"/>
+                    <div style="position: absolute; bottom: 20px; right: 50px; width: 150px; height: 100px;">
+                        <img t-if="o.sampling_realized_id and o.sampling_realized_id.signature"
+                                 t-att-src="'data:image/png;base64,%s' % o.sampling_realized_id.signature"
+                                 style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px;"/>
+                    </div>
                 </div>
             </div>
         </template>

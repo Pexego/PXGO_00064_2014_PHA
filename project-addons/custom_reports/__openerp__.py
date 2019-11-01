@@ -43,6 +43,7 @@
         'views/report_footer.xml',
         'views/report_footer_message.xml',
         'views/report_product_category_message_view.xml',
+        'views/report_lot_sampled_package_label.xml',
         'views/account_view.xml',
         'views/account_invoice_report_view.xml',
         'views/account_payment_view.xml',

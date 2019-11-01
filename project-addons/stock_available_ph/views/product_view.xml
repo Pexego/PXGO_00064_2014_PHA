@@ -104,6 +104,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="qty_available"/>
                     <field name="virtual_available"/>
                     <field name="virtual_conservative"/>
+                    <field name="standard_price"/>
+                    <field name="cons_by_day_p_total"/>
                     <field name="stock_by_day_p"/>
                     <field name="stock_by_day_i"/>
                     <field name="stock_by_day_p_total"/>

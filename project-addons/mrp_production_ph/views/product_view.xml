@@ -18,5 +18,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </page>
             </field>
         </record>
+
+        <record id="product_category_form_view" model="ir.ui.view">
+            <field name="name">Product category form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="commissions_parent_category" position="before">
+                    <field name="lot_assignment_by_quality_dept"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

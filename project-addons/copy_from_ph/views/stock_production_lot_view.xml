@@ -18,17 +18,16 @@
                             width: 1%;
                         }
                     </style>
-                        <group colspan="2" col="6" class="copy_from_ph_style">
-                            <field name="sequence_id" invisible="1"/>
-                            <field name="copy_analysis_from"
-                                   domain="[('product_id.sequence_id', '=', sequence_id)]"
-                                   style="width: 200px;"/>
-                            <field name="copy_analysis_from_product_id" nolabel="1" readonly="1"/>
-                            <button string="Copy"
-                                    name="action_copy_analysis_from"
-                                    type="object"
-                                    attrs="{'invisible': [('copy_analysis_from', '=', False)]}"/>
-                        </group>
+                    <group colspan="2" col="7" class="copy_from_ph_style">
+                        <field name="sequence_id" invisible="1"/>
+                        <field name="copy_analysis_from" domain="[('product_id.sequence_id', '=', sequence_id)]" style="width: 200px;"/>
+                        <field name="copy_analysis_from_product_id" nolabel="1" readonly="1"/>
+                        <button string="Copy" name="action_copy_analysis_from" type="object" attrs="{'invisible': [('copy_analysis_from', '=', False)]}"/>
+                        <separator/>
+                    </group>
+                    <group colspan="2">
+                        <button string="Copy to..." name="action_copy_analysis_to" type="object"/>
+                    </group>
                 </field>
             </field>
         </record>

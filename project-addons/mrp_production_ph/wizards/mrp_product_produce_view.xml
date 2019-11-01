@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2019 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="mrp_product_produce_wizard" model="ir.ui.view">
+            <field name="name">MRP Product produce wizard</field>
+            <field name="model">mrp.product.produce</field>
+            <field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <footer position="before">
+                    <group>
+                        <field name="tare" class="oe_inline"/>
+                    </group>
+                </footer>
+            </field>
+        </record>
+    </data>
+</openerp>

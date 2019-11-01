@@ -62,6 +62,16 @@ class ResPartner(models.Model):
             self.child_ids.write({'invoicing_period': self.invoicing_period})
 
     @api.one
+    @api.constrains('parent_id')
+    def _parent_invoicing_period(self):
+        if self.parent_id:
+            self.invoicing_period = self.parent_id.invoicing_period
+
+    @api.onchange('sii_simplified_invoice')
+    def _sii_simplified_invoice_change(self):
+        self.simplified_invoice = self.sii_simplified_invoice
+
+    @api.one
     def _total_invoiced(self):
         this_year = datetime.now().year
         invoices_domain = [
