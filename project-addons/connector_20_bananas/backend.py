@@ -4,6 +4,6 @@
 
 import openerp.addons.connector.backend as backend
 
-bananas = backend.Backend('bananas')
+bananas = backend.Backend("bananas")
 
-bananas15 = backend.Backend(parent=bananas, version='1.6')
+bananas15 = backend.Backend(parent=bananas, version="1.6")

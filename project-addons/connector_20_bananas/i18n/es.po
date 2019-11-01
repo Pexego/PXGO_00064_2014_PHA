@@ -27,13 +27,11 @@ msgstr "Connector Backend"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,create_uid:0
-#: field:bananas.customer.rate,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,create_date:0
-#: field:bananas.customer.rate,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -44,7 +42,6 @@ msgstr "Notas de cliente"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,display_name:0
-#: field:bananas.customer.rate,display_name:0
 msgid "Display Name"
 msgstr "Display Name"
 
@@ -55,7 +52,6 @@ msgstr "External image url"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,id:0
-#: field:bananas.customer.rate,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -76,26 +72,18 @@ msgstr "Importar pedidos desde fecha"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,__last_update:0
-#: field:bananas.customer.rate,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,write_uid:0
-#: field:bananas.customer.rate,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,write_date:0
-#: field:bananas.customer.rate,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
-
-#. module: connector_20_bananas
-#: field:bananas.customer.rate,last_sync_price:0
-msgid "Last sync price"
-msgstr "Last sync price"
 
 #. module: connector_20_bananas
 #: field:bananas.backend,location:0
@@ -113,24 +101,9 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: connector_20_bananas
-#: field:bananas.customer.rate,partner_id:0
-msgid "Partner id"
-msgstr "Partner id"
-
-#. module: connector_20_bananas
-#: field:bananas.customer.rate,price:0
-msgid "Price"
-msgstr "Price"
-
-#. module: connector_20_bananas
 #: model:ir.model,name:connector_20_bananas.model_product_product
 msgid "Product"
 msgstr "Producto"
-
-#. module: connector_20_bananas
-#: field:bananas.customer.rate,product_id:0
-msgid "Product id"
-msgstr "Product id"
 
 #. module: connector_20_bananas
 #: code:addons/connector_20_bananas/events/sale_events.py:186

@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_bananas_customer_rate,access_bananas_customer_rate,model_bananas_customer_rate,base.group_user,1,1,1,1
 access_bananas_backend,access_bananas_backend,model_bananas_backend,base.group_user,1,1,1,1
+access_product_pricelist_custom_partner,access_product_pricelist_custom_partner,model_product_pricelist_custom_partner,base.group_user,1,1,1,1
+access_product_pricelist_custom_partner_item,access_product_pricelist_custom_partner_item,model_product_pricelist_custom_partner_item,base.group_user,1,1,1,1

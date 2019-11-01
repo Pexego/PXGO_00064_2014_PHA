@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # © 2019 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from openerp import models, fields, api
+from openerp import api, fields, models
 from openerp.exceptions import Warning
 
 
 class SaleOrderLine(models.Model):
 
-    _inherit = 'sale.order.line'
+    _inherit = "sale.order.line"
 
     customer_notes = fields.Text()
 

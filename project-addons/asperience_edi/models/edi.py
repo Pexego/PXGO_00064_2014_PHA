@@ -1170,7 +1170,8 @@ class edi_edi (osv.osv):
                                     continue
                                 if edi.line_stop > 0 and nb_line > edi.line_stop:
                                     break
-                                data[filename].append(edi._parse_line_csv_struct(line,structs))
+                                if line:
+                                    data[filename].append(edi._parse_line_csv_struct(line,structs))
                             file.close()
                             edi.eval_in = edi.eval_in.replace(chr(13),"\n")
                             _logger.debug("IMPORT CSV STRUCT EVAL %s" % (ids))

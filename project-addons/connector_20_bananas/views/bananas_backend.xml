@@ -12,6 +12,7 @@
                             <field name="location"/>
                             <field name="api_key"/>
                             <field name="version"/>
+                            <field name="order_message"/>
                         </group>
                         <group>
                             <div>

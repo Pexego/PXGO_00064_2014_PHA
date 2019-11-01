@@ -658,5 +658,43 @@ name = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
             <field name="type" eval="'char'" />
         </record>
 
+
+        <record forcecreate="True" id="edi_edi_orders_linetaxlin" model="edi.edi.line.csv">
+            <field name="name">TAXLIN</field>
+            <field name="sequence" eval="12" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_linetaxlin_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_linetaxlin" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_linetaxlin_field_2" model="edi.edi.line.csv.field">
+            <field name="name">tipo</field>
+            <field name="line" ref="edi_edi_orders_linetaxlin" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'tipo'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_linetaxlin_field_3" model="edi.edi.line.csv.field">
+            <field name="name">porcentaje</field>
+            <field name="line" ref="edi_edi_orders_linetaxlin" />
+            <field name="sequence" eval="3" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'porcentaje'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_linetaxlin_field_4" model="edi.edi.line.csv.field">
+            <field name="name">importe</field>
+            <field name="line" ref="edi_edi_orders_linetaxlin" />
+            <field name="sequence" eval="4" />
+            <field name="type" eval="'float'" />
+            <field name="description" eval="'importe'" />
+        </record>
+
     </data>
 </openerp>
