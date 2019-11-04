@@ -1491,3 +1491,8 @@ msgstr "Alto"
 #: field:product.product,depth:0
 msgid "Depth"
 msgstr "Fondo"
+
+#. module: custom_views
+#: view:product.product:custom_views.custom_views_product_normal_form
+msgid "Warning when receiving this product"
+msgstr "Aviso cuando se recepciona este producto"
