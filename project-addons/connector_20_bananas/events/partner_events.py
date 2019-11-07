@@ -34,7 +34,7 @@ class PartnerExporter(Exporter):
             )
         vals = {
             "nombrecliente": partner.display_name,
-            "codcliente": str(partner.bananas_id) + "LOCAL",
+            "codcliente": partner.bananas_id,
             "codcomercial": str(
                 partner.user_id.id or partner.parent_id.user_id.id
             ),
@@ -61,7 +61,7 @@ class PartnerExporter(Exporter):
 
     def delete(self, binding_id):
         partner = self.model.browse(binding_id)
-        self.backend_adapter.remove(str(partner.bananas_id) + "LOCAL")
+        self.backend_adapter.remove(partner.bananas_id)
         for item in partner.get_bananas_pricelist_items():
             self.backend_adapter.remove_whitelist(
                 {
@@ -171,6 +171,14 @@ def delay_export_partner_write(session, model_name, record_id, vals):
         unlink_partner.delay(session, model_name, record_id, priority=3, eta=60)
 
     elif partner.bananas_synchronized and partner.active:
+        partner.check_custom_pricelist(
+            partner.commercial_discount, partner.financial_discount
+        )
+        if not partner.partner_pricelist_exported:
+            partner.partner_pricelist_exported = True
+            export_partner_pricelist.delay(
+                session, model_name, partner.id, priority=3, eta=80
+            )
         for field in up_fields:
             if field in vals:
                 update_partner.delay(

@@ -86,7 +86,7 @@ class ProductPricelistItem(models.Model):
     @api.model
     def create(self, vals):
         res = super(ProductPricelistItem, self).create(vals)
-        self.price_version_id.pricelist_id.partner.update_partner_pricelist(
+        self.price_version_id.pricelist_id.update_partner_pricelist(
             self.product_id
         )
         return res
@@ -95,7 +95,7 @@ class ProductPricelistItem(models.Model):
     def write(self, vals):
         res = super(ProductPricelistItem, self).write(vals)
         for item in self:
-            item.price_version_id.pricelist_id.partner.update_partner_pricelist(
+            item.price_version_id.pricelist_id.update_partner_pricelist(
                 item.product_id
             )
         return res
@@ -103,7 +103,7 @@ class ProductPricelistItem(models.Model):
     @api.multi
     def unlink(self):
         for item in self:
-            item.price_version_id.pricelist_id.partner.update_partner_pricelist(
+            item.price_version_id.pricelist_id.update_partner_pricelist(
                 item.product_id
             )
         return super(ProductPricelistItem, self).unlink()

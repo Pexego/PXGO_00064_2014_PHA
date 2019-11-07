@@ -177,7 +177,7 @@ class CustomerRateAdapter2(GenericAdapter):
 )
 def delay_export_customer_rate_create(session, model_name, record_id, vals):
     export_customer_rate.delay(
-        session, model_name, record_id, priority=20, eta=110
+        session, model_name, record_id, priority=20, eta=200
     )
 
 
@@ -189,7 +189,7 @@ def delay_export_customer_rate_create(session, model_name, record_id, vals):
 )
 def delay_export_customer_rate_write(session, model_name, record_id, vals):
     update_customer_rate.delay(
-        session, model_name, record_id, priority=20, eta=120
+        session, model_name, record_id, priority=20, eta=200
     )
 
 
