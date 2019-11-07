@@ -204,7 +204,7 @@
                                 <div class="col-xs-4">
                                     Revisado por:<br/>
                                     <div class="col-xs-6" t-field="o.revised_by"/>
-                                    <div class="col-xs-6" t-field="o.sampling_date"/> <!-- No hay fecha de "Revisado por" de los análisis -->
+                                    <div class="col-xs-6" t-field="o.revised_date"/>
                                 </div>
                             </div>
                         </div>
