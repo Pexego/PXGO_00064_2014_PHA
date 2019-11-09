@@ -313,6 +313,7 @@ msgstr "Liberada"
 
 #. module: mrp_production_ph
 #: field:mrp.product.produce,tare:0
+#: field:mrp.production,tare:0
 msgid "Tare"
 msgstr "Tara"
 
