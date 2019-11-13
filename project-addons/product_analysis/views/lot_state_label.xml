@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <template id="report_stock_lot_approved_label_gateway">
-            <t t-set="lot_state" t-value="'APROBADO'"/>
+            <t t-set="lot_state" t-value="'APROBADO' if o.state != 'rejected' else 'RECHAZADO'"/>
             <t t-call="product_analysis.report_stock_lot_state_label"/>
         </template>
 
@@ -84,14 +84,14 @@
                             </div>
                             <div class="col-xs-6 text-right" style="position: relative; margin-left: -30px; width: 240px;">
                                 Firma: _______________
-                                <t t-set="signature" t-value="0"/>
-                                <t t-if="o.revised_by_id">
-                                    <t t-set="signature" t-value="o.revised_by_id.signature if o.revised_by_id.signature else 1"/>
+                                <t t-set="signature" t-value="False"/>
+                                <t t-if="o.technical_direction_review_done_by_id">
+                                    <t t-set="signature" t-value="o.technical_direction_review_done_by_id.signature if o.technical_direction_review_done_by_id.signature else False"/>
                                 </t>
-                                <t t-if="signature == 0 and o.technical_direction_review_done_by_id">
-                                    <t t-set="signature" t-value="o.technical_direction_review_done_by_id.signature if o.technical_direction_review_done_by_id.signature else 2"/>
+                                <t t-if="(not signature) and o.revised_by_id">
+                                    <t t-set="signature" t-value="o.revised_by_id.signature if o.revised_by_id.signature else False"/>
                                 </t>
-                                <t t-if="signature in (0, 1, 2)">
+                                <t t-if="not signature">
                                     <!-- Transparent pixel png -->
                                     <t t-set="signature" t-value="'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='"/>
                                 </t>
