@@ -414,12 +414,14 @@
                             </div>
                         </t>
 
-                        <div class="row" style="min-height: 5em;">
-                            <b>NOTAS:</b><br/>
-                            <span t-field="o.production_review_notes"/>
-                        </div>
+                        <t t-if="o.production_review_notes and o.production_review_notes.strip() > ''">
+                            <div class="row" style="min-height: 5em;">
+                                <b>NOTAS:</b><br/>
+                                <span t-field="o.production_review_notes"/>
+                            </div>
+                        </t>
 
-                        <div class="row">
+                        <div class="row" style="page-break-inside: avoid;  border: 1px solid transparent;">
                             <div class="col-xs-6"><span t-esc="' '"/></div>
                             <div class="col-xs-6" style="position: relative;">
                                 <div style="position: absolute; top: -20; right: 0; width: 150px; height: 100px;">
