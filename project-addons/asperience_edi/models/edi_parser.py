@@ -93,7 +93,7 @@ class edi_parser(models.Model):
                 "col2": invoice.company_id.name,
                 "col3": " ",
                 "col4": invoice.company_id.street or " ",
-                "col5": invoice.company_id.city or " ",
+                "col5": invoice.company_id.city[:35] or " ",
                 "col6": invoice.company_id.zip or " ",
                 "col7": invoice.company_id.vat or " ",
             }
@@ -103,7 +103,7 @@ class edi_parser(models.Model):
                 "col1": invoice.partner_id.commercial_partner_id.gln,
                 "col2": invoice.partner_id.commercial_partner_id.name,
                 "col3": invoice.partner_id.commercial_partner_id.street or " ",
-                "col4": invoice.partner_id.commercial_partner_id.city or " ",
+                "col4": invoice.partner_id.commercial_partner_id.city[:35] or " ",
                 "col5": invoice.partner_id.commercial_partner_id.zip or " ",
                 "col6": invoice.partner_id.commercial_partner_id.vat or " ",
             }
@@ -113,7 +113,7 @@ class edi_parser(models.Model):
                 "col1": invoice.company_id.partner_id.gln,
                 "col2": invoice.company_id.name,
                 "col3": invoice.company_id.street or " ",
-                "col4": invoice.company_id.city or " ",
+                "col4": invoice.company_id.city[:35] or " ",
                 "col5": invoice.company_id.zip or " ",
                 "col6": invoice.company_id.vat or " ",
             }
@@ -125,7 +125,7 @@ class edi_parser(models.Model):
                 "col1": invoice.partner_shipping_id.gln,
                 "col2": invoice.partner_shipping_id.name,
                 "col3": invoice.partner_shipping_id.street or " ",
-                "col4": invoice.partner_shipping_id.city or " ",
+                "col4": invoice.partner_shipping_id.city[:35] or " ",
                 "col5": invoice.partner_shipping_id.zip or " ",
             }
             data[filename].append(edi._create_line_csv(NADDP, structs))
