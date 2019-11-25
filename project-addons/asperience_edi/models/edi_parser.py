@@ -863,8 +863,18 @@ class edi_parser(models.Model):
                         sale_line_obj.create(cr, uid, line_vals)
                         line_vals = {}
                         product = False
+                    spain_country_id = self.pool.get(
+                        "ir.model.data"
+                    ).get_object_reference(cr, uid, "base", "es")[1]
                     product_id = product_obj.search(
-                        cr, uid, [("ean13", "=", line[1]["ean13"][:13])]
+                        cr,
+                        uid,
+                        [
+                            ("ean13", "=", line[1]["ean13"][:13]),
+                            "|",
+                            ("country", "=", False),
+                            ("country", "=", spain_country_id),
+                        ],
                     )
                     if not product_id:
                         raise Exception(
