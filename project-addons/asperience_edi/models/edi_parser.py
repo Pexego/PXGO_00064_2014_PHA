@@ -103,7 +103,8 @@ class edi_parser(models.Model):
                 "col1": invoice.partner_id.commercial_partner_id.gln,
                 "col2": invoice.partner_id.commercial_partner_id.name,
                 "col3": invoice.partner_id.commercial_partner_id.street or " ",
-                "col4": invoice.partner_id.commercial_partner_id.city[:35] or " ",
+                "col4": invoice.partner_id.commercial_partner_id.city[:35]
+                or " ",
                 "col5": invoice.partner_id.commercial_partner_id.zip or " ",
                 "col6": invoice.partner_id.commercial_partner_id.vat or " ",
             }
@@ -333,10 +334,12 @@ class edi_parser(models.Model):
                 PCILIN = {
                     "lineId": "PCILIN",
                     "col1": "36E",
-                    "col2": line.lot_id.life_date
-                    and line.lot_id.life_date.split(" ")[0].replace("-", "")
+                    "col2": pick.partner_id.use_date_as_life_date
+                    and line.lot_id.use_date
+                    and line.lot_id.use_date.split(" ")[0].replace("-", "")
                     or "",
-                    "col3": line.lot_id.use_date
+                    "col3": not pick.partner_id.use_date_as_life_date
+                    and line.lot_id.use_date
                     and line.lot_id.use_date.split(" ")[0].replace("-", "")
                     or "",
                     "col4": "",

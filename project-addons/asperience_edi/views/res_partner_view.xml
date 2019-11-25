@@ -25,6 +25,9 @@
                                 <field name="set_value" attrs="{'invisible': [('action', '=', 'remove')]}"/>
                             </tree>
                         </field>
+                        <group>
+                            <field name="use_date_as_life_date"/>
+                        </group>
                     </page>
                 </notebook>
             </field>
