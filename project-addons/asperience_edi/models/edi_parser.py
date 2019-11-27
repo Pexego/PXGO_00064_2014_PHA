@@ -334,11 +334,17 @@ class edi_parser(models.Model):
                 PCILIN = {
                     "lineId": "PCILIN",
                     "col1": "36E",
-                    "col2": pick.partner_id.use_date_as_life_date
+                    "col2": (
+                        pick.partner_id.use_date_as_life_date
+                        or pick.partner_id.commercial_partner_id.use_date_as_life_date
+                    )
                     and line.lot_id.use_date
                     and line.lot_id.use_date.split(" ")[0].replace("-", "")
                     or "",
-                    "col3": not pick.partner_id.use_date_as_life_date
+                    "col3": (
+                        not pick.partner_id.use_date_as_life_date
+                        and not pick.partner_id.commercial_partner_id.use_date_as_life_date
+                    )
                     and line.lot_id.use_date
                     and line.lot_id.use_date.split(" ")[0].replace("-", "")
                     or "",
