@@ -28,6 +28,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     budget = fields.Boolean(default=False)
+    delivery_date = fields.Date()
 
     @api.multi
     def action_button_confirm(self):
@@ -139,3 +140,11 @@ class SaleOrder(models.Model):
                     max_tax_amount = math.fsum(tax.amount for tax in ol.tax_id)
             if carrier_tax_amount != max_tax_amount:
                 carrier_order_line.tax_id = highest_tax_ids
+
+    @api.model
+    def action_ship_create(self):
+        res = super(SaleOrder, self).action_ship_create()
+        if self.delivery_date:
+            for move_id in self.picking_ids.mapped(lambda p: p.move_lines):
+                move_id.date_expected = self.delivery_date
+        return res

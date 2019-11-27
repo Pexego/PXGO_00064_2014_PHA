@@ -14,18 +14,26 @@ class AccountInvoiceSpecial(models.TransientModel):
         related='partner_id.commercial_partner_id', readonly=True)
     aux_mandate_id = fields.Many2one(comodel_name='account.banking.mandate',
                                      string='Banking mandate')
-    aux_payment_term = fields.Many2one(comodel_name='account.payment.term',
-                       string='Payment term')
     aux_payment_mode_id = fields.Many2one(comodel_name='payment.mode',
                                           string='Payment mode')
+    aux_payment_term = fields.Many2one(comodel_name='account.payment.term',
+                                       string='Payment term')
+    aux_date_due = fields.Date(string='Date due')
 
     @api.multi
     def write(self, vals):
+        self.ensure_one()
+        data = {}
+        if 'aux_mandate_id' in vals:
+            data['mandate_id'] = vals['aux_mandate_id']
+        if 'aux_payment_mode_id' in vals:
+            data['payment_mode_id'] = vals['aux_payment_mode_id']
+        if 'aux_payment_term' in vals:
+            data['payment_term'] = vals['aux_payment_term']
+        if 'aux_date_due' in vals:
+            data['date_due'] = vals['aux_date_due']
+        self.invoice_id.write(data)
         res = super(AccountInvoiceSpecial, self).write(vals)
-        for s in self:
-            s.invoice_id.mandate_id = s.aux_mandate_id
-            s.invoice_id.payment_term = s.aux_payment_term
-            s.invoice_id.payment_mode_id = s.aux_payment_mode_id
         return res
 
 
@@ -37,7 +45,9 @@ class AccountInvoice(models.Model):
         rec = self.env['account.invoice.special'].create({
             'invoice_id': self.id,
             'aux_mandate_id': self.mandate_id.id,
-            'aux_payment_term': self.payment_term.id
+            'aux_payment_mode_id': self.payment_mode_id.id,
+            'aux_payment_term': self.payment_term.id,
+            'aux_date_due': self.date_due
         })
         view_id = self.env.ref('custom_views.view_invoice_special_form').id
 

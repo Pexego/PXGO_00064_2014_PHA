@@ -144,12 +144,15 @@ class StockProductionLot(models.Model):
     sampling_notes = fields.Text('Sampling notes')
     sampling_date = fields.Date('Sampling date')
     sampling_realized = fields.Char('Sampling realized by')
+    sampling_realized_id = fields.Many2one(comodel_name='res.users')
     analysis_passed = fields.Boolean('Analysis passed')
+    revised_date = fields.Date('Date')
     revised_by = fields.Char('Revised by')
+    revised_by_id = fields.Many2one(comodel_name='res.users')
     used_lots = fields.Text(compute='_compute_used_lots')
     production_id = fields.Many2one(string='Manufacturing order',
                                     comodel_name='mrp.production',
-                                    compute='_compute_used_lots',
+                                    compute='_compute_production_id',
                                     readonly=True)
     origin_type = fields.Selection([
         ('unspecified', 'Unspecified'),
@@ -165,16 +168,18 @@ class StockProductionLot(models.Model):
         string='Compliant with'
     )
     production_review_notes = fields.Text('Notes')
-    production_review_done_by = fields.Char('Done by')
     production_review_date = fields.Date('Date')
+    production_review_done_by = fields.Char('Done by')
+    production_review_done_by_id = fields.Many2one(comodel_name='res.users')
     technical_direction_review_ids = fields.One2many(
         comodel_name='stock.lot.technical.direction.review',
         inverse_name='lot_id',
         string='Compliant with'
     )
     technical_direction_review_notes = fields.Text('Notes')
-    technical_direction_review_done_by = fields.Char('Done by')
     technical_direction_review_date = fields.Date('Date')
+    technical_direction_review_done_by = fields.Char('Done by')
+    technical_direction_review_done_by_id = fields.Many2one(comodel_name='res.users')
     state_change_ids = fields.One2many(
         comodel_name='stock.production.lot.state.change',
         inverse_name='lot_id',
@@ -189,14 +194,18 @@ class StockProductionLot(models.Model):
             self.origin_country_id = False
 
     @api.multi
+    def _compute_production_id(self):
+        for lot in self:
+            lot.production_id = self.env['mrp.production'].search([
+                ('final_lot_id', '=', lot.id)])
+
+    @api.multi
     def _compute_used_lots(self):
         for lot in self:
             lots_str = [_('<table class="product_analysis_used_lots_table">'
                           '<thead><tr><th>Product</th><th>Ref F</th>'
                           '<th>Lot</th><th>Approbation date</th><th>Lot state</th>'
                           '</tr></thead><tbody>')]
-            lot.production_id = self.env['mrp.production'].search([
-                ('final_lot_id', '=', lot.id)])
             consumption_ids = lot.production_id.sudo().mapped('quality_consumption_ids')
             for consumption_id in consumption_ids:
                 state = consumption_id.lot_id.state
@@ -352,6 +361,28 @@ class StockProductionLot(models.Model):
         self.analysis_ids._compute_passed()
         return self
 
+    @api.multi
+    def action_sign_document(self):
+        sign_type = self.env.context.get('sign_document_type', False)
+        if sign_type:
+            if sign_type == 'sampling':
+                self.sampling_date = datetime.today()
+                self.sampling_realized = self.env.user.partner_id.name
+                self.sampling_realized_id = self.env.user
+            elif sign_type == 'revision':
+                self.revised_date = datetime.today()
+                self.revised_by = self.env.user.partner_id.name
+                self.revised_by_id = self.env.user
+            elif sign_type == 'production':
+                self.production_review_date = datetime.today()
+                self.production_review_done_by = self.env.user.partner_id.name
+                self.production_review_done_by_id = self.env.user
+            elif sign_type == 'technical_direction':
+                self.technical_direction_review_date = datetime.today()
+                self.technical_direction_review_done_by = \
+                    self.env.user.partner_id.name
+                self.technical_direction_review_done_by_id = self.env.user
+
 
 class StockLotProductionReviewQuestion(models.Model):
     _name = 'stock.lot.production.review.question'
@@ -404,7 +435,14 @@ class StockTransferDetails(models.TransientModel):
 
         for lot_id in self.picking_id.mapped('pack_operation_ids.lot_id'):
             lot_id.compute_details_from_moves()
-            if lot_id.production_id.state == 'in_production':
+            # If location is "Control de calidad (Recepción)"
+            if self.picking_id.location_id == \
+                    self.env.ref('__export__.stock_location_14'):
+                report_name = 'product_analysis.' \
+                              'report_stock_lot_analysis_certificate'
+                self.picking_id.approve_pack_operations_lots()
+            elif lot_id.production_id and \
+                    lot_id.production_id.state == 'in_production':
                 report_name = 'product_analysis.' \
                               'lot_certification_and_partial_release_report'
             else:
@@ -427,7 +465,8 @@ class StockPicking(models.Model):
             result = False
             if picking_id.state in ('assigned', 'partially_available') and \
                     picking_id.move_lines:
-                quality_location_id = self.env.ref('__export__.stock_location_95')
+                quality_location_id = \
+                    self.env.ref('__export__.stock_location_95')
                 # True if move is in any child location of Quality Control,
                 # any move reserved lot are revised and have analysis passed
                 for move_id in picking_id.move_lines:
@@ -435,14 +474,13 @@ class StockPicking(models.Model):
                         result = result or (
                             (move_id.location_id.location_id ==
                              quality_location_id) and \
-                            ((lot_id.state == u'revised') and \
+                            ((lot_id.state in ('revised', 'approved')) and \
                              lot_id.analysis_passed)
                         )
             picking_id.transfer_and_approve_available = result
 
-    @api.multi
-    def transfer_and_approve(self):
-        self.ensure_one()
+    @api.one
+    def approve_moves_lots(self):
         aErrors = []
         quality_location_id = self.env.ref('__export__.stock_location_95')
         # True if move is in any child location of Quality Control,
@@ -451,12 +489,13 @@ class StockPicking(models.Model):
             for lot_id in move_id.lot_ids:
                 if (move_id.location_id.location_id != quality_location_id):
                     aErrors.append(move_id.product_id.name + ' - Lote: ' +
-                                   lot_id.name + ' - Motivo: Ubicación no es '
-                                                 'de Calidad')
-                if (lot_id.state != 'revised') or not lot_id.analysis_passed:
+                                   lot_id.name +
+                                   ' - Motivo: Ubicación no es de Calidad')
+                if (lot_id.state not in ('revised', 'approved')) or \
+                        not lot_id.analysis_passed:
                     aErrors.append(move_id.product_id.name + ' - Lote: ' +
                                    lot_id.name + ' - Motivo: Lote no está '
-                                                 'revisado y/o análisis pasado')
+                                   'revisado/aprobado y/o análisis pasado')
         if aErrors:
             txtErrors = '';
             for error in aErrors:
@@ -466,40 +505,79 @@ class StockPicking(models.Model):
 
         for move_id in self.move_lines:
             for lot_id in move_id.lot_ids:
-                if not lot_id.production_id:
-                    continue
-
-                for tdr_id in lot_id.technical_direction_review_ids:
-                    if tdr_id.question_id.id != 2:
-                        tdr_id.result = 'yes'
-                    else:
-                        lowest_weight = 99999
-                        lowest_weight_material_id = False
-                        for bom_line_id in lot_id.production_id.bom_id.\
-                                bom_line_ids:
-                            weight = bom_line_id.product_id.categ_id.\
-                                analysis_sequence
-                            if weight < lowest_weight:
-                                lowest_weight = weight
-                                lowest_weight_material_id = bom_line_id.\
-                                    product_id
-
-                        if lowest_weight_material_id and \
-                           lowest_weight_material_id.categ_id.\
-                            analysis_sequence == 10 and \
-                            lot_id.production_id.product_id.container_id.id in (25, 31):
-                            tdr_id.result = 'na'
-                        elif lowest_weight_material_id and \
-                           lowest_weight_material_id.categ_id.\
-                            analysis_sequence != 10:
-                            tdr_id.result = 'na'
-                        else:
+                if lot_id.production_id:
+                    for tdr_id in lot_id.technical_direction_review_ids:
+                        if tdr_id.question_id.id != 2:
                             tdr_id.result = 'yes'
+                        else:
+                            lowest_weight = 99999
+                            lowest_weight_material_id = False
+                            for bom_line_id in lot_id.production_id.bom_id.\
+                                    bom_line_ids:
+                                weight = bom_line_id.product_id.categ_id.\
+                                    analysis_sequence
+                                if weight < lowest_weight:
+                                    lowest_weight = weight
+                                    lowest_weight_material_id = bom_line_id.\
+                                        product_id
 
-                lot_id.technical_direction_review_done_by = self.env.user.\
-                    partner_id.name
-                lot_id.technical_direction_review_date = fields.Date.today()
+                            if lowest_weight_material_id and \
+                               lowest_weight_material_id.categ_id.\
+                                    analysis_sequence == 10 and \
+                               lot_id.production_id.product_id.container_id.id \
+                                    in (25, 31):
+                                tdr_id.result = 'na'
+                            elif lowest_weight_material_id and \
+                               lowest_weight_material_id.categ_id.\
+                                    analysis_sequence != 10:
+                                tdr_id.result = 'na'
+                            else:
+                                tdr_id.result = 'yes'
+
+                    lot_id.technical_direction_review_done_by = self.env.user.\
+                        partner_id.name
+                    lot_id.technical_direction_review_date = fields.Date.today()
+
                 lot_id.action_approve()
+                lot_id.with_context(sign_document_type = 'technical_direction').\
+                    action_sign_document()
+
+    @api.one
+    def approve_pack_operations_lots(self):
+        aErrors = []
+        quality_location_id = self.env.ref('__export__.stock_location_95')
+        # True if pack operation is from any child location of Quality Control,
+        # any pack operation lot are revised and have analysis passed
+        for po_id in self.pack_operation_ids:
+            if (po_id.location_id.location_id != quality_location_id):
+                aErrors.append(po_id.product_id.name + ' - Lote: ' +
+                               po_id.lot_id.name +
+                               ' - Motivo: Ubicación no es de Calidad')
+            if (po_id.lot_id.state not in ('revised', 'approved')) or \
+                    not po_id.lot_id.analysis_passed:
+                aErrors.append(po_id.product_id.name + ' - Lote: ' +
+                               po_id.lot_id.name + ' - Motivo: Lote no está '
+                               'revisado/aprobado y/o análisis pasado')
+        if aErrors:
+            txtErrors = '';
+            for error in aErrors:
+                txtErrors += error + '<br/>'
+            raise exceptions.Warning('Algunos movimientos no cumplen los '
+                                     'requisitos', txtErrors)
+
+        for lot_id in self.pack_operation_ids.mapped('lot_id'):
+            lot_id.action_approve()
+            lot_id.with_context(sign_document_type = 'revision').\
+                action_sign_document()
+
+
+    @api.multi
+    def transfer_and_approve(self):
+        self.ensure_one()
+
+        # If location is not "Control de calidad (Recepción)"
+        if self.location_id != self.env.ref('__export__.stock_location_14'):
+            self.approve_moves_lots()
 
         return self.with_context(transfer_and_approve = True).\
             do_enter_transfer_details()

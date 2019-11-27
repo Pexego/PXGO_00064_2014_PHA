@@ -5,6 +5,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 import openerp.addons.decimal_precision as dp
 import datetime
+import operator
 
 
 class ProductProductAnalysisMethod(models.Model):
@@ -68,6 +69,12 @@ class ProductProduct(models.Model):
     analysis_plan_filename = fields.Char(
         related='analysis_plan_id.attachment_filename', readonly=True)
     notes = fields.Text()
+    reception_warehouse_warning = fields.Text()
+    width = fields.Float()
+    height = fields.Float()
+    depth = fields.Float()
+    earliest_picking = fields.Date(compute='_earliest_picking',
+                                   search='_search_earliest_picking')
 
     @api.one
     @api.constrains('year_appearance')
@@ -110,6 +117,31 @@ class ProductProduct(models.Model):
         else:
             operator = 'not in'
         return [('id', operator, current_pricelist_product_list)]
+
+    @api.one
+    def _earliest_picking(self):
+        picking_id = self.env['stock.picking'].search([
+            ('move_lines.product_id', '=', self.id),
+            ('state', 'not in', ('done', 'cancel')),
+            ('picking_type_code', '=', 'outgoing')
+        ], limit=1, order='max_date')
+        self.earliest_picking = picking_id.max_date if picking_id else False
+
+    @api.multi
+    def _search_earliest_picking(self, relate, value):
+        def get_truth(inp, relate, cut):
+            ops = {'>': operator.gt,
+                   '<': operator.lt,
+                   '>=': operator.ge,
+                   '<=': operator.le,
+                   '=': operator.eq,
+                   '!=': operator.ne}
+            return ops[relate](inp, cut)
+
+        product_ids = self.search([]).filtered(
+            lambda p: get_truth(p.earliest_picking, relate, value)
+        )
+        return [('id', 'in', product_ids.ids)]
 
 
 class ProductTemplate(models.Model):

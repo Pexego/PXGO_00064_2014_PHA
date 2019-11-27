@@ -143,23 +143,6 @@
             <field name="search_view_id" ref="all_sales_filter"/>
         </record>
 
-        <!-- TODO: mover a otro modulo? -->
-        <record id="view_order_form_add_virtual_available" model="ir.ui.view">
-            <field name="name">sale.order.form_add_display_virtual_available</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='order_line']/form/group/group/field[@name='product_id']" position="after">
-                    <field name="qty_available" readonly="1" />
-                    <field name="virtual_available" readonly="1" />
-                </xpath>
-                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
-                    <field name="qty_available" readonly="1" />
-                    <field name="virtual_available" readonly="1" />
-                </xpath>
-            </field>
-        </record>
-
         <record id="sale_order_line_add_sample_form_edit_context" model="ir.ui.view">
             <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>

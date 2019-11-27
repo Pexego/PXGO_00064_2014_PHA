@@ -55,10 +55,14 @@ class PrintProtocol(models.TransientModel):
            formato, pasa como parámetros la producción y el protocolo"""
         active_model = self.env.context.get('active_model', False)
         active_id = self.env.context.get('active_id', False)
+        config = self.env['ir.config_parameter']
         if self.env.context.get('relative_url'):
             base_url = '/'
+        elif config.get_param('phamtomjs_base_url'):
+            base_url = self.env['ir.config_parameter'].\
+                get_param('phamtomjs_base_url')
         else:
-            base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+            base_url = config.get_param('web.base.url')
         if active_model == u'stock.production.lot':
             obj = self.env['mrp.production'].search([('final_lot_id', '=', active_id)])
             if not obj:
@@ -163,7 +167,7 @@ class PrintProtocol(models.TransientModel):
             'type': 'ir.actions.act_url',
             'name': "Print Protocol",
             'target': 'self',
-            'url': self.print_url,
+            'url': self.with_context(relative_url=True).print_url,
         }
 
     @api.multi

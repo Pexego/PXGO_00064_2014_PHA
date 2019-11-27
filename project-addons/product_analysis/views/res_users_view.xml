@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_users_signature_form" model="ir.ui.view">
+            <field name="name">User form, add signature field</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <group name="messaging" position="after">
+                    <group string="Signature" name="signature">
+                        <field name="signature" widget="image"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</openerp>

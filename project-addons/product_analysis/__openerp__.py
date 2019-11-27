@@ -50,6 +50,7 @@
         'views/revision_by_production_report.xml',
         'views/lot_state_label.xml',
         'views/assets.xml',
+        'views/res_users_view.xml',
         'wizards/lot_wizard_view.xml',
         'wizards/stock_transfer_details.xml',
         'data/help_online_data.xml',

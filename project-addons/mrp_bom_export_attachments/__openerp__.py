@@ -11,6 +11,7 @@
     'depends': ['product_spec'],
     'data': [
         'wizard/export_wizard_view.xml',
+        'data/ir_cron.xml',
     ],
     'installable': True,
 }

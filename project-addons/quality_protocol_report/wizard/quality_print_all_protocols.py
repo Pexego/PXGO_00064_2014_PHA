@@ -36,11 +36,14 @@ class QualityReportAll(models.TransientModel):
 
     def _get_print_urls(self):
         res = []
+        config = self.env['ir.config_parameter']
         if self.env.context.get('relative_url'):
             base_url = '/'
-        else:
+        elif config.get_param('phamtomjs_base_url'):
             base_url = self.env['ir.config_parameter'].\
-                get_param('web.base.url')
+                get_param('phamtomjs_base_url')
+        else:
+            base_url = config.get_param('web.base.url')
         if self.env.context['active_model'] == u'stock.production.lot':
             obj = self.env['mrp.production'].search(
                 [('final_lot_id', '=', self.env.context['active_id'])])

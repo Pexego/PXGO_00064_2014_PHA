@@ -82,8 +82,23 @@
                             <div class="col-xs-6" style="margin-top: -5px;">
                                 Fecha: <span t-field="o.acceptance_date" t-field-options="{&quot;format&quot;: &quot;dd-MM-y&quot;}" style="font-size: 1.3em;"/>
                             </div>
-                            <div class="col-xs-6 text-right" style="margin-left: -30px; width: 240px;">
+                            <div class="col-xs-6 text-right" style="position: relative; margin-left: -30px; width: 240px;">
                                 Firma: _______________
+                                <t t-set="signature" t-value="0"/>
+                                <t t-if="o.revised_by_id">
+                                    <t t-set="signature" t-value="o.revised_by_id.signature if o.revised_by_id.signature else 1"/>
+                                </t>
+                                <t t-if="signature == 0 and o.technical_direction_review_done_by_id">
+                                    <t t-set="signature" t-value="o.technical_direction_review_done_by_id.signature if o.technical_direction_review_done_by_id.signature else 2"/>
+                                </t>
+                                <t t-if="signature in (0, 1, 2)">
+                                    <!-- Transparent pixel png -->
+                                    <t t-set="signature" t-value="'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='"/>
+                                </t>
+                                <div style="position: absolute; top: -85; right: 0; width: 150px; height: 100px;">
+                                    <img t-att-src="'data:image/png;base64,%s' % signature"
+                                         style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px;"/>
+                                </div>
                             </div>
                         </div>
                     </div>

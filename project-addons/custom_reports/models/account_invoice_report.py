@@ -49,6 +49,7 @@ class AccountInvoiceReport(models.Model):
     number = fields.Char('Invoice number')
     price_total_dollars = fields.Float('Total Without Tax in Dollars')
     gross_amount = fields.Float('Gross amount')
+    total_with_taxes = fields.Float('Total with taxes')
 
     def _select(self):
         # select_str = super(AccountInvoiceReport, self)._select() + """,
@@ -130,7 +131,8 @@ class AccountInvoiceReport(models.Model):
             sub.registration_date,
             sub.number,
             sub.price_subtotal * sub.currency_rate_dollars / sub.currency_rate as price_total_dollars,
-            sub.gross_amount
+            sub.gross_amount,
+            sub.total_with_taxes / sub.currency_rate as total_with_taxes        
         """
         return select_str
 
@@ -218,8 +220,8 @@ class AccountInvoiceReport(models.Model):
             partner.commercial_discount::numeric(5,2) as partner_commercial_discount,
             partner.financial_discount::numeric(5,2) as partner_financial_discount,
             partner.user_id as partner_user_id,
-            pt.default_code as product_reference,
-            '[' || pt.default_code || '] ' || pt.name as product_with_reference,
+            pr.default_code as product_reference,
+            '[' || pr.default_code || '] ' || pt.name as product_with_reference,
             pt.description as product_description,
             pt.line as product_line,
             pt.subline as product_subline,
@@ -273,7 +275,15 @@ class AccountInvoiceReport(models.Model):
             sum(case
                 when ai.type in ('out_refund', 'in_invoice') then - ail.gross_amount
                 else ail.gross_amount
-            end) as gross_amount
+            end) as gross_amount,
+            sum(case when ai.type in ('out_refund', 'in_invoice') then -1 else 1 end *
+            	ail.price_subtotal  * (1 + (
+            		select sum(tax.amount)
+            		from account_invoice_line_tax ailt
+            		join account_tax tax on tax.id = ailt.tax_id
+            		where ailt.invoice_line_id = ail.id
+            	))
+            ) as total_with_taxes
         """
         return select_str
 
@@ -332,8 +342,8 @@ class AccountInvoiceReport(models.Model):
             pt.id,
             pt.categ_id,
             pt.customer,
-            pt.default_code,
-            '[' || pt.default_code || '] ' || pt.name,
+            pr.default_code,
+            '[' || pr.default_code || '] ' || pt.name,
             pt.description,
             pt.line,
             pt.subline,
@@ -369,18 +379,20 @@ class AccountInvoiceReport(models.Model):
             left join res_partner_category parent_rpc on parent_rpc.id = (
               select
                 case
-                  when rpc_aux.parent_id is null then parent_rpcr.category_id
-                  else rpc_aux.parent_id
+                  when rpc.parent_id is null then parent_rpcr.category_id
+                  else rpc.parent_id
                 end
               from res_partner_res_partner_category_rel parent_rpcr
-              join res_partner_category rpc_aux on rpc_aux.id = parent_rpcr.category_id
-              where parent_rpcr.partner_id = sub.partner_id
+              join res_partner_category rpc on rpc.id = parent_rpcr.category_id
+              join res_partner rp on rp.id = sub.partner_id
+              where parent_rpcr.partner_id = (case when rp.parent_id is null then rp.id else rp.parent_id end)
               limit 1
             )
             left join res_partner_category rpc on rpc.id = (
               select rpcr.category_id
               from res_partner_res_partner_category_rel rpcr
-              where rpcr.partner_id = sub.partner_id
+              join res_partner rp on rp.id = sub.partner_id
+              where rpcr.partner_id = (case when rp.parent_id is null then rp.id else rp.parent_id end)
               limit 1
             )
             left join product_category pc on pc.id = (
@@ -393,6 +405,6 @@ class AccountInvoiceReport(models.Model):
             )
             join product_template pt on pt.id = sub.product_template_id
             left join ir_model_fields imf on imf.model = 'product.template' and imf.name = 'standard_price'
-            left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || sub.product_template_id::text            
+            left join ir_property ip on ip.fields_id = imf.id and ip.res_id = 'product.template,' || sub.product_template_id::text
         )""" % (self._table, self._select(), self._sub_select(), self._from(),
                 self._group_by()))

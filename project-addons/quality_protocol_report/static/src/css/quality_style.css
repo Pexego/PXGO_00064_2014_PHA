@@ -149,6 +149,16 @@ div.contenedor_si_no {
   width: 20px;
   background: red;
 }
+td > button.botonRellenar {
+  margin: 0 0 15px 0;
+}
+
+@media screen {
+    .openerp .quality_row tr td input,
+    .openerp .quality_view .quality_row tr td input {
+      font-size: 14px;
+    }
+}
 
 @media print {
   body {
@@ -236,5 +246,10 @@ div.contenedor_si_no {
 
   p.sangria2 {
     padding-left: 2em;
+  }
+
+  /*** Botones para rellenar campos automáticamente ***/
+  button.botonRellenar {
+    display: none;
   }
 }

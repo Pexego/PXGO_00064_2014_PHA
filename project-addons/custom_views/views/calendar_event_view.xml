@@ -27,5 +27,16 @@
                   action="calendar.action_calendar_event"
                   parent="menu_sales_crm"
                   sequence="1"/>
+
+        <record id="view_calendar_event_form_popup" model="ir.ui.view">
+            <field name="name">Custom views - Meetings Popup</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form_popup"/>
+            <field name="arch" type="xml">
+                <field name="partner_ids" position="after">
+                    <field name="description"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

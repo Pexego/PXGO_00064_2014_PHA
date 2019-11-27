@@ -64,6 +64,7 @@ class MrpProduction(models.Model):
     hoards_quants_reserved = fields.Boolean(compute='_hoards_quants_reserved')
     production_warning = fields.Char(compute='_production_warning',
                                      readonly=True)
+    tare = fields.Float()
 
     @api.multi
     def _hoards_quants_reserved(self):

@@ -108,6 +108,13 @@
                                 domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('partner_send_invoice_by_email', '=', True)]"/>
                     </group>
                 </group>
+                <filter domain="[('user_id','=',uid)]" position="after">
+                    <separator/>
+                    <filter name="insured" string="Asegurados" domain="[('commercial_partner_id.insured', '=', True)]"/>
+                </filter>
+                <filter name="group_by_partner_id" position="after">
+                    <filter string="NIF" context="{'group_by': 'partner_vat'}"/>
+                </filter>
             </field>
         </record>
 

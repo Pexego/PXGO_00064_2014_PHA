@@ -30,7 +30,19 @@ var JQUERY_UI_TYPES = {
 
 var to_remove_rows = [];
 
-var contador_espera = 0, contador_referencia = -1, bucleEspera;
+var contador_espera = 0, contador_referencia = -1, bucleEspera,
+    fechaServidor = false, horaServidor = false, fechaHoraServidor = false,
+    imprimiendoEnPhantomJS = (/Phantom.js bot/.test(window.navigator.userAgent));
+
+// Si estamos con PhantomJS, evitamos cargar código javascript problemático
+if (!imprimiendoEnPhantomJS) {
+    $.holdReady(true);
+    script = document.currentScript.src;
+    script = script.replace('quality_survey.js', 'phantom_incompatible_code.js');
+    $.getScript(script, function() {
+        $.holdReady(false);
+    });
+};
 
 function check_name(event, fill_field){
     var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
@@ -273,6 +285,21 @@ function preparaTime() {
     };
 };
 
+function preparaDate() {
+    var inputsDate = $('.quality_row input[type="date"]');
+    if (inputsDate.length > 0){
+        inputsDate.each(function() {
+            fecha = $(this).val();
+            if (fecha.trim().length == 10) {  // isDate() no interpreta este formato
+                fecha = openerp.str_to_date(fecha).format("d/m/Y");
+                $(this).prop('type', 'text').val(fecha);
+            } else {
+                $(this).prop('type', 'text');
+            };
+        });
+    };
+};
+
 function preparaTexto() {
     var inputsTexto = $('input[name*="_texto"]');
     if (inputsTexto.length > 0) {
@@ -288,6 +315,76 @@ function preparaTexto() {
     };
 };
 
+function preparaBotonRellenar() {
+    var elementos = $('[botonrellenar]');
+    if (elementos.length > 0) {
+        elementos.each(function () {
+            var data = {},
+                tipoNodo = $(this).prop('nodeName').toLowerCase(),
+                idNodo = (tipoNodo == 'table') ? $(this).attr('id') : $(this).attr('name'),
+                campoFoco = $(this).attr('botonrellenar-foco');
+            try {
+                data = $(this).attr('botonrellenar');
+                // Descodificamos las cadenas unicode de python
+                data = data.replace(/\':u\'/g, '\': \'')
+                           .replace(/\': u\'/g, '\': \'')
+                           .replace(/%/g, '%25')
+                           .replace(/\\x/g, '%');
+                data = decodeURIComponent(data);
+                data = eval('(' + data + ')');
+            } catch(error) {
+                alert('Parece que hay un error en los parámetros del atributo ' +
+                      '"botonrellenar" en ' + tipoNodo + ' ' + idNodo);
+            }
+            var txtData = '';
+            for (var key in data) {
+                txtData += ' data-' + key + '="' + data[key] + '"';
+            }
+            if (campoFoco !== undefined) {
+                txtData += ' foco="' + campoFoco + '"';
+            }
+            if (tipoNodo == 'table') {
+                $(this).find('tbody tr').each(function() {
+                    $(this).append('<td><button type="button" class="botonRellenar"' +
+                                   txtData + '">Rellenar</button></td>');
+                });
+            } else {
+                $(this).after('&nbsp;<button type="button" class="botonRellenar"' +
+                              txtData + '>Rellenar</button>');
+            }
+        });
+    }
+};
+
+function botonRellenarClick(e) {
+    return true;
+}
+
+function dameFechaHoraServidor(formato) {
+    var context = {lang: 'es_ES', tz: 'Europe/Madrid'},
+        obj = new openerp.web.Model('quality.protocol.report', context),
+        method = '';
+    switch (formato) {
+        case 'fecha':
+            fechaServidor = false;
+            obj.call('get_current_date').then(function(response) {
+                fechaServidor = response;
+            });
+            break;
+        case 'hora':
+            horaServidor = false;
+            obj.call('get_current_time').then(function(response) {
+                horaServidor = response;
+            });
+            break;
+        default:
+            fechaHoraServidor = false;
+            obj.call('get_current_datetime').then(function(response) {
+                fechaHoraServidor = response;
+            });
+    }
+}
+
 function preparaInputs() {
     // Buscamos los campos con sufijo "_box_sino" para reemplazar
     // su input por dos botones de radio con ambas opciones
@@ -297,23 +394,17 @@ function preparaInputs() {
     // a su input y que aplique la máscara correcta para estos campos.
     preparaTime();
 
+    // Buscamos los campos de tipo "date" para convertir el campo a tipo texto
+    // y formatear correctamente la fecha. También ayuda con phantomjs.
+    preparaDate();
+
     // Localizamos los campos con sufijo "_texto" para reemplazar
     // los inputs por textarea
     preparaTexto();
 
-    // Los inputs de con botones de flecha no se muestran bien al imprimir
+    // Los inputs con botones de flecha no se muestran bien al imprimir
     // con phantomjs, así que les cambiamos el tipo a texto y pista...
-    if (/Phantom.js bot/.test(window.navigator.userAgent)) {
-        $('.quality_row input[type="date"]').each(function() {
-            fecha = $(this).val();
-            if (fecha.trim().length == 10) {  // isDate() no funciona bien aquí
-                fecha = openerp.str_to_date(fecha).format("d/m/Y");
-                $(this).prop('type', 'text').val(fecha);
-            } else {
-                $(this).prop('type', 'text');
-            };
-        });
-
+    if (imprimiendoEnPhantomJS) {
         $('.quality_row input[type="number"], ' +
           '.quality_row input[type="time"], ' +
           '.quality_row input[type="datetime-local"]').each(
@@ -322,6 +413,16 @@ function preparaInputs() {
             }
         );
         $('div#realized_by').hide();
+    } else {
+        // Agrega un botón "Rellenar" al lado del input que tenga el atributo
+        // "botonrellenar" establecido.
+        // Aquellas tablas que tengan el atributo "botonrellenar" establecido,
+        // necesitan agregar un botón por cada fila de la misma, para disponer de
+        // la funcionalidad de rellenado automático.
+        preparaBotonRellenar();
+
+        // Evento para el botón de relleno automático de datos
+        $(document).on('click', '.botonRellenar', botonRellenarClick);
     };
 };
 
@@ -499,7 +600,7 @@ $(function () {
             clearInterval(bucleEspera);
             preparaInputs();
         };
-    }, 250);
+    }, 1000);
 });
 
 //Falta pepararlo para multiples tablas
@@ -738,6 +839,13 @@ function send_form_server() {
                             input_value = null;
                         } else if ($(this).attr('type') == 'float') {
                             input_value = input_value.replace(',', '.');
+                        } else if ($(this).attr('type') != 'date') {
+                            if (isDateTime(input_value) === true) {
+                                input_value = openerp.web.datetime_to_str(Date.parse(input_value));
+                            }
+                            else if (isDate(input_value) === true) {
+                                input_value = openerp.web.date_to_str(Date.parseExact(input_value, "d/M/yyyy"));
+                            }
                         }
                         if (name in write_vals[index]) {
                             alert('Se sobreescribe el valor del input ' + name);
@@ -776,35 +884,35 @@ function send_form_server() {
     }
 }
 
-    var jqVal = $.fn.val;
-    var rreturn = /\r/g;
-    $.fn.val = function( value ) {
-        var hooks, ret, isFunction,
-            elem = this[0];
-        if ( !arguments.length ) {
-            if ( elem ) {
-                hooks = jQuery.valHooks[ elem.type ] || jQuery.valHooks[ elem.nodeName.toLowerCase() ];
+var jqVal = $.fn.val;
+var rreturn = /\r/g;
+$.fn.val = function( value ) {
+    var hooks, ret, isFunction,
+        elem = this[0];
+    if ( !arguments.length ) {
+        if ( elem ) {
+            hooks = jQuery.valHooks[ elem.type ] || jQuery.valHooks[ elem.nodeName.toLowerCase() ];
 
-                if ( hooks && "get" in hooks && (ret = hooks.get( elem, "value" )) !== undefined ) {
-                    return ret;
-                }
-                var quality_protocol_value = this.attr('quality_protocol_value');
-                if (typeof quality_protocol_value !== typeof undefined && quality_protocol_value !== false) {
-                    ret = quality_protocol_value;
-                }
-                else{
-                    ret = elem.value;
-                }
-
-                return typeof ret === "string" ?
-                    // handle most common string cases
-                    ret.replace(rreturn, "") :
-                    // handle cases where value is null/undef or number
-                    ret == null ? "" : ret;
+            if ( hooks && "get" in hooks && (ret = hooks.get( elem, "value" )) !== undefined ) {
+                return ret;
             }
-            return;
+            var quality_protocol_value = this.attr('quality_protocol_value');
+            if (typeof quality_protocol_value !== typeof undefined && quality_protocol_value !== false) {
+                ret = quality_protocol_value;
+            }
+            else{
+                ret = elem.value;
+            }
+
+            return typeof ret === "string" ?
+                // handle most common string cases
+                ret.replace(rreturn, "") :
+                // handle cases where value is null/undef or number
+                ret == null ? "" : ret;
         }
-        else{
-            return jqVal.call(this, value);
-        }
+        return;
     }
+    else{
+        return jqVal.call(this, value);
+    }
+}

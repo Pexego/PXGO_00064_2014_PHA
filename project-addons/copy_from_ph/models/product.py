@@ -53,11 +53,11 @@ class ProductProduct(models.Model):
             for field in fields_to_copy:
                 if field in origin_product._fields:
                     dict[field] = getattr(origin_product, field)
-            dict['copy_analysis_from'] = origin_product
+#            dict['copy_analysis_from'] = origin_product
             self.with_context(disable_notify_changes = True).update(dict)
 
             # Quality analysis questions
-            self.action_copy_analysis_from()
+#            self.action_copy_analysis_from()
 
             # Resupply rules
             if origin_product.orderpoint_ids and not self.orderpoint_ids:

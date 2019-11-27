@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2019 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data>
+        <record id="stock_quant_tree_view" model="ir.ui.view">
+            <field name="name">Stock quant tree view</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="lot_state" position="after">
+                    <field name="production_state"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_picking_form_view" model="ir.ui.view">
+            <field name="name">Stock picking form view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority">23</field>
+            <field name="arch" type="xml">
+                <button name="do_enter_transfer_details" position="after">
+                    <button name="do_transfer_with_barcodes"
+                            string="Transferir con cód. de barras"
+                            groups="stock.group_stock_user"
+                            type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|','|',('state','not in',('assigned','partially_available')),('docs_confirmed_check', '=', False),('location_dest_id', 'not in', (21, 9, 126, 103))]}"/>
+                </button>
+            </field>
+        </record>
+    </data>
+</openerp>

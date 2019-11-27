@@ -107,7 +107,7 @@ msgid "Quantity is different than the needed one"
 msgstr "La cantidad seleccionada es diferente a la necesaria"
 
 #. module: stock_move_manual_lot_assign
-#: code:addons/stock_move_manual_lot_assign/wizard/manual_assign_wizard.py:114
+#: code:addons/stock_move_manual_lot_assign/wizard/manual_assign_wizard.py:0
 #, python-format
 msgid "Quantity is higher than the available"
 msgstr "Cantidad seleccionada mayor a la disponible"
@@ -121,6 +121,12 @@ msgstr "Cantidad restante"
 #: field:stock.move.assign.manual.lot,lines_qty:0
 msgid "Reserved qty"
 msgstr "Cantidad reservada"
+
+#. module: mrp_hoard
+#: code:addons/stock_move_manual_lot_assign/wizard/manual_assign_wizard.py:0
+#, python-format
+msgid "The production route only accepts one lot of raw material"
+msgstr "La ruta de producción solo permite un lote de una misma materia prima"
 
 #. module: stock_move_manual_lot_assign
 #: field:stock.move.assign.manual.lot.line,use_qty:0

@@ -236,6 +236,8 @@ class ProductProduct(models.Model):
                                  string='GTIN-14 codes')
     gtin14_default = fields.Many2one(comodel_name='product.gtin14',
                                      string="Default GTIN14")
+    gtin_asociado_01 = fields.Char(string='GTIN asociado 01')
+    gtin_asociado_02 = fields.Char(string='GTIN asociado 02')
 
     @api.model
     def create(self, vals):

@@ -8,14 +8,6 @@
             <field name="model">bom.attachments.export.wizard</field>
             <field name="arch" type="xml">
                 <form>
-                    <group col="4">
-                        <group>
-                            <field name="location"/>
-                        </group>
-                        <group>
-                            <span>(Odoo must have permissions to write the new structure in this location)</span>
-                        </group>
-                    </group>
                     <footer class="oe_right oe_button_box">
                         <button string="Begin export" name="export_attachments"
                                 type="object" icon="gtk-ok" class="oe_highlight"/>

@@ -16,13 +16,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: mrp_hoard
-#: code:addons/mrp_hoard/stock.py:168
+#: code:addons/mrp_hoard/stock.py:0
 #, python-format
 msgid "The production route only accepts one lot of raw material"
-msgstr "La ruta de producción solo permite una materia prima"
+msgstr "La ruta de producción solo permite un lote de una misma materia prima"
 
 #. module: mrp_hoard
-#: code:addons/mrp_hoard/stock.py:162
+#: code:addons/mrp_hoard/stock.py:0
 #, python-format
 msgid "The route not accepts multiple raw material"
 msgstr "La ruta no permite el uso de varias materias primas"

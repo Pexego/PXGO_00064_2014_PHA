@@ -196,6 +196,15 @@ class StockQuant(models.Model):
 
     lot_state = fields.Selection(string='Lot state', related='lot_id.state',
                                  readonly=True)
+    incoming_picking_id = fields.Many2one('stock.picking', 'Incoming picking',
+                                          compute='_incoming_picking_id')
+
+    @api.one
+    def _incoming_picking_id(self):
+        picking_ids = self.move_ids.mapped('picking_id').\
+            filtered(lambda p: p.picking_type_code == 'incoming').\
+            sorted(key=lambda p: p.id)
+        self.incoming_picking_id = picking_ids[0] if picking_ids else False
 
     @api.multi
     def unlink(self):
@@ -308,7 +317,7 @@ class StockPackOperation(models.Model):
             attachment_id = self.env['ir.attachment'].search(
                 [('res_model', '=', po.lot_id._name),
                  ('res_id', '=', po.lot_id.id),
-                 ('datas_fname', '=ilike', 'certificac%')])
+                 ('datas_fname', '=ilike', 'certifica%')])
             po.has_lot_certification_and_release = True if attachment_id \
                 else False
 
@@ -317,7 +326,7 @@ class StockPackOperation(models.Model):
         attachment_id = self.env['ir.attachment'].search(
             [('res_model', '=', self.lot_id._name),
              ('res_id', '=', self.lot_id.id),
-             ('datas_fname', '=ilike', 'certificac%')],
+             ('datas_fname', '=ilike', 'certifica%')],
             order='id desc')
         if attachment_id:
             return {

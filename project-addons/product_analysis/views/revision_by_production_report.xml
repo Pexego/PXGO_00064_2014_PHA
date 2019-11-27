@@ -110,7 +110,7 @@
                                         <td style="width: 30%;">Proveedor</td>
                                         <td style="width: 10%; text-align: right;">F. Aceptado</td>
                                     </tr>
-                                    <t t-foreach="production.quality_consumption_ids.sorted(key=lambda r: (r.order * 100000000) + r.lot_id.id)" t-as="material">
+                                    <t t-foreach="production.quality_consumption_ids.filtered(lambda m: m.quantity &gt; 0).sorted(key=lambda r: (r.order * 100000000) + r.lot_id.id)" t-as="material">
                                         <t t-set="lote" t-value="material.lot_id if material.product_id.categ_id.id in (1195,1199,1224,1525,1494,1493,1197) else False"/>
                                         <t t-if="lote">
                                             <tr style="font-size: 0.8em;">
@@ -121,7 +121,7 @@
                                                     <span t-field="lote.name"/>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="material.quantity if lote.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
+                                                    <span t-esc="material.quantity if lote.product_id.uom_id.rounding &lt; 1 else '{:.0f}'.format(material.quantity)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="move_ids" t-value="lote.mapped('move_related_ids').filtered(lambda r: r.picking_id.picking_type_id.id == 1 and r.picking_id.state == 'done')"/>
@@ -141,7 +141,7 @@
                                                     <span>&amp;nbsp;</span>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="material.quantity if material.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(material.quantity)"/>
+                                                    <span t-esc="material.quantity if material.product_id.uom_id.rounding &lt; 1 else '{:.0f}'.format(material.quantity)"/>
                                                 </td>
                                                 <td>
                                                     <span>&amp;nbsp;</span>
@@ -180,7 +180,7 @@
                                         <td><span t-field="reg.x_create_date"/></td>
                                         <td><span t-field="reg.x_init_time"/></td>
                                         <td><span t-field="reg.x_end_time"/></td>
-                                        <td><span t-esc="reg.x_quantity if production.product_id.uom_id.category_id.id == 2 else '{:.0f}'.format(reg.x_quantity)"/></td>
+                                        <td><span t-esc="reg.x_quantity if production.product_id.uom_id.rounding &lt; 1 else '{:.0f}'.format(reg.x_quantity)"/></td>
                                         <td><span t-field="reg.x_initials"/></td>
                                     </tr>
                                 </t>
@@ -270,7 +270,10 @@
                                         </t>
                                     </t>
                                 </t>
-                                <p style="font-size: 13px;">Observaciones: <span t-esc="' | '.join(observaciones)"/></p>
+                                <!-- p style="font-size: 13px;">Observaciones: <span t-esc="' | '.join(observaciones)"/></p-->
+                                <t t-if="observaciones"> <!-- Solo queremos sacar una vez las observaciones... -->
+                                    <p style="font-size: 13px;">Observaciones: <pre style="font-size: 13px; background-color: transparent; border: none;" t-esc="observaciones[0]"/></p>
+                                </t>
                             </div>
                         </t>
 
@@ -415,12 +418,20 @@
                             <b>NOTAS:</b><br/>
                             <span t-field="o.production_review_notes"/>
                         </div>
-                    </div>
 
-                    <div class="footer">
-                        <div class="text-right">
-                            Fdo.: <span t-field="o.production_review_done_by"/><br/>
-                            <span t-field="o.production_review_date"/>
+                        <div class="row">
+                            <div class="col-xs-6"><span t-esc="' '"/></div>
+                            <div class="col-xs-6" style="position: relative;">
+                                <div style="position: absolute; top: -20; right: 0; width: 150px; height: 100px;">
+                                    <img t-if="o.production_review_done_by_id and o.production_review_done_by_id.signature"
+                                             t-att-src="'data:image/png;base64,%s' % o.production_review_done_by_id.signature"
+                                             style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px;"/>
+                                </div>
+                                <div class="text-right" style="margin-top: 85px;">
+                                    Fdo.: <span t-field="o.production_review_done_by"/><br/>
+                                    <span t-field="o.production_review_date"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </t>
