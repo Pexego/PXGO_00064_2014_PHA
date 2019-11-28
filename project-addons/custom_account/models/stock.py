@@ -74,5 +74,12 @@ class StockPicking(models.Model):
                 invoice_wz = self.env["stock.invoice.onshipping"].create(
                     wizard_vals
                 )
-                invoice_wz.with_context(active_id=picking.id).create_invoice()
+                invoice_id = invoice_wz.with_context(
+                    active_id=picking.id
+                ).create_invoice()
+                invoice = self.env["account.invoice"].browse(invoice_id)
+                invoice.signal_workflow("invoice_open")
+                return self.env["report"].get_pdf(
+                    invoice, "account.report_invoice"
+                )
         return res
