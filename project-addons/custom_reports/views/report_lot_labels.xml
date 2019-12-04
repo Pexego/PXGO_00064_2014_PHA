@@ -10,72 +10,49 @@
                     }
                 </style>
                 <t t-foreach="docs" t-as="p">
-                    <t t-foreach="p.move_lines" t-as="m">
-                        <t t-foreach="m.lot_ids" t-as="l">
-                            <t t-set="labels_to_print" t-value="l.container_number + l.pallets"/>
-                            <t t-set="pages_to_print" t-value="(labels_to_print // 8) + (1 if labels_to_print % 8 > 0 else 0)"/>
-                            <div class="page" t-foreach="range(pages_to_print)" t-as="page_loop">
-                                <table>
-                                    <tbody>
-                                        <tr t-foreach="[1, 2, 3, 4, 5, 6, 7]" t-as="row">
-                                            <t t-if="row in (1, 3, 5, 7)">
-                                                <t t-foreach="[1, 2, 3]" t-as="col">
-                                                    <td t-if="col in (1, 3)"
-                                                        valign="top"
-                                                        style="width: 430px; height: 280px; overflow: hidden;">
-                                                        <div style="min-height: 70px;">
-                                                            <div style="position: relative; display: inline-block; float: left; padding-top: 10px; z-index: 1;">
-                                                                <!-- Barcode reader uses english keyboard layout -->
-                                                                <t t-set="barcode" t-value="l.name"/>
-                                                                <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                                                                <!-- Generate barcode image -->
-                                                                <img t-att-src="'data:image/png;base64,%s' % p.env['report'].barcode_base64('Code128', barcode, 1200, 120)"
-                                                                     height="30" width="300" style="margin-left: -40px;"/>
-                                                                <div t-field="l.name"
-                                                                     style="position: absolute; bottom: -5px; left: 29%; padding: 0 5px; font-size: 10px; background-color: white;"/>
-                                                            </div>
-                                                            <div t-if="res_company.logo" style="position: relative; display: inline-block; float: right; margin-right: 10px; z-index: 2;">
-                                                                <!--span t-field="res_company.logo" t-field-options='{"widget": "image"}'/-->
-                                                                <img t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
-                                                            </div>
-                                                            <div style="clear: both;"></div>
-                                                        </div>
-                                                        <p t-field="l.name" style="font-size: 55px; font-weight: bold; line-height: 30px;"/>
-                                                        <p t-field="m.product_id.name" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
-                                                        <p t-field="p.partner_id" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
-                                                        <p>
-                                                            <div t-field="l.supplier_lot"
-                                                                 style="display: inline-block; float: left; font-size: 24px; font-weight: bold; line-height: 25px;"/>
-                                                            <div style="display: inline-block; float: right; position: relative;">
-                                                                <!-- Barcode reader uses english keyboard layout -->
-                                                                <t t-set="product_barcode" t-value="l.product_id.default_code"/>
-                                                                <t t-if="product_barcode">
-                                                                    <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
-                                                                    <!-- Generate barcode image -->
-                                                                    <img t-att-src="'data:image/png;base64,%s' % p.env['report'].barcode_base64('Code128', product_barcode, 1200, 120)"
-                                                                         height="30" width="300" style="margin-right: -40px;"/>
-                                                                    <div t-field="l.product_id.default_code"
-                                                                         style="position: absolute; bottom: -5px; right: 23%; padding: 0 5px; font-size: 10px; background-color: white;"/>
-                                                                </t>
-                                                            </div>
-                                                            <div style="clear: both;"></div>
-                                                        </p>
-                                                    </td>
-                                                    <td t-if="col == 2" style="width: 30px; height: 300px;">
-                                                        <span> </span>
-                                                    </td>
-                                                </t>
-                                            </t>
-                                            <t t-if="row in (2, 4, 6)">
-                                                <td colspan="3">
-                                                    <div style="width: 890px; height: 49px;"/>
-                                                </td>
-                                            </t>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    <t t-foreach="p.move_lines.mapped('lot_ids')" t-as="l">
+                        <t t-set="labels_to_print" t-value="l.container_number + l.pallets"/>
+                        <div class="page" t-foreach="range(labels_to_print)" t-as="page_loop" style="width: 615px; height: 450px; overflow: hidden;">
+                            <div style="height: 65px;">
+                                <div t-if="res_company.logo" style="position: relative; display: inline-block; float: right; margin-right: 10px; z-index: 2;">
+                                    <!--span t-field="res_company.logo" t-field-options='{"widget": "image"}'/-->
+                                    <img t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 60px;"/>
+                                </div>
+                                <div style="clear: both;"/>
                             </div>
-                        </t>
+
+                            <div style="margin-bottom: 20px;">
+                                <p t-field="p.partner_id" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
+                                <p t-field="l.supplier_lot" style="font-size: 24px; font-weight: bold; line-height: 25px;"/>
+                            </div>
+
+                            <div style="width: 655px; margin-bottom: 25px;">
+                                <!-- Barcode reader uses english keyboard layout -->
+                                <t t-set="product_barcode" t-value="l.product_id.default_code"/>
+                                <t t-if="product_barcode">
+                                    <t t-set="product_barcode" t-value="product_barcode.replace('-', '/')"/>
+                                    <!-- Generate barcode image -->
+                                    <img t-att-src="'data:image/png;base64,%s' % p.env['report'].barcode_base64('Code128', product_barcode, 1200, 120)" height="50" width="715" style="margin-left: -50px;"/>
+                                    <div style="width: 615px; text-align: center;">
+                                        <p t-field="l.product_id.default_code" style="display: inline-block; font-size: 14px; background-color: white;"/>
+                                        <p t-field="l.product_id.name" style="font-size: 24px; line-height: 20px; font-weight: bold; margin-top: -10px;"/>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <div style="min-height: 70px;">
+                                <div style="width: 655px;">
+                                    <!-- Barcode reader uses english keyboard layout -->
+                                    <t t-set="barcode" t-value="l.name"/>
+                                    <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                    <!-- Generate barcode image -->
+                                    <img t-att-src="'data:image/png;base64,%s' % p.env['report'].barcode_base64('Code128', barcode, 1200, 120)" height="50" width="715" style="margin-left: -50px;"/>
+                                    <div style="width: 615px; text-align: center;">
+                                        <p t-field="l.name" style="font-size: 55px; background-color: white; margin-top: -10px;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </t>
                 </t>
             </t>

@@ -43,7 +43,7 @@
                             <span t-field="company.with_context(lang=o.partner_id.lang).report_gdpr_footer_message"/>
                         </p>
                     </t>
-                    <t t-if="company.report_gdpr_footer_message">
+                    <t t-if="company.report_waste_disposal_footer_message">
                         <p style="font-size: 8px; margin: 0; padding: 0;">
                             <span t-field="company.with_context(lang=o.partner_id.lang).report_waste_disposal_footer_message"/>
                         </p>
