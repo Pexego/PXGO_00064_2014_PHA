@@ -49,7 +49,6 @@ class ProductPricelistCustomPartner(models.Model):
                 * (1 - (commercial_discount or 0.0) / 100.0)
                 * (1 - (financial_discount or 0.0) / 100.0)
             )
-
             if not custom_item:
                 custom_item = self.env[
                     "product.pricelist.custom.partner.item"

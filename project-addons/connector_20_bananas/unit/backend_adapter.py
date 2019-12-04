@@ -142,6 +142,7 @@ class BananasCRUDAdapter(CRUDAdapter):
             raise
         """ Delete a record on the external system """
 
+
 class GenericAdapter(BananasCRUDAdapter):
 
     _model_name = None

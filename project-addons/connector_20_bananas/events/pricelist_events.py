@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2019 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+import requests
 from openerp.addons.connector.event import (
     on_record_create,
     on_record_unlink,
@@ -17,7 +18,7 @@ from .utils import _get_exporter
 @bananas
 class PartnerPricelistExporter(Exporter):
 
-    _model_name = ["bananas.pricelist.customer"]
+    _model_name = ["product.pricelist.custom.partner"]
 
     def insert(self, partner_id, pricelist_id, mode):
         vals = {"codtarifa": pricelist_id, "codcliente": partner_id}
@@ -29,7 +30,7 @@ class PartnerPricelistExporter(Exporter):
 
 @bananas
 class PartnerPricelistAdapter(GenericAdapter):
-    _model_name = "bananas.pricelist.customer"
+    _model_name = "product.pricelist.custom.partner"
     _bananas_model = "tarifasXclientes"
     _delete_id_in_url = False
 
@@ -38,7 +39,7 @@ class PartnerPricelistAdapter(GenericAdapter):
 def export_partner_pricelist(session, model_name, record_id):
     partner_pricelist_exporter = _get_exporter(
         session,
-        "bananas.pricelist.customer",
+        "product.pricelist.custom.partner",
         record_id,
         PartnerPricelistExporter,
     )
@@ -52,24 +53,27 @@ def export_partner_pricelist(session, model_name, record_id):
 def unlink_partner_pricelist(session, model_name, record_id):
     partner_pricelist_exporter = _get_exporter(
         session,
-        "bananas.pricelist.customer",
+        "product.pricelist.custom.partner",
         record_id,
         PartnerPricelistExporter,
     )
     partner = session.env[model_name].browse(record_id)
-    res = partner_pricelist_exporter.delete(
-        {
-            "codcliente": partner.bananas_id,
-            "codtarifa": partner.get_bananas_pricelist().bananas_id,
-        }
+    backend = partner_pricelist_exporter.backend_record
+    url = "%s/%s/*/%s" % (
+        backend.location,
+        "tarifasXclientes",
+        partner.bananas_id,
     )
-    pricelist = partner.get_bananas_pricelist()
-    if pricelist._name == "product.pricelist.custom.partner":
-        pricelist.write({"active": False})
+    headers = {"apikey": backend.api_key, "Content-Type": "application/json"}
+    result = requests.request("GET", url, headers=headers)
+    records = result.json()["records"]
+    if records:
+        for record in records:
+            partner_pricelist_exporter.delete(record)
     partner.check_custom_pricelist(
         partner.commercial_discount, partner.financial_discount
     )
-    return res
+    return
 
 
 @bananas

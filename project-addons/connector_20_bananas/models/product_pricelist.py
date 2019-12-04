@@ -23,31 +23,31 @@ class ProductPricelist(models.Model):
         for custom_pricelist in self.custom_partner_pricelist_ids.filtered(
             "active"
         ):
-            custom_pricelist.recompute_prices(product)
+            custom_pricelist.sudo().recompute_prices(product)
 
     def check_create_custom_pricelist(
         self, partner, commercial_discount=False, financial_discount=False
     ):
         self.ensure_one()
         custom_pricelist = self.custom_partner_pricelist_ids.filtered(
-            lambda r: r.partner_id == partner and r.active
+            lambda r: r.partner_id == partner
+            and r.active
+            and r.commercial_financial_discount
+            == "{}-{}".format(commercial_discount, financial_discount)
         )
         if not custom_pricelist:
             custom_pricelist = self.env[
                 "product.pricelist.custom.partner"
-            ].search(
-                [
-                    ("active", "=", False),
-                    ("partner_id", "=", partner.id),
-                    (
-                        "commercial_financial_discount",
-                        "=",
-                        "{}-{}".format(commercial_discount, financial_discount),
-                    ),
-                ]
-            )
+            ].search([("active", "=", False), ("partner_id", "=", partner.id)], limit=1)
             if custom_pricelist:
-                custom_pricelist.write({"active": True})
+                custom_pricelist.write(
+                    {
+                        "active": True,
+                        "commercial_financial_discount": "{}-{}".format(
+                            commercial_discount, financial_discount
+                        ),
+                    }
+                )
         if not custom_pricelist:
             custom_pricelist = self.env[
                 "product.pricelist.custom.partner"
@@ -60,7 +60,7 @@ class ProductPricelist(models.Model):
                     ),
                 }
             )
-        custom_pricelist.recompute_prices(
+        custom_pricelist.sudo().recompute_prices(
             commercial_discount=commercial_discount,
             financial_discount=financial_discount,
         )
