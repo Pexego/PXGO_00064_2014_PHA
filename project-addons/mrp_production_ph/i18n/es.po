@@ -330,6 +330,11 @@ msgid "Theorical qty."
 msgstr "Cant. teórica"
 
 #. module: mrp_production_ph
+#: field:stock.picking,transferred_with_barcodes:0
+msgid "Transferred with barcodes"
+msgstr "Transferido con cód. de barras"
+
+#. module: mrp_production_ph
 #: field:mrp.production.quality.consumption,uom_id:0
 #: field:mrp.production.store.consumption,uom_id:0
 msgid "UoM"

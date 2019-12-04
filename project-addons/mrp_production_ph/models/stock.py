@@ -43,6 +43,8 @@ class StockQuant(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
+    transferred_with_barcodes = fields.Boolean(default=False)
+
     @api.multi
     def do_transfer_with_barcodes(self):
         self.ensure_one()
