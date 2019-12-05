@@ -35,6 +35,17 @@ class StockMove(models.Model):
                 'lots_string': lots_string
             })
 
+    @api.model
+    def create(self, vals):
+        if 'procurement_id' in vals:
+            procure_id = self.env['procurement.order'].\
+                browse(vals['procurement_id'])
+            if procure_id.sale_line_id and \
+                    procure_id.sale_line_id.order_id.location_dest_id:
+                vals['location_dest_id'] = \
+                    procure_id.sale_line_id.order_id.location_dest_id.id
+        return super(StockMove, self).create(vals)
+
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'

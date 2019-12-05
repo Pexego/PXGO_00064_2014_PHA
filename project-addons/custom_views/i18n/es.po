@@ -406,6 +406,11 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: custom_views
+#: field:sale.order,location_dest_id:0
+msgid "Destination Location"
+msgstr "Ubicación destino mercancía"
+
+#. module: custom_views
 #: field:stock.location,dismissed_location:0
 msgid "Dismissed location"
 msgstr "Ubicación de producto desechado"
