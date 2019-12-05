@@ -21,6 +21,7 @@ class StockTransferDetails(models.TransientModel):
             raise exceptions.Warning('Los siguientes lotes no coinciden:\n\n' +
                                      errors)
         else:
+            self.picking_id.transferred_with_barcodes = True
             self.do_detailed_transfer()
 
 

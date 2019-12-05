@@ -84,6 +84,22 @@
                 <field name="ref" position="after">
                     <field name="it_is_an_individual"/>
                 </field>
+
+                <field name="phone" position="attributes">
+                    <attribute name="class">phoneLink</attribute>
+                </field>
+                <field name="mobile" position="attributes">
+                    <attribute name="class">phoneLink</attribute>
+                </field>
+                <xpath expr="//form[@string='Contact']//field[@name='phone']" position="attributes">
+                    <attribute name="class">phoneLink</attribute>
+                </xpath>
+                <xpath expr="//form[@string='Contact']//field[@name='mobile']" position="attributes">
+                    <attribute name="class">phoneLink</attribute>
+                </xpath>
+                <xpath expr="." position="inside">
+                    <script src="/custom_views/static/src/js/phone_link.js"/>
+                </xpath>
             </field>
         </record>
 

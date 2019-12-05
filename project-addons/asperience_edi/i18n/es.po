@@ -27,6 +27,11 @@ msgid "Document"
 msgstr "Documento"
 
 #. module: asperience_edi
+#: field:res.partner,use_date_as_life_date:0
+msgid "Use date as life date"
+msgstr "Fecha de consumo preferente como fecha de caducidad"
+
+#. module: asperience_edi
 #: selection:res.partner.custom.edi,action:0
 msgid "Edit"
 msgstr "Editar"

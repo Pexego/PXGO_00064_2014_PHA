@@ -270,7 +270,7 @@
                                     </table>
                                 </h4>
                             </div>
-                            <div class="col-xs-6" style="position: relative;">
+                            <div class="col-xs-6" style="position: relative; page-break-inside: avoid; border: 1px solid transparent;">
                                 <div style="position: absolute; top: -20; right: 0; width: 150px; height: 100px;">
                                     <img t-if="o.technical_direction_review_done_by_id and o.technical_direction_review_done_by_id.signature"
                                              t-att-src="'data:image/png;base64,%s' % o.technical_direction_review_done_by_id.signature"

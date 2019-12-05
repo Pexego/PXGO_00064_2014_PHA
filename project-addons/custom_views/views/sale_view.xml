@@ -72,6 +72,7 @@
             <field name="arch" type="xml">
                 <field name="invoiced" position="before">
                     <field name="delivery_date"/>
+                    <field name="location_dest_id"/>
                 </field>
              </field>
         </record>
