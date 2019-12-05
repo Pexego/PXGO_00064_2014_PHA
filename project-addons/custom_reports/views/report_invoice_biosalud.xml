@@ -426,9 +426,16 @@
                             Sheet Number <span t-field="company.partner_id.es_hoja"/>,
                             TIN <span t-field="company.partner_id.vat"/>
                         </p>
-                        <p style="font-size: 8px; margin: 0; padding: 0;">
-                            In observance of the Organic law 15/1999 of 13 December on the Protection of Personal Data, we inform you that the contact details hereby provided are included in a file owned by the entity indicated in the head of this document, duly registered into the General Registry of the Protection of Data of Personal Character with number 2061730537. The purpose of the treatment of the information will be that of execution of the contracted services, not being yielded to third parties. Notwithstanding the aforementioned, you are acknowledged to have and may exercise the rights of access, cancellation, rectification and opposition, in the terms and conditions stated in the law, by writing to the address previously indicated.
-                        </p>
+                        <t t-if="company.report_gdpr_footer_message">
+                            <p style="font-size: 8px; margin: 0; padding: 0;">
+                                <span t-field="company.with_context(lang=o.partner_id.lang).report_gdpr_footer_message"/>
+                            </p>
+                        </t>
+                        <t t-if="company.report_waste_disposal_footer_message">
+                            <p style="font-size: 8px; margin: 0; padding: 0;">
+                                <span t-field="company.with_context(lang=o.partner_id.lang).report_waste_disposal_footer_message"/>
+                            </p>
+                        </t>
                     </div>
                 </div>
             </div>
