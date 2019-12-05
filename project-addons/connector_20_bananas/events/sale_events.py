@@ -180,6 +180,7 @@ class SaleOrderImporter(Importer):
 
     def _after_import(self, binding):
         """ Hook called at the end of the import """
+        binding.generate_discounts()
         self.backend_adapter.update(
             self.bananas_id,
             {"idpedido": self.bananas_id, "integradoERP10": "1"},

@@ -34,7 +34,7 @@ class PartnerExporter(Exporter):
             )
         vals = {
             "nombrecliente": partner.display_name,
-            "codcliente": str(partner.bananas_id) + "LOCAL",
+            "codcliente": partner.bananas_id,
             "codcomercial": str(
                 partner.user_id.id or partner.parent_id.user_id.id
             ),
@@ -61,7 +61,7 @@ class PartnerExporter(Exporter):
 
     def delete(self, binding_id):
         partner = self.model.browse(binding_id)
-        self.backend_adapter.remove(str(partner.bananas_id) + "LOCAL")
+        self.backend_adapter.remove(partner.bananas_id)
         for item in partner.get_bananas_pricelist_items():
             self.backend_adapter.remove_whitelist(
                 {
@@ -171,6 +171,29 @@ def delay_export_partner_write(session, model_name, record_id, vals):
         unlink_partner.delay(session, model_name, record_id, priority=3, eta=60)
 
     elif partner.bananas_synchronized and partner.active:
+        if vals and vals.get("property_product_pricelist") or 'commercial_discount' in vals or 'financial_discount' in vals:
+            unlink_partner_pricelist(
+                session, model_name, partner.id
+            )
+            partner.partner_pricelist_exported = False
+        partner.check_custom_pricelist(
+            partner.commercial_discount, partner.financial_discount
+        )
+        if not partner.get_bananas_pricelist().bananas_synchronized:
+            partner.get_bananas_pricelist().bananas_synchronized = True
+            export_pricelist.delay(
+                session, model_name, record_id, priority=2, eta=60
+            )
+            if partner.get_bananas_pricelist()._name == "product.pricelist":
+                for item in partner.get_bananas_pricelist_items():
+                    export_customer_rate.delay(
+                        session, item._name, item.id, priority=3, eta=90
+                    )
+        if not partner.partner_pricelist_exported:
+            partner.partner_pricelist_exported = True
+            export_partner_pricelist.delay(
+                session, model_name, partner.id, priority=3, eta=80
+            )
         for field in up_fields:
             if field in vals:
                 update_partner.delay(
@@ -184,18 +207,6 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                             session, model_name, child.id, priority=2, eta=120
                         )
                 break
-
-    if "bananas_synchronized" not in vals and (
-        vals.get("property_product_pricelist")
-        or "commercial_discount" in vals
-        or "financial_discount" in vals
-    ):
-        unlink_partner_pricelist.delay(
-            session, model_name, partner.id, priority=1
-        )
-        export_partner_pricelist.delay(
-            session, model_name, partner.id, priority=3, eta=300
-        )
 
 
 @on_record_unlink(model_names="res.partner")

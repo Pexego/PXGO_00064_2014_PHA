@@ -41,3 +41,4 @@ class ResPartner(models.Model):
     edi_partner = fields.Char("Partner EDI")
     edi_desadv = fields.Boolean("EDI DESADV")
     custom_edi = fields.One2many('res.partner.custom.edi', 'partner_id')
+    use_date_as_life_date = fields.Boolean()
