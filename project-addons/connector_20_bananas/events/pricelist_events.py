@@ -67,12 +67,13 @@ def unlink_partner_pricelist(session, model_name, record_id):
     headers = {"apikey": backend.api_key, "Content-Type": "application/json"}
     result = requests.request("GET", url, headers=headers)
     records = result.json()["records"]
+    pricelist = partner.get_bananas_pricelist()
+    if pricelist._name == "product.pricelist.custom.partner":
+        pricelist.write({"active": False})
+
     if records:
         for record in records:
             partner_pricelist_exporter.delete(record)
-    partner.check_custom_pricelist(
-        partner.commercial_discount, partner.financial_discount
-    )
     return
 
 

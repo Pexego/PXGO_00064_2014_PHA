@@ -176,9 +176,9 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                 session, model_name, partner.id
             )
             partner.partner_pricelist_exported = False
-        partner.check_custom_pricelist(
-            partner.commercial_discount, partner.financial_discount
-        )
+            partner.check_custom_pricelist(
+                partner.commercial_discount, partner.financial_discount
+            )
         if not partner.get_bananas_pricelist().bananas_synchronized:
             partner.get_bananas_pricelist().bananas_synchronized = True
             export_pricelist.delay(
