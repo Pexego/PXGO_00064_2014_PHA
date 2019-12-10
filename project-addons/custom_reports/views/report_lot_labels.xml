@@ -11,7 +11,8 @@
                 </style>
                 <t t-foreach="docs" t-as="p">
                     <t t-foreach="p.move_lines.mapped('lot_ids')" t-as="l">
-                        <t t-set="labels_to_print" t-value="l.container_number + l.pallets"/>
+                        <t t-set="sampling" t-value="l.container_number**(1/2.0)"/>
+                        <t t-set="labels_to_print" t-value="l.container_number + l.pallets + int(sampling) + (2 if sampling > int(sampling) else 1)"/>
                         <div class="page" t-foreach="range(labels_to_print)" t-as="page_loop" style="width: 615px; height: 450px; overflow: hidden;">
                             <div style="height: 65px;">
                                 <div t-if="res_company.logo" style="position: relative; display: inline-block; float: right; margin-right: 10px; z-index: 2;">
