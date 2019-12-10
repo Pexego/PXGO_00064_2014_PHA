@@ -48,27 +48,13 @@ class PartnerExporter(Exporter):
         }
         if mode == "insert":
             self.backend_adapter.insert(vals)
-            for item in partner.get_bananas_pricelist_items():
-                if item.bananas_price > 0.0:
-                    self.backend_adapter.insert_whitelist(
-                        {
-                            "codcliente": partner.bananas_id,
-                            "codproducto": item.product_id.id,
-                        }
-                    )
+
         else:
             return self.backend_adapter.update(binding_id, vals)
 
     def delete(self, binding_id):
         partner = self.model.browse(binding_id)
         self.backend_adapter.remove(partner.bananas_id)
-        for item in partner.get_bananas_pricelist_items():
-            self.backend_adapter.remove_whitelist(
-                {
-                    "codcliente": partner.bananas_id,
-                    "codproducto": item.product_id.id,
-                }
-            )
 
 
 @bananas
@@ -101,7 +87,7 @@ def delay_export_partner_create(session, model_name, record_id, vals):
             )
             if partner.get_bananas_pricelist()._name == "product.pricelist":
                 for item in partner.get_bananas_pricelist_items():
-                    export_customer_rate(
+                    export_customer_rate.delay(
                         session, item._name, item.id, priority=3, eta=90
                     )
         if not partner.partner_pricelist_exported:
@@ -171,10 +157,13 @@ def delay_export_partner_write(session, model_name, record_id, vals):
         unlink_partner.delay(session, model_name, record_id, priority=3, eta=60)
 
     elif partner.bananas_synchronized and partner.active:
-        if vals and vals.get("property_product_pricelist") or 'commercial_discount' in vals or 'financial_discount' in vals:
-            unlink_partner_pricelist(
-                session, model_name, partner.id
-            )
+        if (
+            vals
+            and vals.get("property_product_pricelist")
+            or "commercial_discount" in vals
+            or "financial_discount" in vals
+        ):
+            unlink_partner_pricelist(session, model_name, partner.id)
             partner.partner_pricelist_exported = False
             partner.check_custom_pricelist(
                 partner.commercial_discount, partner.financial_discount
