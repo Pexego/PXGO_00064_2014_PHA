@@ -39,16 +39,16 @@
         </record>
 
         <record id="paperformat_lots_labels" model="report.paperformat">
-            <field name="name">Labels (Custom reports)</field>
-            <field name="format">A4</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">5</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">6</field>
-            <field name="margin_right">0</field>
+            <field name="name">Etiquetas albaranes recepción</field>
+            <field name="format">A6</field>
+            <field name="dpi">90</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="orientation">Landscape</field>
             <field name="header_line" eval="False"/>
-            <field name="header_spacing">0</field>
-            <field name="dpi">94</field>
+            <field name="header_spacing">1</field>
         </record>
 
         <record id="custom_reports.action_report_lot_labels" model="ir.actions.report.xml">
