@@ -50,3 +50,9 @@ class sale_order(models.Model):
                 order.sale_type = 'intermediary'
             else:
                 order.sale_type = 'normal'
+
+    @api.model
+    def create(self, vals):
+        res = super(sale_order, self).create(vals)
+        res._compute_sale_type()
+        return res

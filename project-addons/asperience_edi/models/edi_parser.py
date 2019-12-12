@@ -87,11 +87,22 @@ class edi_parser(models.Model):
                 for picking in invoice.picking_ids:
                     RFF = {"lineId": "RFF", "col1": "DQ", "col2": picking.name}
                     data[filename].append(edi._create_line_csv(RFF, structs))
+            NADSCO = {
+                "lineId": "NADSCO",
+                "col1": invoice.company_id.partner_id.gln,
+                "col2": invoice.company_id.name,
+                "col3": invoice.company_id.partner_id.edi_mercantil,
+                "col4": invoice.company_id.street or " ",
+                "col5": invoice.company_id.city[:35] or " ",
+                "col6": invoice.company_id.zip or " ",
+                "col7": invoice.company_id.vat or " ",
+            }
+            data[filename].append(edi._create_line_csv(NADSCO, structs))
             NADSU = {
                 "lineId": "NADSU",
                 "col1": invoice.company_id.partner_id.gln,
                 "col2": invoice.company_id.name,
-                "col3": " ",
+                "col3": invoice.company_id.partner_id.edi_mercantil,
                 "col4": invoice.company_id.street or " ",
                 "col5": invoice.company_id.city[:35] or " ",
                 "col6": invoice.company_id.zip or " ",
