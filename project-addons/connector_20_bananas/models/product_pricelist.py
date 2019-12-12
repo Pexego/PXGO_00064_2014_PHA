@@ -30,24 +30,28 @@ class ProductPricelist(models.Model):
     ):
         self.ensure_one()
         custom_pricelist = self.custom_partner_pricelist_ids.filtered(
-            lambda r: r.partner_id == partner
-            and r.active
-            and r.commercial_financial_discount
-            == "{}-{}".format(commercial_discount, financial_discount)
+            lambda r: r.partner_id == partner and r.active
         )
         if not custom_pricelist:
             custom_pricelist = self.env[
                 "product.pricelist.custom.partner"
-            ].search([("active", "=", False), ("partner_id", "=", partner.id)], limit=1)
-            if custom_pricelist:
-                custom_pricelist.write(
-                    {
-                        "active": True,
-                        "commercial_financial_discount": "{}-{}".format(
-                            commercial_discount, financial_discount
-                        ),
-                    }
-                )
+            ].search(
+                [
+                    ("active", "=", False),
+                    ("partner_id", "=", partner.id),
+                    ("orig_pricelist_id", "=", self.id),
+                ],
+                limit=1,
+            )
+        if custom_pricelist:
+            custom_pricelist.write(
+                {
+                    "active": True,
+                    "commercial_financial_discount": "{}-{}".format(
+                        commercial_discount, financial_discount
+                    ),
+                }
+            )
         if not custom_pricelist:
             custom_pricelist = self.env[
                 "product.pricelist.custom.partner"

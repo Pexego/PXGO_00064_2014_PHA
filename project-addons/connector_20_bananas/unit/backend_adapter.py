@@ -13,14 +13,17 @@ from openerp.addons.connector.unit.backend_adapter import CRUDAdapter
 class BananasCRUDAdapter(CRUDAdapter):
     """ External Records Adapter for 20 bananas """
 
-    def make_request(self, data, url_model, method):
+    def make_request(self, data, url_model, method, custom_headers={}):
         backend = self.backend_record
         url = "%s/%s" % (backend.location, url_model)
         headers = {
             "apikey": backend.api_key,
             "Content-Type": "application/json",
         }
-        return requests.request(method, url, headers=headers, json=data)
+        if custom_headers:
+            headers.update(custom_headers)
+        result = requests.request(method, url, headers=headers, json=data)
+        return result
 
     def _search(self, model, date):
         """ Search records according to some criterias
@@ -180,8 +183,20 @@ class GenericAdapter(BananasCRUDAdapter):
     def insert_whitelist(self, data):
         return self.create("listablanca", [data])
 
-    def remove_whitelist(self, data):
-        return self.delete("listablanca", [data])
+    def clean_whitelist(self, partner_id):
+        self.make_request(
+            [{"codcliente": partner_id}],
+            "listablanca",
+            "DELETE",
+            custom_headers={"imsure": 'true'},
+        )
+
+    def remove_whitelist(self, partner_id, product_id):
+        self.make_request(
+            [{"codcliente": partner_id, 'codproducto': product_id}],
+            "listablanca",
+            "DEDELETEL",
+        )
 
     def send_message(self, partner_id, message, central=False):
         response = self.create(

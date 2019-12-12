@@ -25,7 +25,16 @@ class PartnerPricelistExporter(Exporter):
         return self.backend_adapter.insert(vals)
 
     def delete(self, vals):
+        self.backend_adapter.clean_whitelist(vals["codcliente"])
         return self.backend_adapter.remove_vals(vals)
+
+    def insert_whitelist_item(self, partner_id, product_id):
+        self.backend_adapter.insert_whitelist(
+            {"codcliente": partner_id, "codproducto": product_id}
+        )
+
+    def clean_whitelist(self, partner_id):
+        self.backend_adapter.clean_whitelist(partner_id)
 
 
 @bananas
@@ -44,6 +53,13 @@ def export_partner_pricelist(session, model_name, record_id):
         PartnerPricelistExporter,
     )
     partner = session.env[model_name].browse(record_id)
+
+    partner_pricelist_exporter.clean_whitelist(partner.bananas_id)
+    for item in partner.get_bananas_pricelist_items():
+        if item.bananas_price > 0.0:
+            partner_pricelist_exporter.insert_whitelist_item(
+                partner.bananas_id, item.product_id.id
+            )
     return partner_pricelist_exporter.insert(
         partner.bananas_id, partner.get_bananas_pricelist().bananas_id, "insert"
     )
@@ -67,12 +83,13 @@ def unlink_partner_pricelist(session, model_name, record_id):
     headers = {"apikey": backend.api_key, "Content-Type": "application/json"}
     result = requests.request("GET", url, headers=headers)
     records = result.json()["records"]
+    pricelist = partner.get_bananas_pricelist()
+    if pricelist._name == "product.pricelist.custom.partner":
+        pricelist.write({"active": False})
+
     if records:
         for record in records:
             partner_pricelist_exporter.delete(record)
-    partner.check_custom_pricelist(
-        partner.commercial_discount, partner.financial_discount
-    )
     return
 
 
@@ -139,6 +156,11 @@ class CustomerRateExporter(Exporter):
     def delete(self, data):
         self.backend_adapter.remove_vals(data)
 
+    def insert_whitelist_item(self, partner_id, product_id):
+        self.backend_adapter.insert_whitelist(
+            {"codcliente": partner_id, "codproducto": product_id}
+        )
+
 
 @bananas
 class CustomerRateAdapter(GenericAdapter):
@@ -166,6 +188,11 @@ class CustomerRateExporter2(Exporter):
     def delete(self, data):
         self.backend_adapter.remove_vals(data)
 
+    def insert_whitelist_item(self, partner_id, product_id):
+        self.backend_adapter.insert_whitelist(
+            {"codcliente": partner_id, "codproducto": product_id}
+        )
+
 
 @bananas
 class CustomerRateAdapter2(GenericAdapter):
@@ -180,9 +207,39 @@ class CustomerRateAdapter2(GenericAdapter):
     ]
 )
 def delay_export_customer_rate_create(session, model_name, record_id, vals):
+    rec = session.env[model_name].browse(record_id)
     export_customer_rate.delay(
         session, model_name, record_id, priority=20, eta=200
     )
+    if model_name == "product.pricelist.custom.partner.item":
+        insert_whitelist_item_job.delay(
+            session,
+            model_name,
+            record_id,
+            rec.pricelist_id.partner_id.bananas_id,
+            rec.product_id.id,
+            priority=3,
+            eta=90,
+        )
+    else:
+        partners = session.env["res.partner"].search(
+            [
+                ("property_product_pricelist", "=", rec.base_pricelist_id.id),
+                ("bananas_synchronized", "=", True),
+                ("commercial_discount", "=", 0),
+                ("financial_discount", "=", 0),
+            ]
+        )
+        for partner in partners:
+            insert_whitelist_item_job.delay(
+                session,
+                model_name,
+                record_id,
+                partner.bananas_id,
+                rec.product_id.id,
+                priority=3,
+                eta=90,
+            )
 
 
 @on_record_write(
@@ -210,11 +267,40 @@ def delay_unlink_customer_rate(session, model_name, record_id):
             "codtarifa": rate.pricelist_id.bananas_id,
             "referencia": rate.product_id.id,
         }
+
+        remove_whitelist_item_job.delay(
+            session,
+            model_name,
+            record_id,
+            rate.pricelist_id.partner_id.bananas_id,
+            rate.product_id.id,
+            priority=3,
+            eta=90,
+        )
     else:
         data = {
             "codtarifa": rate.price_version_id.pricelist_id.bananas_id,
             "referencia": rate.product_id.id,
         }
+
+        partners = session.env["res.partner"].search(
+            [
+                ("property_product_pricelist", "=", rate.base_pricelist_id.id),
+                ("bananas_synchronized", "=", True),
+                ("commercial_discount", "=", 0),
+                ("financial_discount", "=", 0),
+            ]
+        )
+        for partner in partners:
+            remove_whitelist_item_job.delay(
+                session,
+                model_name,
+                record_id,
+                partner.bananas_id,
+                rate.product_id.id,
+                priority=3,
+                eta=90,
+            )
     unlink_customer_rate.delay(
         session, model_name, record_id, data=data, priority=1
     )
@@ -231,6 +317,35 @@ def export_customer_rate(session, model_name, record_id):
             session, model_name, record_id, CustomerRateExporter2
         )
     return customer_rate_exporter.update(record_id, "insert")
+
+
+@job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60, 5: 50 * 60})
+def insert_whitelist_item_job(
+    session, model_name, record_id, partner_id, product_id
+):
+    if model_name == "product.pricelist.custom.partner.item":
+        customer_rate_exporter = _get_exporter(
+            session, model_name, record_id, CustomerRateExporter
+        )
+    else:
+        customer_rate_exporter = _get_exporter(
+            session, model_name, record_id, CustomerRateExporter2
+        )
+    customer_rate_exporter.insert_whitelist_item(partner_id, product_id)
+
+@job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60, 5: 50 * 60})
+def remove_whitelist_item_job(
+    session, model_name, record_id, partner_id, product_id
+):
+    if model_name == "product.pricelist.custom.partner.item":
+        customer_rate_exporter = _get_exporter(
+            session, model_name, record_id, CustomerRateExporter
+        )
+    else:
+        customer_rate_exporter = _get_exporter(
+            session, model_name, record_id, CustomerRateExporter2
+        )
+    customer_rate_exporter.remove_whitelist_item(partner_id, product_id)
 
 
 @job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60, 5: 50 * 60})
