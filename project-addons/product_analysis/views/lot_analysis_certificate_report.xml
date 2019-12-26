@@ -93,21 +93,17 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xs-4 col-xs-offset-8" style="position: relative;">
+                            <div class="col-xs-4" style="position: relative; float: right;">
                                 <div style="position: absolute; top: -20; right: 0; width: 150px; height: 100px;">
-                                    <img t-if="o.revised_by_id and o.revised_by_id.signature"
-                                             t-att-src="'data:image/png;base64,%s' % o.revised_by_id.signature"
-                                             style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px;"/>
+                                    <img t-if="o.revised_by_id and o.revised_by_id.signature" t-att-src="'data:image/png;base64,%s' % o.revised_by_id.signature" style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px;"/>
                                 </div>
                                 <div class="text-right" style="margin-top: 85px;">
                                     Revised by: <span t-field="o.revised_by"/><br/>
                                     <span t-field="o.revised_date"/>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row" style="text-align: left; padding: 0;">
-                            <div class="col-xs-6" style="display: inline-block; page-break-inside: avoid; border: 8px double black; padding: 5px 5px 0 5px; margin-top: 15px;">
+                            <div class="col-xs-6" style="display: inline-block; float: left; page-break-inside: avoid; border: 8px double black; padding: 5px 5px 0 5px; margin-top: 10px;">
                                 <h4>
                                     <table t-if="o.detail_ids" class="table table-condensed">
                                         <tbody>
@@ -136,11 +132,9 @@
                                     </table>
                                 </h4>
                             </div>
-                        </div>
 
-                        <t t-set="move_ids" t-value="o.detail_ids.filtered(lambda d: d.state not in ('approved', 'rejected'))"/>
-                        <div t-if="move_ids" class="row" style="text-align: left; padding: 0;">
-                            <div class="col-xs-6" style="display: inline-block; page-break-inside: avoid; border: 1px solid black; padding: 5px 5px 0 5px; margin-top: 10px;">
+                            <t t-set="move_ids" t-value="o.detail_ids.filtered(lambda d: d.state not in ('approved', 'rejected'))"/>
+                            <div class="col-xs-6" style="display: inline-block; float: left; page-break-inside: avoid; border: 1px solid black; padding: 5px 5px 0 5px; margin-top: 10px;">
                                 <h4>
                                     <table class="table table-condensed">
                                         <tbody>
@@ -153,6 +147,8 @@
                                     </table>
                                 </h4>
                             </div>
+
+                            <div style="clear: both;"> </div>
                         </div>
 
                         <style t-if="o.state not in ('approved', 'rejected')">
