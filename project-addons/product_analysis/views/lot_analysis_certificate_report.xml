@@ -134,7 +134,7 @@
                             </div>
 
                             <t t-set="move_ids" t-value="o.detail_ids.filtered(lambda d: d.state not in ('approved', 'rejected'))"/>
-                            <div class="col-xs-6" style="display: inline-block; float: left; page-break-inside: avoid; border: 1px solid black; padding: 5px 5px 0 5px; margin-top: 10px;">
+                            <div t-if="move_ids" class="col-xs-6" style="display: inline-block; float: left; page-break-inside: avoid; border: 1px solid black; padding: 5px 5px 0 5px; margin-top: 10px;">
                                 <h4>
                                     <table class="table table-condensed">
                                         <tbody>
