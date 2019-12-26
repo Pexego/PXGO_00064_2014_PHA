@@ -42,3 +42,22 @@ class ResPartner(models.Model):
     edi_desadv = fields.Boolean("EDI DESADV")
     custom_edi = fields.One2many('res.partner.custom.edi', 'partner_id')
     use_date_as_life_date = fields.Boolean()
+    edi_mercantil = fields.Char(compute='_compute_edi_mercantil')
+
+    def _compute_edi_mercantil(self):
+        for partner in self:
+            edi_mercantil = ''
+            if partner.es_registro_mercantil:
+                edi_mercantil += 'RM %s ' % partner.es_registro_mercantil
+            if partner.es_tomo:
+                edi_mercantil += 'T %s ' % partner.es_tomo
+            if partner.es_libro:
+                edi_mercantil += 'L %s ' % partner.es_libro
+            if partner.es_folio:
+                edi_mercantil += 'F %s ' % partner.es_folio
+            if partner.es_seccion:
+                edi_mercantil += 'S %s ' % partner.es_seccion
+            if partner.es_hoja:
+                edi_mercantil += 'H %s ' % partner.es_hoja
+            partner.edi_mercantil = edi_mercantil
+
