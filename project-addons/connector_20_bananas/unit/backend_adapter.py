@@ -195,7 +195,7 @@ class GenericAdapter(BananasCRUDAdapter):
         self.make_request(
             [{"codcliente": partner_id, 'codproducto': product_id}],
             "listablanca",
-            "DEDELETEL",
+            "DELETE",
         )
 
     def send_message(self, partner_id, message, central=False):

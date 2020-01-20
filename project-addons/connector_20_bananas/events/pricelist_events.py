@@ -33,6 +33,9 @@ class PartnerPricelistExporter(Exporter):
             {"codcliente": partner_id, "codproducto": product_id}
         )
 
+    def remove_whitelist_item(self, partner_id, product_id):
+        self.backend_adapter.remove_whitelist(partner_id, product_id)
+
     def clean_whitelist(self, partner_id):
         self.backend_adapter.clean_whitelist(partner_id)
 
@@ -161,6 +164,8 @@ class CustomerRateExporter(Exporter):
             {"codcliente": partner_id, "codproducto": product_id}
         )
 
+    def remove_whitelist_item(self, partner_id, product_id):
+        self.backend_adapter.remove_whitelist(partner_id, product_id)
 
 @bananas
 class CustomerRateAdapter(GenericAdapter):
@@ -193,6 +198,8 @@ class CustomerRateExporter2(Exporter):
             {"codcliente": partner_id, "codproducto": product_id}
         )
 
+    def remove_whitelist_item(self, partner_id, product_id):
+        self.backend_adapter.remove_whitelist(partner_id, product_id)
 
 @bananas
 class CustomerRateAdapter2(GenericAdapter):
@@ -208,10 +215,10 @@ class CustomerRateAdapter2(GenericAdapter):
 )
 def delay_export_customer_rate_create(session, model_name, record_id, vals):
     rec = session.env[model_name].browse(record_id)
-    export_customer_rate.delay(
-        session, model_name, record_id, priority=20, eta=200
-    )
     if model_name == "product.pricelist.custom.partner.item":
+        export_customer_rate.delay(
+            session, model_name, record_id, priority=20, eta=200
+        )
         insert_whitelist_item_job.delay(
             session,
             model_name,
@@ -222,9 +229,13 @@ def delay_export_customer_rate_create(session, model_name, record_id, vals):
             eta=90,
         )
     else:
+        if rec.price_version_id.pricelist_id.bananas_synchronized:
+            export_customer_rate.delay(
+                session, model_name, record_id, priority=20, eta=200
+            )
         partners = session.env["res.partner"].search(
             [
-                ("property_product_pricelist", "=", rec.base_pricelist_id.id),
+                ("property_product_pricelist", "=", rec.price_version_id.pricelist_id.id),
                 ("bananas_synchronized", "=", True),
                 ("commercial_discount", "=", 0),
                 ("financial_discount", "=", 0),
@@ -285,7 +296,7 @@ def delay_unlink_customer_rate(session, model_name, record_id):
 
         partners = session.env["res.partner"].search(
             [
-                ("property_product_pricelist", "=", rate.base_pricelist_id.id),
+                ("property_product_pricelist", "=", rate.price_version_id.pricelist_id.id),
                 ("bananas_synchronized", "=", True),
                 ("commercial_discount", "=", 0),
                 ("financial_discount", "=", 0),

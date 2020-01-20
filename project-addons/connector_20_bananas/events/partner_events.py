@@ -17,6 +17,7 @@ from .pricelist_events import (
     export_partner_pricelist,
     export_pricelist,
     unlink_partner_pricelist,
+    insert_whitelist_item_job
 )
 from .utils import _get_exporter
 
@@ -127,6 +128,15 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                     export_customer_rate.delay(
                         session, item._name, item.id, priority=3, eta=90
                     )
+                    insert_whitelist_item_job.delay(
+                        session,
+                        'product.pricelist.item',
+                        item.id,
+                        partner.bananas_id,
+                        item.product_id.id,
+                        priority=3,
+                        eta=90,
+                    )
         partner.check_custom_pricelist(
             partner.commercial_discount, partner.financial_discount
         )
@@ -177,6 +187,15 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                 for item in partner.get_bananas_pricelist_items():
                     export_customer_rate.delay(
                         session, item._name, item.id, priority=3, eta=90
+                    )
+                    insert_whitelist_item_job.delay(
+                        session,
+                        'product.pricelist.item',
+                        item.id,
+                        partner.bananas_id,
+                        item.product_id.id,
+                        priority=3,
+                        eta=90,
                     )
         if not partner.partner_pricelist_exported:
             partner.partner_pricelist_exported = True
