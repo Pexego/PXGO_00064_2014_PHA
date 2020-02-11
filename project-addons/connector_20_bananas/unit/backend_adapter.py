@@ -35,6 +35,20 @@ class BananasCRUDAdapter(CRUDAdapter):
             "Content-Type": "application/json",
         }
         result = requests.request("GET", url, headers=headers)
+        if result.status_code in [
+            400,  # Service unavailable
+            401,
+            502,  # Bad gateway
+            503,  # Service unavailable
+            504,
+        ]:  # Gateway timeout
+            raise RetryableJobError(
+                "A protocol error caused the failure of the job:\n"
+                "URL: %s\n"
+                "HTTP/HTTPS headers: %s\n"
+                "Error code: %d\n"
+                % (result.url, result.headers, result.status_code)
+            )
         return [x["idpedido"] for x in result.json()["records"]]
 
     def _read(self, model, id, date):
@@ -73,6 +87,7 @@ class BananasCRUDAdapter(CRUDAdapter):
             )
         if response.status_code in [
             400,  # Service unavailable
+            401,
             502,  # Bad gateway
             503,  # Service unavailable
             504,
@@ -92,6 +107,7 @@ class BananasCRUDAdapter(CRUDAdapter):
             response = self.make_request(data, model, "PUT")
             if response.status_code in [
                 400,
+                401,
                 502,  # Bad gateway
                 503,  # Service unavailable
                 504,
@@ -121,6 +137,7 @@ class BananasCRUDAdapter(CRUDAdapter):
             response = self.make_request(id, model, "DELETE")
             if response.status_code in [
                 400,
+                401,
                 502,  # Bad gateway
                 503,  # Service unavailable
                 504,
