@@ -49,5 +49,8 @@ class MrpReleaseAll(models.TransientModel):
         produce_wiz.with_context(
             ignore_child=True, not_cancel=True).do_produce()
         mrp.move_created_ids.action_cancel()
-        mrp.signal_workflow('button_release_all')
+        if mrp.postposed_release:
+            mrp.signal_workflow('button_release_all')
+        else:
+            mrp.signal_workflow('button_produce_done')
         return {'type': 'ir.actions.act_window_close'}

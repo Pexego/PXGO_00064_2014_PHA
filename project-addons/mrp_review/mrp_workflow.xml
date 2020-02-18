@@ -10,6 +10,13 @@
             <field name="action">prod_act_final_qty()</field>
         </record>
 
+        <record id="prod_act_postpose_release" model="workflow.activity">
+            <field name="wkf_id" ref="mrp.wkf_prod"/>
+            <field name="name">postpose_release</field>
+            <field name="kind">function</field>
+            <field name="action">prod_act_postpose_release()</field>
+        </record>
+
         <record id="prod_act_release" model="workflow.activity">
             <field name="wkf_id" ref="mrp.wkf_prod"/>
             <field name="name">release</field>
@@ -31,8 +38,29 @@
             <field name="condition">True</field>
         </record>
 
+        <record id="prod_trans_final_qty_post_pone_release" model="workflow.transition">
+            <field name="act_from" ref="prod_act_final_qty"/>
+            <field name="act_to" ref="prod_act_postpose_release"/>
+            <field name="signal">button_postpose_release</field>
+            <field name="condition">True</field>
+        </record>
+
+        <record id="prod_trans_final_qty_post_pone_release_2" model="workflow.transition">
+            <field name="act_from" ref="prod_act_postpose_release"/>
+            <field name="act_to" ref="prod_act_final_qty"/>
+            <field name="signal">button_produce_done</field>
+            <field name="condition">True</field>
+        </record>
+
         <record id="prod_trans_in_production_done" model="workflow.transition">
             <field name="act_from" ref="prod_act_release"/>
+            <field name="act_to" ref="mrp.prod_act_done"/>
+            <field name="signal">button_produce_done</field>
+            <field name="condition">test_production_done()</field>
+        </record>
+
+        <record id="prod_trans_qty_released_done" model="workflow.transition">
+            <field name="act_from" ref="prod_act_final_qty"/>
             <field name="act_to" ref="mrp.prod_act_done"/>
             <field name="signal">button_produce_done</field>
             <field name="condition">test_production_done()</field>

@@ -185,7 +185,8 @@ class GenericAdapter(BananasCRUDAdapter):
 
     def update(self, id, data):
         """ Update records on the external system """
-        return self.write(self._bananas_model, [data])
+        res = self.write(self._bananas_model, [data])
+        return res
 
     def remove(self, id):
         """ Delete a record on the external system """

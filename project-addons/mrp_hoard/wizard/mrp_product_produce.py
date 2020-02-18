@@ -248,6 +248,5 @@ class MrpProductProduce(models.TransientModel):
         if production.move_lines:
             raise ValidationError(
                 'Error al finalizar. Quedan movimientos sin finalizar.')
-        production.move_created_ids.action_cancel()
         production.signal_workflow('button_produce_done')
         return {}

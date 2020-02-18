@@ -152,7 +152,8 @@ class CustomerRateExporter(Exporter):
             "precio": customer_rate.price,
         }
         if mode == "insert":
-            self.backend_adapter.insert(vals)
+            if vals['precio'] > 0.0:
+                self.backend_adapter.insert(vals)
         else:
             self.backend_adapter.update(binding_id, vals)
 
