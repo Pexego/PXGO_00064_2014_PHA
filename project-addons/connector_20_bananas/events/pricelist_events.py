@@ -56,7 +56,6 @@ def export_partner_pricelist(session, model_name, record_id):
         PartnerPricelistExporter,
     )
     partner = session.env[model_name].browse(record_id)
-
     partner_pricelist_exporter.clean_whitelist(partner.bananas_id)
     for item in partner.get_bananas_pricelist_items():
         if item.bananas_price > 0.0:
@@ -220,15 +219,16 @@ def delay_export_customer_rate_create(session, model_name, record_id, vals):
         export_customer_rate.delay(
             session, model_name, record_id, priority=20, eta=200
         )
-        insert_whitelist_item_job.delay(
-            session,
-            model_name,
-            record_id,
-            rec.pricelist_id.partner_id.bananas_id,
-            rec.product_id.id,
-            priority=3,
-            eta=90,
-        )
+        if not rec.pricelist_id.partner_id.partner_pricelist_exported:
+            insert_whitelist_item_job.delay(
+                session,
+                model_name,
+                record_id,
+                rec.pricelist_id.partner_id.bananas_id,
+                rec.product_id.id,
+                priority=3,
+                eta=90,
+            )
     else:
         if rec.price_version_id.pricelist_id.bananas_synchronized:
             export_customer_rate.delay(
