@@ -894,10 +894,24 @@ class edi_parser(models.Model):
                         ],
                     )
                     if not product_id:
-                        raise Exception(
-                            "El producto con ean13 %s no se ha encontrado"
-                            % (line[1]["ean13"][:13])
+                        old_product_id = product_obj.search(
+                            cr,
+                            uid,
+                            [
+                                ('active', '=', False),
+                                ("ean13", "=", line[1]["ean13"][:13]),
+                                "|",
+                                ("country", "=", False),
+                                ("country", "=", spain_country_id),
+                            ],
                         )
+                        if not old_product_id:
+                            raise Exception(
+                                "El producto con ean13 %s no se ha encontrado"
+                                % (line[1]["ean13"][:13])
+                            )
+                        else:
+                            line_vals['product_id'] = product_obj.search(cr, uid, [('default_code', '=', 'FAOLG')])[0]
                     else:
                         line_vals["product_id"] = product_id[0]
                         product = product_obj.browse(cr, uid, product_id[0])
