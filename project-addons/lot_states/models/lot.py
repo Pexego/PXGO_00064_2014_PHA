@@ -35,6 +35,25 @@ class StockProductionLot(models.Model):
     entry_quarantine = fields.Date('Entry quarantine')
     detail_ids = fields.One2many(comodel_name='stock.lot.detail',
                                  inverse_name='lot_id')
+    accepted_equals_rejected = fields.Char(
+        compute='_accepted_equals_rejected', readonly=True)
+
+    @api.one
+    def _accepted_equals_rejected(self):
+        approved = 0
+        rejected = 0
+        for d in self.detail_ids:
+            if d.state in ('approved', 'approved_for_reanalysis'):
+                approved += d.quantity
+            elif d.state in ('rejected', 'rejected_for_reanalysis'):
+                rejected += d.quantity
+        if (approved > 0 and approved == rejected):
+            self.accepted_equals_rejected = \
+                'Las cantidades de aceptado y de rechazado son coincidentes, ' \
+                'debería volver el lote a nuevo y ponerlo en estado rechazado ' \
+                'en su totalidad.'
+        else:
+            self.accepted_equals_rejected = ''
 
     @api.one
     @api.depends('quant_ids')
@@ -314,7 +333,7 @@ class StockProductionLot(models.Model):
         self.write({'detail_ids': [(5, 0, 0)] + detail_ids})
 
 
-class LotDetail(models.Model):
+class StockLotDetail(models.Model):
     _name = 'stock.lot.detail'
     _order = 'date'
 
