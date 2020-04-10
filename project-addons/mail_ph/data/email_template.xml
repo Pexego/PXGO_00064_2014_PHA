@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="purchase_quotation_mail_template" model="email.template">
+            <field name="name">PH - Solicitud de presupuesto</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">${object.company_id.name|safe} - Pedido (Ref ${object.name or 's/n'})</field>
+            <field name="email_to">${(object.partner_id.purchases_mail or object.partner_id.parent_id.purchases_mail)|safe}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="model_id" ref="account_payment_purchase.model_purchase_order"/>
+            <field name="report_name">SdP_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="purchase.report_purchase_quotation"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Solicitud de presupuesto</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="purchase_order_mail_template" model="email.template">
+            <field name="name">PH - Pedido de compra</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">${object.company_id.name|safe} - Pedido (Ref ${object.name or 's/n'})</field>
+            <field name="email_to">${object.partner_id.purchases_mail or object.partner_id.parent_id.purchases_mail|safe}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="model_id" ref="account_payment_purchase.model_purchase_order"/>
+            <field name="report_name">PdC_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="purchase.action_report_purchase_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Pedido de compra</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="sale_budget_mail_template" model="email.template">
+            <field name="name">PH - Presupuesto de venta</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">${object.company_id.name|safe} - Pedido (Ref ${object.name or 's/n'})</field>
+            <field name="email_to">${object.partner_shipping_id.sales_mail or object.partner_shipping_id.parent_id.sales_mail|safe}</field>
+            <field name="lang">${object.partner_shipping_id.lang}</field>
+            <field name="model_id" ref="account_payment_sale.model_sale_order"/>
+            <field name="report_name">PRESUPUESTO_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="sale.report_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Presupuesto de venta</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="sale_order_mail_template" model="email.template">
+            <field name="name">PH - Pedido de venta</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">${object.company_id.name|safe} - Pedido (Ref ${object.name or 's/n'})</field>
+            <field name="email_to">${object.partner_shipping_id.sales_mail or object.partner_shipping_id.parent_id.sales_mail|safe}</field>
+            <field name="lang">${object.partner_shipping_id.lang}</field>
+            <field name="model_id" ref="account_payment_sale.model_sale_order"/>
+            <field name="report_name">PdV_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="sale.report_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Pedido de venta</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="sale_transfer_budget_mail_template" model="email.template">
+            <field name="name">PH - Presupuesto de venta transfer</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">${object.company_id.name|safe} - Pedido (Ref ${object.name or 's/n'})</field>
+            <field name="email_to">${object.notified_partner_id.transfer_sales_mail|safe}</field>
+            <field name="lang">${object.notified_partner_id.lang}</field>
+            <field name="model_id" ref="account_payment_sale.model_sale_order"/>
+            <field name="report_name">PRESUPUESTO_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="sale.report_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Presupuesto de venta transfer</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="sale_transfer_order_mail_template" model="email.template">
+            <field name="name">PH - Pedido de venta transfer</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">${object.company_id.name|safe} - Pedido (Ref ${object.name or 's/n'})</field>
+            <field name="email_to">${object.notified_partner_id.transfer_sales_mail|safe}</field>
+            <field name="lang">${object.notified_partner_id.lang}</field>
+            <field name="model_id" ref="account_payment_sale.model_sale_order"/>
+            <field name="report_name">PdV_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="sale.report_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Pedido de venta transfer</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="sale_transfer_budget_fax_template" model="email.template">
+            <field name="name">PH - Presupuesto de venta transfer (fax)</field>
+            <field name="email_from">faxweb@pharmadus.com</field>
+            <field name="subject">4955 - ${object.name or 's/n'}</field>
+            <field name="email_to">${object.notified_partner_id.clean_fax_number}@fax.ecomfax.com</field>
+            <field name="lang">${object.notified_partner_id.lang}</field>
+            <field name="model_id" ref="account_payment_sale.model_sale_order"/>
+            <field name="report_name">PRESUPUESTO_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="sale.report_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Presupuesto de venta transfer</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="sale_transfer_order_fax_template" model="email.template">
+            <field name="name">PH - Pedido de venta transfer (fax)</field>
+            <field name="email_from">faxweb@pharmadus.com</field>
+            <field name="subject">4955 - ${object.name or 's/n'}</field>
+            <field name="email_to">${object.notified_partner_id.clean_fax_number}@fax.ecomfax.com</field>
+            <field name="lang">${object.notified_partner_id.lang}</field>
+            <field name="model_id" ref="account_payment_sale.model_sale_order"/>
+            <field name="report_name">PdV_${(object.name or '').replace('/','_')}</field>
+            <field name="report_template" ref="sale.report_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Pedido de venta transfer</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="hr_holidays_mail_template" model="email.template">
+            <field name="name">PH - Petición de ausencia aprobada</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">Petición de ausencia de ${object.holiday_status_id.name} aprobada </field>
+            <field name="email_to">${object.employee_id.user_id.email|safe}</field>
+            <field name="lang">${object.employee_id.user_id.partner_id.lang}</field>
+            <field name="model_id" ref="custom_views.model_hr_holidays"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        El usuario ${user.partner_id.name} ha aprobado su petición de ausencia de ${object.holiday_status_id.name}<br>
+                        Desde ${object.date_from|format_date("%d/%m/%Y %H:%M")}<br>
+                        Hasta ${object.date_to|format_date("%d/%m/%Y %H:%M")}.
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="customer_invoice_mail_template" model="email.template">
+            <field name="name">PH - Factura de cliente</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">Factura - ${object.number or 's/n'}</field>
+            <field name="email_to">${object.partner_shipping_id.email_to_send_invoice or object.commercial_partner_id.email_to_send_invoice|safe},${object.partner_id.user_id.email|safe}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="report_name">${(object.number or '').replace('/','_')}</field>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Muy Srs/as nuestros/as<br><br>
+                        Adjunto a este correo, encontrará la factura <b>${object.number}</b>.<br>
+                        Puede encontrar los detalles de la misma en el PDF adjunto.<br><br>
+                        Para cualquier duda o aclaración, no dude en ponerse en contacto con nosotros.<br><br>
+                        Gracias por confiar en nuestros productos.<br>
+                        Un saludo.<br>
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="unpaid_invoice_mail_template" model="email.template">
+            <field name="name">PH - Factura impagada</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">Factura pendiente - ${object.number or 's/n'}</field>
+            <field name="email_to">${object.partner_shipping_id.email_to_send_invoice or object.commercial_partner_id.email_to_send_invoice|safe},${object.partner_id.user_id.email|safe}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="report_name">${(object.number or '').replace('/','_')}</field>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Muy Srs/as nuestros/as<br><br>
+                        Según nuestra contabilidad, y salvo error por nuestra parte, nos consta como pendiente la factura <b>${object.number}</b>.<br>
+                        Puede encontrar los detalles de la misma en el PDF adjunto.<br>
+                        Si la factura ya ha sido pagada, por favor, descarte esta mensaje.<br>
+                        Para cualquier duda o aclaración, no dude en ponerse en contacto con nosotros.<br><br>
+                        Gracias de antemano por su colaboración.<br>
+                        Un saludo.<br>
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="raw_material_alert_date_mail_template" model="email.template">
+            <field name="name">PH - Lotes con fecha de alerta próxima a expirar</field>
+            <field name="email_from">sigi@pharmadus.com</field>
+            <field name="subject">Lotes con fecha de alerta próxima a expirar</field>
+            <field name="email_to">jorgegonzalez@pharmadus.com</field>
+            <field name="model_id" ref="copy_from_ph.model_stock_production_lot"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        <h3>Lotes con fecha de alerta próxima a expirar</h3>
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="product_use_date_mail_template" model="email.template">
+            <field name="name">PH - Lotes con consumo preferente próximo a expirar</field>
+            <field name="email_from">sigi@pharmadus.com</field>
+            <field name="subject">Lotes con consumo preferente próximo a expirar</field>
+            <field name="email_to">encarnacion.fernandez@pharmadus.com</field>
+            <field name="model_id" ref="copy_from_ph.model_stock_production_lot"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        <h3>Lotes con consumo preferente próximo a expirar</h3>
+                    </p>
+                ]]>
+            </field>
+        </record>
+    </data>
+</openerp>

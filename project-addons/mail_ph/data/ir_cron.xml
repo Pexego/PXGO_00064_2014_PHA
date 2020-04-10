@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+© 2018 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<openerp>
+    <data noupdate="1">
+        <record forcecreate="True" id="ir_cron_send_unpaid_invoices" model="ir.cron">
+            <field name="name">Send unpaid invoices</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="__export__.res_users_42"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">account.invoice</field>
+            <field name="function">check_unpaid</field>
+            <field name="args">(None,)</field>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_raw_material_alert_date" model="ir.cron">
+            <field name="name">Check raw material alert date</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="__export__.res_users_42"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">stock.production.lot</field>
+            <field name="function">check_raw_material_alert_date</field>
+            <field name="args">(None,)</field>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_product_use_date" model="ir.cron">
+            <field name="name">Check product use date</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="__export__.res_users_42"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">stock.production.lot</field>
+            <field name="function">check_product_use_date</field>
+            <field name="args">(None,)</field>
+        </record>
+    </data>
+</openerp>

@@ -95,7 +95,6 @@
             </field>
         </record>
 
-
         <record id="stock_lot_add_date" model="ir.ui.view">
             <field name="name">stock.production.lot.form</field>
             <field name="model">stock.production.lot</field>
@@ -107,5 +106,22 @@
             </field>
         </record>
 
+        <record id="stock_lot_accepted_equals_rejected" model="ir.ui.view">
+            <field name="name">Lot form, accepted equals rejected</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <group name="main_group" position="after">
+                    <group>
+                        <field name="accepted_equals_rejected"
+                               nolabel="1"
+                               style="color: red;"
+                               attrs="{'invisible': [('accepted_equals_rejected', '=', False)]}"
+                        />
+                    </group>
+                </group>
+            </field>
+        </record>
     </data>
 </openerp>

@@ -17,6 +17,7 @@ from .pricelist_events import (
     export_partner_pricelist,
     export_pricelist,
     unlink_partner_pricelist,
+    insert_whitelist_item_job
 )
 from .utils import _get_exporter
 
@@ -99,6 +100,8 @@ def delay_export_partner_create(session, model_name, record_id, vals):
 
 @on_record_write(model_names="res.partner")
 def delay_export_partner_write(session, model_name, record_id, vals):
+    if session.env.context.get('skip_conector'):
+        return
     partner = session.env[model_name].browse(record_id)
     up_fields = [
         "name",
@@ -127,6 +130,15 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                     export_customer_rate.delay(
                         session, item._name, item.id, priority=3, eta=90
                     )
+                    insert_whitelist_item_job.delay(
+                        session,
+                        'product.pricelist.item',
+                        item.id,
+                        partner.bananas_id,
+                        item.product_id.id,
+                        priority=3,
+                        eta=90,
+                    )
         partner.check_custom_pricelist(
             partner.commercial_discount, partner.financial_discount
         )
@@ -141,7 +153,7 @@ def delay_export_partner_write(session, model_name, record_id, vals):
             unlink_partner_pricelist.delay(
                 session,
                 model_name,
-                partner.commercial_partner_id.id,
+                partner.id,
                 priority=1,
             )
         unlink_partner.delay(session, model_name, record_id, priority=3, eta=60)
@@ -164,10 +176,10 @@ def delay_export_partner_write(session, model_name, record_id, vals):
             or "financial_discount" in vals
         ):
             unlink_partner_pricelist(session, model_name, partner.id)
-            partner.partner_pricelist_exported = False
             partner.check_custom_pricelist(
                 partner.commercial_discount, partner.financial_discount
             )
+            partner.with_context(skip_conector=True).partner_pricelist_exported = False
         if not partner.get_bananas_pricelist().bananas_synchronized:
             partner.get_bananas_pricelist().bananas_synchronized = True
             export_pricelist.delay(
@@ -178,8 +190,17 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                     export_customer_rate.delay(
                         session, item._name, item.id, priority=3, eta=90
                     )
+                    insert_whitelist_item_job.delay(
+                        session,
+                        'product.pricelist.item',
+                        item.id,
+                        partner.bananas_id,
+                        item.product_id.id,
+                        priority=3,
+                        eta=90,
+                    )
         if not partner.partner_pricelist_exported:
-            partner.partner_pricelist_exported = True
+            partner.with_context(skip_conector=True).partner_pricelist_exported = True
             export_partner_pricelist.delay(
                 session, model_name, partner.id, priority=3, eta=80
             )

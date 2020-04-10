@@ -28,7 +28,7 @@ class MrpProduction(models.Model):
 
     release_log_ids = fields.One2many('mrp.partial.release.log',
                                       'production_id', 'Partial release log')
-
+    
     @api.model
     def action_produce(self, production_id, production_qty, production_mode,
                        wiz=False):

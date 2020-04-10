@@ -26,6 +26,7 @@ class StockLotAnalysis(models.Model):
         ('non_compliant', 'NON COMPLIANT'),
         ('not_qualify', 'NOT QUALIFY'),
         ('absence', 'ABSENCE'),
+        ('not_applicable', 'NOT APPLICABLE'),
     ])
     result = fields.Char('Result', compute='_compute_result')
     expected_result = fields.Char('Expected result', compute='_compute_result')
@@ -52,7 +53,7 @@ class StockLotAnalysis(models.Model):
     @api.onchange('result_boolean_selection')
     def on_change_result_boolean_selection(self):
         self.result_boolean = self.result_boolean_selection in \
-                              ('conformant', 'qualify', 'presence')
+                        ('conformant', 'qualify', 'presence', 'not_applicable')
 
     @api.multi
 #    @api.depends('result_str', 'result_boolean', 'analysis_type',
@@ -102,7 +103,7 @@ class StockLotAnalysis(models.Model):
     def write(self, vals):
         if vals.get('result_boolean_selection') and not vals.get('result_boolean'):
             vals['result_boolean'] = vals.get('result_boolean_selection') in \
-                                     ('conformant', 'qualify', 'presence')
+                        ('conformant', 'qualify', 'presence', 'not_applicable')
         return super(StockLotAnalysis, self).write(vals)
 
 
