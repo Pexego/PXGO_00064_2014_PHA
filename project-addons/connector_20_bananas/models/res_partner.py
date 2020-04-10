@@ -95,10 +95,9 @@ class ResPartner(models.Model):
             )
 
     def get_bananas_pricelist(self):
-        partner = self.commercial_partner_id
-        partner_pricelist = partner.property_product_pricelist
+        partner_pricelist = self.property_product_pricelist
         custom_pricelist = partner_pricelist.custom_partner_pricelist_ids.filtered(
-            lambda r: r.partner_id == partner and r.active
+            lambda r: r.partner_id == self and r.active
         )
         return custom_pricelist or partner_pricelist
 

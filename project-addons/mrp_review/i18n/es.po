@@ -1,0 +1,163 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* mrp_review
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-13 17:02+0000\n"
+"PO-Revision-Date: 2020-02-13 17:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mrp_review
+#: view:mrp.release.all.wizard:mrp_review.mrp_release_all_form
+#: view:mrp.set.final.quantity:mrp_review.mrp_set_final_quantity_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "Cancel Production"
+msgstr "Cancelar fabricación"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: mrp_review
+#: field:mrp.routing,decrease_percentage:0
+msgid "Decrease percentage"
+msgstr "Decrease percentage"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "Finish production"
+msgstr "Finalizar producción"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: mrp_review
+#: model:ir.model,name:mrp_review.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Órden de producción"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,number_of_cases:0
+msgid "Number of cases"
+msgstr "Número de estuches"
+
+#. module: mrp_review
+#: field:mrp.set.final.quantity,number_of_infusions:0
+msgid "Number of infusions"
+msgstr "Número de infusiones"
+
+#. module: mrp_review
+#: model:ir.model,name:mrp_review.model_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: mrp_review
+#: model:ir.model,name:mrp_review.model_mrp_product_produce
+msgid "Product Produce"
+msgstr "Fabricar producto"
+
+#. module: mrp_review
+#: model:ir.model,name:mrp_review.model_stock_location_path
+msgid "Pushed Flows"
+msgstr "Flujos empujados"
+
+#. module: mrp_review
+#: model:ir.actions.act_window,name:mrp_review.mrp_release_all
+#: view:mrp.release.all.wizard:mrp_review.mrp_release_all_form
+msgid "Release"
+msgstr "Liberar"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "Release all"
+msgstr "Liberar todo"
+
+#. module: mrp_review
+#: model:ir.model,name:mrp_review.model_mrp_routing
+msgid "Routing"
+msgstr "Proceso productivo"
+
+#. module: mrp_review
+#: model:ir.actions.act_window,name:mrp_review.action_mrp_set_final_quantity
+msgid "Set final quantity"
+msgstr "Establecer cantidad final"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "Set machine quantity"
+msgstr "Establecer cantidad de máquina"
+
+#. module: mrp_review
+#: view:mrp.set.final.quantity:mrp_review.mrp_set_final_quantity_form_view
+msgid "Set quantity"
+msgstr "Establecer cantidad"
+
+#. module: mrp_review
+#: model:ir.model,name:mrp_review.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: mrp_review
+#: model:res.groups,name:mrp_review.technical_dir
+msgid "Technical direction"
+msgstr "Dirección técnica"
+
+#. module: mrp_review
+#: model:ir.model,name:mrp_review.model_mrp_production_workcenter_line
+msgid "Work Order"
+msgstr "Orden de trabajo"
+
+#. module: mrp_review
+#: view:mrp.set.final.quantity:mrp_review.mrp_set_final_quantity_form_view
+msgid "or"
+msgstr "o"
+
+#. module: mrp_review
+#: view:mrp.production:mrp_review.mrp_production_add_review
+msgid "postpose release"
+msgstr "Posponer liberación"
+
+#. module: mrp_review
+#: field:mrp.production,postposed_release:0
+msgid "unknown"
+msgstr "unknown"
