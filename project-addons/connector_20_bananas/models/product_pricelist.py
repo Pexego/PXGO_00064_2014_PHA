@@ -19,7 +19,7 @@ class ProductPricelist(models.Model):
         for pricelist in self:
             pricelist.bananas_id = pricelist.id
 
-    def update_partner_pricelist(self, product):
+    def update_partner_pricelist(self, product=False):
         for custom_pricelist in self.custom_partner_pricelist_ids.filtered(
             "active"
         ):
@@ -90,8 +90,8 @@ class ProductPricelistItem(models.Model):
     @api.model
     def create(self, vals):
         res = super(ProductPricelistItem, self).create(vals)
-        self.price_version_id.pricelist_id.update_partner_pricelist(
-            self.product_id
+        res.price_version_id.pricelist_id.update_partner_pricelist(
+            res.product_id
         )
         return res
 
@@ -106,8 +106,7 @@ class ProductPricelistItem(models.Model):
 
     @api.multi
     def unlink(self):
-        for item in self:
-            item.price_version_id.pricelist_id.update_partner_pricelist(
-                item.product_id
-            )
-        return super(ProductPricelistItem, self).unlink()
+        pricelist = self[0].price_version_id.pricelist_id
+        res = super(ProductPricelistItem, self).unlink()
+        pricelist.update_partner_pricelist()
+        return res

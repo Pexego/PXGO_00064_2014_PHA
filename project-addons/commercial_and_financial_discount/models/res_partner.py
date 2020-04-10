@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import api, models, fields
 
 
 class ResPartner(models.Model):
@@ -34,3 +34,7 @@ class ResPartner(models.Model):
         "Financial discount (%)",
         help="If select this partner in sale order, discount will be added to order",
         default=0.0)
+
+    @api.model
+    def _commercial_fields(self):
+        return super(ResPartner, self)._commercial_fields() + ['commercial_discount', 'financial_discount']

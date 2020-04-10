@@ -181,17 +181,17 @@ class SaleOrderImporter(Importer):
     def _after_import(self, binding):
         """ Hook called at the end of the import """
         binding.generate_discounts()
+        backend = self.backend_record
+        if backend.order_message:
+            self.backend_adapter.send_message(
+                binding.partner_shipping_id.bananas_id,
+                backend.order_message.format(order=binding.client_order_ref),
+                True,
+            )
         self.backend_adapter.update(
             self.bananas_id,
             {"idpedido": self.bananas_id, "integradoERP10": "1"},
         )
-        backend = self.backend_record
-        if backend.order_message:
-            self.backend_adapter.send_message(
-                binding.partner_id.bananas_id,
-                backend.order_message.format(order=binding.client_order_ref),
-                True,
-            )
         return
 
     def run(self, bananas_id, date, force=False):

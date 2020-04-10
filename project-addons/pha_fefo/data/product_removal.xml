@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="removal_fefo_pha" model="product.removal">
+            <field name="name">Custom First Expiry First Out (FEFO_pha)</field>
+            <field name="method">fefo_pha</field>
+        </record>
+    </data>
+</openerp>

@@ -68,8 +68,6 @@ class ProductPricelistCustomPartner(models.Model):
             removed_items = self.pricelist_items.filtered(
                 lambda r: r.product_id not in updated_products
             )
-            for item in removed_items:
-                asdasd
             removed_items.unlink()
 
 

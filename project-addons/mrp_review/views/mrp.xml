@@ -7,9 +7,11 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
                 <button name="%(mrp.act_mrp_product_produce)d" position="replace">
-                    <button name="%(mrp.act_mrp_product_produce)d" string="Finish production" type="action" class="oe_highlight" states="released"/>
+                    <field name="postposed_release" invisible="1"/>
+                    <button name="%(mrp.act_mrp_product_produce)d" string="Finish production" type="action" class="oe_highlight" states="released,postposed_release"/>
                     <button name="%(action_mrp_set_final_quantity)d" string="Set machine quantity" type="action" class="oe_highlight" states="in_production"/>
                     <button name="%(mrp_release_all)d" string="Release all" type="action" class="oe_highlight" states="qty_set"/>
+                    <button name="button_postpose_release" string="postpose release" attrs="{'invisible': ['|', ('state', '!=', 'qty_set'), ('postposed_release', '=', True)]}"/>
                 </button>
                 <button name="button_cancel" position="replace">
                     <button name="button_cancel" states="draft,ready,in_production,qty_set" string="Cancel Production"/>
