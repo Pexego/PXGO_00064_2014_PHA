@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_company_form" model="ir.ui.view">
+            <field name="name">Company form - Over due notify days</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="account.view_company_inherit_form"/>
+            <field name="priority">16</field>
+            <field name="arch" type="xml">
+                <page string="Overdue Payments" position="inside">
+                    <separator string="Días fuera de plazo para enviar mensaje"/>
+                    <group>
+                        <field name="over_due_first_notice_days" string="Días para primer aviso"/>
+                        <field name="over_due_second_notice_days" string="Días para segundo aviso"/>
+                        <field name="over_due_third_notice_days" string="Días para tercer aviso"/>
+                    </group>
+                </page>
+                <page string="Overdue Payments" position="after">
+                    <page string="Control de stock">
+                        <separator string="Margen de preaviso en fechas de lotes"/>
+                        <group>
+                            <field name="lot_alert_date_months_ahead"
+                                   string="Meses de preaviso para fecha de alerta "/>
+                            <field name="lot_use_date_months_ahead"
+                                   string="Meses de preaviso para consumo preferente"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</openerp>
