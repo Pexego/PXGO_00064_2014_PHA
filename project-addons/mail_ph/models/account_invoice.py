@@ -2,7 +2,7 @@
 # © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, exceptions
+from openerp import models, fields, api
 from ..validations import is_valid_email
 from datetime import date, timedelta
 
@@ -75,11 +75,11 @@ class AccountInvoice(models.Model):
                         'days_notified': notice_days
                     })
 
-            template_id = self.env.ref(template)
-            commercial_mail = data[0].commercial_partner_id.email_to_send_invoice
-            shipping_mail = data[0].partner_shipping_id.email_to_send_invoice
-            if is_valid_email(shipping_mail) or is_valid_email(commercial_mail):
-                template_id.send_mail(data[0].id, force_send=False)
+                template_id = self.env.ref(template)
+                commercial_mail = data[0].commercial_partner_id.email_to_send_invoice
+                shipping_mail = data[0].partner_shipping_id.email_to_send_invoice
+                if is_valid_email(shipping_mail) or is_valid_email(commercial_mail):
+                    template_id.send_mail(data[0].id, force_send=False)
 
     @api.multi
     def send_customer_invoice_by_email(self):
@@ -114,6 +114,7 @@ class AccountInvoice(models.Model):
                     invoice_id.commercial_partner_id.email_to_send_invoice
                 )
 
+        warnings = 'Todos los mensajes enviados correctamente'
         if bad_emails + failed_to_send:
             if bad_emails:
                 bad_emails = 'No tiene e-mail o es incorrecto:\n\n' + bad_emails
@@ -123,6 +124,8 @@ class AccountInvoice(models.Model):
                 warnings = bad_emails + separator + failed_to_send
             else:
                 warnings = bad_emails + failed_to_send
-            raise exceptions.Warning(warnings)
-        else:
-            raise exceptions.Warning('Todos los mensajes enviados correctamente')
+
+        return self.env['custom.views.warning'].show_message(
+            'Resultado de envío de e-mails',
+            warnings
+        )

@@ -16,5 +16,16 @@
             <field name="key2">client_action_multi</field>
             <field name="value" eval="'ir.actions.server,%d'%send_customer_invoice_by_email_action" />
         </record>
+
+         <record id="view_account_invoice_form" model="ir.ui.view">
+            <field name="name">Account invoice form - Hide send mail button</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <button name="action_invoice_sent" position="replace"></button>
+                <button name="action_invoice_sent" position="replace"></button>
+            </field>
+        </record>
     </data>
 </openerp>
