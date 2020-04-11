@@ -122,6 +122,11 @@ msgstr "Cantidad restante"
 msgid "Reserved qty"
 msgstr "Cantidad reservada"
 
+#. module: stock_move_manual_lot_assign
+#: field:stock.move.assign.manual.lot.line,state:0
+msgid "State"
+msgstr "Estado"
+
 #. module: mrp_hoard
 #: code:addons/stock_move_manual_lot_assign/wizard/manual_assign_wizard.py:0
 #, python-format
@@ -147,3 +152,29 @@ msgstr "o"
 #: view:stock.move.assign.manual.lot:stock_move_manual_lot_assign.assign_manual_lots_form_view
 msgid "use_qty"
 msgstr "use_qty"
+
+
+#. module: stock_move_manual_lot_assign
+#: selection:stock.move.assign.manual.lot.line,state:0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: stock_move_manual_lot_assign
+#: selection:stock.move.assign.manual.lot.line,state:0
+msgid "Revision(Q)"
+msgstr "En revisión(Q)"
+
+#. module: stock_move_manual_lot_assign
+#: selection:stock.move.assign.manual.lot.line,state:0
+msgid "Revised"
+msgstr "Revisado"
+
+#. module: stock_move_manual_lot_assign
+#: selection:stock.move.assign.manual.lot.line,state:0
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: stock_move_manual_lot_assign
+#: selection:stock.move.assign.manual.lot.line,state:0
+msgid "Rejected"
+msgstr "Rechazado"

@@ -43,7 +43,7 @@ class StockMoveAssignManualLot(models.TransientModel):
         lots = {}
         for quant in available_quants:
             if quant.lot_id.id not in lots:
-                lots[quant.lot_id.id] = [0.0, 0.0]
+                lots[quant.lot_id.id] = [0.0, 0.0, quant.lot_id.state]
             if quant.reservation_id:
                 lots[quant.lot_id.id][1] += quant.qty
             lots[quant.lot_id.id][0] += quant.qty
@@ -55,6 +55,7 @@ class StockMoveAssignManualLot(models.TransientModel):
 #                    continue
             lines.append({
                 'lot_id': lot,
+                'state': lots[lot][2],
                 'available_qty': lots[lot][0],
                 'use_qty': lots[lot][1]
             })
@@ -123,6 +124,10 @@ class StockMoveAssignManualLotLine(models.TransientModel):
 
     wizard_id = fields.Many2one('stock.move.assign.manual.lot')
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
+    state = fields.Selection(
+        (('draft', 'New'), ('in_rev', 'Revision(Q)'), ('revised', 'Revised'),
+         ('approved', 'Approved'), ('rejected', 'Rejected')),
+        'State')
     available_qty = fields.Float(
         digits=dp.get_precision('Product Unit of Measure'))
     use_qty = fields.Float(
