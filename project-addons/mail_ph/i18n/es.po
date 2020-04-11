@@ -179,7 +179,7 @@ msgstr "Enviar e-mail"
 #. module: mail_ph
 #: view:sale.order:mail_ph.view_sale_order_form
 msgid "Send transfer"
-msgstr "Enviar transfer"
+msgstr "Enviar a cooperativa"
 
 #. module: mail_ph
 #: field:res.partner,transfer_sales_mail:0

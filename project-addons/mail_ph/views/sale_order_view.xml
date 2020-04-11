@@ -18,7 +18,7 @@
                     <button name="send_email"
                             string="Send transfer"
                             class="oe_read_only oe_highlight"
-                            attrs="{'invisible': ['|', ['state', '=', 'cancel'], ['transfer', '=', False]]}"
+                            attrs="{'invisible': ['|', ['state', '!=', 'done'], ['transfer', '=', False]]}"
                             context="{'transfer_button': True}"
                             type="object"/>
                 </button>
