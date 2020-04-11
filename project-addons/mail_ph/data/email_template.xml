@@ -149,8 +149,27 @@
                 <![CDATA[
                     <p>
                         El usuario ${user.partner_id.name} ha aprobado su petición de ausencia de ${object.holiday_status_id.name}<br>
-                        Desde ${object.date_from|format_date("%d/%m/%Y %H:%M")}<br>
-                        Hasta ${object.date_to|format_date("%d/%m/%Y %H:%M")}.
+                        Desde ${object.date_from.split('-')[2] + '-' + object.date_from.split('-')[1] + '-' + object.date_from.split('-')[0]}<br>
+                        Hasta ${object.date_to.split('-')[2] + '-' + object.date_to.split('-')[1] + '-' + object.date_to.split('-')[0]}.
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="hr_holidays_refuse_mail_template" model="email.template">
+            <field name="name">PH - Petición de ausencia rechazada</field>
+            <field name="email_from">${user.email|safe}</field>
+            <field name="subject">Petición de ausencia de ${object.holiday_status_id.name} rechazada </field>
+            <field name="email_to">${object.employee_id.user_id.email|safe}</field>
+            <field name="lang">${object.employee_id.user_id.partner_id.lang}</field>
+            <field name="model_id" ref="custom_views.model_hr_holidays"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        El usuario ${user.partner_id.name} ha rechazado su petición de ausencia de ${object.holiday_status_id.name}<br>
+                        Desde ${object.date_from.split('-')[2] + '-' + object.date_from.split('-')[1] + '-' + object.date_from.split('-')[0]}<br>
+                        Hasta ${object.date_to.split('-')[2] + '-' + object.date_to.split('-')[1] + '-' + object.date_to.split('-')[0]}.
                     </p>
                 ]]>
             </field>
