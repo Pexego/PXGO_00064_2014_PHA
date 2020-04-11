@@ -56,7 +56,7 @@ class SaleOrder(models.Model):
             default_res_id=self.id,
             default_use_template=bool(template_id),
             default_template_id=template_id and template_id.id or False,
-            default_composition_mode='comment'
+            default_composition_mode='mass_mail'
         )
         return {
             'name': _('Compose {}').format(message_type),

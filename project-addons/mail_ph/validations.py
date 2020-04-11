@@ -4,14 +4,15 @@
 
 import re
 
-mail_re = "^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$"
+mail_re = "^.+\\@(\\[?)[a-zA-Z0-9\\-\\_\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$"
 fax_re = "^\d{9,}$"
 
 def is_valid_email(email):
     if email:
         is_ok = True
         for m in email.split(','):
-            is_ok = is_ok and re.match(mail_re, m)
+            res = re.match(mail_re, m)
+            is_ok = is_ok and res and res.group() == email
         return is_ok
     else:
         return False
@@ -23,6 +24,7 @@ def is_valid_fax(fax):
             fax = fax[3:]
         elif fax[0:4] == '0034':
             fax = fax[4:]
-        return re.match(fax_re, fax)
+        res = re.match(fax_re, fax)
+        return res and res.group() == fax
     else:
         return False
