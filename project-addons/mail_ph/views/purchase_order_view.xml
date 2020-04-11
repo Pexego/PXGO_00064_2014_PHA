@@ -7,13 +7,15 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="priority">31</field>
             <field name="arch" type="xml">
-                <button name="action_cancel" position="after">
+                <button name="wkf_send_rfq" position="replace">
                     <button name="send_email"
                             string="Send email"
                             class="oe_read_only oe_highlight"
                             attrs="{'invisible': [['state', '=', 'cancel']]}"
                             type="object"/>
                 </button>
+                <button name="wkf_send_rfq" position="replace"></button>
+                <button name="wkf_send_rfq" position="replace"></button>
             </field>
         </record>
     </data>

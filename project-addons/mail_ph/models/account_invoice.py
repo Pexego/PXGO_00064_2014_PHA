@@ -5,9 +5,6 @@
 from openerp import models, fields, api, exceptions
 from ..validations import is_valid_email
 from datetime import date, timedelta
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class AccountInvoiceOverDueNoticeSent(models.Model):
@@ -27,8 +24,6 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def check_unpaid(self):
-        logger.info('Unpaid invoices: Searching for...')
-
         company_id = self.env.user.company_id
         first_notice_days = company_id.over_due_first_notice_days
         second_notice_days = company_id.over_due_second_notice_days
@@ -53,18 +48,19 @@ class AccountInvoice(models.Model):
             ])
         del unpaid_inv_ids
 
-        logger.info('Unpaid invoices: Calculating notice type based on days over...')
-        notify_inv_ids = self.env['account.invoice']
         notice_model = self.env['account.invoice.over.due.notice.sent']
         for data in aData:
             days_passed = (today - data[1]).days
             notice_days = 0
+            template = 'mail_ph.unpaid_invoice_1st_notice_mail_template'
             if days_passed >= third_notice_days and \
                     data[2] < third_notice_days:
                 notice_days = third_notice_days
+                template = 'mail_ph.unpaid_invoice_3rd_notice_mail_template'
             elif days_passed >= second_notice_days and \
                     data[2] < second_notice_days:
                 notice_days = second_notice_days
+                template = 'mail_ph.unpaid_invoice_2nd_notice_mail_template'
             elif days_passed >= first_notice_days and \
                     data[2] < first_notice_days:
                 notice_days = first_notice_days
@@ -78,20 +74,12 @@ class AccountInvoice(models.Model):
                         'invoice_id': data[0].id,
                         'days_notified': notice_days
                     })
-                notify_inv_ids += data[0]
 
-        logger.info('Unpaid invoices: Sending mails...')
-        notify_inv_ids.send_notice_email()
-        logger.info('Unpaid invoices: Mails sent to pool')
-
-    @api.multi
-    def send_notice_email(self):
-        template_id = self.env.ref('mail_ph.unpaid_invoice_mail_template')
-        for invoice_id in self:
-            commercial_mail = invoice_id.commercial_partner_id.email_to_send_invoice
-            shipping_mail = invoice_id.partner_shipping_id.email_to_send_invoice
+            template_id = self.env.ref(template)
+            commercial_mail = data[0].commercial_partner_id.email_to_send_invoice
+            shipping_mail = data[0].partner_shipping_id.email_to_send_invoice
             if is_valid_email(shipping_mail) or is_valid_email(commercial_mail):
-                template_id.send_mail(invoice_id.id, force_send=False)
+                template_id.send_mail(data[0].id, force_send=False)
 
     @api.multi
     def send_customer_invoice_by_email(self):

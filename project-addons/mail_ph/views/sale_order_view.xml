@@ -7,13 +7,14 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="priority">28</field>
             <field name="arch" type="xml">
-               <button name="action_cancel" position="after">
+                <button name="action_quotation_send" position="replace">
                     <button name="send_email"
                             string="Send email"
                             class="oe_read_only oe_highlight"
                             attrs="{'invisible': [['state', '=', 'cancel']]}"
                             type="object"/>
-               </button>
+                </button>
+                <button name="action_quotation_send" position="replace"></button>
             </field>
         </record>
     </data>
