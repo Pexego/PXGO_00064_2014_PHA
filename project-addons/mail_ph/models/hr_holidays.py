@@ -14,3 +14,11 @@ class HrHolidays(models.Model):
             template_id = self.env.ref('mail_ph.hr_holidays_mail_template')
             template_id.send_mail(holiday_id.id, force_send=True)
         return res
+
+    @api.multi
+    def holidays_refuse(self):
+        res = super(HrHolidays, self).holidays_refuse()
+        for holiday_id in self:
+            template_id = self.env.ref('mail_ph.hr_holidays_refuse_mail_template')
+            template_id.send_mail(holiday_id.id, force_send=True)
+        return res

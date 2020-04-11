@@ -10,46 +10,62 @@ class SaleOrder(models.Model):
 
     @api.multi
     def send_email(self):
-        for sale_id in self:
-            message_type = 'email'
-            if sale_id.transfer:
-                mail = sale_id.notified_partner_id.transfer_sales_mail
-                fax = sale_id.notified_partner_id.clean_fax_number
-                if is_valid_email(mail):
-                    if sale_id.state in ('draft', 'sent'):
-                        template_id = self.env. \
-                            ref('mail_ph.sale_transfer_budget_mail_template')
-                    else:
-                        template_id = self.env. \
-                            ref('mail_ph.sale_transfer_order_mail_template')
-                elif is_valid_fax(fax):
-                    message_type = 'fax'
-                    if sale_id.state in ('draft', 'sent'):
-                        template_id = self.env. \
-                            ref('mail_ph.sale_transfer_budget_fax_template')
-                    else:
-                        template_id = self.env. \
-                            ref('mail_ph.sale_transfer_order_fax_template')
+        message_type = 'email'
+        if self.transfer and self.env.context.get('transfer_button', False):
+            mail = self.notified_partner_id.transfer_sales_mail
+            fax = self.notified_partner_id.clean_fax_number
+            if is_valid_email(mail):
+                if self.state in ('draft', 'sent'):
+                    template_id = self.env. \
+                        ref('mail_ph.sale_transfer_budget_mail_template')
                 else:
-                    raise exceptions.ValidationError(
-                        _('Not valid email or fax number configured for ') +
-                          sale_id.notified_partner_id.name)
+                    template_id = self.env. \
+                        ref('mail_ph.sale_transfer_order_mail_template')
+            elif is_valid_fax(fax):
+                message_type = 'fax'
+                if self.state in ('draft', 'sent'):
+                    template_id = self.env. \
+                        ref('mail_ph.sale_transfer_budget_fax_template')
+                else:
+                    template_id = self.env. \
+                        ref('mail_ph.sale_transfer_order_fax_template')
             else:
-                message = _('No valid email configured for shipping partner or '
-                            'its parent')
-                mail = sale_id.partner_shipping_id.sales_mail
-                parent_mail = sale_id.partner_shipping_id.parent_id.sales_mail
-                email_string = mail if mail else parent_mail
-                if not is_valid_email(email_string):
-                    raise exceptions.ValidationError(message)
+                raise exceptions.ValidationError(
+                    _('Not valid email or fax number configured for ') +
+                      self.notified_partner_id.name)
+        else:
+            message = _('No valid email configured for shipping partner or '
+                        'its parent')
+            mail = self.partner_shipping_id.sales_mail
+            parent_mail = self.partner_shipping_id.parent_id.sales_mail
+            email_string = mail if mail else parent_mail
+            if not is_valid_email(email_string):
+                raise exceptions.ValidationError(message)
 
-                if sale_id.state in ('draft', 'sent'):
-                    template_id = self.env.\
-                        ref('mail_ph.sale_budget_mail_template')
-                else:
-                    template_id = self.env.\
-                        ref('mail_ph.sale_order_mail_template')
+            if self.state in ('draft', 'sent'):
+                template_id = self.env.\
+                    ref('mail_ph.sale_budget_mail_template')
+            else:
+                template_id = self.env.\
+                    ref('mail_ph.sale_order_mail_template')
 
-            template_id.send_mail(sale_id.id, force_send=True)
-            raise exceptions.Warning(_('Successfully sent {}').
-                                     format(message_type))
+        compose_form = self.env.ref(
+            'mail.email_compose_message_wizard_form', False)
+        ctx = dict(
+            default_model='sale.order',
+            default_res_id=self.id,
+            default_use_template=bool(template_id),
+            default_template_id=template_id and template_id.id or False,
+            default_composition_mode='mass_mail'
+        )
+        return {
+            'name': _('Compose {}').format(message_type),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form.id, 'form')],
+            'view_id': compose_form.id,
+            'target': 'new',
+            'context': ctx,
+        }
