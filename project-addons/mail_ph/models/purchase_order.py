@@ -15,8 +15,8 @@ class PurchaseOrder(models.Model):
 
         message = _('No valid email configured for this partner or '
                     'its parent')
-        mail = self.partner_id.sales_mail
-        parent_mail = self.partner_id.parent_id.sales_mail
+        mail = self.partner_id.purchases_mail
+        parent_mail = self.partner_id.parent_id.purchases_mail
         if not mail and not parent_mail:
             raise exceptions.ValidationError(message)
 

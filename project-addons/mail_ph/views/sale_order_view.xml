@@ -14,7 +14,14 @@
                             attrs="{'invisible': [['state', '=', 'cancel']]}"
                             type="object"/>
                 </button>
-                <button name="action_quotation_send" position="replace"></button>
+                <button name="action_quotation_send" position="replace">
+                    <button name="send_email"
+                            string="Send transfer"
+                            class="oe_read_only oe_highlight"
+                            attrs="{'invisible': ['|', ['state', '=', 'cancel'], ['transfer', '=', False]]}"
+                            context="{'transfer_button': True}"
+                            type="object"/>
+                </button>
             </field>
         </record>
     </data>

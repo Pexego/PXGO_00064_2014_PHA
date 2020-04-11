@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
     @api.multi
     def send_email(self):
         message_type = 'email'
-        if self.transfer:
+        if self.transfer and self.env.context.get('transfer_button', False):
             mail = self.notified_partner_id.transfer_sales_mail
             fax = self.notified_partner_id.clean_fax_number
             if is_valid_email(mail):
