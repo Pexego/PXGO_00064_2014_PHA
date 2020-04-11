@@ -12,7 +12,7 @@ class StockProductionLot(models.Model):
     @api.multi
     def check_raw_material_alert_date(self):
         months_ahead = self.env.user.company_id.lot_alert_date_months_ahead
-        months_ahead = datetime.today() + timedelta(days=+months_ahead * 30)
+        months_ahead = datetime.today() + timedelta(days=+(months_ahead * 30.417))
         months_ahead = fields.Datetime.to_string(months_ahead)
         raw_material_category_id = self.env.ref('__export__.product_category_9')
         alert_date_lot_ids = self.search([
@@ -64,12 +64,12 @@ class StockProductionLot(models.Model):
             mail_id = template_id.send_mail(alert_date_lot_ids[0].id,
                                             force_send=False)
             mail_id = self.env['mail.mail'].browse(mail_id)
-            mail_id.body_html += warnings
+            mail_id.write({'body_html': warnings})
 
     @api.multi
     def check_product_use_date(self):
         months_ahead = self.env.user.company_id.lot_use_date_months_ahead
-        months_ahead = datetime.today() + timedelta(days=+months_ahead * 30)
+        months_ahead = datetime.today() + timedelta(days=+(months_ahead * 30.417))
         months_ahead = fields.Datetime.to_string(months_ahead)
         product_category_ids = (
             self.env.ref('.prodcat023').id,
@@ -126,4 +126,4 @@ class StockProductionLot(models.Model):
             mail_id = template_id.send_mail(use_date_lot_ids[0].id,
                                             force_send=False)
             mail_id = self.env['mail.mail'].browse(mail_id)
-            mail_id.body_html += warnings
+            mail_id.write({'body_html': warnings})
