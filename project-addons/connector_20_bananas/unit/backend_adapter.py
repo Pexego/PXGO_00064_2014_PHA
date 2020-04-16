@@ -49,6 +49,7 @@ class BananasCRUDAdapter(CRUDAdapter):
                 "Error code: %d\n"
                 % (result.url, result.headers, result.status_code)
             )
+
         return [x["idpedido"] for x in result.json()["records"]]
 
     def _read(self, model, id, date):
@@ -99,6 +100,7 @@ class BananasCRUDAdapter(CRUDAdapter):
                 "Error code: %d\n"
                 % (response.url, response.headers, response.status_code)
             )
+        response.raise_for_status()
         return response
 
     def write(self, model, data):
@@ -130,6 +132,7 @@ class BananasCRUDAdapter(CRUDAdapter):
             )
         else:
             raise
+        response.raise_for_status()
 
     def delete(self, model, id=False):
         """ Update records on the external system """
@@ -160,6 +163,7 @@ class BananasCRUDAdapter(CRUDAdapter):
             )
         else:
             raise
+        response.raise_for_status()
         """ Delete a record on the external system """
 
 
