@@ -813,6 +813,12 @@ msgstr "NO CONFORME"
 #. module: product_analysis
 #: selection:product.analysis.rel,boolean_selection:0
 #: selection:stock.lot.analysis,result_boolean_selection:0
+msgid "NOT APPLICABLE"
+msgstr "NO APLICA"
+
+#. module: product_analysis
+#: selection:product.analysis.rel,boolean_selection:0
+#: selection:stock.lot.analysis,result_boolean_selection:0
 msgid "PRESENCE"
 msgstr "PRESENCIA"
 

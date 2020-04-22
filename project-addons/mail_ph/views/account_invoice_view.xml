@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="send_customer_invoice_by_email_action" model="ir.actions.server">
+            <field name="name">Enviar facturas de cliente por e-mail</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="code">action = self.browse(cr, uid, context.get('active_ids', [])).send_customer_invoice_by_email()</field>
+        </record>
+
+        <record id="send_customer_invoice_by_email_values" model="ir.values">
+            <field name="name">Enviar facturas de cliente por e-mail</field>
+            <field name="model">account.invoice</field>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%d'%send_customer_invoice_by_email_action" />
+        </record>
+
+         <record id="view_account_invoice_form" model="ir.ui.view">
+            <field name="name">Account invoice form - Hide send mail button</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <button name="action_invoice_sent" position="replace"></button>
+                <button name="action_invoice_sent" position="replace"></button>
+            </field>
+        </record>
+    </data>
+</openerp>

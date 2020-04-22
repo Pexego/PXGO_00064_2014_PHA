@@ -14,6 +14,7 @@
                         <field name='line_ids' colspan="4">
                             <tree editable="top" delete="0" create="0">
                                 <field name="lot_id"  readonly="1"/>
+                                <field name="state" readonly="1"/>
                                 <field name="available_qty" readonly="1"/>
                                 <field name="use_qty" sum="use_qty"/>
                             </tree>

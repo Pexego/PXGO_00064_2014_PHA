@@ -36,9 +36,9 @@ class ProductStockByDay(models.TransientModel):
         }
 
         # Dates of periods to compute
-        a_year_ago = (date.today() + timedelta(days=-365)).\
+        half_year_ago = (date.today() + timedelta(days=-183)).\
             strftime('%Y-%m-%d')
-        two_years_ago = (date.today() + timedelta(days=-(365 * 2))).\
+        a_year_ago = (date.today() + timedelta(days=-365)).\
             strftime('%Y-%m-%d')
 
         current_datetime = fields.datetime.now()
@@ -141,20 +141,20 @@ class ProductStockByDay(models.TransientModel):
               and ai.state in ('open', 'paid')
             order by pp.id, ai.date_invoice;        
         """
-        # Fetch all products invoiced in last year
+        # Fetch all products invoiced in last six months
         select_sql = sql.format(
             self.env.user.company_id.id,
-            a_year_ago,
+            half_year_ago,
             '',
             ''
         )
         self.env.cr.execute(select_sql)
         ai_lines_data = self.env.cr.fetchall()
-        # Fetch all products invoiced int the last two years and have invoices
-        # in the last year
+        # Fetch all products invoiced int the last year and have invoices
+        # in the last six months
         select_sql = sql.format(
             self.env.user.company_id.id,
-            two_years_ago,
+            a_year_ago,
             'and pp.id in ',
             tuple(set([d[0] for d in ai_lines_data]))  # Set to remove dupes
         )
@@ -213,20 +213,20 @@ class ProductStockByDay(models.TransientModel):
               ))
             order by pp.id, sm.date;       
         """
-        # Fetch all products moved in last year
+        # Fetch all products moved in last six months
         select_sql = sql.format(
             self.env.user.company_id.id,
-            a_year_ago,
+            half_year_ago,
             '',
             ''
         )
         self.env.cr.execute(select_sql)
         moves_data = self.env.cr.fetchall()
-        # Fetch all products moved in the las two years and have moves in
-        # the last year
+        # Fetch all products moved in the las year and have moves in
+        # the last six months
         select_sql = sql.format(
             self.env.user.company_id.id,
-            two_years_ago,
+            a_year_ago,
             'and pp.id in',
             tuple(set([d[0] for d in moves_data]))  # Set to remove dupes
         )

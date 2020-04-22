@@ -187,12 +187,17 @@ accept_multiple_raw_material')
                             fields.Datetime.from_string(lot.alert_date).date() \
                             < date.today():
                         lot_errors.append(
-                            'Fecha de alerta pasada: %s - %s' %
-                            (lot.name, lot.product_id.name))
+                            'Fecha de alerta superada: %s  ->  %s' %
+                            (lot.name, lot.product_id.name)
+                        )
+                    if lot.state == 'rejected':
+                        lot_errors.append(
+                            'Lote en estado rechazado: %s  ->  %s' %
+                            (lot.name, lot.product_id.name)
+                        )
                 if lot_errors:
                     return self.env['custom.views.warning'].show_message(
-                        _('Alert date error'),
-                        _('\n'.join(lot_errors))
+                        'Mensajes de advertencia', '\n'.join(lot_errors)
                     )
         return res
 

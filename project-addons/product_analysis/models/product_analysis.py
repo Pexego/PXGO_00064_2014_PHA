@@ -36,6 +36,7 @@ class ProductAnalysisRel(models.Model):
         ('non_compliant', 'NON COMPLIANT'),
         ('not_qualify', 'NOT QUALIFY'),
         ('absence', 'ABSENCE'),
+        ('not_applicable', 'NOT APPLICABLE'),
     ])
     criterion = fields.Selection([
         ('normal', ''),
@@ -55,7 +56,7 @@ class ProductAnalysisRel(models.Model):
     @api.onchange('boolean_selection')
     def on_change_boolean_selection(self):
         self.expected_result_boolean = self.boolean_selection in \
-                                       ('conformant', 'qualify', 'presence')
+                        ('conformant', 'qualify', 'presence', 'not_applicable')
 
     @api.model
     def create(self, vals):

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">Partner form - Email fields</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">16</field>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="invoice_claims_mail"/>
+                    <field name="purchases_mail" attrs="{'invisible': [('supplier', '=', False)]}"/>
+                    <field name="sales_mail" attrs="{'invisible': [('customer', '=', False)]}"/>
+                    <field name="transfer_wholesaler" invisible="1"/>
+                    <field name="transfer_sales_mail" attrs="{'invisible': [('transfer_wholesaler', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
