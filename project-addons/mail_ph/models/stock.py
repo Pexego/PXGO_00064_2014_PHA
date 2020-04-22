@@ -39,6 +39,8 @@ class StockProductionLot(models.Model):
                         <th>Lote</th>
                         <th>Estado</th>
                         <th>Fecha alerta</th>
+                        <th>Cant. a mano</th>
+                        <th>Virtual cons.</th>
                     </tr>
             """
 
@@ -51,11 +53,13 @@ class StockProductionLot(models.Model):
             }
             for lot_id in alert_date_lot_ids:
                 warnings += u'<tr><td>{}</td><td>{}</td><td>{}</td>' \
-                            u'<td>{}</td></tr>'.format(
+                            u'<td>{}</td><td>{}</td><td>{}</td></tr>'.format(
                     lot_id.product_id.name,
                     lot_id.name,
                     states[lot_id.state],
-                    lot_id.alert_date[:10]
+                    lot_id.alert_date[:10],
+                    lot_id.product_id.qty_available,
+                    lot_id.product_id.virtual_conservative
                 )
             warnings += u'</table>'
 
@@ -102,6 +106,8 @@ class StockProductionLot(models.Model):
                         <th>Lote</th>
                         <th>Estado</th>
                         <th>Consumo preferente</th>
+                        <th>Cant. a mano</th>
+                        <th>Virtual cons.</th>
                     </tr>
             """
 
@@ -114,11 +120,13 @@ class StockProductionLot(models.Model):
             }
             for lot_id in use_date_lot_ids:
                 warnings += u'<tr><td>{}</td><td>{}</td><td>{}</td>' \
-                            u'<td>{}</td></tr>'.format(
+                            u'<td>{}</td><td>{}</td><td>{}</td></tr>'.format(
                     lot_id.product_id.name,
                     lot_id.name,
                     states[lot_id.state],
-                    lot_id.use_date[:10]
+                    lot_id.use_date[:10],
+                    lot_id.product_id.qty_available,
+                    lot_id.product_id.virtual_conservative
                 )
             warnings += u'</table>'
 
