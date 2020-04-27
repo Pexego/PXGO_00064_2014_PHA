@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp import models, fields, api, exceptions, _
 from datetime import datetime
+from openerp import netsvc
 import time
 
 
@@ -85,7 +86,14 @@ class edi_parser(models.Model):
                 data[filename].append(edi._create_line_csv(RFF, structs))
             if invoice.picking_ids:
                 for picking in invoice.picking_ids:
-                    RFF = {"lineId": "RFF", "col1": "DQ", "col2": picking.name}
+                    RFF = {
+                        "lineId": "RFF",
+                        "col1": "DQ",
+                        "col2": picking.name,
+                        "col3": datetime.strptime(
+                            picking.date_done, "%Y-%m-%d %H:%M:%S"
+                        ).strftime("%Y%m%d"),
+                    }
                     data[filename].append(edi._create_line_csv(RFF, structs))
             NADSCO = {
                 "lineId": "NADSCO",
@@ -319,6 +327,15 @@ class edi_parser(models.Model):
                     "col2": "EN",
                 }
                 data[filename].append(edi._create_line_csv(LIN, structs))
+                customer_reference = line.product_id.get_customer_info(
+                    pick.partner_id.commercial_partner_id.id
+                )
+                if customer_reference:
+                    PIALIN = {
+                        "lineId": "PIALIN",
+                        "col1": customer_reference,
+                    }
+                    data[filename].append(edi._create_line_csv(PIALIN, structs))
                 IMDLIN = {
                     "lineId": "IMDLIN",
                     "col1": "F",
@@ -898,7 +915,7 @@ class edi_parser(models.Model):
                             cr,
                             uid,
                             [
-                                ('active', '=', False),
+                                ("active", "=", False),
                                 ("ean13", "=", line[1]["ean13"][:13]),
                                 "|",
                                 ("country", "=", False),
@@ -911,26 +928,30 @@ class edi_parser(models.Model):
                                 % (line[1]["ean13"][:13])
                             )
                         else:
-                            line_vals['product_id'] = product_obj.search(cr, uid, [('default_code', '=', 'FAOLG')])[0]
+                            line_vals["product_id"] = product_obj.search(
+                                cr, uid, [("default_code", "=", "FAOLG")]
+                            )[0]
                     else:
                         line_vals["product_id"] = product_id[0]
                         product = product_obj.browse(cr, uid, product_id[0])
                 elif line[0] == "PIALIN":
-                    # si viene la referencia interna del cliente y el eci_ref del producto está vacío se establece
-                    # TODO: Si se comienza a trabjar con otros clientes eliminar
+                    # si viene la referencia interna del cliente y no está guardada se crea
                     if (
                         line[1]["calificador"] == "IN"
                         and "product_id" in line_vals
                     ):
-                        product = product_obj.browse(
-                            cr, uid, line_vals["product_id"]
-                        )
-                        if not product.eci_ref:
-                            product_obj.write(
+                        if not product_obj.get_customer_info(
+                            cr,
+                            uid,
+                            product.id,
+                            partner.commercial_partner_id.id,
+                        ):
+                            product_obj.create_edi_customer_info(
                                 cr,
                                 uid,
                                 product.id,
-                                {"eci_ref": line[1]["referencia"]},
+                                partner.commercial_partner_id.id,
+                                line[1]["referencia"],
                             )
 
                 elif (

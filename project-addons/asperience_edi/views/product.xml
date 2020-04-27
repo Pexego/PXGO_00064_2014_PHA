@@ -14,9 +14,6 @@
                 <field name="ean13" position="after">
                     <field name="ean14"/>
                 </field>
-                <field name="default_code" position="after">
-                    <field name="eci_ref"/>
-                </field>
             </field>
         </record>
 
