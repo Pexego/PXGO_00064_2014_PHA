@@ -235,7 +235,7 @@ class edi_edi (osv.osv):
         'type': fields.selection([('edi','edi'),('csv','csv'),('xml','xml'),('csv_struct','csv structured')], 'Type', required=True, size=24),
         'thread':fields.boolean('Progress',readonly=True),
 
-        'charset': fields.selection([('UTF-8','UTF-8'),('ISO-8859-1','ISO-8859-1'),('ISO-8859-2','ISO-8859-2'),], 'Charset', required=True, size=24),
+        'charset': fields.selection([('UTF-8','UTF-8'),('ISO-8859-1','ISO-8859-1'),('ISO-8859-2','ISO-8859-2'), ('cp1252', 'windows-1252')], 'Charset', required=True, size=24),
         'end_line': fields.selection([('simple','Unix/Linux'),('win','Windows')], 'End line', required=True, size=24),
         'float_separator': fields.selection([(',',','),('.','.')], 'Float Separator', required=True, size=5),
         'delimiter':fields.char('Delimiter', size=1, required=True),
