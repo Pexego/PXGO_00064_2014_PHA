@@ -17,6 +17,8 @@ class StockMove(models.Model):
         readonly=True)
     virtual_conservative = fields.Float(
         related='product_id.virtual_conservative', readonly=True)
+    company_id = fields.Many2one(comodel_name='res.company',
+                                 default=lambda self: self.env.user.company_id)
 
     @api.one
     @api.constrains('state')
