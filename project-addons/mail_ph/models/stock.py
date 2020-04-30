@@ -10,14 +10,15 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     @api.multi
-    def check_raw_material_alert_date(self):
+    def check_raw_material_alert_date(self, product_category_ids):
         months_ahead = self.env.user.company_id.lot_alert_date_months_ahead
         months_ahead = datetime.today() + timedelta(days=+(months_ahead * 30.417))
         months_ahead = fields.Datetime.to_string(months_ahead)
-        raw_material_category_id = self.env.ref('__export__.product_category_9')
         alert_date_lot_ids = self.search([
             ('alert_date', '<', months_ahead),
-            ('product_id.categ_id', '=', raw_material_category_id.id),
+            ('company_id'), '=', self.env.user.company_id.id,
+            ('product_id.categ_id', 'in', product_category_ids) if \
+                product_category_ids else ('active', '=', True),
             ('quant_ids.location_id.usage', 'in', ('internal', 'view'))
         ], order='alert_date')
 
@@ -71,20 +72,15 @@ class StockProductionLot(models.Model):
             mail_id.write({'body_html': warnings})
 
     @api.multi
-    def check_product_use_date(self):
+    def check_product_use_date(self, product_category_ids):
         months_ahead = self.env.user.company_id.lot_use_date_months_ahead
         months_ahead = datetime.today() + timedelta(days=+(months_ahead * 30.417))
         months_ahead = fields.Datetime.to_string(months_ahead)
-        product_category_ids = (
-            self.env.ref('.prodcat023').id,
-            self.env.ref('__export__.product_category_1525').id,
-            self.env.ref('__export__.product_category_1494').id,
-            self.env.ref('__export__.product_category_1493').id,
-            self.env.ref('product.product_category_1').id
-        )
         use_date_lot_ids = self.search([
             ('use_date', '<', months_ahead),
-            ('product_id.categ_id', 'in', product_category_ids),
+            ('company_id'), '=', self.env.user.company_id.id,
+            ('product_id.categ_id', 'in', product_category_ids) if \
+                product_category_ids else ('active', '=', True),
             ('quant_ids.location_id.usage', 'in', ('internal', 'view'))
         ], order='use_date')
 

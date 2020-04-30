@@ -28,7 +28,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="doall" eval="False"/>
             <field name="model">stock.production.lot</field>
             <field name="function">check_raw_material_alert_date</field>
-            <field name="args">(None,)</field>
+            <field name="args">(None, [1199,],)</field>
         </record>
 
         <record forcecreate="True" id="ir_cron_product_use_date" model="ir.cron">
@@ -41,7 +41,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="doall" eval="False"/>
             <field name="model">stock.production.lot</field>
             <field name="function">check_product_use_date</field>
-            <field name="args">(None,)</field>
+            <field name="args">(None, [1124,1525,1494,1493,1197,],)</field>
         </record>
     </data>
 </openerp>
