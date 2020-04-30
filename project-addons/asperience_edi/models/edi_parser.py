@@ -118,7 +118,7 @@ class edi_parser(models.Model):
             }
             data[filename].append(edi._create_line_csv(NADSU, structs))
             FACT = {
-                "lineId": "NADBY",
+                "lineId": "NADBCO",
                 "col1": invoice.partner_id.commercial_partner_id.gln,
                 "col2": invoice.partner_id.commercial_partner_id.name,
                 "col3": invoice.partner_id.commercial_partner_id.street or " ",
@@ -127,6 +127,8 @@ class edi_parser(models.Model):
                 "col5": invoice.partner_id.commercial_partner_id.zip or " ",
                 "col6": invoice.partner_id.commercial_partner_id.vat or " ",
             }
+            data[filename].append(edi._create_line_csv(FACT, structs))
+            FACT["lineId"] = "NADBY"
             data[filename].append(edi._create_line_csv(FACT, structs))
             NADII = {
                 "lineId": "NADII",
