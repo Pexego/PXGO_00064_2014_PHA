@@ -130,6 +130,36 @@ msgid "No valid email configured for this partner or its parent"
 msgstr "No hay un e-mail configurado para el proveedor o su empresa padre"
 
 #. module: mail_ph
+#: code:addons/mail_ph/models/res_partner.py:27
+#, python-format
+msgid "Not a valid e-mail to send invoice"
+msgstr "No es un e-mail válido para envío de factura"
+
+#. module: mail_ph
+#: code:addons/mail_ph/models/res_partner.py:36
+#, python-format
+msgid "Not a valid invoice claims e-mail"
+msgstr "No es un e-mail válido para facturas de reclamación"
+
+#. module: mail_ph
+#: code:addons/mail_ph/models/res_partner.py:44
+#, python-format
+msgid "Not a valid purchases e-mail"
+msgstr "No es un e-mail válido para pedidos de compra"
+
+#. module: mail_ph
+#: code:addons/mail_ph/models/res_partner.py:52
+#, python-format
+msgid "Not a valid sales e-mail"
+msgstr "No es un e-mail válido para pedidos de venta"
+
+#. module: mail_ph
+#: code:addons/mail_ph/models/res_partner.py:61
+#, python-format
+msgid "Not a valid transfer sales e-mail"
+msgstr "No es un e-mail válido para pedidos transfer"
+
+#. module: mail_ph
 #: code:addons/mail_ph/models/sale_order.py:34
 #, python-format
 msgid "Not valid email or fax number configured for "
