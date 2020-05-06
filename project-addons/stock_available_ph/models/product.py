@@ -100,6 +100,7 @@ class ProductTemplate(models.Model):
     def _check_value(self):
         if self.cons_by_day_ratio <= 0:
             raise ValidationError(_('Enter value greater than 0.'))
+        self.cons_by_day_ratio_updated = fields.Datetime.now()
 
     @api.multi
     def _has_bom(self):
