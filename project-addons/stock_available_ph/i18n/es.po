@@ -791,6 +791,22 @@ msgid "Reference"
 msgstr "Reservado en el albarán"
 
 #. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_ratio:0
+#: field:product.product,cons_by_day_ratio:0
+#: field:product.stock.unsafety,cons_by_day_ratio:0
+#: field:product.template,cons_by_day_ratio:0
+msgid "Sales ratio"
+msgstr "Ratio de venta"
+
+#. module: stock_available_ph
+#: field:bom.member.of,cons_by_day_ratio_updated:0
+#: field:product.product,cons_by_day_ratio_updated:0
+#: field:product.stock.unsafety,cons_by_day_ratio_updated:0
+#: field:product.template,cons_by_day_ratio_updated:0
+msgid "Sales ratio last update"
+msgstr "Última actualización (Ratio venta)"
+
+#. module: stock_available_ph
 #: view:production.planning.orders:stock_available_ph.production_planning_new_order_form
 msgid "Save"
 msgstr "Guardar"

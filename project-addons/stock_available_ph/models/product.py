@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# © 2017 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning, ValidationError
 import openerp.addons.decimal_precision as dp
 
 
@@ -88,6 +88,18 @@ class ProductTemplate(models.Model):
     has_bom = fields.Boolean(compute='_has_bom')
     time_adviser = fields.One2many(comodel_name='product.time.adviser',
                                    inverse_name='product_tmpl_id')
+    cons_by_day_ratio = fields.Float(string='Sales ratio',
+                                     digits=(16, 2),
+                                     default=1)
+    cons_by_day_ratio_updated = fields.Datetime(string='Sales ratio last update',
+                                                readonly=True,
+                                                default=fields.Datetime.now())
+
+    @api.one
+    @api.constrains('cons_by_day_ratio')
+    def _check_value(self):
+        if self.cons_by_day_ratio <= 0:
+            raise ValidationError(_('Enter value greater than 0.'))
 
     @api.multi
     def _has_bom(self):
