@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2018 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, _, exceptions
 
@@ -19,6 +19,8 @@ class StockMove(models.Model):
         related='product_id.virtual_conservative', readonly=True)
     company_id = fields.Many2one(comodel_name='res.company',
                                  default=lambda self: self.env.user.company_id)
+    product_description = fields.Text(related='product_id.description',
+                                      readonly=True)
 
     @api.one
     @api.constrains('state')

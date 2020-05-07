@@ -368,6 +368,11 @@ msgid "Delivery date"
 msgstr "Fecha de entrega"
 
 #. module: custom_views
+#: field:stock.move,product_description:0
+msgid "Description"
+msgstr "Descripción del producto"
+
+#. module: custom_views
 #: field:product.template,cost_price_dl:0
 msgid "Direct labor cost price"
 msgstr "Precio de coste M.O.D."
