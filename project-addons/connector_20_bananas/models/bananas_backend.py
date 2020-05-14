@@ -26,6 +26,8 @@ class BananasBackend(models.Model):
         help="you can use the format key {order} to se the order number into the message"
     )
     import_orders_from_date = fields.Date()
+    start_execution_hour = fields.Integer()
+    stop_execution_hour = fields.Integer()
 
     @api.multi
     def import_sale_orders(self):

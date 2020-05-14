@@ -12,7 +12,7 @@ from openerp.addons.connector.unit.synchronizer import Exporter
 
 from ..backend import bananas
 from ..unit.backend_adapter import GenericAdapter
-from .utils import _get_exporter
+from .utils import _get_exporter, get_next_execution_time
 
 
 @bananas
@@ -29,9 +29,10 @@ class PartnerPricelistExporter(Exporter):
         return self.backend_adapter.remove_vals(vals)
 
     def insert_whitelist_item(self, partner_id, product_id):
-        self.backend_adapter.insert_whitelist(
-            {"codcliente": partner_id, "codproducto": product_id}
-        )
+        if not self.backend_adapter.check_id('{}/{}'.format(partner_id, product_id), 'listablanca'):
+            self.backend_adapter.insert_whitelist(
+                {"codcliente": partner_id, "codproducto": product_id}
+            )
 
     def remove_whitelist_item(self, partner_id, product_id):
         self.backend_adapter.remove_whitelist(partner_id, product_id)
@@ -108,7 +109,8 @@ class PricelistExporter(Exporter):
             vals["descripcion"] = partner.name
         else:
             vals["descripcion"] = pricelist.name
-        return self.backend_adapter.insert(vals)
+        if not self.backend_adapter.check_id(vals['codtarifa']):
+            return self.backend_adapter.insert(vals)
 
     def delete(self, binding_id):
         partner = self.env["res.partner"].browse(binding_id)
@@ -160,9 +162,10 @@ class CustomerRateExporter(Exporter):
         self.backend_adapter.remove_vals(data)
 
     def insert_whitelist_item(self, partner_id, product_id):
-        self.backend_adapter.insert_whitelist(
-            {"codcliente": partner_id, "codproducto": product_id}
-        )
+        if not self.backend_adapter.check_id('{}/{}'.format(partner_id, product_id), 'listablanca'):
+            self.backend_adapter.insert_whitelist(
+                {"codcliente": partner_id, "codproducto": product_id}
+            )
 
     def remove_whitelist_item(self, partner_id, product_id):
         self.backend_adapter.remove_whitelist(partner_id, product_id)
@@ -186,7 +189,8 @@ class CustomerRateExporter2(Exporter):
             "precio": customer_rate.bananas_price,
         }
         if mode == "insert":
-            self.backend_adapter.insert(vals)
+            if not self.backend_adapter.check_id('{}/{}'.format(vals['codtarifa'], vals['referencia'])):
+                self.backend_adapter.insert(vals)
         else:
             self.backend_adapter.update(binding_id, vals)
 
@@ -194,12 +198,14 @@ class CustomerRateExporter2(Exporter):
         self.backend_adapter.remove_vals(data)
 
     def insert_whitelist_item(self, partner_id, product_id):
-        self.backend_adapter.insert_whitelist(
-            {"codcliente": partner_id, "codproducto": product_id}
-        )
+        if not self.backend_adapter.check_id('{}/{}'.format(partner_id, product_id), 'listablanca'):
+            self.backend_adapter.insert_whitelist(
+                {"codcliente": partner_id, "codproducto": product_id}
+            )
 
     def remove_whitelist_item(self, partner_id, product_id):
         self.backend_adapter.remove_whitelist(partner_id, product_id)
+
 
 @bananas
 class CustomerRateAdapter2(GenericAdapter):
@@ -215,9 +221,12 @@ class CustomerRateAdapter2(GenericAdapter):
 )
 def delay_export_customer_rate_create(session, model_name, record_id, vals):
     rec = session.env[model_name].browse(record_id)
+    if not rec.product_id.bananas_synchronized:
+        rec.product_id.bananas_synchronized = True
     if model_name == "product.pricelist.custom.partner.item":
+        eta = get_next_execution_time(session)
         export_customer_rate.delay(
-            session, model_name, record_id, priority=20, eta=200
+            session, model_name, record_id, priority=20, eta=eta+200
         )
         if not rec.pricelist_id.partner_id.partner_pricelist_exported:
             insert_whitelist_item_job.delay(
@@ -227,12 +236,12 @@ def delay_export_customer_rate_create(session, model_name, record_id, vals):
                 rec.pricelist_id.partner_id.bananas_id,
                 rec.product_id.id,
                 priority=3,
-                eta=90,
+                eta=eta+90,
             )
     else:
         if rec.price_version_id.pricelist_id.bananas_synchronized:
             export_customer_rate.delay(
-                session, model_name, record_id, priority=20, eta=200
+                session, model_name, record_id, priority=20, eta=eta+200
             )
         partners = session.env["res.partner"].search(
             [
@@ -250,7 +259,7 @@ def delay_export_customer_rate_create(session, model_name, record_id, vals):
                 partner.bananas_id,
                 rec.product_id.id,
                 priority=3,
-                eta=90,
+                eta=eta+90,
             )
 
 
@@ -261,8 +270,9 @@ def delay_export_customer_rate_create(session, model_name, record_id, vals):
     ]
 )
 def delay_export_customer_rate_write(session, model_name, record_id, vals):
+    eta = get_next_execution_time(session)
     update_customer_rate.delay(
-        session, model_name, record_id, priority=20, eta=200
+        session, model_name, record_id, priority=20, eta=eta+200
     )
 
 
@@ -274,6 +284,7 @@ def delay_export_customer_rate_write(session, model_name, record_id, vals):
 )
 def delay_unlink_customer_rate(session, model_name, record_id):
     rate = session.env[model_name].browse(record_id)
+    eta = get_next_execution_time(session)
     if model_name == "product.pricelist.custom.partner.item":
         data = {
             "codtarifa": rate.pricelist_id.bananas_id,
@@ -287,7 +298,7 @@ def delay_unlink_customer_rate(session, model_name, record_id):
             rate.pricelist_id.partner_id.bananas_id,
             rate.product_id.id,
             priority=3,
-            eta=90,
+            eta=eta+90,
         )
     else:
         data = {
@@ -311,10 +322,10 @@ def delay_unlink_customer_rate(session, model_name, record_id):
                 partner.bananas_id,
                 rate.product_id.id,
                 priority=3,
-                eta=90,
+                eta=eta+90,
             )
     unlink_customer_rate.delay(
-        session, model_name, record_id, data=data, priority=1
+        session, model_name, record_id, data=data, priority=1, eta=eta
     )
 
 

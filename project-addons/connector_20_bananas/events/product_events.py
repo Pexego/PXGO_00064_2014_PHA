@@ -11,7 +11,7 @@ from openerp.addons.connector.unit.synchronizer import Exporter
 
 from ..backend import bananas
 from ..unit.backend_adapter import GenericAdapter
-from .utils import _get_exporter
+from .utils import _get_exporter, get_next_execution_time
 
 
 @bananas
@@ -24,7 +24,7 @@ class ProductExporter(Exporter):
         vals = {
             "referencia": str(product.id),
             "nombre": product.name,
-            "unidad": product.container_id.name,
+            "unidad": product.container_id.name or 'unidad',
             "unidadbulto": "caja",
             "unidadesxbulto": product.box_elements,
             "familia": product.line.name,
@@ -36,7 +36,8 @@ class ProductExporter(Exporter):
             "precio": 9999.99,  # La app siempre muestra el precio mas bajo.
         }
         if mode == "insert":
-            return self.backend_adapter.insert(vals)
+            if not self.backend_adapter.check_id(vals['referencia']):
+                return self.backend_adapter.insert(vals)
         else:
             return self.backend_adapter.update(binding_id, vals)
 
@@ -61,28 +62,29 @@ def delay_export_product_create(session, model_name, record_id, vals):
         "subline",
         "description_sale",
     ]
-
+    eta = get_next_execution_time(session)
     if vals.get("bananas_synchronized", False) and vals.get(
         "active", product.active
     ):
-        export_product.delay(session, model_name, record_id, priority=1, eta=60)
+        export_product.delay(session, model_name, record_id, priority=1, eta=eta+60)
     elif (
         vals.get("active", False)
         and vals.get("bananas_synchronized", False)
         and product.bananas_synchronized
     ):
-        export_product.delay(session, model_name, record_id, priority=1, eta=60)
+        export_product.delay(session, model_name, record_id, priority=1, eta=eta+60)
     elif product.bananas_synchronized:
         for field in up_fields:
             if field in vals:
                 update_product.delay(
-                    session, model_name, record_id, priority=5, eta=120
+                    session, model_name, record_id, priority=5, eta=eta+120
                 )
                 break
 
 
 @on_record_write(model_names=["product.product", "product.template"])
 def delay_export_product_write(session, model_name, record_id, vals):
+    eta = get_next_execution_time(session)
     if model_name == "product.product":
         products = session.env[model_name].browse(record_id)
     else:
@@ -99,15 +101,16 @@ def delay_export_product_write(session, model_name, record_id, vals):
         if vals.get("bananas_synchronized", False) and vals.get(
             "active", product.active
         ):
-            export_product.delay(
-                session, "product.product", product.id, priority=1, eta=60
-            )
+            if vals['bananas_synchronized']:
+                export_product.delay(
+                    session, "product.product", product.id, priority=1, eta=eta+60
+                )
 
         elif (
             "bananas_synchronized" in vals and not vals["bananas_synchronized"]
         ):
             unlink_product.delay(
-                session, "product.product", product.id, priority=1, eta=60
+                session, "product.product", product.id, priority=1, eta=eta+60
             )
 
         elif (
@@ -116,7 +119,7 @@ def delay_export_product_write(session, model_name, record_id, vals):
             and not vals["active"]
         ):
             unlink_product.delay(
-                session, "product.product", product.id, priority=1, eta=60
+                session, "product.product", product.id, priority=1, eta=eta+60
             )
 
         elif product.bananas_synchronized:
@@ -127,7 +130,7 @@ def delay_export_product_write(session, model_name, record_id, vals):
                         "product.product",
                         product.id,
                         priority=2,
-                        eta=120,
+                        eta=eta+120,
                     )
                     break
 
@@ -136,7 +139,8 @@ def delay_export_product_write(session, model_name, record_id, vals):
 def delay_unlink_product(session, model_name, record_id):
     product = session.env[model_name].browse(record_id)
     if product.bananas_synchronized:
-        unlink_product.delay(session, model_name, record_id, eta=60)
+        eta = get_next_execution_time(session)
+        unlink_product.delay(session, model_name, record_id, eta=eta+60)
 
 
 @job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60, 5: 50 * 60})

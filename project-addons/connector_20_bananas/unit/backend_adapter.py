@@ -13,7 +13,7 @@ from openerp.addons.connector.unit.backend_adapter import CRUDAdapter
 class BananasCRUDAdapter(CRUDAdapter):
     """ External Records Adapter for 20 bananas """
 
-    def make_request(self, data, url_model, method, custom_headers={}):
+    def make_request(self, data, url_model, method, custom_headers=None):
         backend = self.backend_record
         url = "%s/%s" % (backend.location, url_model)
         headers = {
@@ -68,6 +68,42 @@ class BananasCRUDAdapter(CRUDAdapter):
                 if record["idpedido"] == id:
                     return record
         return []
+
+    def _check_id(self, model, id):
+        backend = self.backend_record
+        url = "%s/%s/%s" % (backend.location, model, id)
+        headers = {
+            "apikey": backend.api_key,
+            "Content-Type": "application/json",
+        }
+        try:
+            response = requests.request("GET", url, headers=headers)
+        except (
+            requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout,
+        ) as err:
+            raise NetworkRetryableError(
+                "A network error caused the failure of the job: " "%s" % err
+            )
+        if response.status_code in [
+            400,  # Service unavailable
+            401,
+            502,  # Bad gateway
+            503,  # Service unavailable
+            504,
+        ]:  # Gateway timeout
+            raise RetryableJobError(
+                "A protocol error caused the failure of the job:\n"
+                "URL: %s\n"
+                "HTTP/HTTPS headers: %s\n"
+                "Error code: %d\n"
+                % (response.url, response.headers, response.status_code)
+            )
+        response.raise_for_status()
+        if int(response.json()['totalRecords']):
+            return True
+        return False
 
     def search_read(self, filters=None):
         """ Search records according to some criterias
@@ -172,6 +208,11 @@ class GenericAdapter(BananasCRUDAdapter):
     _model_name = None
     _bananas_model = None
     _delete_id_in_url = False
+
+    def check_id(self, id, bananas_model=False):
+        if not bananas_model:
+            bananas_model = self._bananas_model
+        return self._check_id(bananas_model, id)
 
     def insert(self, data):
         """ Create a record on the external system """
