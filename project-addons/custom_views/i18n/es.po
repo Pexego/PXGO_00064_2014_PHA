@@ -327,6 +327,11 @@ msgid "Custom views - Partners special form"
 msgstr "Formulario especial edición de clientes"
 
 #. module: custom_views
+#: field:product.pricelist.item,customer_price_to_third_parties:0
+msgid "Customer price to third parties"
+msgstr "Precio al que vende nuestro cliente a terceros"
+
+#. module: custom_views
 #: selection:res.partner,invoicing_period:0
 msgid "Daily"
 msgstr "Diario"

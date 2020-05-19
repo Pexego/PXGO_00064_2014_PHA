@@ -30,5 +30,19 @@
                   parent="base.menu_base_config"
                   sequence="10"
                   action="action_product_pricelist_item_tree"/>
+
+        <record id="product_pricelist_item_form_view" model="ir.ui.view">
+            <field name="name">Product pricelist item form</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field name="priority">16</field>
+            <field name="arch" type="xml">
+                <form position="inside">
+                    <group>
+                        <field name="customer_price_to_third_parties"/>
+                    </group>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>
