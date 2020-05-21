@@ -42,7 +42,7 @@ class DeactivateProduct(models.TransientModel):
                 if product_id.qty_available == 0:
                     ql = quality_limits.search([('name', '=', product_id.product_tmpl_id.id)])
                     if ql:
-                        ql.active = False
+                        ql.write({'active': False})
 
                     pi = pricelist_items.search([('product_id', '=', product_id.id)])
                     if pi:
@@ -50,7 +50,7 @@ class DeactivateProduct(models.TransientModel):
 
                     swo = stock_warehouse_op.search([('product_id', '=', product_id.id)])
                     if swo:
-                        swo.active = False
+                        swo.write({'active': False})
 
                     mbl = mrp_bom_line.search([('product_id', '=', product_id.id)])
                     if mbl:
@@ -58,7 +58,7 @@ class DeactivateProduct(models.TransientModel):
 
                     mb = mrp_bom.search([('product_id', '=', product_id.id)])
                     if mb:
-                        mb.active = False
+                        mb.write({'active': False})
 
                     pl = protocol_link.search([('product', '=', product_id.id)])
                     if pl:
