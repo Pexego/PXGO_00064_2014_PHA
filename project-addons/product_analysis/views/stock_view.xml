@@ -160,6 +160,30 @@
                             </group>
                         </group>
                     </page>
+                    <page string="History">
+                        <group col="1">
+                            <group>
+                                <field name="state_change_ids" readonly="1">
+                                    <tree default_order="create_date desc">
+                                        <field name="create_date"/>
+                                        <field name="create_uid"/>
+                                        <field name="state_old"/>
+                                        <field name="state_new"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <field name="name_change_ids" readonly="1">
+                                    <tree default_order="create_date desc">
+                                        <field name="create_date"/>
+                                        <field name="create_uid"/>
+                                        <field name="name_old"/>
+                                        <field name="name_new"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </page>
                 </notebook>
                 <group string="Dates" position="after">
                     <group col="2" colspan="4">
