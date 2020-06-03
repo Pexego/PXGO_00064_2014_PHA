@@ -263,6 +263,8 @@ class StockProductionLot(models.Model):
     input_uom = fields.Many2one(string='Income unit of measure',
                                 comodel_name='product.uom',
                                 compute = '_input_qty')
+    company_id = fields.Many2one(comodel_name='res.company',
+                                 default=lambda self: self.env.user.company_id)
 
     @api.one
     def _available_stock(self):
