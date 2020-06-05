@@ -115,6 +115,16 @@ msgid "Exportar a excel"
 msgstr "Exportar a excel"
 
 #. module: lot_tracking
+#: field:stock.lot.move,final_product_id:0
+msgid "Final product id"
+msgstr "Producto final"
+
+#. module: lot_tracking
+#: field:stock.lot.move,final_lot_id:0
+msgid "Final lot id"
+msgstr "Lote final"
+
+#. module: lot_tracking
 #: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking_from_origin
 msgid "From origin"
 msgstr "Desde origen"

@@ -50,6 +50,8 @@
                                 <field name="partner_id"/>
                                 <field name="picking_id"/>
                                 <field name="origin"/>
+                                <field name="final_product_id"/>
+                                <field name="final_lot_id"/>
                                 <field name="type" invisible="1"/>
                                 <field name="state" invisible="1"/>
                             </tree>
@@ -76,29 +78,90 @@
                   parent="lot_tracking.menu_lot_tracking"
                   action="action_view_lot_tracking" sequence="1"/>
 
-        <record id="action_view_lot_tracking_from_origin" model="ir.actions.act_window">
-            <field name="name">From origin</field>
-            <field name="res_model">lot.tracking</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_lot_tracking_tree"/>
+        <record id="view_lot_tracking_from_origin_tree" model="ir.ui.view">
+            <field name="name">Lot tracking from origin tree</field>
+            <field name="model">lot.tracking.from.origin</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="type_of_move" position="replace"></field>
+                <field name="write_date" position="after">
+                    <field name="id" invisible="1"/>
+                </field>
+            </field>
         </record>
 
-        <!--menuitem id="menu_lot_tracking_complete_from_origin"
+        <record id="view_lot_tracking_from_origin_form" model="ir.ui.view">
+            <field name="name">Lot tracking from origin form</field>
+            <field name="model">lot.tracking.from.origin</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="total" position="replace"/>
+                <form string="Lot tracking" position="attributes">
+                    <attribute name="string">Lot tracking from origin</attribute>
+                </form>
+                <field name="product_uom" position="after">
+                    <field name="product_id"/>
+                    <field name="lot_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_view_lot_tracking_from_origin" model="ir.actions.act_window">
+            <field name="name">From origin</field>
+            <field name="res_model">lot.tracking.from.origin</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_lot_tracking_from_origin_tree"/>
+        </record>
+
+        <menuitem id="menu_lot_tracking_from_origin"
                   parent="lot_tracking.menu_lot_tracking"
                   action="action_view_lot_tracking_from_origin" sequence="3"/>
 
-        <record id="action_view_lot_tracking_from_destination" model="ir.actions.act_window">
-            <field name="name">From destination</field>
-            <field name="res_model">lot.tracking</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_lot_tracking_tree"/>
+        <record id="view_lot_tracking_from_destination_tree" model="ir.ui.view">
+            <field name="name">Lot tracking from destination tree</field>
+            <field name="model">lot.tracking.from.destination</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="type_of_move" position="replace"></field>
+                <field name="write_date" position="after">
+                    <field name="id" invisible="1"/>
+                </field>
+            </field>
         </record>
 
-        <menuitem id="menu_lot_tracking_complete_from_destination"
+        <record id="view_lot_tracking_from_destination_form" model="ir.ui.view">
+            <field name="name">Lot tracking from destination form</field>
+            <field name="model">lot.tracking.from.destination</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="total" position="replace"/>
+                <form string="Lot tracking" position="attributes">
+                    <attribute name="string">Lot tracking from destination</attribute>
+                </form>
+                <field name="product_uom" position="after">
+                    <field name="product_id"/>
+                    <field name="lot_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_view_lot_tracking_from_destination" model="ir.actions.act_window">
+            <field name="name">From destination</field>
+            <field name="res_model">lot.tracking.from.destination</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_lot_tracking_from_destination_tree"/>
+        </record>
+
+        <!-- DESACTIVADO HASTA QUE SE CORRIJAN LOS CÁLCULOS EN EL MODELO -->
+        <!-- menuitem id="menu_lot_tracking_from_destination"
                   parent="lot_tracking.menu_lot_tracking"
-                  action="action_view_lot_tracking_from_destination" sequence="4"/-->
+                  action="action_view_lot_tracking_from_destination" sequence="4"/ -->
 
         <record id="view_lot_tracking_move_form" model="ir.ui.view">
             <field name="name">Lot tracking move form</field>
@@ -126,10 +189,25 @@
                                             attrs="{'invisible': [('origin', '=', False)]}"
                                     />
                                 </div>
+                                <field name="final_product_id"/>
+                                <field name="final_lot_id"/>
                             </group>
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record id="view_lot_tracking_from_origin_move_form" model="ir.ui.view">
+            <field name="name">Lot tracking move from origin form</field>
+            <field name="model">stock.lot.move.from.origin</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_move_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="product_uom" position="after">
+                    <field name="product_id"/>
+                    <field name="lot_id"/>
+                </field>
             </field>
         </record>
     </data>

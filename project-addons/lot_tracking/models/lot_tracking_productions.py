@@ -196,20 +196,16 @@ class LotTrackingProductions(models.Model):
         self.write({'lot_move_ids': lot_move_ids})
 
         qty = 0
-        h_input = 0
-        h_output = 0
+        input = 0
+        output = 0
         for lm_id in self.lot_move_ids.sorted(key=lambda m: m.date):
             qty += lm_id.real_consumed_qty
             lm_id.stock_qty = qty
             if lm_id.real_consumed_qty > 0:
-                h_input += lm_id.real_consumed_qty
-            else:
-                if lm_id.theoretical_produced_units:
-                    h_output -= lm_id.theoretical_consumed_qty
-                else:
-                    h_output -= lm_id.real_consumed_qty
-
-        self.harnessing = '{:.2%}'.format(h_output / (h_input if h_input else 1))
+                input += lm_id.real_consumed_qty
+            elif lm_id.theoretical_produced_units:
+                output -= lm_id.theoretical_consumed_qty
+        self.harnessing = '{:.2%} / in: {:.2f} / out: {:.2f}'.format(output / (input if input else 1), input, output)
 
     @api.onchange('product_id')
     def clear_all_data(self):
