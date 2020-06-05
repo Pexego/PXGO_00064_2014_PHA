@@ -1,29 +1,12 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (C) 2015 Comunitea All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2015 Comunitea
+# © 2020 Pharmadus I.T.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, exceptions, _
 from datetime import datetime
 
 
 class CrmClaim(models.Model):
-
     _inherit = 'crm.claim'
 
     date_str = fields.Date('Date without hour', compute='_get_date_str', store=True)
@@ -43,8 +26,10 @@ class CrmClaim(models.Model):
     products = fields.Char('Products', compute='_get_products', store=True)
     lots = fields.Char('Lots', compute='_get_lots', store=True)
     quantities = fields.Char('Quantities', compute='_get_quantities', store=True)
-    picking_id = fields.Many2one('stock.picking', 'Picking', domain=[('picking_type_code',
-                                                                      '=', 'outgoing')])
+    picking_id = fields.Many2one('stock.picking', 'Picking',
+                                 domain=[('partner_id', 'child_of', 'partner_id')])
+    photo_url = fields.Char(related='picking_id.photo_url')
+    production_id = fields.Many2one('mrp.production', 'Production order')
 
     @api.one
     def _get_show_sections(self):
@@ -73,6 +58,40 @@ class CrmClaim(models.Model):
                            if x.product_returned_quantity]
         self.quantities = ', '.join(quantities_list)
 
+    @api.multi
+    def onchange_partner_id(self, partner_id, email=False):
+        if partner_id:
+            address_id = self.env['res.partner'].search(
+                [('id', '=', partner_id)])
+            delivery_address_id = self.env['res.partner'].search(
+                [('id', 'child_of', partner_id)])
+            picking_id = self.env['stock.picking'].search(
+                [
+                    ('partner_id', 'child_of', partner_id),
+                    ('state', '=', 'done')
+                ], order='id desc', limit=1)
+            return {'value': {
+                'email_from': address_id.email,
+                'partner_phone': address_id.phone,
+                'delivery_address_id': delivery_address_id[0].id,
+                'picking_id': picking_id[0].id if picking_id else False
+            }}
+        else:
+            return {'value': {
+                'email_from': False,
+                'partner_phone': False,
+                'delivery_address_id': False,
+                'picking_id': False
+            }}
+
+    @api.model
+    def create(self, vals):
+        res = super(CrmClaim, self).create(vals)
+        if res.picking_id:
+            res.with_context({'write_direct': True, 'create_lines': True}).\
+                _onchange_invoice_warehouse_type_date()
+        return res
+
     @api.onchange('invoice_id', 'picking_id', 'warehouse_id', 'claim_type', 'date')
     def _onchange_invoice_warehouse_type_date(self):
         res = super(CrmClaim, self)._onchange_invoice_warehouse_type_date()
@@ -90,7 +109,7 @@ class CrmClaim(models.Model):
                     warranty_return_address = warranty_return_address['warranty_return_partner']
                     line = {
                         'name': packop.move_id.name,
-                        'claim_origine': "none",
+                        'claim_origin': 'none',
                         'product_id': packop.move_id.product_id.id,
                         'product_returned_quantity': packop.operation_id.product_qty,
                         'unit_sale_price': procurement.sale_line_id.price_unit,
@@ -100,14 +119,16 @@ class CrmClaim(models.Model):
                         'state': 'draft',
                     }
                     claim_lines.append((0, 0, line))
-            value = self._convert_to_cache(
-                {'claim_line_ids': claim_lines}, validate=False)
-            self.update(value)
+            if self.env.context.get('write_direct'):
+                self.write({'claim_line_ids': claim_lines})
+            else:
+                value = self._convert_to_cache(
+                    {'claim_line_ids': claim_lines}, validate=False)
+                self.update(value)
         return res
 
 
 class CrmClaimLine(models.Model):
-
     _inherit = 'claim.line'
 
     def auto_set_warranty(self):
