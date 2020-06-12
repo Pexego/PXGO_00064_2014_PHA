@@ -11,6 +11,7 @@
     'depends' : [
         'base',
         'mail',
+        'email_template',
         'sale',
         'purchase',
     ],

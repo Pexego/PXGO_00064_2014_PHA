@@ -57,7 +57,9 @@ class SaleOrder(models.Model):
             default_use_template=bool(template_id),
             default_template_id=template_id and template_id.id or False,
             default_composition_mode='mass_mail',
-            default_no_auto_thread=True
+            default_no_auto_thread=True,
+            mark_so_as_sent=True,
+            tpl_partners_only_disabled=True,
         )
         return {
             'name': _('Compose {}').format(message_type),
