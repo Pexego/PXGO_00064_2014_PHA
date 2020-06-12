@@ -2,7 +2,7 @@
 # © 2019 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 
 
 class StockMove(models.Model):
@@ -69,3 +69,30 @@ class StockPicking(models.Model):
                     'picking_type': self.picking_type_code
                 }).env.context,
         }
+
+class StockProductionLot(models.Model):
+    _inherit = 'stock.production.lot'
+
+    picking_transferred_wo_bc = fields.Text(compute='_compute_pick_trans_wo_bc')
+
+    @api.multi
+    def _compute_pick_trans_wo_bc(self):
+        msg_title = _('A transfer without barcode has been used, and a manual '
+                      'collection sheet must be provided on the pickings')
+        for lot_id in self:
+            message = False
+            production_id = lot_id.production_id
+            if production_id:
+                # Gathering pickings
+                picking_ids = production_id.hoard_ids.sudo().\
+                    filtered(lambda p: p.state == 'done' and
+                                       not p.transferred_with_barcodes)
+                # Return pickings
+                picking_ids += production_id.manual_return_pickings.sudo().\
+                    filtered(lambda p: p.state == 'done' and
+                                       not p.transferred_with_barcodes)
+                # Create warning message
+                if picking_ids:
+                    message = '<p><b>' + msg_title + ':</b><br>' + \
+                              ', '.join(picking_ids.mapped('name'))
+            lot_id.picking_transferred_wo_bc = message
