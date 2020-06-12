@@ -6,7 +6,7 @@
             <field name="name">Export invoices example</field>
             <field name="code">INVOIC</field>
             <field name="type">csv</field>
-            <field name="charset" eval="'ISO-8859-1'" />
+            <field name="charset" eval="'cp1252'" />
             <field name="end_line" eval="'simple'" />
             <field name="file_template" eval="'FACTURA_number_fecha+hora'" />
             <field name="start_identifier" eval="-1" />

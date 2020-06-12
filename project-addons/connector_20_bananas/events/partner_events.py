@@ -17,9 +17,9 @@ from .pricelist_events import (
     export_partner_pricelist,
     export_pricelist,
     unlink_partner_pricelist,
-    insert_whitelist_item_job
+    insert_whitelist_item_job,
 )
-from .utils import _get_exporter
+from .utils import _get_exporter, get_next_execution_time
 
 
 @bananas
@@ -38,14 +38,7 @@ class PartnerExporter(Exporter):
             "codcliente": partner.bananas_id,
             "codcomercial": str(
                 partner.user_id.id or partner.parent_id.user_id.id
-            ),
-            "cif": partner.vat or partner.parent_id.vat or "",
-            "direccion": partner.street or "",
-            "ciudad": partner.city or "",
-            "cp": partner.zip,
-            "codpais": partner.country_id and partner.country_id.code or "",
-            "email": partner.email or partner.parent_id.email or "",
-            "telefono": partner.mobile or partner.parent_id.mobile or "",
+            )
         }
         if mode == "insert":
             self.backend_adapter.insert(vals)
@@ -80,27 +73,32 @@ def delay_export_partner_create(session, model_name, record_id, vals):
     if vals.get("bananas_synchronized", False) and vals.get(
         "active", partner.active
     ):
-        export_partner.delay(session, model_name, record_id, priority=1)
+        eta = get_next_execution_time(session)
+        export_partner.delay(
+            session, model_name, record_id, priority=1, eta=eta
+        )
         if not partner.get_bananas_pricelist().bananas_synchronized:
             partner.get_bananas_pricelist().bananas_synchronized = True
             export_pricelist.delay(
-                session, model_name, record_id, priority=2, eta=60
+                session, model_name, record_id, priority=2, eta=eta + 60
             )
             if partner.get_bananas_pricelist()._name == "product.pricelist":
                 for item in partner.get_bananas_pricelist_items():
+                    if not item.product_id.bananas_synchronized:
+                        item.product_id.bananas_synchronized = True
                     export_customer_rate.delay(
-                        session, item._name, item.id, priority=3, eta=90
+                        session, item._name, item.id, priority=3, eta=eta + 90
                     )
         if not partner.partner_pricelist_exported:
             partner.partner_pricelist_exported = True
             export_partner_pricelist.delay(
-                session, model_name, partner.id, priority=3, eta=80
+                session, model_name, partner.id, priority=3, eta=eta + 80
             )
 
 
 @on_record_write(model_names="res.partner")
 def delay_export_partner_write(session, model_name, record_id, vals):
-    if session.env.context.get('skip_conector'):
+    if session.env.context.get("skip_conector"):
         return
     partner = session.env[model_name].browse(record_id)
     up_fields = [
@@ -116,28 +114,33 @@ def delay_export_partner_write(session, model_name, record_id, vals):
         "phone",
         "mobile",
     ]
+    eta = get_next_execution_time(session)
     if vals.get("bananas_synchronized", False) and vals.get(
         "active", partner.active
     ):
-        export_partner.delay(session, model_name, record_id, priority=1)
+        export_partner.delay(
+            session, model_name, record_id, priority=1, eta=eta
+        )
         if not partner.get_bananas_pricelist().bananas_synchronized:
             partner.get_bananas_pricelist().bananas_synchronized = True
             export_pricelist.delay(
-                session, model_name, record_id, priority=2, eta=60
+                session, model_name, record_id, priority=2, eta=eta + 60
             )
             if partner.get_bananas_pricelist()._name == "product.pricelist":
                 for item in partner.get_bananas_pricelist_items():
+                    if not item.product_id.bananas_synchronized:
+                        item.product_id.bananas_synchronized = True
                     export_customer_rate.delay(
-                        session, item._name, item.id, priority=3, eta=90
+                        session, item._name, item.id, priority=3, eta=eta + 90
                     )
                     insert_whitelist_item_job.delay(
                         session,
-                        'product.pricelist.item',
+                        "product.pricelist.item",
                         item.id,
                         partner.bananas_id,
                         item.product_id.id,
                         priority=3,
-                        eta=90,
+                        eta=eta + 90,
                     )
         partner.check_custom_pricelist(
             partner.commercial_discount, partner.financial_discount
@@ -145,18 +148,17 @@ def delay_export_partner_write(session, model_name, record_id, vals):
         if not partner.partner_pricelist_exported:
             partner.partner_pricelist_exported = True
             export_partner_pricelist.delay(
-                session, model_name, partner.id, priority=3, eta=80
+                session, model_name, partner.id, priority=3, eta=eta + 80
             )
     elif "bananas_synchronized" in vals and not vals["bananas_synchronized"]:
         if partner.partner_pricelist_exported:
             partner.partner_pricelist_exported = False
             unlink_partner_pricelist.delay(
-                session,
-                model_name,
-                partner.id,
-                priority=1,
+                session, model_name, partner.id, priority=1, eta=eta
             )
-        unlink_partner.delay(session, model_name, record_id, priority=3, eta=60)
+        unlink_partner.delay(
+            session, model_name, record_id, priority=3, eta=eta + 60
+        )
 
     elif (
         partner.bananas_synchronized and "active" in vals and not vals["active"]
@@ -164,9 +166,11 @@ def delay_export_partner_write(session, model_name, record_id, vals):
         if partner.partner_pricelist_exported:
             partner.partner_pricelist_exported = False
             unlink_partner_pricelist.delay(
-                session, model_name, partner.id, priority=1
+                session, model_name, partner.id, priority=1, eta=eta
             )
-        unlink_partner.delay(session, model_name, record_id, priority=3, eta=60)
+        unlink_partner.delay(
+            session, model_name, record_id, priority=3, eta=eta + 60
+        )
 
     elif partner.bananas_synchronized and partner.active:
         if (
@@ -179,42 +183,52 @@ def delay_export_partner_write(session, model_name, record_id, vals):
             partner.check_custom_pricelist(
                 partner.commercial_discount, partner.financial_discount
             )
-            partner.with_context(skip_conector=True).partner_pricelist_exported = False
+            partner.with_context(
+                skip_conector=True
+            ).partner_pricelist_exported = False
         if not partner.get_bananas_pricelist().bananas_synchronized:
             partner.get_bananas_pricelist().bananas_synchronized = True
             export_pricelist.delay(
-                session, model_name, record_id, priority=2, eta=60
+                session, model_name, record_id, priority=2, eta=eta + 60
             )
             if partner.get_bananas_pricelist()._name == "product.pricelist":
                 for item in partner.get_bananas_pricelist_items():
+                    if not item.product_id.bananas_synchronized:
+                        item.product_id.bananas_synchronized = True
                     export_customer_rate.delay(
-                        session, item._name, item.id, priority=3, eta=90
+                        session, item._name, item.id, priority=3, eta=eta + 90
                     )
                     insert_whitelist_item_job.delay(
                         session,
-                        'product.pricelist.item',
+                        "product.pricelist.item",
                         item.id,
                         partner.bananas_id,
                         item.product_id.id,
                         priority=3,
-                        eta=90,
+                        eta=eta + 90,
                     )
         if not partner.partner_pricelist_exported:
-            partner.with_context(skip_conector=True).partner_pricelist_exported = True
+            partner.with_context(
+                skip_conector=True
+            ).partner_pricelist_exported = True
             export_partner_pricelist.delay(
-                session, model_name, partner.id, priority=3, eta=80
+                session, model_name, partner.id, priority=3, eta=eta + 80
             )
         for field in up_fields:
             if field in vals:
                 update_partner.delay(
-                    session, model_name, record_id, priority=2, eta=120
+                    session, model_name, record_id, priority=2, eta=eta + 120
                 )
                 if partner.has_delivery_address:
                     for child in partner.child_ids.filtered(
                         lambda r: r.type == "delivery"
                     ):
                         update_partner.delay(
-                            session, model_name, child.id, priority=2, eta=120
+                            session,
+                            model_name,
+                            child.id,
+                            priority=2,
+                            eta=eta + 120,
                         )
                 break
 
@@ -224,10 +238,13 @@ def delay_unlink_partner(session, model_name, record_id):
     partner = session.env[model_name].browse(record_id)
     if partner.bananas_synchronized:
         partner.partner_pricelist_exported = False
+        eta = get_next_execution_time(session)
         unlink_partner_pricelist.delay(
-            session, model_name, partner.id, priority=1
+            session, model_name, partner.id, priority=1, eta=eta
         )
-        unlink_partner.delay(session, model_name, record_id, priority=3, eta=60)
+        unlink_partner.delay(
+            session, model_name, record_id, priority=3, eta=eta + 60
+        )
 
 
 @job(retry_pattern={1: 10 * 60, 2: 20 * 60, 3: 30 * 60, 4: 40 * 60, 5: 50 * 60})
