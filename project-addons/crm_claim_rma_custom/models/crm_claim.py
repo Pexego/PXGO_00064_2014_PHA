@@ -30,6 +30,7 @@ class CrmClaim(models.Model):
                                  domain=[('partner_id', 'child_of', 'partner_id')])
     photo_url = fields.Char(related='picking_id.photo_url')
     production_id = fields.Many2one('mrp.production', 'Production order')
+    lot_id = fields.Many2one('stock.production.lot', 'Lot')
 
     @api.one
     def _get_show_sections(self):

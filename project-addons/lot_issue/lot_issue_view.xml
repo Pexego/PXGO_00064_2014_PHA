@@ -1,100 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
-        <record id="lot_issue_tree" model="ir.ui.view">
-            <field name="name">lot.issue.tree</field>
-            <field name="model">stock.production.lot.issue</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="Issues">
-                    <field name="name"/>
-                    <field name="date"/>
-                    <field name="user_id"/>
-                    <field name="lot_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="lot_issue_form" model="ir.ui.view">
-            <field name="name">lot.issue.form</field>
-            <field name="model">stock.production.lot.issue</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Issue">
-                    <header></header>
-                    <sheet>
-                        <div class="oe_title">
-                            <label for="name" class="oe_edit_only" string="Name"/>
-                            <h1>
-                                <field name="name" string="Project Name"/>
-                            </h1>
-                        </div>
-                        <group>
-                            <group>
-                                <field name="date"/>
-                                <field name="user_id"/>
-                            </group>
-                            <group>
-                                <field name="lot_id"/>
-                                <field name="product_id"/>
-                            </group>
-                        </group>
-                        <group>
-                            <label for="description"/>
-                            <newline/>
-                            <field name="description" nolabel="1" colspan="4"/>
-                        </group>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </form>
-            </field>
-        </record>
-
-        <record id="lot_issue_filter" model="ir.ui.view">
-            <field name="name">lot.issue.search</field>
-            <field name="model">stock.production.lot.issue</field>
-            <field name="type">search</field>
-            <field name="arch" type="xml">
-                <search>
-                   <field name="name"/>
-                   <field name="user_id"/>
-                   <field name="lot_id"/>
-               </search>
-            </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="action_issue">
-            <field name="name">Lot Issue</field>
-            <field name="res_model">stock.production.lot.issue</field>
+        <record model="ir.actions.act_window" id="action_issue_lot">
+            <field name="name">Lot Issues</field>
+            <field name="res_model">crm.claim</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="lot_issue_filter"/>
-            <field name="context">{'search_default_user_id': uid}</field>
-        </record>
-
-        <record model="ir.actions.act_window" id="action_issue2">
-            <field name="name">Lot Issue</field>
-            <field name="res_model">stock.production.lot.issue</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="lot_issue_filter"/>
             <field name="context">{'default_lot_id': active_id, 'search_default_lot_id': active_id}</field>
         </record>
 
-        <menuitem name="Lot Issue" parent="stock.menu_traceability" action="action_issue" id="menu_lot_issue" sequence="5"/>
-
-
         <record id="lot_add_issue_button" model="ir.ui.view">
-            <field name="name">stock.production.lot.form</field>
+            <field name="name">Lot form view</field>
             <field name="model">stock.production.lot</field>
             <field name="inherit_id" ref="stock_traceability_tree.view_production_lot_form_add_traceability"/>
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_simplified_tree_traceability'][1]" position="before">
-                    <button name="%(action_issue2)d" icon="fa-exclamation-triangle" class="oe_stat_button" type="action">
+                    <button name="%(action_issue_lot)d" icon="fa-exclamation-triangle"
+                            class="oe_stat_button" type="action">
                         <field name="issue_count" widget="statinfo" string="Issues" help="Issues of lot"/>
                     </button>
                 </xpath>

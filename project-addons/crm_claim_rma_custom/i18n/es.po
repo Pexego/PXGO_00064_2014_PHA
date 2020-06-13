@@ -118,6 +118,11 @@ msgid "Localización:"
 msgstr "Localización:"
 
 #. module: crm_claim_rma_custom
+#: field:crm.claim,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document
 msgid "Lote:"
 msgstr "Lote:"

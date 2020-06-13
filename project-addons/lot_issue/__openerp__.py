@@ -26,7 +26,7 @@
     'description': """Adds issues in lots, and show it in production""",
     'author': 'Pexego',
     'website': 'www.pexego.es',
-    "depends": ['base', 'stock', 'mrp', 'stock_traceability_tree'],
+    "depends": ['base', 'stock', 'mrp', 'stock_traceability_tree', 'crm_claim_rma_custom'],
     "data": ['lot_issue_view.xml', 'mrp_view.xml', 'security/ir.model.access.csv'],
     "installable": True
 }
