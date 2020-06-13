@@ -205,6 +205,17 @@ class StockPicking(models.Model):
                     'context': self.env.context
                 }
 
+    @api.multi
+    def write(self, vals):
+        date_done = vals.get('date_done')
+        if date_done:
+            dt = fields.Datetime.context_timestamp(self, fields.Datetime.
+                                                   from_string(date_done))
+            for picking_id in self:
+                picking_id.message_post(subject='Albarán transferido: ' +
+                                        dt.strftime('%d/%m/%Y %H:%M:%S'))
+        return super(StockPicking, self).write(vals)
+
 
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
