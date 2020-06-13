@@ -137,13 +137,67 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
+        <record id="product_price_history_tree" model="ir.ui.view">
+            <field name="name">Product price history tree</field>
+            <field name="model">product.price.history</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false" editable="false">
+                    <field name="product_template_id"/>
+                    <field name="datetime"/>
+                    <field name="cost"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_price_history_search" model="ir.ui.view">
+            <field name="name">Product price history search</field>
+            <field name="model">product.price.history</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                   <field name="product_template_id"/>
+               </search>
+            </field>
+        </record>
+
+        <record id="product_price_history_action" model="ir.actions.act_window">
+            <field name="name">Product price history</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.price.history</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="custom_views.product_price_history_tree"/>
+            <field name="search_view_id" ref="custom_views.product_price_history_search"/>
+            <field name="context">{'search_default_product_template_id': active_id}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="product_template_history_button_form_view" model="ir.ui.view">
+            <field name="name">Product template form - History button</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock_account.view_template_property_form"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="class">oe_inline</attribute>
+                </field>
+                <button string="- update" position="after">
+                    <button string="History"
+                            type="action"
+                            class="oe_read_only oe_inline"
+                            name="%(product_price_history_action)d"
+                    />
+                </button>
+            </field>
+        </record>
+
         <record id="product_template_form_view_custom_view" model="ir.ui.view">
             <field name="name">Custom views - Product template form</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
                 <field name="standard_price" position="after">
-                    <field name="cost_price_rm"/>
+                    <field name="cost_price_rm" class="oe_inline"/>
                     <field name="cost_price_components"/>
                     <field name="cost_price_dl"/>
                 </field>

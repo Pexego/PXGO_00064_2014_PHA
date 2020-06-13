@@ -127,6 +127,14 @@ class StockProductionLotStateChange(models.Model):
     ))
 
 
+class StockProductionLotNameChange(models.Model):
+    _name = 'stock.production.lot.name.change'
+
+    lot_id = fields.Many2one(comodel_name='stock.production.lot')
+    name_old = fields.Char()
+    name_new = fields.Char()
+
+
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
@@ -186,6 +194,12 @@ class StockProductionLot(models.Model):
         inverse_name='lot_id',
         readonly=True,
         string='State changes'
+    )
+    name_change_ids = fields.One2many(
+        comodel_name='stock.production.lot.name.change',
+        inverse_name='lot_id',
+        readonly=True,
+        string='Name changes'
     )
     reception_notes = fields.Char()
 
@@ -282,7 +296,13 @@ class StockProductionLot(models.Model):
         if state:
             vals['state_change_ids'] = [(0, 0, {
                 'state_old': self[0].state,
-                'state_new': vals.get('state', 'draft')
+                'state_new': state
+            })]
+        name = vals.get('name', False)
+        if name:
+            vals['name_change_ids'] = [(0, 0, {
+                'name_old': self[0].name,
+                'name_new': name
             })]
         return super(StockProductionLot, self).write(vals)
 

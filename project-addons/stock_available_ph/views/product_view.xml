@@ -46,6 +46,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <separator string="Suppliers" position="before">
                     <group name="Consumption" string="Consumption">
                         <group>
+                            <field name="cons_by_day_ratio"/>
+                            <br/><br/>
                             <field name="cons_by_day_p"/>
                             <field name="cons_by_day_i"/>
                             <br/><br/>
@@ -56,6 +58,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="cons_by_day_i_total"/>
                         </group>
                         <group>
+                            <field name="cons_by_day_ratio_updated"/>
+                            <br/><br/>
                             <field name="stock_by_day_p"/>
                             <field name="stock_by_day_i"/>
                             <br/><br/>

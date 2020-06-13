@@ -39,10 +39,17 @@ class DeactivateProduct(models.TransientModel):
                         bom_members += '   ' + bom_id.name + '\n'
                     bom_members += '\n'
 
-                if product_id.qty_available == 0:
+                # Stock at external locations
+                external_quant_ids = self.env['stock.quant'].search([
+                    ('product_id', '=', product_id.id),
+                    ('location_id', 'child_of',
+                     self.env.ref('__export__.stock_location_102').id)
+                ])
+
+                if product_id.qty_available == 0 and not external_quant_ids:
                     ql = quality_limits.search([('name', '=', product_id.product_tmpl_id.id)])
                     if ql:
-                        ql.active = False
+                        ql.write({'active': False})
 
                     pi = pricelist_items.search([('product_id', '=', product_id.id)])
                     if pi:
@@ -50,7 +57,7 @@ class DeactivateProduct(models.TransientModel):
 
                     swo = stock_warehouse_op.search([('product_id', '=', product_id.id)])
                     if swo:
-                        swo.active = False
+                        swo.write({'active': False})
 
                     mbl = mrp_bom_line.search([('product_id', '=', product_id.id)])
                     if mbl:
@@ -58,7 +65,7 @@ class DeactivateProduct(models.TransientModel):
 
                     mb = mrp_bom.search([('product_id', '=', product_id.id)])
                     if mb:
-                        mb.active = False
+                        mb.write({'active': False})
 
                     pl = protocol_link.search([('product', '=', product_id.id)])
                     if pl:
@@ -68,8 +75,12 @@ class DeactivateProduct(models.TransientModel):
                     product_id.product_tmpl_id.active = False
                     product_id.active = False
                 else:
-                    exceptions += '- ' + product_id.name + ' (' + \
-                                  product_id.qty_available_text + ')\n'
+                    exceptions += '- ' + product_id.name + ' (Stock: {:.2f}'.\
+                        format(product_id.qty_available)
+                    if external_quant_ids:
+                        exceptions += ' / Stock ubic. ext.: {:.2f}'.\
+                            format(sum(external_quant_ids.mapped('qty')))
+                    exceptions += ')\n'
 
             return self.env['custom.views.warning'].show_message(
                 _('Product(s) deactivated'),

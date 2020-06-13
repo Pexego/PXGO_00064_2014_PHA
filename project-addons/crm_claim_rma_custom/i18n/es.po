@@ -118,6 +118,11 @@ msgid "Localización:"
 msgstr "Localización:"
 
 #. module: crm_claim_rma_custom
+#: field:crm.claim,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document
 msgid "Lote:"
 msgstr "Lote:"
@@ -125,7 +130,7 @@ msgstr "Lote:"
 #. module: crm_claim_rma_custom
 #: field:crm.claim,lots:0
 msgid "Lots"
-msgstr "Lots"
+msgstr "Lotes"
 
 #. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document
@@ -159,6 +164,16 @@ msgid "Nº de pedido:"
 msgstr "Nº de pedido:"
 
 #. module: crm_claim_rma_custom
+#: field:crm.claim,picking_id:0
+msgid "Picking"
+msgstr "Albarán"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,production_id:0
+msgid "Production order"
+msgstr "Orden de producción"
+
+#. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document
 msgid "Producto:"
 msgstr "Producto:"
@@ -166,7 +181,7 @@ msgstr "Producto:"
 #. module: crm_claim_rma_custom
 #: field:crm.claim,products:0
 msgid "Products"
-msgstr "Products"
+msgstr "Productos"
 
 #. module: crm_claim_rma_custom
 #: field:crm.claim,quality_control_report:0
@@ -181,7 +196,7 @@ msgstr "Informe de calidad"
 #. module: crm_claim_rma_custom
 #: field:crm.claim,quantities:0
 msgid "Quantities"
-msgstr "Quantities"
+msgstr "Cantidades"
 
 #. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document

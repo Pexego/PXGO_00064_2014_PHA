@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="print_all_pending_protocols_action" model="ir.actions.server">
+            <field name="name">Imprimir protocolos de producciones finalizadas</field>
+            <field name="model_id" ref="custom_views.model_mrp_production"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field name="website_published">True</field>
+            <field name="website_path">print_all_protocols</field>
+            <field name="code">action = model.print_all_pending_protocols()</field>
+        </record>
+    </data>
+</openerp>

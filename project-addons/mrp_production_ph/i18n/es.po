@@ -18,6 +18,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 
 #. module: mrp_production_ph
+#: code:addons/mrp_production_ph/models/stock.py:80
+#, python-format
+msgid "A transfer without barcode has been used, and a manual collection sheet must be provided on the pickings"
+msgstr "Se ha utilizado una transferencia sin código de barras, por lo que debe entregarse hoja de acopios manual en los siguientes albaranes"
+
+#. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
 msgid "Add suffix from another lot"
 msgstr "Añadir sufijo de otro lote"
@@ -145,7 +151,7 @@ msgstr "Loteado por Calidad"
 #. module: mrp_production_ph
 #: field:stock.transfer_details_items,lot_barcode:0
 msgid "Lot barcode"
-msgstr "Cód. barras lote"
+msgstr "Cód. barras lote/producto"
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/models/mrp_production.py:171

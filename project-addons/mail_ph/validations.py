@@ -12,7 +12,7 @@ def is_valid_email(email):
         is_ok = True
         for m in email.split(','):
             res = re.match(mail_re, m)
-            is_ok = is_ok and res and res.group() == email
+            is_ok = is_ok and res and res.group() == m
         return is_ok
     else:
         return False

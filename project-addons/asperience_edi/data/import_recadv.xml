@@ -11,7 +11,7 @@
             <field name="start_identifier" eval="0" />
             <field name="skip_first" eval="1"/>
             <field name="stop_identifier" eval="0" />
-            <field name="charset" eval="'ISO-8859-1'" />
+            <field name="charset" eval="'cp1252'" />
             <field name="delimiter">|</field>
             <field name="eval_in" >
 name = self.pool.get('edi.parser').parse_recadv(cr2, uid, edi, data, filename)

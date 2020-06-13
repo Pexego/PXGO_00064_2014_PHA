@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2017 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api
 from datetime import date, timedelta
@@ -55,6 +55,7 @@ class ProductStockByDay(models.TransientModel):
         def save_sbd_and_cbd_i():
             days_passed = (current_datetime - date_first_invoice).days
             cons_by_day_i = invoiced_qty / days_passed if days_passed else 1
+            cons_by_day_i *= sales_ratio
             stock_by_day_i = sbd_formula(cons_by_day_i, virtual_conservative)
             if not data.has_key(product_id):
                 data[product_id] = empty_dict.copy()
@@ -64,6 +65,7 @@ class ProductStockByDay(models.TransientModel):
         def save_sbd_and_cbd_p():
             days_passed = (current_datetime - date_first_move).days
             cons_by_day_p = moved_qty / days_passed if days_passed else 1
+            cons_by_day_p *= sales_ratio
             stock_by_day_p = sbd_formula(cons_by_day_p, virtual_conservative)
             if not data.has_key(product_id):
                 data[product_id] = empty_dict.copy()
@@ -130,7 +132,8 @@ class ProductStockByDay(models.TransientModel):
                 pt.virtual_conservative,
                 ai.date_invoice,
                 ai.type,
-                ail.quantity
+                ail.quantity,
+                pt.cons_by_day_ratio
             from account_invoice ai
             join account_invoice_line ail on ail.invoice_id = ai.id
             join product_product pp on pp.id = ail.product_id and pp.active {2} {3}
@@ -164,6 +167,7 @@ class ProductStockByDay(models.TransientModel):
             product_id = ai_lines_data[0][0]
             virtual_conservative = ai_lines_data[0][1]
             date_first_invoice = fields.Datetime.from_string(ai_lines_data[0][2])
+            sales_ratio = ai_lines_data[0][5]
             invoiced_qty = 0
             for ail in ai_lines_data:
                 if product_id <> ail[0]:
@@ -171,6 +175,7 @@ class ProductStockByDay(models.TransientModel):
                     product_id = ail[0]  # Next product
                     virtual_conservative = ail[1]
                     date_first_invoice = fields.Datetime.from_string(ail[2])
+                    sales_ratio = ail[5]
                     invoiced_qty = 0
 
                 invoiced_qty += ail[4] * 1 if ail[3] == 'out_invoice' else -1
@@ -193,7 +198,8 @@ class ProductStockByDay(models.TransientModel):
                   (sld.usage = 'customer' or sld.id = 38)  -- Internal consumption
                 ) then 'out'
                 else 'in' end,
-                sm.product_uom_qty
+                sm.product_uom_qty,
+                pt.cons_by_day_ratio
             from stock_move sm
             join product_product pp on pp.id = sm.product_id and pp.active {2} {3}
             join product_template pt on pt.id = pp.product_tmpl_id and pt.type = 'product'
@@ -236,6 +242,7 @@ class ProductStockByDay(models.TransientModel):
             product_id = moves_data[0][0]
             virtual_conservative = moves_data[0][1]
             date_first_move = fields.Datetime.from_string(moves_data[0][2])
+            sales_ratio = moves_data[0][5]
             moved_qty = 0
             for sm in moves_data:
                 if product_id <> sm[0]:
@@ -243,6 +250,7 @@ class ProductStockByDay(models.TransientModel):
                     product_id = sm[0]  # Next product
                     virtual_conservative = sm[1]
                     date_first_move = fields.Datetime.from_string(sm[2])
+                    sales_ratio = sm[5]
                     moved_qty = 0
 
                 moved_qty += sm[4] * 1 if sm[3] == 'out' else -1

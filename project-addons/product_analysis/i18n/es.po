@@ -196,19 +196,31 @@ msgstr "Tipo de envase:"
 
 #. module: product_analysis
 #: field:product.analysis,create_uid:0
-#: field:product.analysis.method,create_uid:0
 #: field:product.analysis.rel,create_uid:0
 #: field:stock.lot.analysis,create_uid:0
+#: field:stock.lot.production.review,create_uid:0
+#: field:stock.lot.production.review.question,create_uid:0
+#: field:stock.lot.technical.direction.review,create_uid:0
+#: field:stock.lot.technical.direction.review.question,create_uid:0
+#: field:stock.production.lot.name.change,create_uid:0
+#: field:stock.production.lot.select,create_uid:0
+#: field:stock.production.lot.state.change,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Creado por"
 
 #. module: product_analysis
 #: field:product.analysis,create_date:0
-#: field:product.analysis.method,create_date:0
 #: field:product.analysis.rel,create_date:0
 #: field:stock.lot.analysis,create_date:0
+#: field:stock.lot.production.review,create_date:0
+#: field:stock.lot.production.review.question,create_date:0
+#: field:stock.lot.technical.direction.review,create_date:0
+#: field:stock.lot.technical.direction.review.question,create_date:0
+#: field:stock.production.lot.name.change,create_date:0
+#: field:stock.production.lot.select,create_date:0
+#: field:stock.production.lot.state.change,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Creado en"
 
 #. module: product_analysis
 #: field:stock.production.lot,revised_date:0
@@ -574,6 +586,21 @@ msgid "N/A"
 msgstr "N/A"
 
 #. module: product_analysis
+#: field:stock.production.lot,name_change_ids:0
+msgid "Name changes"
+msgstr "Cambios nombre"
+
+#. module: product_analysis
+#: field:stock.production.lot.name.change,name_new:0
+msgid "Name new"
+msgstr "Nuevo nombre"
+
+#. module: product_analysis
+#: field:stock.production.lot.name.change,name_old:0
+msgid "Name old"
+msgstr "Nombre anterior"
+
+#. module: product_analysis
 #: selection:stock.lot.production.review,result:0
 #: selection:stock.lot.technical.direction.review,result:0
 msgid "No"
@@ -747,6 +774,21 @@ msgstr "Firma: ______________________"
 #: view:website:product_analysis.report_stock_lot_analysis_certificate
 msgid "Specification"
 msgstr "Especificación"
+
+#. module: product_analysis
+#: field:stock.production.lot,state_change_ids:0
+msgid "State changes"
+msgstr "Cambios de estado"
+
+#. module: product_analysis
+#: field:stock.production.lot.state.change,state_new:0
+msgid "State new"
+msgstr "Nuevo estado"
+
+#. module: product_analysis
+#: field:stock.production.lot.state.change,state_old:0
+msgid "State old"
+msgstr "Estado anterior"
 
 #. module: product_analysis
 #: view:website:product_analysis.report_stock_lot_analysis_certificate

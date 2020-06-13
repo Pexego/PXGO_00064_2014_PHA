@@ -327,6 +327,11 @@ msgid "Custom views - Partners special form"
 msgstr "Formulario especial edición de clientes"
 
 #. module: custom_views
+#: field:product.pricelist.item,customer_price_to_third_parties:0
+msgid "Customer price to third parties"
+msgstr "Precio al que vende nuestro cliente a terceros"
+
+#. module: custom_views
 #: selection:res.partner,invoicing_period:0
 msgid "Daily"
 msgstr "Diario"
@@ -366,6 +371,11 @@ msgstr "Fecha de entrega"
 #: field:sale.order,delivery_date:0
 msgid "Delivery date"
 msgstr "Fecha de entrega"
+
+#. module: custom_views
+#: field:stock.move,product_description:0
+msgid "Description"
+msgstr "Descripción del producto"
 
 #. module: custom_views
 #: field:product.template,cost_price_dl:0
@@ -499,6 +509,11 @@ msgstr "Vaciar vacaciones"
 #: field:hr.holidays.management,holidays_status_id:0
 msgid "Holidays status"
 msgstr "Tipo de ausencia"
+
+#. module: custom_views
+#: view:product.template:custom_views.product_template_history_button_form_view
+msgid "History"
+msgstr "Histórico"
 
 #. module: custom_views
 #: field:stock.production.lot,input_qty:0
@@ -865,6 +880,11 @@ msgstr "Tiempo de alerta producto"
 #: field:stock.production.lot,categ_ids:0
 msgid "Product Categories"
 msgstr "Categorías de producto"
+
+#. module: custom_views
+#: model:ir.actions.act_window,name:custom_views.product_price_history_action
+msgid "Product price history"
+msgstr "Histórico de precios de coste"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_product_pricelist_item_tree

@@ -29,6 +29,8 @@ from contextlib import closing
 from openerp import models, fields, api, exceptions, _
 from openerp.addons.website.models.website import slug
 from openerp.addons.web.http import request
+from datetime import datetime
+
 
 
 class QualityReportAll(models.TransientModel):
@@ -40,10 +42,10 @@ class QualityReportAll(models.TransientModel):
         if self.env.context.get('relative_url'):
             base_url = '/'
         elif config.get_param('phamtomjs_base_url'):
-            base_url = self.env['ir.config_parameter'].\
-                get_param('phamtomjs_base_url')
+            base_url = config.get_param('phamtomjs_base_url')
         else:
             base_url = config.get_param('web.base.url')
+
         if self.env.context['active_model'] == u'stock.production.lot':
             obj = self.env['mrp.production'].search(
                 [('final_lot_id', '=', self.env.context['active_id'])])
@@ -51,10 +53,11 @@ class QualityReportAll(models.TransientModel):
             obj = self.env[self.env.context['active_model']].browse(
                 self.env.context['active_id'])
 
-        use_protocol = False
+        ungrouped_also = self.env.context.get('print_ungrouped_also', False)
+        first_continuation_skipped = False
         for workcenter_line in obj.workcenter_lines:
             protocol_link = obj.product_id.protocol_ids.filtered(
-                lambda r: r.protocol.type_id.group_print and
+                lambda r: (r.protocol.type_id.group_print or ungrouped_also) and
                           r.protocol.type_id.id ==
                           workcenter_line.workcenter_id.protocol_type_id.id)
             use_protocol = protocol_link.filtered(
@@ -82,8 +85,13 @@ class QualityReportAll(models.TransientModel):
             protocol_type_id = workcenter_line.workcenter_id.protocol_type_id
             protocol_type = protocol_type_id.name
             if protocol_type_id.is_continuation:
-                protocol_type += fields.Datetime. \
-                    from_string(workcenter_line.create_date).strftime(' %d-%m-%Y')
+                if first_continuation_skipped:
+                    protocol_type += fields.Datetime.\
+                        from_string(workcenter_line.create_date).\
+                        strftime(' %d-%m-%Y')
+                else:
+                    first_continuation_skipped = True
+                    continue
             protocol_name = unicodedata.normalize('NFKD', use_protocol.name). \
                 encode('ascii', 'ignore').replace(' ', '~')
             protocol_type = unicodedata.normalize('NFKD', protocol_type). \
@@ -182,13 +190,21 @@ class QualityReportAll(models.TransientModel):
         fildecode = open(filepath, 'r')
         encode_data = fildecode.read()
         fildecode.close()
+        active_model = self.env.context.get('active_model', False)
+        active_id = self.env.context.get('active_id', False)
+        ungrouped_also = self.env.context.get('print_ungrouped_also', False)
+        if active_model and active_id and not ungrouped_also:
+            active_name = self.env[active_model].browse([active_id]).name
+        else:
+            dt = fields.Datetime.context_timestamp(self, datetime.now())
+            active_name = dt.strftime('%d-%m-%Y_%Hh%M')
+        filename = 'protocolo.pdf' if print_url else \
+            'protocolos_' + str(active_name).lower() + '.pdf'
         attachment_data = {
-            'name': 'quality_protocol.pdf' if print_url else 'quality_protocols' +
-                str(self.env.context.get('active_id', '')) + '.pdf',
-            'datas_fname': 'quality_protocols' +
-                str(self.env.context.get('active_id', '')) + '.pdf',
+            'name': filename,
+            'datas_fname': filename,
             'datas': base64.b64encode(encode_data),
-            'res_model': self.env.context.get('active_model', False),
+            'res_model': active_model,
             'res_id': 0 if print_url else self.env.context.get('active_id', False),
         }
         self.env['ir.attachment'].search(

@@ -6,7 +6,7 @@
             <field name="name">Export picking</field>
             <field name="code">DESADV</field>
             <field name="type">csv</field>
-            <field name="charset" eval="'ISO-8859-1'" />
+            <field name="charset" eval="'cp1252'" />
             <field name="end_line" eval="'simple'" />
             <field name="file_template" eval="'ALB_number_fecha+hora'" />
             <field name="start_identifier" eval="-1" />

@@ -18,11 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import time
-from datetime import date
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp import models, fields, _, exceptions, api, tools
-from openerp.addons.product import _common
+from datetime import date, timedelta
+from openerp import models, fields, _, exceptions, api
 
 
 class MrpProduction(models.Model):
@@ -36,6 +33,7 @@ class MrpProduction(models.Model):
     date_end_planned = fields.Datetime()
     time_planned = fields.Float()
     final_qty = fields.Float('Final quantity', copy=False)
+    protocols_printed = fields.Boolean(default=False)
 
     def _create_previous_move(self, cr, uid, move_id, product,
                               source_location_id, dest_location_id,
@@ -99,6 +97,24 @@ class MrpProduction(models.Model):
             'continuation': True
         }
         self.env['mrp.production.workcenter.line'].create(workcenter_line_dict)
+
+    @api.multi
+    def print_all_pending_protocols(self):
+        production_ids = self.search([
+            ('date_planned', '>', (date.today() - timedelta(days=180)).
+                strftime('%Y-%m-%d 00:00:00')),
+            ('protocols_printed', '=', False),
+            ('state', '=', 'done')
+        ])
+        for production_id in production_ids:
+            ctx = {
+                'print_ungrouped_also': True,
+                'active_model': 'mrp.production',
+                'active_id': production_id.id
+            }
+            self.env['quality.report.all'].with_context(ctx).print_all()
+            production_id.protocols_printed = True
+        return True
 
 
 class MrpBom(models.Model):

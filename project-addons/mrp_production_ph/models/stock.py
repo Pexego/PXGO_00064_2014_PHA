@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# © 2019 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _, exceptions
 
 
 class StockMove(models.Model):
@@ -48,10 +48,25 @@ class StockPicking(models.Model):
     @api.multi
     def do_transfer_with_barcodes(self):
         self.ensure_one()
-        res_id = self.env['stock.transfer_details'].with_context(
-                {'active_ids': self.ids, 'active_model': self._name}).create({
-            'picking_id': self.id
-        })
+        if (self.picking_type_code == 'outgoing') and \
+                (not (self.real_weight > 0) or not self.carrier_id or
+                 not (self.number_of_packages > 0)):
+            message = ''
+            if not (self.real_weight > 0):
+                message = _('Real weight to send must be greater than zero.\n')
+            if not (self.number_of_packages > 0):
+                message += _('Number of packages must be greater than zero.\n')
+            if not (self.carrier_id):
+                message += _('Carrier is not asigned.')
+            raise exceptions.Warning(message)
+
+        res_id = self.env['stock.transfer_details'].with_context({
+                'active_ids': self.ids,
+                'active_model': self._name
+            }).create({
+                'picking_id': self.id,
+                'total_packages_expected': self.number_of_packages
+            })
         view = self.env.ref('mrp_production_ph.view_transfer_with_barcodes_wizard')
         return {
             'name': 'Transferir con cód. de barras',
@@ -69,3 +84,30 @@ class StockPicking(models.Model):
                     'picking_type': self.picking_type_code
                 }).env.context,
         }
+
+class StockProductionLot(models.Model):
+    _inherit = 'stock.production.lot'
+
+    picking_transferred_wo_bc = fields.Text(compute='_compute_pick_trans_wo_bc')
+
+    @api.multi
+    def _compute_pick_trans_wo_bc(self):
+        msg_title = _('A transfer without barcode has been used, and a manual '
+                      'collection sheet must be provided on the pickings')
+        for lot_id in self:
+            message = False
+            production_id = lot_id.production_id
+            if production_id:
+                # Gathering pickings
+                picking_ids = production_id.hoard_ids.sudo().\
+                    filtered(lambda p: p.state == 'done' and
+                                       not p.transferred_with_barcodes)
+                # Return pickings
+                picking_ids += production_id.manual_return_pickings.sudo().\
+                    filtered(lambda p: p.state == 'done' and
+                                       not p.transferred_with_barcodes)
+                # Create warning message
+                if picking_ids:
+                    message = '<p><b>' + msg_title + ':</b><br>' + \
+                              ', '.join(picking_ids.mapped('name'))
+            lot_id.picking_transferred_wo_bc = message

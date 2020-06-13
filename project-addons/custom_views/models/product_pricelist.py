@@ -9,3 +9,4 @@ class ProductPricelistItem(models.Model):
 
     pricelist_id = fields.Many2one(related='price_version_id.pricelist_id',
                                    readonly=True)
+    customer_price_to_third_parties = fields.Float(default=0)

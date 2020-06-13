@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2018 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from openerp import models, fields, api, _, exceptions
 
@@ -17,6 +17,10 @@ class StockMove(models.Model):
         readonly=True)
     virtual_conservative = fields.Float(
         related='product_id.virtual_conservative', readonly=True)
+    company_id = fields.Many2one(comodel_name='res.company',
+                                 default=lambda self: self.env.user.company_id)
+    product_description = fields.Text(related='product_id.description',
+                                      readonly=True)
 
     @api.one
     @api.constrains('state')
@@ -201,6 +205,17 @@ class StockPicking(models.Model):
                     'context': self.env.context
                 }
 
+    @api.multi
+    def write(self, vals):
+        date_done = vals.get('date_done')
+        if date_done:
+            dt = fields.Datetime.context_timestamp(self, fields.Datetime.
+                                                   from_string(date_done))
+            for picking_id in self:
+                picking_id.message_post(subject='Albarán transferido: ' +
+                                        dt.strftime('%d/%m/%Y %H:%M:%S'))
+        return super(StockPicking, self).write(vals)
+
 
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
@@ -259,6 +274,8 @@ class StockProductionLot(models.Model):
     input_uom = fields.Many2one(string='Income unit of measure',
                                 comodel_name='product.uom',
                                 compute = '_input_qty')
+    company_id = fields.Many2one(comodel_name='res.company',
+                                 default=lambda self: self.env.user.company_id)
 
     @api.one
     def _available_stock(self):

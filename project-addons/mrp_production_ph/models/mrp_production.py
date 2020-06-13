@@ -89,7 +89,8 @@ class MrpProduction(models.Model):
         consumptions = []
 
         # Gathering pickings
-        for po in self.hoard_ids.sudo().mapped('pack_operation_ids'):
+        for po in self.hoard_ids.sudo().filtered(lambda p: p.state == 'done').\
+                mapped('pack_operation_ids'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \
@@ -141,7 +142,9 @@ class MrpProduction(models.Model):
         self.store_consumption_ids = sc
 
         # Return pickings
-        for po in self.manual_return_pickings.sudo().mapped('pack_operation_ids'):
+        for po in self.manual_return_pickings.sudo().\
+                filtered(lambda p: p.state == 'done').\
+                mapped('pack_operation_ids'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == po.product_id.id and \

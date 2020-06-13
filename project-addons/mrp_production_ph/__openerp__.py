@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2019 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     'name': 'MRP Production PH',
@@ -14,8 +14,10 @@
         'mrp',
         'mrp_hoard',
         'quality_protocol_report',
+        'product_analysis',
     ],
     'data': [
+        'data/remove_old_translations.xml',
         'views/mrp_production_view.xml',
         'views/mrp_routing_view.xml',
         'views/product_view.xml',
