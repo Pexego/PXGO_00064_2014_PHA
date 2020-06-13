@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# © 2019 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, _, exceptions
 
 
 class StockMove(models.Model):
@@ -48,10 +48,25 @@ class StockPicking(models.Model):
     @api.multi
     def do_transfer_with_barcodes(self):
         self.ensure_one()
-        res_id = self.env['stock.transfer_details'].with_context(
-                {'active_ids': self.ids, 'active_model': self._name}).create({
-            'picking_id': self.id
-        })
+        if (self.picking_type_code == 'outgoing') and \
+                (not (self.real_weight > 0) or not self.carrier_id or
+                 not (self.number_of_packages > 0)):
+            message = ''
+            if not (self.real_weight > 0):
+                message = _('Real weight to send must be greater than zero.\n')
+            if not (self.number_of_packages > 0):
+                message += _('Number of packages must be greater than zero.\n')
+            if not (self.carrier_id):
+                message += _('Carrier is not asigned.')
+            raise exceptions.Warning(message)
+
+        res_id = self.env['stock.transfer_details'].with_context({
+                'active_ids': self.ids,
+                'active_model': self._name
+            }).create({
+                'picking_id': self.id,
+                'total_packages_expected': self.number_of_packages
+            })
         view = self.env.ref('mrp_production_ph.view_transfer_with_barcodes_wizard')
         return {
             'name': 'Transferir con cód. de barras',
