@@ -41,6 +41,7 @@ class DeactivateProduct(models.TransientModel):
 
                 # Stock at external locations
                 external_quant_ids = self.env['stock.quant'].search([
+                    ('product_id', '=', product_id.id),
                     ('location_id', 'child_of',
                      self.env.ref('__export__.stock_location_102').id)
                 ])
