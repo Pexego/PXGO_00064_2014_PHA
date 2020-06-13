@@ -16,7 +16,7 @@ class StockProductionLot(models.Model):
         months_ahead = fields.Datetime.to_string(months_ahead)
         alert_date_lot_ids = self.search([
             ('alert_date', '<', months_ahead),
-            ('company_id'), '=', self.env.user.company_id.id,
+            ('company_id', '=', self.env.user.company_id.id),
             ('product_id.categ_id', 'in', product_category_ids) if \
                 product_category_ids else ('active', '=', True),
             ('quant_ids.location_id.usage', 'in', ('internal', 'view'))
