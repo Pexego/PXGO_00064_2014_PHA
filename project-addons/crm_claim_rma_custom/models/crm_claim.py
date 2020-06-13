@@ -127,6 +127,13 @@ class CrmClaim(models.Model):
                 self.update(value)
         return res
 
+    @api.constrains('stage_id')
+    def stage_id_only_create_user(self):
+        if self.create_uid and self.create_uid != self.env.user:
+            raise exceptions.Warning(_('Operation not allowed'),
+                                     _('Only the user who created the claim '
+                                       'can change the status'))
+
 
 class CrmClaimLine(models.Model):
     _inherit = 'claim.line'
