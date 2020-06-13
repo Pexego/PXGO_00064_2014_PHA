@@ -196,7 +196,8 @@ class QualityReportAll(models.TransientModel):
         if active_model and active_id and not ungrouped_also:
             active_name = self.env[active_model].browse([active_id]).name
         else:
-            active_name = datetime.now().strftime('%d-%m-%Y')
+            dt = fields.Datetime.context_timestamp(self, datetime.now())
+            active_name = dt.strftime('%d-%m-%Y_%Hh%M')
         filename = 'protocolo.pdf' if print_url else \
             'protocolos_' + str(active_name).lower() + '.pdf'
         attachment_data = {

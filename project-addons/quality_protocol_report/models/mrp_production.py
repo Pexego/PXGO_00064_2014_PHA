@@ -101,7 +101,7 @@ class MrpProduction(models.Model):
     @api.multi
     def print_all_pending_protocols(self):
         production_ids = self.search([
-            ('date_planned', '>', (date.today() - timedelta(days=90)).
+            ('date_planned', '>', (date.today() - timedelta(days=180)).
                 strftime('%Y-%m-%d 00:00:00')),
             ('protocols_printed', '=', False),
             ('state', '=', 'done')
