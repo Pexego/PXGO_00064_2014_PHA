@@ -128,7 +128,13 @@
                                                     <span t-esc="', '.join(move_ids.mapped('picking_id.partner_id.display_name'))"/>
                                                 </td>
                                                 <td style="text-align: right;">
-                                                    <span t-field="lote.acceptance_date"/>
+                                                    <t t-set="detail_ids" t-value="lote.detail_ids.filtered(lambda d: d.state == 'approved').sorted(key=lambda d: d.id, reverse = True)"/>
+                                                    <t t-if="detail_ids">
+                                                        <span t-field="detail_ids[0].date"/>
+                                                    </t>
+                                                    <t t-if="not detail_ids">
+                                                        <span t-field="lote.acceptance_date"/>
+                                                    </t>
                                                 </td>
                                             </tr>
                                         </t>

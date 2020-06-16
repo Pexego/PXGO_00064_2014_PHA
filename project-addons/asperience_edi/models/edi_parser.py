@@ -319,10 +319,12 @@ class edi_parser(models.Model):
 
     def parse_desadv(self, cr, uid, edi, data, context, _logger, structs):
         def _create_line_desadv(data, filename, edi, sscc=None):
-            for move_link in sscc.mapped(
-                "operation_ids.linked_move_operation_ids"
+            for line in sscc.mapped(
+                "operation_ids"
             ):
-                line = move_link.operation_id
+                move_id = line.mapped('linked_move_operation_ids.move_id')
+                if len(move_id) > 1:
+                    raise Exception('Error')
                 LIN = {
                     "lineId": "LIN",
                     "col1": line.product_id.ean13,
@@ -353,9 +355,9 @@ class edi_parser(models.Model):
                 data[filename].append(edi._create_line_csv(QTYLIN, structs))
                 MOALIN = {
                     "lineId": "MOALIN",
-                    "col1": str(move_link.move_id.price_subtotal_gross),
-                    "col2": str(move_link.move_id.price_subtotal),
-                    "col3": str(move_link.move_id.price_total),
+                    "col1": str(move_id.price_subtotal_gross),
+                    "col2": str(move_id.price_subtotal),
+                    "col3": str(move_id.price_total),
                 }
                 data[filename].append(edi._create_line_csv(MOALIN, structs))
 

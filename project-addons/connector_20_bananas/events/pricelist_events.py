@@ -221,6 +221,12 @@ class CustomerRateAdapter2(GenericAdapter):
 )
 def delay_export_customer_rate_create(session, model_name, record_id, vals):
     rec = session.env[model_name].browse(record_id)
+    if model_name == "product.pricelist.custom.partner.item":
+        if not rec.pricelist_id.bananas_synchronized:
+            return
+    else:
+        if not rec.price_version_id.pricelist_id.bananas_synchronized:
+            return
     if not rec.product_id.bananas_synchronized:
         rec.product_id.bananas_synchronized = True
     if model_name == "product.pricelist.custom.partner.item":
