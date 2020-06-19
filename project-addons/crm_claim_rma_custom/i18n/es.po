@@ -55,7 +55,7 @@ msgstr "Cantidad:"
 #: model:ir.actions.report.xml,name:crm_claim_rma_custom.report_crm_claim
 #: model:ir.model,name:crm_claim_rma_custom.model_crm_claim
 msgid "Claim"
-msgstr "Reclamación"
+msgstr "Incidencia"
 
 #. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document
@@ -201,12 +201,12 @@ msgstr "Cantidades"
 #. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document
 msgid "REGISTRO DE RECLAMACIONES"
-msgstr "REGISTRO DE RECLAMACIONES"
+msgstr "REGISTRO DE INCIDENCIAS"
 
 #. module: crm_claim_rma_custom
 #: view:website:crm_claim_rma_custom.report_crm_claim_document
 msgid "RESULTADO Y SOLUCIÓN DE LA RECLAMACIÓN"
-msgstr "RESULTADO Y SOLUCIÓN DE LA RECLAMACIÓN"
+msgstr "RESULTADO Y SOLUCIÓN DE LA INCIDENCIA"
 
 #. module: crm_claim_rma_custom
 #: view:crm.claim:crm_claim_rma_custom.claim_form_add_report_data
@@ -287,4 +287,130 @@ msgstr "SI"
 #: field:crm.claim,general_dir_ver_and_auth:0
 msgid "verification and authorization by general management"
 msgstr "Verificación y autorización por dirección general"
+
+#. module: crm_claim_rma
+#: code:addons/crm_claim_rma/wizards/claim_make_picking.py:121
+#, python-format
+msgid "A picking has already been created for this claim."
+msgstr "Ya se ha creado un albarán para esta incidencia."
+
+#. modules: crm_claim_rma, crm_claim_rma_custom
+#: field:account.invoice,claim_id:0
+#: model:ir.model,name:crm_claim_rma.model_crm_claim
+#: field:stock.picking,claim_id:0
+#: model:ir.actions.report.xml,name:crm_claim_rma_custom.report_crm_claim
+#: model:ir.model,name:crm_claim_rma_custom.model_crm_claim
+msgid "Claim"
+msgstr "Incidencia"
+
+#. module: crm_claim_rma
+#: view:claim.line:crm_claim_rma.crm_claim_line_form_view
+msgid "Claim Line"
+msgstr "Línea de incidencia"
+
+#. module: crm_claim_rma
+#: field:claim.line,date:0
+msgid "Claim Line Date"
+msgstr "Fecha"
+
+#. module: crm_claim_rma
+#: help:claim.line,number:0
+msgid "Claim Line Identification Number"
+msgstr "Nº identificación"
+
+#. module: crm_claim_rma
+#: field:claim.line,claim_type:0
+msgid "Claim Line Type"
+msgstr "Tipo"
+
+#. module: crm_claim_rma
+#: field:claim.line,claim_origin:0
+msgid "Claim Subject"
+msgstr "Objeto de la incidencia"
+
+#. module: crm_claim_rma
+#: help:claim.line,claim_type:0
+msgid "Claim classification"
+msgstr "Clasificación incidencia"
+
+#. module: crm_claim_rma
+#: field:claim.line,claim_diagnosis:0
+msgid "Claim diagnosis"
+msgstr "Diagnóstico incidencia"
+
+#. module: crm_claim_rma
+#: model:ir.actions.act_window,name:crm_claim_rma.act_crm_claim_substates
+#: model:ir.ui.menu,name:crm_claim_rma.menu_crm_case_claims_claim_line_substates
+msgid "Claim line substates"
+msgstr "Sub-estados de la incidencia"
+
+#. module: crm_claim_rma
+#: view:claim.line:crm_claim_rma.crm_claim_line_tree_view
+#: field:claim_make_picking.wizard,claim_line_ids:0
+#: model:ir.actions.act_window,name:crm_claim_rma.act_crm_case_claim_lines
+#: model:ir.ui.menu,name:crm_claim_rma.menu_crm_case_claims_claim_lines
+msgid "Claim lines"
+msgstr "Líneas de incidencia"
+
+#. module: crm_claim_rma
+#: view:claim.line:crm_claim_rma.view_crm_claim_lines_filter
+msgid "Claim n°"
+msgstr "Incidencia Nº"
+
+#. module: crm_claim_rma_custom
+#: model:ir.model,name:crm_claim_rma_custom.model_crm_claim_stage
+msgid "Claim stages"
+msgstr "Etapas de incidencia"
+
+#. module: crm_claim_rma
+#: view:claim.line:crm_claim_rma.crm_claim_line_form_view
+msgid "Claims"
+msgstr "Incidencias"
+
+#. module: crm_claim_rma
+#: help:claim.line,invoice_date:0
+msgid "Date of Claim Invoice"
+msgstr "Fecha factura"
+
+#. module: crm_claim_rma
+#: view:claim.line:crm_claim_rma.view_crm_claim_lines_filter
+msgid "In Progress Claims"
+msgstr "Incidencias en proceso"
+
+#. module: crm_claim_rma_custom
+#: code:addons/crm_claim_rma_custom/models/crm_claim.py:137
+#, python-format
+msgid "Only the user who created the claim can change the status"
+msgstr "Únicamente el usuario que creó la reclamación puede cambiar su estado"
+
+#. module: crm_claim_rma_custom
+#: code:addons/crm_claim_rma_custom/models/crm_claim.py:136
+#, python-format
+msgid "Operation not allowed"
+msgstr "Operación no permitida"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,photo_url:0
+msgid "Photo(s) URL"
+msgstr "URL de las fotos"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "REGISTRO DE RECLAMACIONES"
+msgstr "REGISTRO DE INCIDENCIAS"
+
+#. module: crm_claim_rma_custom
+#: view:website:crm_claim_rma_custom.report_crm_claim_document
+msgid "RESULTADO Y SOLUCIÓN DE LA RECLAMACIÓN"
+msgstr "RESULTADO Y SOLUCIÓN DE LA INCIDENCIA"
+
+#. module: crm_claim_rma
+#: field:claim.line,claim_id:0
+msgid "Related claim"
+msgstr "Incidencia relacionada"
+
+#. module: crm_claim_rma
+#: view:claim.line:crm_claim_rma.view_crm_claim_lines_filter
+msgid "Search Claims"
+msgstr "Buscar incidencias"
 
