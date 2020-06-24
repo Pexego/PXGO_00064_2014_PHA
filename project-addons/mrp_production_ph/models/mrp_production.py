@@ -84,10 +84,8 @@ class MrpProduction(models.Model):
                 production_id.production_warning = \
                     production_id.product_id.production_warning
 
-    @api.one
-    def _compute_consumption(self):
+    def _compute_consumptions(self):
         consumptions = []
-
         # Gathering pickings
         for po in self.hoard_ids.sudo().filtered(lambda p: p.state == 'done').\
                 mapped('pack_operation_ids'):
@@ -113,7 +111,7 @@ class MrpProduction(models.Model):
         # Return moves
         for m in self.move_lines2.sudo().filtered(
                 lambda r: r.location_id.usage == 'internal' and
-                r.location_dest_id.usage == 'internal'):
+                          r.location_dest_id.usage == 'internal'):
             idx = -1
             for i, obj in enumerate(consumptions):
                 if obj['product_id'] == m.product_id.id and \
@@ -135,11 +133,10 @@ class MrpProduction(models.Model):
                 })
 
         sc = self.env['mrp.production.store.consumption']
-        self.store_consumption_ids = sc
+        sc.search([('production_id', '=', self.id)]).unlink()
         for c in consumptions:
             if c['quantity'] != 0:
                 sc |= sc.create(c)
-        self.store_consumption_ids = sc
 
         # Return pickings
         for po in self.manual_return_pickings.sudo().\
@@ -166,11 +163,33 @@ class MrpProduction(models.Model):
                 })
 
         qc = self.env['mrp.production.quality.consumption']
-        self.quality_consumption_ids = qc
+        qc.search([('production_id', '=', self.id)]).unlink()
         for c in consumptions:
             if c['quantity'] != 0:
                 qc |= qc.create(c)
-        self.quality_consumption_ids = qc
+
+        return sc, qc
+
+    @api.one
+    def _compute_consumption(self):
+        trying = True
+        attempts = 10
+        while trying and attempts > 0:
+            try:
+                sc, qc = self._compute_consumptions()
+                self.store_consumption_ids = sc
+                self.quality_consumption_ids = qc
+                trying = False
+            except:
+                self.env.cr.commit()
+                attempts -= 1
+                continue
+        if attempts == 0:
+            self.env.invalidate_all()
+            self.store_consumption_ids = self.\
+                env['mrp.production.store.consumption']
+            self.quality_consumption_ids = self.\
+                env['mrp.production.quality.consumption']
 
     @api.one
     def _next_lot(self):
