@@ -179,7 +179,9 @@ def delay_export_partner_write(session, model_name, record_id, vals):
             or "commercial_discount" in vals
             or "financial_discount" in vals
         ):
-            unlink_partner_pricelist(session, model_name, partner.id)
+            unlink_partner_pricelist.delay(
+                session, model_name, partner.id, priority=1, eta=eta
+            )
             partner.check_custom_pricelist(
                 partner.commercial_discount, partner.financial_discount
             )
