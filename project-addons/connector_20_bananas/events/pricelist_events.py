@@ -302,7 +302,7 @@ def delay_unlink_customer_rate(session, model_name, record_id):
             session,
             model_name,
             record_id,
-            rate.pricelist_id.partner_id.bananas_id,
+            [rate.pricelist_id.partner_id.bananas_id],
             rate.product_id.id,
             priority=3,
             eta=eta+90,
@@ -321,16 +321,15 @@ def delay_unlink_customer_rate(session, model_name, record_id):
                 ("financial_discount", "=", 0),
             ]
         )
-        for partner in partners:
-            remove_whitelist_item_job.delay(
-                session,
-                model_name,
-                record_id,
-                partner.bananas_id,
-                rate.product_id.id,
-                priority=3,
-                eta=eta+90,
-            )
+        remove_whitelist_item_job.delay(
+            session,
+            model_name,
+            record_id,
+            [x.bananas_id for x in partners],
+            rate.product_id.id,
+            priority=3,
+            eta=eta+90,
+        )
     unlink_customer_rate.delay(
         session, model_name, record_id, data=data, priority=1, eta=eta
     )

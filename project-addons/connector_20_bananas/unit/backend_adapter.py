@@ -256,7 +256,7 @@ class GenericAdapter(BananasCRUDAdapter):
 
     def remove_whitelist(self, partner_id, product_id):
         self.make_request(
-            [{"codcliente": partner_id, 'codproducto': product_id}],
+            [{"codcliente": x, 'codproducto': product_id} for x in partner_id],
             "listablanca",
             "DELETE",
         )
