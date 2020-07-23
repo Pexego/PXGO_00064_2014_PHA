@@ -92,7 +92,7 @@ def delay_export_partner_create(session, model_name, record_id, vals):
         if not partner.partner_pricelist_exported:
             partner.partner_pricelist_exported = True
             export_partner_pricelist.delay(
-                session, model_name, partner.id, priority=3, eta=eta + 80
+                session, model_name, partner.id, priority=3, eta=eta + 3600
             )
 
 
@@ -148,7 +148,7 @@ def delay_export_partner_write(session, model_name, record_id, vals):
         if not partner.partner_pricelist_exported:
             partner.partner_pricelist_exported = True
             export_partner_pricelist.delay(
-                session, model_name, partner.id, priority=3, eta=eta + 80
+                session, model_name, partner.id, priority=3, eta=eta + 3600
             )
     elif "bananas_synchronized" in vals and not vals["bananas_synchronized"]:
         if partner.partner_pricelist_exported:
@@ -214,7 +214,7 @@ def delay_export_partner_write(session, model_name, record_id, vals):
                 skip_conector=True
             ).partner_pricelist_exported = True
             export_partner_pricelist.delay(
-                session, model_name, partner.id, priority=3, eta=eta + 80
+                session, model_name, partner.id, priority=3, eta=eta + 3600
             )
         for field in up_fields:
             if field in vals:
