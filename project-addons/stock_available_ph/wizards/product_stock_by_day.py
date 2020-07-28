@@ -36,9 +36,9 @@ class ProductStockByDay(models.TransientModel):
         }
 
         # Dates of periods to compute
-        half_year_ago = (date.today() + timedelta(days=-183)).\
+        half_year_ago = (date.today() + timedelta(days=-365)).\
             strftime('%Y-%m-%d')
-        a_year_ago = (date.today() + timedelta(days=-365)).\
+        a_year_ago = (date.today() + timedelta(days=-426)).\
             strftime('%Y-%m-%d')
 
         current_datetime = fields.datetime.now()
