@@ -17,8 +17,8 @@ class StockProductionLot(models.Model):
             date = datetime.datetime.today() + \
                    datetime.timedelta(days=product.use_time)
             if product.duration_type == 'end_month':
-                date = date + datetime.timedelta(days=calendar.
-                            monthrange(date.year, date.month)[1] - date.day)
+                month_days = calendar.monthrange(date.year, date.month)[1]
+                date = datetime.date(date.year, date.month, month_days)
             elif product.duration_type == 'end_year':
                 date = datetime.date(date.year, 12, 31)
 
