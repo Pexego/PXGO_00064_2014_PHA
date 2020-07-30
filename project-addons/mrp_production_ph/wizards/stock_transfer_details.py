@@ -8,6 +8,23 @@ from openerp import models, fields, api, exceptions
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
 
+    notes = fields.Text(compute='_get_notes', readonly=True)
+
+    @api.one
+    def _get_notes(self):
+        notes = ''
+        origin = self.picking_id.origin
+        if origin and origin[0:2] == 'MO':
+            production_id = self.env['mrp.production'].\
+                search([('name', '=', origin)])
+        if production_id:
+            notes = production_id.notes
+            for p in self.env['stock.picking'].\
+                    search([('origin', '=', production_id.name)]):
+                if p.note and p.note.strip() > '':
+                    notes += (' | ' if notes else '') + p.note
+        self.notes = notes
+
     @api.one
     def do_transfer_with_barcodes(self):
         errors = ''
