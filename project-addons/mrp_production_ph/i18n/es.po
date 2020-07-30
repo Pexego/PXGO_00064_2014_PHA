@@ -35,6 +35,11 @@ msgid "Add suffix from lot..."
 msgstr "Añadir sufijo del lote..."
 
 #. module: mrp_production_ph
+#: field:stock.transfer_details_items,available_qty:0
+msgid "Available qty"
+msgstr "Disponible"
+
+#. module: mrp_production_ph
 #: selection:mrp.production.available.lot,state:0
 #: selection:stock.quant,production_state:0
 msgid "Awaiting Raw Materials"
