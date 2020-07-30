@@ -34,7 +34,8 @@ class StockTransferDetails(models.TransientModel):
                 test_passed = (
                     (item_id.lot_id.name and item_id.lot_barcode)
                     and
-                    item_id.lot_id.name.strip() == item_id.lot_barcode.strip()
+                    item_id.lot_id.name.strip().lower() ==
+                    item_id.lot_barcode.strip().lower()
                 )
             test_passed = test_passed or (
                 self.env.context.get('picking_type') == 'outgoing'
