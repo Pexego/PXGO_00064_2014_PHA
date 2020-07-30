@@ -902,6 +902,11 @@ msgstr "Plantilla de producto"
 msgid "Product Type"
 msgstr "Tipo de producto"
 
+#. module: purchase
+#: field:purchase.order.line,product_uom
+msgid "Product Unit of Measure"
+msgstr "UdM"
+
 #. module: custom_views
 #: field:purchasable.products,product_uom:0
 msgid "Product uom"
