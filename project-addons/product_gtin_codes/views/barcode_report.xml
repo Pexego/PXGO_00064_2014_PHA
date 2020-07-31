@@ -8,7 +8,7 @@
                         <div class="row">
                             <t t-set="barcode" t-value="o.gtin"/>
                             <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
-                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', barcode, 1200, 200, 1)" height="100" width="600"/>
+                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', barcode, 1400, 300, 1)" height="300" width="1400" style="margin-left: -190px; margin-top: 100px;"/>
                         </div>
                     </div>
                 </t>
@@ -21,6 +21,28 @@
             model="product.gtin"
             report_type="qweb-pdf"
             name="product_gtin_codes.gtin_barcode_report"
+        />
+
+        <template id="gtin_barcode_report_tiny">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="row">
+                            <t t-set="barcode" t-value="o.gtin"/>
+                            <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                            <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', barcode, 900, 150, 1)" height="150" width="900" style="margin-left: -110px; margin-top: 20px;"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="report_gtin_barcode_tiny"
+            string="GTIN barcode tiny"
+            model="product.gtin"
+            report_type="qweb-pdf"
+            name="product_gtin_codes.gtin_barcode_report_tiny"
         />
     </data>
 </openerp>
