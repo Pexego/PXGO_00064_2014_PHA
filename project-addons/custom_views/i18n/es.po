@@ -296,6 +296,17 @@ msgid "Components cost price"
 msgstr "Precio de coste componentes"
 
 #. module: custom_views
+#: field:product.incoming,cost_eval_price_method:0
+#: field:product.incoming,cost_method:0
+#: field:product.product,cost_eval_price_method:0
+#: field:product.product,cost_method:0
+#: field:product.template,cost_eval_price_method:0
+#: field:purchasable.products,cost_eval_price_method:0
+#: field:purchasable.products,cost_method:0
+msgid "Costing Method"
+msgstr "Método de coste"
+
+#. module: custom_views
 #: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
 #: field:hr.holidays.management,current_holidays_status_id:0
 msgid "Current holidays status"
@@ -1526,3 +1537,29 @@ msgstr "Fondo"
 #: view:product.product:custom_views.custom_views_product_normal_form
 msgid "Warning when receiving this product"
 msgstr "Aviso cuando se recepciona este producto"
+
+#. module: custom_views
+#: code:addons/custom_views/models/product.py:0
+#, python-format
+msgid "Cost eval (night calculation)"
+msgstr "Escandallo (cálculo nocturno)"
+
+#. module: custom_views
+#: field:product.template,cost_eval_price:0
+msgid "Product cost evaluation price"
+msgstr "Precio de coste escandallo"
+
+#. module: custom_views
+#: field:product.template,cost_eval_price_rm:0
+msgid "Raw material cost evaluation price"
+msgstr "Precio de coste escandallo M.P."
+
+#. module: custom_views
+#: field:product.template,cost_eval_price_components:0
+msgid "Components cost evaluation price"
+msgstr "Precio de coste escandallo componentes"
+
+#. module: custom_views
+#: field:product.template,cost_eval_price_dl:0
+msgid "Direct labor cost evaluation price"
+msgstr "Precio de coste escandallo M.O.D."

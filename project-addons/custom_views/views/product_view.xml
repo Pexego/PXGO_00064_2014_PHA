@@ -201,6 +201,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="cost_price_components"/>
                     <field name="cost_price_dl"/>
                 </field>
+                <group name="general" position="after">
+                    <group name="price_evaluation">
+                        <field name="cost_eval_price_method" readonly="1"/>
+                        <field name="cost_eval_price" readonly="1"/>
+                        <field name="cost_eval_price_rm" readonly="1"/>
+                        <field name="cost_eval_price_components" readonly="1"/>
+                        <field name="cost_eval_price_dl" readonly="1"/>
+                    </group>
+                </group>
                 <field name="seller_ids" position="replace">
                     <field name="seller_ids" class="oe_edit_only"/>
                     <field name="suppliers_pricelists" class="oe_read_only"/>
