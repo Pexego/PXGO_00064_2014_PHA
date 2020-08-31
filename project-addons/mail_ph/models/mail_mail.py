@@ -9,6 +9,15 @@ import urllib3
 class MailMail(models.Model):
     _inherit = 'mail.mail'
 
+    class MailMail(models.Model):
+        _inherit = 'mail.mail'
+
+        def _get_partner_access_link(self, cr, uid, mail, partner=None,
+                                     context=None):
+            # Desactivamos el mensaje al pie de la compañía, para evitar enlace
+            # al portal y demás florituras no deseadas...
+            return ''
+
     @api.model
     def create(self, vals):
         res = super(MailMail, self).create(vals)
