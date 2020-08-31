@@ -5,6 +5,7 @@
 from openerp import models, api, exceptions, _
 from ..validations import is_valid_email, is_valid_fax
 
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
