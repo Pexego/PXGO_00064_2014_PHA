@@ -75,6 +75,7 @@ class ProductProduct(models.Model):
     depth = fields.Float()
     earliest_picking = fields.Date(compute='_earliest_picking',
                                    search='_search_earliest_picking')
+    obsolete = fields.Boolean(default=False)
 
     @api.one
     @api.constrains('year_appearance')

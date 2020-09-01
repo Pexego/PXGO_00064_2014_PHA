@@ -1132,6 +1132,11 @@ msgid "Special form to edit fields without validations"
 msgstr "Formulario especial para editar campos sin validaciones"
 
 #. module: custom_views
+#: field:product.product,obsolete:0
+msgid "Obsolete"
+msgstr "Obsoleto"
+
+#. module: custom_views
 #: model:ir.ui.menu,name:custom_views.menu_sop
 #: view:mrp.machinery:custom_views.view_mrp_machinery_form
 #: view:mrp.routing:custom_views.view_mrp_routing_form
