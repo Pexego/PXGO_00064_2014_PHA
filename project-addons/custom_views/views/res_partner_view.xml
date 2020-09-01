@@ -99,6 +99,7 @@
                 </xpath>
                 <xpath expr="." position="inside">
                     <script src="/custom_views/static/src/js/phone_link.js"/>
+                    <script src="/custom_views/static/src/js/email_link.js"/>
                 </xpath>
             </field>
         </record>
