@@ -158,10 +158,9 @@
             <field name="view_id" ref="view_lot_tracking_from_destination_tree"/>
         </record>
 
-        <!-- DESACTIVADO HASTA QUE SE CORRIJAN LOS CÁLCULOS EN EL MODELO -->
-        <!-- menuitem id="menu_lot_tracking_from_destination"
+        <menuitem id="menu_lot_tracking_from_destination"
                   parent="lot_tracking.menu_lot_tracking"
-                  action="action_view_lot_tracking_from_destination" sequence="4"/ -->
+                  action="action_view_lot_tracking_from_destination" sequence="4"/>
 
         <record id="view_lot_tracking_move_form" model="ir.ui.view">
             <field name="name">Lot tracking move form</field>

@@ -104,6 +104,16 @@ msgid "Display Name"
 msgstr "Nombre"
 
 #. module: lot_tracking
+#: field:lot.tracking.productions,dosing_perfomance:0
+msgid "Dosing perfomance"
+msgstr "Rendimiento dosificación"
+
+#. module: lot_tracking
+#: view:website:lot_tracking.report_lot_tracking_productions
+msgid "Dosing perfomance:"
+msgstr "Rendimiento dosificación:"
+
+#. module: lot_tracking
 #: selection:stock.lot.move,state:0
 msgid "Draft"
 msgstr "Borrador"
@@ -144,12 +154,12 @@ msgstr "Obtener trazabilidad"
 #. module: lot_tracking
 #: field:lot.tracking.productions,harnessing:0
 msgid "Harnessing"
-msgstr "Aprovechamiento"
+msgstr "Rendimiento producción"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking_productions
 msgid "Harnessing:"
-msgstr "Aprovechamiento:"
+msgstr "Rendimiento producción:"
 
 #. module: lot_tracking
 #: field:lot.tracking,id:0 field:lot.tracking.productions,id:0
@@ -419,7 +429,7 @@ msgstr "Proveedor:"
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking_productions
 msgid "THEOR. CONS. QUANTITY"
-msgstr "CANTIDAD TEÓRICA CONSUMIDA"
+msgstr "CANTIDAD CONSUMIDA"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking_productions
@@ -434,7 +444,7 @@ msgstr "TIPO"
 #. module: lot_tracking
 #: field:stock.lot.move.productions,theoretical_consumed_qty:0
 msgid "Theoretical consumed qty"
-msgstr "Cdad. teórica cons."
+msgstr "Cdad. consumida"
 
 #. module: lot_tracking
 #: field:stock.lot.move.productions,theoretical_produced_units:0

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2019 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -13,6 +13,7 @@
     'website': 'www.pharmadus.com',
     'depends': ['stock', 'quality_management_menu', 'custom_widths'],
     'data': [
+        'data/remove_old_translations.xml',
         'views/lot_tracking_view.xml',
         'views/lot_tracking_productions_view.xml',
         'views/report_lot_tracking.xml',

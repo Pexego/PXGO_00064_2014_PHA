@@ -72,6 +72,7 @@ class LotTrackingProductions(models.Model):
                                    inverse_name='lot_tracking_id',
                                    readonly=True)
     harnessing = fields.Char(readonly=True)
+    dosing_perfomance = fields.Char(readonly=True)
 
     @api.one
     def _get_lot_moves(self):
@@ -176,6 +177,8 @@ class LotTrackingProductions(models.Model):
                     theo_manuf_units = abs(real_consumed_qty) / bom_qty
                     theo_consumed_qty = real_manuf_units * bom_qty * \
                                         -1 if real_consumed_qty < 0 else 1
+            elif key[:2] == 'SO':
+                theo_consumed_qty = real_consumed_qty
 
             lot_move_ids += [(0, 0, {
                 'origin': key if key[:2] in ('PO', 'SO', 'MO') else '',
@@ -198,14 +201,20 @@ class LotTrackingProductions(models.Model):
         qty = 0
         input = 0
         output = 0
+        dosing = 0
         for lm_id in self.lot_move_ids.sorted(key=lambda m: m.date):
             qty += lm_id.real_consumed_qty
             lm_id.stock_qty = qty
             if lm_id.real_consumed_qty > 0:
                 input += lm_id.real_consumed_qty
-            elif lm_id.theoretical_produced_units:
+            else:
+                dosing -= lm_id.real_consumed_qty
                 output -= lm_id.theoretical_consumed_qty
-        self.harnessing = '{:.2%} / in: {:.2f} / out: {:.2f}'.format(output / (input if input else 1), input, output)
+
+        self.harnessing = '{:.2%} / in: {:.2f} / out: {:.2f}'.\
+            format(output / (input if input else 1), input, output)
+        self.dosing_perfomance = '{:.2%} / in: {:.2f} / out: {:.2f}'.\
+            format(dosing / (input if input else 1), input, dosing)
 
     @api.onchange('product_id')
     def clear_all_data(self):

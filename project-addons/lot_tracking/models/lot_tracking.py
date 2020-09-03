@@ -2,7 +2,7 @@
 # © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, tools
+from openerp import models, fields, api
 
 
 class StockLotMove(models.TransientModel):
@@ -290,7 +290,6 @@ class LotTrackingFromDestination(models.Model):
     def _get_lot_moves(self):
         self.lot_move_ids.unlink()
         self._get_lot_movements(self.lot_id)
-
         # Get movements of related productions lots
         lot_ids = {self}
         prod_obj = self.env['mrp.production']
