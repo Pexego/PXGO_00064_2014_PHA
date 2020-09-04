@@ -346,6 +346,12 @@ msgid "Tare"
 msgstr "Peso ticket tara"
 
 #. module: mrp_production_ph
+#: code:addons/mrp_production_ph/wizards/mrp_product_produce.py:0
+#, python-format
+msgid "The calculations cannot be made with more than one raw material..."
+msgstr "No se pueden hacer los cálculos con más de una materia prima..."
+
+#. module: mrp_production_ph
 #: code:addons/mrp_production_ph/wizards/mrp_production_use_lot.py:95
 #: code:addons/mrp_production_ph/models/mrp_production.py:246
 #, python-format
