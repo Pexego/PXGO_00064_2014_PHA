@@ -58,6 +58,11 @@ msgid "Bom"
 msgstr "Lista de materiales"
 
 #. module: mrp_production_ph
+#: view:mrp.product.produce:mrp_production_ph.mrp_product_produce_wizard
+msgid "Calculate"
+msgstr "Calcular"
+
+#. module: mrp_production_ph
 #: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
 #: view:mrp.production.use.lot:mrp_production_ph.mrp_production_add_suffix_from_lot_wizard
 #: view:mrp.production.use.lot:mrp_production_ph.mrp_production_use_lot_wizard
@@ -216,6 +221,12 @@ msgid "Order"
 msgstr "Orden"
 
 #. module: mrp_production_ph
+#: field:mrp.product.produce,picking_weight:0
+#: field:mrp.production,picking_weight:0
+msgid "Picking weight"
+msgstr "Peso ticket acopio"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,product:0
 #: field:mrp.production.quality.consumption,product_id:0
 #: field:mrp.production.store.consumption,product_id:0
@@ -323,10 +334,16 @@ msgid "Released"
 msgstr "Liberada"
 
 #. module: mrp_production_ph
+#: field:mrp.product.produce,return_weight:0
+#: field:mrp.production,return_weight:0
+msgid "Return weight"
+msgstr "Peso ticket devolución"
+
+#. module: mrp_production_ph
 #: field:mrp.product.produce,tare:0
 #: field:mrp.production,tare:0
 msgid "Tare"
-msgstr "Tara"
+msgstr "Peso ticket tara"
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/wizards/mrp_production_use_lot.py:95

@@ -34,7 +34,7 @@
                 <group string="To Consume" position="after">
                     <group string="To return">
                         <field name="return_lines" nolabel="1">
-                            <tree editable="top" create="false" delete="false">
+                            <tree editable="top" create="false" delete="false" colors="red:product_qty != 0">
                                 <field name="product_id" readonly="1"/>
                                 <field name="product_qty"/>
                                 <field name="total_qty" invisible="1"/>

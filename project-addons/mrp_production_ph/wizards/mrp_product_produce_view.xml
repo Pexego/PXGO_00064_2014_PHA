@@ -11,11 +11,25 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard"/>
             <field name="priority">17</field>
             <field name="arch" type="xml">
-                <footer position="before">
-                    <group>
-                        <field name="tare" class="oe_inline"/>
+                <group string="To Consume" position="after">
+                    <group col="6">
+                        <group colspan="2">
+                            <field name="picking_weight" class="oe_inline"/>
+                            <field name="return_weight" class="oe_inline"/>
+                            <group col="3" colspan="2">
+                                <field name="tare" class="oe_inline"/>
+                                <button class="oe_stat_button oe_inline"
+                                    name="action_calculate_consumption"
+                                    type="object"
+                                    string="Calculate"
+                                    icon="fa-calculator"/>
+                            </group>
+                        </group>
+                        <group colspan="4">
+                            <separator/>
+                        </group>
                     </group>
-                </footer>
+                </group>
             </field>
         </record>
     </data>

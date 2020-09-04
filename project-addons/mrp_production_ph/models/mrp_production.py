@@ -64,7 +64,11 @@ class MrpProduction(models.Model):
     hoards_quants_reserved = fields.Boolean(compute='_hoards_quants_reserved')
     production_warning = fields.Char(compute='_production_warning',
                                      readonly=True)
-    tare = fields.Float()
+    picking_weight = fields.Float(
+        digits=dp.get_precision('Product Unit of Measure'))
+    return_weight = fields.Float(
+        digits=dp.get_precision('Product Unit of Measure'))
+    tare = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
 
     @api.multi
     def _hoards_quants_reserved(self):
