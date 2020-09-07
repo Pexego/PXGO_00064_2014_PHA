@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record id="bio_acciones_correctivas" model="crm.claim.subtype">
+            <field name="name">Acciones Correctivas</field>
+            <field name="company_id" ref="__export__.res_company_6"/>
+        </record>
+        <record id="bio_plan_de_acciones" model="crm.claim.subtype">
+            <field name="name">Plan de acciones</field>
+            <field name="company_id" ref="__export__.res_company_6"/>
+        </record>
+        <record id="bio_plan_de_cambios" model="crm.claim.subtype">
+            <field name="name">Plan de cambios</field>
+            <field name="company_id" ref="__export__.res_company_6"/>
+        </record>
+        <record id="bio_trabajo_no_conforme" model="crm.claim.subtype">
+            <field name="name">Trabajo no conforme</field>
+            <field name="company_id" ref="__export__.res_company_6"/>
+        </record>
+        <record id="bio_tarea_con_respuesta" model="crm.claim.subtype">
+            <field name="name">Tarea con respuesta</field>
+            <field name="company_id" ref="__export__.res_company_6"/>
+        </record>
+
+        <record id="regla_subtipo_reclamacion" model="ir.rule">
+            <field name="name">Sólo permite ver los subtipos de reclamaciones asociados con la compañía del usuario</field>
+            <field name="model_id" ref="crm_claim_rma_custom.model_crm_claim_subtype"/>
+            <field name="domain_force">['|', ('company_id.id','=',user.company_id.id),('company_id','=',False)]</field>
+            <field name="perm_create">True</field>
+            <field name="perm_unlink">True</field>
+            <field name="perm_write">True</field>
+            <field name="perm_read">True</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</openerp>

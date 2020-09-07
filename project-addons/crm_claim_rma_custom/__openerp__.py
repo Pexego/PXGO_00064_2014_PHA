@@ -14,8 +14,11 @@
     "data": [
         'views/crm_claim.xml',
         'views/crm_claim_stage.xml',
+        'views/crm_claim_subtype.xml',
         'qweb_reports/crm_claim.xml',
-        'claim_report.xml'
+        'claim_report.xml',
+        'data/crm_claim_subtype.xml',
+        'security/ir.model.access.csv',
     ],
     "installable": True
 }

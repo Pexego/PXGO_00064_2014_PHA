@@ -36,6 +36,20 @@
                     <field name="production_id"/>
                     <field name="lot_id"/>
                 </field>
+                <separator string="Product Returns" position="replace"></separator>
+                <field name="claim_line_ids" position="replace"></field>
+            </field>
+        </record>
+
+        <record id="crm_claim_type_form" model="ir.ui.view">
+            <field name="name">CRM Claim type form</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="crm_claim_type.crm_case_claims_form_view"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <field name="claim_subtype" required="False" options="{'no_create': False}"/>
+                </field>
             </field>
         </record>
 
@@ -92,6 +106,7 @@
             <field name="arch" type="xml">
                 <field name="date_closed" position="after">
                     <field name="claim_type"/>
+                    <field name="claim_subtype"/>
                 </field>
             </field>
         </record>
