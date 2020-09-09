@@ -22,35 +22,40 @@ class SaleFromHistory(models.TransientModel):
                 ('order_id.partner_shipping_id', '=', sale_id.partner_shipping_id.id),
                 ('order_id.state', '=', 'done'),
                 ('product_id', 'in', pv_item_ids.mapped('product_id').ids),
-            ], order='create_date desc, product_id', limit=80)
+            ], order='create_date desc, product_id')
             item_ids = []
             for sale_item_id in sale_item_ids:
                 found_idx = -1
                 for idx, data in enumerate(item_ids):
-                    if data[2]['date'] == sale_item_id.create_date and \
-                       data[2]['product_id'] == sale_item_id.product_id.id:
+                    if data[2]['product_id'] == sale_item_id.product_id.id:
                         found_idx = idx
                         break
                 if found_idx > -1:
-                    if sale_item_id.price_unit > 0:
+                    if item_ids[found_idx][2]['date'] != sale_item_id.create_date:
+                        continue
+                    elif sale_item_id.price_unit > 0:
                         item_ids[found_idx][2]['qty'] += \
                             sale_item_id.product_uom_qty
                     else:
                         item_ids[found_idx][2]['sample'] += \
                             sale_item_id.product_uom_qty
                 else:
-                    item_ids += [(0, 0, {
-                        'date': sale_item_id.create_date,
-                        'product_id': sale_item_id.product_id.id,
-                        'line': sale_item_id.product_id.line.id,
-                        'subline': sale_item_id.product_id.subline.id,
-                        'qty': sale_item_id.product_uom_qty \
-                            if sale_item_id.price_unit > 0 else 0,
-                        'sample': sale_item_id.product_uom_qty \
-                            if sale_item_id.price_unit <= 0 else 0,
-                        'packing': sale_item_id.product_id.packing,
-                        'box_elements': sale_item_id.product_id.box_elements,
-                    })]
+                    # Show only the first 80 products
+                    if len(item_ids) == 80:
+                        break
+                    else:
+                        item_ids += [(0, 0, {
+                            'date': sale_item_id.create_date,
+                            'product_id': sale_item_id.product_id.id,
+                            'line': sale_item_id.product_id.line.id,
+                            'subline': sale_item_id.product_id.subline.id,
+                            'qty': sale_item_id.product_uom_qty \
+                                if sale_item_id.price_unit > 0 else 0,
+                            'sample': sale_item_id.product_uom_qty \
+                                if sale_item_id.price_unit <= 0 else 0,
+                            'packing': sale_item_id.product_id.packing,
+                            'box_elements': sale_item_id.product_id.box_elements,
+                        })]
             vals['item_ids'] = item_ids
         res = super(SaleFromHistory, self).create(vals)
         return res
