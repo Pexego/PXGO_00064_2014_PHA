@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2020 Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="sale_order_form" model="ir.ui.view">
+            <field name="name">Sale order form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <group>
+                        <button name="from_line_subline"
+                                type="object"
+                                string="From catalog"/>
+                        <button name="from_history"
+                                type="object"
+                                string="From history"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
