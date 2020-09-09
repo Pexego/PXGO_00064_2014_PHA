@@ -34,10 +34,10 @@ class SaleFromHistory(models.TransientModel):
                     if item_ids[found_idx][2]['date'] != sale_item_id.create_date:
                         continue
                     elif sale_item_id.price_unit > 0:
-                        item_ids[found_idx][2]['qty'] += \
+                        item_ids[found_idx][2]['last_qty'] += \
                             sale_item_id.product_uom_qty
                     else:
-                        item_ids[found_idx][2]['sample'] += \
+                        item_ids[found_idx][2]['last_sample'] += \
                             sale_item_id.product_uom_qty
                 else:
                     # Show only the first 80 products
@@ -49,9 +49,9 @@ class SaleFromHistory(models.TransientModel):
                             'product_id': sale_item_id.product_id.id,
                             'line': sale_item_id.product_id.line.id,
                             'subline': sale_item_id.product_id.subline.id,
-                            'qty': sale_item_id.product_uom_qty \
+                            'last_qty': sale_item_id.product_uom_qty \
                                 if sale_item_id.price_unit > 0 else 0,
-                            'sample': sale_item_id.product_uom_qty \
+                            'last_sample': sale_item_id.product_uom_qty \
                                 if sale_item_id.price_unit <= 0 else 0,
                             'packing': sale_item_id.product_id.packing,
                             'box_elements': sale_item_id.product_id.box_elements,
@@ -72,6 +72,8 @@ class SaleFromHistoryItems(models.TransientModel):
     image_medium = fields.Binary(related='product_id.image_medium')
     qty = fields.Float(digits=(16,3))
     sample = fields.Float(digits=(16,3))
+    last_qty = fields.Float(digits=(16, 3))
+    last_sample = fields.Float(digits=(16, 3))
     packing = fields.Float(digits=(16,2))
     box_elements = fields.Float(digits=(16,2))
     processed = fields.Boolean(default=False)
@@ -97,3 +99,11 @@ class SaleFromHistoryItems(models.TransientModel):
                 'order_line': line_ids,
             })
         return {'result': 'OK'}
+
+    @api.multi
+    def action_copy_quantities(self):
+        self.ensure_one()
+        return self.write({
+            'qty': self.last_qty,
+            'sample': self.last_sample
+        })

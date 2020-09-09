@@ -21,7 +21,7 @@ class SaleFromCatalog(models.TransientModel):
             ('wizard_id', '=', line_subline_wizard_id),
             ('line', '=', line),
             ('subline', '=', subline),
-        ])
+        ], order='product_name')
         if product_ids:
             item_ids = []
             for prod_id in product_ids:

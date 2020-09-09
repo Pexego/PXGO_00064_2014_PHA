@@ -9,16 +9,14 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="project_id" position="after">
-                    <group>
-                        <button name="from_line_subline"
-                                type="object"
-                                string="From catalog"/>
-                        <button name="from_history"
-                                type="object"
-                                string="From history"/>
-                    </group>
-                </field>
+                <notebook position="before">
+                    <button name="from_line_subline"
+                            type="object"
+                            string="From catalog"/>
+                    <button name="from_history"
+                            type="object"
+                            string="From history"/>
+                </notebook>
             </field>
         </record>
     </data>

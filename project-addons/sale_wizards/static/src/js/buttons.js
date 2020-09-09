@@ -23,6 +23,7 @@ openerp.sale_wizards = function(instance) {
         },
         on_sale_from_catalog: function() {
             var self = this;
+            // var ids = self.get_selected_ids();
             var ids = this.dataset.ids;
 
             new instance.web.Model('sale.from.catalog.items')
@@ -34,7 +35,8 @@ openerp.sale_wizards = function(instance) {
         },
         on_sale_from_history: function() {
             var self = this;
-            var ids = self.get_selected_ids();
+            // var ids = self.get_selected_ids();
+            var ids = this.dataset.ids;
 
             new instance.web.Model('sale.from.history.items')
                 .call('action_create_sale_items', [ids]).then(function(data) {

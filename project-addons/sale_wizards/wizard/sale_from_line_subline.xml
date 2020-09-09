@@ -12,8 +12,7 @@
                     <field name="subline"/>
                     <button name="action_show_products"
                             type="object"
-                            icon="gtk-go-forward"
-                            style="width: 100%;"/>
+                            icon="gtk-go-forward"/>
                 </tree>
             </field>
         </record>

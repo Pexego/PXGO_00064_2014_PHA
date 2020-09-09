@@ -30,6 +30,7 @@ class SaleFromLineSubline(models.TransientModel):
                     'product_id': product_id.id,
                     'line': line_id,
                     'subline': subline_id,
+                    'product_name': product_id.name,
                 })]
                 if line_id in combinations:
                     if not subline_id in combinations[line_id]:
@@ -83,3 +84,4 @@ class SaleFromLineSublineProducts(models.TransientModel):
     product_id = fields.Many2one('product.product')
     line = fields.Many2one('product.line')
     subline = fields.Many2one('product.subline')
+    product_name = fields.Char()

@@ -9,7 +9,6 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree editable="top">
-                    <field name="date" readonly="1"/>
                     <field name="product_id" readonly="1"/>
                     <!-- To show the image in tree view, it is necessary
                          to install OCA web_tree_image module -->
@@ -20,6 +19,12 @@
                            readonly="1"/>
                     <field name="qty"/>
                     <field name="sample"/>
+                    <button name="action_copy_quantities"
+                            type="object"
+                            icon="gtk-go-back"/>
+                    <field name="date" readonly="1"/>
+                    <field name="last_qty" readonly="1"/>
+                    <field name="last_sample" readonly="1"/>
                     <field name="packing" readonly="1"/>
                     <field name="box_elements" readonly="1"/>
                 </tree>

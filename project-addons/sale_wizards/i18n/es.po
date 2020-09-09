@@ -116,6 +116,16 @@ msgid "Last Modified on"
 msgstr "Última modificación el"
 
 #. module: sale_wizards
+#: field:sale.from.history.items,last_qty:0
+msgid "Last qty"
+msgstr "Cantidad pedido"
+
+#. module: sale_wizards
+#: field:sale.from.history.items,last_sample:0
+msgid "Last sample"
+msgstr "Muestra pedido"
+
+#. module: sale_wizards
 #: field:sale.from.catalog,write_uid:0
 #: field:sale.from.catalog.items,write_uid:0
 #: field:sale.from.history,write_uid:0
