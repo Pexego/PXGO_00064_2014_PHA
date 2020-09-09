@@ -190,6 +190,7 @@
                                 </div>
                                 <field name="final_product_id"/>
                                 <field name="final_lot_id"/>
+                                <field name="stock_inventory_note"/>
                             </group>
                         </group>
                     </sheet>

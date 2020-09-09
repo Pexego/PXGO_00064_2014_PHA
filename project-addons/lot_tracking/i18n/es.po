@@ -402,6 +402,12 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: lot_tracking
+#: field:stock.lot.move,stock_inventory_note:0
+#: field:stock.lot.move.from.origin,stock_inventory_note:0
+msgid "Stock inventory note"
+msgstr "Notas desde ajuste de inventario"
+
+#. module: lot_tracking
 #: field:stock.lot.move.productions,stock_qty:0
 msgid "Stock qty"
 msgstr "Cdad. stock"
