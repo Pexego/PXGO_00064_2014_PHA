@@ -679,6 +679,26 @@ msgid "Product cost raw material"
 msgstr "Coste de producto M.P."
 
 #. module: custom_reports
+#: field:account.invoice.report,product_cost_eval:0
+msgid "Product cost eval"
+msgstr "Coste de producto escandallo"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_eval_components:0
+msgid "Product cost eval components"
+msgstr "Coste de producto escandallo componentes"
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_eval_dl:0
+msgid "Product cost eval direct labor"
+msgstr "Coste de producto escandallo M.O.D."
+
+#. module: custom_reports
+#: field:account.invoice.report,product_cost_eval_rm:0
+msgid "Product cost eval raw material"
+msgstr "Coste de producto escandallo M.P."
+
+#. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
 #: field:account.invoice.report,product_description:0
 msgid "Product description"

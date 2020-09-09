@@ -26,15 +26,16 @@
                         </div>
                     </div>
                     <div class="page">
-                        <div style="font-size: 2em;">
+                        <div style="font-size: 1.8em;">
                             LOT TRACKING FROM PRODUCTIONS: <b t-field="o.lot_id"/><br/>
                         </div>
-                        <div style="font-size: 1.2em; border: 2px solid black; padding: 1em; width: 95%;">
+                        <div style="font-size: 1em; border: 2px solid black; padding: 1em; width: 95%;">
                             <b>Product:</b> <span t-field="o.product_id"/><br/>
                             <b>Supplier:</b> <span t-field="o.supplier_id"/><br/>
                             <b>Date received:</b> <span t-field="o.date_received"/><br/>
                             <b>Supplier lot:</b> <span t-field="o.supplier_lot"/><br/>
                             <b>Quantity received:</b> <span t-field="o.qty_received"/><br/>
+                            <b>Dosing perfomance:</b> <span t-field="o.dosing_perfomance"/><br/>
                             <b>Harnessing:</b> <span t-field="o.harnessing"/><br/>
                         </div>
 

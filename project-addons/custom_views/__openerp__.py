@@ -67,6 +67,7 @@
         'views/account_move_line_view.xml',
         'views/return_reason_view.xml',
         'views/calendar_event_view.xml',
+        'views/res_partner_pricelist.xml',
         'wizard/payment_order_create_view.xml',
         'wizard/return_product.xml',
         'wizard/product_stock_unsafety_view.xml',

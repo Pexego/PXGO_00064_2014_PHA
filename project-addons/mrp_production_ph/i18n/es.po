@@ -35,6 +35,11 @@ msgid "Add suffix from lot..."
 msgstr "Añadir sufijo del lote..."
 
 #. module: mrp_production_ph
+#: field:stock.transfer_details_items,available_qty:0
+msgid "Available qty"
+msgstr "Disponible"
+
+#. module: mrp_production_ph
 #: selection:mrp.production.available.lot,state:0
 #: selection:stock.quant,production_state:0
 msgid "Awaiting Raw Materials"
@@ -51,6 +56,11 @@ msgstr "Consumir preferentemente antes de"
 #: field:mrp.production.confirm,bom:0
 msgid "Bom"
 msgstr "Lista de materiales"
+
+#. module: mrp_production_ph
+#: view:mrp.product.produce:mrp_production_ph.mrp_product_produce_wizard
+msgid "Calculate"
+msgstr "Calcular"
 
 #. module: mrp_production_ph
 #: view:mrp.production.confirm:mrp_production_ph.mrp_production_confirm_wizard
@@ -211,6 +221,12 @@ msgid "Order"
 msgstr "Orden"
 
 #. module: mrp_production_ph
+#: field:mrp.product.produce,picking_weight:0
+#: field:mrp.production,picking_weight:0
+msgid "Picking weight"
+msgstr "Peso ticket acopio"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,product:0
 #: field:mrp.production.quality.consumption,product_id:0
 #: field:mrp.production.store.consumption,product_id:0
@@ -318,10 +334,22 @@ msgid "Released"
 msgstr "Liberada"
 
 #. module: mrp_production_ph
+#: field:mrp.product.produce,return_weight:0
+#: field:mrp.production,return_weight:0
+msgid "Return weight"
+msgstr "Peso ticket devolución"
+
+#. module: mrp_production_ph
 #: field:mrp.product.produce,tare:0
 #: field:mrp.production,tare:0
 msgid "Tare"
-msgstr "Tara"
+msgstr "Peso ticket tara"
+
+#. module: mrp_production_ph
+#: code:addons/mrp_production_ph/wizards/mrp_product_produce.py:0
+#, python-format
+msgid "The calculations cannot be made with more than one raw material..."
+msgstr "No se pueden hacer los cálculos con más de una materia prima..."
 
 #. module: mrp_production_ph
 #: code:addons/mrp_production_ph/wizards/mrp_production_use_lot.py:95

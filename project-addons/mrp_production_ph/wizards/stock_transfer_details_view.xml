@@ -12,6 +12,12 @@
             <field name="arch" type="xml">
                 <field name="sourceloc_id" position="before">
                     <field name="lot_barcode"/>
+                    <field name="available_qty"/>
+                </field>
+                <field name="picking_destination_location_id" position="after">
+                    <group string="Notas desde producción / albaranes">
+                        <field name="notes" attrs="{'invisible': [('notes', '=', False)]}" nolabel="1" style="font-weight: bold;"/>
+                    </group>
                 </field>
                 <xpath expr="//field[@name='item_ids']/tree/field[@name='name']" position="attributes">
                     <attribute name="invisible">1</attribute>

@@ -2,7 +2,7 @@
 # © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, tools
+from openerp import models, fields, api
 
 
 class StockLotMove(models.TransientModel):
@@ -36,6 +36,7 @@ class StockLotMove(models.TransientModel):
     ])
     qty = fields.Float(string='Quantity')
     type = fields.Char(compute='_check_type')
+    stock_inventory_note = fields.Text()
 
     @api.one
     def _check_type(self):
@@ -139,12 +140,20 @@ class LotTracking(models.Model):
                             if move_id.picking_id.origin else move_id.origin
                         final_product_id = False
                         final_lot_id = False
+                        stock_inventory_note = False
                         if origin and origin[0:2] == 'MO':
                             production_id = self.env['mrp.production'].search(
                                 [('name', '=', origin)])
                             if production_id:
                                 final_product_id = production_id.product_id.id
                                 final_lot_id = production_id.final_lot_id.id
+                        else:
+                            stock_inventory_id = self.\
+                                env['stock.inventory'].search([
+                                    ('move_ids', 'in', quant_id.move_ids.ids)
+                                ])
+                            if stock_inventory_id:
+                                stock_inventory_note = stock_inventory_id.notes
 
                         self.write({'lot_move_ids': [(0, 0, {
                             'lot_id': self.lot_id.id,
@@ -159,7 +168,8 @@ class LotTracking(models.Model):
                             'final_product_id': final_product_id,
                             'final_lot_id': final_lot_id,
                             'state': move_id.state,
-                            'qty': quant_id.qty
+                            'qty': quant_id.qty,
+                            'stock_inventory_note': stock_inventory_note,
                         })]})
 
         total = 0
@@ -290,7 +300,6 @@ class LotTrackingFromDestination(models.Model):
     def _get_lot_moves(self):
         self.lot_move_ids.unlink()
         self._get_lot_movements(self.lot_id)
-
         # Get movements of related productions lots
         lot_ids = {self}
         prod_obj = self.env['mrp.production']

@@ -3,21 +3,40 @@
     <data>
         <record id="paperformat_gtin_barcode" model="report.paperformat">
             <field name="name">GTIN Barcode</field>
-            <field name="format">custom</field>
-            <field name="page_height">35</field>
-            <field name="page_width">150</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">5</field>
-            <field name="margin_bottom">5</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
+            <field name="format">A6</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="dpi">90</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="orientation">Landscape</field>
             <field name="header_line" eval="False"/>
-            <field name="header_spacing">0</field>
+            <field name="header_spacing">1</field>
+        </record>
+
+        <record id="paperformat_gtin_barcode_tiny" model="report.paperformat">
+            <field name="name">GTIN Barcode tiny</field>
+            <field name="format">custom</field>
+            <field name="page_height">60</field>
+            <field name="page_width">100</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">1</field>
             <field name="dpi">90</field>
         </record>
 
         <record id="product_gtin_codes.report_gtin_barcode" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="product_gtin_codes.paperformat_gtin_barcode"/>
+        </record>
+
+        <record id="product_gtin_codes.report_gtin_barcode_tiny" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="product_gtin_codes.paperformat_gtin_barcode_tiny"/>
         </record>
     </data>
 </openerp>

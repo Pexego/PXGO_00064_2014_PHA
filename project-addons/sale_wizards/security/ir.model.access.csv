@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_from_catalog,access_sale_from_catalog,model_sale_from_catalog,,1,1,1,1
+access_sale_from_catalog_items,access_sale_from_catalog_items,model_sale_from_catalog_items,,1,1,1,1
+access_sale_from_history,access_sale_from_history,model_sale_from_history,,1,1,1,1
+access_sale_from_history_items,access_sale_from_history_items,model_sale_from_history_items,,1,1,1,1

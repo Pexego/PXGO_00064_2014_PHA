@@ -16,27 +16,60 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <group>
                             <group colspan="2" col="7">
                                 <field name="gtin12"/>
-                                <button name="action_get_gtin12_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                                <button name="action_print_gtin12_barcode" type="object" icon="STOCK_PRINT"/>
-                                <separator colspan="3"/>
+                                <button name="action_get_gtin_barcode"
+                                        type="object"
+                                        icon="STOCK_SELECT_COLOR"
+                                        context="{'barcode_type': 'gtin12'}"
+                                />
+                                <button name="action_print_gtin_barcode"
+                                        type="object"
+                                        icon="STOCK_PRINT"
+                                        context="{'barcode_type': 'gtin12'}"
+                                />
+                                <button name="action_print_tiny_gtin_barcode"
+                                        type="object"
+                                        icon="STOCK_DND"
+                                        context="{'barcode_type': 'gtin12'}"
+                                />
+                                <separator colspan="2"/>
                             </group>
                             <group colspan="2" col="7">
                                 <field name="gtin13"/>
-                                <button name="action_get_gtin13_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                                <button name="action_print_gtin13_barcode" type="object" icon="STOCK_PRINT"/>
-                                <separator colspan="3"/>
+                                <button name="action_get_gtin_barcode"
+                                        type="object"
+                                        icon="STOCK_SELECT_COLOR"
+                                        context="{'barcode_type': 'gtin13'}"
+                                />
+                                <button name="action_print_gtin_barcode"
+                                        type="object"
+                                        icon="STOCK_PRINT"
+                                        context="{'barcode_type': 'gtin13'}"
+                                />
+                                <button name="action_print_tiny_gtin_barcode"
+                                        type="object"
+                                        icon="STOCK_DND"
+                                        context="{'barcode_type': 'gtin13'}"
+                                />
+                                <separator colspan="2"/>
                             </group>
                             <field name="gtin14_ids">
                                 <tree editable="top" create="false" delete="false">
                                     <field name="gtin14"/>
-                                    <button name="action_get_gtin14_barcode"
-                                            class="oe_read_only"
+                                    <button name="action_get_gtin_barcode"
                                             type="object"
-                                            icon="STOCK_SELECT_COLOR"/>
-                                    <button name="action_print_gtin14_barcode"
-                                            class="oe_read_only"
+                                            icon="STOCK_SELECT_COLOR"
+                                            context="{'barcode_type': 'gtin14'}"
+                                    />
+                                    <button name="action_print_gtin_barcode"
                                             type="object"
-                                            icon="STOCK_PRINT"/>
+                                            icon="STOCK_PRINT"
+                                            context="{'barcode_type': 'gtin14'}"
+                                    />
+                                    <button name="action_print_tiny_gtin_barcode"
+                                            type="object"
+                                            icon="STOCK_DND"
+                                            context="{'barcode_type': 'gtin14'}"
+                                    />
                                     <field name="log_var" invisible="1"/>
                                     <field name="units" attrs="{'readonly': [('log_var', '=', 8)]}"/>
                                     <field name="used_for"/>
@@ -81,65 +114,197 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <separator colspan="2" string="GTIN 12"/>
                         <group col="7">
                             <field name="gtin12"/>
-                            <button name="action_get_gtin12_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin12_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin12'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin12'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin12'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                         <separator colspan="2" string="GTIN 13"/>
                         <group col="7">
                             <field name="gtin13"/>
-                            <button name="action_get_gtin13_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin13_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin13'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin13'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin13'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                         <separator colspan="2" string="GTIN 14"/>
                         <group col="7">
                             <field name="gtin14_1"/>
-                            <button name="action_get_gtin14_1_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_1_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_1'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_1'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_1'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                         <group col="7">
                             <field name="gtin14_2"/>
-                            <button name="action_get_gtin14_2_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_2_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_2'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_2'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_2'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                         <group col="7">
                             <field name="gtin14_3"/>
-                            <button name="action_get_gtin14_3_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_3_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_3'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_3'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_3'}"
+                            />
+                            <separator colspan="2"/>
+
                         </group>
                         <group col="7">
                             <field name="gtin14_4"/>
-                            <button name="action_get_gtin14_4_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_4_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_4'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_4'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_4'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                         <group col="7">
                             <field name="gtin14_5"/>
-                            <button name="action_get_gtin14_5_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_5_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_5'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_5'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_5'}"
+                            />
+                            <separator colspan="2"/>
+
                         </group>
                         <group col="7">
                             <field name="gtin14_6"/>
-                            <button name="action_get_gtin14_6_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_6_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_6'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_6'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_6'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                         <group col="7">
                             <field name="gtin14_7"/>
-                            <button name="action_get_gtin14_7_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_7_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_7'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_7'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_7'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                         <group col="7">
                             <field name="gtin14_8"/>
-                            <button name="action_get_gtin14_8_barcode" type="object" icon="STOCK_SELECT_COLOR"/>
-                            <button name="action_print_gtin14_8_barcode" type="object" icon="STOCK_PRINT"/>
-                            <separator colspan="3"/>
+                            <button name="action_get_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_SELECT_COLOR"
+                                    context="{'barcode_type': 'gtin14_8'}"
+                            />
+                            <button name="action_print_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_PRINT"
+                                    context="{'barcode_type': 'gtin14_8'}"
+                            />
+                            <button name="action_print_tiny_gtin_barcode"
+                                    type="object"
+                                    icon="STOCK_DND"
+                                    context="{'barcode_type': 'gtin14_8'}"
+                            />
+                            <separator colspan="2"/>
                         </group>
                     </sheet>
                 </form>

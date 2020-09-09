@@ -19,6 +19,7 @@
         'security/ir.model.access.csv',
         'data/email_template.xml',
         'data/ir_cron.xml',
+        'data/ir_sequence.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'views/purchase_order_view.xml',

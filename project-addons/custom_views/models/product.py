@@ -75,6 +75,7 @@ class ProductProduct(models.Model):
     depth = fields.Float()
     earliest_picking = fields.Date(compute='_earliest_picking',
                                    search='_search_earliest_picking')
+    obsolete = fields.Boolean(default=False)
 
     @api.one
     @api.constrains('year_appearance')
@@ -155,6 +156,16 @@ class ProductTemplate(models.Model):
                                  digits=dp.get_precision('Product Price'))
     cost_price_dl = fields.Float('Direct labor cost price',
                                  digits=dp.get_precision('Product Price'))
+    cost_eval_price_method = fields.Char('Costing Method',
+                                   compute='_cost_eval_method')
+    cost_eval_price = fields.Float('Product cost evaluation',
+                                 digits=dp.get_precision('Product Price'))
+    cost_eval_price_rm = fields.Float('Raw material cost evaluation price',
+                                 digits=dp.get_precision('Product Price'))
+    cost_eval_price_components = fields.Float('Components cost evaluation price',
+                                 digits=dp.get_precision('Product Price'))
+    cost_eval_price_dl = fields.Float('Direct labor cost evaluation price',
+                                 digits=dp.get_precision('Product Price'))
     internal_scrapped_qty = fields.Float('Stock at internal scrap location',
                            digits = dp.get_precision('Product Unit of Measure'),
                            readonly = True)
@@ -190,6 +201,10 @@ class ProductTemplate(models.Model):
                 for pricelist in seller.pricelist_ids:
                     ids.append(pricelist.id)
         self.suppliers_pricelists = ids
+
+    @api.one
+    def _cost_eval_method(self):
+        self.cost_eval_price_method = _('Cost eval (night calculation)')
 
     @api.multi
     def compute_detailed_stock(self):

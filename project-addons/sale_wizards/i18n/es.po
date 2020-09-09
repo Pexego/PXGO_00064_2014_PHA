@@ -1,0 +1,234 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* sale_wizards
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-09 08:31+0000\n"
+"PO-Revision-Date: 2020-09-09 08:31+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,box_elements:0
+#: field:sale.from.history.items,box_elements:0
+msgid "Box elements"
+msgstr "Elementos por caja (Completo)"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,create_uid:0
+#: field:sale.from.catalog.items,create_uid:0
+#: field:sale.from.history,create_uid:0
+#: field:sale.from.history.items,create_uid:0
+#: field:sale.from.line.subline,create_uid:0
+#: field:sale.from.line.subline.items,create_uid:0
+#: field:sale.from.line.subline.products,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,create_date:0
+#: field:sale.from.catalog.items,create_date:0
+#: field:sale.from.history,create_date:0
+#: field:sale.from.history.items,create_date:0
+#: field:sale.from.line.subline,create_date:0
+#: field:sale.from.line.subline.items,create_date:0
+#: field:sale.from.line.subline.products,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: sale_wizards
+#: field:sale.from.history.items,date:0
+msgid "Date"
+msgstr "Fecha pedido"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,display_name:0
+#: field:sale.from.catalog.items,display_name:0
+#: field:sale.from.history,display_name:0
+#: field:sale.from.history.items,display_name:0
+#: field:sale.from.line.subline,display_name:0
+#: field:sale.from.line.subline.items,display_name:0
+#: field:sale.from.line.subline.products,display_name:0
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: sale_wizards
+#: view:sale.order:sale_wizards.sale_order_form
+msgid "From catalog"
+msgstr "Desde catálogo"
+
+#. module: sale_wizards
+#: view:sale.order:sale_wizards.sale_order_form
+msgid "From history"
+msgstr "Desde histórico"
+
+#. module: sale_wizards
+#: view:sale.from.line.subline.items:sale_wizards.sale_from_line_subline_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,id:0
+#: field:sale.from.catalog.items,id:0
+#: field:sale.from.history,id:0
+#: field:sale.from.history.items,id:0
+#: field:sale.from.line.subline,id:0
+#: field:sale.from.line.subline.items,id:0
+#: field:sale.from.line.subline.products,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: sale_wizards
+#: help:sale.from.catalog.items,image_medium:0
+#: help:sale.from.history.items,image_medium:0
+msgid "Image of the product variant (Medium-sized image of product template if false)."
+msgstr "Imagen"
+
+#. module: sale_wizards
+#: code:addons/sale_wizards/wizard/sale_from_catalog.py:41
+#, python-format
+msgid "It is not possible to obtain the price list of the sale order"
+msgstr "No es posible obtener la lista de precios del pedido"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,item_ids:0
+#: field:sale.from.history,item_ids:0
+#: field:sale.from.line.subline,item_ids:0
+msgid "Item ids"
+msgstr "Elementos"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,__last_update:0
+#: field:sale.from.catalog.items,__last_update:0
+#: field:sale.from.history,__last_update:0
+#: field:sale.from.history.items,__last_update:0
+#: field:sale.from.line.subline,__last_update:0
+#: field:sale.from.line.subline.items,__last_update:0
+#: field:sale.from.line.subline.products,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: sale_wizards
+#: field:sale.from.history.items,last_qty:0
+msgid "Last qty"
+msgstr "Cantidad pedido"
+
+#. module: sale_wizards
+#: field:sale.from.history.items,last_sample:0
+msgid "Last sample"
+msgstr "Muestra pedido"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,write_uid:0
+#: field:sale.from.catalog.items,write_uid:0
+#: field:sale.from.history,write_uid:0
+#: field:sale.from.history.items,write_uid:0
+#: field:sale.from.line.subline,write_uid:0
+#: field:sale.from.line.subline.items,write_uid:0
+#: field:sale.from.line.subline.products,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,write_date:0
+#: field:sale.from.catalog.items,write_date:0
+#: field:sale.from.history,write_date:0
+#: field:sale.from.history.items,write_date:0
+#: field:sale.from.line.subline,write_date:0
+#: field:sale.from.line.subline.items,write_date:0
+#: field:sale.from.line.subline.products,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,line:0
+#: field:sale.from.history.items,line:0
+#: view:sale.from.line.subline.items:sale_wizards.sale_from_line_subline_search
+#: field:sale.from.line.subline.items,line:0
+#: field:sale.from.line.subline.products,line:0
+msgid "Line"
+msgstr "Línea"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,image_medium:0
+#: field:sale.from.history.items,image_medium:0
+msgid "Medium-sized image"
+msgstr "Imagen"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,packing:0
+#: field:sale.from.history.items,packing:0
+msgid "Packing"
+msgstr "Elementos por caja expositora"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,processed:0
+#: field:sale.from.history.items,processed:0
+msgid "Processed"
+msgstr "Procesado"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,product_id:0
+#: field:sale.from.history.items,product_id:0
+#: field:sale.from.line.subline.products,product_id:0
+msgid "Product id"
+msgstr "Producto"
+
+#. module: sale_wizards
+#: field:sale.from.line.subline,product_ids:0
+msgid "Product ids"
+msgstr "Productos"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,qty:0
+#: field:sale.from.history.items,qty:0
+msgid "Qty"
+msgstr "Cantidad"
+
+#. module: sale_wizards
+#: code:addons/sale_wizards/wizard/sale_from_catalog.py:40
+#, python-format
+msgid "Sale from catalog wizard"
+msgstr "Asistente de venta desde catálogo"
+
+#. module: sale_wizards
+#: field:sale.from.catalog,sale_order_id:0
+#: field:sale.from.history,sale_order_id:0
+#: field:sale.from.line.subline,sale_order_id:0
+msgid "Sale order id"
+msgstr "Pedido de venta"
+
+#. module: sale_wizards
+#: model:ir.model,name:sale_wizards.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,sample:0
+#: field:sale.from.history.items,sample:0
+msgid "Sample"
+msgstr "Muestra"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,subline:0
+#: field:sale.from.history.items,subline:0
+#: field:sale.from.line.subline.items,subline:0
+#: field:sale.from.line.subline.products,subline:0
+msgid "Subline"
+msgstr "Sublínea"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,wizard_id:0
+#: field:sale.from.history.items,wizard_id:0
+#: field:sale.from.line.subline.items,wizard_id:0
+#: field:sale.from.line.subline.products,wizard_id:0
+msgid "Wizard id"
+msgstr "Asistente"
+

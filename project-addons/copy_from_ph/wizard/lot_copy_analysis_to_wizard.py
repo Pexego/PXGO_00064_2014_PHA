@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2019 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api
@@ -27,9 +27,10 @@ class LotCopyAnalysisToWizard(models.TransientModel):
     @api.model
     def create(self, vals):
         res = super(models.TransientModel, self).create(vals)
-        qc_reception_id = self.env.ref('__export__.stock_location_14')
+        qc_reception_ids = (self.env.ref('__export__.stock_location_14').id,
+                            self.env.ref('__export__.stock_location_100').id)
         lot_ids = self.env['stock.quant'].search([
-            ('location_id', '=', qc_reception_id.id),
+            ('location_id', 'in', qc_reception_ids),
             ('lot_id', '!=', vals['origin_lot_id']),
         ]).mapped('lot_id').sorted(key=lambda l: l.name+'_'+l.product_id.name)
         item_ids = self.env['lot.copy.analysis.to.items']

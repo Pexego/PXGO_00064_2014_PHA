@@ -201,6 +201,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="cost_price_components"/>
                     <field name="cost_price_dl"/>
                 </field>
+                <group name="general" position="after">
+                    <group name="price_evaluation">
+                        <field name="cost_eval_price_method" readonly="1"/>
+                        <field name="cost_eval_price" readonly="1"/>
+                        <field name="cost_eval_price_rm" readonly="1"/>
+                        <field name="cost_eval_price_components" readonly="1"/>
+                        <field name="cost_eval_price_dl" readonly="1"/>
+                    </group>
+                </group>
                 <field name="seller_ids" position="replace">
                     <field name="seller_ids" class="oe_edit_only"/>
                     <field name="suppliers_pricelists" class="oe_read_only"/>
@@ -296,6 +305,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="reception_warehouse_warning"/>
                     </group>
                 </page>
+            </field>
+        </record>
+
+        <record id="product_normal_form" model="ir.ui.view">
+            <field name="name">Custom views - Product form (high priority)</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="obsolete"/>
+                </field>
             </field>
         </record>
 
