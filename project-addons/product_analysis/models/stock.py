@@ -398,7 +398,9 @@ class StockProductionLot(models.Model):
                 self.production_review_date = datetime.today()
                 self.production_review_done_by = self.env.user.partner_id.name
                 self.production_review_done_by_id = self.env.user
-                self.production_review_ids.write({'result': 'yes'})
+                self.production_review_ids.\
+                    filtered(lambda r: r.question_id.id != 3).\
+                    write({'result': 'yes'})
             elif sign_type == 'technical_direction':
                 self.technical_direction_review_date = datetime.today()
                 self.technical_direction_review_done_by = \
