@@ -44,7 +44,7 @@ import logging
 import paramiko
 from lxml import etree
 from pprint import pprint
-import chardet
+
 
 _logger = logging.getLogger(__name__)
 try:
@@ -210,13 +210,6 @@ def fillzero(data, parameters, length, type, cast):
     while len(ustr(data))<length:
         data="0"+str(data)
     return data
-
-def open_detecting_encoding(filepath, mode):
-    file = open(filepath, 'rb')
-    rawdata = file.read()
-    file.close()
-    encoding = chardet.detect(rawdata)['encoding']
-    return codecs.open(filepath, mode, encoding)
 
 class edi_edi (osv.osv):
     _name = 'edi.edi'
@@ -1164,8 +1157,7 @@ class edi_edi (osv.osv):
                         context['type'] = 'import'
                         context['filename'] = filename
                         try:
-#                            file = codecs.open(filename,'rb',edi.charset)
-                            file = open_detecting_encoding(filename, 'rb')
+                            file = codecs.open(filename,'rb',edi.charset)
                             file_csv = unicode_csv_reader(file, delimiter=str(edi.delimiter[0]), quotechar=str(edi.quotechar))
                             data[filename] = []
                             first = True
