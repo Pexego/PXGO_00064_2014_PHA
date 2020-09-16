@@ -44,6 +44,7 @@ import logging
 import paramiko
 from lxml import etree
 from pprint import pprint
+import unicodedata
 
 
 _logger = logging.getLogger(__name__)
@@ -122,7 +123,8 @@ def xml2dict(tree,level=0):
 def unicode_csv_reader(unicode_csv_data, dialect=csv.excel, **kwargs):
     csv_reader = csv.reader(utf_8_encoder(unicode_csv_data), dialect=dialect, **kwargs)
     for row in csv_reader:
-        yield [unicode(cell, 'utf-8') for cell in row]
+        yield [unicodedata.normalize('NFKD', cell.decode('utf-8')).
+                   encode('ascii', 'ignore').decode('utf-8') for cell in row]
 
 class UnicodeWriter:
     def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
