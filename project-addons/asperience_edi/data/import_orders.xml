@@ -724,5 +724,126 @@ name = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
             <field name="type" eval="'char'" />
             <field name="description" eval="'2'" />
         </record>
+
+        <record forcecreate="True" id="edi_edi_orders_nadpr" model="edi.edi.line.csv">
+            <field name="name">NADPR</field>
+            <field name="sequence" eval="12" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_nadpr_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_nadpr" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_nadpr_field_2" model="edi.edi.line.csv.field">
+            <field name="name">1</field>
+            <field name="line" ref="edi_edi_orders_nadpr" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+
+
+        <record forcecreate="True" id="edi_edi_orders_ctaby" model="edi.edi.line.csv">
+            <field name="name">CTABY</field>
+            <field name="sequence" eval="12" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_ctaby_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_ctaby" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_ctaby_field_2" model="edi.edi.line.csv.field">
+            <field name="name">1</field>
+            <field name="line" ref="edi_edi_orders_ctaby" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_ctaby_field_3" model="edi.edi.line.csv.field">
+            <field name="name">2</field>
+            <field name="line" ref="edi_edi_orders_ctaby" />
+            <field name="sequence" eval="3" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_ctaby_field_4" model="edi.edi.line.csv.field">
+            <field name="name">3</field>
+            <field name="line" ref="edi_edi_orders_ctaby" />
+            <field name="sequence" eval="4" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_CTADP" model="edi.edi.line.csv">
+            <field name="name">CTADP</field>
+            <field name="sequence" eval="12" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_CTADP_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_CTADP" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_CTADP_field_2" model="edi.edi.line.csv.field">
+            <field name="name">1</field>
+            <field name="line" ref="edi_edi_orders_CTADP" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_CTADP_field_3" model="edi.edi.line.csv.field">
+            <field name="name">2</field>
+            <field name="line" ref="edi_edi_orders_CTADP" />
+            <field name="sequence" eval="3" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_CTADP_field_4" model="edi.edi.line.csv.field">
+            <field name="name">3</field>
+            <field name="line" ref="edi_edi_orders_CTADP" />
+            <field name="sequence" eval="4" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+
+
+        <record forcecreate="True" id="edi_edi_orders_COMDP" model="edi.edi.line.csv">
+            <field name="name">COMDP</field>
+            <field name="sequence" eval="12" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_COMDP_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_COMDP" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+
+        <record forcecreate="True" id="edi_edi_orders_COMDP_field_2" model="edi.edi.line.csv.field">
+            <field name="name">1</field>
+            <field name="line" ref="edi_edi_orders_COMDP" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_COMDP_field_3" model="edi.edi.line.csv.field">
+            <field name="name">2</field>
+            <field name="line" ref="edi_edi_orders_COMDP" />
+            <field name="sequence" eval="3" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
     </data>
 </openerp>
