@@ -18,16 +18,17 @@ class MrpProductProduce(models.TransientModel):
     @api.multi
     def do_produce(self):
         res = super(MrpProductProduce, self).do_produce()
-        production_id = self.env['mrp.production'].browse(
-            self.env.context.get('active_id', False)
-        )
-        if production_id:
-            production_id.write({
-                'picking_weight': self.picking_weight,
-                'return_weight': self.return_weight,
-                'tare': self.tare
-            })
-        return res
+        if self.picking_weight or self.return_weight or self.tare:
+            production_id = self.env['mrp.production'].search([
+                ('final_lot_id', '=', self.lot_id.id)
+            ])
+            if production_id:
+                production_id.write({
+                    'picking_weight': self.picking_weight,
+                    'return_weight': self.return_weight,
+                    'tare': self.tare
+                })
+            return res
 
     @api.multi
     def action_calculate_consumption(self):
