@@ -467,5 +467,42 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   name="Products by delivery date"
                   parent="stock.menu_stock_product" sequence="13"
         />
+
+        <record id="product_cost_prices_tree" model="ir.ui.view">
+            <field name="name">Product cost prices tree</field>
+            <field name="model">product.product</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0">
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="categ_id"/>
+                    <field name="standard_price"/>
+                    <field name="cost_price_rm"/>
+                    <field name="cost_price_components"/>
+                    <field name="cost_price_dl"/>
+                    <field name="cost_eval_price"/>
+                    <field name="cost_eval_price_rm"/>
+                    <field name="cost_eval_price_components"/>
+                    <field name="cost_eval_price_dl"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_cost_prices_tree_action" model="ir.actions.act_window">
+            <field name="name">Product cost prices</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="custom_views.product_cost_prices_tree"/>
+        </record>
+
+        <menuitem id="product_cost_prices_tree_menu"
+                  action="custom_views.product_cost_prices_tree_action"
+                  name="Products cost prices"
+                  parent="account.menu_finance_reports"
+                  sequence="120"
+        />
     </data>
 </openerp>
