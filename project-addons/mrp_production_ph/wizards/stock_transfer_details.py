@@ -18,7 +18,7 @@ class StockTransferDetails(models.TransientModel):
             production_id = self.env['mrp.production'].\
                 search([('name', '=', origin)])
         if production_id:
-            notes = production_id.notes
+            notes = production_id.notes if production_id.notes else ''
             for p in self.env['stock.picking'].\
                     search([('origin', '=', production_id.name)]):
                 if p.note and p.note.strip() > '':
