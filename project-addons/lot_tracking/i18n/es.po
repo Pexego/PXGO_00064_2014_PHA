@@ -106,12 +106,12 @@ msgstr "Nombre"
 #. module: lot_tracking
 #: field:lot.tracking.productions,dosing_perfomance:0
 msgid "Dosing perfomance"
-msgstr "Rendimiento dosificación"
+msgstr "Porcentaje consumido"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking_productions
 msgid "Dosing perfomance:"
-msgstr "Rendimiento dosificación:"
+msgstr "Porcentaje consumido:"
 
 #. module: lot_tracking
 #: selection:stock.lot.move,state:0
@@ -433,6 +433,24 @@ msgid "Supplier:"
 msgstr "Proveedor:"
 
 #. module: lot_tracking
+#: field:stock.lot.move,temperature_date_from:0
+#: field:stock.lot.move.from.origin,temperature_date_from:0
+msgid "Temperature date from"
+msgstr "Temperatura desde"
+
+#. module: lot_tracking
+#: field:stock.lot.move,temperature_date_to:0
+#: field:stock.lot.move.from.origin,temperature_date_to:0
+msgid "Temperature date to"
+msgstr "Temperatura hasta"
+
+#. module: lot_tracking
+#: field:stock.lot.move,temperature_url:0
+#: field:stock.lot.move.from.origin,temperature_url:0
+msgid "Temperature url"
+msgstr "Gráfica de temperaturas"
+
+#. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking_productions
 msgid "THEOR. CONS. QUANTITY"
 msgstr "CANTIDAD CONSUMIDA"
@@ -450,7 +468,7 @@ msgstr "TIPO"
 #. module: lot_tracking
 #: field:stock.lot.move.productions,theoretical_consumed_qty:0
 msgid "Theoretical consumed qty"
-msgstr "Cdad. consumida"
+msgstr "Cdad. teórica neta"
 
 #. module: lot_tracking
 #: field:stock.lot.move.productions,theoretical_produced_units:0
