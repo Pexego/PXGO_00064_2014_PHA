@@ -44,6 +44,18 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: sale_wizards
+#: help:sale.from.catalog.items,qty_available:0
+#: help:sale.from.history.items,qty_available:0
+msgid "Current quantity of products.\n"
+"In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+msgstr "Cantidad actual de los productos.\n"
+"En un contexto de una sola ubicación de existencias, esto incluye los bienes almacenados en esta ubicación, o cualquiera de sus hijas.\n"
+"En un contexto de un solo almacén, esto incluye los bienes almacenados en la ubicación de existencias de ese almacén, o cualquiera de sus hijas.\n"
+"En cualquier otro caso, esto incluye los bienes almacenados en cualquier ubicación de existencias de tipo 'Interna'."
+
+#. module: sale_wizards
 #: field:sale.from.history.items,date:0
 msgid "Date"
 msgstr "Fecha pedido"
@@ -63,6 +75,24 @@ msgstr "Nombre para mostrar"
 #: view:sale.order:sale_wizards.sale_order_form
 msgid "From catalog"
 msgstr "Desde catálogo"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,virtual_available:0
+#: field:sale.from.history.items,virtual_available:0
+msgid "Forecast Quantity"
+msgstr "Cantidad prevista"
+
+#. module: sale_wizards
+#: help:sale.from.catalog.items,virtual_available:0
+#: help:sale.from.history.items,virtual_available:0
+msgid "Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
+"In a context with a single Stock Location, this includes goods stored in this location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+msgstr "Cantidad prevista (calculada como cantidad a mano - saliente + entrante)\n"
+"En un contexto de una sola ubicación de existencias, esto incluye los bienes almacenados en esta ubicación, o cualquiera de sus hijas.\n"
+"En un contexto de un solo almacén, esto incluye los bienes almacenados en la ubicación de existencias de ese almacén, o cualquiera de sus hijas.\n"
+"En cualquier otro caso, esto incluye los bienes almacenados en cualquier ubicación de existencias de tipo 'Interna'."
 
 #. module: sale_wizards
 #: view:sale.order:sale_wizards.sale_order_form
@@ -193,6 +223,12 @@ msgid "Qty"
 msgstr "Cantidad"
 
 #. module: sale_wizards
+#: field:sale.from.catalog.items,qty_available:0
+#: field:sale.from.history.items,qty_available:0
+msgid "Quantity On Hand"
+msgstr "Cantidad a mano"
+
+#. module: sale_wizards
 #: code:addons/sale_wizards/wizard/sale_from_catalog.py:40
 #, python-format
 msgid "Sale from catalog wizard"
@@ -223,6 +259,12 @@ msgstr "Muestra"
 #: field:sale.from.line.subline.products,subline:0
 msgid "Subline"
 msgstr "Sublínea"
+
+#. module: sale_wizards
+#: field:sale.from.catalog.items,virtual_conservative:0
+#: field:sale.from.history.items,virtual_conservative:0
+msgid "Virtual stock conservative"
+msgstr "Stock virtual conservador"
 
 #. module: sale_wizards
 #: field:sale.from.catalog.items,wizard_id:0

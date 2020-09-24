@@ -56,6 +56,10 @@ class SaleFromCatalogItems(models.TransientModel):
     packing = fields.Float(digits=(16,2))
     box_elements = fields.Float(digits=(16,2))
     processed = fields.Boolean(default=False)
+    qty_available = fields.Float(related='product_id.qty_available')
+    virtual_available = fields.Float(related='product_id.virtual_available')
+    virtual_conservative = fields.Float(
+        related='product_id.virtual_conservative')
 
     @api.multi
     def action_create_sale_items(self):
