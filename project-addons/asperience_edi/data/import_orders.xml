@@ -845,5 +845,60 @@ name = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
             <field name="type" eval="'char'" />
             <field name="description" eval="'1'" />
         </record>
+
+
+        <record forcecreate="True" id="edi_edi_orders_TOD" model="edi.edi.line.csv">
+            <field name="name">TOD</field>
+            <field name="sequence" eval="12" />
+            <field name="edi" ref="edi_edi_orders" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_TOD_field_1" model="edi.edi.line.csv.field">
+            <field name="name">lineId</field>
+            <field name="line" ref="edi_edi_orders_TOD" />
+            <field name="sequence" eval="1" />
+            <field name="type" eval="'char'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_TOD_field_2" model="edi.edi.line.csv.field">
+            <field name="name">1</field>
+            <field name="line" ref="edi_edi_orders_TOD" />
+            <field name="sequence" eval="2" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_TOD_field_4" model="edi.edi.line.csv.field">
+            <field name="name">2</field>
+            <field name="line" ref="edi_edi_orders_TOD" />
+            <field name="sequence" eval="3" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_TOD_field_5" model="edi.edi.line.csv.field">
+            <field name="name">3</field>
+            <field name="line" ref="edi_edi_orders_TOD" />
+            <field name="sequence" eval="4" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_TOD_field_6" model="edi.edi.line.csv.field">
+            <field name="name">4</field>
+            <field name="line" ref="edi_edi_orders_TOD" />
+            <field name="sequence" eval="5" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_TOD_field_7" model="edi.edi.line.csv.field">
+            <field name="name">5</field>
+            <field name="line" ref="edi_edi_orders_TOD" />
+            <field name="sequence" eval="6" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
+        <record forcecreate="True" id="edi_edi_orders_TOD_field_3" model="edi.edi.line.csv.field">
+            <field name="name">6</field>
+            <field name="line" ref="edi_edi_orders_TOD" />
+            <field name="sequence" eval="7" />
+            <field name="type" eval="'char'" />
+            <field name="description" eval="'1'" />
+        </record>
     </data>
 </openerp>
