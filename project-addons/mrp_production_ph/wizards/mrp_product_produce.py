@@ -30,6 +30,36 @@ class MrpProductProduce(models.TransientModel):
                 })
             return res
 
+    def on_change_qty(self, cr, uid, ids, product_qty, consume_lines,
+                      context=None):
+        res = super(MrpProductProduce, self).on_change_qty(cr, uid, ids,
+                                                           product_qty,
+                                                           consume_lines,
+                                                           context)
+        products = [r[2]['product_id'] for r in res['value']['return_lines']]
+        prod_obj = self.pool.get('product.product')
+        product_ids = prod_obj.browse(cr, uid, products, context)
+        lowest_analysis_seq = min(
+            product_ids.mapped('categ_id.analysis_sequence')
+        )
+        raw_material_ids = product_ids.\
+            with_context(a_seq=lowest_analysis_seq).\
+            filtered(lambda p: p.categ_id.analysis_sequence ==
+                               p._context['a_seq'])
+        if len(raw_material_ids) == 1:  # Only one raw material expected
+            count = 0
+            qty = 0
+            for r in res['value']['return_lines']:
+                if r[2]['product_id'] == raw_material_ids.id:
+                    qty = r[2]['product_qty']
+                    count += 1
+            if count == 1:  # Only one lot allowed
+                for r in res['value']['consume_lines']:
+                    if r[2]['product_id'] == raw_material_ids.id:
+                        qty += r[2]['product_qty']
+                res['value']['picking_weight'] = qty
+        return res
+
     @api.multi
     def action_calculate_consumption(self):
         self.ensure_one()
