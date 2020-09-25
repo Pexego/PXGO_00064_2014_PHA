@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="agrupacion_troquel" model="product.grouping">
+            <field name="name">Troquel</field>
+            <field name="active" eval="True"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="agrupacion_ancho_bobina" model="product.grouping">
+            <field name="name">Ancho bobina</field>
+            <field name="active" eval="True"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="agrupacion_tam_bolsa" model="product.grouping">
+            <field name="name">Tam. bolsa</field>
+            <field name="active" eval="True"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="agrupacion_tam_doypack" model="product.grouping">
+            <field name="name">Tam. doypack</field>
+            <field name="active" eval="True"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+    </data>
+</openerp>

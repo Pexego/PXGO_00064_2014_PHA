@@ -80,6 +80,7 @@ msgid "Action"
 msgstr "Acción"
 
 #. module: product_spec
+#: field:product.grouping,active:0
 #: field:product.quality.limits,active:0
 msgid "Active"
 msgstr "Activo"
@@ -150,6 +151,16 @@ msgid "Child Categories"
 msgstr "Categorías hijas"
 
 #. module: product_spec
+#: field:product.extra.category,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: product_spec
+#: field:product.grouping,company_id:0
+msgid "Company id"
+msgstr "Compañía"
+
+#. module: product_spec
 #: field:product.template,container_id:0
 #: view:product.template:product_spec.product_search_form_view_extended_search
 msgid "Container"
@@ -161,9 +172,9 @@ msgid "Country"
 msgstr "País"
 
 #. module: product_spec
-#: field:product.extra.category,create_uid:0 field:product.packing,create_uid:0
+#: field:product.extra.category,create_uid:0
+#: field:product.grouping,create_uid:0
 #: field:product.packing.base,create_uid:0
-#: field:product.packing.internal,create_uid:0
 #: field:product.packing.production,create_uid:0
 #: field:product.purchase.line,create_uid:0
 #: field:product.purchase.subline,create_uid:0
@@ -172,8 +183,8 @@ msgstr "Creado por"
 
 #. module: product_spec
 #: field:product.extra.category,create_date:0
-#: field:product.packing,create_date:0 field:product.packing.base,create_date:0
-#: field:product.packing.internal,create_date:0
+#: field:product.grouping,create_date:0
+#: field:product.packing.base,create_date:0
 #: field:product.packing.production,create_date:0
 #: field:product.purchase.line,create_date:0
 #: field:product.purchase.subline,create_date:0
@@ -183,10 +194,10 @@ msgstr "Creado el"
 #. module: product_spec
 #: field:product.container,display_name:0
 #: field:product.extra.category,display_name:0
-#: field:product.form,display_name:0 field:product.line,display_name:0
-#: field:product.packing,display_name:0
+#: field:product.form,display_name:0
+#: field:product.grouping,display_name:0
+#: field:product.line,display_name:0
 #: field:product.packing.base,display_name:0
-#: field:product.packing.internal,display_name:0
 #: field:product.packing.production,display_name:0
 #: field:product.purchase.line,display_name:0
 #: field:product.purchase.subline,display_name:0
@@ -281,6 +292,11 @@ msgstr "Muestra el orden de secuencia cuando se muestran las categorías de prod
 msgid "Machine parameters"
 msgstr "Parámetros de máquina"
 
+#. module: product_spec
+#: field:product.product,grouping:0
+#: field:product.template,grouping:0
+msgid "Grouping"
+msgstr "Agrupación"
 
 #. module: product_spec
 #: field:product.extra.category,id:0 field:product.packing,id:0
@@ -303,10 +319,10 @@ msgstr "Información"
 #. module: product_spec
 #: field:product.container,__last_update:0
 #: field:product.extra.category,__last_update:0
-#: field:product.form,__last_update:0 field:product.line,__last_update:0
-#: field:product.packing,__last_update:0
+#: field:product.form,__last_update:0
+#: field:product.grouping,__last_update:0
+#: field:product.line,__last_update:0
 #: field:product.packing.base,__last_update:0
-#: field:product.packing.internal,__last_update:0
 #: field:product.packing.production,__last_update:0
 #: field:product.purchase.line,__last_update:0
 #: field:product.purchase.subline,__last_update:0
@@ -316,9 +332,9 @@ msgid "Last Modified on"
 msgstr "Última modificación"
 
 #. module: product_spec
-#: field:product.extra.category,write_uid:0 field:product.packing,write_uid:0
+#: field:product.extra.category,write_uid:0
+#: field:product.grouping,write_uid:0
 #: field:product.packing.base,write_uid:0
-#: field:product.packing.internal,write_uid:0
 #: field:product.packing.production,write_uid:0
 #: field:product.purchase.line,write_uid:0
 #: field:product.purchase.subline,write_uid:0
@@ -326,9 +342,9 @@ msgid "Last Updated by"
 msgstr "Últ. act. por"
 
 #. module: product_spec
-#: field:product.extra.category,write_date:0 field:product.packing,write_date:0
+#: field:product.extra.category,write_date:0
+#: field:product.grouping,write_date:0
 #: field:product.packing.base,write_date:0
-#: field:product.packing.internal,write_date:0
 #: field:product.packing.production,write_date:0
 #: field:product.purchase.line,write_date:0
 #: field:product.purchase.subline,write_date:0
@@ -346,13 +362,16 @@ msgid "Line"
 msgstr "Línea"
 
 #. module: product_spec
-#: field:product.container,name:0 field:product.extra.category,complete_name:0
-#: field:product.extra.category,name:0 field:product.form,name:0
-#: field:product.line,name:0 field:product.packing,name:0
-#: field:product.packing.base,name:0 field:product.packing.internal,name:0
-#: field:product.packing.production,name:0 field:product.purchase.line,name:0
+#: field:product.container,name:0
+#: field:product.extra.category,complete_name:0
+#: field:product.extra.category,name:0
+#: field:product.form,name:0
+#: field:product.grouping,name:0
+#: field:product.line,name:0
+#: field:product.packing.base,name:0
+#: field:product.packing.production,name:0
+#: field:product.purchase.line,name:0
 #: field:product.purchase.subline,name:0
-#: view:product.quality.limits:product_spec.product_quality_limits_form
 #: field:product.subline,name:0
 msgid "Name"
 msgstr "Nombre"
@@ -367,6 +386,12 @@ msgstr "Directo"
 #: field:product.product,box_elements:0
 msgid "Number of elements in a box"
 msgstr "Elementos por caja(Completo)"
+
+#. module: product_spec
+#: field:product.product,number_of_inks:0
+#: field:product.template,number_of_inks:0
+msgid "Number of inks"
+msgstr "Número de tintas"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_search_form_view_extended_search
@@ -426,6 +451,14 @@ msgstr "Categoría de producto"
 #: view:product.extra.category:product_spec.product_category_tree_view_extra_category
 msgid "Product Extra Categories"
 msgstr "Categorías extra de producto"
+
+#. module: product_spec
+#: model:ir.actions.act_window,name:product_spec.action_product_grouping_form
+#: model:ir.ui.menu,name:product_spec.menu_product_product_gouping
+#: view:product.grouping:product_spec.product_grouping_form
+#: view:product.grouping:product_spec.product_grouping_tree
+msgid "Product grouping"
+msgstr "Agrupación"
 
 #. module: product_spec
 #: model:ir.actions.act_window,name:product_spec.product_category_action_extra_filtered
@@ -611,9 +644,27 @@ msgid "Sequence"
 msgstr "Secuencia"
 
 #. module: product_spec
+#: field:product.product,special_design:0
+#: field:product.template,special_design:0
+msgid "Special design"
+msgstr "Diseño especial"
+
+#. module: product_spec
 #: view:product.template:product_spec.product_add_spec_field
 msgid "Specs"
 msgstr "Especificaciones"
+
+#. module: product_spec
+#: field:product.product,subdesign:0
+#: field:product.template,subdesign:0
+msgid "Subdesign"
+msgstr "Subdiseño"
+
+#. module: product_spec
+#: field:product.product,subgrouping:0
+#: field:product.template,subgrouping:0
+msgid "Subgrouping"
+msgstr "Subagrupación"
 
 #. module: product_spec
 #: view:product.template:product_spec.product_search_form_view_extended_search

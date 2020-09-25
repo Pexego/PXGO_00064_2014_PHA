@@ -54,6 +54,11 @@
                                 <field name="clothing"/>
                                 <field name="purchase_line"/>
                                 <field name="purchase_subline"/>
+                                <field name="grouping"/>
+                                <field name="subgrouping"/>
+                                <field name="number_of_inks"/>
+                                <field name="special_design"/>
+                                <field name="subdesign"/>
                              </group>
                             <group>
                                 <field name="country"/>
@@ -369,6 +374,49 @@
 
         <menuitem action="action_product_packing_base_form"
             id="menu_product_product_packing_base"
+            parent="product.prod_config_main"/>
+
+        <!-- product.grouping views -->
+        <record model="ir.ui.view" id="product_grouping_tree">
+            <field name="name">Product grouping tree</field>
+            <field name="model">product.grouping</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product grouping">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_grouping_form">
+            <field name="name">Product grouping form</field>
+            <field name="model">product.grouping</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product grouping">
+                    <sheet>
+                        <group>
+                            <separator string="Product grouping" colspan="4"/>
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="company_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_product_grouping_form">
+            <field name="name">Product grouping</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.grouping</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_grouping_tree"/>
+        </record>
+
+        <menuitem action="action_product_grouping_form"
+            id="menu_product_product_gouping"
             parent="product.prod_config_main"/>
 
         <!-- product.form views -->
