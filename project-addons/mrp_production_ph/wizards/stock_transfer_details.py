@@ -17,13 +17,13 @@ class StockTransferDetails(models.TransientModel):
         if origin and origin[0:2] == 'MO':
             production_id = self.env['mrp.production'].\
                 search([('name', '=', origin)])
-        if production_id:
-            notes = production_id.notes if production_id.notes else ''
-            for p in self.env['stock.picking'].\
-                    search([('origin', '=', production_id.name)]):
-                if p.note and p.note.strip() > '':
-                    notes += (' | ' if notes else '') + p.note
-        self.notes = notes
+            if production_id:
+                notes = production_id.notes if production_id.notes else ''
+                for p in self.env['stock.picking'].\
+                        search([('origin', '=', production_id.name)]):
+                    if p.note and p.note.strip() > '':
+                        notes += (' | ' if notes else '') + p.note
+            self.notes = notes
 
     @api.one
     def do_transfer_with_barcodes(self):
@@ -77,3 +77,22 @@ class StockTransferDetailsItems(models.TransientModel):
             ('reservation_id', '=', False),
             ('reservation_id', 'in', move_ids)])
         self.available_qty = sum(available_quants.mapped('qty'))
+
+    @api.multi
+    def action_copy_quantities(self):
+        self.ensure_one()
+        self.write({'quantity': self.available_qty})
+        view_id = self.env.\
+            ref('mrp_production_ph.view_transfer_with_barcodes_wizard')
+        return {
+            'name': 'Transferir con cód. de barras',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': self.transfer_id._name,
+            'views': [(view_id.id, 'form')],
+            'view_id': view_id.id,
+            'target': 'new',
+            'res_id': self.transfer_id.id,
+            'context': self.with_context(picking_type = 'internal').env.context,
+        }
