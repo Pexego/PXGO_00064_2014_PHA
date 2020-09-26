@@ -14,6 +14,7 @@
     'depends': ['stock', 'quality_management_menu', 'custom_widths'],
     'data': [
         'data/remove_old_translations.xml',
+        'data/configuration.xml',
         'views/lot_tracking_view.xml',
         'views/lot_tracking_productions_view.xml',
         'views/report_lot_tracking.xml',
