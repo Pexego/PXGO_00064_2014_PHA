@@ -12,10 +12,14 @@
                 <notebook position="before">
                     <button name="from_line_subline"
                             type="object"
-                            string="From catalog"/>
+                            string="From catalog"
+                            attrs="{'invisible': [('state', 'not in', ('draft', 'sent'))]}"
+                    />
                     <button name="from_history"
                             type="object"
-                            string="From history"/>
+                            string="From history"
+                            attrs="{'invisible': [('state', 'not in', ('draft', 'sent'))]}"
+                    />
                 </notebook>
             </field>
         </record>

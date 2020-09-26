@@ -10,6 +10,7 @@
     'website': 'www.pharmadus.com',
     'depends': [
         'sale',
+        'custom_views',
     ],
     'data': [
         'views/base_sale_wizards.xml',

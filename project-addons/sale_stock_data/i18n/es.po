@@ -44,3 +44,8 @@ msgstr "Ver stock"
 #: view:sale.order:sale_stock_data.view_order_add_stock_form
 msgid "View stock"
 msgstr "Ver stock"
+
+#. module: sale_stock_data
+#: field:sale.order.line,virtual_conservative:0
+msgid "Virtual stock conservative"
+msgstr "Stock virtual conservador"

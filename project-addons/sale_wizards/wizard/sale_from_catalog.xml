@@ -21,6 +21,9 @@
                     <field name="sample"/>
                     <field name="packing" readonly="1"/>
                     <field name="box_elements" readonly="1"/>
+                    <field name="qty_available" readonly="1"/>
+                    <field name="virtual_available" readonly="1"/>
+                    <field name="virtual_conservative" readonly="1"/>
                 </tree>
             </field>
         </record>

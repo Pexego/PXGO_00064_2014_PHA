@@ -142,8 +142,8 @@ msgid "Is going to start the production of"
 msgstr "Se va a iniciar la producción con los siguientes parámetros"
 
 #. module: mrp_production_ph
-#: field:mrp.production.quality.consumption,lot_id:0
-#: field:mrp.production.store.consumption,lot_id:0
+#: field:mrp.production.quality.consum,lot_id:0
+#: field:mrp.production.store.consum,lot_id:0
 #: field:mrp.production.use.lot,lot_id:0
 msgid "Lot"
 msgstr "Lote"
@@ -215,8 +215,8 @@ msgid "or"
 msgstr "o "
 
 #. module: mrp_production_ph
-#: field:mrp.production.quality.consumption,order:0
-#: field:mrp.production.store.consumption,order:0
+#: field:mrp.production.quality.consum,order:0
+#: field:mrp.production.store.consum,order:0
 msgid "Order"
 msgstr "Orden"
 
@@ -228,8 +228,8 @@ msgstr "Peso ticket acopio"
 
 #. module: mrp_production_ph
 #: field:mrp.production.confirm,product:0
-#: field:mrp.production.quality.consumption,product_id:0
-#: field:mrp.production.store.consumption,product_id:0
+#: field:mrp.production.quality.consum,product_id:0
+#: field:mrp.production.store.consum,product_id:0
 msgid "Product"
 msgstr "Producto"
 
@@ -262,13 +262,13 @@ msgstr "Aviso producción"
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
-#: field:mrp.production,quality_consumption_ids:0
+#: field:mrp.production,quality_consum_ids:0
 msgid "Quality consumption"
 msgstr "Consumos calidad"
 
 #. module: mrp_production_ph
-#: field:mrp.production.quality.consumption,quantity:0
-#: field:mrp.production.store.consumption,quantity:0
+#: field:mrp.production.quality.consum,quantity:0
+#: field:mrp.production.store.consum,quantity:0
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -317,7 +317,7 @@ msgstr "Stock / LdM"
 
 #. module: mrp_production_ph
 #: view:mrp.production:mrp_production_ph.mrp_production_ph_form_view
-#: field:mrp.production,store_consumption_ids:0
+#: field:mrp.production,store_consum_ids:0
 msgid "Store consumption"
 msgstr "Consumos almacén"
 
@@ -369,8 +369,8 @@ msgid "Transferred with barcodes"
 msgstr "Transferido con cód. de barras"
 
 #. module: mrp_production_ph
-#: field:mrp.production.quality.consumption,uom_id:0
-#: field:mrp.production.store.consumption,uom_id:0
+#: field:mrp.production.quality.consum,uom_id:0
+#: field:mrp.production.store.consum,uom_id:0
 msgid "UoM"
 msgstr "UdM"
 

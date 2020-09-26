@@ -25,6 +25,8 @@ msgstr "&nbsp;"
 
 #. module: lot_tracking
 #: selection:lot.tracking,type_of_move:0
+#: selection:lot.tracking.from.origin,type_of_move:0
+#: selection:lot.tracking.from.destination,type_of_move:0
 msgid "All movements"
 msgstr "Todos los movimientos"
 
@@ -70,7 +72,10 @@ msgid "DESTINATION"
 msgstr "DESTINO"
 
 #. module: lot_tracking
-#: field:stock.lot.move,date:0 field:stock.lot.move.productions,date:0
+#: field:stock.lot.move,date:0
+#: field:stock.lot.move.productions,date:0
+#: field:stock.lot.move.from.origin,date:0
+#: field:stock.lot.move.from.destination,date:0
 msgid "Date"
 msgstr "Fecha"
 
@@ -92,6 +97,8 @@ msgstr "Fecha:"
 #. module: lot_tracking
 #: field:stock.lot.move,location_dest_id:0
 #: field:stock.lot.move.productions,location_dest_id:0
+#: field:stock.lot.move.from.origin,location_dest_id:0
+#: field:stock.lot.move.from.destination,location_dest_id:0
 msgid "Destination location"
 msgstr "Ubicación de destino"
 
@@ -106,12 +113,12 @@ msgstr "Nombre"
 #. module: lot_tracking
 #: field:lot.tracking.productions,dosing_perfomance:0
 msgid "Dosing perfomance"
-msgstr "Rendimiento dosificación"
+msgstr "Porcentaje consumido"
 
 #. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking_productions
 msgid "Dosing perfomance:"
-msgstr "Rendimiento dosificación:"
+msgstr "Porcentaje consumido:"
 
 #. module: lot_tracking
 #: selection:stock.lot.move,state:0
@@ -126,16 +133,27 @@ msgstr "Exportar a excel"
 
 #. module: lot_tracking
 #: field:stock.lot.move,final_product_id:0
+#: field:stock.lot.move.from.origin,final_product_id:0
+#: field:stock.lot.move.from.destination,final_product_id:0
 msgid "Final product id"
 msgstr "Producto final"
 
 #. module: lot_tracking
 #: field:stock.lot.move,final_lot_id:0
+#: field:stock.lot.move.from.origin,final_product_id:0
+#: field:stock.lot.move.from.destination,final_product_id:0
 msgid "Final lot id"
 msgstr "Lote final"
 
 #. module: lot_tracking
+#: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking_from_destination
+#: model:ir.ui.menu,name:lot_tracking.menu_lot_tracking_from_destination
+msgid "From destination"
+msgstr "Desde destino"
+
+#. module: lot_tracking
 #: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking_from_origin
+#: model:ir.ui.menu,name:lot_tracking.menu_lot_tracking_from_origin
 msgid "From origin"
 msgstr "Desde origen"
 
@@ -169,6 +187,8 @@ msgstr "ID"
 
 #. module: lot_tracking
 #: selection:lot.tracking,type_of_move:0
+#: selection:lot.tracking.from.origin,type_of_move:0
+#: selection:lot.tracking.from.destination,type_of_move:0
 msgid "Inputs & Outputs"
 msgstr "Entradas y salidas"
 
@@ -216,7 +236,12 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: lot_tracking
-#: field:lot.tracking,lot_id:0 field:stock.lot.move,lot_id:0
+#: field:lot.tracking,lot_id:0
+#: field:lot.tracking.from.origin,lot_id:0
+#: field:lot.tracking.from.destination,lot_id:0
+#: field:stock.lot.move,lot_id:0
+#: field:stock.lot.move.from.origin,lot_id:0
+#: field:stock.lot.move.from.destination,lot_id:0
 msgid "Lot id"
 msgstr "Lote"
 
@@ -282,7 +307,10 @@ msgid "ORIGIN DOC."
 msgstr "DOC. ORIGEN"
 
 #. module: lot_tracking
-#: field:stock.lot.move,origin:0 field:stock.lot.move.productions,origin:0
+#: field:stock.lot.move,origin:0
+#: field:stock.lot.move.productions,origin:0
+#: field:stock.lot.move.from.origin,origin:0
+#: field:stock.lot.move.from.destination,origin:0
 msgid "Origin"
 msgstr "Origen"
 
@@ -309,17 +337,23 @@ msgstr "Parcialmente disponible"
 
 #. module: lot_tracking
 #: field:stock.lot.move,partner_id:0
+#: field:stock.lot.move.from.origin,partner_id:0
+#: field:stock.lot.move.from.destination,partner_id:0
 msgid "Partner"
 msgstr "Destinatario"
 
 #. module: lot_tracking
 #: field:lot.tracking.productions,product_id:0
+#: field:lot.tracking.from.origin,product_id:0
+#: field:lot.tracking.from.destination,product_id:0
 #: field:stock.lot.move.productions,product_id:0
 msgid "Product"
 msgstr "Producto"
 
 #. module: lot_tracking
 #: field:lot.tracking,product_id:0
+#: field:stock.lot.move.from.origin,product_id:0
+#: field:stock.lot.move.from.destination,product_id:0
 msgid "Product id"
 msgstr "Producto"
 
@@ -341,6 +375,8 @@ msgstr "Cdad. recibida"
 
 #. module: lot_tracking
 #: field:stock.lot.move,qty:0
+#: field:stock.lot.move.from.origin,qty:0
+#: field:stock.lot.move.from.destination,qty:0
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -376,6 +412,8 @@ msgstr "Unid. reales fabr."
 
 #. module: lot_tracking
 #: field:stock.lot.move,picking_id:0
+#: field:stock.lot.move.from.origin,picking_id:0
+#: field:stock.lot.move.from.destination,picking_id:0
 msgid "Reference"
 msgstr "Referencia"
 
@@ -393,6 +431,8 @@ msgstr "Simple"
 #. module: lot_tracking
 #: field:stock.lot.move,location_id:0
 #: field:stock.lot.move.productions,location_id:0
+#: field:stock.lot.move.from.origin,location_id:0
+#: field:stock.lot.move.from.destination,location_id:0
 msgid "Source Location"
 msgstr "Ubicación de origen"
 
@@ -433,6 +473,24 @@ msgid "Supplier:"
 msgstr "Proveedor:"
 
 #. module: lot_tracking
+#: field:stock.lot.move,temperature_date_from:0
+#: field:stock.lot.move.from.origin,temperature_date_from:0
+msgid "Temperature date from"
+msgstr "Temperatura desde"
+
+#. module: lot_tracking
+#: field:stock.lot.move,temperature_date_to:0
+#: field:stock.lot.move.from.origin,temperature_date_to:0
+msgid "Temperature date to"
+msgstr "Temperatura hasta"
+
+#. module: lot_tracking
+#: field:stock.lot.move,temperature_url:0
+#: field:stock.lot.move.from.origin,temperature_url:0
+msgid "Temperature url"
+msgstr "Gráfica de temperaturas"
+
+#. module: lot_tracking
 #: view:website:lot_tracking.report_lot_tracking_productions
 msgid "THEOR. CONS. QUANTITY"
 msgstr "CANTIDAD CONSUMIDA"
@@ -450,7 +508,7 @@ msgstr "TIPO"
 #. module: lot_tracking
 #: field:stock.lot.move.productions,theoretical_consumed_qty:0
 msgid "Theoretical consumed qty"
-msgstr "Cdad. consumida"
+msgstr "Cdad. teórica neta"
 
 #. module: lot_tracking
 #: field:stock.lot.move.productions,theoretical_produced_units:0
@@ -484,6 +542,8 @@ msgstr "Tipo de movimientos:"
 
 #. module: lot_tracking
 #: field:lot.tracking,type_of_move:0
+#: field:lot.tracking.from.origin,type_of_move:0
+#: field:lot.tracking.from.destination,type_of_move:0
 msgid "Type of moves"
 msgstr "Tipo de movimientos"
 
@@ -494,6 +554,8 @@ msgstr "U.D.M."
 
 #. module: lot_tracking
 #: field:stock.lot.move,product_uom:0
+#: field:stock.lot.move.from.origin,product_uom:0
+#: field:stock.lot.move.from.destination,product_uom:0
 msgid "Unit of measure"
 msgstr "Unidad de medida"
 

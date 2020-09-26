@@ -35,13 +35,13 @@
             -objective
             -container
             -base form
-
-
     """,
     'author': 'Pexego & Pharmadus',
     'website': '',
     "depends": ['product', 'quality_management_menu', 'purchase', 'stock', 'mrp'],
     "data": [
+        'data/ir_rule.xml',
+        'data/product_grouping.xml',
         'data/remove_old_translations.xml',
         'product_view.xml',
         'security/ir.model.access.csv',

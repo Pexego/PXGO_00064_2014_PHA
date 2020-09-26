@@ -325,6 +325,9 @@ class StockLocation(models.Model):
 class StockPackOperation(models.Model):
     _inherit = 'stock.pack.operation'
 
+    outgoing_picking = fields.Boolean(
+        compute='_outgoing_picking'
+    )
     has_lot_certification_and_release = fields.Boolean(
         compute='_has_lot_certification_and_release'
     )
@@ -348,25 +351,36 @@ class StockPackOperation(models.Model):
     @api.multi
     def _has_lot_certification_and_release(self):
         for po in self:
-            attachment_id = self.env['ir.attachment'].search(
-                [('res_model', '=', po.lot_id._name),
-                 ('res_id', '=', po.lot_id.id),
-                 ('datas_fname', '=ilike', 'certifica%')])
-            po.has_lot_certification_and_release = True if attachment_id \
-                else False
+            if po.outgoing_picking:
+                po.has_lot_certification_and_release = False
+            else:
+                attachment_id = self.env['ir.attachment'].search(
+                    [('res_model', '=', po.lot_id._name),
+                     ('res_id', '=', po.lot_id.id),
+                     ('datas_fname', '=ilike', 'certifica%')])
+                po.has_lot_certification_and_release = True if attachment_id \
+                    else False
 
     @api.multi
     def _entry_picking_id(self):
         wh = self.env['stock.warehouse'].search(
             [('company_id', '=', self.env.user.company_id.id)])
         for po in self:
-            pack_operation_ids = self.env['stock.pack.operation'].search([
-                ('lot_id', '=', po.lot_id.id),
-                ('location_dest_id', '=', wh.wh_input_stock_loc_id.id),
-                ('picking_id.state', '=', 'done')
-            ], order='picking_id')
-            po.entry_picking_id = pack_operation_ids[0].picking_id \
-                if pack_operation_ids else False
+            if po.outgoing_picking:
+                po.entry_picking_id = False
+            else:
+                pack_operation_ids = self.env['stock.pack.operation'].search([
+                    ('lot_id', '=', po.lot_id.id),
+                    ('location_dest_id', '=', wh.wh_input_stock_loc_id.id),
+                    ('picking_id.state', '=', 'done')
+                ], order='picking_id')
+                po.entry_picking_id = pack_operation_ids[0].picking_id \
+                    if pack_operation_ids else False
+
+    @api.multi
+    def _outgoing_picking(self):
+        for po in self:
+            po.outgoing_picking = '\\OUT\\' in po.picking_id.name
 
     @api.multi
     def action_get_last_certificate(self):

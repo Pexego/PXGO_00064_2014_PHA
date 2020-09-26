@@ -954,6 +954,11 @@ msgid "Products by description"
 msgstr "Productos por descripción"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.product_cost_prices_tree_menu
+msgid "Products cost prices"
+msgstr "Productos - Precios coste"
+
+#. module: custom_views
 #: field:stock.history,purchase_line:0
 msgid "Purchase Line"
 msgstr "Línea de compras"

@@ -26,7 +26,7 @@
     'description': """Show stock data for the product in the sale order line""",
     'author': 'Comunitea',
     'website': '',
-    "depends": ['web', 'sale_stock'],
+    "depends": ['web', 'sale_stock', 'custom_views'],
     "data": ['assets.xml', 'sale_order.xml'],
     "installable": True,
 }

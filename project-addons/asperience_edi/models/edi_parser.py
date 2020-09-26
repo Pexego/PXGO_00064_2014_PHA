@@ -226,7 +226,7 @@ class edi_parser(models.Model):
                     data[filename].append(edi._create_line_csv(PIALIN, structs))
                 IMDLIN = {
                     "lineId": "IMDLIN",
-                    "col1": line.name,
+                    "col1": line.name and line.name[:70] or '',
                     "col2": "M",
                     "col3": "F",
                 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="lot_tracking_temperature_url" model="ir.config_parameter">
+            <field name="key">lot_tracking.temperature_url</field>
+            <field name="value"><![CDATA[http://intranet:3000/d/TZzWp8sWy/temperatura?orgId=1&from={:d}&to={:d}]]></field>
+        </record>
+    </data>
+</openerp>
