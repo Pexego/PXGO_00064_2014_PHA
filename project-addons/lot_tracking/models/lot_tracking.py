@@ -145,6 +145,8 @@ class LotTracking(models.Model):
                         move_ids |= move_id
 
         self.lot_move_ids.unlink()
+        temperature_date_from = quant_ids.\
+            filtered(lambda q: q.id == min(quant_ids.mapped('id'))).create_date
         for quant_id in quant_ids:
             for move_id in quant_id.move_ids:
                 if move_id in move_ids:
@@ -155,8 +157,6 @@ class LotTracking(models.Model):
                     )
                     if lm_id:
                         lm_id.qty += quant_id.qty
-                        if lm_id.temperature_date_from > quant_id.create_date:
-                            lm_id.temperature_date_from = quant_id.create_date
                         if lm_id.temperature_date_to < quant_id.write_date:
                             lm_id.temperature_date_to = quant_id.write_date
                     else:
@@ -179,9 +179,6 @@ class LotTracking(models.Model):
                             if stock_inventory_id:
                                stock_inventory_note = stock_inventory_id.notes
 
-                        temperature_date_from = quant_id.create_date
-                        temperature_date_to = quant_id.write_date
-
                         self.write({'lot_move_ids': [(0, 0, {
                             'lot_id': self.lot_id.id,
                             'move_id': move_id.id,
@@ -198,7 +195,7 @@ class LotTracking(models.Model):
                             'qty': quant_id.qty,
                             'stock_inventory_note': stock_inventory_note,
                             'temperature_date_from': temperature_date_from,
-                            'temperature_date_to': temperature_date_to,
+                            'temperature_date_to': quant_id.write_date,
                         })]})
 
         total = 0
