@@ -248,14 +248,13 @@ class edi_parser(models.Model):
                     "col3": line.uos_id.edi_code or "PCE",
                 }
                 data[filename].append(edi._create_line_csv(PRILIN, structs))
-                if line.discount:
-                    PRILIN = {
-                        "lineId": "PRILIN",
-                        "col1": "AAB",
-                        "col2": line.price_unit,
-                        "col3": line.uos_id.edi_code or "PCE",
-                    }
-                    data[filename].append(edi._create_line_csv(PRILIN, structs))
+                PRILIN = {
+                    "lineId": "PRILIN",
+                    "col1": "AAB",
+                    "col2": line.price_unit,
+                    "col3": line.uos_id.edi_code or "PCE",
+                }
+                data[filename].append(edi._create_line_csv(PRILIN, structs))
                 for tax in line.invoice_line_tax_id:
                     TAXLIN = {
                         "lineId": "TAXLIN",
@@ -430,7 +429,7 @@ class edi_parser(models.Model):
             DTM = {
                 "lineId": "DTM",
                 "col1": time.strftime("%Y%m%d"),
-                "col2": pick.min_date.split(" ")[0].replace("-", ""),
+                "col2": (pick.sale_id.top_date or pick.min_date).split(" ")[0].replace("-", ""),
             }
             data[filename].append(edi._create_line_csv(DTM, structs))
 
@@ -458,6 +457,11 @@ class edi_parser(models.Model):
                 "col1": pick.partner_id.commercial_partner_id.gln,
             }
             data[filename].append(edi._create_line_csv(NADMR, structs))
+            NADBY = {
+                "lineId": "NADBY",
+                "col1": pick.sale_id.partner_id.commercial_partner_id.gln,
+            }
+            data[filename].append(edi._create_line_csv(NADBY, structs))
             NADSU = {"lineId": "NADSU", "col1": pick.company_id.partner_id.gln}
             data[filename].append(edi._create_line_csv(NADSU, structs))
             NADDP = {"lineId": "NADDP", "col1": pick.partner_id.gln}
