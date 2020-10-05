@@ -24,7 +24,14 @@ class PaletTagParser(models.AbstractModel):
                      qty_by_lot={}):
         serie = op.product_id.ean13 and op.product_id.ean13[:-1] or ''
 
-        barcode = sscc.name
+        # En lugar de sacar en el cód. de barras el SSCC, vamos a sacar el DUN14
+#        barcode = sscc.name
+        partner_id = op.picking_id.partner_id.parent_id if \
+            op.picking_id.partner_id.parent_id else op.picking_id.partner_id
+        gtin14_ids = op.product_id.gtin14_ids.with_context(p=partner_id).\
+            filtered(lambda g: g._context['p'] in g.partner_ids)
+        barcode = gtin14_ids[0].gtin14 if gtin14_ids else \
+            op.product_id.gtin14_default.gtin14
 
         # SI hay varios lotes en el paquete, imprimimos los nombres de los
         # lotes y la cantidad de cada uno.
