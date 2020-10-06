@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp import models, fields
 
+
 class ResPartnerCustomEdi(models.Model):
 
     _name = 'res.partner.custom.edi'

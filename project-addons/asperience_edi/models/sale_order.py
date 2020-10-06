@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
     customer_branch = fields.Char()
     customer_department = fields.Char()
     customer_transmitter = fields.Many2one('res.partner')
-    customer_transmitter = fields.Many2one('res.partner')
+    customer_payer = fields.Many2one('res.partner')
     total_packages = fields.Integer()
 
     @api.multi
