@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="res_partner_pricelist_form" model="ir.ui.view">
+            <field name="name">Partner pricelist form</field>
+            <field name="model">res.partner.pricelist</field>
+            <field name="arch" type="xml">
+                <form string="Tarifa">
+                    <sheet class="oe_form_sheet_custom_width_screen">
+                        <group>
+                            <group cols="4">
+                                <field name="product_pricelist_id"/>
+                            </group>
+                            <group cols="8">
+                                <separator/>
+                            </group>
+                        </group>
+                        <separator string="Detalle de la lista de precios" style="margin-bottom: -5px;"/>
+                        <field name="item_ids" readonly="1">
+                            <button onclick="$('div.oe_view_manager_view_form div.oe_view_manager a#button_export_excel').trigger('click');"
+                                    class="oe_right"
+                                    style="margin-top: -30px;">Exportar a excel</button>
+                            <tree string="Pricelist items">
+                                <field name="default_code"/>
+                                <field name="name"/>
+                                <field name="sale_price"/>
+                                <field name="product_cost"/>
+                                <field name="product_cost_eval"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_res_partner_pricelist_form"
+                    name="Tarifas"
+                    res_model="res.partner.pricelist"
+                    view_id="res_partner_pricelist_form"
+                    view_type="form"
+                    view_mode="form"/>
+
+        <menuitem action="action_res_partner_pricelist_form"
+                  id="menu_action_res_partner_pricelist_form"
+                  parent="account.menu_finance_receivables"
+                  sequence="101"/>
+    </data>
+</openerp>

@@ -296,6 +296,17 @@ msgid "Components cost price"
 msgstr "Precio de coste componentes"
 
 #. module: custom_views
+#: field:product.incoming,cost_eval_price_method:0
+#: field:product.incoming,cost_method:0
+#: field:product.product,cost_eval_price_method:0
+#: field:product.product,cost_method:0
+#: field:product.template,cost_eval_price_method:0
+#: field:purchasable.products,cost_eval_price_method:0
+#: field:purchasable.products,cost_method:0
+msgid "Costing Method"
+msgstr "Método de coste"
+
+#. module: custom_views
 #: view:hr.holidays.management:custom_views.view_hr_holidays_management_form
 #: field:hr.holidays.management,current_holidays_status_id:0
 msgid "Current holidays status"
@@ -902,6 +913,11 @@ msgstr "Plantilla de producto"
 msgid "Product Type"
 msgstr "Tipo de producto"
 
+#. module: purchase
+#: field:purchase.order.line,product_uom
+msgid "Product Unit of Measure"
+msgstr "UdM"
+
 #. module: custom_views
 #: field:purchasable.products,product_uom:0
 msgid "Product uom"
@@ -936,6 +952,11 @@ msgstr "Productos por fecha entrega"
 #: model:ir.ui.menu,name:custom_views.menu_product_description_tree
 msgid "Products by description"
 msgstr "Productos por descripción"
+
+#. module: custom_views
+#: model:ir.ui.menu,name:custom_views.product_cost_prices_tree_menu
+msgid "Products cost prices"
+msgstr "Productos - Precios coste"
 
 #. module: custom_views
 #: field:stock.history,purchase_line:0
@@ -1114,6 +1135,11 @@ msgstr "Formularios especiales"
 #: view:account.invoice.special:custom_views.view_invoice_special_form
 msgid "Special form to edit fields without validations"
 msgstr "Formulario especial para editar campos sin validaciones"
+
+#. module: custom_views
+#: field:product.product,obsolete:0
+msgid "Obsolete"
+msgstr "Obsoleto"
 
 #. module: custom_views
 #: model:ir.ui.menu,name:custom_views.menu_sop
@@ -1521,3 +1547,29 @@ msgstr "Fondo"
 #: view:product.product:custom_views.custom_views_product_normal_form
 msgid "Warning when receiving this product"
 msgstr "Aviso cuando se recepciona este producto"
+
+#. module: custom_views
+#: code:addons/custom_views/models/product.py:0
+#, python-format
+msgid "Cost eval (night calculation)"
+msgstr "Escandallo (cálculo nocturno)"
+
+#. module: custom_views
+#: field:product.template,cost_eval_price:0
+msgid "Product cost evaluation price"
+msgstr "Precio de coste escandallo"
+
+#. module: custom_views
+#: field:product.template,cost_eval_price_rm:0
+msgid "Raw material cost evaluation price"
+msgstr "Precio de coste escandallo M.P."
+
+#. module: custom_views
+#: field:product.template,cost_eval_price_components:0
+msgid "Components cost evaluation price"
+msgstr "Precio de coste escandallo componentes"
+
+#. module: custom_views
+#: field:product.template,cost_eval_price_dl:0
+msgid "Direct labor cost evaluation price"
+msgstr "Precio de coste escandallo M.O.D."

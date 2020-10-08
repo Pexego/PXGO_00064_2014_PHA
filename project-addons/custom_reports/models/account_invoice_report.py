@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2019 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import fields, models, tools
@@ -42,6 +42,10 @@ class AccountInvoiceReport(models.Model):
     product_cost_rm = fields.Float('Product cost raw material')
     product_cost_components = fields.Float('Product cost components')
     product_cost_dl = fields.Float('Product cost direct labor')
+    product_cost_eval = fields.Float('Product cost eval')
+    product_cost_eval_rm = fields.Float('Product cost eval raw material')
+    product_cost_eval_components = fields.Float('Product cost eval components')
+    product_cost_eval_dl = fields.Float('Product cost eval direct labor')
     product_gross_weight = fields.Float('Product gross weight')
     product_net_weight = fields.Float('Product net weight')
     product_ecoembes_weight = fields.Float('Product ecoembes weight')
@@ -125,6 +129,10 @@ class AccountInvoiceReport(models.Model):
             sub.product_cost_rm,
             sub.product_cost_components,
             sub.product_cost_dl,
+            sub.product_cost_eval,
+            sub.product_cost_eval_rm,
+            sub.product_cost_eval_components,
+            sub.product_cost_eval_dl,
             sub.product_gross_weight,
             sub.product_net_weight,
             sub.product_ecoembes_weight,
@@ -251,6 +259,26 @@ class AccountInvoiceReport(models.Model):
                     else 1
                 end * ail.quantity * pt.cost_price_dl
             ) as product_cost_dl,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.cost_eval_price
+            ) as product_cost_eval,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.cost_eval_price_rm
+            ) as product_cost_eval_rm,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.cost_eval_price_components
+            ) as product_cost_eval_components,
+            sum(case
+                    when ai.type in ('out_refund', 'in_invoice') then -1
+                    else 1
+                end * ail.quantity * pt.cost_eval_price_dl
+            ) as product_cost_eval_dl,            
             sum(case
                     when ai.type in ('out_refund', 'in_invoice') then -1
                     else 1

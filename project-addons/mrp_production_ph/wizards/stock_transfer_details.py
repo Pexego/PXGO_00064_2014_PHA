@@ -8,6 +8,23 @@ from openerp import models, fields, api, exceptions
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
 
+    notes = fields.Text(compute='_get_notes', readonly=True)
+
+    @api.one
+    def _get_notes(self):
+        notes = ''
+        origin = self.picking_id.origin
+        if origin and origin[0:2] == 'MO':
+            production_id = self.env['mrp.production'].\
+                search([('name', '=', origin)])
+            if production_id:
+                notes = production_id.notes if production_id.notes else ''
+                for p in self.env['stock.picking'].\
+                        search([('origin', '=', production_id.name)]):
+                    if p.note and p.note.strip() > '':
+                        notes += (' | ' if notes else '') + p.note
+            self.notes = notes
+
     @api.one
     def do_transfer_with_barcodes(self):
         errors = ''
@@ -17,7 +34,8 @@ class StockTransferDetails(models.TransientModel):
                 test_passed = (
                     (item_id.lot_id.name and item_id.lot_barcode)
                     and
-                    item_id.lot_id.name.strip() == item_id.lot_barcode.strip()
+                    item_id.lot_id.name.strip().lower() ==
+                    item_id.lot_barcode.strip().lower()
                 )
             test_passed = test_passed or (
                 self.env.context.get('picking_type') == 'outgoing'
@@ -41,3 +59,40 @@ class StockTransferDetailsItems(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
 
     lot_barcode = fields.Char()
+    available_qty = fields.Float(compute='_get_available_qty', readonly=True)
+
+    @api.one
+    def _get_available_qty(self):
+        move_ids = []
+        if self.packop_id:
+            for m in self.packop_id.picking_id.move_lines:
+                if m.product_id == self.product_id:
+                    move_ids += [m.id]
+        available_quants = self.env['stock.quant'].search([
+            ('lot_id', '=', self.lot_id.id),
+            ('location_id', 'child_of', self.sourceloc_id.id),
+            ('product_id', '=', self.product_id.id),
+            ('qty', '>', 0),
+            '|',
+            ('reservation_id', '=', False),
+            ('reservation_id', 'in', move_ids)])
+        self.available_qty = sum(available_quants.mapped('qty'))
+
+    @api.multi
+    def action_copy_quantities(self):
+        self.ensure_one()
+        self.write({'quantity': self.available_qty})
+        view_id = self.env.\
+            ref('mrp_production_ph.view_transfer_with_barcodes_wizard')
+        return {
+            'name': 'Transferir con cód. de barras',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': self.transfer_id._name,
+            'views': [(view_id.id, 'form')],
+            'view_id': view_id.id,
+            'target': 'new',
+            'res_id': self.transfer_id.id,
+            'context': self.with_context(picking_type = 'internal').env.context,
+        }

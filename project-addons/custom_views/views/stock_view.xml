@@ -137,11 +137,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     </div>
                 </field>
                 <xpath expr="//field[@name='pack_operation_ids']//field[@name='lot_id']" position="after">
-                    <button name="action_show_lot" type="object" icon="gtk-dnd"/>
+                    <button name="action_show_lot"
+                            type="object"
+                            icon="gtk-dnd"
+                            string="Ficha del lote"/>
                     <field name="has_lot_certification_and_release" invisible="1"/>
                     <button name="action_get_last_certificate"
                             type="object" icon="gtk-paste-v"
-                            attrs="{'invisible': [('has_lot_certification_and_release', '=', False)]}"/>
+                            attrs="{'invisible': [('has_lot_certification_and_release', '=', False)]}"
+                            string="Descargar certificado del lote"
+                    />
+                    <field name="entry_picking_id" invisible="1"/>
+                    <button name="action_entry_picking"
+                            type="object" icon="terp-product"
+                            attrs="{'invisible': [('entry_picking_id', '=', False)]}"
+                            string="Albarán de entrada del lote"
+                    />
                 </xpath>
             </field>
         </record>

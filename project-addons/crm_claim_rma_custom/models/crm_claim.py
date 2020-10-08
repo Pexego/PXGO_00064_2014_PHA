@@ -31,6 +31,7 @@ class CrmClaim(models.Model):
     photo_url = fields.Char(related='picking_id.photo_url')
     production_id = fields.Many2one('mrp.production', 'Production order')
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
+    claim_subtype = fields.Many2one('crm.claim.subtype', 'Claim subtype')
 
     @api.one
     def _get_show_sections(self):
@@ -143,3 +144,12 @@ class CrmClaimLine(models.Model):
 
     def auto_set_warranty(self):
         return
+
+
+class CrmClaimSubtype(models.Model):
+    _name = 'crm.claim.subtype'
+
+    name = fields.Char()
+    company_id = fields.Many2one(comodel_name='res.company',
+                                 default=lambda r: r.env.user.company_id)
+    active = fields.Boolean(default=True)

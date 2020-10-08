@@ -53,6 +53,15 @@ class product_container(models.Model):
     name = fields.Char('Name', size=64)
 
 
+class product_grouping(models.Model):
+    _name = 'product.grouping'
+
+    name = fields.Char('Name', size=64)
+    company_id = fields.Many2one('res.company',
+                                 default=lambda r: r.env.user.company_id)
+    active = fields.Boolean(default=True)
+
+
 class product_quality_limits(models.Model):
 
     _name = 'product.quality.limits'
@@ -169,6 +178,12 @@ class ProductTemplate(models.Model):
 
     # This product is packed in a box of box_elements number
     box_elements = fields.Float('Number of elements in a box', required=False)
+
+    grouping = fields.Many2one('product.grouping')
+    subgrouping = fields.Char()
+    number_of_inks = fields.Integer(default=0)
+    special_design = fields.Boolean(default=False)
+    subdesign = fields.Char()
 
     @api.model
     def create(self, vals):

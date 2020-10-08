@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2014 Pexego
-# © 2019 Pharmadus I.T.
+# © 2020 Pharmadus I.T.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, exceptions, _
@@ -216,16 +216,18 @@ class StockProductionLot(models.Model):
 
     @api.multi
     def _compute_used_lots(self):
-        for lot in self:
+        for lot_id in self:
             lots_str = [_('<table class="product_analysis_used_lots_table">'
                           '<thead><tr><th>Product</th><th>Ref F</th>'
                           '<th>Lot</th><th>Approbation date</th><th>Lot state</th>'
                           '</tr></thead><tbody>')]
-            consumption_ids = lot.production_id.sudo().mapped('quality_consumption_ids')
+            consumption_ids = lot_id.production_id.sudo().\
+                mapped('quality_consumption_ids')
             for consumption_id in consumption_ids:
                 state = consumption_id.lot_id.state
                 lot_state_str = dict(
-                    consumption_id.lot_id.fields_get(['state'])['state']['selection']
+                    consumption_id.lot_id.
+                        fields_get(['state'])['state']['selection']
                 )[state]
                 if consumption_id.lot_id.acceptance_date:
                     acceptance_date = datetime.strptime(
@@ -243,9 +245,9 @@ class StockProductionLot(models.Model):
                         lot_state_str))
 
             if len(lots_str) != 1:
-                lot.used_lots = ''.join(lots_str) + u'</tbody></table>'
+                lot_id.used_lots = ''.join(lots_str) + u'</tbody></table>'
             else:
-                lot.used_lots = ''
+                lot_id.used_lots = ''
 
     @api.model
     def create(self, vals):
@@ -271,11 +273,11 @@ class StockProductionLot(models.Model):
             'state_new': vals.get('state', 'draft')
         })]
 
-        lot = super(StockProductionLot, self).create(vals)
-        if lot.product_id.analytic_certificate:
-            for line in lot.product_id.analysis_ids:
-                self.env['stock.lot.analysis'].create({
-                    'lot_id': lot.id,
+        vals['analysis_ids'] = []
+        product_id = self.env['product.product'].browse(vals['product_id'])
+        if product_id.analytic_certificate:
+            for line in product_id.analysis_ids:
+                vals['analysis_ids'] += [(0, 0, {
                     'analysis_id': line.analysis_id.id,
                     'proposed': True,
                     'raw_material_analysis': line.raw_material_analysis,
@@ -287,23 +289,42 @@ class StockProductionLot(models.Model):
                     'decimal_precision': line.decimal_precision,
                     'criterion': line.criterion,
                     'sequence': line.sequence
-                })
-        return lot
+                })]
+
+        return super(StockProductionLot, self).create(vals)
 
     @api.multi
     def write(self, vals):
-        state = vals.get('state', False)
-        if state:
-            vals['state_change_ids'] = [(0, 0, {
-                'state_old': self[0].state,
-                'state_new': state
-            })]
-        name = vals.get('name', False)
-        if name:
-            vals['name_change_ids'] = [(0, 0, {
-                'name_old': self[0].name,
-                'name_new': name
-            })]
+        if len(self) == 1:
+            state = vals.get('state', False)
+            if state:
+                vals['state_change_ids'] = [(0, 0, {
+                    'state_old': self.state,
+                    'state_new': state
+                })]
+            name = vals.get('name', False)
+            if name:
+                vals['name_change_ids'] = [(0, 0, {
+                    'name_old': self.name,
+                    'name_new': name
+                })]
+        else:
+            state = vals.get('state', False)
+            name = vals.get('name', False)
+            for lot_id in self:
+                values = {}
+                if state:
+                    values['state_change_ids'] = [(0, 0, {
+                        'state_old': lot_id.state,
+                        'state_new': state
+                    })]
+                if name:
+                    values['name_change_ids'] = [(0, 0, {
+                        'name_old': lot_id.name,
+                        'name_new': name
+                    })]
+                if values:
+                    lot_id.write(values)
         return super(StockProductionLot, self).write(vals)
 
     @api.multi
@@ -398,6 +419,9 @@ class StockProductionLot(models.Model):
                 self.production_review_date = datetime.today()
                 self.production_review_done_by = self.env.user.partner_id.name
                 self.production_review_done_by_id = self.env.user
+                self.production_review_ids.\
+                    filtered(lambda r: r.question_id.id != 3).\
+                    write({'result': 'yes'})
             elif sign_type == 'technical_direction':
                 self.technical_direction_review_date = datetime.today()
                 self.technical_direction_review_done_by = \

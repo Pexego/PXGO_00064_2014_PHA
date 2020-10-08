@@ -14,12 +14,13 @@ class StockProductionLot(models.Model):
         months_ahead = self.env.user.company_id.lot_alert_date_months_ahead
         months_ahead = datetime.today() + timedelta(days=+(months_ahead * 30.417))
         months_ahead = fields.Datetime.to_string(months_ahead)
+        usage_domain = ('internal', 'view')
         alert_date_lot_ids = self.search([
             ('alert_date', '<', months_ahead),
             ('company_id', '=', self.env.user.company_id.id),
             ('product_id.categ_id', 'in', product_category_ids) if \
                 product_category_ids else ('active', '=', True),
-            ('quant_ids.location_id.usage', 'in', ('internal', 'view'))
+            ('quant_ids.location_id.usage', 'in', usage_domain)
         ], order='alert_date')
 
         if alert_date_lot_ids:
@@ -40,8 +41,7 @@ class StockProductionLot(models.Model):
                         <th>Lote</th>
                         <th>Estado</th>
                         <th>Fecha alerta</th>
-                        <th>Cant. a mano</th>
-                        <th>Virtual cons.</th>
+                        <th>Cantidad</th>
                     </tr>
             """
 
@@ -54,13 +54,15 @@ class StockProductionLot(models.Model):
             }
             for lot_id in alert_date_lot_ids:
                 warnings += u'<tr><td>{}</td><td>{}</td><td>{}</td>' \
-                            u'<td>{}</td><td>{}</td><td>{}</td></tr>'.format(
+                            u'<td>{}</td><td>{}</td></tr>'.format(
                     lot_id.product_id.name,
                     lot_id.name,
                     states[lot_id.state],
                     lot_id.alert_date[:10],
-                    lot_id.product_id.qty_available,
-                    lot_id.product_id.virtual_conservative
+                    sum(lot_id.quant_ids.
+                        filtered(lambda q: q.location_id.usage in usage_domain).
+                        mapped('qty')
+                    )
                 )
             warnings += u'</table>'
 
@@ -76,12 +78,13 @@ class StockProductionLot(models.Model):
         months_ahead = self.env.user.company_id.lot_use_date_months_ahead
         months_ahead = datetime.today() + timedelta(days=+(months_ahead * 30.417))
         months_ahead = fields.Datetime.to_string(months_ahead)
+        usage_domain = ('internal', 'view')
         use_date_lot_ids = self.search([
             ('use_date', '<', months_ahead),
             ('company_id', '=', self.env.user.company_id.id),
             ('product_id.categ_id', 'in', product_category_ids) if \
                 product_category_ids else ('active', '=', True),
-            ('quant_ids.location_id.usage', 'in', ('internal', 'view'))
+            ('quant_ids.location_id.usage', 'in', usage_domain)
         ], order='use_date')
 
         if use_date_lot_ids:
@@ -102,8 +105,7 @@ class StockProductionLot(models.Model):
                         <th>Lote</th>
                         <th>Estado</th>
                         <th>Consumo preferente</th>
-                        <th>Cant. a mano</th>
-                        <th>Virtual cons.</th>
+                        <th>Cantidad</th>
                     </tr>
             """
 
@@ -116,13 +118,15 @@ class StockProductionLot(models.Model):
             }
             for lot_id in use_date_lot_ids:
                 warnings += u'<tr><td>{}</td><td>{}</td><td>{}</td>' \
-                            u'<td>{}</td><td>{}</td><td>{}</td></tr>'.format(
+                            u'<td>{}</td><td>{}</td></tr>'.format(
                     lot_id.product_id.name,
                     lot_id.name,
                     states[lot_id.state],
                     lot_id.use_date[:10],
-                    lot_id.product_id.qty_available,
-                    lot_id.product_id.virtual_conservative
+                    sum(lot_id.quant_ids.
+                        filtered(lambda q: q.location_id.usage in usage_domain).
+                        mapped('qty')
+                    )
                 )
             warnings += u'</table>'
 

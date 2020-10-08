@@ -1,0 +1,9 @@
+<openerp>
+    <data>
+        <template id="assets_backend" name="sale_wizards assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/sale_wizards/static/src/js/buttons.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2020 Pharmadus I.T.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="sale_from_history_wizard" model="ir.ui.view">
+            <field name="name">Sale from history wizard</field>
+            <field name="model">sale.from.history.items</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="product_id" readonly="1"/>
+                    <!-- To show the image in tree view, it is necessary
+                         to install OCA web_tree_image module -->
+                    <field name="image_medium"
+                           widget="image"
+                           display="thumbnail"
+                           height="80px"
+                           readonly="1"/>
+                    <field name="qty"/>
+                    <field name="sample"/>
+                    <button name="action_copy_quantities"
+                            type="object"
+                            icon="gtk-go-back"/>
+                    <field name="date" readonly="1"/>
+                    <field name="last_qty" readonly="1"/>
+                    <field name="last_sample" readonly="1"/>
+                    <field name="packing" readonly="1"/>
+                    <field name="box_elements" readonly="1"/>
+                    <field name="qty_available" readonly="1"/>
+                    <field name="virtual_available" readonly="1"/>
+                    <field name="virtual_conservative" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>

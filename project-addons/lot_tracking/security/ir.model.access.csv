@@ -2,5 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_lot_tracking,access_lot_tracking,model_lot_tracking,,1,1,1,1
 access_lot_tracking_from_origin,access_lot_tracking_from_origin,model_lot_tracking_from_origin,,1,1,1,1
 access_lot_tracking_from_destination,access_lot_tracking_from_destination,model_lot_tracking_from_destination,,1,1,1,1
-access_stock_lot_move_from_origin,access_stock_lot_move_from_origin,model_stock_lot_move_from_origin,,1,1,1,1
 access_lot_tracking_productions,access_lot_tracking_productions,model_lot_tracking_productions,,1,1,1,1

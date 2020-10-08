@@ -28,6 +28,7 @@
         'custom_views',
     ],
     'data' : [
+        'views/assets_backend.xml',
         'views/report_stockinventory.xml',
         'views/report_purchaseorder.xml',
         'views/report_purchasequotation.xml',
