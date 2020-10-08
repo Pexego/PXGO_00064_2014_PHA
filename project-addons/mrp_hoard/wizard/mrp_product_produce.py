@@ -85,7 +85,8 @@ class MrpProductProduce(models.TransientModel):
             self._context['active_id'])
         quants = production.mapped('move_lines.reserved_quant_ids').filtered(
             lambda r: r.product_id.id == product_id and r.lot_id.id == lot_id)
-        if quants and quants[0].reservation_id.move_orig_ids:
+        if quants and quants[0].reservation_id.move_orig_ids and \
+                quants[0].reservation_id.move_orig_ids[0].linked_move_operation_ids:
             return quants[0].reservation_id.move_orig_ids[0].\
                 linked_move_operation_ids[0].operation_id.location_id.id
 
