@@ -119,16 +119,25 @@ class edi_parser(models.Model):
             data[filename].append(edi._create_line_csv(NADSU, structs))
             FACT = {
                 "lineId": "NADBCO",
-                "col1": invoice.partner_id.commercial_partner_id.gln,
-                "col2": invoice.partner_id.commercial_partner_id.name,
-                "col3": invoice.partner_id.commercial_partner_id.street or " ",
-                "col4": invoice.partner_id.commercial_partner_id.city[:35]
+                "col1": invoice.customer_order.gln,
+                "col2": invoice.customer_order.name,
+                "col3": invoice.customer_order.street or " ",
+                "col4": invoice.customer_order.city[:35]
                 or " ",
-                "col5": invoice.partner_id.commercial_partner_id.zip or " ",
-                "col6": invoice.partner_id.commercial_partner_id.vat or " ",
+                "col5": invoice.customer_order.zip or " ",
+                "col6": invoice.customer_order.vat or " ",
             }
             data[filename].append(edi._create_line_csv(FACT, structs))
-            FACT["lineId"] = "NADBY"
+            FACT = {
+                "lineId": "NADBY",
+                "col1": invoice.customer_order.gln,
+                "col2": invoice.customer_order.name,
+                "col3": invoice.customer_order.street or " ",
+                "col4": invoice.customer_order.city[:35]
+                or " ",
+                "col5": invoice.customer_order.zip or " ",
+                "col6": invoice.customer_order.vat or " ",
+            }
             data[filename].append(edi._create_line_csv(FACT, structs))
             NADII = {
                 "lineId": "NADII",
@@ -151,6 +160,15 @@ class edi_parser(models.Model):
                 "col5": invoice.partner_shipping_id.zip or " ",
             }
             data[filename].append(edi._create_line_csv(NADDP, structs))
+            NADPR = {
+                "lineId": "NADPR",
+                "col1": invoice.customer_payer.gln,
+                "col2": invoice.customer_payer.name,
+                "col3": invoice.customer_payer.street or " ",
+                "col4": invoice.customer_payer.city[:35] or " ",
+                "col5": invoice.customer_payer.zip or " ",
+            }
+            data[filename].append(edi._create_line_csv(NADPR, structs))
             NADPE = {
                 "lineId": "NADPE",
                 "col1": invoice.company_id.partner_id.gln,
@@ -248,14 +266,13 @@ class edi_parser(models.Model):
                     "col3": line.uos_id.edi_code or "PCE",
                 }
                 data[filename].append(edi._create_line_csv(PRILIN, structs))
-                if line.discount:
-                    PRILIN = {
-                        "lineId": "PRILIN",
-                        "col1": "AAB",
-                        "col2": line.price_unit,
-                        "col3": line.uos_id.edi_code or "PCE",
-                    }
-                    data[filename].append(edi._create_line_csv(PRILIN, structs))
+                PRILIN = {
+                    "lineId": "PRILIN",
+                    "col1": "AAB",
+                    "col2": line.price_unit,
+                    "col3": line.uos_id.edi_code or "PCE",
+                }
+                data[filename].append(edi._create_line_csv(PRILIN, structs))
                 for tax in line.invoice_line_tax_id:
                     TAXLIN = {
                         "lineId": "TAXLIN",
@@ -430,7 +447,7 @@ class edi_parser(models.Model):
             DTM = {
                 "lineId": "DTM",
                 "col1": time.strftime("%Y%m%d"),
-                "col2": pick.min_date.split(" ")[0].replace("-", ""),
+                "col2": (pick.sale_id.top_date or pick.min_date).split(" ")[0].replace("-", ""),
             }
             data[filename].append(edi._create_line_csv(DTM, structs))
 
@@ -455,9 +472,14 @@ class edi_parser(models.Model):
             data[filename].append(edi._create_line_csv(NADMS, structs))
             NADMR = {
                 "lineId": "NADMR",
-                "col1": pick.partner_id.commercial_partner_id.gln,
+                "col1": pick.sale_id.customer_transmitter.gln,
             }
             data[filename].append(edi._create_line_csv(NADMR, structs))
+            NADBY = {
+                "lineId": "NADBY",
+                "col1": pick.sale_id.partner_id.gln,
+            }
+            data[filename].append(edi._create_line_csv(NADBY, structs))
             NADSU = {"lineId": "NADSU", "col1": pick.company_id.partner_id.gln}
             data[filename].append(edi._create_line_csv(NADSU, structs))
             NADDP = {"lineId": "NADDP", "col1": pick.partner_id.gln}
@@ -784,7 +806,18 @@ class edi_parser(models.Model):
                         % (line[1]["emisor"])
                     )
                 else:
-                    vals["customer_transmitter"] = partner_id
+                    vals["customer_transmitter"] = partner_id[0]
+            if line and line[0] == "NADPR":
+                partner_id = partner_obj.search(
+                    cr, uid, [("gln", "=", line[1]["emisorPago"])]
+                )
+                if not partner_id:
+                    raise Exception(
+                        "El cliente con gln %s no se ha encontrado"
+                        % (line[1]["emisorPago"])
+                    )
+                else:
+                    vals["customer_payer"] = partner_id[0]
             if line and line[0] == "NADSU":
                 partner_id = partner_obj.search(
                     cr, uid, [("gln", "=", line[1]["comp"])]
@@ -815,7 +848,7 @@ class edi_parser(models.Model):
                     partner = partner_obj.browse(cr, uid, partner_id)
                     vals["customer_branch"] = line[1]["sucursal"]
                     vals["partner_invoice_id"] = partner_id[0]
-                    vals["partner_id"] = partner.commercial_partner_id.id
+                    vals["partner_id"] = partner.id
                     partner = partner_obj.browse(cr, uid, partner_id[0])
                     vals["pricelist_id"] = partner.property_product_pricelist.id
                     vals[
@@ -828,17 +861,6 @@ class edi_parser(models.Model):
                             "payment_mode_id"
                         ] = partner.customer_payment_mode.id
                     vals["payment_term"] = partner.property_payment_term.id
-            if line and line[0] == "NADMS":
-                partner_id = partner_obj.search(
-                    cr, uid, [("gln", "=", line[1]["emisor"])]
-                )
-                if not partner_id:
-                    raise Exception(
-                        "El emisor con gln %s no se ha encontrado"
-                        % (line[1]["destino"])
-                    )
-                else:
-                    vals["customer_transmitter"] = partner_id[0]
             if line and line[0] == "NADDP":
                 partner_id = partner_obj.search(
                     cr, uid, [("gln", "=", line[1]["destino"])]
