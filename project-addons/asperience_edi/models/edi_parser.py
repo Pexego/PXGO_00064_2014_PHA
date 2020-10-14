@@ -160,15 +160,16 @@ class edi_parser(models.Model):
                 "col5": invoice.partner_shipping_id.zip or " ",
             }
             data[filename].append(edi._create_line_csv(NADDP, structs))
-            NADPR = {
-                "lineId": "NADPR",
-                "col1": invoice.customer_payer.gln,
-                "col2": invoice.customer_payer.name,
-                "col3": invoice.customer_payer.street or " ",
-                "col4": invoice.customer_payer.city[:35] or " ",
-                "col5": invoice.customer_payer.zip or " ",
-            }
-            data[filename].append(edi._create_line_csv(NADPR, structs))
+            if invoice.customer_payer:
+                NADPR = {
+                    "lineId": "NADPR",
+                    "col1": invoice.customer_payer.gln,
+                    "col2": invoice.customer_payer.name,
+                    "col3": invoice.customer_payer.street or " ",
+                    "col4": invoice.customer_payer.city[:35] or " ",
+                    "col5": invoice.customer_payer.zip or " ",
+                }
+                data[filename].append(edi._create_line_csv(NADPR, structs))
             NADPE = {
                 "lineId": "NADPE",
                 "col1": invoice.company_id.partner_id.gln,
