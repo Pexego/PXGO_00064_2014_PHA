@@ -218,6 +218,8 @@ class edi_parser(models.Model):
                 }
                 data[filename].append(edi._create_line_csv(ALC, structs))
             for line in invoice.invoice_line:
+                if line.product_id in invoice.partner_id.commercial_partner_id.remove_products:
+                    continue
                 if not line.product_id.ean13:
                     raise exceptions.Warning(
                         _("EAN Error"),
