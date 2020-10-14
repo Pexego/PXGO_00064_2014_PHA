@@ -16,6 +16,9 @@
                 </field>
                 <notebook position="inside">
                     <page string="EDI" groups="asperience_edi.group_edi_manager,asperience_edi.group_edi_user">
+                        <separator string="Remove products from INVOIC"/>
+                        <field name="remove_products"/>
+                        <separator string="Custom EDI"/>
                         <field name="custom_edi">
                             <tree editable="top">
                                 <field name="document"/>
