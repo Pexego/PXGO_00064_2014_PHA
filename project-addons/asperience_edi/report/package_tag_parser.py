@@ -7,20 +7,19 @@ from openerp.tools.translate import _
 
 
 class PackageTagParser(models.AbstractModel):
-    """
-    """
-    _name = 'report.asperience_edi.package_tag_report'
+    """"""
+
+    _name = "report.asperience_edi.package_tag_report"
 
     @api.multi
     def render_html(self, data=None):
-        report_obj = self.env['report']
-        pick_obj = self.env['stock.picking']
-        report_name = 'asperience_edi.package_tag_report'
+        report_obj = self.env["report"]
+        pick_obj = self.env["stock.picking"]
+        report_name = "asperience_edi.package_tag_report"
         if not data:
-            raise except_orm(_('Error'),
-                             _('You must print it from a wizard'))
+            raise except_orm(_("Error"), _("You must print it from a wizard"))
 
-        pick = pick_obj.browse(data['pick_id'])
+        pick = pick_obj.browse(data["pick_id"])
         num_packs = 0
         pack_list = []
         for op in pick.pack_operation_ids:
@@ -30,9 +29,9 @@ class PackageTagParser(models.AbstractModel):
                 pack_list.append(op.package)
             num_packs += op.complete + pack
         docargs = {
-            'doc_ids': [],
-            'doc_model': 'stock.picking',
-            'docs': pick,
-            'num_packs': num_packs
+            "doc_ids": [],
+            "doc_model": "stock.picking",
+            "docs": pick,
+            "num_packs": num_packs,
         }
         return report_obj.render(report_name, docargs)

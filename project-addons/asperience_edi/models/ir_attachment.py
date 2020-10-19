@@ -24,6 +24,6 @@ import time
 
 
 class IrAttachment(models.Model):
-    _inherit = 'ir.attachment'
+    _inherit = "ir.attachment"
 
-    _order = 'create_date desc,name desc'
+    _order = "create_date desc,name desc"

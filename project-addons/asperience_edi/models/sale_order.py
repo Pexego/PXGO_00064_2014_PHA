@@ -32,30 +32,30 @@ class SaleOrder(models.Model):
     season = fields.Char()
     customer_branch = fields.Char()
     customer_department = fields.Char()
-    customer_transmitter = fields.Many2one('res.partner')
-    customer_payer = fields.Many2one('res.partner')
+    customer_transmitter = fields.Many2one("res.partner")
+    customer_payer = fields.Many2one("res.partner")
     total_packages = fields.Integer()
 
     @api.multi
     def print_eci_report(self):
         self.ensure_one()
         custom_data = {
-            'sale_id': self.id,
+            "sale_id": self.id,
         }
-        rep_name = 'asperience_edi.eci_order_report'
+        rep_name = "asperience_edi.eci_order_report"
         rep_action = self.env["report"].get_action(self, rep_name)
-        rep_action['data'] = custom_data
+        rep_action["data"] = custom_data
         return rep_action
 
 
 class SaleOrderLine(models.Model):
 
-    _inherit = 'sale.order.line'
+    _inherit = "sale.order.line"
 
     units_per_package = fields.Integer()
-    brut_price = fields.Float('Brut Price',
-                              digits_compute=dp.
-                              get_precision('Product Price'))
-    net_price = fields.Float('Net Price',
-                              digits_compute=dp.
-                              get_precision('Product Price'))
+    brut_price = fields.Float(
+        "Brut Price", digits_compute=dp.get_precision("Product Price")
+    )
+    net_price = fields.Float(
+        "Net Price", digits_compute=dp.get_precision("Product Price")
+    )

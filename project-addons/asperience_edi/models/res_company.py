@@ -23,6 +23,6 @@ from openerp import models, fields
 
 class ResCompany(models.Model):
 
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
-    aecoc_code = fields.Char('AECOC Code', size=10)
+    aecoc_code = fields.Char("AECOC Code", size=10)
