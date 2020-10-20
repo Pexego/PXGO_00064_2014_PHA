@@ -257,6 +257,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="sop_operations_id" style="width: 30%;"/>
                             <field name="sop_maintenance_id" style="width: 30%;"/>
                             <field name="sop_extra_1_id" style="width: 30%;"/>
+                            <field name="type_id" style="width: 30%;"/>
+                            <field name="optional_parameters" style="width: 30%;"/>
                         </group>
                     </group>
                     <separator string="Associated routing lines"/>

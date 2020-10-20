@@ -6,3 +6,4 @@ access_sale_channel,access_sale_channel_stock_users,sale_channel.model_sale_chan
 access_return_reason,Return reason access,model_return_reason,,1,1,1,0
 access_product_incoming,Product incoming access,model_product_incoming,,1,0,0,0
 access_product_product_analysis_method,Product analysis method access,model_product_product_analysis_method,,1,1,1,1
+access_mrp_machinery_type,mrp.machinery.type,model_mrp_machinery_type,base.group_user,1,1,1,0
