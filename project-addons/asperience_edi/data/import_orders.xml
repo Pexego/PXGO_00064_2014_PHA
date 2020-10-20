@@ -739,7 +739,7 @@ name = self.pool.get('edi.parser').parse_order(cr2, uid, edi, data, filename)
         </record>
 
         <record forcecreate="True" id="edi_edi_orders_nadpr_field_2" model="edi.edi.line.csv.field">
-            <field name="name">1</field>
+            <field name="name">emisorPago</field>
             <field name="line" ref="edi_edi_orders_nadpr" />
             <field name="sequence" eval="2" />
             <field name="type" eval="'char'" />

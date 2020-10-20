@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp import models, fields
 
+
 class ResPartnerCustomEdi(models.Model):
 
     _name = 'res.partner.custom.edi'
@@ -41,6 +42,7 @@ class ResPartner(models.Model):
     edi_partner = fields.Char("Partner EDI")
     edi_desadv = fields.Boolean("EDI DESADV")
     custom_edi = fields.One2many('res.partner.custom.edi', 'partner_id')
+    remove_products = fields.Many2many('product.product')
     use_date_as_life_date = fields.Boolean()
     edi_mercantil = fields.Char(compute='_compute_edi_mercantil')
 

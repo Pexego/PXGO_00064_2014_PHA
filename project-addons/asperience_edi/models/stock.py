@@ -149,6 +149,17 @@ class StockPicking(models.Model):
         rep_action['data'] = custom_data
         return rep_action
 
+    @api.model
+    def _get_invoice_vals(self, key, inv_type, journal_id, move):
+        inv_vals = super(StockPicking, self)._get_invoice_vals(key, inv_type, journal_id, move)
+        sale = move.picking_id.sale_id
+        if sale and inv_type in ('out_invoice', 'out_refund'):
+            inv_vals.update({
+                'customer_order': sale.partner_id.id,
+                'customer_payer': sale.customer_payer.id,
+                })
+        return inv_vals
+
 
 class StockInvoiceOnshipping(models.TransientModel):
 
