@@ -335,71 +335,69 @@ class edi_parser(models.Model):
     def parse_desadv(self, cr, uid, edi, data, context, _logger, structs):
         def _create_line_desadv(data, filename, edi, sscc=None):
             for line in sscc.mapped("operation_ids"):
-                move_id = line.mapped("linked_move_operation_ids.move_id")
-                if len(move_id) > 1:
-                    raise Exception("Error")
-                LIN = {
-                    "lineId": "LIN",
-                    "col1": line.product_id.ean13,
-                    "col2": "EN",
-                }
-                data[filename].append(edi._create_line_csv(LIN, structs))
-                customer_reference = line.product_id.get_customer_info(
-                    pick.partner_id.commercial_partner_id.id
-                )
-                if customer_reference:
-                    PIALIN = {
-                        "lineId": "PIALIN",
-                        "col1": customer_reference,
+                for move_id in line.mapped("linked_move_operation_ids.move_id"):
+                    LIN = {
+                        "lineId": "LIN",
+                        "col1": line.product_id.ean13,
+                        "col2": "EN",
                     }
-                    data[filename].append(edi._create_line_csv(PIALIN, structs))
-                IMDLIN = {
-                    "lineId": "IMDLIN",
-                    "col1": "F",
-                    "col2": line.product_id.name,
-                }
-                data[filename].append(edi._create_line_csv(IMDLIN, structs))
-                QTYLIN = {
-                    "lineId": "QTYLIN",
-                    "col1": "12",
-                    "col2": line.get_package_qty(sscc.type),
-                    "col3": line.product_uom_id.edi_code or "PCE",
-                }
-                data[filename].append(edi._create_line_csv(QTYLIN, structs))
-                MOALIN = {
-                    "lineId": "MOALIN",
-                    "col1": str(move_id.price_subtotal_gross),
-                    "col2": str(move_id.price_subtotal),
-                    "col3": str(move_id.price_total),
-                }
-                data[filename].append(edi._create_line_csv(MOALIN, structs))
+                    data[filename].append(edi._create_line_csv(LIN, structs))
+                    customer_reference = line.product_id.get_customer_info(
+                        pick.partner_id.commercial_partner_id.id
+                    )
+                    if customer_reference:
+                        PIALIN = {
+                            "lineId": "PIALIN",
+                            "col1": customer_reference,
+                        }
+                        data[filename].append(edi._create_line_csv(PIALIN, structs))
+                    IMDLIN = {
+                        "lineId": "IMDLIN",
+                        "col1": "F",
+                        "col2": line.product_id.name,
+                    }
+                    data[filename].append(edi._create_line_csv(IMDLIN, structs))
+                    QTYLIN = {
+                        "lineId": "QTYLIN",
+                        "col1": "12",
+                        "col2": line.get_package_qty(sscc.type, move_id),
+                        "col3": line.product_uom_id.edi_code or "PCE",
+                    }
+                    data[filename].append(edi._create_line_csv(QTYLIN, structs))
+                    MOALIN = {
+                        "lineId": "MOALIN",
+                        "col1": str(move_id.price_subtotal_gross),
+                        "col2": str(move_id.price_subtotal),
+                        "col3": str(move_id.price_total),
+                    }
+                    data[filename].append(edi._create_line_csv(MOALIN, structs))
 
-                LOCLIN = {"lineId": "LOCLIN", "col1": pick.partner_id.gln}
-                data[filename].append(edi._create_line_csv(LOCLIN, structs))
-                PCILIN = {
-                    "lineId": "PCILIN",
-                    "col1": "36E",
-                    "col2": (
-                        pick.partner_id.use_date_as_life_date
-                        or pick.partner_id.commercial_partner_id.use_date_as_life_date
-                    )
-                    and line.lot_id.use_date
-                    and line.lot_id.use_date.split(" ")[0].replace("-", "")
-                    or "",
-                    "col3": (
-                        not pick.partner_id.use_date_as_life_date
-                        and not pick.partner_id.commercial_partner_id.use_date_as_life_date
-                    )
-                    and line.lot_id.use_date
-                    and line.lot_id.use_date.split(" ")[0].replace("-", "")
-                    or "",
-                    "col4": "",
-                    "col5": "",
-                    "col6": "",
-                    "col7": "",
-                    "col8": line.lot_id.name,
-                }
-                data[filename].append(edi._create_line_csv(PCILIN, structs))
+                    LOCLIN = {"lineId": "LOCLIN", "col1": pick.partner_id.gln}
+                    data[filename].append(edi._create_line_csv(LOCLIN, structs))
+                    PCILIN = {
+                        "lineId": "PCILIN",
+                        "col1": "36E",
+                        "col2": (
+                            pick.partner_id.use_date_as_life_date
+                            or pick.partner_id.commercial_partner_id.use_date_as_life_date
+                        )
+                        and line.lot_id.use_date
+                        and line.lot_id.use_date.split(" ")[0].replace("-", "")
+                        or "",
+                        "col3": (
+                            not pick.partner_id.use_date_as_life_date
+                            and not pick.partner_id.commercial_partner_id.use_date_as_life_date
+                        )
+                        and line.lot_id.use_date
+                        and line.lot_id.use_date.split(" ")[0].replace("-", "")
+                        or "",
+                        "col4": "",
+                        "col5": "",
+                        "col6": "",
+                        "col7": "",
+                        "col8": line.lot_id.name,
+                    }
+                    data[filename].append(edi._create_line_csv(PCILIN, structs))
 
         pick_obj = self.pool.get("stock.picking")
         context["model_log"] = "stock.picking"

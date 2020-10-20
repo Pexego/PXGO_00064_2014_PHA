@@ -44,14 +44,18 @@ class StockPackOperation(models.Model):
     )
 
     @api.multi
-    def get_package_qty(self, type):
+    def get_package_qty(self, type, move_id=False):
         """
         Se calcula la cantidad que va dentro de un bulto.
         """
         if type == "2":
             return self.product_id.box_elements
         else:
-            return sum([x.qty for x in self.linked_move_operation_ids]) - (
+            if move_id:
+                qty = sum([x.qty for x in self.linked_move_operation_ids if x.move_id == move_id])
+            else:
+                qty = sum([x.qty for x in self.linked_move_operation_ids])
+            return qty - (
                 self.product_id.box_elements * self.complete
             )
 
