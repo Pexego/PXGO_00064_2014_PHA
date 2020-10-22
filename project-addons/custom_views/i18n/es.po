@@ -707,6 +707,11 @@ msgid "Monthly"
 msgstr "Mensual"
 
 #. module: custom_views
+#: selection:res.partner,invoicing_period:0
+msgid "Monthly per child"
+msgstr "Mensual por hijo"
+
+#. module: custom_views
 #: field:mrp.procedure,notes:0
 #: view:product.product:custom_views.custom_views_product_notes_form
 #: field:product.product,notes:0

@@ -46,7 +46,8 @@ class ResPartner(models.Model):
     it_is_an_individual = fields.Boolean(default=False)
     invoicing_period = fields.Selection([('daily', 'Daily'),
                                          ('weekly', 'Weekly'),
-                                         ('monthly', 'Monthly')],
+                                         ('monthly', 'Monthly'),
+                                         ('monthly_child', 'Monthly per child')],
                                         default=False)
 
     @api.one
