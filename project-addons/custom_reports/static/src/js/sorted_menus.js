@@ -14,7 +14,7 @@ $(function() {
     // Callback function to execute when mutations are observed
     var callback = function(mutationsList) {
         // Ignore mutationList and search directly for target
-        if (window.location.href.includes('view_type=graph&')) {
+        if (document.documentURI && document.documentURI.includes('view_type=graph&')) {
             if ($(openerp.sortedMenus.target).length > 0 &&
                   openerp.sortedMenus.timeout == 0) {
                 openerp.sortedMenus.timeout = setTimeout(function() {
