@@ -27,10 +27,17 @@
     "sequence": 0,
     "certificate": "",
     "license": "",
-    "depends": ["board", "account_payment_sale", "sale",
-                "commercial_and_financial_discount", "stock_picking_valued",
-                "product_supplierinfo_for_customer", "product_gtin_codes",
-                "warehouse_shipping_light", 'stock_picking_invoice_link'],
+    "depends": [
+        "board",
+        "account_payment_sale",
+        "sale",
+        "commercial_and_financial_discount",
+        "stock_picking_valued",
+        "product_supplierinfo_for_customer",
+        "product_gtin_codes",
+        "warehouse_shipping_light",
+        "stock_picking_invoice_link",
+    ],
     "category": "Generic Modules/EDI",
     "complexity": "easy",
     "description": """
@@ -76,5 +83,4 @@ This must NOT be used by novice users
     "auto_install": False,
     "installable": True,
     "application": True,
-
 }

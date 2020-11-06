@@ -29,9 +29,7 @@ class edi_parser(models.Model):
     _name = "edi.parser"
 
     def make_partner_changes(self, partner, data, document):
-        for edi_change in partner.custom_edi.filtered(
-            lambda r: r.document == document
-        ):
+        for edi_change in partner.custom_edi.filtered(lambda r: r.document == document):
             for line in data:
                 if line[0] == edi_change.section:
                     for col_index in range(len(line)):
@@ -122,8 +120,7 @@ class edi_parser(models.Model):
                 "col1": invoice.customer_order.gln,
                 "col2": invoice.customer_order.name,
                 "col3": invoice.customer_order.street or " ",
-                "col4": invoice.customer_order.city[:35]
-                or " ",
+                "col4": invoice.customer_order.city[:35] or " ",
                 "col5": invoice.customer_order.zip or " ",
                 "col6": invoice.customer_order.vat or " ",
             }
@@ -133,8 +130,7 @@ class edi_parser(models.Model):
                 "col1": invoice.customer_order.gln,
                 "col2": invoice.customer_order.name,
                 "col3": invoice.customer_order.street or " ",
-                "col4": invoice.customer_order.city[:35]
-                or " ",
+                "col4": invoice.customer_order.city[:35] or " ",
                 "col5": invoice.customer_order.zip or " ",
                 "col6": invoice.customer_order.vat or " ",
             }
@@ -218,13 +214,15 @@ class edi_parser(models.Model):
                 }
                 data[filename].append(edi._create_line_csv(ALC, structs))
             for line in invoice.invoice_line:
-                if line.product_id in invoice.partner_id.commercial_partner_id.remove_products:
+                if (
+                    line.product_id
+                    in invoice.partner_id.commercial_partner_id.remove_products
+                ):
                     continue
                 if not line.product_id.ean13:
                     raise exceptions.Warning(
                         _("EAN Error"),
-                        _("The product %s not has an EAN")
-                        % line.product_id.name,
+                        _("The product %s not has an EAN") % line.product_id.name,
                     )
                 LIN = {
                     "lineId": "LIN",
@@ -247,7 +245,7 @@ class edi_parser(models.Model):
                     data[filename].append(edi._create_line_csv(PIALIN, structs))
                 IMDLIN = {
                     "lineId": "IMDLIN",
-                    "col1": line.name and line.name[:70] or '',
+                    "col1": line.name and line.name[:70] or "",
                     "col2": "M",
                     "col3": "F",
                 }
@@ -264,8 +262,7 @@ class edi_parser(models.Model):
                 PRILIN = {
                     "lineId": "PRILIN",
                     "col1": "AAA",
-                    "col2": line.price_unit
-                    * (1 - ((line.discount or 0.0) / 100.0)),
+                    "col2": line.price_unit * (1 - ((line.discount or 0.0) / 100.0)),
                     "col3": line.uos_id.edi_code or "PCE",
                 }
                 data[filename].append(edi._create_line_csv(PRILIN, structs))
@@ -300,9 +297,7 @@ class edi_parser(models.Model):
             MOARES = {
                 "lineId": "MOARES",
                 "col1": invoice.amount_untaxed,
-                "col2": sum(
-                    [x.price_unit * x.quantity for x in invoice.invoice_line]
-                ),
+                "col2": sum([x.price_unit * x.quantity for x in invoice.invoice_line]),
                 "col3": invoice.amount_untaxed,
                 "col4": invoice.amount_total,
                 "col5": invoice.amount_tax,
@@ -339,74 +334,70 @@ class edi_parser(models.Model):
 
     def parse_desadv(self, cr, uid, edi, data, context, _logger, structs):
         def _create_line_desadv(data, filename, edi, sscc=None):
-            for line in sscc.mapped(
-                "operation_ids"
-            ):
-                move_id = line.mapped('linked_move_operation_ids.move_id')
-                if len(move_id) > 1:
-                    raise Exception('Error')
-                LIN = {
-                    "lineId": "LIN",
-                    "col1": line.product_id.ean13,
-                    "col2": "EN",
-                }
-                data[filename].append(edi._create_line_csv(LIN, structs))
-                customer_reference = line.product_id.get_customer_info(
-                    pick.partner_id.commercial_partner_id.id
-                )
-                if customer_reference:
-                    PIALIN = {
-                        "lineId": "PIALIN",
-                        "col1": customer_reference,
+            for line in sscc.mapped("operation_ids"):
+                for move_id in line.mapped("linked_move_operation_ids.move_id"):
+                    LIN = {
+                        "lineId": "LIN",
+                        "col1": line.product_id.ean13,
+                        "col2": "EN",
                     }
-                    data[filename].append(edi._create_line_csv(PIALIN, structs))
-                IMDLIN = {
-                    "lineId": "IMDLIN",
-                    "col1": "F",
-                    "col2": line.product_id.name,
-                }
-                data[filename].append(edi._create_line_csv(IMDLIN, structs))
-                QTYLIN = {
-                    "lineId": "QTYLIN",
-                    "col1": "12",
-                    "col2": line.get_package_qty(sscc.type),
-                    "col3": line.product_uom_id.edi_code or "PCE",
-                }
-                data[filename].append(edi._create_line_csv(QTYLIN, structs))
-                MOALIN = {
-                    "lineId": "MOALIN",
-                    "col1": str(move_id.price_subtotal_gross),
-                    "col2": str(move_id.price_subtotal),
-                    "col3": str(move_id.price_total),
-                }
-                data[filename].append(edi._create_line_csv(MOALIN, structs))
+                    data[filename].append(edi._create_line_csv(LIN, structs))
+                    customer_reference = line.product_id.get_customer_info(
+                        pick.partner_id.commercial_partner_id.id
+                    )
+                    if customer_reference:
+                        PIALIN = {
+                            "lineId": "PIALIN",
+                            "col1": customer_reference,
+                        }
+                        data[filename].append(edi._create_line_csv(PIALIN, structs))
+                    IMDLIN = {
+                        "lineId": "IMDLIN",
+                        "col1": "F",
+                        "col2": line.product_id.name,
+                    }
+                    data[filename].append(edi._create_line_csv(IMDLIN, structs))
+                    QTYLIN = {
+                        "lineId": "QTYLIN",
+                        "col1": "12",
+                        "col2": line.get_package_qty(sscc.type, move_id),
+                        "col3": line.product_uom_id.edi_code or "PCE",
+                    }
+                    data[filename].append(edi._create_line_csv(QTYLIN, structs))
+                    MOALIN = {
+                        "lineId": "MOALIN",
+                        "col1": str(move_id.price_subtotal_gross),
+                        "col2": str(move_id.price_subtotal),
+                        "col3": str(move_id.price_total),
+                    }
+                    data[filename].append(edi._create_line_csv(MOALIN, structs))
 
-                LOCLIN = {"lineId": "LOCLIN", "col1": pick.partner_id.gln}
-                data[filename].append(edi._create_line_csv(LOCLIN, structs))
-                PCILIN = {
-                    "lineId": "PCILIN",
-                    "col1": "36E",
-                    "col2": (
-                        pick.partner_id.use_date_as_life_date
-                        or pick.partner_id.commercial_partner_id.use_date_as_life_date
-                    )
-                    and line.lot_id.use_date
-                    and line.lot_id.use_date.split(" ")[0].replace("-", "")
-                    or "",
-                    "col3": (
-                        not pick.partner_id.use_date_as_life_date
-                        and not pick.partner_id.commercial_partner_id.use_date_as_life_date
-                    )
-                    and line.lot_id.use_date
-                    and line.lot_id.use_date.split(" ")[0].replace("-", "")
-                    or "",
-                    "col4": "",
-                    "col5": "",
-                    "col6": "",
-                    "col7": "",
-                    "col8": line.lot_id.name,
-                }
-                data[filename].append(edi._create_line_csv(PCILIN, structs))
+                    LOCLIN = {"lineId": "LOCLIN", "col1": pick.partner_id.gln}
+                    data[filename].append(edi._create_line_csv(LOCLIN, structs))
+                    PCILIN = {
+                        "lineId": "PCILIN",
+                        "col1": "36E",
+                        "col2": (
+                            pick.partner_id.use_date_as_life_date
+                            or pick.partner_id.commercial_partner_id.use_date_as_life_date
+                        )
+                        and line.lot_id.use_date
+                        and line.lot_id.use_date.split(" ")[0].replace("-", "")
+                        or "",
+                        "col3": (
+                            not pick.partner_id.use_date_as_life_date
+                            and not pick.partner_id.commercial_partner_id.use_date_as_life_date
+                        )
+                        and line.lot_id.use_date
+                        and line.lot_id.use_date.split(" ")[0].replace("-", "")
+                        or "",
+                        "col4": "",
+                        "col5": "",
+                        "col6": "",
+                        "col7": "",
+                        "col8": line.lot_id.name,
+                    }
+                    data[filename].append(edi._create_line_csv(PCILIN, structs))
 
         pick_obj = self.pool.get("stock.picking")
         context["model_log"] = "stock.picking"
@@ -450,7 +441,9 @@ class edi_parser(models.Model):
             DTM = {
                 "lineId": "DTM",
                 "col1": time.strftime("%Y%m%d"),
-                "col2": (pick.sale_id.top_date or pick.min_date).split(" ")[0].replace("-", ""),
+                "col2": (pick.sale_id.top_date or pick.min_date)
+                .split(" ")[0]
+                .replace("-", ""),
             }
             data[filename].append(edi._create_line_csv(DTM, structs))
 
@@ -494,9 +487,7 @@ class edi_parser(models.Model):
             curr_parent = 1
             curr_cps = 1
             sscc_lines = [
-                x
-                for x in pick.mapped("pack_operation_ids.sscc_ids")
-                if x.type == "1"
+                x for x in pick.mapped("pack_operation_ids.sscc_ids") if x.type == "1"
             ]
             if not sscc_lines:
                 for sscc in pick.mapped("pack_operation_ids.sscc_ids"):
@@ -610,9 +601,7 @@ class edi_parser(models.Model):
                     or time.strftime("%Y-%m-%d %H:%M:%S")
                 )
             elif line and line[0] == "RFF":
-                old_pick_id = pick_obj.search(
-                    cr, uid, [("name", "=", line[1]["ref"])]
-                )
+                old_pick_id = pick_obj.search(cr, uid, [("name", "=", line[1]["ref"])])
                 if not old_pick_id:
                     raise Exception(
                         "No se ha encontrado el albarán referenciado %s"
@@ -626,8 +615,7 @@ class edi_parser(models.Model):
                 )
                 if not partner_id:
                     raise Exception(
-                        "El emisor con gln %s no se ha encontrado"
-                        % (line[1]["emisor"])
+                        "El emisor con gln %s no se ha encontrado" % (line[1]["emisor"])
                     )
                 else:
                     vals["partner_id"] = partner_id[0]
@@ -661,9 +649,7 @@ class edi_parser(models.Model):
                 elif line[0] == "QTYLIN" and possible_move_ids:
                     move = False
                     for pos_move in move_obj.browse(cr, uid, possible_move_ids):
-                        if pos_move.product_uom_qty == float(
-                            line[1]["enviadas"]
-                        ):
+                        if pos_move.product_uom_qty == float(line[1]["enviadas"]):
                             visited_moves.append(pos_move.id)
                             move = pos_move
                             break
@@ -671,8 +657,7 @@ class edi_parser(models.Model):
                         return_moves.append(
                             (
                                 move,
-                                move.product_uom_qty
-                                - float(line[1]["aceptadas"]),
+                                move.product_uom_qty - float(line[1]["aceptadas"]),
                             )
                         )
         if return_moves:
@@ -732,16 +717,11 @@ class edi_parser(models.Model):
                     cr, uid, [("name", "=", "EDI")]
                 )[0]
             if line and line[0] == "DTM":
-                if (
-                    line[1]["document_date"]
-                    and len(line[1]["document_date"]) == 12
-                ):
+                if line[1]["document_date"] and len(line[1]["document_date"]) == 12:
                     vals["date_order"] = (
                         line[1]["document_date"]
                         and datetime.strftime(
-                            datetime.strptime(
-                                line[1]["document_date"], "%Y%m%d%H%M"
-                            ),
+                            datetime.strptime(line[1]["document_date"], "%Y%m%d%H%M"),
                             "%Y-%m-%d %H:%M",
                         )
                         or time.strftime("%Y-%m-%d %H:%M:%S")
@@ -750,23 +730,16 @@ class edi_parser(models.Model):
                     vals["date_order"] = (
                         line[1]["document_date"]
                         and datetime.strftime(
-                            datetime.strptime(
-                                line[1]["document_date"], "%Y%m%d"
-                            ),
+                            datetime.strptime(line[1]["document_date"], "%Y%m%d"),
                             "%Y-%m-%d",
                         )
                         or time.strftime("%Y-%m-%d")
                     )
-                if (
-                    line[1]["document_date"]
-                    and len(line[1]["document_date"]) == 12
-                ):
+                if line[1]["document_date"] and len(line[1]["document_date"]) == 12:
                     vals["top_date"] = (
                         line[1]["limit_date"]
                         and datetime.strftime(
-                            datetime.strptime(
-                                line[1]["limit_date"], "%Y%m%d%H%M"
-                            ),
+                            datetime.strptime(line[1]["limit_date"], "%Y%m%d%H%M"),
                             "%Y-%m-%d",
                         )
                         or False
@@ -786,16 +759,12 @@ class edi_parser(models.Model):
                     cr, uid, [("edi_code", "=", line[1]["fpago"])]
                 )
                 if payment_mode:
-                    vals["payment_mode_id"] = (
-                        payment_mode and payment_mode[0] or False
-                    )
+                    vals["payment_mode_id"] = payment_mode and payment_mode[0] or False
             if line and (
                 (line[0] == "ALI" and line[1]["info"])
                 or (line[0] == "FTX" and line[1]["texto"])
             ):
-                vals["note"] += (
-                    line[0] == "ALI" and line[1]["info"] or line[1]["texto"]
-                )
+                vals["note"] += line[0] == "ALI" and line[1]["info"] or line[1]["texto"]
             if line and line[0] == "RFF":
                 vals["season"] = line[1]["temp"]
                 vals["customer_department"] = line[1]["cod"]
@@ -827,8 +796,7 @@ class edi_parser(models.Model):
                 )
                 if not partner_id:
                     raise Exception(
-                        "El partner con gln %s no se ha encontrado"
-                        % (line[1]["comp"])
+                        "El partner con gln %s no se ha encontrado" % (line[1]["comp"])
                     )
                 else:
                     partner = partner_obj.browse(cr, uid, partner_id)
@@ -854,15 +822,11 @@ class edi_parser(models.Model):
                     vals["partner_id"] = partner.id
                     partner = partner_obj.browse(cr, uid, partner_id[0])
                     vals["pricelist_id"] = partner.property_product_pricelist.id
-                    vals[
-                        "fiscal_position"
-                    ] = partner.property_account_position.id
+                    vals["fiscal_position"] = partner.property_account_position.id
                     # creo que hace falta
                     vals_fiscal_position = partner.property_account_position
                     if not vals.get("payment_mode_id", False):
-                        vals[
-                            "payment_mode_id"
-                        ] = partner.customer_payment_mode.id
+                        vals["payment_mode_id"] = partner.customer_payment_mode.id
                     vals["payment_term"] = partner.property_payment_term.id
             if line and line[0] == "NADDP":
                 partner_id = partner_obj.search(
@@ -883,22 +847,17 @@ class edi_parser(models.Model):
                 )
                 if not partner_id:
                     raise Exception(
-                        "El emisor con gln %s no se ha encontrado"
-                        % (line[1]["emisor"])
+                        "El emisor con gln %s no se ha encontrado" % (line[1]["emisor"])
                     )
                 else:
                     vals["partner_invoice_id"] = partner_id[0]
                     partner = partner_obj.browse(cr, uid, partner_id[0])
                     vals["pricelist_id"] = partner.property_product_pricelist.id
-                    vals[
-                        "fiscal_position"
-                    ] = partner.property_account_position.id
+                    vals["fiscal_position"] = partner.property_account_position.id
                     # creo que hace falta
                     vals_fiscal_position = partner.property_account_position
                     if not vals.get("payment_mode_id", False):
-                        vals[
-                            "payment_mode_id"
-                        ] = partner.customer_payment_mode.id
+                        vals["payment_mode_id"] = partner.customer_payment_mode.id
                     vals["payment_term"] = partner.property_payment_term.id
             if line and line[0] == "ALC":
                 if line[1]["tipo"] == "EAB":
@@ -965,10 +924,7 @@ class edi_parser(models.Model):
                         product = product_obj.browse(cr, uid, product_id[0])
                 elif line[0] == "PIALIN":
                     # si viene la referencia interna del cliente y no está guardada se crea
-                    if (
-                        line[1]["calificador"] == "IN"
-                        and "product_id" in line_vals
-                    ):
+                    if line[1]["calificador"] == "IN" and "product_id" in line_vals:
                         if not product_obj.get_customer_info(
                             cr,
                             uid,
@@ -983,9 +939,7 @@ class edi_parser(models.Model):
                                 line[1]["referencia"],
                             )
 
-                elif (
-                    line[0] == "IMDLIN" and line[1]["descripcion"] and line_vals
-                ):
+                elif line[0] == "IMDLIN" and line[1]["descripcion"] and line_vals:
                     if line_vals.get("name", False):
                         line_vals["name"] += u" " + line[1]["descripcion"]
                     else:
@@ -995,9 +949,7 @@ class edi_parser(models.Model):
                         line_vals["product_uom_qty"] = line[1]["qty"]
                         line_vals["product_uos_qty"] = line[1]["qty"]
                         edi_code = line[1]["uom_code"] or "PCE"
-                        uom_ids = uom_obj.search(
-                            cr, uid, [("edi_code", "=", edi_code)]
-                        )
+                        uom_ids = uom_obj.search(cr, uid, [("edi_code", "=", edi_code)])
                         if not uom_ids:
                             raise Exception(
                                 "La unidad de medida con codigo %s no se ha encontrado"
@@ -1009,22 +961,14 @@ class edi_parser(models.Model):
                     elif line[1]["calificador"] == "59":
                         line_vals["units_per_package"] = line[1]["qty"]
 
-                elif (
-                    line[0] == "PRILIN"
-                    and line_vals
-                    and line[1]["tipo"] == "AAA"
-                ):
+                elif line[0] == "PRILIN" and line_vals and line[1]["tipo"] == "AAA":
                     if not line_vals.get("price_unit"):
                         if line[1]["precio"]:
                             line_vals["price_unit"] = line[1]["precio"]
                     if line[1]["precio"]:
                         line_vals["net_price"] = line[1]["precio"]
 
-                elif (
-                    line[0] == "PRILIN"
-                    and line_vals
-                    and line[1]["tipo"] == "AAB"
-                ):
+                elif line[0] == "PRILIN" and line_vals and line[1]["tipo"] == "AAB":
                     if line[1]["precio"]:
                         line_vals["price_unit"] = line[1]["precio"]
                         line_vals["brut_price"] = line[1]["precio"]
@@ -1042,9 +986,7 @@ class edi_parser(models.Model):
             line_vals["order_id"] = new_sale_id
             # taxes = fpos_obj.map_tax(cr,uid,vals['fiscal_position'],product.taxes_id)
             product = product_obj.browse(cr, uid, line_vals["product_id"])
-            taxes = fpos_obj.map_tax(
-                cr, uid, vals_fiscal_position, product.taxes_id
-            )
+            taxes = fpos_obj.map_tax(cr, uid, vals_fiscal_position, product.taxes_id)
             line_vals["tax_id"] = [(6, 0, taxes)]
             sale_line_obj.create(cr, uid, line_vals)
         if new_sale_id:
