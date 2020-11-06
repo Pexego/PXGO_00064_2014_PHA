@@ -31,9 +31,7 @@ class ProductProduct(models.Model):
     @api.multi
     def get_customer_info(self, partner_id):
         self.ensure_one()
-        customer_info = self.customer_ids.filtered(
-            lambda r: r.name.id == partner_id
-        )
+        customer_info = self.customer_ids.filtered(lambda r: r.name.id == partner_id)
         if len(customer_info) > 1:
             customer_info = customer_info[0]
         return customer_info.product_code

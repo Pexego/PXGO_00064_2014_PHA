@@ -45,6 +45,7 @@
     "data": ['data/report_paperformat.xml',
              'data/remove_old_translations.xml',
              'data/ir_actions_server.xml',
+             'data/configuration.xml',
              'views/mrp_label_report.xml',
              'wizard/duplicate_protocol_wizard.xml',
              'wizard/print_protocol_view.xml',

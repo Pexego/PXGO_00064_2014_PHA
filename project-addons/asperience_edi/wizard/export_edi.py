@@ -28,19 +28,20 @@ class ExportEdiWzd(models.TransientModel):
 
     @api.multi
     def export(self):
-        if self.env.context['active_model'] == "account.invoice":
-            for invoice in self.env["account.invoice"].\
-                    browse(self.env.context['active_ids']):
-                if invoice.state in ('cancel', 'draft', 'proforma'):
-                    raise exceptions.Warning(_('Invoice must be opened or '
-                                               'done'))
-            invoic = self.env.ref('asperience_edi.edi_invoic')
+        if self.env.context["active_model"] == "account.invoice":
+            for invoice in self.env["account.invoice"].browse(
+                self.env.context["active_ids"]
+            ):
+                if invoice.state in ("cancel", "draft", "proforma"):
+                    raise exceptions.Warning(_("Invoice must be opened or " "done"))
+            invoic = self.env.ref("asperience_edi.edi_invoic")
             invoic.export_csv()
-        elif self.env.context['active_model'] == "stock.picking":
-            for pick in self.env["stock.picking"].\
-                    browse(self.env.context['active_ids']):
+        elif self.env.context["active_model"] == "stock.picking":
+            for pick in self.env["stock.picking"].browse(
+                self.env.context["active_ids"]
+            ):
                 if pick.state != "done":
-                    raise exceptions.Warning(_('Picking must be done'))
-            desadv = self.env.ref('asperience_edi.edi_desadv')
+                    raise exceptions.Warning(_("Picking must be done"))
+            desadv = self.env.ref("asperience_edi.edi_desadv")
             desadv.export_csv()
         return True

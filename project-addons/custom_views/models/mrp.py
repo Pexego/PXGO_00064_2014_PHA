@@ -90,6 +90,13 @@ class MrpRouting(models.Model):
         string='Handling procedure')
 
 
+class MrpMachineryType(models.Model):
+    _name = 'mrp.machinery.type'
+    _description = 'Production machinery type'
+
+    name = fields.Char('Machinery type')
+
+
 class MrpMachinery(models.Model):
     _name = 'mrp.machinery'
     _description = 'Production machinery'
@@ -118,6 +125,11 @@ class MrpMachinery(models.Model):
         comodel_name='mrp.procedure',
         domain="[('type_id.code', '=', 'machine_extra_1')]",
         string='Extra 1 procedure')
+    type_id = fields.Many2one(
+        comodel_name='mrp.machinery.type',
+        string='Machinery type'
+    )
+    optional_parameters = fields.Char()
     routing_ids = fields.Many2many(comodel_name='mrp.routing')
 
 
