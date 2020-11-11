@@ -10,16 +10,16 @@ from time import mktime
 
 class AccountInvoiceLine(models.Model):
 
-    _inherit = 'account.invoice.line'
+    _inherit = "account.invoice.line"
 
-    lot_id = fields.Many2one('stock.production.lot', 'Lot')
+    lot_id = fields.Many2one("stock.production.lot", "Lot")
 
 
 class AccountInvoice(models.Model):
 
-    _inherit = 'account.invoice'
-    customer_payer = fields.Many2one('res.partner')
-    customer_order = fields.Many2one('res.partner')
+    _inherit = "account.invoice"
+    customer_payer = fields.Many2one("res.partner")
+    customer_order = fields.Many2one("res.partner")
 
     @api.multi
     def _get_date_due_list(self):
@@ -27,18 +27,27 @@ class AccountInvoice(models.Model):
         expiration_dates = []
         move_line_obj = self.env["account.move.line"]
         if self.move_id:
-            move_lines = move_line_obj.search([('move_id', '=',
-                                                self.move_id.id),
-                                               ('date_maturity', "!=", False)],
-                                              order="date_maturity asc")
+            move_lines = move_line_obj.search(
+                [("move_id", "=", self.move_id.id), ("date_maturity", "!=", False)],
+                order="date_maturity asc",
+            )
             for line in move_lines:
                 date = time.strptime(line.date_maturity, "%Y-%m-%d")
                 date = datetime.fromtimestamp(mktime(date))
                 date = date.strftime("%Y%m%d")
-                expiration_dates.append((date,
-                    str(self.type in ('out_invoice', 'in_refund') and
-                        line.debit or (self.type in ('in_invoice',
-                                                     'out_refund') and
-                        line.credit or 0))))
+                expiration_dates.append(
+                    (
+                        date,
+                        str(
+                            self.type in ("out_invoice", "in_refund")
+                            and line.debit
+                            or (
+                                self.type in ("in_invoice", "out_refund")
+                                and line.credit
+                                or 0
+                            )
+                        ),
+                    )
+                )
 
         return expiration_dates

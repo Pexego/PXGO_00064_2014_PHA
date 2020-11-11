@@ -6,8 +6,7 @@ from dateutil import parser
 
 
 class CorteInglesParser(models.AbstractModel):
-    """
-    """
+    """"""
 
     _name = "report.asperience_edi.eci_order_report"
 
@@ -94,9 +93,7 @@ class CorteInglesParser(models.AbstractModel):
                 "subtotal": l.price_subtotal,
                 "serie": l.product_id.ean13 and l.product_id.ean13[:-1] or "",
                 "ean14": l.product_id.ean14,
-                "subline": l.product_id.subline
-                and l.product_id.subline.name
-                or "",
+                "subline": l.product_id.subline and l.product_id.subline.name or "",
                 "container": l.product_id.container_id
                 and l.product_id.container_id.name
                 or "",
