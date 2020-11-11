@@ -20,6 +20,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <separator string="Others"/>
                         <group col="2">
                             <field name="name_for_printing"/>
+                            <field name="minimum_production_lot"/>
                         </group>
                         <separator string="Associated production lines"/>
                         <field name="routing_ids"/>

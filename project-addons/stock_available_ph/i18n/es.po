@@ -488,6 +488,11 @@ msgid "Minimum action quantity"
 msgstr "Cantidad mínima acción"
 
 #. module: stock_available_ph
+#: field:product.product,minimum_production_lot:0
+msgid "Minimum production lot"
+msgstr "Lote mínimo para producción"
+
+#. module: stock_available_ph
 #: field:bom.member.of,stock_by_day_p_ind_min:0
 #: field:product.product,stock_by_day_p_ind_min:0
 #: field:product.stock.unsafety,stock_by_day_p_ind_min:0
