@@ -161,18 +161,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
-        <record id="product_price_history_action" model="ir.actions.act_window">
-            <field name="name">Product price history</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.price.history</field>
-            <field name="view_mode">tree</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="custom_views.product_price_history_tree"/>
-            <field name="search_view_id" ref="custom_views.product_price_history_search"/>
-            <field name="context">{'search_default_product_template_id': active_id}</field>
-            <field name="target">new</field>
-        </record>
-
         <record id="product_template_history_button_form_view" model="ir.ui.view">
             <field name="name">Product template form - History button</field>
             <field name="model">product.template</field>
@@ -183,9 +171,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 </field>
                 <button string="- update" position="after">
                     <button string="History"
-                            type="action"
+                            type="object"
                             class="oe_read_only oe_inline"
-                            name="%(product_price_history_action)d"
+                            name="product_price_history_action"
                     />
                 </button>
             </field>

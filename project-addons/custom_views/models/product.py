@@ -144,6 +144,11 @@ class ProductProduct(models.Model):
         )
         return [('id', 'in', product_ids.ids)]
 
+    @api.multi
+    def product_price_history_action(self):
+        self.ensure_one()
+        return self.product_tmpl_id.product_price_history_action()
+
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -300,6 +305,25 @@ class ProductTemplate(models.Model):
 
             product_id.with_context(disable_notify_changes = True). \
                 update_qty_in_production()
+
+    @api.multi
+    def product_price_history_action(self):
+        view_id = self.env.ref('custom_views.product_price_history_tree')
+        return {
+            'name': 'Histórico de precios de coste',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'res_model': 'product.price.history',
+            'views': [(view_id.id, 'tree')],
+            'view_id': view_id.id,
+            'target': 'new',
+            'context': self.with_context({
+                    'active_id': self.id,
+                    'active_model': self._name,
+                    'search_default_product_template_id': self.id,
+                }).env.context,
+        }
 
 
 class PricelistPartnerinfo(models.Model):

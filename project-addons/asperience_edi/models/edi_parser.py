@@ -115,24 +115,28 @@ class edi_parser(models.Model):
                 "col7": invoice.company_id.vat or " ",
             }
             data[filename].append(edi._create_line_csv(NADSU, structs))
+            if invoice.partner_id.commercial_partner_id.no_commercial_nadbco:
+                customer_nad = invoice.customer_order
+            else:
+                customer_nad = invoice.partner_id.commercial_partner_id
             FACT = {
                 "lineId": "NADBCO",
-                "col1": invoice.customer_order.gln,
-                "col2": invoice.customer_order.name,
-                "col3": invoice.customer_order.street or " ",
-                "col4": invoice.customer_order.city[:35] or " ",
-                "col5": invoice.customer_order.zip or " ",
-                "col6": invoice.customer_order.vat or " ",
+                "col1": customer_nad.gln,
+                "col2": customer_nad.name,
+                "col3": customer_nad.street or " ",
+                "col4": customer_nad.city[:35] or " ",
+                "col5": customer_nad.zip or " ",
+                "col6": customer_nad.vat or " ",
             }
             data[filename].append(edi._create_line_csv(FACT, structs))
             FACT = {
                 "lineId": "NADBY",
-                "col1": invoice.customer_order.gln,
-                "col2": invoice.customer_order.name,
-                "col3": invoice.customer_order.street or " ",
-                "col4": invoice.customer_order.city[:35] or " ",
-                "col5": invoice.customer_order.zip or " ",
-                "col6": invoice.customer_order.vat or " ",
+                "col1": customer_nad.gln,
+                "col2": customer_nad.name,
+                "col3": customer_nad.street or " ",
+                "col4": customer_nad.city[:35] or " ",
+                "col5": customer_nad.zip or " ",
+                "col6": customer_nad.vat or " ",
             }
             data[filename].append(edi._create_line_csv(FACT, structs))
             NADII = {
@@ -468,7 +472,7 @@ class edi_parser(models.Model):
             data[filename].append(edi._create_line_csv(NADMS, structs))
             NADMR = {
                 "lineId": "NADMR",
-                "col1": pick.sale_id.customer_transmitter.gln,
+                "col1": pick.sale_id.customer_transmitter.gln or pick.sale_id.partner_id.commercial_partner_id.gln,
             }
             data[filename].append(edi._create_line_csv(NADMR, structs))
             NADBY = {

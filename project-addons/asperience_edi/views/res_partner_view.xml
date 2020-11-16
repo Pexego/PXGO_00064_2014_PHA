@@ -30,6 +30,7 @@
                         </field>
                         <group>
                             <field name="use_date_as_life_date"/>
+                            <field name="no_commercial_nadbco" help="don't use commercial_partner_id from NADBCO segment in invoices"/>
                         </group>
                     </page>
                 </notebook>
