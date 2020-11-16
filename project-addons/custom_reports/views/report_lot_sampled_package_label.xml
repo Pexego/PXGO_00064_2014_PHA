@@ -16,11 +16,11 @@
                         <p style="padding-top: 20px; width: 100%; text-align: center; font-size: 20px;"><b><u>ENVASE MUESTREADO</u></b></p>
                         <p style=""><b>FECHA:</b> <span t-field="o.sampling_date"/></p>
                         <p style=""><b>REALIZA:</b> <span t-field="o.sampling_realized"/></p>
-                        <div style="position: absolute; bottom: 0; right: 0; width: 150px; height: 100px;">
+                        <!--div style="position: absolute; bottom: 0; right: 0; width: 150px; height: 100px;">
                             <img t-if="o.sampling_realized_id and o.sampling_realized_id.signature"
                                      t-att-src="'data:image/png;base64,%s' % o.sampling_realized_id.signature"
                                      style="display: block; position: absolute; bottom: 0; left: 0; max-height: 100px; max-width: 150px; z-index: -1;"/>
-                        </div>
+                        </div-->
                     </div>
                 </t>
             </t>
