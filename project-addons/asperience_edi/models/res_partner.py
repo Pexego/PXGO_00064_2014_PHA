@@ -45,6 +45,7 @@ class ResPartner(models.Model):
     remove_products = fields.Many2many("product.product")
     use_date_as_life_date = fields.Boolean()
     edi_mercantil = fields.Char(compute="_compute_edi_mercantil")
+    no_commercial_nadbco = fields.Boolean()
 
     def _compute_edi_mercantil(self):
         for partner in self:
