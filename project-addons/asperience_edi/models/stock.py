@@ -186,6 +186,7 @@ class StockPicking(models.Model):
                 {
                     "customer_order": sale.partner_id.id,
                     "customer_payer": sale.customer_payer.id,
+                    "customer_department": sale.customer_department,
                 }
             )
         return inv_vals
