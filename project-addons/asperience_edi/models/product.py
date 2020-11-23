@@ -47,6 +47,13 @@ class ProductProduct(models.Model):
             }
         )
 
+    def get_gtin14(self, partner_id):
+        self.ensure_one()
+        use_gtin = self.gtin14_ids.filtered(lambda r: partner_id in r.partner_ids._ids)
+        if not use_gtin:
+            use_gtin = self.gtin14_default
+        return use_gtin.gtin14
+
 
 class ProductUom(models.Model):
 

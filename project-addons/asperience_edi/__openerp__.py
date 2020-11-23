@@ -70,7 +70,7 @@ This must NOT be used by novice users
         "report/palet_tag_report.xml",
         "report/corte_ingles_report.xml",
         "report/eci_order_report.xml",
-        "views/stock.xml",
+        "views/stock.xml"
     ],
     "images": [
         "images/asperience.png",

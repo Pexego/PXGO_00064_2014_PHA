@@ -20,6 +20,7 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
     customer_payer = fields.Many2one("res.partner")
     customer_order = fields.Many2one("res.partner")
+    customer_department = fields.Char()
 
     @api.multi
     def _get_date_due_list(self):
