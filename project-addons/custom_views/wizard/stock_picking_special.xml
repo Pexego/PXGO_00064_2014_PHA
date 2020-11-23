@@ -25,6 +25,7 @@
             <field name="name">Custom views - Stock pickings special tree</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="priority">17</field>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <tree position="attributes">

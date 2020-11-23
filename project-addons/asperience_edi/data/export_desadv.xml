@@ -83,5 +83,24 @@ data = self.pool.get('edi.parser').parse_desadv(cr2, uid, edi, data, ctx, _logge
             <field name="type">char</field>
         </record>
 
+        <record forcecreate="True" id="edi_desadv_field_10" model="edi.edi.csv.field">
+            <field name="name">col9</field>
+            <field name="sequence" eval="10" />
+            <field name="edi" ref="edi_desadv" />
+            <field name="type">char</field>
+        </record>
+        <record forcecreate="True" id="edi_desadv_field_11" model="edi.edi.csv.field">
+            <field name="name">col10</field>
+            <field name="sequence" eval="11" />
+            <field name="edi" ref="edi_desadv" />
+            <field name="type">char</field>
+        </record>
+        <record forcecreate="True" id="edi_desadv_field_12" model="edi.edi.csv.field">
+            <field name="name">col11</field>
+            <field name="sequence" eval="12" />
+            <field name="edi" ref="edi_desadv" />
+            <field name="type">char</field>
+        </record>
+
         </data>
 </openerp>

@@ -139,6 +139,13 @@ class edi_parser(models.Model):
                 "col6": customer_nad.vat or " ",
             }
             data[filename].append(edi._create_line_csv(FACT, structs))
+            if invoice.customer_department:
+                RFF_dpto = {
+                    "lineId": "RFF",
+                    "col1": "API",
+                    "col2": invoice.customer_department
+                }
+                data[filename].append(edi._create_line_csv(RFF_dpto, structs))
             NADII = {
                 "lineId": "NADII",
                 "col1": invoice.company_id.partner_id.gln,
@@ -349,10 +356,16 @@ class edi_parser(models.Model):
                     customer_reference = line.product_id.get_customer_info(
                         pick.partner_id.commercial_partner_id.id
                     )
-                    if customer_reference:
+                    gtin_number = None
+                    if pick.partner_id.commercial_partner_id.desadv_use_gtin:
+                        gtin_number = line.product_id.get_gtin14(
+                            pick.partner_id.commercial_partner_id.id
+                        )
+                    if customer_reference or gtin_number:
                         PIALIN = {
                             "lineId": "PIALIN",
-                            "col1": customer_reference,
+                            "col1": customer_reference or '',
+                            "col10": gtin_number or '',
                         }
                         data[filename].append(edi._create_line_csv(PIALIN, structs))
                     IMDLIN = {
@@ -435,9 +448,12 @@ class edi_parser(models.Model):
             _logger.info("Albaran %s" % (str(pick.id)))
             CAB = {"lineId": "DESADV_D_96A_UN_EAN005"}
             data[filename].append(edi._create_line_csv(CAB, structs))
+            pick_name = pick.name
+            if pick.partner_id.commercial_partner_id.desadv_only_numeric_ref:
+                pick_name = pick_name.split('\\')[-1]
             BGM = {
                 "lineId": "BGM",
-                "col1": pick.name,
+                "col1": pick_name,
                 "col2": "351",
                 "col3": "9",
             }

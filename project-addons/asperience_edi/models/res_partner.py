@@ -46,6 +46,8 @@ class ResPartner(models.Model):
     use_date_as_life_date = fields.Boolean()
     edi_mercantil = fields.Char(compute="_compute_edi_mercantil")
     no_commercial_nadbco = fields.Boolean()
+    desadv_only_numeric_ref = fields.Boolean()
+    desadv_use_gtin = fields.Boolean()
 
     def _compute_edi_mercantil(self):
         for partner in self:
