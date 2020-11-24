@@ -137,15 +137,9 @@ class edi_parser(models.Model):
                 "col4": customer_nad.city[:35] or " ",
                 "col5": customer_nad.zip or " ",
                 "col6": customer_nad.vat or " ",
+                "col7": invoice.customer_department or "",
             }
             data[filename].append(edi._create_line_csv(FACT, structs))
-            if invoice.customer_department:
-                RFF_dpto = {
-                    "lineId": "RFF",
-                    "col1": "API",
-                    "col2": invoice.customer_department
-                }
-                data[filename].append(edi._create_line_csv(RFF_dpto, structs))
             NADII = {
                 "lineId": "NADII",
                 "col1": invoice.company_id.partner_id.gln,
@@ -157,6 +151,7 @@ class edi_parser(models.Model):
             }
             data[filename].append(edi._create_line_csv(NADII, structs))
             FACT["lineId"] = "NADIV"
+            FACT.pop('col7')
             data[filename].append(edi._create_line_csv(FACT, structs))
             NADDP = {
                 "lineId": "NADDP",
