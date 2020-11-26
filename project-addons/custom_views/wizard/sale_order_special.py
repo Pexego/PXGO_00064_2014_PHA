@@ -30,15 +30,8 @@ class SaleOrderSpecial(models.TransientModel):
     def write(self, vals):
         self.ensure_one()
         data = {}
-        if 'aux_partner_id' in vals:
-            data['partner_id']           = vals['aux_partner_id']
-            data['partner_invoice_id']   = vals['aux_partner_invoice_id']
-            data['partner_shipping_id']  = vals['aux_partner_shipping_id']
-            data['notified_partner_id']  = vals['aux_notified_partner_id']
-            data['customer_payer']       = vals['aux_customer_payer']
-            data['customer_branch']      = vals['aux_customer_branch']
-            data['customer_department']  = vals['aux_customer_department']
-            data['customer_transmitter'] = vals['aux_customer_transmitter']
+        for key in vals:
+            data[key.replace('aux_', '')] = vals[key]
         self.order_id.write(data)
         res = super(SaleOrderSpecial, self).write(vals)
         return res

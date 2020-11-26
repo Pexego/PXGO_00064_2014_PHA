@@ -20,9 +20,8 @@ class StockPickingSpecial(models.TransientModel):
     def write(self, vals):
         self.ensure_one()
         data = {}
-        if 'aux_partner_id' in vals:
-            data['partner_id'] = vals['aux_partner_id']
-            data['owner_id']   = vals['aux_owner_id']
+        for key in vals:
+            data[key.replace('aux_', '')] = vals[key]
         self.picking_id.write(data)
         res = super(StockPickingSpecial, self).write(vals)
         return res

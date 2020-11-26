@@ -10,8 +10,16 @@ class AccountInvoiceSpecial(models.TransientModel):
 
     invoice_id = fields.Many2one(comodel_name='account.invoice',
                                  required=True, ondelete='cascade')
-    commercial_partner_id = fields.Many2one(
-        related='partner_id.commercial_partner_id', readonly=True)
+    aux_partner_id = fields.Many2one(comodel_name='res.partner',
+                                     string='Cliente/Proveedor')
+    aux_commercial_partner_id = fields.Many2one(comodel_name='res.partner',
+                                     string='Dirección facturación')
+    aux_partner_shipping_id = fields.Many2one(comodel_name='res.partner',
+                                     string='Direción envío')
+    aux_customer_order = fields.Many2one(comodel_name='res.partner',
+                                     string='Cliente pedido')
+    aux_customer_payer = fields.Many2one(comodel_name='res.partner',
+                                     string='Cliente pagador')
     aux_mandate_id = fields.Many2one(comodel_name='account.banking.mandate',
                                      string='Banking mandate')
     aux_payment_mode_id = fields.Many2one(comodel_name='payment.mode',
@@ -24,14 +32,8 @@ class AccountInvoiceSpecial(models.TransientModel):
     def write(self, vals):
         self.ensure_one()
         data = {}
-        if 'aux_mandate_id' in vals:
-            data['mandate_id'] = vals['aux_mandate_id']
-        if 'aux_payment_mode_id' in vals:
-            data['payment_mode_id'] = vals['aux_payment_mode_id']
-        if 'aux_payment_term' in vals:
-            data['payment_term'] = vals['aux_payment_term']
-        if 'aux_date_due' in vals:
-            data['date_due'] = vals['aux_date_due']
+        for key in vals:
+            data[key.replace('aux_', '')] = vals[key]
         self.invoice_id.write(data)
         res = super(AccountInvoiceSpecial, self).write(vals)
         return res
@@ -44,6 +46,11 @@ class AccountInvoice(models.Model):
     def call_special_form(self):
         rec = self.env['account.invoice.special'].create({
             'invoice_id': self.id,
+            'aux_partner_id': self.partner_id.id,
+            'aux_commercial_partner_id': self.commercial_partner_id.id,
+            'aux_partner_shipping_id': self.partner_shipping_id.id,
+            'aux_customer_order': self.customer_order.id,
+            'aux_customer_payer': self.customer_payer.id,
             'aux_mandate_id': self.mandate_id.id,
             'aux_payment_mode_id': self.payment_mode_id.id,
             'aux_payment_term': self.payment_term.id,
