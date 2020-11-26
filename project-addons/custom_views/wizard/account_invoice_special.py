@@ -20,6 +20,7 @@ class AccountInvoiceSpecial(models.TransientModel):
                                      string='Cliente pedido')
     aux_customer_payer = fields.Many2one(comodel_name='res.partner',
                                      string='Cliente pagador')
+    aux_customer_department = fields.Char(string='Departamento')
     aux_mandate_id = fields.Many2one(comodel_name='account.banking.mandate',
                                      string='Banking mandate')
     aux_payment_mode_id = fields.Many2one(comodel_name='payment.mode',
@@ -44,20 +45,16 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def call_special_form(self):
-        rec = self.env['account.invoice.special'].create({
-            'invoice_id': self.id,
-            'aux_partner_id': self.partner_id.id,
-            'aux_commercial_partner_id': self.commercial_partner_id.id,
-            'aux_partner_shipping_id': self.partner_shipping_id.id,
-            'aux_customer_order': self.customer_order.id,
-            'aux_customer_payer': self.customer_payer.id,
-            'aux_mandate_id': self.mandate_id.id,
-            'aux_payment_mode_id': self.payment_mode_id.id,
-            'aux_payment_term': self.payment_term.id,
-            'aux_date_due': self.date_due
-        })
+        wizard = self.env['account.invoice.special']
+        data = {'invoice_id': self.id}
+        for column in wizard._columns:
+            if column[:4] == 'aux_':
+                if wizard._columns[column]._type == 'many2one':
+                    data[column] = eval('self.' + column[4:] + '.id')
+                else:
+                    data[column] = eval('self.' + column[4:])
+        rec = wizard.create(data)
         view_id = self.env.ref('custom_views.view_invoice_special_form').id
-
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',

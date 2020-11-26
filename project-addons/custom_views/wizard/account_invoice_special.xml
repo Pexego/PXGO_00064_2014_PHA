@@ -20,6 +20,7 @@
                             <field name="aux_partner_shipping_id"/>
                             <field name="aux_customer_order"/>
                             <field name="aux_customer_payer"/>
+                            <field name="aux_customer_department" style="width:40%;"/>
                             <field name="aux_mandate_id" style="width:40%;"
                                    domain="[('partner_id', '=', aux_commercial_partner_id), ('state', '=', 'valid')]"/>
                             <field name="aux_payment_mode_id" style="width:40%;"/>

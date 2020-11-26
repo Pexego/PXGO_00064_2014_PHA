@@ -32,13 +32,16 @@ class StockPicking(models.Model):
 
     @api.multi
     def call_special_form(self):
-        rec = self.env['stock.picking.special'].create({
-            'picking_id':     self.id,
-            'aux_partner_id': self.partner_id.id,
-            'aux_owner_id':   self.owner_id.id
-        })
+        wizard = self.env['stock.picking.special']
+        data = {'picking_id': self.id}
+        for column in wizard._columns:
+            if column[:4] == 'aux_':
+                if wizard._columns[column]._type == 'many2one':
+                    data[column] = eval('self.' + column[4:] + '.id')
+                else:
+                    data[column] = eval('self.' + column[4:])
+        rec = wizard.create(data)
         view_id = self.env.ref('custom_views.view_stock_picking_special_form')
-
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',

@@ -42,19 +42,16 @@ class SaleOrder(models.Model):
 
     @api.multi
     def call_special_form(self):
-        rec = self.env['sale.order.special'].create({
-            'order_id':                 self.id,
-            'aux_partner_id':           self.partner_id.id,
-            'aux_partner_invoice_id':   self.partner_invoice_id.id,
-            'aux_partner_shipping_id':  self.partner_shipping_id.id,
-            'aux_notified_partner_id':  self.notified_partner_id.id,
-            'aux_customer_payer':       self.customer_payer.id,
-            'aux_customer_branch':      self.customer_branch,
-            'aux_customer_department':  self.customer_department,
-            'aux_customer_transmitter': self.customer_transmitter.id
-        })
+        wizard = self.env['sale.order.special']
+        data = {'order_id': self.id}
+        for column in wizard._columns:
+            if column[:4] == 'aux_':
+                if wizard._columns[column]._type == 'many2one':
+                    data[column] = eval('self.' + column[4:] + '.id')
+                else:
+                    data[column] = eval('self.' + column[4:])
+        rec = wizard.create(data)
         view_id = self.env.ref('custom_views.view_sale_order_special_form')
-
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
