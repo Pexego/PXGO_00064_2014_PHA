@@ -360,7 +360,9 @@ class edi_parser(models.Model):
                         PIALIN = {
                             "lineId": "PIALIN",
                             "col1": customer_reference or '',
-                            "col10": gtin_number or '',
+                            "col2": "",
+                            "col3": "",
+                            "col4": gtin_number or '',
                         }
                         data[filename].append(edi._create_line_csv(PIALIN, structs))
                     IMDLIN = {
@@ -489,6 +491,8 @@ class edi_parser(models.Model):
             NADBY = {
                 "lineId": "NADBY",
                 "col1": pick.sale_id.partner_id.gln,
+                "col2": "",
+                "col3": pick.sale_id.customer_department or ""
             }
             data[filename].append(edi._create_line_csv(NADBY, structs))
             NADSU = {"lineId": "NADSU", "col1": pick.company_id.partner_id.gln}
