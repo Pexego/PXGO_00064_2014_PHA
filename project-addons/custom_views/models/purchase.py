@@ -85,3 +85,4 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
     date_done = fields.Date()
+    invoiced = fields.Boolean('Invoiced', readonly=False, copy=False)
