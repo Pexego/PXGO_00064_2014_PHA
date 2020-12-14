@@ -30,15 +30,8 @@ class SaleOrderSpecial(models.TransientModel):
     def write(self, vals):
         self.ensure_one()
         data = {}
-        if 'aux_partner_id' in vals:
-            data['partner_id']           = vals['aux_partner_id']
-            data['partner_invoice_id']   = vals['aux_partner_invoice_id']
-            data['partner_shipping_id']  = vals['aux_partner_shipping_id']
-            data['notified_partner_id']  = vals['aux_notified_partner_id']
-            data['customer_payer']       = vals['aux_customer_payer']
-            data['customer_branch']      = vals['aux_customer_branch']
-            data['customer_department']  = vals['aux_customer_department']
-            data['customer_transmitter'] = vals['aux_customer_transmitter']
+        for key in vals:
+            data[key.replace('aux_', '')] = vals[key]
         self.order_id.write(data)
         res = super(SaleOrderSpecial, self).write(vals)
         return res
@@ -49,19 +42,16 @@ class SaleOrder(models.Model):
 
     @api.multi
     def call_special_form(self):
-        rec = self.env['sale.order.special'].create({
-            'order_id':                 self.id,
-            'aux_partner_id':           self.partner_id.id,
-            'aux_partner_invoice_id':   self.partner_invoice_id.id,
-            'aux_partner_shipping_id':  self.partner_shipping_id.id,
-            'aux_notified_partner_id':  self.notified_partner_id.id,
-            'aux_customer_payer':       self.customer_payer.id,
-            'aux_customer_branch':      self.customer_branch,
-            'aux_customer_department':  self.customer_department,
-            'aux_customer_transmitter': self.customer_transmitter.id
-        })
+        wizard = self.env['sale.order.special']
+        data = {'order_id': self.id}
+        for column in wizard._columns:
+            if column[:4] == 'aux_':
+                if wizard._columns[column]._type == 'many2one':
+                    data[column] = eval('self.' + column[4:] + '.id')
+                else:
+                    data[column] = eval('self.' + column[4:])
+        rec = wizard.create(data)
         view_id = self.env.ref('custom_views.view_sale_order_special_form')
-
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
