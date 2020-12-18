@@ -3,7 +3,7 @@ img.zoomedImg {
   display: none;
   margin-left: 25%;
   top: 40px;
-  height: 95%;
+  width: 50%;
   border: 1px solid grey;
   cursor: url(../img/close.png),auto;
 }
