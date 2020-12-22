@@ -202,6 +202,11 @@ class StockProductionLot(models.Model):
         string='Name changes'
     )
     reception_notes = fields.Char()
+    sampling_type = fields.Selection([
+        ('normal', 'Normal'),
+        ('reduced', 'Reduced'),
+        ('extended', 'Extended')
+    ], default=False)
 
     @api.onchange('origin_type')
     def onchange_origin_type(self):

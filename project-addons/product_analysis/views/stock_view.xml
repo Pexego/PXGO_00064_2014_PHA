@@ -29,6 +29,7 @@
                                 <field name="num_container_sample_proposed"/>
                                 <field name="num_container_sample_to_do"/>
                                 <field name="num_container_sample_realized"/>
+                                <field name="sampling_type"/>
                             </group>
                             <group>
                                 <field name="num_sampling_proposed"/>
@@ -190,6 +191,18 @@
                         <field name="reception_notes"/>
                     </group>
                 </group>
+            </field>
+        </record>
+
+        <record id="stock_production_lot_lot_tree" model="ir.ui.view">
+            <field name="name">Product analysis - Stock production lot tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="sampling_type"/>
+                </field>
             </field>
         </record>
 
