@@ -3,12 +3,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, exceptions
+import openerp.addons.decimal_precision as dp
 
 
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
 
     notes = fields.Text(compute='_get_notes', readonly=True)
+    picking_weight = fields.Float(
+        digits=dp.get_precision('Product Unit of Measure'))
 
     @api.one
     def _get_notes(self):
@@ -53,6 +56,15 @@ class StockTransferDetails(models.TransientModel):
         else:
             self.picking_id.transferred_with_barcodes = True
             self.do_detailed_transfer()
+
+    @api.multi
+    def write(self, vals):
+        if 'picking_weight' in vals:
+            production_id = self.env['mrp.production'].\
+                search([('name', '=', self[0].picking_id.origin)])
+            if production_id:
+                production_id.write({'picking_weight': vals['picking_weight']})
+        return super(StockTransferDetails, self).write(vals)
 
 
 class StockTransferDetailsItems(models.TransientModel):

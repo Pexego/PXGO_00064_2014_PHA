@@ -57,7 +57,12 @@ class MrpProductProduce(models.TransientModel):
                 for r in res['value']['consume_lines']:
                     if r[2]['product_id'] == raw_material_ids.id:
                         qty += r[2]['product_qty']
-                res['value']['picking_weight'] = qty
+                # Weight of raw material
+                production_id = self.pool.get('mrp.production').browse(cr, uid,
+                    context.get('active_id'), context=context)
+                res['value']['picking_weight'] = qty \
+                    if not production_id.picking_weight \
+                    else production_id.picking_weight
         return res
 
     @api.multi

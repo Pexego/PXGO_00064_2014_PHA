@@ -81,7 +81,8 @@ class StockPicking(models.Model):
             'context': self.with_context({
                     'active_ids': self.ids,
                     'active_model': self._name,
-                    'picking_type': self.picking_type_code
+                    'picking_type': self.picking_type_code,
+                    'for_production': self.origin[:2] == 'MO'
                 }).env.context,
         }
 

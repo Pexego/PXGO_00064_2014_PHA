@@ -227,6 +227,11 @@ msgid "Picking weight"
 msgstr "Peso ticket acopio"
 
 #. module: mrp_production_ph
+#: field:stock.transfer_details,picking_weight:0
+msgid "Picking weight"
+msgstr "Peso ticket acopio (Final de lote)"
+
+#. module: mrp_production_ph
 #: field:mrp.production.confirm,product:0
 #: field:mrp.production.quality.consum,product_id:0
 #: field:mrp.production.store.consum,product_id:0

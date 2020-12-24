@@ -19,10 +19,15 @@
                     <field name="available_qty" invisible="context.get('picking_type') != 'internal'"/>
                 </field>
                 <field name="picking_destination_location_id" position="after">
-                    <group string="Notas desde producción / albaranes">
-                        <field name="notes" attrs="{'invisible': [('notes', '=', False)]}" nolabel="1" style="font-weight: bold;"/>
+                    <group string="Notas desde producción / albaranes" attrs="{'invisible': [('notes', '=', False)]}">
+                        <field name="notes" nolabel="1" style="font-weight: bold;"/>
                     </group>
                 </field>
+                <group string="Products To Move" position="inside">
+                    <group col="4">
+                        <field name="picking_weight" invisible="not context.get('for_production')"/>
+                    </group>
+                </group>
                 <xpath expr="//field[@name='item_ids']/tree/field[@name='name']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
