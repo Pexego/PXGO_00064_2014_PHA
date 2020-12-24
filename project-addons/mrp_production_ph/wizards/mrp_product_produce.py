@@ -85,6 +85,9 @@ class MrpProductProduce(models.TransientModel):
             return_line.product_qty = picking_total - self.picking_weight + \
                 self.return_weight + self.tare
             self.onchange_return_lines()
+            # Inform that then button has been pressed
+            self.env['mrp.production'].browse(self.env.context.get('active_id')).\
+                calculate_consumption_button_pressed = True
             return {
                 'context': self.env.context,
                 'view_type': 'form',
