@@ -276,10 +276,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="manufacturing_procedure_attachment" filename="manufacturing_procedure_filename" nolabel="1" class="oe_read_only"/>
                             <field name="packaging_procedure_id"/>
                             <field name="packaging_procedure_attachment" filename="packaging_procedure_filename" nolabel="1" class="oe_read_only"/>
-                            <field name="generic_specification_id"/>
-                            <field name="generic_specification_attachment" filename="generic_specification_filename" nolabel="1" class="oe_read_only"/>
                             <field name="model_specification_id"/>
                             <field name="model_specification_attachment" filename="model_specification_filename" nolabel="1" class="oe_read_only"/>
+                            <group col="1" colspan="3">
+                                <field name="generic_specification_ids" nolabel="1"/>
+                            </group>
                             <group col="1" colspan="3">
                                 <field name="analysis_method_ids" nolabel="1"/>
                             </group>
@@ -330,7 +331,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <tree>
                     <field name="procedure_id"/>
-                    <field name="attachment" filename="analysis_method_filename" nolabel="1" class="oe_read_only"/>
+                    <field name="attachment" filename="filename" nolabel="1" class="oe_read_only"/>
                 </tree>
             </field>
         </record>
@@ -341,7 +342,29 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <form>
                     <field name="procedure_id"/>
-                    <field name="attachment" filename="analysis_method_filename" nolabel="1" class="oe_read_only"/>
+                    <field name="attachment" filename="filename" nolabel="1" class="oe_read_only"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="custom_views_product_generic_specification_tree" model="ir.ui.view">
+            <field name="name">Custom views - Product generic specification tree</field>
+            <field name="model">product.product.generic.specification</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="procedure_id"/>
+                    <field name="attachment" filename="filename" nolabel="1" class="oe_read_only"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="custom_views_product_generic_specification_form" model="ir.ui.view">
+            <field name="name">Custom views - Product generic specification form</field>
+            <field name="model">product.product.generic.specification</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="procedure_id"/>
+                    <field name="attachment" filename="filename" nolabel="1" class="oe_read_only"/>
                 </form>
             </field>
         </record>
