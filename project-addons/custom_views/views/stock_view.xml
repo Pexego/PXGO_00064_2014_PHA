@@ -318,6 +318,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <tree default_order="create_date desc">
                     <field name="product_id"/>
+                    <field name="partner_id"/>
                     <field name="supplier_lot"/>
                     <field name="name"/>
                     <field name="input_qty"/>

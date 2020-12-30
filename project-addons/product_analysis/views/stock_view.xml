@@ -296,5 +296,17 @@
                 </button>
             </field>
         </record>
+
+        <record id="view_materials_control_tree" model="ir.ui.view">
+            <field name="name">Product analysis - Materials control tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="custom_views.custom_views_materials_control_tree"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="default_code" position="after">
+                    <field name="analysis_notes"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
