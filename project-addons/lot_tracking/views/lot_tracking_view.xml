@@ -19,7 +19,7 @@
             <field name="model">lot.tracking</field>
             <field name="arch" type="xml">
                 <form string="Lot tracking">
-                    <sheet class="oe_form_sheet_custom_width_screen">
+                    <sheet class="oe_form_sheet_custom_width_full_screen">
                         <group cols="4">
                             <group cols="2">
                                 <field name="product_id"/>
@@ -211,5 +211,94 @@
                 </field>
             </field>
         </record>
+
+        <record id="view_lot_tracking_by_seal_move_form" model="ir.ui.view">
+            <field name="name">Lot tracking move by seal form</field>
+            <field name="model">stock.lot.move.by.seal</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_move_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="product_id"/>
+                    <field name="lot_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_lot_tracking_by_seal_tree" model="ir.ui.view">
+            <field name="name">Lot tracking by seal tree</field>
+            <field name="model">lot.tracking.by.seal</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="category_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="write_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_lot_tracking_by_seal_form" model="ir.ui.view">
+            <field name="name">Lot tracking by seal form</field>
+            <field name="model">lot.tracking.by.seal</field>
+            <field name="arch" type="xml">
+                <form string="Lot tracking by seal">
+                    <sheet class="oe_form_sheet_custom_width_full_screen">
+                        <group cols="4">
+                            <group cols="2">
+                                <field name="category_id"
+                                       domain="[('parent_id', '=', %(__export__.product_category_1305)d)]"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </group>
+                            <group cols="2">
+                                <field name="type_of_move"/>
+                                <field name="total"/>
+                            </group>
+                        </group>
+                        <button string="Get traceability"
+                                name="get_traceability"
+                                type="object"
+                                class="oe_highlight oe_read_only"/>
+                        <separator string="Lot movements" style="margin-bottom: -5px;"/>
+                        <field name="lot_move_ids">
+                            <button onclick="$('div.oe_view_manager_view_form div.oe_view_manager a#button_export_excel').trigger('click');"
+                                    class="oe_right"
+                                    style="margin-top: -30px;">Exportar a excel</button>
+                            <tree string="Lot movements"
+                                  default_order="date"
+                                  colors="red:type=='input';green:type=='output';blue:type=='internal'">
+                                <field name="date"/>
+                                <field name="product_id"/>
+                                <field name="lot_id"/>
+                                <field name="qty"/>
+                                <field name="product_uom"/>
+                                <field name="location_id"/>
+                                <field name="location_dest_id"/>
+                                <field name="partner_id"/>
+                                <field name="picking_id"/>
+                                <field name="origin"/>
+                                <field name="final_product_id"/>
+                                <field name="final_lot_id"/>
+                                <field name="type" invisible="1"/>
+                                <field name="state" invisible="1"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_lot_tracking_by_seal" model="ir.actions.act_window">
+            <field name="name">By seal</field>
+            <field name="res_model">lot.tracking.by.seal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_lot_tracking_by_seal_tree"/>
+        </record>
+
+        <menuitem id="menu_lot_tracking_by_seal"
+                  parent="lot_tracking.menu_lot_tracking"
+                  action="action_view_lot_tracking_by_seal" sequence="1"/>
     </data>
 </openerp>

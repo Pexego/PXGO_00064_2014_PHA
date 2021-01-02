@@ -21,6 +21,19 @@ class ProductProductAnalysisMethod(models.Model):
         related='procedure_id.attachment_filename', readonly=True)
 
 
+class ProductProductGenericSpecification(models.Model):
+    _name = 'product.product.generic.specification'
+
+    product_id = fields.Many2one(comodel_name='product.product')
+    procedure_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id.code', 'ilike', 'specifications%')]",
+        string='Generic specification')
+    attachment = fields.Binary(
+        related='procedure_id.attachment', readonly=True)
+    filename = fields.Char(
+        related='procedure_id.attachment_filename', readonly=True)
+
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
@@ -44,13 +57,9 @@ class ProductProduct(models.Model):
         related='packaging_procedure_id.attachment', readonly=True)
     packaging_procedure_filename = fields.Char(
         related='packaging_procedure_id.attachment_filename', readonly=True)
-    generic_specification_id = fields.Many2one(comodel_name='mrp.procedure',
-        domain="[('type_id.code', 'ilike', 'specifications%')]",
-        string='Specification')
-    generic_specification_attachment = fields.Binary(
-        related='generic_specification_id.attachment', readonly=True)
-    generic_specification_filename = fields.Char(
-        related='generic_specification_id.attachment_filename', readonly=True)
+    generic_specification_ids = fields.One2many(
+        comodel_name='product.product.generic.specification',
+        inverse_name='product_id', string='Specification')
     model_specification_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', 'ilike', 'specifications%')]",
         string='Model specification')
