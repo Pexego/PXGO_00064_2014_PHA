@@ -173,6 +173,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
+        <record id="custom_views_production_lot_form" model="ir.ui.view">
+            <field name="name">Custom views - Stock production lot form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="partner_id" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
         <record id="custom_views_production_lot_tree" model="ir.ui.view">
             <field name="name">Custom views - Stock production lot tree</field>
             <field name="model">stock.production.lot</field>
@@ -193,7 +205,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <attribute name="default_order">create_date desc</attribute>
                 </tree>
                 <field name="state" position="after">
-                    <field name="partner_id"/>
+                    <field name="supplier_lot"/>
                 </field>
             </field>
         </record>
