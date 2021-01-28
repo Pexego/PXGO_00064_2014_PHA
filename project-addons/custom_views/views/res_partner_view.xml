@@ -101,6 +101,9 @@
                     <script src="/custom_views/static/src/js/phone_link.js"/>
                     <script src="/custom_views/static/src/js/email_link.js"/>
                 </xpath>
+                <field name="financial_discount" position="after">
+                    <field name="rappel"/>
+                </field>
             </field>
         </record>
 
