@@ -340,7 +340,10 @@ class edi_parser(models.Model):
 
     def parse_desadv(self, cr, uid, edi, data, context, _logger, structs):
         def _create_line_desadv(data, filename, edi, sscc=None):
-            for line in sscc.mapped("operation_ids"):
+            operations = sscc.mapped("operation_ids")
+            if sscc.type == "1":
+                operations = sscc.mapped("child_ids.operation_ids")
+            for line in operations:
                 for move_id in line.mapped("linked_move_operation_ids.move_id"):
                     LIN = {
                         "lineId": "LIN",
@@ -536,7 +539,7 @@ class edi_parser(models.Model):
 
                 PAC = {
                     "lineId": "PAC",
-                    "col1": len(sscc.child_ids),
+                    "col1": pick.partner_id.commercial_partner_id.desadv_without_box_sscc and 1 or len(sscc.child_ids),
                     "col2": "201",
                 }
                 data[filename].append(edi._create_line_csv(PAC, structs))
@@ -547,26 +550,28 @@ class edi_parser(models.Model):
                     "col3": sscc.name,
                 }
                 data[filename].append(edi._create_line_csv(PCI, structs))
+                if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                    _create_line_desadv(data, filename, edi, sscc)
+                else:
+                    for sscc_child in sscc.child_ids:
+                        CPS = {
+                            "lineId": "CPS",
+                            "col1": curr_cps,
+                            "col2": curr_parent,
+                        }
+                        curr_cps += 1
+                        data[filename].append(edi._create_line_csv(CPS, structs))
 
-                for sscc_child in sscc.child_ids:
-                    CPS = {
-                        "lineId": "CPS",
-                        "col1": curr_cps,
-                        "col2": curr_parent,
-                    }
-                    curr_cps += 1
-                    data[filename].append(edi._create_line_csv(CPS, structs))
-
-                    PAC = {"lineId": "PAC", "col1": 1, "col2": "CT"}
-                    data[filename].append(edi._create_line_csv(PAC, structs))
-                    PCI = {
-                        "lineId": "PCI",
-                        "col1": "33E",
-                        "col2": "BJ",
-                        "col3": sscc_child.name,
-                    }
-                    data[filename].append(edi._create_line_csv(PCI, structs))
-                    _create_line_desadv(data, filename, edi, sscc_child)
+                        PAC = {"lineId": "PAC", "col1": 1, "col2": "CT"}
+                        data[filename].append(edi._create_line_csv(PAC, structs))
+                        PCI = {
+                            "lineId": "PCI",
+                            "col1": "33E",
+                            "col2": "BJ",
+                            "col3": sscc_child.name,
+                        }
+                        data[filename].append(edi._create_line_csv(PCI, structs))
+                        _create_line_desadv(data, filename, edi, sscc_child)
 
             CNTRES = {
                 "lineId": "CNTRES",

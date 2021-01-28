@@ -33,6 +33,7 @@
                             <field name="no_commercial_nadbco" help="don't use commercial_partner_id from NADBCO segment in invoices"/>
                             <field name="desadv_only_numeric_ref" help="En el apartado BGM de desadv se muestra únicamente la parte final del número de albarán"/>
                             <field name="desadv_use_gtin" help="exportar gtin14 en desadv"/>
+                            <field name="desadv_without_box_sscc" help="No se exportarán los sscc de bulto"/>
                         </group>
                     </page>
                 </notebook>
