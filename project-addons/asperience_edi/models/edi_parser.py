@@ -366,6 +366,11 @@ class edi_parser(models.Model):
                             "col2": "",
                             "col3": "",
                             "col4": gtin_number or '',
+                            "col5": "",
+                            "col6": "",
+                            "col7": "",
+                            "col8": "",
+                            "col9": line.lot_id.name,
                         }
                         data[filename].append(edi._create_line_csv(PIALIN, structs))
                     IMDLIN = {
@@ -381,16 +386,30 @@ class edi_parser(models.Model):
                         "col3": line.product_uom_id.edi_code or "PCE",
                     }
                     data[filename].append(edi._create_line_csv(QTYLIN, structs))
-                    MOALIN = {
-                        "lineId": "MOALIN",
-                        "col1": str(move_id.price_subtotal_gross),
-                        "col2": str(move_id.price_subtotal),
-                        "col3": str(move_id.price_total),
-                    }
-                    data[filename].append(edi._create_line_csv(MOALIN, structs))
+                    if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                        QTYLIN = {
+                            "lineId": "QTYLIN",
+                            "col1": "59",
+                            "col2": int(line.product_id.box_elements),
+                        }
+                        data[filename].append(edi._create_line_csv(QTYLIN, structs))
+                        FTXLIN = {
+                            "lineId": "FTXLIN",
+                            "col1": "AAA",
+                            "col2": "Coincide con albaran {}".format(pick.name),
+                        }
+                        data[filename].append(edi._create_line_csv(FTXLIN, structs))
+                    if not pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                        MOALIN = {
+                            "lineId": "MOALIN",
+                            "col1": str(move_id.price_subtotal_gross),
+                            "col2": str(move_id.price_subtotal),
+                            "col3": str(move_id.price_total),
+                        }
+                        data[filename].append(edi._create_line_csv(MOALIN, structs))
 
-                    LOCLIN = {"lineId": "LOCLIN", "col1": pick.partner_id.gln}
-                    data[filename].append(edi._create_line_csv(LOCLIN, structs))
+                        LOCLIN = {"lineId": "LOCLIN", "col1": pick.partner_id.gln}
+                        data[filename].append(edi._create_line_csv(LOCLIN, structs))
                     PCILIN = {
                         "lineId": "PCILIN",
                         "col1": "36E",
@@ -466,16 +485,18 @@ class edi_parser(models.Model):
                 .replace("-", ""),
             }
             data[filename].append(edi._create_line_csv(DTM, structs))
-
-            ALI = {"lineId": "ALI", "col1": "X7"}
+            if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                ALI = {"lineId": "ALI", "col1": "X6"}
+            else:
+                ALI = {"lineId": "ALI", "col1": "X7"}
             data[filename].append(edi._create_line_csv(ALI, structs))
-
-            MOA = {
-                "lineId": "MOA",
-                "col1": str(pick.amount_gross),
-                "col2": str(pick.amount_untaxed),
-            }
-            data[filename].append(edi._create_line_csv(MOA, structs))
+            if not pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                MOA = {
+                    "lineId": "MOA",
+                    "col1": str(pick.amount_gross),
+                    "col2": str(pick.amount_untaxed),
+                }
+                data[filename].append(edi._create_line_csv(MOA, structs))
 
             RFF = {
                 "lineId": "RFF",
@@ -497,17 +518,21 @@ class edi_parser(models.Model):
                 "col2": "",
                 "col3": pick.sale_id.customer_department or ""
             }
+            if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                NADBY['col2'] = '9'
             data[filename].append(edi._create_line_csv(NADBY, structs))
             NADSU = {"lineId": "NADSU", "col1": pick.company_id.partner_id.gln}
             data[filename].append(edi._create_line_csv(NADSU, structs))
             NADDP = {"lineId": "NADDP", "col1": pick.partner_id.gln}
             data[filename].append(edi._create_line_csv(NADDP, structs))
+            PAC = {"lineId": "PAC", "col1": 1}
+            data[filename].append(edi._create_line_csv(PAC, structs))
             CPS = {"lineId": "CPS", "col1": 1}
             data[filename].append(edi._create_line_csv(CPS, structs))
 
             # Se recorren las operaciones ya que contienen los datos de empaquetado.
             curr_parent = 1
-            curr_cps = 1
+            curr_cps = 2
             sscc_lines = [
                 x for x in pick.mapped("pack_operation_ids.sscc_ids") if x.type == "1"
             ]
@@ -575,12 +600,16 @@ class edi_parser(models.Model):
 
             CNTRES = {
                 "lineId": "CNTRES",
-                "col1": sum([x.product_uom_qty for x in pick.move_lines]),
+                "col1": int(sum([x.product_uom_qty for x in pick.move_lines])),
                 "col2": pick.weight,
                 "col3": len(pick.move_lines),
                 "col4": pick.number_of_packages or "",
                 "col5": pick.weight_net,
             }
+            if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                CNTRES.pop('col2')
+                CNTRES.pop('col4')
+                CNTRES.pop('col5')
             data[filename].append(edi._create_line_csv(CNTRES, structs))
             context["model_log"] = "stock.picking"
             context["id_log"] = pick.id
