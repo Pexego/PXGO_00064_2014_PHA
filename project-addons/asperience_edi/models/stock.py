@@ -49,17 +49,17 @@ class StockPackOperation(models.Model):
         Se calcula la cantidad que va dentro de un bulto.
         """
         if type == "1":
-            return sum([x.qty for x in self.linked_move_operation_ids])
+            return int(sum([x.qty for x in self.linked_move_operation_ids]))
         elif type == "2":
-            return self.product_id.box_elements
+            return int(self.product_id.box_elements)
         else:
             if move_id:
                 qty = sum([x.qty for x in self.linked_move_operation_ids if x.move_id == move_id])
             else:
                 qty = sum([x.qty for x in self.linked_move_operation_ids])
-            return qty - (
+            return int(qty - (
                 self.product_id.box_elements * self.complete
-            )
+            ))
 
 
 class StockMove(models.Model):
