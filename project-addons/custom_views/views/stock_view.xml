@@ -332,6 +332,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="product_id"/>
                     <field name="partner_id"/>
                     <field name="supplier_lot"/>
+                    <field name="ref"/>
                     <field name="name"/>
                     <field name="input_qty"/>
                     <field name="input_uom"/>
@@ -339,6 +340,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="container_type"/>
                     <field name="create_date"/>
                     <field name="acceptance_date"/>
+                    <field name="state"/>
                     <field name="default_code"/>
                 </tree>
             </field>
