@@ -56,7 +56,8 @@
     />
 
     <record id="report_print_palet_tag" model="ir.actions.report.xml">
-          <field name="paperformat_id" ref="my_paperformat_report"/>
+        <!--field name="paperformat_id" ref="my_paperformat_report"/-->
+        <field name="paperformat_id" ref="__export__.report_paperformat_31"/>
     </record>
 
 
