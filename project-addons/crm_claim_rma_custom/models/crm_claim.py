@@ -32,6 +32,19 @@ class CrmClaim(models.Model):
     production_id = fields.Many2one('mrp.production', 'Production order')
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
     claim_subtype = fields.Many2one('crm.claim.subtype', 'Claim subtype')
+    corrective_action = fields.Boolean(default=False)
+    claim_template = fields.Many2one('crm.claim.template',
+                                     default=lambda rec: rec._get_default_template())
+    description = fields.Text(default=lambda rec: rec._get_default_description())
+
+    def _get_default_template(self):
+        template_id = self.env['crm.claim.template'].\
+            search([], limit=1, order='sequence')
+        return template_id
+
+    def _get_default_description(self):
+        template_id = self._get_default_template()
+        return template_id.template if template_id else ''
 
     @api.one
     def _get_show_sections(self):
@@ -137,6 +150,10 @@ class CrmClaim(models.Model):
             raise exceptions.Warning(_('Operation not allowed'),
                                      _('Only the user who created the claim '
                                        'can change the status'))
+
+    @api.multi
+    def action_copy_template(self):
+        self.description = self.claim_template.template
 
 
 class CrmClaimLine(models.Model):
