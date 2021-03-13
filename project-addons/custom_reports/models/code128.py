@@ -119,6 +119,7 @@ WEIGHTS = dict(zip(VALUES, CODE128_CHART[1::5]))
 CODE128A = dict(zip(CODE128_CHART[2::5], VALUES))
 CODE128B = dict(zip(CODE128_CHART[3::5], VALUES))
 CODE128C = dict(zip(CODE128_CHART[4::5], VALUES))
+FNC1 = u'\xf1'
 
 for charset in (CODE128A, CODE128B):
     charset[' '] = charset.pop('space')
@@ -128,14 +129,18 @@ def code128_format(data):
     """
     Generate an optimal barcode from ASCII text
     """
-    text = str(data)
+    text = str(data) if type(data) is int else data
     pos = 0
     length = len(text)
 
     # Start Code
-    if text[:2].isdigit() and length > 1:
+    if (text[:2].isdigit() or text[0] == FNC1) and length > 1:
         charset = CODE128C
         codes = [charset['StartC']]
+        if text[0] == FNC1:
+            codes.append(charset['FNC1'])
+            text = text[1:]
+            length -= 1
     else:
         charset = CODE128B
         codes = [charset['StartB']]

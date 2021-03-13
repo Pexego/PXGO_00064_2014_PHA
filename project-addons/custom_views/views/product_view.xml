@@ -294,6 +294,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="reception_warehouse_warning"/>
                     </group>
                 </page>
+                <group name="sale_condition" position="inside">
+                    <label for="minimum_sale_price"/>
+                    <div attrs="{'invisible':[('type','=','service')]}">
+                        <field name="minimum_sale_price" class="oe_inline"/>
+                    </div>
+                </group>
             </field>
         </record>
 

@@ -4,114 +4,117 @@
 
     <template id="palet_tag_report">
         <style type="text/css">
-        #container{
-            height: 369mm;
-            width:100%;
-            position:relative;
-            border-style: solid 1px;;
-        }
-        .tag-block{
-            height: 42%;
-            width: 42%;
-            float: left;
-            margin-top: 60px;
-            margin-left: 50px;
-            page-break-inside: avoid !important;
-        }
-        .tag-block.palet {
-            padding-top: 30px;
-        }
-        .table-content{
-            width: 100%;
-            height:65%;
-         }
-        .tag-table{
-            height: 100%;
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #000;
-        }
-        .tag-table tr{
-            height:33%;
-        }
-        .tag-table td.td-head{
-             vertical-align:top;
-             padding:4px
-        }
-        .tag-table td.td-left-top{
-             width: 30%;
-             border: 1px solid #000;
-             vertical-align:top;
-             padding:4px
-        }
-        .tag-table td.td-left{
-             width: 30%;
-             border: 1px solid #000;
-             vertical-align:middle;
-             padding:4px
-        }
-        .tag-table td.td-right-top{
-             width: 70%;
-             border: 1px solid #000;
-             vertical-align:top;
-             text-align: center;
-             padding:4px
-        }
-        .tag-table td.td-right{
-             width: 70%;
-             border: 1px solid #000;
-             vertical-align:middle;
-             text-align: center;
-             padding:4px
-        }
-        .barcode-content{
-            width: 100%;
-            display: table;
-        }
-        .bc-center{
-            height: 180px !important;
-            overflow: hidden;
-            text-align:center;
-            padding: 20px 0 0 0;
-            margin: 0;
-        }
-        .tag-table2{
-            height: 100%;
-            border-collapse: collapse;
-            border: 1px solid #000;
-        }
-        .tag-table2 tr.tr-1{
-            height:15%;
-        }
-        .tag-table2 tr.tr-2{
-            height:25%;
-        }
-        .tag-table2 tr.tr-3{
-            height:40%;
-        }
-        .tag-table2 tr.tr-4{
-            height:20%;
-        }
-        .tag-table2 td{
-             border: 1px solid #000;
-             vertical-align:middle;
-             text-align: center;
-        }
-        .tag-table2 td.td-left{
-             width: 80%;
-             border: 1px solid #000;
-             vertical-align:middle;
-             text-align: center;
-             padding:4px
-        }
-        .tag-table2 td.td-right{
-             width: 20%;
-             border: 1px solid #000;
-             vertical-align:middle;
-             text-align: center;
-             padding:4px
-        }
-    </style>
+            #container{
+                height: 369mm;
+                width:100%;
+                position:relative;
+                border-style: solid 1px;;
+            }
+            .tag-block{
+                height: 42%;
+                width: 84%;
+                float: left;
+                margin-top: 60px;
+                margin-left: 35px;
+                page-break-inside: avoid !important;
+            }
+            .tag-block.palet {
+                padding-top: 30px;
+            }
+            .table-content{
+                width: 100%;
+                height:65%;
+             }
+            .tag-table{
+                height: 100%;
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid #000;
+            }
+            .tag-table tr{
+                height:33%;
+            }
+            .tag-table td.td-head{
+                vertical-align:top;
+                padding:4px
+            }
+            .tag-table td.td-left-top{
+                width: 30%;
+                border: 1px solid #000;
+                vertical-align:top;
+                padding:4px
+            }
+            .tag-table td.td-left{
+                width: 30%;
+                border: 1px solid #000;
+                vertical-align:middle;
+                padding:4px
+            }
+            .tag-table td.td-right-top{
+                width: 70%;
+                border: 1px solid #000;
+                vertical-align:top;
+                text-align: center;
+                padding:4px
+            }
+            .tag-table td.td-right{
+                width: 70%;
+                border: 1px solid #000;
+                vertical-align:middle;
+                text-align: center;
+                padding:4px
+            }
+            .barcode-content{
+                width: 100%;
+                display: table;
+            }
+            .bc-center{
+                height: 180px !important;
+                overflow: hidden;
+                text-align:center;
+                padding: 20px 0 0 0;
+                margin: 0;
+            }
+            .tag-table2{
+                height: 100%;
+                border-collapse: collapse;
+                border: 1px solid #000;
+            }
+            .tag-table2 tr.tr-1{
+                height:15%;
+            }
+            .tag-table2 tr.tr-2{
+                height:25%;
+            }
+            .tag-table2 tr.tr-3{
+                height:40%;
+            }
+            .tag-table2 tr.tr-4{
+                height:20%;
+            }
+            .tag-table2 td{
+                border: 1px solid #000;
+                vertical-align:middle;
+                text-align: center;
+            }
+            .tag-table2 td.td-left{
+                width: 80%;
+                border: 1px solid #000;
+                vertical-align:middle;
+                text-align: center;
+                padding:4px
+            }
+            .tag-table2 td.td-right{
+                width: 20%;
+                border: 1px solid #000;
+                vertical-align:middle;
+                text-align: center;
+                padding:4px
+            }
+        </style>
+
+        <t t-set="GS1_128_SSCC" t-value="u'\xf100'"/>
+        <t t-set="GS1_128_GTIN" t-value="u'\xf101'"/>
 
         <t t-foreach="docs" t-as="o">
             <!-- ETIQUETAS DE BULTO -->
@@ -161,7 +164,7 @@
                                 <div class="barcode-content">
                                     <div class="bc-center">
                                         <t t-set="barcode" t-value="pack_tag['barcode']"/>
-                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 920, 260)" style="width:460px;height:130px; margin-left: -45px;"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', GS1_128_GTIN + barcode)" style="width:400px;height:130px; margin-left: -25px;"/>
                                         <p class="text-center" t-esc="barcode"/>
                                     </div>
                                 </div>
@@ -219,13 +222,11 @@
                             </div>
                             <div class="barcode-content">
                                 <t t-set="barcode" t-value="palet_tag['barcode']"/>
-                                <t t-set="zeroesBarcode" t-value="'00' + barcode"/>
                                 <div class="bc-center">
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', zeroesBarcode, 920, 260)" style="width:460px;height:130px; margin-left: -45px;"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', GS1_128_SSCC + barcode)" style="width:400px;height:130px; margin-left: -20px;"/>
                                     <p class="text-center" t-esc="'(00)' + barcode"/>
                                 </div>
                             </div>
-
                         </div>
 
 
@@ -272,9 +273,8 @@
                             </div>
                             <div class="barcode-content">
                                 <t t-set="barcode" t-value="palet_tag['barcode']"/>
-                                <t t-set="zeroesBarcode" t-value="'00' + barcode"/>
                                 <div class="bc-center">
-                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', zeroesBarcode, 920, 260)" style="width:460px;height:130px; margin-left: -45px;"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', GS1_128_SSCC + barcode)" style="width:400px;height:130px; margin-left: -20px;"/>
                                     <p class="text-center" t-esc="'(00)' + barcode"/>
                                 </div>
                             </div>

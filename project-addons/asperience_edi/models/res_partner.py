@@ -47,6 +47,7 @@ class ResPartner(models.Model):
     edi_mercantil = fields.Char(compute="_compute_edi_mercantil")
     no_commercial_nadbco = fields.Boolean()
     desadv_only_numeric_ref = fields.Boolean()
+    desadv_without_box_sscc = fields.Boolean()
     desadv_use_gtin = fields.Boolean()
 
     def _compute_edi_mercantil(self):

@@ -206,6 +206,17 @@
             </field>
         </record>
 
+        <record id="materials_control_tree" model="ir.ui.view">
+            <field name="name">Product analysis - Materials control tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="custom_views.custom_views_materials_control_tree"/>
+            <field name="arch" type="xml">
+                <field name="input_uom" position="after">
+                    <field name="sampling_type"/>
+                </field>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="action_analytic_control_pend">
             <field name="name">Analytic control pending</field>
             <field name="res_model">stock.production.lot</field>

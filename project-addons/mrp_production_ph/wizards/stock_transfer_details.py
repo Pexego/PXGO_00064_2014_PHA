@@ -94,9 +94,12 @@ class StockTransferDetailsItems(models.TransientModel):
     def action_copy_quantities(self):
         self.ensure_one()
         self.write({'quantity': self.available_qty})
+        self.transfer_id.write({
+            'picking_weight': self.transfer_id.picking_weight
+        })
         view_id = self.env.\
             ref('mrp_production_ph.view_transfer_with_barcodes_wizard')
-        return {
+        window_action = {
             'name': 'Transferir con cód. de barras',
             'type': 'ir.actions.act_window',
             'view_type': 'form',
@@ -106,5 +109,9 @@ class StockTransferDetailsItems(models.TransientModel):
             'view_id': view_id.id,
             'target': 'new',
             'res_id': self.transfer_id.id,
-            'context': self.with_context(picking_type = 'internal').env.context,
+            'context': self.with_context({
+                'picking_type': 'internal',
+                'for_production': self.name[:2] == 'MO',
+            }).env.context,
         }
+        return window_action

@@ -704,6 +704,11 @@ msgid "Medicine"
 msgstr "Medicamento"
 
 #. module: custom_views
+#: field:product.product,minimum_sale_price:0
+msgid "Minimum sale price"
+msgstr "Precio mínimo de venta"
+
+#. module: custom_views
 #: field:product.product,model_specification_id:0
 msgid "Model specification"
 msgstr "Especificación modelo"

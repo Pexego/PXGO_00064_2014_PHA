@@ -85,6 +85,7 @@ class ProductProduct(models.Model):
     earliest_picking = fields.Date(compute='_earliest_picking',
                                    search='_search_earliest_picking')
     obsolete = fields.Boolean(default=False)
+    minimum_sale_price = fields.Float(default=0)
 
     @api.one
     @api.constrains('year_appearance')

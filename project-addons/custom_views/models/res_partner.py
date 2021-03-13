@@ -49,6 +49,7 @@ class ResPartner(models.Model):
                                          ('monthly', 'Monthly'),
                                          ('monthly_child', 'Monthly per child')],
                                         default=False)
+    rappel = fields.Float(string='Rappel (%)', default=0)
 
     @api.one
     @api.constrains('active')
