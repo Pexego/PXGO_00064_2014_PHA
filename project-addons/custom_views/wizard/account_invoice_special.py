@@ -21,6 +21,7 @@ class AccountInvoiceSpecial(models.TransientModel):
     aux_customer_payer = fields.Many2one(comodel_name='res.partner',
                                      string='Cliente pagador')
     aux_customer_department = fields.Char(string='Departamento')
+    aux_name = fields.Char(string='Referencia / Descripción')
     aux_mandate_id = fields.Many2one(comodel_name='account.banking.mandate',
                                      string='Banking mandate')
     aux_payment_mode_id = fields.Many2one(comodel_name='payment.mode',

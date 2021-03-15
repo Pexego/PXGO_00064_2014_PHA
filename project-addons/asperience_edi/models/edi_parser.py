@@ -525,8 +525,9 @@ class edi_parser(models.Model):
             data[filename].append(edi._create_line_csv(NADSU, structs))
             NADDP = {"lineId": "NADDP", "col1": pick.partner_id.gln}
             data[filename].append(edi._create_line_csv(NADDP, structs))
-            PAC = {"lineId": "PAC", "col1": 1}
-            data[filename].append(edi._create_line_csv(PAC, structs))
+            if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                PAC = {"lineId": "PAC", "col1": 1}
+                data[filename].append(edi._create_line_csv(PAC, structs))
             CPS = {"lineId": "CPS", "col1": 1}
             data[filename].append(edi._create_line_csv(CPS, structs))
 
