@@ -32,6 +32,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <button string="Scrap Products" position="after">
                     <field name="purchase_amount"/>
                 </button>
+                <field name="date_expected" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </field>
             </field>
         </record>
 

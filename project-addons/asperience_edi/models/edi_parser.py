@@ -608,7 +608,7 @@ class edi_parser(models.Model):
                 "col5": pick.weight_net,
             }
             if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
-                CNTRES.pop('col2')
+                CNTRES['col2'] = ''
                 CNTRES.pop('col4')
                 CNTRES.pop('col5')
             data[filename].append(edi._create_line_csv(CNTRES, structs))
