@@ -674,7 +674,7 @@ class edi_edi(osv.osv):
 
     def _create_line_csv(self, cr, uid, ids, line, struct, context=False):
         result = []
-        for field in struct:
+        for field in sorted(struct.keys()):
             if field == "<<>>":
                 continue
             if struct[field]["name"] in line:
