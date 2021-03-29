@@ -82,7 +82,6 @@ class CorteInglesParser(models.AbstractModel):
         p_table = {}
         first = True
         op_by_product = {}
-        visited_products = []
 
         # Group operations by product
         for op in pick.pack_operation_ids:
@@ -91,7 +90,7 @@ class CorteInglesParser(models.AbstractModel):
             op_by_product[op.product_id.id] += op.product_qty
 
         for op in pick.pack_operation_ids:
-            if not op.palet or op.product_id.id in visited_products:
+            if not op.palet:
                 continue
 
             if op.palet not in palet_tables:
@@ -135,7 +134,6 @@ class CorteInglesParser(models.AbstractModel):
                 "ean14": gtin14,
             }
             palet_tables[op.palet].append(p_table)
-            visited_products.append(op.product_id.id)
             total_tables[op.palet]["total_qty"] += p_table["cant_fact"]
             total_tables[op.palet]["total_lines"] += 1
 
