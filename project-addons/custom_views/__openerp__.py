@@ -74,6 +74,8 @@
         'wizard/warning_message.xml',
         'wizard/cancel_picking_confirmation_view.xml',
         'wizard/account_invoice_special.xml',
+        'wizard/sale_order_special.xml',
+        'wizard/stock_picking_special.xml',
         'wizard/purchasable_products_view.xml',
         'wizard/product_incoming_parameters_view.xml',
         'wizard/deactivate_product_view.xml',

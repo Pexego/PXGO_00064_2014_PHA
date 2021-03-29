@@ -33,6 +33,7 @@ msgstr "Medidas tomadas"
 
 #. module: crm_claim_rma_custom
 #: field:crm.claim.subtype,active:0
+#: field:crm.claim.template,active:0
 msgid "Active"
 msgstr "Activo"
 
@@ -380,15 +381,44 @@ msgstr "Subtipo de reclamación"
 msgid "Claim subtypes"
 msgstr "Subtipos de reclamación"
 
+#. module: crm_claim_rma_custom
+#: field:crm.claim,claim_template:0
+#: view:crm.claim.template:crm_claim_rma_custom.crm_claim_subtype_form
+#: field:crm.claim.template,name:0
+msgid "Claim template"
+msgstr "Plantilla reclamación"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim.template:crm_claim_rma_custom.crm_claim_template_tree
+#: model:ir.actions.act_window,name:crm_claim_rma_custom.crm_claim_template_action
+#: model:ir.ui.menu,name:crm_claim_rma_custom.menu_crm_claim_template
+msgid "Claim templates"
+msgstr "Plantilla de reclamación"
+
 #. module: crm_claim_rma
 #: view:claim.line:crm_claim_rma.crm_claim_line_form_view
 msgid "Claims"
 msgstr "Incidencias"
 
 #. module: crm_claim_rma_custom
+#: field:crm.claim.template,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: crm_claim_rma_custom
 #: field:crm.claim.subtype,company_id:0
 msgid "Company id"
 msgstr "Compañía"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim:crm_claim_rma_custom.crm_claim_form
+msgid "Copy template"
+msgstr "Copiar plantilla"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim,corrective_action:0
+msgid "Corrective action"
+msgstr "Acción correctiva"
 
 #. module: crm_claim_rma
 #: help:claim.line,invoice_date:0
@@ -442,3 +472,17 @@ msgstr "Incidencia relacionada"
 msgid "Search Claims"
 msgstr "Buscar incidencias"
 
+#. module: crm_claim_rma_custom
+#: field:crm.claim.template,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: crm_claim_rma_custom
+#: field:crm.claim.template,template:0
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: crm_claim_rma_custom
+#: view:crm.claim.template:crm_claim_rma_custom.crm_claim_subtype_form
+msgid "Template name"
+msgstr "Nombre plantilla"

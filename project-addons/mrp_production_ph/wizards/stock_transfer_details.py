@@ -3,12 +3,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api, exceptions
+import openerp.addons.decimal_precision as dp
 
 
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
 
     notes = fields.Text(compute='_get_notes', readonly=True)
+    picking_weight = fields.Float(
+        digits=dp.get_precision('Product Unit of Measure'))
 
     @api.one
     def _get_notes(self):
@@ -54,6 +57,15 @@ class StockTransferDetails(models.TransientModel):
             self.picking_id.transferred_with_barcodes = True
             self.do_detailed_transfer()
 
+    @api.multi
+    def write(self, vals):
+        if 'picking_weight' in vals:
+            production_id = self.env['mrp.production'].\
+                search([('name', '=', self[0].picking_id.origin)])
+            if production_id:
+                production_id.write({'picking_weight': vals['picking_weight']})
+        return super(StockTransferDetails, self).write(vals)
+
 
 class StockTransferDetailsItems(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
@@ -82,9 +94,12 @@ class StockTransferDetailsItems(models.TransientModel):
     def action_copy_quantities(self):
         self.ensure_one()
         self.write({'quantity': self.available_qty})
+        self.transfer_id.write({
+            'picking_weight': self.transfer_id.picking_weight
+        })
         view_id = self.env.\
             ref('mrp_production_ph.view_transfer_with_barcodes_wizard')
-        return {
+        window_action = {
             'name': 'Transferir con cód. de barras',
             'type': 'ir.actions.act_window',
             'view_type': 'form',
@@ -94,5 +109,9 @@ class StockTransferDetailsItems(models.TransientModel):
             'view_id': view_id.id,
             'target': 'new',
             'res_id': self.transfer_id.id,
-            'context': self.with_context(picking_type = 'internal').env.context,
+            'context': self.with_context({
+                'picking_type': 'internal',
+                'for_production': self.name[:2] == 'MO',
+            }).env.context,
         }
+        return window_action

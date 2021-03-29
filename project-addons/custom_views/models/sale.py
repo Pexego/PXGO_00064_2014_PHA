@@ -133,3 +133,10 @@ class SaleOrder(models.Model):
             for move_id in self.picking_ids.mapped(lambda p: p.move_lines):
                 move_id.date_expected = self.delivery_date
         return res
+
+    @api.model
+    def create(self, vals):
+        if self.env.user in self.env.\
+                ref('custom_permissions.group_salesman_ph').users:
+            vals['budget'] = True
+        return super(SaleOrder, self).create(vals)

@@ -539,6 +539,26 @@ msgid "Revision by production"
 msgstr "Prod. - Revisión por producción"
 
 #. module: product_analysis
+#: field:stock.production.lot,sampling_type:0
+msgid "Sampling type"
+msgstr "Tipo de muestreo"
+
+#. module: product_analysis
+#: selection:stock.production.lot,sampling_type:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: product_analysis
+#: selection:stock.production.lot,sampling_type:0
+msgid "Reduced"
+msgstr "Reducido"
+
+#. module: product_analysis
+#: selection:stock.production.lot,sampling_type:0
+msgid "Extended"
+msgstr "Ampliado"
+
+#. module: product_analysis
 #: view:stock.production.lot:product_analysis.stock_production_lot_add_analysis
 msgid "Set all realized"
 msgstr "Marcar todos a realizar"

@@ -32,6 +32,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <button string="Scrap Products" position="after">
                     <field name="purchase_amount"/>
                 </button>
+                <field name="date_expected" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </field>
             </field>
         </record>
 
@@ -173,6 +176,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
+        <record id="custom_views_production_lot_form" model="ir.ui.view">
+            <field name="name">Custom views - Stock production lot form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="partner_id" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
         <record id="custom_views_production_lot_tree" model="ir.ui.view">
             <field name="name">Custom views - Stock production lot tree</field>
             <field name="model">stock.production.lot</field>
@@ -192,6 +207,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <tree position="attributes">
                     <attribute name="default_order">create_date desc</attribute>
                 </tree>
+                <field name="state" position="after">
+                    <field name="supplier_lot"/>
+                </field>
             </field>
         </record>
 
@@ -201,6 +219,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="inherit_id" ref="stock.search_product_lot_filter"/>
             <field name="arch" type="xml">
                 <field name="product_id" position="after">
+                    <field name="supplier_lot"/>
+                    <field name="partner_id"/>
                     <filter string="Can be Sold"
                             name="filter_to_sell"
                             icon="terp-accessories-archiver-minus"
@@ -313,7 +333,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             <field name="arch" type="xml">
                 <tree default_order="create_date desc">
                     <field name="product_id"/>
+                    <field name="partner_id"/>
                     <field name="supplier_lot"/>
+                    <field name="ref"/>
                     <field name="name"/>
                     <field name="input_qty"/>
                     <field name="input_uom"/>
@@ -321,6 +343,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="container_type"/>
                     <field name="create_date"/>
                     <field name="acceptance_date"/>
+                    <field name="state"/>
                     <field name="default_code"/>
                 </tree>
             </field>

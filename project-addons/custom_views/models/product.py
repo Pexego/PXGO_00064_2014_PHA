@@ -21,6 +21,19 @@ class ProductProductAnalysisMethod(models.Model):
         related='procedure_id.attachment_filename', readonly=True)
 
 
+class ProductProductGenericSpecification(models.Model):
+    _name = 'product.product.generic.specification'
+
+    product_id = fields.Many2one(comodel_name='product.product')
+    procedure_id = fields.Many2one(comodel_name='mrp.procedure',
+        domain="[('type_id.code', 'ilike', 'specifications%')]",
+        string='Generic specification')
+    attachment = fields.Binary(
+        related='procedure_id.attachment', readonly=True)
+    filename = fields.Char(
+        related='procedure_id.attachment_filename', readonly=True)
+
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
@@ -44,13 +57,9 @@ class ProductProduct(models.Model):
         related='packaging_procedure_id.attachment', readonly=True)
     packaging_procedure_filename = fields.Char(
         related='packaging_procedure_id.attachment_filename', readonly=True)
-    generic_specification_id = fields.Many2one(comodel_name='mrp.procedure',
-        domain="[('type_id.code', 'ilike', 'specifications%')]",
-        string='Specification')
-    generic_specification_attachment = fields.Binary(
-        related='generic_specification_id.attachment', readonly=True)
-    generic_specification_filename = fields.Char(
-        related='generic_specification_id.attachment_filename', readonly=True)
+    generic_specification_ids = fields.One2many(
+        comodel_name='product.product.generic.specification',
+        inverse_name='product_id', string='Specification')
     model_specification_id = fields.Many2one(comodel_name='mrp.procedure',
         domain="[('type_id.code', 'ilike', 'specifications%')]",
         string='Model specification')
@@ -76,6 +85,7 @@ class ProductProduct(models.Model):
     earliest_picking = fields.Date(compute='_earliest_picking',
                                    search='_search_earliest_picking')
     obsolete = fields.Boolean(default=False)
+    minimum_sale_price = fields.Float(default=0)
 
     @api.one
     @api.constrains('year_appearance')
@@ -143,6 +153,11 @@ class ProductProduct(models.Model):
             lambda p: get_truth(p.earliest_picking, relate, value)
         )
         return [('id', 'in', product_ids.ids)]
+
+    @api.multi
+    def product_price_history_action(self):
+        self.ensure_one()
+        return self.product_tmpl_id.product_price_history_action()
 
 
 class ProductTemplate(models.Model):
@@ -300,6 +315,25 @@ class ProductTemplate(models.Model):
 
             product_id.with_context(disable_notify_changes = True). \
                 update_qty_in_production()
+
+    @api.multi
+    def product_price_history_action(self):
+        view_id = self.env.ref('custom_views.product_price_history_tree')
+        return {
+            'name': 'Histórico de precios de coste',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'res_model': 'product.price.history',
+            'views': [(view_id.id, 'tree')],
+            'view_id': view_id.id,
+            'target': 'new',
+            'context': self.with_context({
+                    'active_id': self.id,
+                    'active_model': self._name,
+                    'search_default_product_template_id': self.id,
+                }).env.context,
+        }
 
 
 class PricelistPartnerinfo(models.Model):

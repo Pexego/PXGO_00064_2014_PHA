@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_stock_picking_special_form" model="ir.ui.view">
+            <field name="name">Custom views - Stock picking special form</field>
+            <field name="model">stock.picking.special</field>
+            <field name="arch" type="xml">
+                <form string="Special form" create="0">
+                    <field name="state" invisible="1"/>
+                    <sheet>
+                        <separator string="Formulario especial para editar sin validaciones"/>
+                        <group col="2">
+                            <field name="name" style="width:40%;" readonly="1"/>
+                            <field name="date" style="width:40%;" readonly="1"/>
+                            <newline/>
+                            <field name="aux_partner_id" style="width:40%;"/>
+                            <field name="aux_owner_id" style="width:40%;"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_stock_picking_special_tree" model="ir.ui.view">
+            <field name="name">Custom views - Stock pickings special tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="priority">17</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">0</attribute>
+                </tree>
+                <field name="state" position="after">
+                    <button name="call_special_form" type="object"
+                            icon="gtk-edit" string="Editar albarán"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_stock_picking_special" model="ir.actions.act_window">
+            <field name="name">Custom views - Stock picking special form</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="context">{'stock_picking_special_form': True}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_open_stock_picking_special_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_stock_picking_special_tree"/>
+            <field name="act_window_id" ref="action_stock_picking_special"/>
+        </record>
+
+        <menuitem id="menu_account_stock_picking_special" name="Albaranes"
+                  parent="menu_special_forms" sequence="2"
+                  action="action_stock_picking_special"/>
+    </data>
+</openerp>

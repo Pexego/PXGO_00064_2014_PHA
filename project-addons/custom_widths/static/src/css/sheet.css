@@ -2,3 +2,8 @@
   min-width: 70%;
   margin: 0 auto;
 }
+
+.openerp .oe_form_sheet_custom_width_full_screen {
+  max-width: 99%;
+  margin: 0 auto;
+}

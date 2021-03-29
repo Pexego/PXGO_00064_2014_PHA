@@ -69,6 +69,7 @@ class MrpProduction(models.Model):
     return_weight = fields.Float(
         digits=dp.get_precision('Product Unit of Measure'))
     tare = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
+    calculate_consumption_button_pressed = fields.Boolean(default=False)
 
     @api.multi
     def _hoards_quants_reserved(self):

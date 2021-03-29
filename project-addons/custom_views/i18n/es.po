@@ -141,6 +141,7 @@ msgstr "Rutas de producción asociadas"
 
 #. module: custom_views
 #: field:product.product.analysis.method,attachment:0
+#: field:product.product.generic.specification,attachment:0
 msgid "Attachment"
 msgstr "Fichero adjunto"
 
@@ -489,6 +490,12 @@ msgid "Extra 1 procedure"
 msgstr "Procedimiento extra 1"
 
 #. module: custom_views
+#: field:product.product,generic_specification_ids:0
+#: field:product.product.generic.specification,procedure_id:0
+msgid "Generic specification"
+msgstr "Especificación genérica"
+
+#. module: custom_views
 #: field:stock.move,purchase_amount:0
 msgid "Gross amount"
 msgstr "Importe compra"
@@ -695,6 +702,11 @@ msgstr "Registro ctrl. materiales"
 #: field:mrp.procedure,medicine:0
 msgid "Medicine"
 msgstr "Medicamento"
+
+#. module: custom_views
+#: field:product.product,minimum_sale_price:0
+msgid "Minimum sale price"
+msgstr "Precio mínimo de venta"
 
 #. module: custom_views
 #: field:product.product,model_specification_id:0
@@ -1116,7 +1128,7 @@ msgid "Special form"
 msgstr "Formulario especial"
 
 #. module: custom_views
-#: field:product.product,generic_specification_id:0
+#: field:product.product,generic_specification_ids:0
 msgid "Generic specification"
 msgstr "Especificación genérica"
 
@@ -1407,6 +1419,7 @@ msgstr "Documento adjunto"
 
 #. module: custom_views
 #: field:mrp.procedure,attachment_filename:0
+#: field:product.product,analysis_method_filename:0
 #: field:product.product,analysis_method_filename:0
 #: field:product.product,analysis_plan_filename:0
 #: field:product.product,manufacturing_procedure_filename:0

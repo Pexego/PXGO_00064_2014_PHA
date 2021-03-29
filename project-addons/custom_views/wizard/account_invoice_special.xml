@@ -10,15 +10,20 @@
                     <sheet>
                         <separator string="Special form to edit fields without validations"/>
                         <group col="2">
-                            <field name="partner_id" style="width:40%;" readonly="1"/>
+                            <field name="aux_partner_id"/>
                             <field name="type" style="width:40%;" readonly="1"/>
                             <field name="number" style="width:40%;" readonly="1"/>
                             <field name="origin" style="width:40%;" readonly="1"/>
                             <field name="reference_type" readonly="1"/>
                             <newline/>
-                            <field name="commercial_partner_id" invisible="1"/>
+                            <field name="aux_commercial_partner_id"/>
+                            <field name="aux_partner_shipping_id"/>
+                            <field name="aux_customer_order"/>
+                            <field name="aux_customer_payer"/>
+                            <field name="aux_customer_department" style="width:40%;"/>
+                            <field name="aux_name" style="width:40%;"/>
                             <field name="aux_mandate_id" style="width:40%;"
-                                   domain="[('partner_id', '=', commercial_partner_id), ('state', '=', 'valid')]"/>
+                                   domain="[('partner_id', '=', aux_commercial_partner_id), ('state', '=', 'valid')]"/>
                             <field name="aux_payment_mode_id" style="width:40%;"/>
                             <field name="aux_payment_term" style="width:40%;"/>
                             <field name="aux_date_due" style="width: 40%;"/>

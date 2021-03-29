@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record id="regla_plantilla_reclamacion" model="ir.rule">
+            <field name="name">Sólo permite ver las plantillas de reclamaciones asociadas con la compañía del usuario</field>
+            <field name="model_id" ref="crm_claim_rma_custom.model_crm_claim_template"/>
+            <field name="domain_force">['|', ('company_id.id','=',user.company_id.id),('company_id','=',False)]</field>
+            <field name="perm_create">True</field>
+            <field name="perm_unlink">True</field>
+            <field name="perm_write">True</field>
+            <field name="perm_read">True</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</openerp>

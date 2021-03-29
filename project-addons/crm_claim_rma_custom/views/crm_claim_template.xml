@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="crm_claim_template_tree" model="ir.ui.view">
+            <field name="name">CRM Claim template tree</field>
+            <field name="model">crm.claim.template</field>
+            <field name="arch" type="xml">
+                <tree string="Claim templates">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="crm_claim_subtype_form" model="ir.ui.view">
+            <field name="name">CRM Claim template form</field>
+            <field name="model">crm.claim.template</field>
+            <field name="arch" type="xml">
+                <form string="Claim template">
+                    <group col="4">
+                        <field name="name" string="Template name"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                        <group colspan="4">
+                            <field name="template"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="crm_claim_template_action" model="ir.actions.act_window">
+            <field name="name">Claim templates</field>
+            <field name="res_model">crm.claim.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="crm_claim_template_action" name="Claim templates"
+                  id="menu_crm_claim_template"
+                  parent="crm_claim.menu_config_claim"
+                  groups="base.group_no_one"/>
+    </data>
+</openerp>
