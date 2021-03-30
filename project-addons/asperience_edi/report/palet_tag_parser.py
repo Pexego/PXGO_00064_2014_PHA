@@ -88,7 +88,6 @@ class PaletTagParser(models.AbstractModel):
             if op.lot_id.id not in prod_lot_qty[op.product_id.id]:
                 prod_lot_qty[op.product_id.id][op.lot_id.id] = 0
             prod_lot_qty[op.product_id.id][op.lot_id.id] += op.product_qty
-
         for sscc in [
             x for x in pick.mapped("pack_operation_ids.sscc_ids") if x.type == "1"
         ]:
@@ -101,9 +100,9 @@ class PaletTagParser(models.AbstractModel):
             place_dir.append(pick.partner_id.city)
             if pick.partner_id.state_id:
                 place_dir.append("(" + pick.partner_id.state_id.name + ")")
-            op == sscc.operation_ids
+            operation = sscc.operation_ids
             total_packs = len(sscc.child_ids)
-            palet_dic[op.palet] = {
+            palet_dic[operation.palet] = {
                 "place": pick.partner_id.name.upper(),
                 "place_dir": ", ".join(place_dir),
                 "num_packs": total_packs,
