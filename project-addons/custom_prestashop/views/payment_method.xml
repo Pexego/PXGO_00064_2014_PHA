@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="payment_method_add_default_paymentmode" model="ir.ui.view">
+            <field name="name">payment.method.form</field>
+            <field name="model">payment.method</field>
+            <field name="inherit_id" ref="sale_payment_method.payment_method_view_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="after">
+                    <field name="payment_mode_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
