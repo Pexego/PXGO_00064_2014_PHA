@@ -12,6 +12,8 @@ from openerp.addons.connector_prestashop.unit.backend_adapter import GenericAdap
 from openerp.addons.connector.unit.mapper import mapping
 from openerp.addons.connector_prestashop.backend import prestashop
 from openerp.addons.connector_prestashop.unit.mapper import backend_to_m2o
+from openerp.addons.connector_ecommerce.unit.sale_order_onchange import (
+    SaleOrderOnChange)
 import re
 
 _logger = logging.getLogger(__name__)
@@ -36,11 +38,11 @@ class SaleOrderMapperCustom(SaleOrderMapper):
         return {}
 
     @mapping
-    def fiscal_position_id(self, record):
+    def fiscal_position(self, record):
         partner_id = self.partner_id(record)["partner_id"]
         partner = self.env["res.partner"].browse(partner_id)
         if partner.property_account_position:
-            return {"fiscal_position_id": partner.property_account_position.id}
+            return {"fiscal_position": partner.property_account_position.id}
         order_lines = record.get("associations").get("order_rows").get("order_row")
         if isinstance(order_lines, dict):
             order_lines = [order_lines]
@@ -49,7 +51,7 @@ class SaleOrderMapperCustom(SaleOrderMapper):
         for line in order_lines:
             line_data = sale_line_adapter.read(line["id"])
             prestashop_tax_id = (
-                line_data.get("associations").get("taxes").get("tax").get("id")
+                line_data.get("associations", {}).get("taxes", {}).get("tax", {}).get("id")
             )
             if prestashop_tax_id not in line_taxes:
                 line_taxes.append(prestashop_tax_id)
@@ -68,7 +70,7 @@ class SaleOrderMapperCustom(SaleOrderMapper):
                     line_taxes
                 )
             )
-        return {"fiscal_position_id": fiscal_positions.id}
+        return {"fiscal_position": fiscal_positions.id}
 
     @mapping
     def pricelist_id(self, record):
@@ -78,24 +80,42 @@ class SaleOrderMapperCustom(SaleOrderMapper):
             return {"pricelist_id": shop.partner_pricelist_id.id}
 
 
-# @prestashop(replacing=SaleOrderLineMapper)
-# class SaleOrderLineMapperCustom(SaleOrderLineMapper):
+@prestashop(replacing=SaleOrderLineMapper)
+class SaleOrderLineMapperCustom(SaleOrderLineMapper):
 
-#     @mapping
-#     def product_id(self, record):
-#         backend_adapter = self.unit_for(
-#             GenericAdapter, 'prestashop.product.template')
-#         product_rec = backend_adapter.read(record['product_id'])
-#         product = self.env['product.product'].search([('default_code', '=', product_rec['reference'])])
-#         if not product:
-#             product = self.env.ref('custom_prestashop.product_product_generic_prestasghop')
-#         if product is None:
-#             return self.tax_id(record)
-#         return {'product_id': product.id}
+    @mapping
+    def product_id(self, record):
+        if int(record.get('product_attribute_id', 0)):
+            combination_binder = self.binder_for(
+                'prestashop.product.combination')
+            product = combination_binder.to_odoo(
+                record['product_attribute_id'],
+                unwrap=True)
+        else:
+            template = self.binder_for(
+                'prestashop.product.template').to_odoo(
+                    record['product_id'], unwrap=True)
+            product = self.env['product.product'].search([
+                ('product_tmpl_id', '=', template.id)],
+                limit=1,
+            )
+            if product is None:
+                return self.tax_id(record)
+        return {'product_id': product.id}
+
+    @mapping
+    def tax_id(self, record):
+        product_id = self.product_id(record).get('product_id')
+        if product_id:
+            product = self.env['product.product'].browse(product_id)
+            return {'tax_id': [
+                (6, 0, product.taxes_id.ids)
+            ]}
 
 
 @prestashop(replacing=SaleOrderImport)
 class SaleOrderImportCustom(SaleOrderImport):
+
     def _import_dependencies(self):
         record = self.prestashop_record
         self._import_dependency(record["id_customer"], "prestashop.res.partner")

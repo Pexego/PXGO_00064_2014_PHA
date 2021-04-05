@@ -68,6 +68,8 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
 
     @mapping
     def name(self, record):
+        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+            return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
         ):
@@ -94,6 +96,8 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
 
     @mapping
     def default_code(self, record):
+        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+            return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
         ):
@@ -101,6 +105,8 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
 
     @mapping
     def ean13(self, record):
+        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+            return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
         ):
@@ -108,6 +114,8 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
         pass
 
     def _get_tax_ids(self, record):
+        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+            return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
         ):
@@ -119,6 +127,8 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
 
     @mapping
     def pack_line_ids(self, record):
+        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+            return {}
         pack_components = []
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
