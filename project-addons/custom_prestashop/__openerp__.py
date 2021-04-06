@@ -8,6 +8,7 @@
     "license": "AGPL-3",
     "depends": [
         "connector_prestashop",
+        "product_pack"
     ],
     "data": [
         "views/prestashop_backend.xml",

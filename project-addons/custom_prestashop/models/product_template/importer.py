@@ -50,7 +50,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def name(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -68,7 +68,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def default_code(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -78,7 +78,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def description(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -88,7 +88,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def active(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -98,7 +98,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def sale_ok(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -108,7 +108,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def purchase_ok(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -134,7 +134,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def ean13(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -144,7 +144,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def taxes_id(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
@@ -153,7 +153,7 @@ class CustomTemplateMapper(TemplateMapper):
 
     @mapping
     def type(self, record):
-        if self.odoo_id(record)['odoo_id'] == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
             "[0-9]{1}[Xx]{1}", record["reference"]
