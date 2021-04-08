@@ -11,7 +11,7 @@
                             <t t-if="o.picking_type_id.code != 'incoming'"><td><span t-field="move.location_id"/></td></t>
                             <td>
                                 <span t-if="move.product_id and move.product_id.ean13">
-                                    <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('EAN13', move.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', move.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
                                 </span>
                             </td>
                             <t t-if="o.picking_type_id.code != 'outgoing'"><td><span t-field="move.location_dest_id"/></td></t>
@@ -39,13 +39,13 @@
                             </t>
                             <td>
                                 <span t-if="pack_operation.lot_id">
-                                <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', pack_operation.lot_id.name, 600, 100)" style="width:300px;height:50px"/>
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', pack_operation.lot_id.name, 600, 100)" style="width:300px;height:50px"/>
                                 </span>
                                 <span t-if="pack_operation.product_id and not pack_operation.lot_id and pack_operation.product_id.ean13">
-                                <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('EAN13', pack_operation.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', pack_operation.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
                                 </span>
                                 <span t-if="pack_operation.package_id and not pack_operation.product_id">
-                                <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128', pack_operation.package_id.name, 600, 100)" style="width:300px;height:50px"/>
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', pack_operation.package_id.name, 600, 100)" style="width:300px;height:50px"/>
                                 </span>
                             </td>
                             <t t-if="o.picking_type_id.code != 'outgoing'">

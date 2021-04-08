@@ -34,6 +34,21 @@
         </record>
 
 
+        <!-- Product view BOM -->
+        <record model="ir.ui.view" id="product_pack_bom_form">
+            <field name="name">product.product.pack.bom.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="mrp.product_product_form_view_bom_button" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_bom']"
+                       position="attributes">
+                    <attribute
+                            name="attrs">{'invisible':[('type', '=', 'service'), ('pack_line_ids', '=', False)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
         <!-- product.pack.line -->
         <record model="ir.ui.view" id="product_pack_line_form">
             <field name="name">product.pack.line.form</field>
