@@ -26,29 +26,57 @@ from openerp.osv import fields, orm, osv
 import openerp.addons.decimal_precision as dp
 from openerp import api
 
+
 class product_pack(orm.Model):
-    _name = 'product.pack.line'
-    _rec_name = 'product_id'
+    _name = "product.pack.line"
+    _rec_name = "product_id"
     _columns = {
-        'parent_product_id': fields.many2one(
-            'product.product', 'Parent Product',
-            ondelete='cascade', required=True
+        "parent_product_id": fields.many2one(
+            "product.product",
+            "Parent Product",
+            ondelete="cascade",
+            required=True,
         ),
-        'quantity': fields.float('Quantity', required=True),
-        'product_id': fields.many2one(
-            'product.product', 'Product', required=True
+        "quantity": fields.float("Quantity", required=True),
+        "product_id": fields.many2one(
+            "product.product", "Product", required=True
         ),
     }
 
 
 class product_product(orm.Model):
-    _inherit = 'product.product'
+    _inherit = "product.product"
 
-    def _product_available(self, cr, uid, ids, field_names=None, arg=False, context=None):
+    def action_view_bom(self, cr, uid, ids, context=None):
+        tmpl_obj = self.pool.get("product.template")
+        products = set()
+        for product in self.browse(cr, uid, ids, context=context):
+            products.add(product.product_tmpl_id.id)
+        result = tmpl_obj._get_act_window_dict(
+            cr, uid, "mrp.product_open_bom", context=context
+        )
+        # bom specific to this variant or global to template
+        domain = [
+            "|",
+            ("product_id", "in", ids),
+            "&",
+            ("product_id", "=", False),
+            ("product_tmpl_id", "in", list(products)),
+        ]
+        result["context"] = "{'default_product_tmpl_id': %s}" % (
+            len(products) and products.pop() or "False"
+        )
+        result["domain"] = str(domain)
+        return result
+
+    def _product_available(
+        self, cr, uid, ids, field_names=None, arg=False, context=None
+    ):
         res = {}
         for product in self.browse(cr, uid, ids, context=context):
             stock = super(product_product, self)._product_available(
-                cr, uid, [product.id], field_names, arg, context)
+                cr, uid, [product.id], field_names, arg, context
+            )
 
             if not product.stock_depends:
                 res[product.id] = stock[product.id]
@@ -64,24 +92,39 @@ class product_product(orm.Model):
                 for subproduct in product.pack_line_ids:
 
                     # if subproduct is a service don't calculate the stock
-                    if subproduct.product_id.type == 'service':
+                    if subproduct.product_id.type == "service":
                         continue
                     if first_subproduct:
                         subproduct_quantity = subproduct.quantity
-                        subproduct_stock = self._product_available(cr, uid, [subproduct.product_id.id], field_names, arg, context)[subproduct.product_id.id]['qty_available']
+                        subproduct_stock = self._product_available(
+                            cr,
+                            uid,
+                            [subproduct.product_id.id],
+                            field_names,
+                            arg,
+                            context,
+                        )[subproduct.product_id.id]["qty_available"]
                         if subproduct_quantity == 0:
                             continue
 
                         """ Calculate real stock for current pack from the
                         subproduct stock and needed quantity """
                         pack_stock = math.floor(
-                            subproduct_stock / subproduct_quantity)
+                            subproduct_stock / subproduct_quantity
+                        )
                         first_subproduct = False
                         continue
 
                     # Take the info of the next subproduct
                     subproduct_quantity_next = subproduct.quantity
-                    subproduct_stock_next = self._product_available(cr, uid, [subproduct.product_id.id], field_names, arg, context)[subproduct.product_id.id]['qty_available']
+                    subproduct_stock_next = self._product_available(
+                        cr,
+                        uid,
+                        [subproduct.product_id.id],
+                        field_names,
+                        arg,
+                        context,
+                    )[subproduct.product_id.id]["qty_available"]
 
                     if (
                         subproduct_quantity_next == 0
@@ -90,7 +133,8 @@ class product_product(orm.Model):
                         continue
 
                     pack_stock_next = math.floor(
-                        subproduct_stock_next / subproduct_quantity_next)
+                        subproduct_stock_next / subproduct_quantity_next
+                    )
 
                     # compare the stock of a subproduct and the next subproduct
                     if pack_stock_next < pack_stock:
@@ -98,123 +142,139 @@ class product_product(orm.Model):
 
                 # result is the minimum stock of all subproducts
                 res[product.id] = {
-                    'qty_available': pack_stock,
-                    'incoming_qty': 0,
-                    'outgoing_qty': 0,
-                    'virtual_available': pack_stock,
+                    "qty_available": pack_stock,
+                    "incoming_qty": 0,
+                    "outgoing_qty": 0,
+                    "virtual_available": pack_stock,
                 }
             else:
                 res[product.id] = stock[product.id]
         return res
 
     def _search_product_quantity(self, cr, uid, obj, name, domain, context):
-        return super(product_product, self)._search_product_quantity(cr, uid, obj, name, domain, context)
+        return super(product_product, self)._search_product_quantity(
+            cr, uid, obj, name, domain, context
+        )
 
     _columns = {
-        'stock_depends': fields.boolean(
-            'Stock depends of components',
-            help='Mark if pack stock is calcualted from component stock'
+        "stock_depends": fields.boolean(
+            "Stock depends of components",
+            help="Mark if pack stock is calcualted from component stock",
         ),
-        'pack_fixed_price': fields.boolean(
-            'Pack has fixed price',
+        "pack_fixed_price": fields.boolean(
+            "Pack has fixed price",
             help="""
             Mark this field if the public price of the pack should be fixed.
             Do not mark it if the price should be calculated from the sum of
             the prices of the products in the pack.
-        """
+        """,
         ),
-        'pack_line_ids': fields.one2many(
-            'product.pack.line', 'parent_product_id', 'Pack Products',
-            help='List of products that are part of this pack.'
+        "pack_line_ids": fields.one2many(
+            "product.pack.line",
+            "parent_product_id",
+            "Pack Products",
+            help="List of products that are part of this pack.",
         ),
-        'qty_available': fields.function(_product_available, multi='qty_available',
-            type='float', digits_compute=dp.get_precision('Product Unit of Measure'),
-            string='Quantity On Hand',
+        "qty_available": fields.function(
+            _product_available,
+            multi="qty_available",
+            type="float",
+            digits_compute=dp.get_precision("Product Unit of Measure"),
+            string="Quantity On Hand",
             fnct_search=_search_product_quantity,
             help="Current quantity of products.\n"
-                 "In a context with a single Stock Location, this includes "
-                 "goods stored at this Location, or any of its children.\n"
-                 "In a context with a single Warehouse, this includes "
-                 "goods stored in the Stock Location of this Warehouse, or any "
-                 "of its children.\n"
-                 "stored in the Stock Location of the Warehouse of this Shop, "
-                 "or any of its children.\n"
-                 "Otherwise, this includes goods stored in any Stock Location "
-                 "with 'internal' type."),
-        'virtual_available': fields.function(_product_available, multi='qty_available',
-            type='float', digits_compute=dp.get_precision('Product Unit of Measure'),
-            string='Forecast Quantity',
+            "In a context with a single Stock Location, this includes "
+            "goods stored at this Location, or any of its children.\n"
+            "In a context with a single Warehouse, this includes "
+            "goods stored in the Stock Location of this Warehouse, or any "
+            "of its children.\n"
+            "stored in the Stock Location of the Warehouse of this Shop, "
+            "or any of its children.\n"
+            "Otherwise, this includes goods stored in any Stock Location "
+            "with 'internal' type.",
+        ),
+        "virtual_available": fields.function(
+            _product_available,
+            multi="qty_available",
+            type="float",
+            digits_compute=dp.get_precision("Product Unit of Measure"),
+            string="Forecast Quantity",
             fnct_search=_search_product_quantity,
             help="Forecast quantity (computed as Quantity On Hand "
-                 "- Outgoing + Incoming)\n"
-                 "In a context with a single Stock Location, this includes "
-                 "goods stored in this location, or any of its children.\n"
-                 "In a context with a single Warehouse, this includes "
-                 "goods stored in the Stock Location of this Warehouse, or any "
-                 "of its children.\n"
-                 "Otherwise, this includes goods stored in any Stock Location "
-                 "with 'internal' type."),
-        'incoming_qty': fields.function(_product_available, multi='qty_available',
-            type='float', digits_compute=dp.get_precision('Product Unit of Measure'),
-            string='Incoming',
+            "- Outgoing + Incoming)\n"
+            "In a context with a single Stock Location, this includes "
+            "goods stored in this location, or any of its children.\n"
+            "In a context with a single Warehouse, this includes "
+            "goods stored in the Stock Location of this Warehouse, or any "
+            "of its children.\n"
+            "Otherwise, this includes goods stored in any Stock Location "
+            "with 'internal' type.",
+        ),
+        "incoming_qty": fields.function(
+            _product_available,
+            multi="qty_available",
+            type="float",
+            digits_compute=dp.get_precision("Product Unit of Measure"),
+            string="Incoming",
             fnct_search=_search_product_quantity,
             help="Quantity of products that are planned to arrive.\n"
-                 "In a context with a single Stock Location, this includes "
-                 "goods arriving to this Location, or any of its children.\n"
-                 "In a context with a single Warehouse, this includes "
-                 "goods arriving to the Stock Location of this Warehouse, or "
-                 "any of its children.\n"
-                 "Otherwise, this includes goods arriving to any Stock "
-                 "Location with 'internal' type."),
-        'outgoing_qty': fields.function(_product_available, multi='qty_available',
-            type='float', digits_compute=dp.get_precision('Product Unit of Measure'),
-            string='Outgoing',
+            "In a context with a single Stock Location, this includes "
+            "goods arriving to this Location, or any of its children.\n"
+            "In a context with a single Warehouse, this includes "
+            "goods arriving to the Stock Location of this Warehouse, or "
+            "any of its children.\n"
+            "Otherwise, this includes goods arriving to any Stock "
+            "Location with 'internal' type.",
+        ),
+        "outgoing_qty": fields.function(
+            _product_available,
+            multi="qty_available",
+            type="float",
+            digits_compute=dp.get_precision("Product Unit of Measure"),
+            string="Outgoing",
             fnct_search=_search_product_quantity,
             help="Quantity of products that are planned to leave.\n"
-                 "In a context with a single Stock Location, this includes "
-                 "goods leaving this Location, or any of its children.\n"
-                 "In a context with a single Warehouse, this includes "
-                 "goods leaving the Stock Location of this Warehouse, or "
-                 "any of its children.\n"
-                 "Otherwise, this includes goods leaving any Stock "
-                 "Location with 'internal' type."),
+            "In a context with a single Stock Location, this includes "
+            "goods leaving this Location, or any of its children.\n"
+            "In a context with a single Warehouse, this includes "
+            "goods leaving the Stock Location of this Warehouse, or "
+            "any of its children.\n"
+            "Otherwise, this includes goods leaving any Stock "
+            "Location with 'internal' type.",
+        ),
     }
 
-    _defaults = {
-        'pack_fixed_price': True,
-    }
+    _defaults = {"pack_fixed_price": True, "stock_depends": True}
 
 
 class sale_order_line(orm.Model):
-    _inherit = 'sale.order.line'
-    def _pack_icon(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for line in self.browse(cr, uid, ids, context):
-            res[line.id] = 'terp-camera_test' if line.pack_parent_line_id else ''
-        return res
+    _inherit = "sale.order.line"
     _columns = {
-        'pack_depth': fields.integer(
-            'Depth', required=True,
-            help='Depth of the product if it is part of a pack.'
+        "pack_depth": fields.integer(
+            "Depth",
+            required=True,
+            help="Depth of the product if it is part of a pack.",
         ),
-        'pack_parent_line_id': fields.many2one(
-            'sale.order.line', 'Pack',
-            help='The pack that contains this product.', ondelete="cascade"
+        "pack_parent_line_id": fields.many2one(
+            "sale.order.line",
+            "Pack",
+            help="The pack that contains this product.",
+            ondelete="cascade",
         ),
-        'pack_child_line_ids': fields.one2many(
-            'sale.order.line', 'pack_parent_line_id', 'Lines in pack'),
-        'pack_icon': fields.function(_pack_icon, string='Pack component', type='char', store=False),
+        "pack_child_line_ids": fields.one2many(
+            "sale.order.line", "pack_parent_line_id", "Lines in pack"
+        ),
     }
-    _defaults = {
-        'pack_depth': 0,
-    }
+    _defaults = {"pack_depth": 0}
 
     def invoice_line_create(self, cr, uid, ids, context=None):
         no_pack_ids = []
         for line in self.browse(cr, uid, ids, context):
             if not line.pack_depth > 0:
                 no_pack_ids.append(line.id)
-        return super(sale_order_line, self).invoice_line_create(cr, uid, no_pack_ids, context)
+        return super(sale_order_line, self).invoice_line_create(
+            cr, uid, no_pack_ids, context
+        )
 
     @api.multi
     def pack_in_moves(self, product_ids):
@@ -230,7 +290,7 @@ class sale_order_line(orm.Model):
 
 
 class sale_order(orm.Model):
-    _inherit = 'sale.order'
+    _inherit = "sale.order"
 
     def create(self, cr, uid, vals, context=None):
         result = super(sale_order, self).create(cr, uid, vals, context)
@@ -239,25 +299,55 @@ class sale_order(orm.Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         result = super(sale_order, self).write(cr, uid, ids, vals, context)
+        for sale in self.browse(cr, uid, ids, context):
+            if not context.get('skip_packs') and sale.state in ("draft", "sent"):
+                # import ipdb; ipdb.set_trace()
+                self.unlink_pack_components(cr, uid, ids, context)
+                self.pool.get("sale.order.line").write(
+                    cr, uid, sale.order_line._ids, {"sequence": 0}, context
+                )
         self.expand_packs(cr, uid, ids, context)
         return result
 
     def copy(self, cr, uid, id, default={}, context=None):
-        line_obj = self.pool.get('sale.order.line')
+        line_obj = self.pool.get("sale.order.line")
         result = super(sale_order, self).copy(cr, uid, id, default, context)
         sale = self.browse(cr, uid, result, context)
         self.unlink_pack_components(cr, uid, sale.id, context)
+        self.pool.get("sale.order.line").write(
+            cr, uid, sale.order_line._ids, {"sequence": 0}, context
+        )
         self.expand_packs(cr, uid, sale.id, context)
         return result
 
     def unlink_pack_components(self, cr, uid, sale_id, context=None):
-        unlink_lines = self.pool.get('sale.order.line').search(cr, uid, [('order_id', '=', sale_id), ('pack_parent_line_id', '!=', None), ('pack_child_line_ids', '=', None)], context=context)
+        if isinstance(sale_id, int):
+            sale_id = [sale_id]
+        unlink_lines = self.pool.get("sale.order.line").search(
+            cr,
+            uid,
+            [
+                ("order_id", "in", sale_id),
+                ("pack_parent_line_id", "!=", None),
+                ("pack_child_line_ids", "=", None),
+            ],
+            context=context,
+        )
         if unlink_lines:
-            self.pool.get('sale.order.line').unlink(cr, uid, unlink_lines, context)
+            self.pool.get("sale.order.line").unlink(
+                cr, uid, unlink_lines, context
+            )
             self.unlink_pack_components(cr, uid, sale_id, context)
         else:
-            return
-
+            unlink_lines = self.pool.get("sale.order.line").search(
+                cr,
+                uid,
+                [("order_id", "in", sale_id), ("pack_depth", ">", 0)],
+                context=context,
+            )
+            self.pool.get("sale.order.line").unlink(
+                cr, uid, unlink_lines, context
+            )
 
     def expand_packs(self, cr, uid, ids, context={}, depth=1):
         if type(ids) in [int, long]:
@@ -269,7 +359,7 @@ class sale_order(orm.Model):
 
             fiscal_position = (
                 order.fiscal_position
-                and self.pool.get('account.fiscal.position').browse(
+                and self.pool.get("account.fiscal.position").browse(
                     cr, uid, order.fiscal_position.id, context
                 )
                 or False
@@ -304,12 +394,13 @@ class sale_order(orm.Model):
                 sequence += 1
 
                 if sequence > line.sequence:
-                    self.pool.get('sale.order.line').write(
-                        cr, uid, [line.id], {'sequence': sequence, }, context)
+                    self.pool.get("sale.order.line").write(
+                        cr, uid, [line.id], {"sequence": sequence}, context
+                    )
                 else:
                     sequence = line.sequence
 
-                if line.state != 'draft':
+                if line.state not in ("draft", "sent"):
                     continue
                 if not line.product_id:
                     continue
@@ -332,22 +423,31 @@ class sale_order(orm.Model):
                         discount = 0.0
                     else:
                         pricelist = order.pricelist_id.id
-                        price = self.pool.get('product.pricelist').price_get(
-                            cr, uid, [pricelist], subproduct.id, quantity,
-                            order.partner_id.id, {
-                                'uom': subproduct.uom_id.id,
-                                'date': order.date_order,
-                                }
-                            )[pricelist]
+                        price = self.pool.get("product.pricelist").price_get(
+                            cr,
+                            uid,
+                            [pricelist],
+                            subproduct.id,
+                            quantity,
+                            order.partner_id.id,
+                            {
+                                "uom": subproduct.uom_id.id,
+                                "date": order.date_order,
+                            },
+                        )[pricelist]
                         discount = line.discount
 
                     # Obtain product name in partner's language
-                    ctx = {'lang': order.partner_id.lang}
-                    subproduct_name = self.pool.get('product.product').browse(
-                        cr, uid, subproduct.id, ctx).name
+                    ctx = {"lang": order.partner_id.lang}
+                    subproduct_name = (
+                        self.pool.get("product.product")
+                        .browse(cr, uid, subproduct.id, ctx)
+                        .name
+                    )
 
-                    tax_ids = self.pool.get('account.fiscal.position').map_tax(
-                        cr, uid, fiscal_position, subproduct.taxes_id)
+                    tax_ids = self.pool.get("account.fiscal.position").map_tax(
+                        cr, uid, fiscal_position, subproduct.taxes_id
+                    )
 
                     if subproduct.uos_id:
                         uos_id = subproduct.uos_id.id
@@ -357,89 +457,90 @@ class sale_order(orm.Model):
                         uos_qty = quantity
 
                     vals = {
-                        'order_id': order.id,
-                        'name': '%s%s' % (
-                            '> ' * (line.pack_depth+1), subproduct_name
-                        ),
-                        'sequence': sequence,
-                        'delay': subproduct.sale_delay or 0.0,
-                        'product_id': subproduct.id,
-                        'procurement_ids': (
+                        "order_id": order.id,
+                        "name": "%s%s"
+                        % ("> " * (line.pack_depth + 1), subproduct_name),
+                        "sequence": sequence,
+                        "delay": subproduct.sale_delay or 0.0,
+                        "product_id": subproduct.id,
+                        "procurement_ids": (
                             [(4, x.id) for x in line.procurement_ids]
                         ),
-                        'price_unit': price,
-                        'tax_id': [(6, 0, tax_ids)],
-                        'address_allotment_id': False,
-                        'product_uom_qty': quantity,
-                        'product_uom': subproduct.uom_id.id,
-                        'product_uos_qty': uos_qty,
-                        'product_uos': uos_id,
-                        'product_packaging': False,
-                        'discount': discount,
-                        'number_packages': False,
-                        'th_weight': False,
-                        'state': 'draft',
-                        'pack_parent_line_id': line.id,
-                        'pack_depth': line.pack_depth + 1,
+                        "price_unit": price,
+                        "tax_id": [(6, 0, tax_ids)],
+                        "address_allotment_id": False,
+                        "product_uom_qty": quantity,
+                        "product_uom": subproduct.uom_id.id,
+                        "product_uos_qty": uos_qty,
+                        "product_uos": uos_id,
+                        "product_packaging": False,
+                        "discount": discount,
+                        "number_packages": False,
+                        "th_weight": False,
+                        "state": "draft",
+                        "pack_parent_line_id": line.id,
+                        "pack_depth": line.pack_depth + 1,
                     }
 
                     """ It's a control for the case that the
                     nan_external_prices was installed with the product pack """
-                    if 'prices_used' in line:
-                        vals['prices_used'] = line.prices_used
+                    if "prices_used" in line:
+                        vals["prices_used"] = line.prices_used
 
-                    self.pool.get('sale.order.line').create(
-                        cr, uid, vals, context)
+                    self.pool.get("sale.order.line").create(
+                        cr, uid, vals, context
+                    )
                     if order.id not in updated_orders:
                         updated_orders.append(order.id)
 
                 for id in reorder:
                     sequence += 1
-                    self.pool.get('sale.order.line').write(
-                        cr, uid, [id], {'sequence': sequence, }, context)
+                    self.pool.get("sale.order.line").write(
+                        cr, uid, [id], {"sequence": sequence}, context
+                    )
 
         if updated_orders:
             """ Try to expand again all those orders that had a pack in this
             iteration. This way we support packs inside other packs. """
-            self.expand_packs(cr, uid, ids, context, depth + 1)
+            self.expand_packs(cr, uid, updated_orders, context, depth + 1)
         return
 
+
 class sale_report(osv.osv):
-    _inherit = 'sale.report'
+    _inherit = "sale.report"
 
     def _group_by(self):
         group_by_str = super(sale_report, self)._group_by()
         return "WHERE l.pack_depth=0" + group_by_str
 
 
-
 class purchase_order_line(orm.Model):
-    _inherit = 'purchase.order.line'
+    _inherit = "purchase.order.line"
     _columns = {
-        'sequence': fields.integer(
-            'Sequence',
+        "sequence": fields.integer(
+            "Sequence",
             help="""Gives the sequence order when displaying a list of
-            purchase order lines. """
+            purchase order lines. """,
         ),
-        'pack_depth': fields.integer(
-            'Depth', required=True,
-            help='Depth of the product if it is part of a pack.'
+        "pack_depth": fields.integer(
+            "Depth",
+            required=True,
+            help="Depth of the product if it is part of a pack.",
         ),
-        'pack_parent_line_id': fields.many2one(
-            'purchase.order.line', 'Pack',
-            help='The pack that contains this product.'
+        "pack_parent_line_id": fields.many2one(
+            "purchase.order.line",
+            "Pack",
+            help="The pack that contains this product.",
         ),
-        'pack_child_line_ids': fields.one2many(
-            'purchase.order.line', 'pack_parent_line_id', 'Lines in pack'
+        "pack_child_line_ids": fields.one2many(
+            "purchase.order.line", "pack_parent_line_id", "Lines in pack"
         ),
     }
-    _defaults = {
-        'pack_depth': 0,
-    }
+    _defaults = {"pack_depth": 0}
 
 
 class purchase_order(orm.Model):
-    _inherit = 'purchase.order'
+    _inherit = "purchase.order"
 
     def create(self, cr, uid, vals, context=None):
         result = super(purchase_order, self).create(cr, uid, vals, context)
@@ -460,7 +561,7 @@ class purchase_order(orm.Model):
         for order in self.browse(cr, uid, ids, context):
             fiscal_position = (
                 order.fiscal_position
-                and self.pool.get('account.fiscal.position').browse(
+                and self.pool.get("account.fiscal.position").browse(
                     cr, uid, order.fiscal_position.id, context
                 )
                 or False
@@ -495,12 +596,13 @@ class purchase_order(orm.Model):
                 sequence += 1
 
                 if sequence > line.sequence:
-                    self.pool.get('purchase.order.line').write(
-                        cr, uid, [line.id], {'sequence': sequence, }, context)
+                    self.pool.get("purchase.order.line").write(
+                        cr, uid, [line.id], {"sequence": sequence}, context
+                    )
                 else:
                     sequence = line.sequence
 
-                if line.state != 'draft':
+                if line.state != "draft":
                     continue
                 if not line.product_id:
                     continue
@@ -522,53 +624,64 @@ class purchase_order(orm.Model):
                         price = 0.0
                     else:
                         pricelist = order.pricelist_id.id
-                        price = self.pool.get('product.pricelist').price_get(
-                            cr, uid, [pricelist], subproduct.id, quantity,
-                            order.partner_id.id, {
-                                'uom': subproduct.uom_id.id,
-                                'date': order.date_order,
-                                }
-                            )[pricelist]
+                        price = self.pool.get("product.pricelist").price_get(
+                            cr,
+                            uid,
+                            [pricelist],
+                            subproduct.id,
+                            quantity,
+                            order.partner_id.id,
+                            {
+                                "uom": subproduct.uom_id.id,
+                                "date": order.date_order,
+                            },
+                        )[pricelist]
 
                     # Obtain product name in partner's language
-                    ctx = {'lang': order.partner_id.lang}
-                    subproduct_name = self.pool.get('product.product').browse(
-                        cr, uid, subproduct.id, ctx).name
+                    ctx = {"lang": order.partner_id.lang}
+                    subproduct_name = (
+                        self.pool.get("product.product")
+                        .browse(cr, uid, subproduct.id, ctx)
+                        .name
+                    )
 
-                    tax_ids = self.pool.get('account.fiscal.position').map_tax(
-                        cr, uid, fiscal_position, subproduct.taxes_id)
+                    tax_ids = self.pool.get("account.fiscal.position").map_tax(
+                        cr, uid, fiscal_position, subproduct.taxes_id
+                    )
 
                     vals = {
-                        'order_id': order.id,
-                        'name': '%s%s' % (
-                            '> ' * (line.pack_depth + 1), subproduct_name),
-                        'date_planned': line.date_planned or 0.0,
-                        'sequence': sequence,
-                        'product_id': subproduct.id,
-                        'price_unit': price,
-                        'taxes_id': [(6, 0, tax_ids)],
-                        'product_qty': quantity,
-                        'product_uom': subproduct.uom_id.id,
-                        'move_ids': [(6, 0, [])],
-                        'state': 'draft',
-                        'pack_parent_line_id': line.id,
-                        'pack_depth': line.pack_depth + 1,
+                        "order_id": order.id,
+                        "name": "%s%s"
+                        % ("> " * (line.pack_depth + 1), subproduct_name),
+                        "date_planned": line.date_planned or 0.0,
+                        "sequence": sequence,
+                        "product_id": subproduct.id,
+                        "price_unit": price,
+                        "taxes_id": [(6, 0, tax_ids)],
+                        "product_qty": quantity,
+                        "product_uom": subproduct.uom_id.id,
+                        "move_ids": [(6, 0, [])],
+                        "state": "draft",
+                        "pack_parent_line_id": line.id,
+                        "pack_depth": line.pack_depth + 1,
                     }
 
                     # It's a control for the case that the nan_external_prices
                     # was installed with the product pack
-                    if 'prices_used' in line:
-                        vals['prices_used'] = line.prices_used
+                    if "prices_used" in line:
+                        vals["prices_used"] = line.prices_used
 
-                    self.pool.get('purchase.order.line').create(
-                        cr, uid, vals, context)
+                    self.pool.get("purchase.order.line").create(
+                        cr, uid, vals, context
+                    )
                     if order.id not in updated_orders:
                         updated_orders.append(order.id)
 
                 for id in reorder:
                     sequence += 1
-                    self.pool.get('purchase.order.line').write(
-                        cr, uid, [id], {'sequence': sequence, }, context)
+                    self.pool.get("purchase.order.line").write(
+                        cr, uid, [id], {"sequence": sequence}, context
+                    )
 
         if updated_orders:
             """ Try to expand again all those orders that had a pack in this
@@ -623,9 +736,18 @@ class purchase_order(orm.Model):
 
 class stock_pciking(orm.Model):
 
-    _inherit = 'stock.picking'
+    _inherit = "stock.picking"
 
-    def action_invoice_create(self, cr, uid, ids, journal_id, group=False, type='out_invoice', context=None):
+    def action_invoice_create(
+        self,
+        cr,
+        uid,
+        ids,
+        journal_id,
+        group=False,
+        type="out_invoice",
+        context=None,
+    ):
         """ Creates invoice based on the invoice state selected for picking.
         @param journal_id: Id of journal
         @param group: Whether to create a group invoice or not
@@ -633,18 +755,18 @@ class stock_pciking(orm.Model):
         @return: Ids of created invoices for the pickings
         """
         context = context or {}
-        inv_line_obj = self.pool.get('account.invoice.line')
+        inv_line_obj = self.pool.get("account.invoice.line")
         todo = {}
         for picking in self.browse(cr, uid, ids, context=context):
             partner = self._get_partner_to_invoice(cr, uid, picking, context)
-            #grouping is based on the invoiced partner
+            # grouping is based on the invoiced partner
             if group:
                 key = partner
             else:
                 key = picking.id
             for move in picking.move_lines:
-                if move.invoice_state == '2binvoiced':
-                    if (move.state != 'cancel') and not move.scrapped:
+                if move.invoice_state == "2binvoiced":
+                    if (move.state != "cancel") and not move.scrapped:
                         todo.setdefault(key, [])
                         todo[key].append(move)
         invoices = []
@@ -657,43 +779,156 @@ class stock_pciking(orm.Model):
                 else:
                     pack_moves.append(move)
             if final_moves:
-                invoices += self._invoice_create_line(cr, uid, final_moves, journal_id, type, context=context)
+                invoices += self._invoice_create_line(
+                    cr, uid, final_moves, journal_id, type, context=context
+                )
             else:
                 # Si el albarán no tiene ningun movimiento facturable se crea
                 # una factura con uno de los movimientos y se borran las lineas.
-                invoice = self._invoice_create_line(cr, uid, [moves[0]], journal_id, type, context=context)
-                to_delete = inv_line_obj.search(cr, uid,
-                    [('invoice_id', '=', invoice),
-                     ('product_id', '=', moves[0].product_id.id)], context=context)
+                invoice = self._invoice_create_line(
+                    cr, uid, [moves[0]], journal_id, type, context=context
+                )
+                to_delete = inv_line_obj.search(
+                    cr,
+                    uid,
+                    [
+                        ("invoice_id", "=", invoice),
+                        ("product_id", "=", moves[0].product_id.id),
+                    ],
+                    context=context,
+                )
                 inv_line_obj.unlink(cr, uid, to_delete, context)
                 invoices += invoice
             if pack_moves:
-                self.pool.get('stock.move').write(cr, uid, [x.id for x in pack_moves], {'invoice_state': 'invoiced'}, context)
+                self.pool.get("stock.move").write(
+                    cr,
+                    uid,
+                    [x.id for x in pack_moves],
+                    {"invoice_state": "invoiced"},
+                    context,
+                )
+        self._create_return_pack_invoice_lines(cr, uid, ids, invoices, context)
         return invoices
 
+    def _create_return_pack_invoice_lines(
+        self, cr, uid, ids, invoices, context=None
+    ):
+        context = context or {}
+        inv_line_obj = self.pool.get("account.invoice.line")
+        inv_obj = self.pool.get("account.invoice")
+        sale_obj = self.pool.get("sale.order")
+        sale_line_obj = self.pool.get("sale.order.line")
+        for picking in self.browse(cr, uid, ids, context=context):
+            new_lines = []
+            use_invoice = False
+            currency = picking.company_id.currency_id
+            partner = picking.partner_id
+            if partner:
+                currency = partner.property_product_pricelist.currency_id
+            for invoice in inv_obj.browse(cr, uid, invoices, context):
+                if (
+                    invoice.company_id == picking.company_id
+                    and invoice.partner_id == picking.partner_id
+                    and invoice.currency_id == currency
+                ):
+                    use_invoice = invoice
+            if not use_invoice or use_invoice.type != "out_refund":
+                continue
+            picking_product_ids = [x.product_id.id for x in picking.move_lines]
+            sale_ids = sale_obj.search(
+                cr,
+                uid,
+                [("procurement_group_id", "=", picking.group_id.id)],
+                context=context,
+            )
+            if not sale_ids:
+                continue
+            sale_line_ids = sale_line_obj.search(
+                cr,
+                uid,
+                [
+                    ("order_id", "in", sale_ids),
+                    ("product_id.type", "=", "service"),
+                ],
+                context=context,
+            )
+            if not sale_line_ids:
+                continue
+            for line in sale_line_obj.browse(cr, uid, sale_line_ids, context):
+                if line.pack_child_line_ids and not line.pack_parent_line_id:
+                    if sale_line_obj.pack_in_moves(
+                        cr, uid, line.id, picking_product_ids, context
+                    ):
+                        line.invoiced = False
+                        inv_line_vals = sale_line_obj._prepare_order_line_invoice_line(
+                            cr, uid, line, context=context
+                        )
+                        new_lines.append((0, 0, inv_line_vals))
+            inv_obj.write(cr, uid, use_invoice.id, {"invoice_line": new_lines})
+            inv_obj.button_reset_taxes(cr, uid, use_invoice.id, context)
 
-    def _create_invoice_from_picking(self, cr, uid, picking, vals, context=None):
-        sale_obj = self.pool.get('sale.order')
-        sale_line_obj = self.pool.get('sale.order.line')
-        invoice_line_obj = self.pool.get('account.invoice.line')
-        invoice_id = super(stock_pciking, self)._create_invoice_from_picking(cr, uid, picking, vals, context=context)
-        picking_product_ids = [x.product_id.id for x in picking.move_lines]
-        if picking.group_id:
-            sale_ids = sale_obj.search(cr, uid, [('procurement_group_id', '=', picking.group_id.id)], context=context)
-            if sale_ids:
-                sale_line_ids = sale_line_obj.search(cr, uid, [('order_id', 'in', sale_ids), ('product_id.type', '=', 'service')], context=context)
-                if sale_line_ids:
-                    for line in sale_line_obj.browse(cr, uid, sale_line_ids, context):
-                        if line.pack_child_line_ids and not line.pack_parent_line_id and line.invoiced:
-                            if not line.pack_in_moves(picking_product_ids):
-                                invoice_line_obj.unlink(cr, uid, [x.id for x in line.invoice_lines], context)
-                                sale_line_obj.write(cr, uid, line.id, {'invoice_lines': False}, context)
-        return invoice_id
+    def _invoice_create_line(
+        self, cr, uid, moves, journal_id, inv_type="out_invoice", context=None
+    ):
+        pickings = []
+        for move in moves:
+            if move.picking_id not in pickings:
+                pickings.append(move.picking_id)
+        sale_obj = self.pool.get("sale.order")
+        sale_line_obj = self.pool.get("sale.order.line")
+        invoice_line_obj = self.pool.get("account.invoice.line")
+        invoice_ids = super(stock_pciking, self)._invoice_create_line(
+            cr, uid, moves, journal_id, inv_type, context
+        )
+        invoices = self.pool.get("account.invoice").browse(
+            cr, uid, invoice_ids, context
+        )
+        for invoice in invoices:
+            for picking in [x for x in pickings if x in invoice.picking_ids]:
+                picking_product_ids = [
+                    x.product_id.id for x in picking.move_lines
+                ]
+                if picking.group_id and invoice.type != "out_refund":
+                    sale_ids = sale_obj.search(
+                        cr,
+                        uid,
+                        [("procurement_group_id", "=", picking.group_id.id)],
+                        context=context,
+                    )
+                    if sale_ids:
+                        sale_line_ids = sale_line_obj.search(
+                            cr,
+                            uid,
+                            [
+                                ("order_id", "in", sale_ids),
+                                ("product_id.type", "=", "service"),
+                            ],
+                            context=context,
+                        )
+                        if sale_line_ids:
+                            for line in sale_line_obj.browse(
+                                cr, uid, sale_line_ids, context
+                            ):
+                                if (
+                                    line.pack_child_line_ids
+                                    and not line.pack_parent_line_id
+                                    and line.invoice_lines
+                                ):
+                                    if not line.pack_in_moves(
+                                        picking_product_ids
+                                    ):
+                                        for inv_line in line.invoice_lines:
+                                            if (
+                                                inv_line.invoice_id.id
+                                                == invoice.id
+                                            ):
+                                                inv_line.unlink()
+        return invoice_ids
 
 
 class stock_move(orm.Model):
 
-    _inherit = 'stock.move'
+    _inherit = "stock.move"
 
     @api.multi
     def get_sale_line_id(self):
@@ -707,29 +942,25 @@ class stock_move(orm.Model):
         for move in self.browse(cr, uid, ids, context):
             res[move.id] = False
             if self.get_sale_line_id(cr, uid, move.id, context):
-                if self.get_sale_line_id(cr, uid, move.id, context).pack_parent_line_id:
+                if self.get_sale_line_id(
+                    cr, uid, move.id, context
+                ).pack_parent_line_id:
                     res[move.id] = True
         return res
 
-    def _pack_icon(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for line in self.browse(cr, uid, ids, context):
-            res[line.id] = 'terp-camera_test' if line.pack_component else ''
-        return res
-
-
     _columns = {
-        'pack_component': fields.function(_pack_component,
-                                          string='pack component',
-                                          type='boolean',
-                                          store=False),
-        'pack_icon': fields.function(_pack_icon, string='Pack component', type='char', store=False),
+        "pack_component": fields.function(
+            _pack_component,
+            string="pack component",
+            type="boolean",
+            store=False,
+        )
     }
 
 
 class stock_pack_operation(orm.Model):
 
-    _inherit = 'stock.pack.operation'
+    _inherit = "stock.pack.operation"
 
     def _pack_component(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
@@ -741,70 +972,43 @@ class stock_pack_operation(orm.Model):
         return res
 
     _columns = {
-        'pack_component': fields.function(_pack_component,
-                                          string='pack component',
-                                          type='boolean',
-                                          store=True),
+        "pack_component": fields.function(
+            _pack_component, string="pack component", type="boolean", store=True
+        )
     }
 
 
 class stock_return_picking(orm.TransientModel):
-    _inherit = 'stock.return.picking'
+    _inherit = "stock.return.picking"
 
     def _create_returns(self, cr, uid, ids, context=None):
         data = self.browse(cr, uid, ids[0], context=context)
-        if data.invoice_state == '2binvoiced':
-            sale_obj = self.pool.get('sale.order')
-            sale_line_obj = self.pool.get('sale.order.line')
-            record_id = context and context.get('active_id', False) or False
-            picking = self.pool.get('stock.picking').browse(cr, uid, record_id,
-                                                            context)
-            picking_product_ids = [x.product_id.id for x in picking.move_lines]
-            sale_ids = sale_obj.search(cr, uid, [('procurement_group_id', '=',
-                                                  picking.group_id.id)],
-                                       context=context)
-            if sale_ids:
-                sale_line_ids = sale_line_obj.search(cr, uid,
-                                                     [('order_id', 'in',
-                                                       sale_ids),
-                                                      ('product_id.type', '=',
-                                                       'service')],
-                                                     context=context)
-                if sale_line_ids:
-                    for line in sale_line_obj.browse(cr, uid, sale_line_ids,
-                                                     context):
-                        if line.pack_child_line_ids and not \
-                                line.pack_parent_line_id and line.invoiced:
-                            if sale_line_obj.pack_in_moves(cr, uid, line.id,
-                                                           picking_product_ids,
-                                                           context):
-                                sale_line_obj.write(cr, uid, [line.id],
-                                                    {'invoice_lines':
-                                                     [(3, x.id) for x in
-                                                      line.invoice_lines]},
-                                                    context)
-        new_picking_id, picking_type_id = \
-            super(stock_return_picking, self)._create_returns(cr, uid, ids,
-                                                              context)
-        record_id = context and context.get('active_id', False) or False
-        picking = self.pool.get('stock.picking').browse(cr, uid, record_id,
-                                                        context)
-        if picking.picking_type_id.code == 'outgoing':
-            new_picking = self.pool.get('stock.picking').browse(
-                cr, uid, new_picking_id, context)
-            self.pool.get('stock.move').do_unreserve(
-                cr, uid, [x.id for x in new_picking.move_lines], context)
-            picking_type = self.pool.get('stock.picking.type').browse(
-                cr, uid, picking_type_id, context)
+        new_picking_id, picking_type_id = super(
+            stock_return_picking, self
+        )._create_returns(cr, uid, ids, context)
+        record_id = context and context.get("active_id", False) or False
+        picking = self.pool.get("stock.picking").browse(
+            cr, uid, record_id, context
+        )
+        if picking.picking_type_id.code == "outgoing":
+            new_picking = self.pool.get("stock.picking").browse(
+                cr, uid, new_picking_id, context
+            )
+            self.pool.get("stock.move").do_unreserve(
+                cr, uid, [x.id for x in new_picking.move_lines], context
+            )
+            picking_type = self.pool.get("stock.picking.type").browse(
+                cr, uid, picking_type_id, context
+            )
             for move in new_picking.move_lines:
                 move.location_dest_id = picking_type.default_location_dest_id.id
-            self.pool.get('stock.move').action_assign(cr, uid,
-                                                      [x.id for x in
-                                                       new_picking.move_lines],
-                                                      context)
+            self.pool.get("stock.move").action_assign(
+                cr, uid, [x.id for x in new_picking.move_lines], context
+            )
             for move in new_picking.move_lines:
                 for quant in move.reserved_quant_ids:
                     if quant.package_id:
-                        self.pool.get('stock.quant').write(
-                            cr, uid, quant.id, {'package_id': False}, context)
+                        self.pool.get("stock.quant").write(
+                            cr, uid, quant.id, {"package_id": False}, context
+                        )
         return new_picking_id, picking_type_id

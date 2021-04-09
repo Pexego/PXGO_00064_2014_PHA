@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_prestashop_shop_form" model="ir.ui.view">
+            <field name="name">prestashop.shop.inherit.view.form</field>
+            <field name="model">prestashop.shop</field>
+            <field name="inherit_id" ref="connector_prestashop.view_prestashop_shop_form"/>
+            <field name="arch" type="xml">
+                <field name="odoo_id" position="after">
+                    <field name="partner_categ_id"/>
+                    <field name="partner_pricelist_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

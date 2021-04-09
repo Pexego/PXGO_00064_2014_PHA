@@ -109,12 +109,12 @@ class ResPartner(models.Model):
                         orig_values[partner.id][field] else False
                 else:
                     orig_value = orig_values[partner.id][field]
-
-                orig_value = orig_value if orig_value else _('(no data)')
-                new_value = new_value if new_value else _('(no data)')
-                fields += u'<br>{0}: {1} >> {2}'.format(
-                        _(attrs[field]['string']), orig_value, new_value)
-
-            partner.message_post(body=_('Modified fields: ') + fields)
+                if orig_value != new_value:
+                    orig_value = orig_value if orig_value else _('(no data)')
+                    new_value = new_value if new_value else _('(no data)')
+                    fields += u'<br>{0}: {1} >> {2}'.format(
+                            _(attrs[field]['string']), orig_value, new_value)
+            if fields:
+                partner.message_post(body=_('Modified fields: ') + fields)
 
         return res

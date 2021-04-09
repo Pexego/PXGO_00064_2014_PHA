@@ -279,9 +279,10 @@ class StockExpeditions(models.Model):
             # If not exists carrier sale line
             if not vals.get('carrier_sale_line', False):
                 original_state = p.sale_id.state
-                p.sale_id.state = 'draft'
-                p.sale_id.carrier_id = p.carrier_id
-                p.sale_id.delivery_set()
+                sale = p.sale_id.with_context(skip_packs=True)
+                sale.write({'state': 'draft'})
+                sale.carrier_id = p.carrier_id
+                sale.delivery_set()
                 p.sale_id.state = original_state
                 for sale_line in p.sale_id.order_line:
                     if sale_line.is_delivery:
