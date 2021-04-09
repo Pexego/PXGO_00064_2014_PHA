@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_production_lot_form">
+            <field name="name">Production lot form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="action_edit_analysis" string="on-line analysis" type="object"/>
+                </header>
+            </field>
+        </record>
+    </data>
+</openerp>

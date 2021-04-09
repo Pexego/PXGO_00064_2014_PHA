@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_editable_report_form">
+            <field name="name">Editable report form</field>
+            <field name="model">editable.report</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" />
+                            <h1>
+                                <field name="name" required="1" />
+                            </h1>
+                            <group>
+                                <field name="view_id" required="1"/>
+                            </group>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons">
+                            <field name="ref_form_ir_act_server" invisible="1"/>
+                            <button class="oe_inline oe_stat_button"
+                                name="create_form_action" type="object"
+                                attrs="{'invisible':[('ref_form_ir_act_server','!=',False)]}"
+                                icon="fa-plus"
+                                help="Display a button in the sidebar of related documents to open report in editable form">
+                                <div>Add<br/>form button</div>
+                            </button>
+                            <button name="unlink_form_action" type="object"
+                                class="oe_stat_button" icon="fa-minus"
+                                attrs="{'invisible':[('ref_form_ir_act_server','=',False)]}"
+                                help="Remove the contextual action to use this template on related documents"
+                                widget="statinfo">
+                                <div>Remove<br/>form button</div>
+                            </button>
+
+                            <field name="ref_print_ir_act_server" invisible="1"/>
+                            <button class="oe_inline oe_stat_button"
+                                name="create_print_action" type="object"
+                                attrs="{'invisible':[('ref_print_ir_act_server','!=',False)]}"
+                                icon="fa-plus"
+                                help="Display a button in the sidebar of related documents to print report">
+                                <div>Add<br/>print button</div>
+                            </button>
+                            <button name="unlink_print_action" type="object"
+                                class="oe_stat_button" icon="fa-minus"
+                                attrs="{'invisible':[('ref_print_ir_act_server','=',False)]}"
+                                help="Remove the contextual action to use this template on related documents"
+                                widget="statinfo">
+                                <div>Remove<br/>print button</div>
+                            </button>
+                        </div>
+
+                        <notebook colspan="4">
+                            <page string="Advanced">
+                                <group colspan="2" col="2">
+                                    <field name="ref_form_ir_act_server" />
+                                    <field name="ref_form_ir_value" />
+                                </group>
+                                <group colspan="2" col="2">
+                                    <field name="ref_print_ir_act_server" />
+                                    <field name="ref_print_ir_value" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_editable_report_tree">
+            <field name="name">Editable report tree</field>
+            <field name="model">editable.report</field>
+            <field name="arch" type="xml">
+                <tree string="Object">
+                    <field name="name"/>
+                    <field name="view_id" />
+                    <field name="ref_form_ir_value" />
+                    <field name="ref_print_ir_value" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_editable_report_form">
+            <field name="name">Editable report</field>
+            <field name="res_model">editable.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_editable_report_tree" />
+        </record>
+
+        <record id="action_editable_report_tree_view" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_editable_report_tree" />
+            <field name="act_window_id" ref="action_editable_report_form" />
+        </record>
+
+        <record id="action_editable_report_form_view" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_editable_report_form" />
+            <field name="act_window_id" ref="action_editable_report_form" />
+        </record>
+
+        <menuitem id="menu_editable_report" name="Editable reports"
+            parent="base.menu_administration" sequence="2" />
+
+        <menuitem id="menu_editable_report_view" action="action_editable_report_form"
+            parent="menu_editable_report" />
+    </data>
+</openerp>

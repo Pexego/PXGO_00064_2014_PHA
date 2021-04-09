@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_print" name="Editable report">
+            <style>
+                body{
+                    overflow: scroll !important;
+                }
+            </style>
+            <t t-call="web.layout">
+                <t t-set="head">
+                    <t t-call-assets="web.assets_common"/>
+                    <t t-call-assets="web.assets_backend"/>
+                    <link rel="stylesheet" href="/editable_reports/static/src/css/jquery.appendGrid-1.4.2.css"/>
+                    <link rel="stylesheet" href="/editable_reports/static/src/css/editable_report.css"/>
+                    <script type="text/javascript" src="/editable_reports/static/src/js/jquery.appendGrid-1.4.2.js" />
+                    <script type="text/javascript" src="/editable_reports/static/src/js/editable_report.js" />
+                </t>
+                <div class="openerp">
+                    <div class="container oe_form">
+                        <div class="row">
+                            <div id="all_data" t-att-url-submit="'/editable_reports/logout/%s' % (record_id.id)">
+                                <div class="view">
+                                    <t t-call="#{view_id.xml_id}"/>
+                                </div>
+                            </div>
+                            <div class="btn-group" style="margin-bottom: 1em;">
+                                <button type="button" class="btn btn-default" name="button_submit" value="finish" id="send_form">Enviar</button>
+                                <button type="button" class="btn" name="button_cancel" style="margin-left:15px" onclick="history.back()">Volver</button>
+                            </div>
+                            <div class="js_errzone alert" id="general_info" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</openerp>

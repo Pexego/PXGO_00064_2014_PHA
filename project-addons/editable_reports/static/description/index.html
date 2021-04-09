@@ -1,0 +1,43 @@
+<body>
+    <section>
+        <div class="title_descript"></div>
+    </section>
+    <section class="oe_container">
+        <div class="oe_row oe_spaced">
+            <div class="oe_span12">
+                <h2 class="title_descript">Editable reports</h2>
+            </div>
+            <div>
+                Allows to edit report data online<br>
+                -This module requires the installation of <a href="http://phantomjs.org/">PhantomJS</a><br>
+                -After installation, add a parameter with key=addons_path and the absolute path of project_addons folder<br>
+                <br>
+                This module only works with views that have configured these parameters:<br>
+                - View type: qweb<br>
+                - Object: A model from which the view will render its data<br>
+                - External ID: A unique identifier generated from the view form<br>
+                <br>
+                Inside view qweb code, global variable "record_id" refers to active model record<br>
+                All the forms need the class "report_form" to be processed.<br>
+                <br>
+                <h3>View code example:</h3>
+                <pre>
+                    <code>
+&lt;form id="client-data" role="form" method="post" class="report_form" t-att-model="record_id._name" t-att-record="record_id.id"&gt;
+    &lt;h2&gt;CLIENT DATA&lt;/h2&gt;
+    &lt;p&gt;Name:
+        &lt;input class="form-control" name="name" t-att-value="record_id.name"/&gt;
+    &lt;/p&gt;
+    &lt;p&gt;Phone:
+        &lt;input class="form-control" name="phone" t-att-value="record_id.phone"/&gt;
+    &lt;/p&gt;
+    &lt;p&gt;e-mail:
+        &lt;input class="form-control" name="email" t-att-value="record_id.email"/&gt;
+    &lt;/p&gt;
+&lt;/form&gt;
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+</body>
