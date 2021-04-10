@@ -1,0 +1,255 @@
+.openerp .report_row {
+  float: left;
+  display: table;
+  width: 100%;
+  padding-bottom: 1em;
+}
+.openerp .report_row .form-control,
+.openerp .oe_form .report_row input,
+.openerp .oe_form .report_row select,
+.openerp .oe_form .js_question-wrapper .form-control,
+.openerp .report_view .oe_form .report_row input,
+.openerp .report_view .oe_form .report_row select,
+.openerp .report_view .oe_form .js_question-wrapper .form-control {
+  display: inline;
+  line-height: 2em;
+  height: 2em;
+  min-width: 5em;
+  width: auto;
+}
+.openerp .report_row ul {
+  display: table-row;
+}
+.openerp .report_row li {
+  list-style-type: none;
+  float: none;
+  display: table-cell;
+  position: relative;
+  padding-left: 10px;
+  padding-top: 3px;
+  border: 1px solid #ababab;
+}
+.openerp .report_row table,
+.openerp .report_row tr,
+.openerp .report_row tr td,
+.openerp .report_row tr th,
+.openerp .report_row tr td input,
+.openerp .report_row tr td span,
+.openerp .report_view .report_row table,
+.openerp .report_view .report_row tr,
+.openerp .report_view .report_row tr td,
+.openerp .report_view .report_row tr th,
+.openerp .report_view .report_row tr td input,
+.openerp .report_view .report_row tr td span {
+  font-size: 11px;
+  white-space: normal;
+}
+.openerp td * {
+  font-size: inherit;
+}
+.openerp .report_row table {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  position: relative;
+}
+.openerp .report_row tr {
+  height: 20px;
+}
+.openerp .report_row tr td {
+  padding-left: 5px;
+  min-height: 3em;
+}
+.openerp .report_view table tr td input:not([type="checkbox"]),
+.openerp .oe_form .report_row table tr td input:not([type="checkbox"]) {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+.unique_field {
+  display: inline-block;
+  padding-bottom: 3px;
+}
+.report_view .row input[type="checkbox"] {
+  height: 17px;
+  width: 17px;
+}
+.textCenter {
+  text-align: center;
+}
+.view, .survey {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.openerp .report_view *,
+.proto_fuente_normal,
+.openerp .oe_form .js_question-wrapper *,
+.openerp .oe_form .js_question-wrapper h2 span {
+  font-size: 14px;
+}
+.proto_fuente_grande,
+.openerp .oe_form .survey .page-header h2,
+.openerp .oe_form .survey .page-header h2 span,
+.openerp .oe_form .report_view h2,
+.openerp .oe_form .report_view h2 span {
+  font-size: 18px;
+}
+.openerp .oe_form .js_question-wrapper * {
+  font-weight: normal;
+}
+
+/*** Campo Sí/No ***/
+div.contenedor_si_no {
+  white-space: nowrap;
+  margin-left: -10px;
+  margin-right: 4px;
+}
+.openerp .oe_form label.campo_si_no {
+  display: inline-block;
+  position: relative;
+  margin-left: 1em;
+  padding-left: 25px;
+  margin-bottom: 3px;
+  padding-top: 1px;
+  cursor: pointer;
+}
+.campo_si_no input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.campo_si_no_indicador {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: white;
+  border: 2px solid black;
+}
+.campo_si_no .campo_si_no_indicador:after {
+  box-sizing: unset;
+  content: '';
+  position: absolute;
+  display: none;
+}
+.campo_si_no input:checked ~ .campo_si_no_indicador:after {
+  display: block;
+}
+.campo_si_no .campo_si_no_indicador:after {
+  left: 3px;
+  top: 3px;
+  height: 10px;
+  width: 10px;
+  background: black;
+}
+.campo_si_no_separador {
+  display: inline-box;
+  height: 20px;
+  width: 20px;
+  background: red;
+}
+td > button.botonRellenar {
+  margin: 0 0 15px 0;
+}
+
+@media screen {
+    .openerp .report_row tr td input,
+    .openerp .report_view .report_row tr td input {
+      font-size: 14px;
+    }
+}
+
+@media print {
+  body {
+    overflow-x: hidden;
+  }
+  .openerp .report_view * {
+    font-family: "DejaVu Sans", FreeSans !important;
+  }
+  .openerp .report_view input.form-control,
+  .openerp .report_view textarea.form-control,
+  .openerp .report_view select.form-control,
+  .openerp table.report_field td {
+    border: 1px solid black;
+  }
+  .openerp .report_view *,
+  .proto_fuente_normal,
+  .openerp .oe_form .js_question-wrapper *,
+  .openerp .oe_form .js_question-wrapper h2 span {
+    font-size: 10px;
+  }
+  .proto_fuente_grande,
+  .openerp .oe_form .survey .page-header h2,
+  .openerp .oe_form .survey .page-header h2 span,
+  .openerp .oe_form .report_view h2,
+  .openerp .oe_form .report_view h2 span {
+    font-size: 12px;
+  }
+  .openerp .oe_form .js_question-wrapper * {
+    font-weight: normal;
+  }
+  select,
+  .openerp .report_view select {
+  -webkit-appearance: none;
+    appearance: none;
+  }
+  td input,
+  .openerp .report_view td input {
+    border: none;
+  }
+  tfoot,
+  .openerp .report_view tfoot {
+    display: none;
+  }
+  .openerp .report_row table,
+  .openerp .report_row tr,
+  .openerp .report_row tr td,
+  .openerp .report_row tr th,
+  .openerp .report_row tr td input,
+  .openerp .report_row tr td span:not(.campo_si_no_indicador),
+  .openerp .report_view .report_row table,
+  .openerp .report_view .report_row tr,
+  .openerp .report_view .report_row tr td,
+  .openerp .report_view .report_row tr th,
+  .openerp .report_view .report_row tr td input,
+  .openerp .report_view .report_row tr td span:not(.campo_si_no_indicador) {
+    font-size: 8px;
+    min-width: 4em;
+  }
+
+  /*** Campo Sí/No ***/
+  .campo_si_no_indicador {
+    top: 2px;
+    left: 0;
+    height: 13px;
+    width: 13px;
+    border: 1px solid black;
+  }
+  .campo_si_no .campo_si_no_indicador:after {
+    left: 2px;
+    top: 2px;
+    height: 6px;
+    width: 7px;
+  }
+  .campo_si_no_separador {
+    height: 13px;
+    width: 13px;
+  }
+  .openerp .oe_form label.campo_si_no {
+    padding-left: 16px;
+  }
+
+  p.sangria {
+    padding-left: 1em;
+  }
+
+  p.sangria2 {
+    padding-left: 2em;
+  }
+
+  /*** Botones para rellenar campos automáticamente ***/
+  button.botonRellenar {
+    display: none;
+  }
+}

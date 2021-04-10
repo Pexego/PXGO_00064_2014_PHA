@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="stock_lot_analysis" model="ir.ui.view">
+            <field name="name">Editable reports - Stock Lot Analysis</field>
+            <field name="model">stock.production.lot</field>
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <t name="Editable reports - Stock Lot Analysis" t-name="editable_reports.stock_lot_analysis">
+                    <form id="datos-lote" method="post" class="report_form" t-att-model="record_id._name" t-att-record="record_id.id">
+                        <div class="page" style="font-size: 115%;">
+                    <!-- Cabecera -->
+                            <div class="row">
+                                <div class="col-xs-3" style="margin-bottom: -20px;">
+                                    <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 70px;"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4 style="font-size: 1.3em; font-weight: bolder;">HOJA DE ANÁLISIS DE MATERIA PRIMA / MATERIAL DE ACONDICIONAMIENTO</h4>
+                                </div>
+                            </div>
+                            <div class="row" style="border: 2px solid black; font-size: 1.3em;">
+                                <div class="col-xs-2">
+                                    Producto:
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-field="record_id.product_id"/> [<span t-field="record_id.product_id.default_code"/>]
+                                </div>
+                                <div class="col-xs-4">
+                                    Lote: <b t-field="record_id.name"/>
+                                </div>
+                            </div>
+                    <!-- Códigos de barras -->
+                            <div class="row" style="padding: 0 0 10px 0;">
+                                <div class="col-xs-6">
+                                    <div style="position: relative; display: inline-block; float: left; padding-top: 10px; z-index: 1;">
+                                        <t t-set="barcode" t-value="record_id.product_id.default_code"/>
+                                        <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % record_id.env['report'].barcode_base64('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-left: -60px;"/>
+                                        <div t-field="record_id.product_id.default_code" style="position: absolute; bottom: -6px; left: 30%; padding: 2px 5px 0 5px; font-size: 14px; background-color: white;"/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <div style="position: relative; display: inline-block; float: right; padding-top: 10px; z-index: 1;">
+                                        <t t-set="barcode" t-value="record_id.name"/>
+                                        <t t-set="barcode" t-value="barcode.replace('-', '/')"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % record_id.env['report'].barcode_base64('Code128', barcode, 1200, 120)" height="50" width="500" style="margin-right: -60px;"/>
+                                        <div t-field="record_id.name" style="position: absolute; bottom: -6px; right: 30%; padding: 2px 5px 0 5px; font-size: 14px; background-color: white;"/>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- Recepción -->
+                            <div class="row" style="border: 2px solid black; margin-bottom: 10px; padding: 20px;">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <strong><u>Recepción:</u></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        Proveedor: <span t-field="record_id.partner_id"/>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        Lote de proveedor: <span t-field="record_id.supplier_lot"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        Fecha de entrada: <span t-field="record_id.date_in" t-field-options="{&quot;format&quot;: &quot;dd/MM/y&quot;}"/>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <t t-set="quantity" t-value="0"/>
+                                        <t t-set="wh" t-value="record_id.env['stock.warehouse'].search([('company_id', '=', record_id.env.user.company_id.id)])"/>
+                                        <t t-foreach="record_id.move_related_ids" t-as="m">
+                                            <t t-set="parent_move_loc_ids" t-value="m.move_orig_ids.mapped('location_id')"/>
+                                            <t t-set="parent_move_loc_dest_ids" t-value="m.move_orig_ids.mapped('location_dest_id')"/>
+                                            <t t-if="wh.wh_input_stock_loc_id in parent_move_loc_dest_ids and record_id.env.ref('stock.stock_location_suppliers') in parent_move_loc_ids">
+                                                <t t-foreach="m.quant_ids" t-as="q">
+                                                    <t t-if="q.lot_id == record_id">
+                                                        <t t-set="quantity" t-value="quantity + q.qty"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        Cantidad: <span t-esc="quantity"/> <span t-field="record_id.product_id.uom_id"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        Tipo de envase: <span t-field="record_id.container_type"/>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        Número de envases: <span t-field="record_id.container_number"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        Nº de pallets: <span t-field="record_id.pallets"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12" style="min-height: 3em; text-align: justify;">
+                                        Notas: <span t-field="record_id.reception_notes"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        Fecha: <span t-field="record_id.date_in_system"/>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        Realizado por: <span t-field="record_id.reception_realized_by"/>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- Toma de muestras -->
+                            <div class="row" style="border: 2px solid black; margin-bottom: 10px; padding: 20px;">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <strong><u>Toma de muestras:</u></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        Nº envases a muestrear:
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <input class="form-control" name="num_container_sample_to_do" t-att-value="record_id.num_container_sample_to_do" type="number"/>
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-3">
+                                        Nº muestras a tomar:
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <input class="form-control" name="num_sampling_to_do" t-att-value="record_id.num_sampling_to_do" type="number"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        Nº envases muestreados:
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <input class="form-control" name="num_container_sample_realized" t-att-value="record_id.num_container_sample_realized" type="number"/>
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-3">
+                                        Nº muestras tomadas:
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <input class="form-control" name="num_sampling_realized" t-att-value="record_id.num_sampling_realized" type="number"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        Tipo de muestreo:
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <select name="sampling_type" class="form-control" t-att-data-valor_actual="record_id.sampling_type" style="height: 34px;">
+                                            <option disabled="disabled"/>
+                                            <option value="normal">Normal</option>
+                                            <option disabled="disabled"/>
+                                            <option value="reduced">Reducido</option>
+                                            <option disabled="disabled"/>
+                                            <option value="extended">Ampliado</option>
+                                            <option disabled="disabled"/>
+                                        </select>
+                                        <script>
+                                            $(function() {
+                                                var $selector = $('select[name="sampling_type"]');
+                                                var opcion = $selector.data('valor_actual');
+                                                $selector.children('option[value="' + opcion + '"]').prop('selected', true);
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        Notas: <textarea class="form-control" name="sampling_notes" style="height: 7em;"><t t-esc="record_id.sampling_notes"/></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        Fecha: <input class="form-control" name="sampling_date" t-att-value="record_id.sampling_date" type="date"/>
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-5">
+                                        Realizado:
+                                        <input class="form-control" name="sampling_realized" t-att-value="record_id.sampling_realized"/>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <button type="button" t-att-data-usuario="record_id.env.user.name" t-att-data-fecha="time.strftime('%Y-%m-%d')"
+                                                onclick="var formulario = $(this).parents('form:first'); $(&quot;input[name='sampling_realized']&quot;, formulario).val(this.dataset.usuario); $(&quot;input[name='sampling_date']&quot;, formulario).val(this.dataset.fecha);"
+                                                style="margin-top: 2em;">Firmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- Control analítico -->
+                            <div class="row" style="border: 2px solid black; margin-top: 5px; padding: 20px;">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <strong><u>Control analítico:</u></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="report_field" id="tablaAnalisis" qfield="analysis_ids" columns="analysis_id,method,result_boolean_selection,result_str,realized_by,analysis_type,id" noinsert="true" nodelete="true" columns-widths="30%,20%,20%,10%,20%,0%,0%" columns-options="{'analysis_id':'disabled','method':'disabled','analysis_type':'hidden','id':'hidden'}" t-att-botonrellenar="{'realized_by': record_id.env.user.name}" t-att-booleanos="','.join(a.result_boolean_selection if a.result_boolean_selection else '' for a in record_id.analysis_ids)"/>
+                                    </div>
+                                    <script>
+                                        var esperaTablaAnalisis = setInterval(function() {
+                                            if ($('input[id^=tablaAnalisis_analysis_type]').length) {
+                                                clearInterval(esperaTablaAnalisis);
+                                                preparaTablaAnalisis();
+                                            }
+                                        }, 1000);
+
+                                        function preparaTablaAnalisis() {
+                                            var $tabla = $('#tablaAnalisis');
+                                            var aBooleanos = $tabla.attr('booleanos').split(',');
+                                            var aOpciones = [
+                                                ['conformant', 'CONFORME'],
+                                                ['qualify', 'CUMPLE'],
+                                                ['presence', 'PRESENCIA'],
+                                                ['non_compliant', 'NO CONFORME'],
+                                                ['not_qualify', 'NO CUMPLE'],
+                                                ['absence', 'NO DETECTADO'],
+                                                ['not_applicable', 'NO APLICA']
+                                            ];
+                                            var sPlantillaOpcion = '&lt;option value="{valor}"{seleccionado}&gt;{opcion}&lt;/option&gt;';
+                                            var sPlantillaEspacio = '&lt;option disabled="disabled"&gt;&lt;/option&gt;';
+                                            $tabla.find('tr').each(function(idxTr) {
+                                                var valorSelector = aBooleanos[idxTr - 1];
+                                                var $selector = $(this).find('select[id^=tablaAnalisis_result_boolean_selection]');
+                                                $selector.append(sPlantillaEspacio);
+                                                if ($(this).find('input[id^=tablaAnalisis_analysis_type]').attr('value') == 'boolean') {
+                                                    aOpciones.forEach(function(opc, idxOpc) {
+                                                        var sOpcion = sPlantillaOpcion;
+                                                        sOpcion = sOpcion.replace('{valor}', opc[0]);
+                                                        sOpcion = sOpcion.replace('{seleccionado}', (valorSelector == opc[0]) ? ' selected' : '');
+                                                        sOpcion = sOpcion.replace('{opcion}', opc[1]);
+                                                        $selector.append(sOpcion + sPlantillaEspacio);
+                                                    });
+                                                    $selector.val(valorSelector).change();
+                                                    $(this).find('input[id^=tablaAnalisis_result_str]').remove();
+                                                } else {
+                                                    $selector.remove();
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                    <div class="col-xs-12">
+                                        Notas: <textarea class="form-control" name="analysis_notes" style="height: 7em;"><t t-esc="record_id.analysis_notes"/></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-xs-offset-8">
+                                    Revisado por:
+                                    <input class="form-control" name="revised_by" t-att-value="record_id.revised_by"/>
+                                </div>
+                                <div class="col-xs-1">
+                                    <button type="button" t-att-data-usuario="record_id.env.user.name"
+                                            onclick="var formulario = $(this).parents('form:first');$(&quot;input[name='revised_by']&quot;, formulario).val(this.dataset.usuario);"
+                                            style="margin-top: 2em;">Firmar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer" style="margin-top: 6em;">
+                            <div class="row">
+                                <div class="col-xs-4 col-xs-offset-4 col-xs-height col-bottom">
+                                    <span>Persona que introduce los datos</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <span>F-01-DT-001-01</span>
+                                </div>
+                                <div class="col-xs-4 col-xs-offset-6 text-center" style="border-top: 1px solid black; margin-top: 20px;">
+                                    <span>Fecha y firma</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </t>
+            </field>
+        </record>
+    </data>
+</openerp>

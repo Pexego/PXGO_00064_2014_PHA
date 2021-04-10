@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_editable_report_normal_user,editable.report.normal.user,model_editable_report,base.group_user,1,0,0,0
+access_editable_report_normal_erp_manager,editable.report.normal.erp_manager,model_editable_report,base.group_erp_manager,1,1,1,1
