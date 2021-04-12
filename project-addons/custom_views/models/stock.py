@@ -7,8 +7,7 @@ from openerp import models, fields, api, _, exceptions
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    computed_lots_string = fields.Char(compute='_compute_lots_string')
-    lots_string = fields.Char(string='Lots', readonly=True, store=True, index=True)
+    lots_string = fields.Char(compute='_compute_lots_string', string='Lots', store=True, index=True)
     categ_ids = fields.Many2many(related='product_id.categ_ids', readonly=True)
     purchase_amount = fields.Float(related='purchase_line_id.gross_amount',
                                    readonly=True)
@@ -28,16 +27,13 @@ class StockMove(models.Model):
         self.product_id.product_tmpl_id.compute_detailed_stock()
 
     @api.one
+    @api.depends('reserved_quant_ids', 'quant_ids')
     def _compute_lots_string(self):
         quant_ids = self.sudo().with_context(active_test=False).\
                         reserved_quant_ids + \
                     self.sudo().with_context(active_test=False).quant_ids
         lots_string = u", ".join(quant_ids.mapped('lot_id.name'))
-        self.computed_lots_string = lots_string
-        if self.lots_string != lots_string:
-            self.write({
-                'lots_string': lots_string
-            })
+        self.lots_string = lots_string
 
     @api.model
     def create(self, vals):

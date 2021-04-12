@@ -165,7 +165,7 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
                 else:
                     quantity = int(prod_ref[0])
                     prod_ref = prod_ref[2:]
-                product_ids = backend_adapter.search({"filter[reference]": prod_ref})
+                product_ids = backend_adapter.search({"filter[reference]": prod_ref, "filter[active]": 1})
                 if product_ids:
                     product = self.binder_for("prestashop.product.template").to_odoo(
                         product_ids[0], unwrap=True
