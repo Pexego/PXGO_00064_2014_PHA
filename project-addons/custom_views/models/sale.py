@@ -23,7 +23,7 @@ class SaleOrder(models.Model):
         return super(SaleOrder, self).action_button_confirm()
 
     @api.model
-    def fields_view_get(self, view_id=None, view_type=False, toolbar=False,
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
                         submenu=False):
         # If current user is a member of SalesmanPH, show only his/her clients,
         # otherwise, show all clients
