@@ -26,20 +26,22 @@ function botonRellenarClick(e) {
         if (fieldName in data) {
             var txt = data[fieldName];
 
-            if (txt.includes('[hora]')) {
-                dameFechaHoraServidor('hora');
-                do {await sleep(200);} while (!horaServidor);
-                txt = txt.replace('[hora]', horaServidor);
-            }
-            if (txt.includes('[fecha]')) {
-                dameFechaHoraServidor('fecha');
-                do {await sleep(200);} while (!fechaServidor);
-                txt = txt.replace('[fecha]', fechaServidor);
-            }
-            if (txt.includes('[fecha_hora]')) {
-                dameFechaHoraServidor('fecha_hora');
-                do {await sleep(200);} while (!fechaHoraServidor);
-                txt = txt.replace('[fecha_hora]', fechaHoraServidor);
+            if (typeof txt === 'string') {
+                if (txt.includes('[hora]')) {
+                    dameFechaHoraServidor('hora');
+                    do {await sleep(200);} while (!horaServidor);
+                    txt = txt.replace('[hora]', horaServidor);
+                }
+                if (txt.includes('[fecha]')) {
+                    dameFechaHoraServidor('fecha');
+                    do {await sleep(200);} while (!fechaServidor);
+                    txt = txt.replace('[fecha]', fechaServidor);
+                }
+                if (txt.includes('[fecha_hora]')) {
+                    dameFechaHoraServidor('fecha_hora');
+                    do {await sleep(200);} while (!fechaHoraServidor);
+                    txt = txt.replace('[fecha_hora]', fechaHoraServidor);
+                }
             }
             field.value = txt;
         }
