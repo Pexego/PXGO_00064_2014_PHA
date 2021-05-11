@@ -26,6 +26,7 @@ class StockProductionLot(models.Model):
                           'num_sampling_proposed',
                           'num_sampling_to_do',
                           'num_sampling_realized',
+                          'sampling_type',
                           'sampling_notes',
                           'sampling_date',
                           'sampling_realized',

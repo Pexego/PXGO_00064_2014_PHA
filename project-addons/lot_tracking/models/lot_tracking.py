@@ -558,7 +558,7 @@ class LotTrackingBySeal(models.Model):
             join stock_quant_move_rel sqmr on sqmr.quant_id = sq.id
             join stock_move sm on sm.id = sqmr.move_id
             join product_product pp on pp.id = sm.product_id
-            join product_categ_rel pcr on pcr.product_id = pp.id
+            join product_categ_rel pcr on pcr.product_id = pp.product_tmpl_id
             where pcr.categ_id = {category}
               and sm.date between '{date_from}'::date and '{date_to}'::date        
         """
