@@ -105,7 +105,6 @@ class LotTrackingProductions(models.Model):
                 key = m_id.date  # Use date as key when there is no origin document
             else:
                 key = m_id.origin
-
             production_id = False
             if key.startswith('MO'):
                 production_id = self.env['mrp.production'].search([
@@ -124,6 +123,31 @@ class LotTrackingProductions(models.Model):
             else:
                 moves_by_origin[key]['qty'] += m_id.qty * sign
         lt_id.unlink()
+
+        inventory_adj_move_ids = self.env['stock.move'].search([
+            ('product_id', '=', self.product_id.id),
+            ('inventory_id', '!=', False),
+            ('location_id', 'in', (5, 73)),
+            ('location_dest_id', 'in', (5, 73)),
+            ('state', '=', 'done'),
+            ('origin', 'like', 'MO%')
+        ])
+        for m_id in inventory_adj_move_ids:
+            key = m_id.origin
+            production_id = self.env['mrp.production'].search([
+                ('name', '=', m_id.origin)
+            ])
+            sign = -1 if m_id.location_id == 73 else 1
+            if not moves_by_origin.has_key(key):
+                moves_by_origin[key] = {
+                    'production': production_id,
+                    'date': production_id.date_planned,
+                    'location': m_id.location_id.id,
+                    'destination': m_id.location_dest_id.id,
+                    'qty': m_id.product_qty * sign
+                }
+            else:
+                moves_by_origin[key]['qty'] += m_id.product_qty * sign
 
         lot_move_ids = [(5, 0, 0)]
         for key in moves_by_origin:
