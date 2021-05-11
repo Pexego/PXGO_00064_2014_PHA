@@ -110,6 +110,7 @@ class LotTrackingProductions(models.Model):
                 production_id = self.env['mrp.production'].search([
                     ('name', '=', m_id.origin)
                 ])
+
             sign = -1 if m_id.type == 'output' else 1
             if not moves_by_origin.has_key(key):
                 moves_by_origin[key] = {
@@ -124,30 +125,19 @@ class LotTrackingProductions(models.Model):
                 moves_by_origin[key]['qty'] += m_id.qty * sign
         lt_id.unlink()
 
-        inventory_adj_move_ids = self.env['stock.move'].search([
-            ('product_id', '=', self.product_id.id),
-            ('inventory_id', '!=', False),
-            ('location_id', 'in', (5, 73)),
-            ('location_dest_id', 'in', (5, 73)),
-            ('state', '=', 'done'),
-            ('origin', 'like', 'MO%')
-        ])
-        for m_id in inventory_adj_move_ids:
-            key = m_id.origin
-            production_id = self.env['mrp.production'].search([
-                ('name', '=', m_id.origin)
-            ])
-            sign = -1 if m_id.location_id == 73 else 1
-            if not moves_by_origin.has_key(key):
-                moves_by_origin[key] = {
-                    'production': production_id,
-                    'date': production_id.date_planned,
-                    'location': m_id.location_id.id,
-                    'destination': m_id.location_dest_id.id,
-                    'qty': m_id.product_qty * sign
-                }
-            else:
-                moves_by_origin[key]['qty'] += m_id.product_qty * sign
+        inv_adj_query = """
+            select
+              sum(sm.product_qty * case when sm.location_id = 73 then -1 else 1 end)
+            from stock_move sm
+            where sm.product_id = {product_id}
+              and sm.inventory_id is not null
+              and (
+                (location_id = 5 and location_dest_id = 73)
+                or
+                (location_id = 73 and location_dest_id = 5)
+              )
+              and sm.origin = {origin}
+        """
 
         lot_move_ids = [(5, 0, 0)]
         for key in moves_by_origin:
@@ -181,6 +171,15 @@ class LotTrackingProductions(models.Model):
                                move_date > manuf_record[0].x_create_date:
                                 move_date = manuf_record[0].x_create_date
 
+                # Final product inventory adjustments
+                self.env.cr.execute(inv_adj_query.format(
+                    product_id=production_id.product_id.id,
+                    origin=key
+                ))
+                res = self.env.cr.fetchall()
+                if res:
+                    real_consumed_qty += res[0]
+
                 bom_qty = sum(production_id.bom_id.bom_line_ids.\
                     filtered(lambda l: l.product_id == self.product_id).\
                     mapped('product_qty'))
@@ -201,6 +200,7 @@ class LotTrackingProductions(models.Model):
                     theo_manuf_units = abs(real_consumed_qty) / bom_qty
                     theo_consumed_qty = real_manuf_units * bom_qty * \
                                         -1 if real_consumed_qty < 0 else 1
+
             elif key[:2] == 'SO':
                 theo_consumed_qty = real_consumed_qty
 
