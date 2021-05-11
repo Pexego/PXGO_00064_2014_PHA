@@ -170,14 +170,6 @@ class LotTrackingProductions(models.Model):
                                move_date > manuf_record[0].x_create_date:
                                 move_date = manuf_record[0].x_create_date
 
-                # Final product inventory adjustments
-                self.env.cr.execute(inv_adj_query.format(
-                    origin=key
-                ))
-                res = self.env.cr.fetchall()
-                if res and res[0][0]:
-                    real_consumed_qty = res[0][0]
-
                 bom_qty = sum(production_id.bom_id.bom_line_ids.\
                     filtered(lambda l: l.product_id == self.product_id).\
                     mapped('product_qty'))
@@ -195,6 +187,13 @@ class LotTrackingProductions(models.Model):
                             mapped('qty')
                     )
                     lt_id.unlink()
+                    # Final product inventory adjustments
+                    self.env.cr.execute(inv_adj_query.format(
+                        origin=key
+                    ))
+                    res = self.env.cr.fetchall()
+                    if res and res[0][0]:
+                        real_manuf_units += res[0][0]
                     theo_manuf_units = abs(real_consumed_qty) / bom_qty
                     theo_consumed_qty = real_manuf_units * bom_qty * \
                                         -1 if real_consumed_qty < 0 else 1
