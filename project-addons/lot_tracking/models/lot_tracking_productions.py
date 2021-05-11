@@ -177,7 +177,7 @@ class LotTrackingProductions(models.Model):
                     origin=key
                 ))
                 res = self.env.cr.fetchall()
-                if res:
+                if res and res[0][0]:
                     real_consumed_qty += res[0][0]
 
                 bom_qty = sum(production_id.bom_id.bom_line_ids.\
