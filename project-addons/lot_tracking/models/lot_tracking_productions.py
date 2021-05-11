@@ -129,8 +129,7 @@ class LotTrackingProductions(models.Model):
             select
               sum(sm.product_qty * case when sm.location_id = 73 then -1 else 1 end)
             from stock_move sm
-            where sm.product_id = {product_id}
-              and sm.inventory_id is not null
+            where sm.inventory_id is not null
               and (
                 (location_id = 5 and location_dest_id = 73)
                 or
@@ -173,12 +172,11 @@ class LotTrackingProductions(models.Model):
 
                 # Final product inventory adjustments
                 self.env.cr.execute(inv_adj_query.format(
-                    product_id=production_id.product_id.id,
                     origin=key
                 ))
                 res = self.env.cr.fetchall()
                 if res and res[0][0]:
-                    real_consumed_qty += res[0][0]
+                    real_consumed_qty = res[0][0]
 
                 bom_qty = sum(production_id.bom_id.bom_line_ids.\
                     filtered(lambda l: l.product_id == self.product_id).\
