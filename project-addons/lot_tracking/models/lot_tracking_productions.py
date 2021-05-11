@@ -136,7 +136,7 @@ class LotTrackingProductions(models.Model):
                 or
                 (location_id = 73 and location_dest_id = 5)
               )
-              and sm.origin = {origin}
+              and sm.origin = '{origin}'
         """
 
         lot_move_ids = [(5, 0, 0)]
