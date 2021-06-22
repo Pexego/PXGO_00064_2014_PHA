@@ -11,6 +11,34 @@ from openerp.addons.connector_prestashop.models.res_partner.importer import (
 from openerp.addons.connector.unit.mapper import mapping, only_create
 from openerp.addons.connector_prestashop.backend import prestashop
 
+def _formatString(text):
+    """Formats the string into a fixed length ASCII (iso-8859-1) record.
+
+    Note:
+        'Todos los campos alfanuméricos y alfabéticos se presentarán
+        alineados a la izquierda y rellenos de blancos por la derecha,
+        en mayúsculas sin caracteres especiales, y sin vocales acentuadas.
+        Para los caracteres específicos del idioma se utilizará la
+        codificación ISO-8859-1. De esta forma la letra “Ñ” tendrá el
+        valor ASCII 209 (Hex. D1) y la “Ç” (cedilla mayúscula) el valor
+        ASCII 199 (Hex. C7).'
+    """
+    # Replace accents and convert to upper
+    from unidecode import unidecode
+    text = unicode(text).upper()
+    text = ''.join([unidecode(x) if x not in (u'Ñ', u'Ç') else x
+                    for x in text])
+    text = re.sub(
+        ur"[^A-Z0-9\s\.,-_&'´\\:;/\(\)ÑÇ\"]", '', text, re.UNICODE | re.X)
+    return text
+
+def _formatFiscalName(text):
+    name = re.sub(
+        ur"[^a-zA-Z0-9\sáÁéÉíÍóÓúÚñÑçÇäÄëËïÏüÜöÖ"
+        ur"àÀèÈìÌòÒùÙâÂêÊîÎôÔûÛ\.,-_&'´\\:;:/]", '', text,
+        re.UNICODE | re.X)
+    name = re.sub(r'\s{2,}', ' ', name, re.UNICODE | re.X)
+    return _formatString(name)
 
 @prestashop(replacing=PartnerImportMapper)
 class PartnerImportMapperCustom(PartnerImportMapper):
@@ -34,7 +62,8 @@ class PartnerImportMapperCustom(PartnerImportMapper):
             if name:
                 name += ", "
             name += record["firstname"]
-        return {"name": name}
+        name = name.upper()
+        return {"name": _formatFiscalName(name)}
 
     @only_create
     @mapping
@@ -93,6 +122,7 @@ class PartnerImportMapperCustom(PartnerImportMapper):
 
 @prestashop(replacing=AddressImportMapper)
 class AddressImportMapperCustom(AddressImportMapper):
+
     @mapping
     def name(self, record):
         name = ""
@@ -102,7 +132,8 @@ class AddressImportMapperCustom(AddressImportMapper):
             if name:
                 name += ", "
             name += record["firstname"]
-        return {"name": name}
+        name = name.upper()
+        return {"name": _formatFiscalName(name)}
 
     @mapping
     def parent_id(self, record):
@@ -149,6 +180,39 @@ class AddressImportMapperCustom(AddressImportMapper):
         #         )
         return {"parent_id": parent.id}
 
+    @mapping
+    def state_id(self, record):
+        if record.get("id_country") and record.get("postcode"):
+            binder = self.binder_for("prestashop.res.country")
+            country = binder.to_odoo(record["id_country"], unwrap=True)
+            city_zip = self.env["res.better.zip"].search(
+                [
+                    ("name", "=", record.get("postcode")),
+                    ("country_id", "=", country.id),
+                ]
+            )
+            if not city_zip:
+                # Portugal
+                city_zip = self.env["res.better.zip"].search(
+                    [
+                        ("name", "=", record.get("postcode").replace(' ', '-')),
+                        ("country_id", "=", country.id),
+                    ]
+                )
+                if not city_zip:
+                    # Portugal 2
+                    city_zip = self.env["res.better.zip"].search(
+                        [
+                            ("name", "=", record.get("postcode")[:4] + '-' + record.get("postcode")[4:]),
+                            ("country_id", "=", country.id),
+                        ]
+                    )
+            if city_zip:
+                res = {"state_id": city_zip[0].state_id.id}
+                if len(city_zip) == 1:
+                    res['zip_id'] = city_zip.id
+                return res
+
 
 @prestashop(replacing=AddressImporter)
 class AddressImporterCustom(AddressImporter):
@@ -180,3 +244,6 @@ class AddressImporterCustom(AddressImporter):
             binding.parent_id.write(
                 {"sii_simplified_invoice": True, "simplified_invoice": True}
             )
+        if (binding.phone or binding.mobile) and not binding.parent_id.phone:
+            binding.parent_id.phone = binding.phone or binding.mobile
+        binding.parent_id.is_company = False
