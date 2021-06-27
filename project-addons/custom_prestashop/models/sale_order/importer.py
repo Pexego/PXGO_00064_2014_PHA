@@ -61,7 +61,7 @@ class SaleOrderMapperCustom(SaleOrderMapper):
             matched_fiscal_position = self.env["account.fiscal.position"].search(
                 [("prestashop_tax_ids", "ilike", tax_id)]
             )
-            fiscal_positions += matched_fiscal_position.filtered(
+            fiscal_positions |= matched_fiscal_position.filtered(
                 lambda r: tax_id in r.prestashop_tax_ids.split(",")
             )
         if len(fiscal_positions) != 1:
@@ -157,4 +157,10 @@ class SaleOrderImportCustom(SaleOrderImport):
 
     def _after_import(self, binding):
         binding.odoo_id.expand_packs()
+        if binding.payment_method_id.payment_mode_id and not binding.payment_mode_id:
+            binding.payment_mode_id = binding.payment_method_id.payment_mode_id
+        if binding.payment_method_id.payment_term_id and not binding.payment_term:
+            binding.payment_term = binding.payment_method_id.payment_term_id
+        if binding.fiscal_position and not binding.partner_id.property_account_position:
+            binding.partner_id.property_account_position = binding.fiscal_position
         return super(SaleOrderImportCustom, self)._after_import(binding)
