@@ -107,7 +107,6 @@
                         </t>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-xs-3">
                         Nº of containers sampled:
@@ -123,6 +122,16 @@
                     <div class="col-xs-1">
                         <t t-if="o.num_sampling_realized">
                             <span t-field="o.num_sampling_realized"/>
+                        </t>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Sampling type:
+                    </div>
+                    <div class="col-xs-2">
+                        <t t-if="o.sampling_type">
+                            <span t-field="o.sampling_type"/>
                         </t>
                     </div>
                 </div>

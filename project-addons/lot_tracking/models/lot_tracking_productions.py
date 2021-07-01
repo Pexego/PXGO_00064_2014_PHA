@@ -105,12 +105,12 @@ class LotTrackingProductions(models.Model):
                 key = m_id.date  # Use date as key when there is no origin document
             else:
                 key = m_id.origin
-
             production_id = False
             if key.startswith('MO'):
                 production_id = self.env['mrp.production'].search([
                     ('name', '=', m_id.origin)
                 ])
+
             sign = -1 if m_id.type == 'output' else 1
             if not moves_by_origin.has_key(key):
                 moves_by_origin[key] = {
@@ -124,6 +124,19 @@ class LotTrackingProductions(models.Model):
             else:
                 moves_by_origin[key]['qty'] += m_id.qty * sign
         lt_id.unlink()
+
+        inv_adj_query = """
+            select
+              sum(sm.product_qty * case when sm.location_id = 73 then -1 else 1 end)
+            from stock_move sm
+            where sm.inventory_id is not null
+              and (
+                (location_id = 5 and location_dest_id = 73)
+                or
+                (location_id = 73 and location_dest_id = 5)
+              )
+              and sm.origin = '{origin}'
+        """
 
         lot_move_ids = [(5, 0, 0)]
         for key in moves_by_origin:
@@ -174,9 +187,17 @@ class LotTrackingProductions(models.Model):
                             mapped('qty')
                     )
                     lt_id.unlink()
+                    # Final product inventory adjustments
+                    self.env.cr.execute(inv_adj_query.format(
+                        origin=key
+                    ))
+                    res = self.env.cr.fetchall()
+                    if res and res[0][0]:
+                        real_manuf_units += res[0][0]
                     theo_manuf_units = abs(real_consumed_qty) / bom_qty
                     theo_consumed_qty = real_manuf_units * bom_qty * \
                                         -1 if real_consumed_qty < 0 else 1
+
             elif key[:2] == 'SO':
                 theo_consumed_qty = real_consumed_qty
 
