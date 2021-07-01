@@ -13,3 +13,4 @@ class PrestashopProductTemplate(models.Model):
             "drop constraint if exists prestashop_product_template_prestashop_erp_uniq"
         )
         return True
+
