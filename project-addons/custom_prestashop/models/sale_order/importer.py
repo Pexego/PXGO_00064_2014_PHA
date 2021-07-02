@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+
 from openerp.addons.connector_prestashop.models.sale_order.importer import (
     SaleOrderMapper,
     SaleOrderLineMapper,
@@ -163,4 +164,18 @@ class SaleOrderImportCustom(SaleOrderImport):
             binding.payment_term = binding.payment_method_id.payment_term_id
         if binding.fiscal_position and not binding.partner_id.property_account_position:
             binding.partner_id.property_account_position = binding.fiscal_position
+        if binding.backend_id.gift_product_ids:
+            for gift_product in binding.backend_id.gift_product_ids:
+                gift_line = self.env['sale.order.line'].create({
+                    'product_id': gift_product.product_id.id,
+                    'product_uom_qty': gift_product.quantity,
+                    'order_id': binding.odoo_id.id
+                })
+                onchange_vals = gift_line.product_id_change(
+                        binding.pricelist_id.id, gift_line.product_id.id,
+                        gift_line.product_uom_qty, False, gift_line.product_uos_qty,
+                        False, gift_line.name, binding.partner_id.id, False,
+                        True, binding.date_order, False,
+                        binding.fiscal_position.id, False)['value']
+                gift_line.write(onchange_vals)
         return super(SaleOrderImportCustom, self)._after_import(binding)

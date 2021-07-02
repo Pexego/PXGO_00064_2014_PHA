@@ -1,0 +1,179 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* custom_prestashop
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-01 16:21+0000\n"
+"PO-Revision-Date: 2021-07-01 16:21+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: custom_prestashop
+#: sql_constraint:prestashop.binding:0
+msgid "A record with same ID already exists on PrestaShop."
+msgstr "Ya existe un registro con el mismo ID en PrestaShop."
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,backend_id:0
+msgid "Backend id"
+msgstr "Backend id"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_delivery_carrier
+msgid "Carrier"
+msgstr "Transportista"
+
+#. module: custom_prestashop
+#: field:prestashop.shop,partner_categ_id:0
+msgid "Category for partners"
+msgstr "Categoría para clientes"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr "Posición fiscal"
+
+#. module: custom_prestashop
+#: model:product.template,name:custom_prestashop.product_product_generic_prestasghop_product_template
+msgid "Generic prestashop"
+msgstr "Generic prestashop"
+
+#. module: custom_prestashop
+#: field:prestashop.backend,gift_product_ids:0
+msgid "Gift product ids"
+msgstr "Gift product ids"
+
+#. module: custom_prestashop
+#: view:prestashop.backend:custom_prestashop.view_prestashop_backend_form
+msgid "Gifted products"
+msgstr "Productos de regalo"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_payment_method
+msgid "Payment Method"
+msgstr "Método de pago"
+
+#. module: custom_prestashop
+#: field:payment.method,payment_mode_id:0
+msgid "Payment mode"
+msgstr "Payment mode"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_prestashop_backend
+msgid "PrestaShop Backend Configuration"
+msgstr "PrestaShop Backend Configuration"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_prestashop_binding
+msgid "PrestaShop Binding (abstract)"
+msgstr "PrestaShop Binding (abstract)"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_prestashop_product_combination
+#: model:ir.model,name:custom_prestashop.model_prestashop_product_template
+msgid "PrestaShop Binding with Odoo binding (abstract)"
+msgstr "PrestaShop Binding with Odoo binding (abstract)"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_prestashop_delivery_carrier
+msgid "PrestaShop Carrier"
+msgstr "PrestaShop Carrier"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_prestashop_shop
+msgid "PrestaShop Shop"
+msgstr "PrestaShop Shop"
+
+#. module: custom_prestashop
+#: help:delivery.carrier,prestashop_carrier_ids:0
+#: help:prestashop.delivery.carrier,prestashop_carrier_ids:0
+msgid "Prestashop ID of carrier separated by comma"
+msgstr "Prestashop ID of carrier separated by comma"
+
+#. module: custom_prestashop
+#: field:delivery.carrier,prestashop_carrier_ids:0
+#: field:prestashop.delivery.carrier,prestashop_carrier_ids:0
+msgid "Prestashop carrier ids"
+msgstr "Prestashop carrier ids"
+
+#. module: custom_prestashop
+#: field:account.fiscal.position,prestashop_tax_ids:0
+msgid "Prestashop tax ids"
+msgstr "Prestashop tax ids"
+
+#. module: custom_prestashop
+#: field:prestashop.shop,partner_pricelist_id:0
+msgid "Pricelist"
+msgstr "Pricelist"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: custom_prestashop
+#: field:prestashop.backend,sale_channel_id:0
+msgid "Sale channel"
+msgstr "Sale channel"
+
+#. module: custom_prestashop
+#: model:ir.model,name:custom_prestashop.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: custom_prestashop
+#: field:prestashop.backend,salesperson_id:0
+msgid "Salesperson id"
+msgstr "Salesperson id"
+
+#. module: custom_prestashop
+#: help:account.fiscal.position,prestashop_tax_ids:0
+msgid "comma separated ids of prestashop taxes"
+msgstr "comma separated ids of prestashop taxes"
+
+#. module: custom_prestashop
+#: field:prestashop.backend.gift.product,product_id:0
+msgid "product"
+msgstr "producto"
