@@ -18,6 +18,7 @@
         "views/delivery_carrier.xml",
         "views/payment_method.xml",
         "views/account_fiscal_position.xml",
+        "security/ir.model.access.csv",
     ],
     "installable": True,
 }
