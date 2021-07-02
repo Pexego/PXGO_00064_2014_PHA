@@ -33,6 +33,7 @@ class ProductionPlanningOrders(models.Model):
                                     readonly=True)
     product_id = fields.Many2one(string='Final product',
                                  comodel_name='product.product',
+                                 domain="[('obsolete', '=', False)]",
                                  required=True)
     default_code = fields.Char(related='product_id.default_code',
                                readonly=True)

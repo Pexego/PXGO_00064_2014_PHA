@@ -40,6 +40,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                 icon="STOCK_CANCEL"
                         />
                         <field name="bom_member" invisible="1"/>
+                        <field name="obsolete" invisible="1"/>
                         <button name="stock_available_ph.action_bom_member_of_wizard"
                                 string="BoM member of"
                                 type="action"
@@ -51,7 +52,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                 type="object"
                                 string="Create production planning order"
                                 icon="gtk-redo"
-                                attrs="{'invisible': [('has_bom', '=', False)]}"
+                                attrs="{'invisible': ['|', ('has_bom', '=', False), ('obsolete', '=', True)]}"
                         />
                         <field name="stock_by_day_p_ind_min"/>
                         <field name="state"/>
