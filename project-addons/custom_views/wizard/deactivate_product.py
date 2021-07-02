@@ -46,7 +46,8 @@ class DeactivateProduct(models.TransientModel):
                      self.env.ref('__export__.stock_location_102').id)
                 ])
 
-                if product_id.qty_available == 0 and not external_quant_ids:
+                if product_id.type == 'consu' or \
+                   (product_id.qty_available == 0 and not external_quant_ids):
                     ql = quality_limits.search([('name', '=', product_id.product_tmpl_id.id)])
                     if ql:
                         ql.write({'active': False})

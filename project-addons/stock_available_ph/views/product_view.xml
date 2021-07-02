@@ -130,11 +130,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             attrs="{'invisible': [('bom_member', '=', False)]}"
                     />
                     <field name="has_bom" invisible="1"/>
+                    <field name="obsolete" invisible="1"/>
                     <button name="create_production_planning_order"
                             type="object"
                             string="Create production planning order"
                             icon="gtk-redo"
-                            attrs="{'invisible': [('has_bom', '=', False)]}"
+                            attrs="{'invisible': ['|', ('has_bom', '=', False), ('obsolete', '=', True)]}"
+
                     />
                     <field name="stock_by_day_p_ind_min"/>
                     <field name="action_limit_exceeded" invisible="1"/>
