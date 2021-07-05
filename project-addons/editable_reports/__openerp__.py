@@ -11,7 +11,7 @@
     'depends': [
         'base',
         'web',
-        'stock',
+        'lot_states',
     ],
     'data': [
         'security/ir.model.access.csv',

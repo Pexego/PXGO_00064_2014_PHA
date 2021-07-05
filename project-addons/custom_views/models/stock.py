@@ -115,8 +115,9 @@ class StockPicking(models.Model):
         unmatched_quantities_found = False
         for picking in self:
             for move in picking.move_lines:
-                unmatched_quantities_found = unmatched_quantities_found or \
-                    move.partially_available
+                if move.product_id.type == 'consu':
+                    continue
+                unmatched_quantities_found |= move.partially_available
                 if not unmatched_quantities_found:
                     sum = 0
                     for quant in move.reserved_quant_ids:
