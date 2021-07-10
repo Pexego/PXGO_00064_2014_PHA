@@ -18,5 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import sale, res_groups, res_partner
-from . import account_analytic_plans
+from . import sale, res_groups, res_partner, account_analytic_plans, \
+              hr_holidays
