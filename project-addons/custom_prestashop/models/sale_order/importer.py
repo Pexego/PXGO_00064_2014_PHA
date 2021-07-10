@@ -34,6 +34,12 @@ class SaleOrderMapperCustom(SaleOrderMapper):
     def client_order_ref(self, record):
         return {"client_order_ref": record["reference"]}
 
+    def _map_child(self, map_record, from_attr, to_attr, model_name):
+        if model_name == 'prestashop.sale.order.line.discount':
+            return
+        return super(SaleOrderMapperCustom, self)._map_child(
+            map_record, from_attr, to_attr, model_name)
+
     @mapping
     def name(self, record):
         return {}
@@ -178,4 +184,17 @@ class SaleOrderImportCustom(SaleOrderImport):
                         True, binding.date_order, False,
                         binding.fiscal_position.id, False)['value']
                 gift_line.write(onchange_vals)
-        return super(SaleOrderImportCustom, self)._after_import(binding)
+        res = super(SaleOrderImportCustom, self)._after_import(binding)
+        binding.odoo_id.update_with_discounts()
+        if self.prestashop_record['total_discounts'] != '0.00':
+            order_total = binding.amount_total
+            if binding.odoo_id.order_line.filtered(lambda r: r.is_delivery):
+                order_total -= binding.odoo_id.order_line.filtered(lambda r: r.is_delivery).price_subtotal
+            discount_quantity = float(self.prestashop_record['total_discounts'])
+            percentage_discount = (discount_quantity / order_total) * 100
+            if percentage_discount >= 99.0:
+                binding.odoo_id.order_line.write({'discount': percentage_discount})
+            else:
+                binding.commercial_discount_input = (discount_quantity / binding.amount_total) * 100
+                binding.odoo_id.generate_discounts()
+        return res
