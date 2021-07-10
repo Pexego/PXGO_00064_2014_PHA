@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <!-- refused->draft (reset signal) -->
+        <record model="workflow.transition" id="holiday_refuse2draft">
+            <field name="act_from" ref="hr_holidays.act_refuse" />
+            <field name="act_to" ref="hr_holidays.act_draft" />
+            <field name="signal">reset</field>
+            <field name="condition">can_reset</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+    </data>
+</openerp>
