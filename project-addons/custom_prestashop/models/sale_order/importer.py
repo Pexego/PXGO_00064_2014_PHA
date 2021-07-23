@@ -166,8 +166,10 @@ class SaleOrderImportCustom(SaleOrderImport):
         binding.odoo_id.expand_packs()
         if binding.payment_method_id.payment_mode_id and not binding.payment_mode_id:
             binding.payment_mode_id = binding.payment_method_id.payment_mode_id
+            binding.partner_id.customer_payment_mode = binding.payment_method_id.payment_mode_id
         if binding.payment_method_id.payment_term_id and not binding.payment_term:
             binding.payment_term = binding.payment_method_id.payment_term_id
+            binding.partner_id.property_payment_term = binding.payment_method_id.payment_term_id
         if binding.fiscal_position and not binding.partner_id.property_account_position:
             binding.partner_id.property_account_position = binding.fiscal_position
         if binding.backend_id.gift_product_ids:
@@ -184,6 +186,7 @@ class SaleOrderImportCustom(SaleOrderImport):
                         True, binding.date_order, False,
                         binding.fiscal_position.id, False)['value']
                 gift_line.write(onchange_vals)
+                gift_line.price_unit = 0
         res = super(SaleOrderImportCustom, self)._after_import(binding)
         binding.odoo_id.update_with_discounts()
         if self.prestashop_record['total_discounts'] != '0.00':

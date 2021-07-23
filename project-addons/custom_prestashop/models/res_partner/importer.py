@@ -5,11 +5,14 @@ import re
 from openerp.addons.connector_prestashop.connector import add_checkpoint
 from openerp.addons.connector_prestashop.models.res_partner.importer import (
     PartnerImportMapper,
+    ResPartnerRecordImport,
     AddressImportMapper,
     AddressImporter,
 )
 from openerp.addons.connector.unit.mapper import mapping, only_create
 from openerp.addons.connector_prestashop.backend import prestashop
+from openerp.addons.connector_prestashop.unit.mapper import backend_to_m2o
+
 
 def _formatString(text):
     """Formats the string into a fixed length ASCII (iso-8859-1) record.
@@ -32,6 +35,7 @@ def _formatString(text):
         ur"[^A-Z0-9\s\.,-_&'´\\:;/\(\)ÑÇ\"]", '', text, re.UNICODE | re.X)
     return text
 
+
 def _formatFiscalName(text):
     name = re.sub(
         ur"[^a-zA-Z0-9\sáÁéÉíÍóÓúÚñÑçÇäÄëËïÏüÜöÖ"
@@ -40,8 +44,28 @@ def _formatFiscalName(text):
     name = re.sub(r'\s{2,}', ' ', name, re.UNICODE | re.X)
     return _formatString(name)
 
+
+@prestashop(replacing=ResPartnerRecordImport)
+class ResPartnerRecordImportCustom(ResPartnerRecordImport):
+
+    def _import_dependencies(self):
+        return
+
+
 @prestashop(replacing=PartnerImportMapper)
 class PartnerImportMapperCustom(PartnerImportMapper):
+    direct = [
+        ('date_add', 'date_add'),
+        ('date_upd', 'date_upd'),
+        ('email', 'email'),
+        ('newsletter', 'newsletter'),
+        ('company', 'company'),
+        ('active', 'active'),
+        ('note', 'comment'),
+        (backend_to_m2o('id_shop_group'), 'shop_group_id'),
+        (backend_to_m2o('id_shop'), 'shop_id'),
+    ]
+
     @mapping
     def user_id(self, record):
         return {"user_id": self.backend_record.salesperson_id.id}
@@ -82,23 +106,12 @@ class PartnerImportMapperCustom(PartnerImportMapper):
             "invoice_claims_mail": record.get("email"),
             "sales_mail": record.get("email"),
             "email_to_send_invoice": record.get("email"),
+            "send_invoice_by_email": True,
         }
 
     @mapping
     def groups(self, record):
-        groups = (
-            record.get("associations", {})
-            .get("groups", {})
-            .get(self.backend_record.get_version_ps_key("group"), [])
-        )
-        if not isinstance(groups, list):
-            groups = [groups]
-        model_name = "prestashop.res.partner.category"
-        partner_category_bindings = self.env[model_name].browse()
-        binder = self.binder_for(model_name)
-        for group in groups:
-            partner_category_bindings |= binder.to_odoo(group["id"])
-        result = {"group_ids": [(6, 0, partner_category_bindings.ids)]}
+        result = {}
         category = (
             self.binder_for("prestashop.shop")
             .to_odoo(record["id_shop"])
@@ -134,6 +147,15 @@ class AddressImportMapperCustom(AddressImportMapper):
             name += record["firstname"]
         name = name.upper()
         return {"name": _formatFiscalName(name)}
+
+    @mapping
+    def groups(self, record):
+        result = {}
+        category = self.binder_for("prestashop.res.partner").to_odoo(
+            record["id_customer"]).shop_id.partner_categ_id
+        if category:
+            result["category_id"] = [(6, 0, [category.id])]
+        return result
 
     @mapping
     def parent_id(self, record):
@@ -244,6 +266,16 @@ class AddressImporterCustom(AddressImporter):
             binding.parent_id.write(
                 {"sii_simplified_invoice": True, "simplified_invoice": True}
             )
-        if (binding.phone or binding.mobile) and not binding.parent_id.phone:
-            binding.parent_id.phone = binding.phone or binding.mobile
+        if binding.phone and not binding.parent_id.phone:
+            binding.parent_id.phone = binding.phone
+        elif not binding.phone and not binding.parent_id.phone:
+            binding.phone = '.'
+            binding.parent_id.phone = '.'
+        if binding.mobile and not binding.parent_id.mobile:
+            binding.parent_id.mobile = binding.mobile
+        elif not binding.mobile and not binding.parent_id.mobile:
+            binding.mobile = '.'
+            binding.parent_id.mobile = '.'
+        if binding.parent_id.email and not binding.email:
+            binding.email = binding.parent_id.email
         binding.parent_id.is_company = False
