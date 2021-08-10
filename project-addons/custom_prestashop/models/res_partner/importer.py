@@ -137,6 +137,12 @@ class PartnerImportMapperCustom(PartnerImportMapper):
 class AddressImportMapperCustom(AddressImportMapper):
 
     @mapping
+    def lang(self, record):
+        parent = self.binder_for('prestashop.res.partner').to_odoo(
+            record['id_customer'], unwrap=True)
+        return {'lang': parent.lang}
+
+    @mapping
     def name(self, record):
         name = ""
         if record["lastname"]:
