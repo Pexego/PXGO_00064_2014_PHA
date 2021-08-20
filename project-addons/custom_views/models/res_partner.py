@@ -31,6 +31,7 @@ class ResPartner(models.Model):
             domain=[('child_ids', '=', False)],
             string='Tags')
     display_name = fields.Char(compute='_compute_display_name', store=True)
+    display_name_no_repeat = fields.Char(compute='_compute_display_name')
     liens = fields.Boolean(default=False)
     insured = fields.Boolean(default=False)
     simplified_invoice = fields.Boolean(default=False)
@@ -129,8 +130,13 @@ class ResPartner(models.Model):
     def _compute_display_name(self):
         if self.parent_id:
             self.display_name = self.parent_id.name + ', ' + self.name
+            if self.parent_id.name != self.name:
+                self.display_name_no_repeat = self.display_name
+            else:
+                self.display_name_no_repeat = self.name
         else:
             self.display_name = self.name
+            self.display_name_no_repeat = self.name
 
     @api.model
     def create(self, vals):

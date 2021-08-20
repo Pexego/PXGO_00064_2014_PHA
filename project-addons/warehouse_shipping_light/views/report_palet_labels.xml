@@ -70,7 +70,7 @@
                                 }
                             </style>
                             <div class="row">
-                                <div class="line" t-field="partner.display_name" style="font-size: 30px; font-weight: bold;"/>
+                                <div class="line" t-field="partner.display_name_no_repeat" style="font-size: 30px; font-weight: bold;"/>
                                 <t t-if="partner.parent_id">
                                     <div class="line" t-field="partner.parent_id.comercial" style="font-size: 24px;"/>
                                 </t>
