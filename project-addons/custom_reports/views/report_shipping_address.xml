@@ -3,7 +3,7 @@
     <data>
         <template id="report_shipping_address">
             <t t-if="shipadd">
-                <span t-field="shipadd.display_name"/><br/>
+                <span t-field="shipadd.display_name_no_repeat"/><br/>
                 <t t-if="shipadd.comercial">
                     <span t-field="shipadd.comercial"/><br/>
                 </t>
