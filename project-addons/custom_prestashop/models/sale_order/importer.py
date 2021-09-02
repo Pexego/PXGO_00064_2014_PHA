@@ -124,6 +124,9 @@ class SaleOrderLineMapperCustom(SaleOrderLineMapper):
 class SaleOrderImportCustom(SaleOrderImport):
 
     def _import_dependencies(self):
+        context = dict(self.env.context)
+        context['id_shop'] = self.prestashop_record['id_shop']
+        self.env.context = context
         record = self.prestashop_record
         self._import_dependency(record["id_customer"], "prestashop.res.partner")
         self._import_dependency(record["id_address_invoice"], "prestashop.address")
