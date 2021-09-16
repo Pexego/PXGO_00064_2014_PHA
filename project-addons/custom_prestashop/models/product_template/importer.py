@@ -48,6 +48,7 @@ class CustomTemplateMapper(TemplateMapper):
     def list_price(self, record):
         return {}
 
+    @only_create
     @mapping
     def name(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -66,6 +67,7 @@ class CustomTemplateMapper(TemplateMapper):
     def date_upd(self, record):
         return {}
 
+    @only_create
     @mapping
     def default_code(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -76,6 +78,7 @@ class CustomTemplateMapper(TemplateMapper):
             return super(CustomTemplateMapper, self).default_code(record)
         return {}
 
+    @only_create
     @mapping
     def description(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -86,6 +89,7 @@ class CustomTemplateMapper(TemplateMapper):
             return super(CustomTemplateMapper, self).description(record)
         return {}
 
+    @only_create
     @mapping
     def active(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -96,6 +100,7 @@ class CustomTemplateMapper(TemplateMapper):
             return {"active": False}
         return {}
 
+    @only_create
     @mapping
     def sale_ok(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -106,6 +111,7 @@ class CustomTemplateMapper(TemplateMapper):
             return super(CustomTemplateMapper, self).sale_ok(record)
         return {}
 
+    @only_create
     @mapping
     def purchase_ok(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -132,6 +138,7 @@ class CustomTemplateMapper(TemplateMapper):
     def company_id(self, record):
         return {}
 
+    @only_create
     @mapping
     def ean13(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -142,6 +149,7 @@ class CustomTemplateMapper(TemplateMapper):
             return super(CustomTemplateMapper, self).ean13(record)
         return {}
 
+    @only_create
     @mapping
     def taxes_id(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
@@ -151,6 +159,7 @@ class CustomTemplateMapper(TemplateMapper):
         ):
             return super(CustomTemplateMapper, self).taxes_id(record)
 
+    @only_create
     @mapping
     def type(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:

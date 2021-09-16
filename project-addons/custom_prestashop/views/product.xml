@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        
+
         <record id="product_normal_form_view" model="ir.ui.view">
             <field name="name">product.product.inherit.view.form</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="connector_prestashop.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='open_product_template']/.." position="replace">
+                   <field name="prestashop_bind_ids"/>
                 </xpath>
                 <xpath expr="//field[@name='prestashop_combinations_bind_ids']/.." position="attributes">
                     <attribute name="attrs"></attribute>
                 </xpath>
-                
+
             </field>
         </record>
     </data>
