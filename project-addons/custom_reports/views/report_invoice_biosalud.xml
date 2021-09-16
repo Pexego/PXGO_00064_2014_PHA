@@ -164,10 +164,11 @@
                         </p>
                         <p t-if="o.origin_invoices_ids">
                             <strong>Invoice affecting:</strong><br/>
+                            <t t-set="invoices" t-value="''"/>
                             <t t-foreach="o.origin_invoices_ids" t-as="oi">
-                                <t t-set="invoices" t-value="oi.number + ', ' if not oi_last else oi.number"/>
-                                <span t-esc="invoices"/>
+                                <t t-set="invoices" t-value="invoices + (oi.number if oi.number else 's/n') + ('' if oi_last else ', ')"/>
                             </t>
+                            <span t-esc="invoices"/>
                         </p>
                     </div>
                     <div class="col-xs-4">

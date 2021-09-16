@@ -66,6 +66,7 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
     # def _get_option_value(self, record):
     #     pass
 
+    @only_create
     @mapping
     def name(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
@@ -94,6 +95,7 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
     def _template_code_exists(self, code):
         pass
 
+    @only_create
     @mapping
     def default_code(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
@@ -103,6 +105,7 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
         ):
             return super(ProductCombinationMapperCustom, self).default_code(record)
 
+    @only_create
     @mapping
     def ean13(self, record):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
