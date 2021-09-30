@@ -17,6 +17,7 @@
         'security/ir.model.access.csv',
         'views/editable_report_view.xml',
         'views/stock_production_lot_view.xml',
+        'views/stock_quant_view.xml',
         'reports/editable_report.xml',
         'reports/stock_lot_analysis.xml',
     ],
