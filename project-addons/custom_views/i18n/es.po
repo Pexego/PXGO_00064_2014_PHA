@@ -252,6 +252,12 @@ msgid "Cancel warnings"
 msgstr "Cancelar avisos"
 
 #. module: custom_views
+#: code:addons/custom_views/models/stock_invoice_onshipping.py:0
+#, python-format
+msgid "Cannot continue due to pickings with customers without VAT number and without simplified invoice marking:\n"
+msgstr "No se puede continuar debido a que hay albaranes cuyo cliente no tiene NIF y tampoco tiene la marca de factura simplificada:\n"
+
+#. module: custom_views
 #: field:stock.picking,address_city:0
 msgid "City"
 msgstr "Ciudad"
