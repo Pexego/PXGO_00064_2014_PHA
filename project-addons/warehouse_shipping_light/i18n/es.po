@@ -262,6 +262,12 @@ msgid "Carrier"
 msgstr "Transportista"
 
 #. module: warehouse_shipping_light
+#: view:stock.expeditions:warehouse_shipping_light.wsl_expeditions_filter
+#: field:stock.expeditions,carrier_id:0
+msgid "Carrier child"
+msgstr "Transportista hijo"
+
+#. module: warehouse_shipping_light
 #: code:addons/warehouse_shipping_light/wizard/stock_transfer_details.py:70
 #, python-format
 msgid "Carrier is not asigned."
