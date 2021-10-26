@@ -93,7 +93,7 @@ msgid "Already exists an invoice for %s with this reference %s"
 msgstr "Ya existe una factura de %s con esta referencia %s"
 
 #. module: custom_views
-#: code:addons/custom_views/models/sale.py:35
+#: code:addons/custom_views/models/sale.py:0
 #, python-format
 msgid "An order budget can not be confirmed!"
 msgstr "¡No es posible confirmar un pedido de tipo presupuesto!"
@@ -256,6 +256,12 @@ msgstr "Cancelar avisos"
 #, python-format
 msgid "Cannot continue due to pickings with customers without VAT number and without simplified invoice marking:\n"
 msgstr "No se puede continuar debido a que hay albaranes cuyo cliente no tiene NIF y tampoco tiene la marca de factura simplificada:\n"
+
+#. module: custom_views
+#: code:addons/custom_views/models/sale.py:0
+#, python-format
+msgid "Cannot continue due to sale orders with customers without VAT number and without simplified invoice marking:\n"
+msgstr "No se puede continuar debido a que hay pedidos de venta cuyo cliente no tiene NIF y tampoco tiene la marca de factura simplificada:\n"
 
 #. module: custom_views
 #: field:stock.picking,address_city:0

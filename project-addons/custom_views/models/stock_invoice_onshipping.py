@@ -11,7 +11,8 @@ class StockInvoiceOnshipping(models.TransientModel):
             browse(self.env.context.get('active_ids')):
             partner_id = picking_id.partner_id.parent_id \
                 if picking_id.partner_id.parent_id else picking_id.partner_id
-            if not partner_id.vat and not partner_id.simplified_invoice:
+            if not partner_id.vat and not (partner_id.simplified_invoice and
+                                           partner_id.sii_simplified_invoice):
                 warning_messages += '[{}] {}\n'.format(picking_id.name,
                                                        partner_id.name)
         if warning_messages:
