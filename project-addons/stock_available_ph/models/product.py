@@ -104,47 +104,47 @@ class ProductTemplate(models.Model):
 
     @api.multi
     def _has_bom(self):
-        for p in self:
-            p.has_bom = True if p.bom_ids else False
+        for pt in self:
+            pt.has_bom = True if pt.bom_ids else False
 
     @api.multi
     def _order_point_limits(self):
-        for product in self:
+        for pt in self:
             swo = self.env['stock.warehouse.orderpoint'].search([
-                ('product_id', '=', product.id)
-            ], order="id desc")
+                ('product_id.product_tmpl_id', '=', pt.id)
+            ], order='id desc')
             if swo:
-                if product.min_fixed != swo[0].product_min_qty:
-                    product.min_fixed = swo[0].product_min_qty
-                if product.max_fixed != swo[0].product_max_qty:
-                    product.max_fixed = swo[0].product_max_qty
+                if pt.min_fixed != swo[0].product_min_qty:
+                    pt.min_fixed = swo[0].product_min_qty
+                if pt.max_fixed != swo[0].product_max_qty:
+                    pt.max_fixed = swo[0].product_max_qty
 
     @api.multi
     def _bom_member(self):
-        for p in self:
+        for pt in self:
             bom_line_ids = self.env['mrp.bom.line'].search([
-                ('product_id', 'in', p.product_variant_ids.ids),
+                ('product_id', 'in', pt.product_variant_ids.ids),
                 ('bom_id.active', '=', True),
                 ('bom_id.product_id.active', '=', True)
             ])
-            p.bom_member = True if bom_line_ids else False
-            p.bom_member_of_count = len(bom_line_ids)
+            pt.bom_member = True if bom_line_ids else False
+            pt.bom_member_of_count = len(bom_line_ids)
 
     @api.multi
     @api.depends('cons_by_day_i_total')
     def _cbd_i_period(self):
-        for product in self:
-            product.cons_by_day_i_month = product.cons_by_day_i_total * 30
-            product.cons_by_day_i_semester = product.cons_by_day_i_total * 182.5
-            product.cons_by_day_i_year = product.cons_by_day_i_total * 365
+        for pt in self:
+            pt.cons_by_day_i_month = pt.cons_by_day_i_total * 30
+            pt.cons_by_day_i_semester = pt.cons_by_day_i_total * 182.5
+            pt.cons_by_day_i_year = pt.cons_by_day_i_total * 365
 
     @api.multi
     @api.depends('cons_by_day_p_total')
     def _cbd_p_period(self):
-        for product in self:
-            product.cons_by_day_p_month = product.cons_by_day_p_total * 30
-            product.cons_by_day_p_semester = product.cons_by_day_p_total * 182.5
-            product.cons_by_day_p_year = product.cons_by_day_p_total * 365
+        for pt in self:
+            pt.cons_by_day_p_month = pt.cons_by_day_p_total * 30
+            pt.cons_by_day_p_semester = pt.cons_by_day_p_total * 182.5
+            pt.cons_by_day_p_year = pt.cons_by_day_p_total * 365
 
 
 class ProductProduct(models.Model):
