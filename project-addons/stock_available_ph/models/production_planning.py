@@ -183,11 +183,14 @@ class ProductionPlanningOrders(models.Model):
     def generate_order_and_archive(self):
         # Update production planning order line and recompute requirements
         self.write({
-            'active': False,
             'compute': False,
             'stock_available': True  # In archive, its'nt necessary
         })
         self.production_planning.recompute_requirements()
+        self.write({
+            'active': False,
+            'recompute_stocks': False
+        })
 
         data = {
             'product_id': self.product_id.id,
@@ -332,6 +335,16 @@ class ProductionPlanning(models.Model):
 
     @api.one
     def recompute_requirements(self):
+        # Collect affected products before doing calculations
+        affected_products = self.env['product.template']
+        for order in self.orders:
+            if order.recompute_stocks:
+                if order.product_id.product_tmpl_id not in affected_products:
+                    affected_products += order.product_id.product_tmpl_id
+                for m in order.materials:
+                    if m.product_id.product_tmpl_id not in affected_products:
+                        affected_products += m.product_id.product_tmpl_id
+
         # Save a list of affected materials
         affected_materials = [m.product_id for m in self.materials]
 
@@ -376,13 +389,10 @@ class ProductionPlanning(models.Model):
                 m.stock_status = 'ok'
 
         # Inherits worst stock status to orders and get affected products
-        affected_products = self.env['product.template']
         for order in self.orders:
             stock_status = 'ok'
-            if order.recompute_stocks and order.product_id.product_tmpl_id not in \
-                    affected_products:
-                affected_products += order.product_id.product_tmpl_id
             for m in order.materials:
+                # Check if there are new materials that need stock recalculation
                 if order.recompute_stocks and m.product_id.product_tmpl_id not in \
                         affected_products:
                     affected_products += m.product_id.product_tmpl_id
