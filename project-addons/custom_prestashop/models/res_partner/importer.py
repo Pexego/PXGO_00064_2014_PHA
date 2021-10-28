@@ -282,6 +282,8 @@ class AddressImporterCustom(AddressImporter):
         elif not binding.mobile and not binding.parent_id.mobile:
             binding.mobile = '.'
             binding.parent_id.mobile = '.'
+        if binding.zip_id and not binding.parent_id.zip_id:
+            binding.parent_id.zip_id = binding.zip_id
         if binding.parent_id.email and not binding.email:
             binding.email = binding.parent_id.email
         binding.parent_id.is_company = False
