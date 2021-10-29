@@ -254,6 +254,33 @@ class StockProductionLot(models.Model):
             else:
                 lot_id.used_lots = ''
 
+    def get_analysis_questions(self, product_id):
+        analysis_ids = []
+        product_id = self.env['product.product'].browse(product_id)
+        if product_id.analytic_certificate:
+            for line in product_id.analysis_ids:
+                analysis_ids += [(0, 0, {
+                    'analysis_id': line.analysis_id.id,
+                    'proposed': True,
+                    'raw_material_analysis': line.raw_material_analysis,
+                    'show_in_certificate': line.show_in_certificate,
+                    'method': line.method.id,
+                    'analysis_type': line.analysis_type,
+                    'expected_result_boolean': line.expected_result_boolean,
+                    'expected_result_expr': line.expected_result_expr,
+                    'decimal_precision': line.decimal_precision,
+                    'criterion': line.criterion,
+                    'sequence': line.sequence
+                })]
+        return analysis_ids
+
+    @api.multi
+    def set_analysis_questions(self):
+        self.analysis_ids.unlink()
+        self.write({
+            'analysis_ids': self.get_analysis_questions(self.product_id.id)
+        })
+
     @api.model
     def create(self, vals):
         vals['production_review_ids'] = []
@@ -278,23 +305,7 @@ class StockProductionLot(models.Model):
             'state_new': vals.get('state', 'draft')
         })]
 
-        vals['analysis_ids'] = []
-        product_id = self.env['product.product'].browse(vals['product_id'])
-        if product_id.analytic_certificate:
-            for line in product_id.analysis_ids:
-                vals['analysis_ids'] += [(0, 0, {
-                    'analysis_id': line.analysis_id.id,
-                    'proposed': True,
-                    'raw_material_analysis': line.raw_material_analysis,
-                    'show_in_certificate': line.show_in_certificate,
-                    'method': line.method.id,
-                    'analysis_type': line.analysis_type,
-                    'expected_result_boolean': line.expected_result_boolean,
-                    'expected_result_expr': line.expected_result_expr,
-                    'decimal_precision': line.decimal_precision,
-                    'criterion': line.criterion,
-                    'sequence': line.sequence
-                })]
+        vals['analysis_ids'] = self.get_analysis_questions(vals['product_id'])
 
         return super(StockProductionLot, self).create(vals)
 
