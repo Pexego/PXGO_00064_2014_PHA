@@ -185,8 +185,16 @@ class ProductTemplate(models.Model):
                            digits = dp.get_precision('Product Unit of Measure'),
                            readonly = True)
     virtual_conservative = fields.Float('Virtual stock conservative',
-                           digits = dp.get_precision('Product Unit of Measure'),
-                           readonly=True)
+        digits = dp.get_precision('Product Unit of Measure'),
+        help = 'It is the quantity on hand - expected outflows\n'
+               'This stock is the most catastrophic, since it assumes that '
+               'everything purchased will not arrive, as well as that '
+               'everything in production will not be approved for quality.\n'
+               'So, for purchasable products, it would be the quantity in stock'
+               ' - the already confirmed productions in progress, and for '
+               'saleable ones the quantity on hand - the confirmed sales.\n'
+               'In no case does it add anything extra to the quantity in stock.',
+        readonly=True)
     out_of_existences = fields.Float('Out of existences',
                              digits=dp.get_precision('Product Unit of Measure'),
                              readonly=True)

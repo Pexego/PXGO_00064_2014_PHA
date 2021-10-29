@@ -28,27 +28,27 @@ class ProductTemplate(models.Model):
                                    column2='routing_id')
     max_fixed = fields.Float(compute='_order_point_limits')
     min_fixed = fields.Float(compute='_order_point_limits')
-    stock_by_day_i = fields.Float(string='Stock by day [I]', digits=(16, 2),
-                                  readonly=True)
-    stock_by_day_p = fields.Float(string='Stock by day [P]', digits=(16, 2),
-                                  readonly=True)
+#    stock_by_day_i = fields.Float(string='Stock by day [I]', digits=(16, 2),
+#                                  readonly=True)
+#    stock_by_day_p = fields.Float(string='Stock by day [P]', digits=(16, 2),
+#                                  readonly=True)
     cons_by_day_i = fields.Float(string='Cons. by day [I]', digits=(16, 2),
                                  readonly=True)
     cons_by_day_p = fields.Float(string='Cons. by day [P]', digits=(16, 2),
                                  readonly=True)
-    stock_by_day_i_ind = fields.Float(string='Stock by day [I] (indirect)',
-                                      digits=(16, 2), readonly=True)
-    stock_by_day_p_ind = fields.Float(string='Stock by day [P] (indirect)',
-                                      digits=(16, 2), readonly=True)
-    stock_by_day_p_ind_min = fields.Float(string='Minimum stock by day [P] (indirect)',
-                                          digits=(16, 2), readonly=True)
+#    stock_by_day_i_ind = fields.Float(string='Stock by day [I] (indirect)',
+#                                      digits=(16, 2), readonly=True)
+#    stock_by_day_p_ind = fields.Float(string='Stock by day [P] (indirect)',
+#                                      digits=(16, 2), readonly=True)
+#    stock_by_day_p_ind_min = fields.Float(string='Minimum stock by day [P] (indirect)',
+#                                          digits=(16, 2), readonly=True)
     cons_by_day_i_ind = fields.Float(string='Cons. by day [I] (indirect)',
                                      digits=(16, 2), readonly=True)
     cons_by_day_p_ind = fields.Float(string='Cons. by day [P] (indirect)',
                                      digits=(16, 2), readonly=True)
-    stock_by_day_i_total = fields.Float(
-        string='Stock by day [I] (direct+indirect)', digits=(16, 2),
-        readonly=True)
+#    stock_by_day_i_total = fields.Float(
+#        string='Stock by day [I] (direct+indirect)', digits=(16, 2),
+#        readonly=True)
     stock_by_day_p_total = fields.Float(
         string='Stock by day [P] (direct+indirect)', digits=(16, 2),
         readonly=True)
