@@ -47,6 +47,35 @@ class StockMove(models.Model):
         return super(StockMove, self).create(vals)
 
 
+class StockPickingExpeditionsSizes(models.Model):
+    _name = 'stock.picking.expedition.sizes'
+
+    package_number = fields.Integer(required=True)
+    product_id = fields.Many2one(
+        string='Product',
+        comodel_name='product.product',
+        domain="[('expeditions_name', '!=', False)]"
+    )
+    name = fields.Char(compute='_get_name')
+    width = fields.Integer('Width (cm)')
+    height = fields.Integer('Height (cm)')
+    depth = fields.Integer('Depth (cm)')
+    weight = fields.Float('Weight (kg)')
+    picking_id = fields.Many2one(comodel_name='stock.picking')
+
+    @api.one
+    def _get_name(self):
+        self.name = self.product_id.expeditions_name if self.product_id else ''
+
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        if self.product_id:
+            self.width  = self.product_id.expeditions_width
+            self.height = self.product_id.expeditions_height
+            self.depth  = self.product_id.expeditions_depth
+            self._get_name()
+
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
@@ -63,6 +92,32 @@ class StockPicking(models.Model):
                                       compute='_determine_responsible')
     return_reason = fields.Many2one(comodel_name='return.reason')
     return_reason_details = fields.Text()
+    expedition_sizes_ids = fields.One2many(
+        string='Expedition sizes',
+        comodel_name='stock.picking.expedition.sizes',
+        inverse_name='picking_id')
+    expedition_sizes_loaded = fields.Boolean(compute='_expedition_sizes_loaded')
+
+    @api.one
+    def _expedition_sizes_loaded(self):
+        self.expedition_sizes_loaded = True if self.expedition_sizes_ids \
+            else False
+
+    @api.multi
+    def configure_packages_sizes(self):
+        for picking_id in self:
+            picking_id.expedition_sizes_ids.unlink()
+            expedition_sizes_ids = []
+            for i in range(1, picking_id.number_of_packages + 1):
+                expedition_sizes_ids += [(0, 0, {
+                    'package_number': i,
+                    'product_id': False,
+                    'width': 0,
+                    'height': 0,
+                    'depth': 0,
+                    'weight': 0.0
+                })]
+            picking_id.write({'expedition_sizes_ids': expedition_sizes_ids})
 
     @api.multi
     def action_invoice_create(self, journal_id, group=False, type='out_invoice'):

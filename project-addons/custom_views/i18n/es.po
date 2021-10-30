@@ -275,6 +275,11 @@ msgid "Commercial Entity"
 msgstr "Empresa"
 
 #. module: custom_views
+#: view:stock.picking:custom_views.picking_expedition_form_view
+msgid "Configure packages sizes"
+msgstr "Configurar dimensiones de bultos"
+
+#. module: custom_views
 #. openerp-web
 #: code:addons/custom_views/static/src/js/view_form_custom.js:21
 #, python-format
@@ -485,6 +490,32 @@ msgstr "España"
 #: field:stock.move,purchase_expected_date:0
 msgid "Expected Date"
 msgstr "Fecha prevista"
+
+#. module: custom_views
+#: view:stock.picking:custom_views.picking_expedition_form_view
+#: field:stock.picking,expedition_sizes_ids:0
+#: field:stock.picking.special,expedition_sizes_ids:0
+msgid "Expedition sizes"
+msgstr "Dimensiones expedición"
+
+#. module: custom_views
+#: field:stock.picking,expedition_sizes_loaded:0
+#: field:stock.picking.special,expedition_sizes_loaded:0
+msgid "Expedition sizes loaded"
+msgstr "Dimensiones expedición cargadas"
+
+#. module: custom_views
+#: view:product.product:custom_views.product_expeditions_form_view
+msgid "Expeditions"
+msgstr "Expediciones"
+
+#. module: custom_views
+#: field:product.incoming,expeditions_name:0
+#: field:product.product,expeditions_name:0
+#: field:product.template,expeditions_name:0
+#: field:purchasable.products,expeditions_name:0
+msgid "Expeditions name"
+msgstr "Nombre expedición"
 
 #. module: custom_views
 #: model:ir.ui.menu,name:custom_views.menu_extended_view_sop
@@ -752,6 +783,16 @@ msgid "Monthly per child"
 msgstr "Mensual por hijo"
 
 #. module: custom_views
+#: field:product.incoming,name:0
+#: field:purchasable.products,name:0
+#: field:res.partner.pricelist,name:0
+#: field:return.reason,name:0
+#: field:stock.picking.expedition.sizes,name:0
+#: field:stock.picking.special,partner_id_intermediary:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: custom_views
 #: field:mrp.procedure,notes:0
 #: view:product.product:custom_views.custom_views_product_notes_form
 #: field:product.product,notes:0
@@ -768,6 +809,11 @@ msgstr "Procedimiento de operaciones"
 #: field:mrp.machinery,optional_parameters:0
 msgid "Optional parameters"
 msgstr "Parámetros opcionales"
+
+#. module: custom_views
+#: field:stock.picking.expedition.sizes,package_number:0
+msgid "Package number"
+msgstr "Nº bulto"
 
 #. module: custom_views
 #: field:product.product,packaging_procedure_id:0
@@ -933,7 +979,11 @@ msgstr "Categoría interna"
 
 #. module: custom_views
 #: model:ir.model,name:custom_views.model_product_product
+#: field:product.incoming,product_id:0
 #: field:purchasable.products,product_id:0
+#: field:sale.order.special,product_id:0
+#: field:stock.picking.expedition.sizes,product_id:0
+#: field:stock.picking.special,product_id:0
 msgid "Product"
 msgstr "Producto"
 
@@ -1363,6 +1413,11 @@ msgid "Weekly"
 msgstr "Semanal"
 
 #. module: custom_views
+#: field:stock.picking.expedition.sizes,weight:0
+msgid "Weight (kg)"
+msgstr "Peso (kg)"
+
+#. module: custom_views
 #: field:purchasable.products,price_year_before:0
 msgid "Year before amount"
 msgstr "Año anterior €"
@@ -1596,14 +1651,41 @@ msgid "Width"
 msgstr "Ancho"
 
 #. module: custom_views
+#: field:product.incoming,expeditions_width:0
+#: field:product.product,expeditions_width:0
+#: field:product.template,expeditions_width:0
+#: field:purchasable.products,expeditions_width:0
+#: field:stock.picking.expedition.sizes,width:0
+msgid "Width (cm)"
+msgstr "Ancho (cm)"
+
+#. module: custom_views
 #: field:product.product,height:0
 msgid "Height"
 msgstr "Alto"
 
 #. module: custom_views
+#: field:product.incoming,expeditions_height:0
+#: field:product.product,expeditions_height:0
+#: field:product.template,expeditions_height:0
+#: field:purchasable.products,expeditions_height:0
+#: field:stock.picking.expedition.sizes,height:0
+msgid "Height (cm)"
+msgstr "Alto (cm)"
+
+#. module: custom_views
 #: field:product.product,depth:0
 msgid "Depth"
 msgstr "Fondo"
+
+#. module: custom_views
+#: field:product.incoming,expeditions_depth:0
+#: field:product.product,expeditions_depth:0
+#: field:product.template,expeditions_depth:0
+#: field:purchasable.products,expeditions_depth:0
+#: field:stock.picking.expedition.sizes,depth:0
+msgid "Depth (cm)"
+msgstr "Fondo (cm)"
 
 #. module: custom_views
 #: view:product.product:custom_views.custom_views_product_normal_form
