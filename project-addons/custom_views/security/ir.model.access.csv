@@ -8,3 +8,4 @@ access_product_incoming,Product incoming access,model_product_incoming,,1,0,0,0
 access_product_product_analysis_method,Product analysis method access,model_product_product_analysis_method,,1,1,1,1
 access_product_product_generic_specification,Product generic specification access,model_product_product_generic_specification,,1,1,1,1
 access_mrp_machinery_type,mrp.machinery.type,model_mrp_machinery_type,base.group_user,1,1,1,0
+access_stock_picking_expedition_sizes,Stock picking expedition sizes access,model_stock_picking_expedition_sizes,,1,1,1,1

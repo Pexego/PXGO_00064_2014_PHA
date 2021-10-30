@@ -17,9 +17,22 @@ class SaleOrder(models.Model):
 
     @api.multi
     def action_button_confirm(self):
-        for sale in self:
-            if sale.budget:
+        warning_messages = ''
+        for sale_id in self:
+            if sale_id.budget:
                 raise Warning(_('An order budget can not be confirmed!'))
+
+            if not sale_id.partner_id.vat and \
+                    not (sale_id.partner_id.simplified_invoice and
+                         sale_id.partner_id.sii_simplified_invoice):
+                warning_messages += '[{}] {}\n'.format(sale_id.name,
+                                                       sale_id.partner_id.name)
+        if warning_messages:
+            raise Warning(_('Cannot continue due to sale orders with '
+                            'customers without VAT number and '
+                            'without simplified invoice marking:\n'),
+                            warning_messages)
+
         return super(SaleOrder, self).action_button_confirm()
 
     @api.model

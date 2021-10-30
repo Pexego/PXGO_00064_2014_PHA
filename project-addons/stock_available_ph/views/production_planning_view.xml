@@ -17,9 +17,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                 type="object"
                                 icon="terp-stock_format-scientific"/>
                     </header>
-                    <label for="orders" string="Orders to compute"/>
+                    <separator string="Orders to compute"/>
                     <field name="orders" domain="[('active', '=', True)]">
-                        <tree string="Orders to compute" editable="top"
+                        <tree string="Orders to compute" editable="bottom"
                               colors="red:stock_status=='no_stock';blue:stock_status=='incoming';green:stock_status=='out'">
                             <field name="id" string="PR"/>
                             <field name="compute"/>
@@ -46,8 +46,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                     class="oe_read_only"/>
                         </tree>
                     </field>
-                    <separator string="" colspan="4"/>
-                    <label for="materials" string="Materials needed"/>
+                    <separator string="Materials needed" colspan="4" style="margin-top: 2em;"/>
                     <field name="materials" context="{'show_only_order_id': True}">
                         <tree string="Estimated consumption" create="false" delete="false"
                               colors="red:stock_status=='no_stock';blue:stock_status=='incoming';green:stock_status=='out'">
@@ -179,7 +178,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                       create="true"
                       edit="true"
                       delete="false"
-                      editable="true">
+                      editable="top">
                     <field name="id"/>
                     <field name="compute"/>
                     <field name="date_start"/>

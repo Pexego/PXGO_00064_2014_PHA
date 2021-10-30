@@ -54,6 +54,7 @@ class ProductionPlanningOrders(models.Model):
                                           ondelete='cascade',
                                           readonly=True)
     compute = fields.Boolean(string='Compute', default=True)
+    recompute_stocks = fields.Boolean(string='Recompute stocks', default=True)
     stock_status = fields.Selection([('ok', 'Available'),
                                      ('out', 'Out of stock'),
                                      ('incoming', 'Incoming'),
@@ -98,7 +99,6 @@ class ProductionPlanningOrders(models.Model):
         bom_dom = [('product_tmpl_id', '=', self.product_tmpl_id.id)]
         bom_ids = self.env['mrp.bom'].search(bom_dom)
         self.bom_id = bom_ids[0] if bom_ids else False
-
         self.line_id = False
 
         res = {'domain': {'line_id': False}}
@@ -182,11 +182,15 @@ class ProductionPlanningOrders(models.Model):
     @api.multi
     def generate_order_and_archive(self):
         # Update production planning order line and recompute requirements
-        self.active = False
-        self.compute = False
-        self.stock_available = True  # In archive, its'nt necessary
+        self.write({
+            'compute': False,
+            'stock_available': True  # In archive, its'nt necessary
+        })
         self.production_planning.recompute_requirements()
-        self.product_id.product_tmpl_id.compute_detailed_stock()
+        self.write({
+            'active': False,
+            'recompute_stocks': False
+        })
 
         data = {
             'product_id': self.product_id.id,
@@ -223,7 +227,8 @@ class ProductionPlanningOrders(models.Model):
     def create(self, vals):
         vals['production_planning'] = self.env.\
             ref('stock_available_ph.production_planning_1').id
-        return super(models.Model, self).create(vals)
+        res = super(models.Model, self).create(vals)
+        return res
 
     @api.multi
     def write(self, vals):
@@ -236,7 +241,11 @@ class ProductionPlanningOrders(models.Model):
                 raise Warning(_('The dates cannot be changed, '
                                 'there are an associated production order'))
 
-        return super(models.Model, self).write(vals)
+        if not 'recompute_stocks' in vals:
+            vals['recompute_stocks'] = True
+
+        res = super(models.Model, self).write(vals)
+        return res
 
     @api.multi
     def show_materials_needed(self):
@@ -257,8 +266,11 @@ class ProductionPlanningOrders(models.Model):
 
     @api.multi
     def unlink(self):
-        self.compute = False
-        self.product_id.product_tmpl_id.compute_detailed_stock()
+        self.write({
+            'compute': False,
+            'recompute_stocks': True
+        })
+        self.production_planning.recompute_requirements()
         return super(models.Model, self).unlink()
 
     @api.multi
@@ -310,15 +322,29 @@ class ProductionPlanningOrders(models.Model):
 class ProductionPlanning(models.Model):
     _inherit = 'production.planning'
 
-    orders = fields.One2many(string='Production planning orders',
-                             comodel_name='production.planning.orders',
-                             inverse_name='production_planning')
-    materials = fields.One2many(string='Prevision of needed materials',
-                                comodel_name='production.planning.materials',
-                                inverse_name='production_planning')
+    orders = fields.One2many(
+        string='Production planning orders',
+        comodel_name='production.planning.orders',
+        inverse_name='production_planning'
+    )
+    materials = fields.One2many(
+        string='Prevision of needed materials',
+        comodel_name='production.planning.materials',
+        inverse_name='production_planning'
+    )
 
     @api.one
     def recompute_requirements(self):
+        # Collect affected products before doing calculations
+        affected_products = self.env['product.template']
+        for order in self.orders:
+            if order.recompute_stocks:
+                if order.product_id.product_tmpl_id not in affected_products:
+                    affected_products += order.product_id.product_tmpl_id
+                for m in order.materials:
+                    if m.product_id.product_tmpl_id not in affected_products:
+                        affected_products += m.product_id.product_tmpl_id
+
         # Save a list of affected materials
         affected_materials = [m.product_id for m in self.materials]
 
@@ -362,36 +388,38 @@ class ProductionPlanning(models.Model):
             else:
                 m.stock_status = 'ok'
 
-        # Inherits worst stock status to orders
+        # Inherits worst stock status to orders and get affected products
         for order in self.orders:
-            order.stock_status = 'ok'
+            stock_status = 'ok'
             for m in order.materials:
+                # Check if there are new materials that need stock recalculation
+                if order.recompute_stocks and m.product_id.product_tmpl_id not in \
+                        affected_products:
+                    affected_products += m.product_id.product_tmpl_id
                 if m.stock_status != 'ok' and \
-                   order.stock_status != 'no_stock' and \
+                   stock_status != 'no_stock' and \
                    (
-                    (order.stock_status == 'ok') or
-                    (order.stock_status == 'out' and
+                    (stock_status == 'ok') or
+                    (stock_status == 'out' and
                         m.stock_status not in ('ok', 'out')) or
-                    (order.stock_status == 'incoming' and
+                    (stock_status == 'incoming' and
                         m.stock_status == 'no_stock')
                    ):
-                    order.stock_status = m.stock_status
+                    stock_status = m.stock_status
+            order.write({
+                'stock_status': stock_status,
+                'recompute_stocks': False  # Reset recompute stocks flag
+            })
 
-        # Trigger stock calculations on affected materials
-        for product_id in affected_materials:
-            product_id.product_tmpl_id.compute_detailed_stock()
+        # Finally, update stock calculations on affected products
+        affected_products.compute_detailed_stock()
 
     @api.multi
     def write(self, vals):
         new_ctx_self = self.with_context(disable_notify_changes = True)
-        result = super(ProductionPlanning, new_ctx_self).write(vals)
+        res = super(ProductionPlanning, new_ctx_self).write(vals)
         self.recompute_requirements()
-
-        # Trigger stock calculations on affected orders products
-        for order in self.orders:
-            order.product_id.product_tmpl_id.compute_detailed_stock()
-
-        return result
+        return res
 
     @api.multi
     def action_compute(self):

@@ -6,6 +6,7 @@ from openerp.exceptions import Warning
 import openerp.addons.decimal_precision as dp
 import datetime
 import operator
+from openerp.osv.expression import get_unaccent_wrapper
 
 
 class ProductProductAnalysisMethod(models.Model):
@@ -103,8 +104,53 @@ class ProductProduct(models.Model):
 
     @api.multi
     def name_get(self):  # Hide default_code by default
-        return super(ProductProduct,
-                     self.with_context(display_default_code=False)).name_get()
+        if self.env.context.get('show_expedition_name', False):
+            res = []
+            for rec in self:
+                res.append((rec.id, rec.expeditions_name))
+            return res
+        else:
+            return super(ProductProduct,
+                         self.with_context(display_default_code=False)).\
+                name_get()
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if self.env.context.get('show_expedition_name', False) and name and \
+                operator in ('=', 'ilike', '=ilike', 'like', '=like'):
+            self.check_access_rights('read')
+
+            search_name = name
+            if operator in ('ilike', 'like'):
+                search_name = '%%%s%%' % name
+            if operator in ('=ilike', '=like'):
+                operator = operator[1:]
+
+            unaccent = get_unaccent_wrapper(self.env.cr)
+            query = """SELECT pp.id
+                       FROM product_product pp
+                       JOIN product_template pt on pt.id = pp.product_tmpl_id
+                       WHERE pt.expeditions_name {operator} {percent}
+                       ORDER BY pt.expeditions_name
+                    """.format(operator=operator,
+                               percent=unaccent('%s'))
+            where_clause_params = [search_name]
+
+            if limit:
+                query += ' LIMIT %s'
+                where_clause_params += [limit]
+            self.env.cr.execute(query, where_clause_params)
+            ids = map(lambda x: x[0], self.env.cr.fetchall())
+
+            if ids:
+                return self.browse(ids).name_get()
+            else:
+                return []
+        else:
+            return super(ProductProduct, self).\
+                name_search(name, args, operator=operator, limit=limit)
 
     @api.depends('pricelist_id')
     def _compute_is_in_current_pricelist(self):
@@ -185,8 +231,16 @@ class ProductTemplate(models.Model):
                            digits = dp.get_precision('Product Unit of Measure'),
                            readonly = True)
     virtual_conservative = fields.Float('Virtual stock conservative',
-                           digits = dp.get_precision('Product Unit of Measure'),
-                           readonly=True)
+        digits = dp.get_precision('Product Unit of Measure'),
+        help = 'It is the quantity on hand - expected outflows\n'
+               'This stock is the most catastrophic, since it assumes that '
+               'everything purchased will not arrive, as well as that '
+               'everything in production will not be approved for quality.\n'
+               'So, for purchasable products, it would be the quantity in stock'
+               ' - the already confirmed productions in progress, and for '
+               'saleable ones the quantity on hand - the confirmed sales.\n'
+               'In no case does it add anything extra to the quantity in stock.',
+        readonly=True)
     out_of_existences = fields.Float('Out of existences',
                              digits=dp.get_precision('Product Unit of Measure'),
                              readonly=True)
@@ -206,6 +260,10 @@ class ProductTemplate(models.Model):
                                      comodel_name='stock.move',
                                      inverse_name='product_id')
     ecoembes_weight = fields.Float(digits = dp.get_precision('Stock Weight'))
+    expeditions_name = fields.Char('Expeditions name')
+    expeditions_width = fields.Integer('Width (cm)')
+    expeditions_height = fields.Integer('Height (cm)')
+    expeditions_depth = fields.Integer('Depth (cm)')
 
     @api.one
     @api.depends('seller_ids')

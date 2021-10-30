@@ -61,14 +61,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <group>
                             <field name="cons_by_day_ratio_updated"/>
                             <br/><br/>
-                            <field name="stock_by_day_p"/>
+                            <!--field name="stock_by_day_p"/>
                             <field name="stock_by_day_i"/>
                             <br/><br/>
                             <field name="stock_by_day_p_ind"/>
                             <field name="stock_by_day_i_ind"/>
-                            <br/><br/>
+                            <br/><br/-->
                             <field name="stock_by_day_p_total"/>
-                            <field name="stock_by_day_i_total"/>
+                            <!--field name="stock_by_day_i_total"/-->
                         </group>
                     </group>
                 </separator>
@@ -106,22 +106,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="min_action"/>
                     <field name="min_fixed"/>
                     <field name="max_fixed"/>
-                    <field name="qty_available"/>
-                    <field name="virtual_available"/>
-                    <field name="virtual_conservative"/>
-                    <field name="standard_price"/>
+                    <field name="qty_available" digits="[12, 2]"/>
+                    <field name="virtual_available" digits="[12, 2]"/>
+                    <field name="virtual_conservative" digits="[12, 2]"/>
+                    <!--field name="standard_price"/-->
                     <field name="cons_by_day_p_total"/>
-                    <field name="stock_by_day_p"/>
-                    <field name="stock_by_day_i"/>
+                    <!--field name="stock_by_day_p"/>
+                    <field name="stock_by_day_i"/-->
                     <field name="stock_by_day_p_total"/>
-                    <field name="stock_by_day_i_total"/>
-                    <field name="production_planning_qty"/>
-                    <field name="pre_production_qty"/>
-                    <field name="production_qty"/>
-                    <field name="out_of_existences"/>
-                    <field name="out_of_existences_dismissed"/>
-                    <field name="real_incoming_qty"/>
-                    <field name="uom_id"/>
+                    <!--field name="stock_by_day_i_total"/-->
+                    <field name="production_planning_qty" digits="[12, 2]"/>
+                    <field name="pre_production_qty" digits="[12, 2]"/>
+                    <field name="production_qty" digits="[12, 2]"/>
+                    <field name="out_of_existences" digits="[12, 2]"/>
+                    <field name="out_of_existences_dismissed" digits="[12, 2]"/>
+                    <field name="real_incoming_qty" digits="[12, 2]"/>
+                    <!--field name="uom_id"/-->
                     <field name="bom_member" invisible="1"/>
                     <button name="stock_available_ph.action_bom_member_of_wizard"
                             string="BoM member of"
@@ -138,7 +138,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             attrs="{'invisible': ['|', ('has_bom', '=', False), ('obsolete', '=', True)]}"
 
                     />
-                    <field name="stock_by_day_p_ind_min"/>
+                    <!--field name="stock_by_day_p_ind_min"/-->
                     <field name="action_limit_exceeded" invisible="1"/>
                 </tree>
             </field>

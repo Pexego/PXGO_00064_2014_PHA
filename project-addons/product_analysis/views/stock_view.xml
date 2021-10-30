@@ -53,10 +53,16 @@
                         </group>
                         <separator string="Analysis"/>
                         <group>
-                            <button name="action_stock_lot_analysis_wizard"
-                                    type="object"
-                                    string="Edit questionnaire"
-                                    class="oe_read_only oe_highlight"/>
+                            <group>
+                                <button name="action_stock_lot_analysis_wizard"
+                                        type="object"
+                                        string="Edit questionnaire"
+                                        class="oe_read_only oe_highlight"/>
+                                <button name="set_analysis_questions"
+                                        type="object"
+                                        string="Set analysis questions"
+                                        class="oe_read_only"/>
+                            </group>
                             <group>
                                 <button name="set_raw_material_analysis"
                                         string="Set raw material analysis"
