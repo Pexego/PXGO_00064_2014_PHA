@@ -602,7 +602,7 @@ function write_server(write_vals, keys){
             write_server(write_vals, keys);
         } else {
             //window.location.replace($("#all_data").attr("url-submit"));
-            history.back();
+            window.close();
         }
     });
 }
@@ -793,8 +793,8 @@ function send_form_server() {
     if (keys.length > 0) {
         write_server(write_vals, keys);
     } else {
-        history.back();
         //window.location.replace($("#all_data").attr("url-submit"));
+        window.close();
     }
 }
 
