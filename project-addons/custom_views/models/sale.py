@@ -22,7 +22,8 @@ class SaleOrder(models.Model):
             if sale_id.budget:
                 raise Warning(_('An order budget can not be confirmed!'))
 
-            if not sale_id.partner_id.vat and \
+            if sale_id.company_id.country_id.code == 'ES' and \
+                    not sale_id.sample and not sale_id.partner_id.vat and \
                     not (sale_id.partner_id.simplified_invoice and
                          sale_id.partner_id.sii_simplified_invoice):
                 warning_messages += '[{}] {}\n'.format(sale_id.name,
