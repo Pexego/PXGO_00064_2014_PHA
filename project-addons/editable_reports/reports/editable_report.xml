@@ -26,7 +26,7 @@
                             </div>
                             <div class="btn-group" style="margin-bottom: 1em;">
                                 <button type="button" class="btn btn-default" name="button_submit" value="finish" id="send_form">Enviar</button>
-                                <button type="button" class="btn" name="button_cancel" style="margin-left:15px" onclick="history.back()">Volver</button>
+                                <button type="button" class="btn" name="button_cancel" style="margin-left:15px" onclick="window.close()">Cerrar</button>
                             </div>
                             <div class="js_errzone alert" id="general_info" style="display:none;"></div>
                         </div>
