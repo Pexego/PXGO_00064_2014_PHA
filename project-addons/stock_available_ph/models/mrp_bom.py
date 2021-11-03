@@ -15,10 +15,10 @@ class MrpBom(models.Model):
                                      readonly=True)
     virtual_conservative = fields.Float(related='product_id.virtual_conservative',
                                         readonly=True)
-#    stock_by_day_i = fields.Float(related='product_id.stock_by_day_i',
-#                                  readonly=True)
-#    stock_by_day_p = fields.Float(related='product_id.stock_by_day_p',
-#                                  readonly=True)
+    stock_by_day_i = fields.Float(related='product_id.stock_by_day_i',
+                                  readonly=True)
+    stock_by_day_p = fields.Float(related='product_id.stock_by_day_p',
+                                  readonly=True)
     cons_by_day_i = fields.Float(related='product_id.cons_by_day_i',
                                  readonly=True)
     cons_by_day_p = fields.Float(related='product_id.cons_by_day_p',

@@ -13,15 +13,15 @@ class ProductStockUnsafety(models.Model):
                                  required=True,
                                  ondelete='cascade',
                                  readonly=True)
-#    stock_by_day_i = fields.Float(string='Stock by day [I]', digits=(16, 2),
-#                                  readonly=True)
-#    stock_by_day_p = fields.Float(string='Stock by day [P]', digits=(16, 2),
-#                                  readonly=True)
-#    stock_by_day_p_ind_min = fields.Float(string='Minimum stock by day [P] (indirect)',
-#                                          digits=(16, 2), readonly=True)
-#    stock_by_day_i_total = fields.Float(
-#        string='Stock by day [I] (direct+indirect)', digits=(16, 2),
-#        readonly=True)
+    stock_by_day_i = fields.Float(string='Stock by day [I]', digits=(16, 2),
+                                  readonly=True)
+    stock_by_day_p = fields.Float(string='Stock by day [P]', digits=(16, 2),
+                                  readonly=True)
+    stock_by_day_p_ind_min = fields.Float(string='Minimum stock by day [P] (indirect)',
+                                          digits=(16, 2), readonly=True)
+    stock_by_day_i_total = fields.Float(
+        string='Stock by day [I] (direct+indirect)', digits=(16, 2),
+        readonly=True)
     stock_by_day_p_total = fields.Float(
         string='Stock by day [P] (direct+indirect)', digits=(16, 2),
         readonly=True)
@@ -57,9 +57,9 @@ class ProductStockUnsafety(models.Model):
     def create(self, vals):
         res = super(ProductStockUnsafety, self).create(vals)
         res.write({
-#            'stock_by_day_i': res.product_id.stock_by_day_i,
-#            'stock_by_day_p': res.product_id.stock_by_day_p,
-#            'stock_by_day_i_total': res.product_id.stock_by_day_i_total,
+            'stock_by_day_i': res.product_id.stock_by_day_i,
+            'stock_by_day_p': res.product_id.stock_by_day_p,
+            'stock_by_day_i_total': res.product_id.stock_by_day_i_total,
             'stock_by_day_p_total': res.product_id.stock_by_day_p_total
         })
         return res

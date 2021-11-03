@@ -61,14 +61,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <group>
                             <field name="cons_by_day_ratio_updated"/>
                             <br/><br/>
-                            <!--field name="stock_by_day_p"/>
+                            <field name="stock_by_day_p"/>
                             <field name="stock_by_day_i"/>
                             <br/><br/>
                             <field name="stock_by_day_p_ind"/>
                             <field name="stock_by_day_i_ind"/>
-                            <br/><br/-->
+                            <br/><br/>
                             <field name="stock_by_day_p_total"/>
-                            <!--field name="stock_by_day_i_total"/-->
+                            <field name="stock_by_day_i_total"/>
                         </group>
                     </group>
                 </separator>
@@ -138,7 +138,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             attrs="{'invisible': ['|', ('has_bom', '=', False), ('obsolete', '=', True)]}"
 
                     />
-                    <!--field name="stock_by_day_p_ind_min"/-->
+                    <field name="stock_by_day_p_ind_min"/>
                     <field name="action_limit_exceeded" invisible="1"/>
                 </tree>
             </field>
