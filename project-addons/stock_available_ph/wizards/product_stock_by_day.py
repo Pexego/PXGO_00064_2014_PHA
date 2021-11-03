@@ -20,16 +20,16 @@ class ProductStockByDay(models.TransientModel):
         bom_member_of_ids = []
 
         empty_dict = {
-#            'stock_by_day_i': FLAG,
-#            'stock_by_day_p': FLAG,
+            'stock_by_day_i': FLAG,
+            'stock_by_day_p': FLAG,
             'cons_by_day_i': 0,
             'cons_by_day_p': 0,
-#            'stock_by_day_i_ind': 0,
-#            'stock_by_day_p_ind': 0,
-#            'stock_by_day_p_ind_min': FLAG,
+            'stock_by_day_i_ind': 0,
+            'stock_by_day_p_ind': 0,
+            'stock_by_day_p_ind_min': FLAG,
             'cons_by_day_i_ind': 0,
             'cons_by_day_p_ind': 0,
-#            'stock_by_day_i_total': 0,
+            'stock_by_day_i_total': 0,
             'stock_by_day_p_total': 0,
             'cons_by_day_i_total': 0,
             'cons_by_day_p_total': 0
@@ -56,20 +56,20 @@ class ProductStockByDay(models.TransientModel):
             days_passed = (current_datetime - date_first_invoice).days
             cons_by_day_i = invoiced_qty / days_passed if days_passed else 1
             cons_by_day_i *= sales_ratio
-#            stock_by_day_i = sbd_formula(cons_by_day_i, virtual_conservative)
+            stock_by_day_i = sbd_formula(cons_by_day_i, virtual_conservative)
             if not data.has_key(product_id):
                 data[product_id] = empty_dict.copy()
-#            data[product_id]['stock_by_day_i'] = stock_by_day_i
+            data[product_id]['stock_by_day_i'] = stock_by_day_i
             data[product_id]['cons_by_day_i'] = cons_by_day_i
 
         def save_sbd_and_cbd_p():
             days_passed = (current_datetime - date_first_move).days
             cons_by_day_p = moved_qty / days_passed if days_passed else 1
             cons_by_day_p *= sales_ratio
-#            stock_by_day_p = sbd_formula(cons_by_day_p, virtual_conservative)
+            stock_by_day_p = sbd_formula(cons_by_day_p, virtual_conservative)
             if not data.has_key(product_id):
                 data[product_id] = empty_dict.copy()
-#            data[product_id]['stock_by_day_p'] = stock_by_day_p
+            data[product_id]['stock_by_day_p'] = stock_by_day_p
             data[product_id]['cons_by_day_p'] = cons_by_day_p
 
         def add_consumption_based_on_bom(fp, c, c_bom_qty):
@@ -78,10 +78,10 @@ class ProductStockByDay(models.TransientModel):
                 data[fp]['cons_by_day_i'] * c_bom_qty
             data[c]['cons_by_day_p_ind'] += \
                 data[fp]['cons_by_day_p'] * c_bom_qty
- #           if data[fp]['stock_by_day_p'] < \
- #                   data[c]['stock_by_day_p_ind_min']:
- #               data[c]['stock_by_day_p_ind_min'] = \
- #                   data[fp]['stock_by_day_p']
+            if data[fp]['stock_by_day_p'] < \
+                    data[c]['stock_by_day_p_ind_min']:
+                data[c]['stock_by_day_p_ind_min'] = \
+                    data[fp]['stock_by_day_p']
             bom_data[c]['final_product_ids'] += [fp]
             bom_data[c]['final_product_qties'] += [c_bom_qty]
 
@@ -305,9 +305,9 @@ class ProductStockByDay(models.TransientModel):
                     'back to %d products' % (len(data)))
 
         a_idx = [
-#            {'sbd': 'stock_by_day_i_ind',   'cbd': 'cons_by_day_i_ind'},
-#            {'sbd': 'stock_by_day_p_ind',   'cbd': 'cons_by_day_p_ind'},
-#            {'sbd': 'stock_by_day_i_total', 'cbd': 'cons_by_day_i_total'},
+            {'sbd': 'stock_by_day_i_ind',   'cbd': 'cons_by_day_i_ind'},
+            {'sbd': 'stock_by_day_p_ind',   'cbd': 'cons_by_day_p_ind'},
+            {'sbd': 'stock_by_day_i_total', 'cbd': 'cons_by_day_i_total'},
             {'sbd': 'stock_by_day_p_total', 'cbd': 'cons_by_day_p_total'}
         ]
         product_ids = self.env['product.product'].browse(data.keys())
@@ -332,10 +332,10 @@ class ProductStockByDay(models.TransientModel):
             psu = product_stock_unsafety_ids.filtered(lambda p: p.id == id)
             if psu:
                 psu.write({
-#                    'stock_by_day_i': values['stock_by_day_i'],
-#                    'stock_by_day_p': values['stock_by_day_p'],
-#                    'stock_by_day_p_ind_min': values['stock_by_day_p_ind_min'],
-#                    'stock_by_day_i_total': values['stock_by_day_i_total'],
+                    'stock_by_day_i': values['stock_by_day_i'],
+                    'stock_by_day_p': values['stock_by_day_p'],
+                    'stock_by_day_p_ind_min': values['stock_by_day_p_ind_min'],
+                    'stock_by_day_i_total': values['stock_by_day_i_total'],
                     'stock_by_day_p_total': values['stock_by_day_p_total']
                 })
         # Free resources
@@ -356,10 +356,10 @@ class ProductStockByDay(models.TransientModel):
             ('state', '!=', 'cancelled'),
             ('product_id.id', 'not in', data.keys())
         ]).write({
-#            'stock_by_day_i': FLAG,
-#            'stock_by_day_p': FLAG,
-#            'stock_by_day_p_ind_min': FLAG,
-#            'stock_by_day_i_total': 0,
+            'stock_by_day_i': FLAG,
+            'stock_by_day_p': FLAG,
+            'stock_by_day_p_ind_min': FLAG,
+            'stock_by_day_i_total': 0,
             'stock_by_day_p_total': 0
         })
 

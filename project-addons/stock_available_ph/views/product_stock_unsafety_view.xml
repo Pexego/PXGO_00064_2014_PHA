@@ -22,6 +22,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="qty_available" digits="[12, 2]"/>
                         <field name="virtual_available" digits="[12, 2]"/>
                         <field name="virtual_conservative" digits="[12, 2]"/>
+                        <field name="cons_by_day_p_total"/>
                         <!--field name="stock_by_day_p"/>
                         <field name="stock_by_day_i"/-->
                         <field name="stock_by_day_p_total" digits="[12, 2]"/>
@@ -32,7 +33,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <field name="out_of_existences" digits="[12, 2]"/>
                         <field name="out_of_existences_dismissed" digits="[12, 2]"/>
                         <field name="real_incoming_qty" digits="[12, 2]"/>
-                        <field name="uom_id"/>
+                        <!--field name="uom_id"/-->
                         <button name="cancel"
                                 type="object"
                                 string="Cancel"
@@ -54,7 +55,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                 icon="gtk-redo"
                                 attrs="{'invisible': ['|', ('has_bom', '=', False), ('obsolete', '=', True)]}"
                         />
-                        <!--field name="stock_by_day_p_ind_min"/-->
+                        <field name="stock_by_day_p_ind_min"/>
                         <field name="state"/>
                         <field name="action_limit_exceeded" invisible="1"/>
                     </tree>
