@@ -57,9 +57,9 @@ class StockPickingExpeditionsSizes(models.Model):
         domain="[('expeditions_name', '!=', False)]"
     )
     name = fields.Char(compute='_get_name')
-    width = fields.Integer('Width (cm)')
-    height = fields.Integer('Height (cm)')
-    depth = fields.Integer('Depth (cm)')
+    width = fields.Float('Width (cm)')
+    height = fields.Float('Height (cm)')
+    depth = fields.Float('Depth (cm)')
     weight = fields.Float('Weight (kg)')
     picking_id = fields.Many2one(comodel_name='stock.picking')
 

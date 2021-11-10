@@ -261,9 +261,9 @@ class ProductTemplate(models.Model):
                                      inverse_name='product_id')
     ecoembes_weight = fields.Float(digits = dp.get_precision('Stock Weight'))
     expeditions_name = fields.Char('Expeditions name')
-    expeditions_width = fields.Integer('Width (cm)')
-    expeditions_height = fields.Integer('Height (cm)')
-    expeditions_depth = fields.Integer('Depth (cm)')
+    expeditions_width = fields.Float('Width (cm)')
+    expeditions_height = fields.Float('Height (cm)')
+    expeditions_depth = fields.Float('Depth (cm)')
 
     @api.one
     @api.depends('seller_ids')
