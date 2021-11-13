@@ -37,6 +37,11 @@ class SaleOrderMapperCustom(SaleOrderMapper):
     def _map_child(self, map_record, from_attr, to_attr, model_name):
         if model_name == 'prestashop.sale.order.line.discount':
             return
+        source = map_record.source
+        fiscal_position_id = self.fiscal_position(source)['fiscal_position']
+        context = dict(self.env.context)
+        context['fiscal_position_id'] = fiscal_position_id
+        self.env.context = context
         return super(SaleOrderMapperCustom, self)._map_child(
             map_record, from_attr, to_attr, model_name)
 
@@ -60,10 +65,13 @@ class SaleOrderMapperCustom(SaleOrderMapper):
             prestashop_tax_id = (
                 line_data.get("associations", {}).get("taxes", {}).get("tax", {}).get("id")
             )
-            if prestashop_tax_id not in line_taxes:
+            if prestashop_tax_id and prestashop_tax_id not in line_taxes:
                 line_taxes.append(prestashop_tax_id)
 
         fiscal_positions = self.env["account.fiscal.position"]
+        if not line_taxes:
+            fiscal_positions = self.env['account.fiscal.position'].search(
+                [('prestashop_without_taxes', '=', True)])
         for tax_id in line_taxes:
             matched_fiscal_position = self.env["account.fiscal.position"].search(
                 [("prestashop_tax_ids", "ilike", tax_id)]
@@ -115,8 +123,14 @@ class SaleOrderLineMapperCustom(SaleOrderLineMapper):
         product_id = self.product_id(record).get('product_id')
         if product_id:
             product = self.env['product.product'].browse(product_id)
+        fiscal_position = self.env.context.get('fiscal_position_id')
+        fpos = False
+        if fiscal_position:
+            fpos = self.env['account.fiscal.position'].browse(fiscal_position)
+            taxes = product.taxes_id
+            taxes = fpos.map_tax(taxes)
             return {'tax_id': [
-                (6, 0, product.taxes_id.ids)
+                (6, 0, taxes.ids)
             ]}
 
 
