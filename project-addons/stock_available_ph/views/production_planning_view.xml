@@ -27,6 +27,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                             <field name="date_end"/>
                             <field name="estimated_time" widget="float_time"/>
                             <field name="recommended_time" widget="float_time"/>
+                            <field name="stock_by_day_p_total"/>
                             <field name="product_id"/>
                             <field name="product_tmpl_id" invisible="1"/>
                             <field name="bom_id"/>

@@ -79,6 +79,8 @@ class ProductionPlanningOrders(models.Model):
                                           readonly=True)
     cons_by_day_i_year = fields.Float(related='product_id.cons_by_day_i_year',
                                       readonly=True)
+    stock_by_day_p_total = fields.Float(related='stock_by_day_p_total',
+                                        readonly=True)
     uom_id = fields.Many2one(related='product_id.uom_id', readonly=True)
     active = fields.Boolean(default=True)
 
