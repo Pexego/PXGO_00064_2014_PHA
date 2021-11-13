@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <field name="auto_apply" position="before">
                     <field name="prestashop_tax_ids"/>
+                    <field name="prestashop_without_taxes"/>
                 </field>
             </field>
         </record>

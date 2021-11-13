@@ -8,3 +8,4 @@ class AccountFiscalPosition(models.Model):
     _inherit = "account.fiscal.position"
 
     prestashop_tax_ids = fields.Char(help="comma separated ids of prestashop taxes")
+    prestashop_without_taxes = fields.Boolean(help="Los pedidos sin impuestos se importarán con esta posición fiscal")
