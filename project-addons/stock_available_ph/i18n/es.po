@@ -890,6 +890,7 @@ msgstr "Stock/día [A]"
 #: field:product.product,stock_by_day_p_total:0
 #: field:product.stock.unsafety,stock_by_day_p_total:0
 #: field:product.template,stock_by_day_p_total:0
+#: field:production.planning.orders,stock_by_day_p_total:0
 msgid "Stock by day [P] (direct+indirect)"
 msgstr "Stock/día [A] (directo+indirecto)"
 
