@@ -289,9 +289,10 @@ class AddressImporterCustom(AddressImporter):
                     self.backend_record.id,
                 )
         else:
-            binding.parent_id.write(
-                {"sii_simplified_invoice": True, "simplified_invoice": True}
-            )
+            if not binding.parent_id.vat:
+                binding.parent_id.write(
+                    {"sii_simplified_invoice": True, "simplified_invoice": True}
+                )
         if binding.phone and not binding.parent_id.phone:
             binding.parent_id.phone = binding.phone
         elif not binding.phone and not binding.parent_id.phone:
