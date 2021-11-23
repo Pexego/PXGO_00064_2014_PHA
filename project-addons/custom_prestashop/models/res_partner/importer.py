@@ -136,6 +136,26 @@ class PartnerImportMapperCustom(PartnerImportMapper):
 @prestashop(replacing=AddressImportMapper)
 class AddressImportMapperCustom(AddressImportMapper):
 
+    direct = [
+        ('address1', 'street'),
+        ('address2', 'street2'),
+        ('city', 'city'),
+        ('other', 'comment'),
+        ('postcode', 'zip'),
+        ('date_add', 'date_add'),
+        ('date_upd', 'date_upd'),
+        (backend_to_m2o('id_customer'), 'prestashop_partner_id'),
+    ]
+
+    @mapping
+    def phone(self, record):
+        vals = {}
+        if record.get('phone'):
+            vals['phone'] = record.get('phone')
+        if record.get('phone_mobile'):
+            vals['mobile'] = record.get('phone_mobile')
+        return vals
+
     @mapping
     def lang(self, record):
         parent = self.binder_for('prestashop.res.partner').to_odoo(
@@ -275,15 +295,15 @@ class AddressImporterCustom(AddressImporter):
         if binding.phone and not binding.parent_id.phone:
             binding.parent_id.phone = binding.phone
         elif not binding.phone and not binding.parent_id.phone:
-            binding.phone = '.'
+            binding.odoo_id.phone = '.'
             binding.parent_id.phone = '.'
         if binding.mobile and not binding.parent_id.mobile:
             binding.parent_id.mobile = binding.mobile
         elif not binding.mobile and not binding.parent_id.mobile:
-            binding.mobile = '.'
+            binding.odoo_id.mobile = '.'
             binding.parent_id.mobile = '.'
         if binding.zip_id and not binding.parent_id.zip_id:
             binding.parent_id.zip_id = binding.zip_id
         if binding.parent_id.email and not binding.email:
-            binding.email = binding.parent_id.email
+            binding.odoo_id.email = binding.parent_id.email
         binding.parent_id.is_company = False
