@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2020 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from math import e
 import re
 from openerp.addons.connector_prestashop.connector import add_checkpoint
 from openerp.addons.connector_prestashop.models.res_partner.importer import (
@@ -9,6 +10,8 @@ from openerp.addons.connector_prestashop.models.res_partner.importer import (
     AddressImportMapper,
     AddressImporter,
 )
+
+from openerp.addons.connector_prestashop.unit.backend_adapter import PrestaShopCRUDAdapter
 from openerp.addons.connector.unit.mapper import mapping, only_create
 from openerp.addons.connector_prestashop.backend import prestashop
 from openerp.addons.connector_prestashop.unit.mapper import backend_to_m2o
@@ -92,9 +95,35 @@ class PartnerImportMapperCustom(PartnerImportMapper):
     @only_create
     @mapping
     def odoo_id(self, record):
-        partner = self.env["res.partner"].search(
-            [("email", "=", record["email"])], limit=1
-        )
+        backend_adapter = self.unit_for(
+            PrestaShopCRUDAdapter, 'prestashop.address')
+        address_ids = backend_adapter.search(filters={'filter[id_customer]': '%d' % (int(record['id']))})
+        vat_number = None
+        for address_id in address_ids:
+            addresses_data = backend_adapter.read(address_id)
+
+            if addresses_data["vat_number"]:
+                vat_number = addresses_data["vat_number"].replace(".", "").replace(" ", "")
+            # TODO move to custom localization module
+            elif not addresses_data["vat_number"] and addresses_data.get("dni"):
+                vat_number = (
+                    addresses_data["dni"].replace(".", "").replace(" ", "").replace("-", "")
+                )
+            if vat_number:
+                # TODO: move to custom module
+                regexp = re.compile("^[a-zA-Z]{2}")
+                if not regexp.match(vat_number):
+                    vat_number = "ES" + vat_number
+                break
+        if vat_number:
+            partner = self.env["res.partner"].search(
+                [("vat", "=", vat_number)], limit=1
+            )
+
+        else:
+            partner = self.env["res.partner"].search(
+                [("email", "=", record["email"])], limit=1
+            )
         if partner:
             return {"odoo_id": partner.id}
         else:
