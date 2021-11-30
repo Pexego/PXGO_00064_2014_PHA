@@ -104,6 +104,9 @@
                 <field name="financial_discount" position="after">
                     <field name="rappel"/>
                 </field>
+                <field name="agent" position="before">
+                    <field name="certified_supplier"/>
+                </field>
             </field>
         </record>
 

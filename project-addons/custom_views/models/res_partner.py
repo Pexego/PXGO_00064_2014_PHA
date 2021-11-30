@@ -51,6 +51,7 @@ class ResPartner(models.Model):
                                          ('monthly_child', 'Monthly per child')],
                                         default=False)
     rappel = fields.Float(string='Rappel (%)', default=0)
+    certified_supplier = fields.Boolean(default=False)
 
     @api.one
     @api.constrains('active')
