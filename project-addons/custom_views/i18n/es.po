@@ -470,6 +470,12 @@ msgid "Earliest picking"
 msgstr "Entrega pedido"
 
 #. module: custom_views
+#: field:product.product,weight_net_eco:0
+#: field:product.template,weight_net_eco:0
+msgid "Ecological net weight"
+msgstr "Peso neto ecológico"
+
+#. module: custom_views
 #: field:product.product,ecoembes_weight:0
 #: field:product.template,ecoembes_weight:0
 msgid "Ecoembes weight"
