@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2020 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from math import e
 import re
 from openerp.addons.connector_prestashop.connector import add_checkpoint
 from openerp.addons.connector_prestashop.models.res_partner.importer import (
@@ -9,6 +10,8 @@ from openerp.addons.connector_prestashop.models.res_partner.importer import (
     AddressImportMapper,
     AddressImporter,
 )
+
+from openerp.addons.connector_prestashop.unit.backend_adapter import PrestaShopCRUDAdapter
 from openerp.addons.connector.unit.mapper import mapping, only_create
 from openerp.addons.connector_prestashop.backend import prestashop
 from openerp.addons.connector_prestashop.unit.mapper import backend_to_m2o
@@ -92,9 +95,35 @@ class PartnerImportMapperCustom(PartnerImportMapper):
     @only_create
     @mapping
     def odoo_id(self, record):
-        partner = self.env["res.partner"].search(
-            [("email", "=", record["email"])], limit=1
-        )
+        backend_adapter = self.unit_for(
+            PrestaShopCRUDAdapter, 'prestashop.address')
+        address_ids = backend_adapter.search(filters={'filter[id_customer]': '%d' % (int(record['id']))})
+        vat_number = None
+        for address_id in address_ids:
+            addresses_data = backend_adapter.read(address_id)
+
+            if addresses_data["vat_number"]:
+                vat_number = addresses_data["vat_number"].replace(".", "").replace(" ", "")
+            # TODO move to custom localization module
+            elif not addresses_data["vat_number"] and addresses_data.get("dni"):
+                vat_number = (
+                    addresses_data["dni"].replace(".", "").replace(" ", "").replace("-", "")
+                )
+            if vat_number:
+                # TODO: move to custom module
+                regexp = re.compile("^[a-zA-Z]{2}")
+                if not regexp.match(vat_number):
+                    vat_number = "ES" + vat_number
+                break
+        if vat_number:
+            partner = self.env["res.partner"].search(
+                [("vat", "=", vat_number)], limit=1
+            )
+
+        else:
+            partner = self.env["res.partner"].search(
+                [("email", "=", record["email"])], limit=1
+            )
         if partner:
             return {"odoo_id": partner.id}
         else:
@@ -135,6 +164,26 @@ class PartnerImportMapperCustom(PartnerImportMapper):
 
 @prestashop(replacing=AddressImportMapper)
 class AddressImportMapperCustom(AddressImportMapper):
+
+    direct = [
+        ('address1', 'street'),
+        ('address2', 'street2'),
+        ('city', 'city'),
+        ('other', 'comment'),
+        ('postcode', 'zip'),
+        ('date_add', 'date_add'),
+        ('date_upd', 'date_upd'),
+        (backend_to_m2o('id_customer'), 'prestashop_partner_id'),
+    ]
+
+    @mapping
+    def phone(self, record):
+        vals = {}
+        if record.get('phone'):
+            vals['phone'] = record.get('phone')
+        if record.get('phone_mobile'):
+            vals['mobile'] = record.get('phone_mobile')
+        return vals
 
     @mapping
     def lang(self, record):
@@ -269,21 +318,22 @@ class AddressImporterCustom(AddressImporter):
                     self.backend_record.id,
                 )
         else:
-            binding.parent_id.write(
-                {"sii_simplified_invoice": True, "simplified_invoice": True}
-            )
+            if not binding.parent_id.vat:
+                binding.parent_id.write(
+                    {"sii_simplified_invoice": True, "simplified_invoice": True}
+                )
         if binding.phone and not binding.parent_id.phone:
             binding.parent_id.phone = binding.phone
         elif not binding.phone and not binding.parent_id.phone:
-            binding.phone = '.'
+            binding.odoo_id.phone = '.'
             binding.parent_id.phone = '.'
         if binding.mobile and not binding.parent_id.mobile:
             binding.parent_id.mobile = binding.mobile
         elif not binding.mobile and not binding.parent_id.mobile:
-            binding.mobile = '.'
+            binding.odoo_id.mobile = '.'
             binding.parent_id.mobile = '.'
         if binding.zip_id and not binding.parent_id.zip_id:
             binding.parent_id.zip_id = binding.zip_id
         if binding.parent_id.email and not binding.email:
-            binding.email = binding.parent_id.email
+            binding.odoo_id.email = binding.parent_id.email
         binding.parent_id.is_company = False
