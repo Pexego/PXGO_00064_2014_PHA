@@ -217,6 +217,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <attribute name="groups">purchase.group_purchase_manager,account.group_account_invoice</attribute>
                 </page>
                 <field name="weight_net" position="after">
+                    <field name="weight_net_eco"/>
                     <field name="ecoembes_weight"/>
                 </field>
             </field>

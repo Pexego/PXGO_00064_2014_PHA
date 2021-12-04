@@ -189,6 +189,8 @@ class SaleOrderImportCustom(SaleOrderImport):
             binding.partner_id.property_payment_term = binding.payment_method_id.payment_term_id
         if binding.fiscal_position and not binding.partner_id.property_account_position:
             binding.partner_id.property_account_position = binding.fiscal_position
+        if binding.partner_id.comment:
+            binding.odoo_id.sale_dept_note = binding.partner_id.comment
         if binding.backend_id.gift_product_ids:
             for gift_product in binding.backend_id.gift_product_ids:
                 gift_line = self.env['sale.order.line'].create({

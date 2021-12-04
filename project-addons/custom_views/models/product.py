@@ -259,6 +259,8 @@ class ProductTemplate(models.Model):
     stock_move_ids = fields.One2many(string='Stock movements',
                                      comodel_name='stock.move',
                                      inverse_name='product_id')
+    weight_net_eco = fields.Float(string='Ecological net weight',
+                                  digits = dp.get_precision('Stock Weight'))
     ecoembes_weight = fields.Float(digits = dp.get_precision('Stock Weight'))
     expeditions_name = fields.Char('Expeditions name')
     expeditions_width = fields.Float('Width (cm)')

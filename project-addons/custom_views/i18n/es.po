@@ -157,6 +157,11 @@ msgid "BoM members"
 msgstr "Miembros de LdM"
 
 #. module: custom_views
+#: field:res.partner,certified_supplier:0
+msgid "Certified supplier"
+msgstr "Pr. Homologado"
+
+#. module: custom_views
 #: field:account.invoice,cc_amount_total_with_sign:0
 msgid "Company cur. total with sign"
 msgstr "Total moneda compañía con signo"
@@ -463,6 +468,12 @@ msgstr "EAN13:"
 #: field:product.product,earliest_picking:0
 msgid "Earliest picking"
 msgstr "Entrega pedido"
+
+#. module: custom_views
+#: field:product.product,weight_net_eco:0
+#: field:product.template,weight_net_eco:0
+msgid "Ecological net weight"
+msgstr "Peso neto ecológico"
 
 #. module: custom_views
 #: field:product.product,ecoembes_weight:0
