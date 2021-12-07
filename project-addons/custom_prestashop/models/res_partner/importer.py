@@ -117,12 +117,12 @@ class PartnerImportMapperCustom(PartnerImportMapper):
                 break
         if vat_number:
             partner = self.env["res.partner"].search(
-                [("vat", "=", vat_number)], limit=1
+                [("vat", "=ilike", vat_number)], limit=1
             )
 
         else:
             partner = self.env["res.partner"].search(
-                [("email", "=", record["email"])], limit=1
+                [("email", "=ilike", record["email"])], limit=1
             )
         if partner:
             return {"odoo_id": partner.id}
