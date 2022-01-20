@@ -18,3 +18,14 @@ class SaleOrder(models.Model):
                 if payment_method.payment_mode_id:
                     res["value"]["payment_mode_id"] = payment_method.payment_mode_id.id
         return res
+
+
+class PrestashopResRartner(models.Model):
+    _inherit = 'prestashop.res.partner'
+
+    def init(self, cr):
+        cr.execute(
+            "alter table prestashop_res_partner "
+            "drop constraint if exists prestashop_res_partner_prestashop_erp_uniq"
+        )
+        return True
