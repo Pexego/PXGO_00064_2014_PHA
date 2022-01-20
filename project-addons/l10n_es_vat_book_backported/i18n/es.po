@@ -1,0 +1,762 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#       * l10n_es_vat_book_backported
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-30 09:20+0000\n"
+"PO-Revision-Date: 2021-12-30 09:20+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.actions.act_window,help:l10n_es_vat_book_backported.l10n_es_vat_book_action
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"          Click to create a new VAT book.\n"
+"        </p>\n"
+"      "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"          Click para crear un nuevo libro de IVA.\n"
+"        </p>\n"
+"      "
+
+#. module: l10n_es_vat_book_backported
+#: field:res.partner,aeat_anonymous_cash_customer:0
+msgid "AEAT - Anonymous customer"
+msgstr "AEAT - Cliente anónimo"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.model,name:l10n_es_vat_book_backported.model_aeat_vat_book_map_line
+msgid "AEAT Vat Book Map Line"
+msgstr "Lineas de mapeo libro de iva"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.model,name:l10n_es_vat_book_backported.model_l10n_es_vat_book_backport
+msgid "AEAT report base module"
+msgstr "Módulo base para declaraciones AEAT"
+
+#. module: l10n_es_vat_book_backported
+#: view:aeat.vat.book.map.line:l10n_es_vat_book_backported.l10n_es_aeat_vat_book_map_lines_view_tree
+#: model:ir.actions.act_window,name:l10n_es_vat_book_backported.action_aeat_vat_book_mapping
+#: model:ir.ui.menu,name:l10n_es_vat_book_backported.menu_aeat_vat_book_map
+msgid "AEAT vat book map"
+msgstr "Mapeos libro de iva"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.tax.summary,tax_id:0
+msgid "Account Tax"
+msgstr "Impuesto"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,move_id:0
+msgid "Account entry"
+msgstr "Asiento contable"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,allow_posting:0
+msgid "Allow posting"
+msgstr "Permitir asentar"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,auto_renumber:0
+msgid "Auto renumber invoices received"
+msgstr "Autorenumeración de facturas recibidas"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_issued_document
+msgid "BOOK REGISTER OF INVOICES ISSUED"
+msgstr "LIBRO REGISTRO DE FACTURAS EMITIDAS"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_received_document
+msgid "BOOK REGISTER OF INVOICES RECEIVED"
+msgstr "LIBRO REGISTRO FACTURAS RECIBIDAS"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,partner_bank_id:0
+msgid "Bank account"
+msgstr "Cuenta bancaria"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,base_amount:0
+#: field:l10n.es.vat.book.line.tax,base_amount:0
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+#: view:website:l10n_es_vat_book_backported.vat_book_taxes_head
+msgid "Base"
+msgstr "Base"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.summary,base_amount:0
+#: field:l10n.es.vat.book.tax.summary,base_amount:0
+msgid "Base amount"
+msgstr "Base imponible"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,fee_amount_xlsx_column:0
+msgid "Base xlsx column"
+msgstr "Columna para la base (xlsx)"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,book_type:0
+#: field:l10n.es.vat.book.summary,book_type:0
+#: field:l10n.es.vat.book.tax.summary,book_type:0
+msgid "Book type"
+msgstr "Tipo de libro"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,calculation_date:0
+msgid "Calculation Date"
+msgstr "Fecha de cálculo"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: l10n_es_vat_book_backported
+#: help:res.partner,aeat_anonymous_cash_customer:0
+msgid "Check this for anonymous cash customer. AEAT communication"
+msgstr "Marque esto para un cliente de contado anónimo. Comunicaciones AEAT"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+msgid "Company Name"
+msgstr "Nombre empresa"
+
+#. module: l10n_es_vat_book_backported
+#: help:l10n.es.vat.book.backport,partner_bank_id:0
+msgid "Company bank account used for the presentation"
+msgstr "Cuenta bancaria de la compañía usada para la presentación"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_dates
+msgid "Company:"
+msgstr "Compañía:"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,type:0
+msgid "Complementary"
+msgstr "Complementaria"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_contact
+msgid "Contact phone:"
+msgstr "Teléfono de contacto:"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,counterpart_account:0
+msgid "Counterpart account"
+msgstr "Cuenta de contrapartida"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,create_uid:0
+#: field:l10n.es.vat.book.backport,create_uid:0
+#: field:l10n.es.vat.book.line,create_uid:0
+#: field:l10n.es.vat.book.line.tax,create_uid:0
+#: field:l10n.es.vat.book.summary,create_uid:0
+#: field:l10n.es.vat.book.tax.summary,create_uid:0
+msgid "Created by"
+msgstr "Created por"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,create_date:0
+#: field:l10n.es.vat.book.backport,create_date:0
+#: field:l10n.es.vat.book.line,create_date:0
+#: field:l10n.es.vat.book.line.tax,create_date:0
+#: field:l10n.es.vat.book.summary,create_date:0
+#: field:l10n.es.vat.book.tax.summary,create_date:0
+msgid "Created on"
+msgstr "Created el"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,support_type:0
+msgid "DVD"
+msgstr "DVD"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,number:0
+msgid "Declaration number"
+msgstr "Nº declaración"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,display_name:0
+#: field:l10n.es.vat.book.backport,display_name:0
+#: field:l10n.es.vat.book.line,display_name:0
+#: field:l10n.es.vat.book.line.tax,display_name:0
+#: field:l10n.es.vat.book.summary,display_name:0
+#: field:l10n.es.vat.book.tax.summary,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,state:0
+msgid "Done"
+msgstr "RTealizado"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,partner_id:0
+msgid "Empresa"
+msgstr "Empresa"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,entry_number:0
+msgid "Entry number"
+msgstr "Nº asiento"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,exception_text:0
+msgid "Exception text"
+msgstr "Texto de excepción"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+msgid "Export BOE"
+msgstr "Exportar BOE"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,export_config:0
+msgid "Export config"
+msgstr "Config. exportación"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+msgid "Export draft"
+msgstr "Exportar en borrador"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,external_ref:0
+msgid "External Reference"
+msgstr "Ref. externa"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+msgid "False"
+msgstr "Falso"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+#: view:website:l10n_es_vat_book_backported.vat_book_taxes_head
+msgid "Fee"
+msgstr "Cuota"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_dates
+msgid "Fiscal Year:"
+msgstr "Ejercicio fiscal"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,fiscalyear_id:0
+msgid "Fiscal year"
+msgstr "Ejercicio fiscal"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,contact_name:0
+msgid "Full Name"
+msgstr "Nombre completo"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,id:0
+#: field:l10n.es.vat.book.backport,id:0
+#: field:l10n.es.vat.book.line,id:0
+#: field:l10n.es.vat.book.line.tax,id:0
+#: field:l10n.es.vat.book.summary,id:0
+#: field:l10n.es.vat.book.tax.summary,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.line.tax,special_tax_group:0
+msgid "IRPF"
+msgstr "IRPF"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,invoice_id:0
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,invoice_date:0
+msgid "Invoice Date"
+msgstr "Fecha factura"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,move_line_ids:0
+msgid "Invoice Lines"
+msgstr "Lineas de factura"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+msgid "Issue Date"
+msgstr "Fecha emisión"
+
+#. module: l10n_es_vat_book_backported
+#: selection:aeat.vat.book.map.line,book_type:0
+#: selection:l10n.es.vat.book.line,line_type:0
+#: selection:l10n.es.vat.book.summary,book_type:0
+#: selection:l10n.es.vat.book.tax.summary,book_type:0
+msgid "Issued"
+msgstr "Emitida"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_issued_document
+msgid "Issued Invoices"
+msgstr "Facturas emitidas"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: field:l10n.es.vat.book.backport,rectification_issued_line_ids:0
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_issued_document
+msgid "Issued Refund Invoices"
+msgstr "Facturas rectificativas emitidas"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,issued_summary_ids:0
+msgid "Issued Summary"
+msgstr "Resumen emitidas"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: field:l10n.es.vat.book.backport,issued_tax_summary_ids:0
+msgid "Issued Tax Summary"
+msgstr "Resumen impuestos emitidos"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,issued_line_ids:0
+msgid "Issued invoices"
+msgstr "Facturas emitidas"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,line_ids:0
+#: view:l10n.es.vat.book.line:l10n_es_vat_book_backported.view_vat_book_line_form
+#: view:l10n.es.vat.book.line:l10n_es_vat_book_backported.view_vat_book_line_tree
+msgid "Issued/Received invoices"
+msgstr "Facturas emitidas/recibidas"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,journal_id:0
+msgid "Journal"
+msgstr "Diario"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,move_id:0
+msgid "Journal Entry"
+msgstr "Asiento"
+
+#. module: l10n_es_vat_book_backported
+#: help:l10n.es.vat.book.backport,journal_id:0
+msgid "Journal in which post the move."
+msgstr "Diario en el que se asentará el asiento."
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,representative_vat:0
+msgid "L.R. VAT number"
+msgstr "Nif repr. legal"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,__last_update:0
+#: field:l10n.es.vat.book.backport,__last_update:0
+#: field:l10n.es.vat.book.line,__last_update:0
+#: field:l10n.es.vat.book.line.tax,__last_update:0
+#: field:l10n.es.vat.book.summary,__last_update:0
+#: field:l10n.es.vat.book.tax.summary,__last_update:0
+msgid "Last Modified on"
+msgstr "Últ. actualización el"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,write_uid:0
+#: field:l10n.es.vat.book.backport,write_uid:0
+#: field:l10n.es.vat.book.line,write_uid:0
+#: field:l10n.es.vat.book.line.tax,write_uid:0
+#: field:l10n.es.vat.book.summary,write_uid:0
+#: field:l10n.es.vat.book.tax.summary,write_uid:0
+msgid "Last Updated by"
+msgstr "Últ. actualización por"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,write_date:0
+#: field:l10n.es.vat.book.backport,write_date:0
+#: field:l10n.es.vat.book.line,write_date:0
+#: field:l10n.es.vat.book.line.tax,write_date:0
+#: field:l10n.es.vat.book.summary,write_date:0
+#: field:l10n.es.vat.book.tax.summary,write_date:0
+msgid "Last Updated on"
+msgstr "Últ. actualización el"
+
+#. module: l10n_es_vat_book_backported
+#: help:l10n.es.vat.book.backport,representative_vat:0
+msgid "Legal Representative VAT number."
+msgstr "Nif representante legal."
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.ui.menu,name:l10n_es_vat_book_backported.menu_vat_book_report
+msgid "Libro de IVA (Nuevo)"
+msgstr "Libro de IVA (Nuevo)"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,line_type:0
+msgid "Line type"
+msgstr "Tipo de linea"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,model:0
+msgid "Model"
+msgstr "Modelo"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.line:l10n_es_vat_book_backported.view_vat_book_line_form
+msgid "Move Lines"
+msgstr "Apuntes"
+
+#. module: l10n_es_vat_book_backported
+#: help:l10n.es.vat.book.backport,contact_name:0
+msgid "Must have name and surname."
+msgstr "Debe de tener nombre y apellidos."
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,vat_number:0
+msgid "NIF"
+msgstr "NIF"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,type:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+msgid "Number"
+msgstr "Número"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.model,name:l10n_es_vat_book_backported.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,period_type:0
+msgid "Period type"
+msgstr "Tipo de periodo"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,periods:0
+msgid "Period(s)"
+msgstr "Periodo(s)"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_dates
+msgid "Periods:"
+msgstr "Periodos:"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,contact_phone:0
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,state:0
+msgid "Posted"
+msgstr "Asentado"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,previous_number:0
+msgid "Previous declaration number"
+msgstr "Nº de declaración anterior"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,state:0
+msgid "Processed"
+msgstr "Procesado"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.line.tax,special_tax_group:0
+msgid "R.Eq."
+msgstr "R.Eq."
+
+#. module: l10n_es_vat_book_backported
+#: selection:aeat.vat.book.map.line,book_type:0
+#: selection:l10n.es.vat.book.line,line_type:0
+#: selection:l10n.es.vat.book.summary,book_type:0
+#: selection:l10n.es.vat.book.tax.summary,book_type:0
+msgid "Received"
+msgstr "Recibida"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_received_document
+msgid "Received Invoices"
+msgstr "Facturas recibidas"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: field:l10n.es.vat.book.backport,rectification_received_line_ids:0
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_received_document
+msgid "Received Refund Invoices"
+msgstr "Facturas rectificativas recibidas"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,received_summary_ids:0
+msgid "Received Summary"
+msgstr "Resumen recibidas"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: field:l10n.es.vat.book.backport,received_tax_summary_ids:0
+msgid "Received Tax Summary"
+msgstr "Resumen de impuestos recibidos"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,received_line_ids:0
+msgid "Received invoices"
+msgstr "Facturas recibidas"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,ref:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.line,line_type:0
+msgid "Refund Issued"
+msgstr "Rectificativa emitida"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.line,line_type:0
+msgid "Refund Received"
+msgstr "Rectificativa recibida"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,name:0
+msgid "Report identifier"
+msgstr "Id. informe"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,special_tax_id:0
+msgid "Special Tax"
+msgstr "Impuesto especial"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,special_tax_amount:0
+msgid "Special Tax fee"
+msgstr "Cuota imp. especial"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,special_tax_group:0
+#: field:l10n.es.vat.book.line,special_tax_group:0
+#: field:l10n.es.vat.book.line.tax,special_tax_group:0
+#: field:l10n.es.vat.book.summary,special_tax_group:0
+#: field:l10n.es.vat.book.tax.summary,special_tax_group:0
+msgid "Special group"
+msgstr "Grupo especial"
+
+#. module: l10n_es_vat_book_backported
+#: help:aeat.vat.book.map.line,special_tax_group:0
+#: help:l10n.es.vat.book.line,special_tax_group:0
+#: help:l10n.es.vat.book.line.tax,special_tax_group:0
+#: help:l10n.es.vat.book.summary,special_tax_group:0
+#: help:l10n.es.vat.book.tax.summary,special_tax_group:0
+msgid "Special tax group as R.Eq, IRPF, etc"
+msgstr "Los grupos especiales son R.Eq, IRPF, etc"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,type:0
+msgid "Statement Type"
+msgstr "Tipo de extracto"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,type:0
+msgid "Substitutive"
+msgstr "Sustitutiva"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: field:l10n.es.vat.book.backport,summary_ids:0
+#: view:l10n.es.vat.book.summary:l10n_es_vat_book_backported.view_vat_book_summary_form
+#: view:l10n.es.vat.book.summary:l10n_es_vat_book_backported.view_vat_book_summary_tree
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_issued_document
+#: view:website:l10n_es_vat_book_backported.report_vat_book_invoices_received_document
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,support_type:0
+msgid "Support Type"
+msgstr "Tipo de soporte"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_contact
+msgid "Surnames and name contact:"
+msgstr "Apellidos y nombre del contacto:"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,tax_id:0
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+#: view:website:l10n_es_vat_book_backported.vat_book_taxes_head
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,tax_line_ids:0
+msgid "Tax Lines"
+msgstr "Lineas de impuestos"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,tax_rate:0
+msgid "Tax Rate (%)"
+msgstr "Tipo impositivo (%)"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,tax_summary_ids:0
+#: view:l10n.es.vat.book.tax.summary:l10n_es_vat_book_backported.view_vat_book_tax_summary_form
+#: view:l10n.es.vat.book.tax.summary:l10n_es_vat_book_backported.view_vat_book_tax_summary_tree
+msgid "Tax Summary"
+msgstr "Resumen de impuestos"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.summary,tax_amount:0
+#: field:l10n.es.vat.book.tax.summary,tax_amount:0
+msgid "Tax amount"
+msgstr "Importe impuesto"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,tax_amount:0
+msgid "Tax fee"
+msgstr "Cuota impuesto"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,tax_tmpl_ids:0
+#: view:l10n.es.vat.book.line:l10n_es_vat_book_backported.view_vat_book_line_form
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: l10n_es_vat_book_backported
+#: selection:l10n.es.vat.book.backport,support_type:0
+msgid "Telematics"
+msgstr "Telemático"
+
+#. module: l10n_es_vat_book_backported
+#: help:l10n.es.vat.book.backport,counterpart_account:0
+msgid "This account will be the counterpart for all the journal items that are regularized when posting the report."
+msgstr "Esta cuenta será la contrapartida pata todos los apuntes que se regularicen tras asentar el informe."
+
+#. module: l10n_es_vat_book_backported
+#: code:addons/l10n_es_vat_book_backported/models/l10n_es_vat_book.py:462
+#, python-format
+msgid "This book has warnings. Fix it before confirm"
+msgstr "El libro tiee avisos. Corríjalos antes de confirmar"
+
+#. module: l10n_es_vat_book_backported
+#: code:addons/l10n_es_vat_book_backported/models/l10n_es_vat_book.py:383
+#, python-format
+msgid "This company doesn't have VAT"
+msgstr "Esta empresa no tiene NIF"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+#: field:l10n.es.vat.book.line,total_amount:0
+#: field:l10n.es.vat.book.line.tax,total_amount:0
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+#: view:website:l10n_es_vat_book_backported.vat_book_summary
+#: view:website:l10n_es_vat_book_backported.vat_book_taxes_head
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.summary,total_amount:0
+#: field:l10n.es.vat.book.tax.summary,total_amount:0
+msgid "Total amount"
+msgstr "Importe total"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,total_amount_special_include:0
+msgid "Total w/Special"
+msgstr "Total con especial"
+
+#. module: l10n_es_vat_book_backported
+#: view:l10n.es.vat.book.backport:l10n_es_vat_book_backported.view_l10n_es_vat_book_form
+msgid "True"
+msgstr "Verdadero"
+
+#. module: l10n_es_vat_book_backported
+#: field:aeat.vat.book.map.line,fee_type_xlsx_column:0
+msgid "Type xlsx column"
+msgstr "Columna xlsx"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_invoices_head
+msgid "VAT"
+msgstr "NIF"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.actions.act_window,name:l10n_es_vat_book_backported.l10n_es_vat_book_action
+msgid "VAT Book"
+msgstr "Libro de iva"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.actions.report.xml,name:l10n_es_vat_book_backported.l10n_es_vat_book_xlsx
+msgid "VAT book XLSX report"
+msgstr "Libro de IVA (xlsx)"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.backport,company_vat:0
+msgid "VAT number"
+msgstr "Nº NIF"
+
+#. module: l10n_es_vat_book_backported
+#: view:website:l10n_es_vat_book_backported.vat_book_contact
+msgid "VAT:"
+msgstr "NIF:"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line,vat_book_id:0
+#: field:l10n.es.vat.book.summary,vat_book_id:0
+#: field:l10n.es.vat.book.tax.summary,vat_book_id:0
+msgid "Vat Book id"
+msgstr "Libro de iva"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.actions.report.xml,name:l10n_es_vat_book_backported.act_report_vat_book_invoices_issued_pdf
+msgid "Vat book invoices issued"
+msgstr "Libro de IVA facturas emitidas"
+
+#. module: l10n_es_vat_book_backported
+#: model:ir.actions.report.xml,name:l10n_es_vat_book_backported.act_report_vat_book_invoices_received_pdf
+msgid "Vat book invoices received"
+msgstr "Libro de IVA facturas recibidas"
+
+#. module: l10n_es_vat_book_backported
+#: field:l10n.es.vat.book.line.tax,vat_book_line_id:0
+msgid "Vat book line id"
+msgstr "Linea libro de iva"
+
+#. module: l10n_es_vat_book_backported
+#: code:addons/l10n_es_vat_book_backported/models/l10n_es_vat_book.py:348
+#, python-format
+msgid "Without VAT"
+msgstr "Sin NIF"
