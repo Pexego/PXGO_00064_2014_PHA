@@ -220,3 +220,8 @@ class SaleOrderImportCustom(SaleOrderImport):
                 binding.commercial_discount_input = (discount_quantity / binding.amount_total) * 100
                 binding.odoo_id.generate_discounts()
         return res
+
+    def _has_to_skip(self):
+        if self.env['sale.order'].search([('client_order_ref', '=', self.prestashop_record['reference'])]):
+            return True
+        return super(SaleOrderImportCustom, self)._has_to_skip()
