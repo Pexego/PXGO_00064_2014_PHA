@@ -110,6 +110,8 @@ class PartnerImportMapperCustom(PartnerImportMapper):
                     addresses_data["dni"].replace(".", "").replace(" ", "").replace("-", "")
                 )
             if vat_number:
+                if len(vat_number) == 8:
+                    vat_number = '0' + vat_number
                 # TODO: move to custom module
                 regexp = re.compile("^[a-zA-Z]{2}")
                 if not regexp.match(vat_number):
