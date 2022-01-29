@@ -259,8 +259,6 @@ class ProductTemplate(models.Model):
     stock_move_ids = fields.One2many(string='Stock movements',
                                      comodel_name='stock.move',
                                      inverse_name='product_id')
-    weight_net_eco = fields.Float(string='Ecological net weight',
-                                  digits = dp.get_precision('Stock Weight'))
     ecoembes_weight = fields.Float(digits = dp.get_precision('Stock Weight'))
     expeditions_name = fields.Char('Expeditions name')
     expeditions_width = fields.Float('Width (cm)')
@@ -462,3 +460,25 @@ class ProductIncoming(models.TransientModel):
         return super(ProductIncoming, self).search(args, offset=offset,
                                                    limit=limit, order=order,
                                                    count=count)
+
+
+class ProductWeightNetEco(models.Model):
+    _name = 'product.weight.net.eco'
+
+    product_id = fields.Many2one(string='Product',
+                                 comodel_name='product.template',
+                                 required=True,
+                                 ondelete='cascade', readonly=True)
+    component_id = fields.Many2one(string='Product',
+                                   comodel_name='product.template',
+                                   required=True,
+                                   ondelete='cascade')
+    percent = fields.Integer(string='%', default=0)
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    weight_net_eco_ids = fields.One2many(string='Ecological net weight',
+                                         comodel_name='product.weight.net.eco',
+                                         inverse_name='product_id')

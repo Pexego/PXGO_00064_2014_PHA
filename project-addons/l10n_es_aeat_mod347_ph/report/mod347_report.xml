@@ -81,7 +81,12 @@
                         <t t-set="shipadd" t-value="partner_record_id.partner_id"/>
                         <t t-call="custom_reports.report_shipping_address"/>
                         <br/>
-                        <span t-field="shipadd.email"/>
+                        <span t-if="shipadd.email" t-field="shipadd.email"/>
+                        <t t-if="shipadd.email_to_send_invoice">
+                            <br/>
+                            <span>Email de facturación: </span>
+                            <span t-field="shipadd.email_to_send_invoice"/>
+                        </t>
                     </div>
                 </div>
             </div>
