@@ -221,7 +221,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <field name="weight_net_eco_ids">
                         <tree editable="bottom">
                             <field name="component_id"/>
-                            <field name="percentage"/>
+                            <field name="percent"/>
                         </tree>
                     </field>
                 </field>
