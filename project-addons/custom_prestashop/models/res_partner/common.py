@@ -4,17 +4,28 @@
 from openerp import api, models
 
 
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
+# class SaleOrder(models.Model):
+#     _inherit = "sale.order"
 
-    @api.multi
-    def onchange_partner_id(self, part):
-        res = super(SaleOrder, self).onchange_partner_id(part)
-        if "value" in res and "payment_mode_id" in res["value"]:
-            if self._context.get("payment_method", False):
-                payment_method = self.env["payment.method"].browse(
-                    self._context.get("payment_method", False)
-                )
-                if payment_method.payment_mode_id:
-                    res["value"]["payment_mode_id"] = payment_method.payment_mode_id.id
-        return res
+#     @api.multi
+#     def onchange_partner_id(self, part):
+#         res = super(SaleOrder, self).onchange_partner_id(part)
+#         if "value" in res and "payment_mode_id" in res["value"]:
+#             if self._context.get("payment_method", False):
+#                 payment_method = self.env["payment.method"].browse(
+#                     self._context.get("payment_method", False)
+#                 )
+#                 if payment_method.payment_mode_id:
+#                     res["value"]["payment_mode_id"] = payment_method.payment_mode_id.id
+#         return res
+
+
+class PrestashopResRartner(models.Model):
+    _inherit = 'prestashop.res.partner'
+
+    def init(self, cr):
+        cr.execute(
+            "alter table prestashop_res_partner "
+            "drop constraint if exists prestashop_res_partner_prestashop_erp_uniq"
+        )
+        return True
