@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <record id="prestashop_import_product_form" model="ir.ui.view">
+        <field name="name">prestashop.import.product.form</field>
+        <field name="model">prestashop.import.product</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Import product">
+                <group>
+                    <field name="prestashop_id"/>
+                </group>
+                <footer>
+                    <button name="import_product" string="Confirm" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window name="Import product"
+                res_model="prestashop.import.product"
+                src_model="prestashop.backend"
+                view_mode="form"
+                target="new"
+                id="prestashop_import_product_action"/>
+
+    </data>
+</openerp>

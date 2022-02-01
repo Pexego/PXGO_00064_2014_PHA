@@ -89,16 +89,16 @@ class CustomTemplateMapper(TemplateMapper):
             return super(CustomTemplateMapper, self).description(record)
         return {}
 
-    @only_create
-    @mapping
-    def active(self, record):
-        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
-            return {}
-        if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
-        ):
-            return {"active": False}
-        return {}
+    # @only_create
+    # @mapping
+    # def active(self, record):
+    #     if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
+    #         return {}
+    #     if "-" in record["reference"] or re.match(
+    #         "[0-9]{1}[Xx]{1}", record["reference"]
+    #     ):
+    #         return {"active": False}
+    #     return {}
 
     @only_create
     @mapping
