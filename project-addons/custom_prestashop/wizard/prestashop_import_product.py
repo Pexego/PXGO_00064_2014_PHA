@@ -11,6 +11,7 @@ class PrestashopImportProduct(models.TransientModel):
     _name = "prestashop.import.product"
 
     prestashop_id = fields.Integer(string="Id", required=True)
+    id_shop = fields.Integer(default=1)
 
     @api.multi
     def import_product(self):
@@ -22,6 +23,6 @@ class PrestashopImportProduct(models.TransientModel):
         for backend in backend_ids:
             import_record.delay(
                     session, 'prestashop.product.template',
-                    backend.id, self.prestashop_id)
+                    backend.id, self.prestashop_id, id_shop=self.id_shop)
 
         return {"type": "ir.actions.act_window_close"}
