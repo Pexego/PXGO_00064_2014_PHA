@@ -85,7 +85,7 @@
                                 <div class="line" style="font-size: 24px;">
                                     <span t-field="partner.state_id"></span> (<span t-field="partner.country_id"></span>)
                                     <t t-if="partner.phone and len(partner.phone) > 1">- Tfno. <span t-field="partner.phone"/></t>
-                                    <t t-if="partner.mobile">- Móvil <span t-field="partner.mobile"/></t>
+                                    <t t-if="partner.mobile and len(partner.mobile) > 1">- Móvil <span t-field="partner.mobile"/></t>
                                 </div>
                                 <t t-if="p.sale_id">
                                     <div class="line" t-field="p.sale_id.carrier_note" style="font-size: 18px; font-weight: bold;"/>
