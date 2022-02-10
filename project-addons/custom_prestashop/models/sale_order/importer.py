@@ -217,7 +217,7 @@ class SaleOrderImportCustom(SaleOrderImport):
             if percentage_discount >= 99.0:
                 binding.odoo_id.order_line.write({'discount': percentage_discount})
             else:
-                binding.commercial_discount_input = (discount_quantity / binding.amount_total) * 100
+                binding.commercial_discount_input = percentage_discount
                 binding.odoo_id.generate_discounts()
         return res
 
