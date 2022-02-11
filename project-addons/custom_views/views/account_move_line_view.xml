@@ -38,7 +38,7 @@
             <field name="inherit_id" ref="account.view_account_move_line_filter"/>
             <field name="arch" type="xml">
                 <filter string="Period" position="after">
-                    <filter string="Analytic Distribution" domain="[]" context="{'group_by': 'analytics_id'"/>
+                    <filter string="Analytic Distribution" domain="[]" context="{'group_by': 'analytics_id'}"/>
                 </filter>
             </field>
         </record>
