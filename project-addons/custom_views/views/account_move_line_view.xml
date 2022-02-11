@@ -31,5 +31,16 @@
                   parent="account.menu_finance_entries"
                   sequence="6"
         />
+
+        <record id="account_move_line_search" model="ir.ui.view">
+            <field name="name">Custom views - Account move line search</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <filter string="Period" position="after">
+                    <filter string="Analytic Distribution" domain="[]" context="{'group_by': 'analytics_id'"/>
+                </filter>
+            </field>
+        </record>
     </data>
 </openerp>
