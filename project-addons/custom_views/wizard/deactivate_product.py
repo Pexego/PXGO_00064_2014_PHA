@@ -19,13 +19,16 @@ class DeactivateProduct(models.TransientModel):
             mrp_bom_line = self.env['mrp.bom.line']
             mrp_bom = self.env['mrp.bom']
             protocol_link = self.env['product.protocol.link']
+            pack_line = self.env['product.pack.line']
             # Exceptions messages
             exceptions = ''
             bom_members = ''
+            pack_members = ''
 
             product_ids = self.env['product.product'].browse(
                 self.env.context.get('active_ids'))
             for product_id in product_ids:
+                # Bills of Materials
                 if product_id.bom_member_of_count:
                     bom_members += _('- The product ') + product_id.name + \
                                    _(' was a member of the following BoM:\n')
@@ -38,6 +41,18 @@ class DeactivateProduct(models.TransientModel):
                     for bom_id in bom_line_ids.mapped('bom_id'):
                         bom_members += '   ' + bom_id.name + '\n'
                     bom_members += '\n'
+
+                # Packs
+                pack_line_ids = pack_line.\
+                    search([('product_id', '=', product_id.id)])
+                if pack_line_ids:
+                    pack_members += _('- The product ') + product_id.name + \
+                                   _(' was a member of the following packs:\n')
+                    for pack_line_id in pack_line_ids:
+                        pack_members += '   ' + \
+                                        pack_line_id.parent_product_id.name + \
+                                        '\n'
+                    pack_members += '\n'
 
                 # Stock at external locations
                 external_quant_ids = self.env['stock.quant'].search([
@@ -68,6 +83,9 @@ class DeactivateProduct(models.TransientModel):
                     if mb:
                         mb.write({'active': False})
 
+                    if pack_line_ids:
+                        pack_line_ids.unlink()
+
                     pl = protocol_link.search([('product', '=', product_id.id)])
                     if pl:
                         pl.unlink()
@@ -87,7 +105,8 @@ class DeactivateProduct(models.TransientModel):
                 _('Product(s) deactivated'),
                 _('The deactivation of the selected product(s) has been carried out correctly') +
                 (('\n\n' + _('Exceptions') + ':\n' + exceptions) if exceptions > '' else '') +
-                (('\n\n' + _('BoM members') + ':\n' + bom_members) if bom_members > '' else '')
+                (('\n\n' + _('BoM members') + ':\n' + bom_members) if bom_members > '' else '') +
+                (('\n' + _('Pack members') + ':\n' + pack_members) if pack_members > '' else '')
             )
         else:
             return self.env['custom.views.warning'].show_message(
