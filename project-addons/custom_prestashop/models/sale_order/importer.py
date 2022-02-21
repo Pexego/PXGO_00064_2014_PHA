@@ -142,7 +142,11 @@ class SaleOrderImportCustom(SaleOrderImport):
         context['id_shop'] = self.prestashop_record['id_shop']
         self.env.context = context
         record = self.prestashop_record
-        self._import_dependency(record["id_customer"], "prestashop.res.partner")
+        new_self = self
+        new_context = self.env.context
+        new_context['set_partner_name'] = record["id_address_invoice"]
+        new_self.env.context = new_context
+        new_self._import_dependency(record["id_customer"], "prestashop.res.partner")
         self._import_dependency(record["id_address_invoice"], "prestashop.address")
         self._import_dependency(record["id_address_delivery"], "prestashop.address")
 
