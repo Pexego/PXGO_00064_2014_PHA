@@ -19,6 +19,7 @@
         "views/payment_method.xml",
         "views/account_fiscal_position.xml",
         "wizard/prestashop_import_product.xml",
+        "data/ir_cron.xml",
         "security/ir.model.access.csv",
     ],
     "installable": True,
