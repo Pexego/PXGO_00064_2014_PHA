@@ -10,6 +10,7 @@
             <form string="Import product">
                 <group>
                     <field name="prestashop_id"/>
+                    <field name="id_shop"/>
                 </group>
                 <footer>
                     <button name="import_product" string="Confirm" type="object" class="oe_highlight"/>

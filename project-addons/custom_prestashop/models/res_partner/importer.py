@@ -80,15 +80,21 @@ class PartnerImportMapperCustom(PartnerImportMapper):
         # to be billed at home and be delivered at work... (...)...
         return {"is_company": False}
 
+    @only_create
     @mapping
     def name(self, record):
+        name_record = record
+        if self.env.context.get('set_partner_name'):
+            backend_adapter = self.unit_for(
+                PrestaShopCRUDAdapter, 'prestashop.address')
+            name_record = backend_adapter.read(self.env.context.get('set_partner_name'))
         name = ""
-        if record["lastname"]:
-            name += record["lastname"]
-        if record["firstname"]:
+        if name_record["lastname"]:
+            name += name_record["lastname"]
+        if name_record["firstname"]:
             if name:
                 name += ", "
-            name += record["firstname"]
+            name += name_record["firstname"]
         name = name.upper()
         return {"name": _formatFiscalName(name)}
 

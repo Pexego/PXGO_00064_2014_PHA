@@ -26,6 +26,14 @@ msgstr " era un miembro de las siguientes LdM:\n"
 ""
 
 #. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:50
+#, python-format
+msgid " was a member of the following packs:\n"
+""
+msgstr " era un miembro de los siguientes packs:\n"
+""
+
+#. module: custom_views
 #: code:addons/custom_views/wizard/deactivate_product.py:0
 #, python-format
 msgid "- The product "
@@ -470,8 +478,8 @@ msgid "Earliest picking"
 msgstr "Entrega pedido"
 
 #. module: custom_views
-#: field:product.product,weight_net_eco:0
-#: field:product.template,weight_net_eco:0
+#: field:product.product,weight_net_eco_ids:0
+#: field:product.template,weight_net_eco_ids:0
 msgid "Ecological net weight"
 msgstr "Peso neto ecológico"
 
@@ -820,6 +828,12 @@ msgstr "Procedimiento de operaciones"
 #: field:mrp.machinery,optional_parameters:0
 msgid "Optional parameters"
 msgstr "Parámetros opcionales"
+
+#. module: custom_views
+#: code:addons/custom_views/wizard/deactivate_product.py:109
+#, python-format
+msgid "Pack members"
+msgstr "Miembros de packs"
 
 #. module: custom_views
 #: field:stock.picking.expedition.sizes,package_number:0

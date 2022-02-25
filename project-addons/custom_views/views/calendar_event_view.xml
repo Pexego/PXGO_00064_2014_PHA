@@ -11,7 +11,7 @@
             <field name="arch" type="xml">
                 <field name="partner_ids" position="attributes">
                     <attribute name="domain">
-                        [('user_id', '=', uid)]
+                        []
                     </attribute>
                 </field>
             </field>
