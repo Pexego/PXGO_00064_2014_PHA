@@ -374,6 +374,15 @@ class ProductTemplate(models.Model):
             product_id.with_context(disable_notify_changes = True). \
                 update_qty_in_production()
 
+            # Trigger calculations on affected packs
+            pack_ids = self.env['product.pack.line'].search([
+                ('product_id', '=', product_id.id),
+                ('product_id.active', '=', True)
+            ])
+            for pack_id in pack_ids:
+                pack_id.parent_product_id.product_tmpl_id.\
+                    compute_detailed_stock()
+
     @api.multi
     def product_price_history_action(self):
         view_id = self.env.ref('custom_views.product_price_history_tree')
