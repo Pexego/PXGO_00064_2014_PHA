@@ -88,6 +88,8 @@ class PartnerImportMapperCustom(PartnerImportMapper):
             backend_adapter = self.unit_for(
                 PrestaShopCRUDAdapter, 'prestashop.address')
             name_record = backend_adapter.read(self.env.context.get('set_partner_name'))
+            if name_record['company']:
+                return {"name": _formatFiscalName(name_record['company'].upper())}
         name = ""
         if name_record["lastname"]:
             name += name_record["lastname"]
