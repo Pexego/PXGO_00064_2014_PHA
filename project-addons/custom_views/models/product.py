@@ -279,109 +279,139 @@ class ProductTemplate(models.Model):
     def _cost_eval_method(self):
         self.cost_eval_price_method = _('Cost eval (night calculation)')
 
-    @api.multi
-    def compute_detailed_stock(self):
+    @api.one
+    def compute_detailed_stock_product(self):
         warehouses = self.env['stock.warehouse'].search([])
         stock_ids = [wh.lot_stock_id.id for wh in warehouses]
 
+        product_id = self.product_variant_ids[0]
+
+        quants = self.env['stock.quant'].search([
+            ('product_id', '=', product_id.id),
+            ('location_id.usage', '=', 'internal'),
+            ('location_id.scrap_location', '=', True)
+        ])
+        internal_scrapped_qty = sum(quant.qty for quant in quants)
+
+        wh = self.env['stock.warehouse'].search(
+            [('company_id', '=', self.env.user.company_id.id)])
+        input_location_ids = wh.wh_input_stock_loc_id._get_child_locations()
+        quants = self.env['stock.quant'].search([
+            ('product_id', '=', product_id.id),
+            ('location_id.id', 'in', input_location_ids.ids)
+        ])
+        input_qty = sum(quant.qty for quant in quants)
+        virtual_conservative = self.qty_available - input_qty - \
+                               self.outgoing_qty - internal_scrapped_qty
+
+        production_planning_orders = self.env['production.planning.orders'].\
+            search([('product_id', '=', product_id.id),
+                    ('compute', '=', True)])
+        production_planning_qty = sum(order.product_qty for order in
+                                      production_planning_orders)
+        prod_plan_materials = self.env['production.planning.materials'].\
+            search([('product_id', '=', product_id.id)])
+        production_planning_qty -= sum(material.qty_required for material in
+                                       prod_plan_materials)
+
+        production_orders = self.env['mrp.production'].\
+            search([('product_id', '=', product_id.id),
+                    ('state', '=', 'draft')])
+        pre_production_qty = sum(order.product_qty for order in
+                                 production_orders)
+        pre_prod_materials = self.env['stock.move'].\
+            search([('product_id', '=', product_id.id),
+                    ('raw_material_production_id', '!=', False),
+                    ('raw_material_production_id.state', 'in',
+                     ('draft', 'confirmed')),
+                    ('state', '=', 'waiting')])
+        pre_production_qty -= sum(material.product_uom_qty for material in
+                                  pre_prod_materials)
+
+        quants = self.env['stock.quant'].search([
+            ('product_id', '=', product_id.id),
+            ('location_id.usage', '=', 'internal'),
+            '!', ('location_id', 'child_of', stock_ids),
+            '|',
+            ('location_id.scrap_location', '=', False),
+            '&',
+            ('location_id.scrap_location', '=', True),
+            ('location_id.dismissed_location', '=', False),
+        ])
+        out_of_existences = sum(quant.qty for quant in quants)
+
+        quants = self.env['stock.quant'].search([
+            ('product_id', '=', product_id.id),
+            ('location_id.usage', '=', 'internal'),
+            '!', ('location_id', 'child_of', stock_ids),
+            ('location_id.scrap_location', '=', True),
+            ('location_id.dismissed_location', '=', True),
+        ])
+        out_of_existences_dismissed = sum(quant.qty for quant in quants)
+
+        moves = self.env['stock.move'].search([
+            ('product_id', '=', product_id.id),
+            ('state', 'in', ('assigned', 'confirmed', 'waiting')),
+            ('picking_id.picking_type_id.code', '=', 'incoming'),
+            ('location_id.usage', '!=', 'internal'),
+            ('location_dest_id.usage', '=', 'internal')
+        ])
+        real_incoming_qty = sum(move.product_uom_qty for move in moves)
+
+        self.with_context(disable_notify_changes = True).write({
+            'internal_scrapped_qty': internal_scrapped_qty,
+            'virtual_conservative': virtual_conservative,
+            'production_planning_qty': production_planning_qty,
+            'pre_production_qty': pre_production_qty,
+            'out_of_existences': out_of_existences,
+            'out_of_existences_dismissed': out_of_existences_dismissed,
+            'real_incoming_qty': real_incoming_qty})
+
+        product_id.with_context(disable_notify_changes = True). \
+            update_qty_in_production()
+
+        # Trigger calculations on affected packs
+        pack_ids = self.env['product.pack.line'].search([
+            ('product_id', '=', product_id.id),
+            ('product_id.active', '=', True)
+        ])
+        for pack_id in pack_ids:
+            pack_id.parent_product_id.product_tmpl_id.\
+                compute_detailed_stock()
+
+    @api.one
+    def compute_detailed_stock_pack(self):
+        virtual_conservative = 999999999
+        product_id = self.product_variant_ids[0]
+        for pack_line_id in product_id.pack_line_ids:
+            product_vc = pack_line_id.product_id.virtual_conservative // \
+                         pack_line_id.quantity
+            if virtual_conservative > product_vc:
+                virtual_conservative = product_vc
+        virtual_conservative = 0 if virtual_conservative < 0 \
+            else virtual_conservative
+
+        self.with_context(disable_notify_changes=True).write({
+            'internal_scrapped_qty': 0,
+            'virtual_conservative': virtual_conservative,
+            'production_planning_qty': 0,
+            'pre_production_qty': 0,
+            'out_of_existences': 0,
+            'out_of_existences_dismissed': 0,
+            'real_incoming_qty': 0
+        })
+
+    @api.multi
+    def compute_detailed_stock(self):
         for product in self:
             if not product.product_variant_ids:
                 continue
 
             product_id = product.product_variant_ids[0]
-
-            quants = self.env['stock.quant'].search([
-                ('product_id', '=', product_id.id),
-                ('location_id.usage', '=', 'internal'),
-                ('location_id.scrap_location', '=', True)
-            ])
-            internal_scrapped_qty = sum(quant.qty for quant in quants)
-
-            wh = self.env['stock.warehouse'].search(
-                [('company_id', '=', self.env.user.company_id.id)])
-            input_location_ids = wh.wh_input_stock_loc_id._get_child_locations()
-            quants = self.env['stock.quant'].search([
-                ('product_id', '=', product_id.id),
-                ('location_id.id', 'in', input_location_ids.ids)
-            ])
-            input_qty = sum(quant.qty for quant in quants)
-            virtual_conservative = product.qty_available - input_qty - \
-                                   product.outgoing_qty - internal_scrapped_qty
-
-            production_planning_orders = self.env['production.planning.orders'].\
-                search([('product_id', '=', product_id.id),
-                        ('compute', '=', True)])
-            production_planning_qty = sum(order.product_qty for order in
-                                          production_planning_orders)
-            prod_plan_materials = self.env['production.planning.materials'].\
-                search([('product_id', '=', product_id.id)])
-            production_planning_qty -= sum(material.qty_required for material in
-                                           prod_plan_materials)
-
-            production_orders = self.env['mrp.production'].\
-                search([('product_id', '=', product_id.id),
-                        ('state', '=', 'draft')])
-            pre_production_qty = sum(order.product_qty for order in
-                                     production_orders)
-            pre_prod_materials = self.env['stock.move'].\
-                search([('product_id', '=', product_id.id),
-                        ('raw_material_production_id', '!=', False),
-                        ('raw_material_production_id.state', 'in',
-                         ('draft', 'confirmed')),
-                        ('state', '=', 'waiting')])
-            pre_production_qty -= sum(material.product_uom_qty for material in
-                                      pre_prod_materials)
-
-            quants = self.env['stock.quant'].search([
-                ('product_id', '=', product_id.id),
-                ('location_id.usage', '=', 'internal'),
-                '!', ('location_id', 'child_of', stock_ids),
-                '|',
-                ('location_id.scrap_location', '=', False),
-                '&',
-                ('location_id.scrap_location', '=', True),
-                ('location_id.dismissed_location', '=', False),
-            ])
-            out_of_existences = sum(quant.qty for quant in quants)
-
-            quants = self.env['stock.quant'].search([
-                ('product_id', '=', product_id.id),
-                ('location_id.usage', '=', 'internal'),
-                '!', ('location_id', 'child_of', stock_ids),
-                ('location_id.scrap_location', '=', True),
-                ('location_id.dismissed_location', '=', True),
-            ])
-            out_of_existences_dismissed = sum(quant.qty for quant in quants)
-
-            moves = self.env['stock.move'].search([
-                ('product_id', '=', product_id.id),
-                ('state', 'in', ('assigned', 'confirmed', 'waiting')),
-                ('picking_id.picking_type_id.code', '=', 'incoming'),
-                ('location_id.usage', '!=', 'internal'),
-                ('location_dest_id.usage', '=', 'internal')
-            ])
-            real_incoming_qty = sum(move.product_uom_qty for move in moves)
-
-            product.with_context(disable_notify_changes = True).write({
-                'internal_scrapped_qty': internal_scrapped_qty,
-                'virtual_conservative': virtual_conservative,
-                'production_planning_qty': production_planning_qty,
-                'pre_production_qty': pre_production_qty,
-                'out_of_existences': out_of_existences,
-                'out_of_existences_dismissed': out_of_existences_dismissed,
-                'real_incoming_qty': real_incoming_qty})
-
-            product_id.with_context(disable_notify_changes = True). \
-                update_qty_in_production()
-
-            # Trigger calculations on affected packs
-            pack_ids = self.env['product.pack.line'].search([
-                ('product_id', '=', product_id.id),
-                ('product_id.active', '=', True)
-            ])
-            for pack_id in pack_ids:
-                pack_id.parent_product_id.product_tmpl_id.\
-                    compute_detailed_stock()
+            if product_id.pack_line_ids:
+                product.compute_detailed_stock_pack()
+            else:
+                product.compute_detailed_stock_product()
 
     @api.multi
     def product_price_history_action(self):
