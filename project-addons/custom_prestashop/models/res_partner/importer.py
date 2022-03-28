@@ -105,7 +105,7 @@ class PartnerImportMapperCustom(PartnerImportMapper):
     def odoo_id(self, record):
         backend_adapter = self.unit_for(
             PrestaShopCRUDAdapter, 'prestashop.address')
-        address_ids = backend_adapter.search(filters={'filter[id_customer]': '%d' % (int(record['id']))})
+        address_ids = backend_adapter.search(filters={'filter[id_customer]': '%d' % (int(record['id'])), 'filter[deleted]':0})
         vat_number = None
         for address_id in address_ids:
             addresses_data = backend_adapter.read(address_id)
