@@ -332,7 +332,7 @@ class AccountInvoiceReport(models.Model):
     def _group_by(self):
         # group_by_str = super(AccountInvoiceReport, self)._group_by() + """,
         group_by_str = """group by
-            ail.product_id,
+            ail.id,
             ail.account_id,
             ai.id,
             ai.partner_id,
