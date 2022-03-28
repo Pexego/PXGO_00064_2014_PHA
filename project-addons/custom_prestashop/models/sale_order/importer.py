@@ -212,16 +212,16 @@ class SaleOrderImportCustom(SaleOrderImport):
                 gift_line.price_unit = 0
         res = super(SaleOrderImportCustom, self)._after_import(binding)
         binding.odoo_id.update_with_discounts()
-        if self.prestashop_record['total_discounts'] != '0.00':
-            order_total = binding.amount_total
+        if self.prestashop_record['total_discounts_tax_excl'] != '0.00':
+            order_total = binding.amount_untaxed
             if binding.odoo_id.order_line.filtered(lambda r: r.is_delivery):
                 order_total -= binding.odoo_id.order_line.filtered(lambda r: r.is_delivery).price_subtotal
-            discount_quantity = float(self.prestashop_record['total_discounts'])
+            discount_quantity = float(self.prestashop_record['total_discounts_tax_excl'])
             percentage_discount = (discount_quantity / order_total) * 100
             if percentage_discount >= 99.0:
                 binding.odoo_id.order_line.write({'discount': percentage_discount})
             else:
-                binding.commercial_discount_input = percentage_discount
+                binding.commercial_discount_input = round(percentage_discount,2)
                 binding.odoo_id.generate_discounts()
         return res
 
