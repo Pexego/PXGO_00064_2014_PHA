@@ -97,11 +97,17 @@ class StockPicking(models.Model):
         comodel_name='stock.picking.expedition.sizes',
         inverse_name='picking_id')
     expedition_sizes_loaded = fields.Boolean(compute='_expedition_sizes_loaded')
+    expedition_sizes_weight = fields.Float(compute='_expedition_sizes_weight')
 
     @api.one
     def _expedition_sizes_loaded(self):
         self.expedition_sizes_loaded = True if self.expedition_sizes_ids \
             else False
+
+    @api.one
+    def _expedition_sizes_weight(self):
+        self.expedition_sizes_weight = \
+            sum(self.expedition_sizes_ids.mapped(lambda s: round(s.weight, 2)))
 
     @api.multi
     def configure_packages_sizes(self):
