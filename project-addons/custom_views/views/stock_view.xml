@@ -490,7 +490,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <xpath expr="//separator[@string='Carrier Information']/following-sibling::group[last()]" position="after">
                     <div attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}">
                         <separator string="Expedition sizes"/>
-                        <button name="configure_packages_sizes" string="Configure packages sizes" type="object"/>
+                        <button name="configure_packages_sizes" string="Configure packages sizes" type="object" class="oe_inline"/>
+                        <label for="expedition_sizes_weight" style="margin-left: 4em; vertical-align: top;" string="Total (kg):"/>
+                        <field name="expedition_sizes_weight" class="oe_inline"/>
                         <field name="expedition_sizes_loaded" invisible="1"/>
                         <group attrs="{'invisible': [('expedition_sizes_loaded', '=', False)]}">
                             <field name="expedition_sizes_ids" nolabel="1">
