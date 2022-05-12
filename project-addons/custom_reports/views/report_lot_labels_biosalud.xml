@@ -41,7 +41,7 @@
                                     <span> - __/__/____</span>
                                 </t>
                             </p>
-                            <p t-field="po.lot_id.product_id.name" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
+                            <p t-esc="po.lot_id.product_id.name[:40]" style="font-size: 20px; font-weight: bold; line-height: 20px; padding: 0; margin: 0;"/>
                             <div style="display: inline-block; float: right; position: relative;">
                                 <!-- Barcode reader uses english keyboard layout -->
                                 <t t-set="product_barcode" t-value="po.lot_id.product_id.default_code"/>
