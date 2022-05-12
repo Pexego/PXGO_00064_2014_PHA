@@ -84,6 +84,7 @@ class product_product(orm.Model):
 
             first_subproduct = True
             pack_stock = 0
+            outgoing_pack_stock = 0
 
             # Check if product stock depends on it's subproducts stock.
             if product.pack_line_ids:
@@ -96,14 +97,21 @@ class product_product(orm.Model):
                         continue
                     if first_subproduct:
                         subproduct_quantity = subproduct.quantity
-                        subproduct_stock = self._product_available(
+                        subproduct_stocks = self._product_available(
                             cr,
                             uid,
                             [subproduct.product_id.id],
                             field_names,
                             arg,
                             context,
-                        )[subproduct.product_id.id]["qty_available"]
+                        )[subproduct.product_id.id]
+                        subproduct_stock = subproduct_stocks["qty_available"]
+                        subproduct_outgoing = subproduct_stocks['outgoing_qty']
+                        if subproduct_outgoing and math.ceil(
+                            subproduct_outgoing / subproduct_quantity
+                        ) > outgoing_pack_stock:
+                            outgoing_pack_stock = math.ceil(
+                                subproduct_outgoing / subproduct_quantity)
                         if subproduct_quantity == 0:
                             continue
 
@@ -144,7 +152,7 @@ class product_product(orm.Model):
                 res[product.id] = {
                     "qty_available": pack_stock,
                     "incoming_qty": 0,
-                    "outgoing_qty": 0,
+                    "outgoing_qty": outgoing_pack_stock,
                     "virtual_available": pack_stock,
                 }
             else:
