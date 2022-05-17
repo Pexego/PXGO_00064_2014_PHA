@@ -56,6 +56,8 @@ class ResPartner(models.Model):
             warning += _('- Must select a Country.\n')
         if not (self.phone and self.phone.strip()):
             warning += _('- Phone field is mandatory.\n')
+        if not (self.mobile and self.mobile.strip()):
+            warning += _('- Mobile field is mandatory.\n')
         if not (self.vat and self.vat.strip()):
             warning += _('- VAT field is mandatory.\n')
         if not self.property_product_pricelist:

@@ -179,5 +179,17 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">Partner form, mobile required</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">52</field>
+            <field name="arch" type="xml">
+                <field name="mobile" position="attributes">
+                    <attribute name="required">True</attribute>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
