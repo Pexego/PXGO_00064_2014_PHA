@@ -13,11 +13,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                     <group>
                         <field name="product_id" readonly="1"/>
                         <field name="gtin14" readonly="1"/>
-                        <field name="partner_ids" domain="[('parent_id', '=', False)]">
+                        <field name="partner_ids" domain="[('parent_id', '=', False), ('customer', '=', True)]">
                             <tree editable="bottom">
-                                <field name="name"/>
-                                <field name="state_id"/>
-                                <field name="country_id"/>
+                                <field name="name" readonly="1"/>
+                                <field name="state_id" readonly="1"/>
+                                <field name="country_id" readonly="1"/>
                             </tree>
                         </field>
                     </group>
@@ -30,6 +30,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                         <button string="Cancel" special="cancel"/>
                     </footer>
                 </form>
+            </field>
+        </record>
+
+        <record id="product_gtin_codes_units_tree" model="ir.ui.view">
+            <field name="name">Product GTIN codes - Configure units tree</field>
+            <field name="model">product.gtin14.res.partner.rel</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="GTIN14 partners units for complete">
+                    <field name="gtin14_id" invisible="1"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="units"/>
+                </tree>
             </field>
         </record>
     </data>

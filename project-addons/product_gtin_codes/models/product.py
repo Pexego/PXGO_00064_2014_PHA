@@ -124,6 +124,15 @@ class ProductGtin(models.TransientModel):
             action_print_gtin_barcode()
 
 
+class ProductGtin14ResPartnerRel(models.Model):
+    _name = 'product.gtin14.res.partner.rel'
+    _rec_name = 'partner_id'
+
+    gtin14_id = fields.Many2one(comodel_name='product.gtin14')
+    partner_id = fields.Many2one(comodel_name='res.partner')
+    units = fields.Float('Units')
+
+
 class ProductGtin14(models.Model):
     _name = 'product.gtin14'
     _rec_name = 'gtin14'
@@ -159,7 +168,7 @@ class ProductGtin14(models.Model):
 
     @api.multi
     def assign_partners(self):
-        view = self.env.ref(
+        view_id = self.env.ref(
             'product_gtin_codes.product_gtin_codes_partners_form')
 
         return {
@@ -168,9 +177,25 @@ class ProductGtin14(models.Model):
             'view_mode': 'form',
             'res_model': 'product.gtin14',
             'res_id': self.id,
-            'view_id': view.id,
+            'view_id': view_id.id,
             'target': 'new',
 #            'flags': {'form': {'action_buttons': True}},
+            'context': self.env.context,
+        }
+
+    @api.multi
+    def configure_units(self):
+        view_id = self.env.ref(
+            'product_gtin_codes.product_gtin_codes_units_tree')
+
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'res_model': 'product.gtin14.res.partner.rel',
+            'view_id': view_id.id,
+            'target': 'new',
+            'domain': [('gtin14_id', '=', self.id)],
             'context': self.env.context,
         }
 
@@ -204,6 +229,33 @@ class ProductGtin14(models.Model):
     def action_print_tiny_gtin_barcode(self):
         return self.with_context(barcode_size='tiny').\
             action_print_gtin_barcode()
+
+    @api.multi
+    def write(self, vals):
+        if 'partner_ids' in vals:
+            # To avoid lost of units in auxiliary table for many2many relation
+            partner_ids = vals['partner_ids'][0][2]
+            rel_obj = self.env['product.gtin14.res.partner.rel']
+            old_rel_ids = rel_obj.search([
+                ('gtin14_id', '=', self.id),
+                ('partner_id', 'in', partner_ids)
+            ])
+            units = {}
+            for rel_id in old_rel_ids:
+                units[rel_id.partner_id.id] = rel_id.units
+
+            res = super(ProductGtin14, self).write(vals)
+
+            new_rel_ids = rel_obj.search([
+                ('gtin14_id', '=', self.id),
+                ('partner_id', 'in', units.keys())
+            ])
+            for rel_id in new_rel_ids:
+                rel_id.units = units[rel_id.partner_id.id]
+
+            return res
+        else:
+            return super(ProductGtin14, self).write(vals)
 
 
 class ProductProduct(models.Model):
@@ -286,15 +338,38 @@ class ProductProduct(models.Model):
 
     @api.model
     def gtin14_partner_specific(self, partner_id):
-        gtin14_id = self.gtin14_default
+        res = self.gtin14_default
         if partner_id:
             if partner_id.type in ['delivery'] and partner_id.parent_id:
                 partner_id = partner_id.parent_id
-            for gtin_obj in self.gtin14_ids:
-                for p in gtin_obj.partner_ids:
+            for gtin14_id in self.gtin14_ids:
+                for p in gtin14_id.partner_ids:
                     if p == partner_id:
-                        gtin14_id = gtin_obj
-        return gtin14_id
+                        res = gtin14_id
+        return res
+
+    @api.model
+    def gtin14_partner_specific_units(self, partner_id):
+        if self.gtin14_default and self.gtin14_default.units:
+            units = self.gtin14_default.units
+        else:
+            units = self.box_elements
+        if partner_id:
+            if partner_id.type in ['delivery'] and partner_id.parent_id:
+                partner_id = partner_id.parent_id
+            rel_obj = self.env['product.gtin14.res.partner.rel']
+            for gtin14_id in self.gtin14_ids:
+                for p in gtin14_id.partner_ids:
+                    if p == partner_id:
+                        rel_id = rel_obj.search([
+                            ('gtin14_id', '=', gtin14_id.id),
+                            ('partner_id', '=', partner_id.id)
+                        ])
+                        if rel_id and rel_id.units:
+                            units = rel_id.units
+                        elif gtin14_id.units:
+                            units = gtin14_id.units
+        return units
 
     @api.model
     def get_gtin_barcode(self, code):

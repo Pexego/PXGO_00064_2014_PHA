@@ -51,15 +51,20 @@ class StockPackOperation(models.Model):
         if type == "1":
             return int(sum([x.qty for x in self.linked_move_operation_ids]))
         elif type == "2":
-            return int(self.product_id.box_elements)
+            return int(self.product_id.
+                       gtin14_partner_specific_units(self.picking_id.partner_id))
         else:
             if move_id:
-                qty = sum([x.qty for x in self.linked_move_operation_ids if x.move_id == move_id])
+                qty = sum([x.qty for x in self.linked_move_operation_ids if
+                           x.move_id == move_id])
             else:
                 qty = sum([x.qty for x in self.linked_move_operation_ids])
             return int(qty - (
-                self.product_id.box_elements * self.complete
-            ))
+                self.product_id.
+                    gtin14_partner_specific_units(self.picking_id.partner_id) *
+                    self.complete
+                )
+            )
 
 
 class StockMove(models.Model):

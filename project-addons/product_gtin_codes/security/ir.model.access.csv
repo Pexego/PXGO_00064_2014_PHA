@@ -1,2 +1,3 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_product_gtin14,access_product_gtin14,model_product_gtin14,base.group_user,1,1,1,1
+access_product_gtin14_res_partner_rel,access_product_gtin14_res_partner_rel,model_product_gtin14_res_partner_rel,base.group_user,1,1,1,1
