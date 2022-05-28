@@ -52,7 +52,8 @@ class PaletTagParser(models.AbstractModel):
             name_lot = op.lot_id.name if op.lot_id else "-"
 
         if not qty_units_str:
-            cant_ue = op.product_id.box_elements
+            cant_ue = op.product_id. \
+                gtin14_partner_specific_units(op.picking_id.partner_id)
             total_lot_qty = prod_lot_qty[op.product_id.id][op.lot_id.id]
             qty_units_str = str(int(cant_ue)) + "/" + str(int(total_lot_qty))
 
@@ -102,12 +103,29 @@ class PaletTagParser(models.AbstractModel):
                 place_dir.append("(" + pick.partner_id.state_id.name + ")")
             operation = sscc.operation_ids
             total_packs = len(sscc.child_ids)
+
+            # Obtenemos código de barras de la configuración GTIN14 del producto
+            partner_id = (
+                pick.partner_id.parent_id
+                if pick.partner_id.parent_id
+                else pick.partner_id
+            )
+            gtin14_ids = operation.product_id.gtin14_ids.\
+                with_context(p=partner_id).\
+                filtered(lambda g14: g14._context['p'] in g14.partner_ids)
+            barcode = (
+                gtin14_ids[0].gtin14
+                    if gtin14_ids
+                    else operation.product_id.gtin14_default.gtin14
+            )
+
             palet_dic[operation.palet] = {
                 "place": pick.partner_id.name.upper(),
                 "place_dir": ", ".join(place_dir),
                 "num_packs": total_packs,
                 "palet_number": palet_number,
-                "barcode": sscc.name,
+                "barcode": barcode,
+                # "barcode": sscc.name,
             }
             for sscc_child in sscc.child_ids.filtered(lambda r: r.type == "2"):
                 op = sscc_child.operation_ids
@@ -130,7 +148,9 @@ class PaletTagParser(models.AbstractModel):
                 for op in sscc_child.operation_ids:
                     if op.lot_id not in qty_by_lot:
                         qty_by_lot[op.lot_id] = 0
-                    complete_qty = op.complete * op.product_id.box_elements
+                    complete_qty = op.product_id. \
+                        gtin14_partner_specific_units(op.picking_id.partner_id)
+                    complete_qty = op.complete * complete_qty
                     qty_by_lot[op.lot_id] += op.product_qty - complete_qty
                 for i in range(2):
                     dic = self.get_tag_info(

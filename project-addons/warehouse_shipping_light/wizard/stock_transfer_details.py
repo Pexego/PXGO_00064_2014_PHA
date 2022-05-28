@@ -57,23 +57,24 @@ class StockTransferDetails(models.TransientModel):
 
     @api.multi
     def wizard_view(self):
-        picking = self[0].picking_id
-        if (picking.picking_type_code == 'outgoing') and \
-                (not (picking.real_weight > 0) or not picking.carrier_id or
-                 not (picking.number_of_packages > 0)):
+        picking_id = self[0].picking_id
+        if (picking_id.picking_type_code == 'outgoing') and \
+                (not (picking_id.real_weight > 0) or not picking_id.carrier_id
+                 or not (picking_id.number_of_packages > 0)):
             message = ''
-            if not (picking.real_weight > 0):
+            if not (picking_id.real_weight > 0):
                 message = _('Real weight to send must be greater than zero.\n')
-            if not (picking.number_of_packages > 0):
+            if not (picking_id.number_of_packages > 0):
                 message += _('Number of packages must be greater than zero.\n')
-            if not (picking.carrier_id):
+            if not (picking_id.carrier_id):
                 message += _('Carrier is not asigned.')
             raise exceptions.Warning(message)
         else:
-            type = picking.picking_type_code
-            self.total_packages_expected = picking.number_of_packages
-            return super(StockTransferDetails,
-                         self.with_context(picking_type=type)).wizard_view()
+            type = picking_id.picking_type_code
+            self.total_packages_expected = picking_id.number_of_packages
+            return super(StockTransferDetails, self.with_context({
+                'picking_type': type
+            })).wizard_view()
 
     @api.model
     def default_get(self, fields):
@@ -91,8 +92,12 @@ class StockTransferDetails(models.TransientModel):
                 item['complete'] = op.complete if op.complete else 0
                 item['package'] = op.package
                 if op.complete:
-                    item['rest'] = op.product_qty - (op.complete *
-                                     op.product_id.product_tmpl_id.box_elements)
+                    if op.picking_id:
+                        complete_qty = op.product_id.gtin14_partner_specific_units(
+                            op.picking_id.partner_id)
+                    else:
+                        complete_qty = op.product_id.box_elements
+                    item['rest'] = op.product_qty - (op.complete * complete_qty)
                 else:
                     item['rest'] = op.product_qty
         return res
@@ -116,8 +121,9 @@ class StockTransferDetails(models.TransientModel):
             for prod in lstits:
                 complete = prod.complete if prod.complete else 0
                 if complete:
-                    rest = prod.quantity - (prod.complete *
-                                   prod.product_id.product_tmpl_id.box_elements)
+                    complete_qty = prod.product_id.\
+                        gtin14_partner_specific_units(self.picking_id.partner_id)
+                    rest = prod.quantity - (prod.complete * complete_qty)
                 else:
                     rest = prod.quantity
 
@@ -161,11 +167,12 @@ class StockTransferDetailsItems(models.TransientModel):
     def onchange_complete(self):
         message = False
 
-        gtin14_id = self.product_id.\
-            gtin14_partner_specific(self.transfer_id.picking_id.partner_id) if \
-            self.transfer_id else False
-        complete_qty = gtin14_id.units if gtin14_id else \
-            self.product_id.box_elements
+        # Use "_origin" to obtain wizard's original data
+        if self._origin.transfer_id:
+            complete_qty = self.product_id.gtin14_partner_specific_units(
+                self._origin.transfer_id.picking_id.partner_id)
+        else:
+            complete_qty = self.product_id.box_elements
 
         if complete_qty > 0:
             required_qty = self.complete * complete_qty

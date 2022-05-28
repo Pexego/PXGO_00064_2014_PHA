@@ -387,10 +387,12 @@ class edi_parser(models.Model):
                     }
                     data[filename].append(edi._create_line_csv(QTYLIN, structs))
                     if pick.partner_id.commercial_partner_id.desadv_without_box_sscc:
+                        complete_qty = line.product_id. \
+                            gtin14_partner_specific_units(pick.partner_id)
                         QTYLIN = {
                             "lineId": "QTYLIN",
                             "col1": "59",
-                            "col2": int(line.product_id.box_elements),
+                            "col2": int(complete_qty),
                         }
                         data[filename].append(edi._create_line_csv(QTYLIN, structs))
                         FTXLIN = {

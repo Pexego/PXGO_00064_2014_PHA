@@ -13,10 +13,16 @@
                     <t t-foreach="p.move_lines.mapped('lot_ids')" t-as="l">
                         <t t-if="l.product_id.categ_id.id == 1199 and l.container_type and l.container_type.id in (14, 16, 17)">  <!-- Mat. Prima / Sacos, Bolsas y Cajas -->
                             <t t-set="sampling" t-value="l.container_number**(1/2.0)"/>
+                            <!-- Hasta 2022 sacábamos pegatinas de palets
                             <t t-set="labels_to_print" t-value="l.container_number + l.pallets + int(sampling) + (2 if sampling > int(sampling) else 1)"/>
+                            -->
+                            <t t-set="labels_to_print" t-value="l.container_number + int(sampling) + (2 if sampling > int(sampling) else 1)"/>
                         </t>
                         <t t-if="not (l.product_id.categ_id.id == 1199 and l.container_type and l.container_type.id in (14, 16, 17))">  <!-- Mat. Prima / Sacos, Bolsas y Cajas -->
+                            <!-- Hasta 2022 sacábamos pegatinas de palets
                             <t t-set="labels_to_print" t-value="l.container_number + l.pallets"/>
+                            -->
+                            <t t-set="labels_to_print" t-value="l.container_number"/>
                         </t>
                         <div class="page" t-foreach="range(labels_to_print)" t-as="page_loop" style="width: 615px; height: 450px; overflow: hidden;">
                             <div style="height: 65px;">

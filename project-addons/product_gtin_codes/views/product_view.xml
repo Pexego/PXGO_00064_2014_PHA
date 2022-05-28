@@ -78,6 +78,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                                             class="oe_read_only"
                                             type="object"
                                             icon="terp-partner"/>
+                                    <button name="configure_units"
+                                            class="oe_read_only"
+                                            type="object"
+                                            icon="terp-product"/>
                                 </tree>
                             </field>
                             <field name="id" invisible="1"/>

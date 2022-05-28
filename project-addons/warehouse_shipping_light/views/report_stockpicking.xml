@@ -381,8 +381,7 @@
                         <tbody>
                             <tr t-foreach="o.pack_operation_ids" t-as="po" style="height: 3.5em;">
                                 <td style="vertical-align: middle;" class="text-center">
-                                    <t t-set="gtin14_id" t-value="po.product_id.gtin14_partner_specific(o.partner_id)"/>
-                                    <t t-set="complete_qty" t-value="gtin14_id.units if gtin14_id else po.product_id.box_elements"/>
+                                    <t t-set="complete_qty" t-value="po.product_id.gtin14_partner_specific_units(o.partner_id)"/>
                                     <t t-set="completes" t-value="po.product_qty // complete_qty"/>
                                     <t t-set="rest" t-value="po.product_qty - (completes * complete_qty)"/>
                                     <span t-esc="'({:g}+{:g})'.format(completes, rest)"/>

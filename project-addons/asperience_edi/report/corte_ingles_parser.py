@@ -111,9 +111,10 @@ class CorteInglesParser(models.AbstractModel):
                     "first": first,
                 }
                 first = False
-            cant_ue = str(op.product_id.box_elements)
-            ref_eci = ""
             pick_partner = pick.partner_id
+            cant_ue = str(op.product_id.
+                          gtin14_partner_specific_units(pick_partner))
+            ref_eci = ""
             for cus in op.product_id.customer_ids:
                 if pick_partner.type in ["delivery"] and pick_partner.parent_id:
                     pick_partner = pick_partner.parent_id

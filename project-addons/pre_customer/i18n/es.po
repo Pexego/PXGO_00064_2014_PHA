@@ -18,73 +18,79 @@ msgstr ""
 "Language: es_ES\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:45
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- City field is mandatory.\n"
 msgstr "- El campo \"Ciudad\" es obligatorio.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:45
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Tags is mandatory.\n"
 msgstr "- Alguna etiqueta es obligatoria.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:49
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Must select a Country.\n"
 msgstr "- Debe seleccionar un país.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:47
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Must select a State.\n"
 msgstr "- Debe seleccionar una provincia.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:41
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Must select a postal code/city option.\n"
 msgstr "- Debe seleccionar una opción C.P./Ciudad.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:59
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Payment mode is mandatory.\n"
 msgstr "- Modo de Pago de Cliente en Contabilidad es obligatorio.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:57
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Payment term is mandatory.\n"
 msgstr "- Plazo de Pago de Cliente en Contabilidad es obligatorio.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:51
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Phone field is mandatory.\n"
 msgstr "- El campo \"Teléfono\" es obligatorio.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:55
+#: code:addons/pre_customer/models/res_partner.py:0
+#, python-format
+msgid "- Mobile field is mandatory.\n"
+msgstr "- El campo \"Móvil\" es obligatorio.\n"
+
+#. module: pre_customer
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Pricelist is mandatory.\n"
 msgstr "- Tarifa de Venta en Ventas&Compras es obligatoria.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:39
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Street field is mandatory.\n"
 msgstr "- El campo \"Calle\" es obligatorio.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:53
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- VAT field is mandatory.\n"
 msgstr "- El campo \"NIF\" en la pestaña \"Contabilidad\" es obligatorio.\n"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:43
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "- Zip field is mandatory.\n"
 msgstr "- El campo C.P. es obligatorio.\n"
@@ -108,7 +114,7 @@ msgid "Contacts"
 msgstr "Contactos"
 
 #. module: pre_customer
-#: code:addons/pre_customer/models/res_partner.py:75
+#: code:addons/pre_customer/models/res_partner.py:0
 #, python-format
 msgid "Error validating the customer:\n"
 msgstr "Error al validar los datos de cliente:\n"
