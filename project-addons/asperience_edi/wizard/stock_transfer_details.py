@@ -24,14 +24,17 @@ class StockTransferDetails(models.TransientModel):
     @api.model
     def make_sscc(self, picking, operation, counter, type, parent=None):
         """Método con el que se calcula el sscc a partir de
-        1 + aecoc + 4 digitos num albaran + secuencia 2 digitos + 1 checksum
+        1er dígito albarán + aecoc + 4 últimos dígitos albarán + secuencia 2 dígitos + 1 dígito checksum
         para escribir en el name del paquete"""
         picking_name = picking.name.split("\\")[-1][-4:]
         first_num = int(picking.name.split("\\")[-1][:1])
         sequence = str(counter).zfill(2)
+        # Cuando el contador (bultos+palets) pasa de 99, sumamos al 1er dígito del albarán
+        # el entero 5 más el 1er dígito secuencia y a ese resultado le extraemos el último dígito
         if counter > 99:
             first_num += 5
             first_num += int(str(counter)[0])
+            first_num = first_num % 10
             sequence = str(counter)[1:].zfill(2)
         aecoc = self.env.user.company_id.aecoc_code
         counter += 1
