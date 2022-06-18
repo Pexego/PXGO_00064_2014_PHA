@@ -218,6 +218,36 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             </field>
         </record>
 
+        <record model="ir.ui.view" id="view_product_sop_form">
+            <field name="name">Custom views - Product Standard Operating Procedures form</field>
+            <field name="model">product.product</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                    </group>
+                    <separator string="Standard Operating Procedures"/>
+                    <group col="3">
+                        <field name="manufacturing_procedure_id"/>
+                        <field name="manufacturing_procedure_attachment" filename="manufacturing_procedure_filename" nolabel="1" class="oe_read_only"/>
+                        <field name="packaging_procedure_id"/>
+                        <field name="packaging_procedure_attachment" filename="packaging_procedure_filename" nolabel="1" class="oe_read_only"/>
+                        <field name="model_specification_id"/>
+                        <field name="model_specification_attachment" filename="model_specification_filename" nolabel="1" class="oe_read_only"/>
+                        <group col="1" colspan="3">
+                            <field name="generic_specification_ids" nolabel="1"/>
+                        </group>
+                        <group col="1" colspan="3">
+                            <field name="analysis_method_ids" nolabel="1"/>
+                        </group>
+                        <field name="analysis_plan_id"/>
+                        <field name="analysis_plan_attachment" filename="analysis_plan_filename" nolabel="1" class="oe_read_only"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
         <record id="view_mrp_routing_form" model="ir.ui.view">
             <field name="name">Custom views - MRP routing form</field>
             <field name="model">mrp.routing</field>
@@ -320,6 +350,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
             />
         </record>
 
+        <record model="ir.actions.act_window" id="action_products_sop_view">
+            <field name="name">Product - Standard Operating Procedures</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                eval="[
+                          (5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('product.product_template_tree_view')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('custom_views.view_product_sop_form')}),
+                      ]"
+            />
+        </record>
+
         <menuitem name="Standard Operating Procedures"
                   id="menu_sop"
                   parent="quality_management_menu.menu_quality_management"
@@ -336,6 +380,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                   parent="menu_sop"
                   sequence="2"
                   action="action_mrp_procedure_extended_view"/>
+
+        <menuitem id="menu_products_sop"
+                  name="Products"
+                  parent="menu_sop"
+                  sequence="3"
+                  action="action_products_sop_view"/>
 
         <record model="ir.ui.view" id="view_mrp_procedure_type_tree">
             <field name="name">Custom views - MRP procedure type tree</field>
