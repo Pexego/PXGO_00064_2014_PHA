@@ -892,6 +892,11 @@ msgid "Procedures (SOP)"
 msgstr "Procedimientos (PNT)"
 
 #. module: custom_views
+#: model:ir.ui.menu,name:custom_views.menu_products_sop
+msgid "Products"
+msgstr "Productos"
+
+#. module: custom_views
 #: view:purchase.order:custom_views.view_purchase_order_filter_custom_views
 msgid "My Purchases"
 msgstr "Mis compras"
