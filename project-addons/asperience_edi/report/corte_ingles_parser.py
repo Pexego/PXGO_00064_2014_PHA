@@ -112,8 +112,6 @@ class CorteInglesParser(models.AbstractModel):
                 }
                 first = False
             pick_partner = pick.partner_id
-            cant_ue = str(op.product_id.
-                          gtin14_partner_specific_units(pick_partner))
             ref_eci = ""
             for cus in op.product_id.customer_ids:
                 if pick_partner.type in ["delivery"] and pick_partner.parent_id:
@@ -128,7 +126,9 @@ class CorteInglesParser(models.AbstractModel):
                 for part in gtin_obj.partner_ids:
                     if part.id == gtin_partner.id:
                         gtin14 = gtin_obj.gtin14
-                        cant_ue = str(gtin_obj.units)
+                        # cant_ue = str(gtin_obj.units)
+            cant_ue = str(op.product_id.
+                          gtin14_partner_specific_units(pick_partner))
             p_table = {
                 "ean13": op.product_id.ean13,
                 "serie": op.product_id.ean13 and op.product_id.ean13[:-1] or "",
