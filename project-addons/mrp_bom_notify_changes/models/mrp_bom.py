@@ -19,7 +19,12 @@ class MrpBom(models.Model):
                 for field in vals:
                     field_value = eval('mrp_bom.' + field)
                     field_type = attrs[field]['type']
-                    if field_type in ['one2many', 'many2one', 'many2many']:
+                    if field == 'bom_line_ids':
+                        orig_values[mrp_bom.id][field] = u"<br/>" + u"<br/> ".join(
+                            [x.display_name + ' => ' + str(x.product_qty)
+                             for x in field_value]
+                        ) + u"<br/>"
+                    elif field_type in ['one2many', 'many2one', 'many2many']:
                         orig_values[mrp_bom.id][field] = u", ".join(
                             [x.display_name for x in field_value]
                         )
@@ -36,7 +41,12 @@ class MrpBom(models.Model):
             for field in vals:
                 field_value = eval('mrp_bom.' + field)
                 field_type = attrs[field]['type']
-                if field_type == 'binary':
+                if field == 'bom_line_ids':
+                    new_value = u"<br/> " + u"<br/> ".join(
+                        [x.display_name + ' => ' + str(x.product_qty)
+                         for x in field_value]
+                    )
+                elif field_type == 'binary':
                     new_value = _('(new binary data)') if field_value else False
                 elif field_type in ['one2many', 'many2one', 'many2many']:
                     new_value = u", ".join(
@@ -53,7 +63,7 @@ class MrpBom(models.Model):
 
                 orig_value = orig_value if orig_value else _('(no data)')
                 new_value = new_value if new_value else _('(no data)')
-                fields += u'<br>{0}: {1} >> {2}'.format(
+                fields += u'<br/><br/>{0}: {1} >> {2}'.format(
                         _(attrs[field]['string']), orig_value, new_value)
 
             mrp_bom.message_post(body=_('Modified fields: ') + fields)
