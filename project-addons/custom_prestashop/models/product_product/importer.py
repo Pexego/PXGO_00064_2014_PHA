@@ -2,6 +2,7 @@
 # © 2021 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import re
+
 from openerp.addons.connector_prestashop.models.product_product.importer import (
     ProductCombinationMapper,
 )
@@ -156,8 +157,11 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
                         new_ref += reference
                         reference = ""
                 reference = new_ref
-            backend_adapter = self.unit_for(
+            template_backend_adapter = self.unit_for(
                 GenericAdapter, "prestashop.product.template"
+            )
+            combination_backend_adapter = self.unit_for(
+                GenericAdapter, "prestashop.product.combination"
             )
             pack_components = [(5,)]
             # reference = re.sub('[0-9]{1}[Xx]{1}', '', reference)
@@ -168,12 +172,13 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
                 else:
                     quantity = int(prod_ref[0])
                     prod_ref = prod_ref[2:]
-                product_ids = backend_adapter.search({"filter[reference]": prod_ref, "filter[active]": 1})
-                if product_ids:
-                    product = self.binder_for("prestashop.product.template").to_odoo(
+                template_ids = template_backend_adapter.search({"filter[reference]": prod_ref, "filter[active]": 1})
+                if template_ids:
+                    product_ids = combination_backend_adapter.search({"filter[reference]": prod_ref, "filter[id_product]": template_ids[0]})
+                    product = self.binder_for("prestashop.product.combination").to_odoo(
                         product_ids[0], unwrap=True
                     )
-                    product = product.product_variant_ids[0]
+                    product = product
                 else:
                     prod_ids = self.env["product.product"].search(
                         [("default_code", "=", prod_ref)]
