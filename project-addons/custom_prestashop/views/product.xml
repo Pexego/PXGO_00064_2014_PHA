@@ -13,7 +13,10 @@
                 <xpath expr="//field[@name='prestashop_combinations_bind_ids']/.." position="attributes">
                     <attribute name="attrs"></attribute>
                 </xpath>
-
+                <xpath expr="//field[@name='prestashop_combinations_bind_ids']/.." position="after">
+                    <label for="prestashop_zero_stock">Prestashop zero stock</label>
+                    <field name="prestashop_zero_stock"/>
+                </xpath>
             </field>
         </record>
     </data>
