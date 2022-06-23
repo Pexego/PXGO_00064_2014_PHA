@@ -332,16 +332,24 @@ class AddressImporterCustom(AddressImporter):
                 binding.parent_id.write(
                     {"sii_simplified_invoice": True, "simplified_invoice": True}
                 )
-        if binding.phone and not binding.parent_id.phone:
+
+        def phone_ok(phone):
+            return phone and phone.strip() != '.'
+
+        if phone_ok(binding.phone) and not phone_ok(binding.parent_id.phone):
             binding.parent_id.phone = binding.phone
-        elif not binding.phone and not binding.parent_id.phone:
+        elif not phone_ok(binding.phone) and \
+                not phone_ok(binding.parent_id.phone):
             binding.odoo_id.phone = '.'
             binding.parent_id.phone = '.'
-        if binding.mobile and not binding.parent_id.mobile:
+
+        if phone_ok(binding.mobile) and not phone_ok(binding.parent_id.mobile):
             binding.parent_id.mobile = binding.mobile
-        elif not binding.mobile and not binding.parent_id.mobile:
+        elif not phone_ok(binding.mobile) and \
+                not phone_ok(binding.parent_id.mobile):
             binding.odoo_id.mobile = '.'
             binding.parent_id.mobile = '.'
+
         if binding.zip_id and not binding.parent_id.zip_id:
             binding.parent_id.zip_id = binding.zip_id
         if binding.parent_id.email and not binding.email:

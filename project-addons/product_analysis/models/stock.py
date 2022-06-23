@@ -631,6 +631,15 @@ class StockPicking(models.Model):
             lot_id.with_context(sign_document_type = 'revision').\
                 action_sign_document()
 
+    @api.cr_uid_ids_context
+    def do_enter_transfer_details(self, cr, uid, picking, context=None):
+        res = super(StockPicking, self).\
+            do_enter_transfer_details(cr, uid, picking, context)
+        if 'transfer_and_approve' in context and context['transfer_and_approve']:
+            ctx = dict(res['context'])
+            ctx.update({'transfer_and_approve': True})
+            res['context'] = ctx
+        return res
 
     @api.multi
     def transfer_and_approve(self):
