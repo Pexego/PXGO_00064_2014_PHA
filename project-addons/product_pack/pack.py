@@ -84,7 +84,6 @@ class product_product(orm.Model):
 
             first_subproduct = True
             pack_stock = 0
-            outgoing_pack_stock = 0
 
             # Check if product stock depends on it's subproducts stock.
             if product.pack_line_ids:
@@ -105,13 +104,7 @@ class product_product(orm.Model):
                             arg,
                             context,
                         )[subproduct.product_id.id]
-                        subproduct_stock = subproduct_stocks["qty_available"]
-                        subproduct_outgoing = subproduct_stocks['outgoing_qty']
-                        if subproduct_outgoing and math.ceil(
-                            subproduct_outgoing / subproduct_quantity
-                        ) > outgoing_pack_stock:
-                            outgoing_pack_stock = math.ceil(
-                                subproduct_outgoing / subproduct_quantity)
+                        subproduct_stock = subproduct_stocks["qty_available"] - subproduct_stocks['outgoing_qty']
                         if subproduct_quantity == 0:
                             continue
 
@@ -125,14 +118,14 @@ class product_product(orm.Model):
 
                     # Take the info of the next subproduct
                     subproduct_quantity_next = subproduct.quantity
-                    subproduct_stock_next = self._product_available(
+                    subproduct_stocks_next = self._product_available(
                         cr,
                         uid,
                         [subproduct.product_id.id],
                         field_names,
                         arg,
                         context,
-                    )[subproduct.product_id.id]["qty_available"]
+                    )[subproduct.product_id.id]
 
                     if (
                         subproduct_quantity_next == 0
@@ -141,7 +134,7 @@ class product_product(orm.Model):
                         continue
 
                     pack_stock_next = math.floor(
-                        subproduct_stock_next / subproduct_quantity_next
+                        (subproduct_stocks_next["qty_available"] - subproduct_stocks_next['outgoing_qty']) / subproduct_quantity_next
                     )
 
                     # compare the stock of a subproduct and the next subproduct
@@ -152,7 +145,7 @@ class product_product(orm.Model):
                 res[product.id] = {
                     "qty_available": pack_stock,
                     "incoming_qty": 0,
-                    "outgoing_qty": outgoing_pack_stock,
+                    "outgoing_qty": 0,
                     "virtual_available": pack_stock,
                 }
             else:
