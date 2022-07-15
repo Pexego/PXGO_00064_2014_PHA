@@ -125,7 +125,7 @@ class PaletTagParser(models.AbstractModel):
                 "num_packs": total_packs,
                 "palet_number": palet_number,
                 "barcode": barcode,
-                # "barcode": sscc.name,
+                "sscc": sscc.name,
             }
             for sscc_child in sscc.child_ids.filtered(lambda r: r.type == "2"):
                 op = sscc_child.operation_ids

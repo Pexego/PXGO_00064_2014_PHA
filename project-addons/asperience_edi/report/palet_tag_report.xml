@@ -221,10 +221,10 @@
                                 </table>
                             </div>
                             <div class="barcode-content">
-                                <t t-set="barcode" t-value="palet_tag['barcode']"/>
+                                <t t-set="sscc" t-value="palet_tag['sscc']"/>
                                 <div class="bc-center">
-                                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', GS1_128_SSCC + barcode)" style="width:400px;height:130px; margin-left: -20px;"/>
-                                    <p class="text-center" t-esc="'(00)' + barcode"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', GS1_128_SSCC + sscc)" style="width:400px;height:130px; margin-left: -20px;"/>
+                                    <p class="text-center" t-esc="'(00)' + sscc"/>
                                 </div>
                             </div>
                         </div>
@@ -272,10 +272,10 @@
                                 </table>
                             </div>
                             <div class="barcode-content">
-                                <t t-set="barcode" t-value="palet_tag['barcode']"/>
+                                <t t-set="sscc" t-value="palet_tag['sscc']"/>
                                 <div class="bc-center">
-                                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', GS1_128_SSCC + barcode)" style="width:400px;height:130px; margin-left: -20px;"/>
-                                    <p class="text-center" t-esc="'(00)' + barcode"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', GS1_128_SSCC + sscc)" style="width:400px;height:130px; margin-left: -20px;"/>
+                                    <p class="text-center" t-esc="'(00)' + sscc"/>
                                 </div>
                             </div>
                         </div>
