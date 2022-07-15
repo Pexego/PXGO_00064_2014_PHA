@@ -1061,6 +1061,11 @@ msgid "or"
 msgstr "o"
 
 #. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "Vehicle license plate number"
+msgstr "Matrícula del vehículo"
+
+#. module: warehouse_shipping_light
 #: view:stock.picking:warehouse_shipping_light.wsl_view_picking_form
 msgid "{'required': [('picking_type_code','=','outgoing')]}"
 msgstr "{'required': [('picking_type_code','=','outgoing')]}"
