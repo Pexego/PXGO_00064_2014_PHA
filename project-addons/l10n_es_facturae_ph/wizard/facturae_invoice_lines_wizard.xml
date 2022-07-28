@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_facturae_invoice_lines_wizard_form" model="ir.ui.view">
+            <field name="name">Facturae invoice lines wizard form</field>
+            <field name="model">facturae.invoice.lines.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Factura-e, detalle de líneas de factura">
+                    <separator string="Factura-e, detalle de líneas de factura"/>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="partner" readonly="1"/>
+                        <group colspan="4">
+                            <field name="line_ids" nolabel="1">
+                                <tree editable="top" create="0" delete="0">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                    <field name="quantity" readonly="1"/>
+                                    <field name="contract_reference"/>
+                                    <field name="transaction_reference"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                    <footer class="oe_right oe_button_box">
+                        <button string="Guardar" name="save_lines" type="object" icon="gtk-ok" class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel" icon="gtk-cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
