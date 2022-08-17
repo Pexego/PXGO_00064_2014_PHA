@@ -1747,3 +1747,8 @@ msgstr "Precio de coste escandallo componentes"
 #: field:product.template,cost_eval_price_dl:0
 msgid "Direct labor cost evaluation price"
 msgstr "Precio de coste escandallo M.O.D."
+
+#. module: custom_views
+#: field:stock.production.lot,product_uom_id:0
+msgid "Unit of Measure"
+msgstr "Unidad de medida"

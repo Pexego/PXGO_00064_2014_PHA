@@ -266,6 +266,8 @@
                     <field name="default_code"/>
                     <field name="name"/>
                     <field name="available_stock"/>
+                    <field name="product_uom_id"/>
+                    <field name="kg"/>
                     <field name="state"/>
                     <field name="use_date"/>
                     <field name="removal_date"/>
