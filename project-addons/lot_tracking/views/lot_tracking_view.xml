@@ -120,6 +120,58 @@
                   parent="lot_tracking.menu_lot_tracking"
                   action="action_view_lot_tracking_from_origin" sequence="3"/>
 
+        <record id="view_lot_tracking_from_origin_eco_kg_tree" model="ir.ui.view">
+            <field name="name">Lot tracking from origin ECO kg tree</field>
+            <field name="model">lot.tracking.from.origin.eco.kg</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_from_origin_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_lot_tracking_from_origin_eco_kg_form" model="ir.ui.view">
+            <field name="name">Lot tracking from origin ECO kg form</field>
+            <field name="model">lot.tracking.from.origin.eco.kg</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_from_origin_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Lot tracking from origin" position="attributes">
+                    <attribute name="string">Lot tracking from origin ECO kg</attribute>
+                </form>
+                <xpath expr="//field[@name='lot_move_ids']/tree/field[@name='product_uom']" position="after">
+                    <field name="kg" digits="(16,3)"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_view_lot_tracking_from_origin_eco_kg" model="ir.actions.act_window">
+            <field name="name">From origin ECO kg</field>
+            <field name="res_model">lot.tracking.from.origin.eco.kg</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_lot_tracking_from_origin_eco_kg_tree"/>
+        </record>
+
+        <menuitem id="menu_lot_tracking_from_origin_eco_kg"
+                  parent="lot_tracking.menu_lot_tracking"
+                  action="action_view_lot_tracking_from_origin_eco_kg" sequence="4"/>
+
+        <record id="view_lot_tracking_from_destination_tree" model="ir.ui.view">
+            <field name="name">Lot tracking from destination tree</field>
+            <field name="model">lot.tracking.from.destination</field>
+            <field name="inherit_id" ref="lot_tracking.view_lot_tracking_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="type_of_move" position="replace"></field>
+                <field name="write_date" position="after">
+                    <field name="id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
         <record id="view_lot_tracking_from_destination_tree" model="ir.ui.view">
             <field name="name">Lot tracking from destination tree</field>
             <field name="model">lot.tracking.from.destination</field>
