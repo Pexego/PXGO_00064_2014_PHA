@@ -350,7 +350,7 @@ class StockProductionLot(models.Model):
                                 compute = '_input_qty')
     company_id = fields.Many2one(comodel_name='res.company',
                                  default=lambda self: self.env.user.company_id)
-    kg = fields.Float(compute='_compute_kg', digits=(16, 2))
+    kg = fields.Float(compute='_compute_kg', digits=(16, 3))
 
     @api.one
     def _available_stock(self):
