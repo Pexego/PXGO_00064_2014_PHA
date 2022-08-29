@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+        <record id="view_website_add_google_analytics_ph" model="ir.ui.view">
+            <field name="name">website.form</field>
+            <field name="model">website</field>
+            <field name="inherit_id" ref="website.view_website_form"/>
+            <field name="arch" type="xml">
+                <field name="google_analytics_key" position="after">
+                    <field name="ga4_ph_id" placeholder="G-CB3GSJL7XM"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_website_settings_add_google_analytics_ph" model="ir.ui.view">
+            <field name="name">Website settings</field>
+            <field name="model">website.config.settings</field>
+            <field name="inherit_id" ref="website.view_website_config_settings"/>
+            <field name="arch" type="xml">
+                <div name="google_analytics_key" position="after">
+                    <label for="ga4_ph_id"/>
+                    <div name="ga4_ph_id">
+                        <div class="oe_inline">
+                            <field name="ga4_ph_id" placeholder="G-CB3GSJL7XM"/>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <template id="assets_backend"
+                  name="web_google_analytics_ph assets"
+                  inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <t t-if="website and website.ga4_ph_id">
+                    <script src="'https://www.googletagmanager.com/gtag/js?id=%s' % website.ga4_ph_id"/>
+                    <script t-esc="website.ga4_ph_script"/>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</openerp>

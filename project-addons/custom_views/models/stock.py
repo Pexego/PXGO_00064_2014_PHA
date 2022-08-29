@@ -20,6 +20,7 @@ class StockMove(models.Model):
                                  default=lambda self: self.env.user.company_id)
     product_description = fields.Text(related='product_id.description',
                                       readonly=True)
+    kg = fields.Float(compute='_compute_kg', digits=(16, 2))
 
     @api.one
     @api.constrains('state')
@@ -34,6 +35,20 @@ class StockMove(models.Model):
                     self.sudo().with_context(active_test=False).quant_ids
         lots_string = u", ".join(quant_ids.mapped('lot_id.name'))
         self.lots_string = lots_string
+
+    @api.one
+    @api.depends('product_uom_qty', 'product_uom')
+    def _compute_kg(self):
+        prod_wn = self.product_id.weight_net
+        qty = self.product_uom_qty
+        uom = self.product_uom
+        if uom.category_id == self.env.ref('product.product_uom_categ_kgm'):
+            kg = qty / uom.factor
+        elif uom.category_id == self.env.ref('product.product_uom_categ_unit'):
+            kg = qty * prod_wn / uom.factor
+        else:  # Unit of measure not compatible with weight
+            kg = 0
+        self.kg = kg
 
     @api.model
     def create(self, vals):
@@ -328,12 +343,14 @@ class StockProductionLot(models.Model):
                                  readonly=True)
     available_stock = fields.Float(string='Available stock',
                                    compute='_available_stock')
+    product_uom_id = fields.Many2one(related='product_id.uom_id', readonly=True)
     input_qty = fields.Float(string='Income qty', compute='_input_qty')
     input_uom = fields.Many2one(string='Income unit of measure',
                                 comodel_name='product.uom',
                                 compute = '_input_qty')
     company_id = fields.Many2one(comodel_name='res.company',
                                  default=lambda self: self.env.user.company_id)
+    kg = fields.Float(compute='_compute_kg', digits=(16, 2))
 
     @api.one
     def _available_stock(self):
@@ -359,6 +376,19 @@ class StockProductionLot(models.Model):
                     uom += m.product_uom
         self.input_qty = quantity
         self.input_uom = uom[0] if len(uom) == 1 else self.product_id.uom_po_id
+
+    @api.one
+    def _compute_kg(self):
+        prod_wn = self.product_id.weight_net
+        qty = self.available_stock
+        uom = self.product_uom_id
+        if uom.category_id == self.env.ref('product.product_uom_categ_kgm'):
+            kg = qty / uom.factor
+        elif uom.category_id == self.env.ref('product.product_uom_categ_unit'):
+            kg = qty * prod_wn / uom.factor
+        else:  # Unit of measure not compatible with weight
+            kg = 0
+        self.kg = kg
 
 
 class StockInventory(models.Model):

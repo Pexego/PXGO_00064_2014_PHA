@@ -14,6 +14,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
                 <field name="name" position="after">
                     <field name="product_description"/>
                 </field>
+                <field name="product_uom" position="after">
+                    <field name="kg" digits="(16,3)"/>
+                </field>
             </field>
         </record>
 

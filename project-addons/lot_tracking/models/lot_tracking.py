@@ -309,7 +309,7 @@ class LotTrackingFromOrigin(models.Model):
         # Get movements of related productions lots
         lot_ids = {self}
         prod_obj = self.env['mrp.production']
-        move_ids = self.env['stock.lot.move.from.origin']
+        move_ids = self.lot_move_ids.filtered(lambda m: m.id == 0)
         while self.lot_move_ids - move_ids:
             move_id = (self.lot_move_ids - move_ids)[0]
             move_ids += move_id
@@ -325,7 +325,74 @@ class LotTrackingFromOrigin(models.Model):
             self.lot_move_ids.filtered(lambda m: m.type == 'internal').unlink()
 
 
-class StockLotMoveFromOrigin(models.TransientModel):
+class StockLotMoveFromOriginEcoKg(models.TransientModel):
+    _name = 'stock.lot.move.from.origin.eco.kg'
+    _inherit = 'stock.lot.move.from.origin'
+
+    lot_tracking_id = fields.Many2one(comodel_name='lot.tracking.from.origin.eco.kg')
+    kg = fields.Float(precision=(16,3), compute='_calculate_kg')
+
+    @api.one
+    def _calculate_kg(self):
+        prod_wn = self.product_id.weight_net
+        qty = self.qty
+        uom = self.product_uom
+        if uom.category_id == self.env.ref('product.product_uom_categ_kgm'):
+            qty = qty / uom.factor
+        elif uom.category_id == self.env.ref(
+                'product.product_uom_categ_unit'):
+            qty = qty / uom.factor
+        else:  # Unit of measure not compatible with weight
+            qty = 0
+
+        if self.product_id == self.lot_tracking_id.product_id:
+            self.kg = qty
+            return
+
+        lot_product_id = self.lot_tracking_id.product_id
+        lot_product_tmpl_id = lot_product_id.product_tmpl_id
+
+        def _get_raw_material_weight(product_id):
+            raw_material_id = product_id.weight_net_eco_ids.\
+                filtered(lambda p: p.component_id == lot_product_tmpl_id)
+            if raw_material_id:
+                kg = product_id.weight_net * raw_material_id.percent / 100.0
+                return kg
+            else:
+                bom_ids = product_id.bom_ids.sorted(key=lambda b: b.sequence)
+                if bom_ids:
+                    bom_line_id = bom_ids[0].bom_line_ids.\
+                        filtered(lambda l: l.product_id == lot_product_id)
+                    if bom_line_id:
+                        return bom_line_id.product_qty
+                    else:
+                        total = 0.0
+                        for bl in bom_ids[0].bom_line_ids:
+                            total += bl.product_qty * \
+                                     (_get_raw_material_weight(bl.product_id) or 0)
+                        return total
+                elif product_id.pack_line_ids:
+                    total = 0.0
+                    for pl in product_id.pack_line_ids:
+                        total += pl.quantity * \
+                                 (_get_raw_material_weight(pl.product_id) or 0)
+                    return total
+                else:
+                    return 0.0
+
+        self.kg = qty * _get_raw_material_weight(self.product_id)
+
+
+class LotTrackingFromOriginEcoKg(models.Model):
+    _name = 'lot.tracking.from.origin.eco.kg'
+    _inherit = 'lot.tracking.from.origin'
+
+    lot_move_ids = fields.One2many(comodel_name='stock.lot.move.from.origin.eco.kg',
+                                   inverse_name='lot_tracking_id',
+                                   readonly=True)
+
+
+class StockLotMoveFromDestination(models.TransientModel):
     _name = 'stock.lot.move.from.destination'
     _inherit = 'stock.lot.move'
 

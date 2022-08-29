@@ -28,6 +28,7 @@ msgstr "&nbsp;"
 #: selection:lot.tracking.by.seal,type_of_move:0
 #: selection:lot.tracking.from.destination,type_of_move:0
 #: selection:lot.tracking.from.origin,type_of_move:0
+#: selection:lot.tracking.from.origin.eco.kg,type_of_move:0
 msgid "All movements"
 msgstr "Todos los movimientos"
 
@@ -53,6 +54,7 @@ msgstr "Sello"
 #: field:lot.tracking,company_id:0 field:lot.tracking.by.seal,company_id:0
 #: field:lot.tracking.from.destination,company_id:0
 #: field:lot.tracking.from.origin,company_id:0
+#: field:lot.tracking.from.origin.eco.kg,company_id:0
 msgid "Company"
 msgstr "Empresa"
 
@@ -143,6 +145,7 @@ msgstr "Ubicación de destino"
 #: field:lot.tracking,display_name:0 field:lot.tracking.by.seal,display_name:0
 #: field:lot.tracking.from.destination,display_name:0
 #: field:lot.tracking.from.origin,display_name:0
+#: field:lot.tracking.from.origin.eco.kg,display_name:0
 #: field:lot.tracking.productions,display_name:0
 #: field:stock.lot.move,display_name:0
 #: field:stock.lot.move.by.seal,display_name:0
@@ -204,6 +207,12 @@ msgid "From origin"
 msgstr "Desde origen"
 
 #. module: lot_tracking
+#: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking_from_origin_eco_kg
+#: model:ir.ui.menu,name:lot_tracking.menu_lot_tracking_from_origin_eco_kg
+msgid "From origin ECO kg"
+msgstr "Desde origen ECO kg"
+
+#. module: lot_tracking
 #: model:ir.actions.act_window,name:lot_tracking.action_view_lot_tracking_from_productions
 #: model:ir.ui.menu,name:lot_tracking.menu_lot_tracking_from_productions
 msgid "From productions"
@@ -228,7 +237,9 @@ msgstr "Rendimiento producción:"
 
 #. module: lot_tracking
 #: field:lot.tracking,id:0 field:lot.tracking.by.seal,id:0
-#: field:lot.tracking.from.destination,id:0 field:lot.tracking.from.origin,id:0
+#: field:lot.tracking.from.destination,id:0
+#: field:lot.tracking.from.origin,id:0
+#: field:lot.tracking.from.origin.eco.kg,id:0
 #: field:lot.tracking.productions,id:0 field:stock.lot.move,id:0
 #: field:stock.lot.move.by.seal,id:0 field:stock.lot.move.from.destination,id:0
 #: field:stock.lot.move.from.origin,id:0 field:stock.lot.move.productions,id:0
@@ -240,6 +251,7 @@ msgstr "ID"
 #: selection:lot.tracking.by.seal,type_of_move:0
 #: selection:lot.tracking.from.destination,type_of_move:0
 #: selection:lot.tracking.from.origin,type_of_move:0
+#: selection:lot.tracking.from.origin.eco.kg,type_of_move:0
 msgid "Inputs & Outputs"
 msgstr "Entradas y salidas"
 
@@ -288,6 +300,7 @@ msgstr "Última actualización por"
 #: field:lot.tracking,write_date:0 field:lot.tracking.by.seal,write_date:0
 #: field:lot.tracking.from.destination,write_date:0
 #: field:lot.tracking.from.origin,write_date:0
+#: field:lot.tracking.from.origin.eco.kg,write_date:0
 #: field:lot.tracking.productions,write_date:0
 #: field:stock.lot.move,write_date:0 field:stock.lot.move.by.seal,write_date:0
 #: field:stock.lot.move.from.destination,write_date:0
@@ -305,7 +318,9 @@ msgstr "Lote"
 #. module: lot_tracking
 #: field:lot.tracking,lot_id:0 field:lot.tracking.by.seal,lot_id:0
 #: field:lot.tracking.from.destination,lot_id:0
-#: field:lot.tracking.from.origin,lot_id:0 field:stock.lot.move,lot_id:0
+#: field:lot.tracking.from.origin,lot_id:0
+#: field:lot.tracking.from.origin.eco.kg,lot_id:0
+#: field:stock.lot.move,lot_id:0
 #: field:stock.lot.move.by.seal,lot_id:0
 #: field:stock.lot.move.from.destination,lot_id:0
 #: field:stock.lot.move.from.origin,lot_id:0
@@ -316,6 +331,7 @@ msgstr "Lote"
 #: field:lot.tracking,lot_move_ids:0 field:lot.tracking.by.seal,lot_move_ids:0
 #: field:lot.tracking.from.destination,lot_move_ids:0
 #: field:lot.tracking.from.origin,lot_move_ids:0
+#: field:lot.tracking.from.origin.eco.kg,lot_move_ids:0
 #: field:lot.tracking.productions,lot_move_ids:0
 msgid "Lot move ids"
 msgstr "Movimientos"
@@ -337,6 +353,7 @@ msgstr "Movimientos de lote desde producciones"
 #: view:lot.tracking:lot_tracking.view_lot_tracking_form
 #: view:lot.tracking.from.destination:lot_tracking.view_lot_tracking_from_destination_form
 #: view:lot.tracking.from.origin:lot_tracking.view_lot_tracking_from_origin_form
+#: view:lot.tracking.from.origin.eco.kg:lot_tracking.view_lot_tracking_from_origin_eco_kg_form
 msgid "Lot tracking"
 msgstr "Trazabilidad de lotes"
 
@@ -354,6 +371,11 @@ msgstr "Trazabilidad desde destino"
 #: view:lot.tracking.from.origin:lot_tracking.view_lot_tracking_from_origin_form
 msgid "Lot tracking from origin"
 msgstr "Trazabilidad desde origen"
+
+#. module: lot_tracking
+#: view:lot.tracking.from.origin:lot_tracking.view_lot_tracking_from_origin_eco_kg_form
+msgid "Lot tracking from origin ECO kg"
+msgstr "Trazabilidad desde origen ECO kg"
 
 #. module: lot_tracking
 #: model:ir.actions.report.xml,name:lot_tracking.action_report_lot_tracking_productions
@@ -446,6 +468,7 @@ msgstr "Producto"
 #: field:lot.tracking,product_id:0 field:lot.tracking.by.seal,product_id:0
 #: field:lot.tracking.from.destination,product_id:0
 #: field:lot.tracking.from.origin,product_id:0
+#: field:lot.tracking.from.origin.eco.kg,product_id:0
 #: field:stock.lot.move.by.seal,product_id:0
 #: field:stock.lot.move.from.destination,product_id:0
 #: field:stock.lot.move.from.origin,product_id:0
@@ -627,6 +650,7 @@ msgstr "Unid. teóricas fabr."
 #: field:lot.tracking,total:0 field:lot.tracking.by.seal,total:0
 #: field:lot.tracking.from.destination,total:0
 #: field:lot.tracking.from.origin,total:0
+#: field:lot.tracking.from.origin.eco.kg,total:0
 msgid "Total"
 msgstr "Total"
 
@@ -658,6 +682,7 @@ msgstr "Tipo de movimientos:"
 #: field:lot.tracking,type_of_move:0 field:lot.tracking.by.seal,type_of_move:0
 #: field:lot.tracking.from.destination,type_of_move:0
 #: field:lot.tracking.from.origin,type_of_move:0
+#: field:lot.tracking.from.origin.eco.kg,type_of_move:0
 msgid "Type of moves"
 msgstr "Tipo de movimientos"
 
