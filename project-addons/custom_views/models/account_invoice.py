@@ -24,7 +24,12 @@ class AccountInvoice(models.Model):
     partner_insured = fields.Boolean(related='partner_id.insured',
                                      readonly=True)
     partner_send_invoice_by_email = fields.Boolean(
-        related='partner_id.send_invoice_by_email', readonly=True)
+        related='partner_id.send_invoice_by_email',
+        readonly=True)
+    partner_parent_send_invoice_by_email = fields.Boolean(
+        related='partner_id.parent_id.send_invoice_by_email',
+        readonly=True
+    )
     credit = fields.Float(compute='_get_credit')
     debit = fields.Float(compute='_get_debit')
     partner_parent_category_id = fields.Many2one(
