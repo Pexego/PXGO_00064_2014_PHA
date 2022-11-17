@@ -99,13 +99,20 @@
                 <group string="Group By" position="before">
                     <group string="Facturas de hoy">
                         <filter string="Papel"
-                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('sale_channel_id', '!=', 6), ('partner_send_invoice_by_email', '=', False)]"/>
+                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                         ('sale_channel_id', '!=', 6),
+                                         ('partner_send_invoice_by_email', '=', False),
+                                         ('partner_parent_send_invoice_by_email', '=', False)]"/>
                         <separator/>
                         <filter string="EDI"
-                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('sale_channel_id', '=', 6)]"/>
+                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                         ('sale_channel_id', '=', 6)]"/>
                         <separator/>
                         <filter string="e-mail"
-                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('partner_send_invoice_by_email', '=', True)]"/>
+                                domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                         '|',
+                                         ('partner_send_invoice_by_email', '=', True),
+                                         ('partner_parent_send_invoice_by_email', '=', True)]"/>
                     </group>
                 </group>
                 <filter domain="[('user_id','=',uid)]" position="after">
