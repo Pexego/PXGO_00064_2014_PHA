@@ -17,21 +17,17 @@
             <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_6')">
                 <t t-call="custom_reports.report_invoice_biosalud"/>
             </t>
-            <!-- SEAL -->
-            <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_5')">
-                <t t-call="custom_reports.report_invoice_pharmadus"/>
-            </t>
-            <!-- HOTEL / MARBEMSA -->
-            <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_7')">
-                <t t-call="custom_reports.report_invoice_pharmadus"/>
-            </t>
             <!-- PHARMADUS B.E. (EEUU) -->
             <t t-if="o.env.user.company_id == o.env.ref('__export__.res_company_8')">
                 <t t-set="view_id" t-value="o.env.ref('custom_reports.report_invoice_pharmadus_be')"/>
                 <t t-call="{{view_id.id}}"/>
             </t>
-            <!-- PROCESOS FARMACÉUTICOS INDUSTRIALES -->
+            <!-- PHARMADUS BOTANICALS -->
             <t t-if="o.env.user.company_id == company.env.ref('base.main_company')">
+                <t t-call="custom_reports.report_invoice_pharmadus"/>
+            </t>
+            <!-- RESTO DE EMPRESAS -->
+            <t t-if="o.env.user.company_id.id not in (1, 6, 8)">
                 <t t-call="custom_reports.report_invoice_pharmadus"/>
             </t>
         </template>
