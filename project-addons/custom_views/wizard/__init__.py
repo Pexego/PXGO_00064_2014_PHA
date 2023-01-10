@@ -21,4 +21,4 @@
 
 import account_move_line, product_stock_unsafety, warning, \
     account_invoice_special, product_incoming_parameters, deactivate_product, \
-    sale_order_special, stock_picking_special
+    sale_order_special, stock_picking_special, stock_invoice_onshipping

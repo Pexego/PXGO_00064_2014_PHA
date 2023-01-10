@@ -187,6 +187,7 @@
                 <field name="state" position="after">
                     <field name="payment_document_date"/>
                     <field name="payment_date_planned"/>
+                    <field name="partner_send_invoice_by_email" invisible="1"/>
                 </field>
             </field>
         </record>
