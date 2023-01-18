@@ -1192,8 +1192,11 @@ msgid "Search MRP procedures"
 msgstr "Búsqueda de procedimientos (PNT)"
 
 #. module: custom_views
+#: field:account.invoice,partner_send_invoice_by_email:0
+#: field:account.invoice.special,partner_send_invoice_by_email:0
 #: field:res.partner,send_invoice_by_email:0
 #: field:stock.picking,send_invoice_by_email:0
+#: field:stock.picking.special,send_invoice_by_email:0
 msgid "Send invoice by email"
 msgstr "Envío factura por e-mail"
 
@@ -1474,30 +1477,9 @@ msgid "Zip"
 msgstr "Código postal"
 
 #. module: custom_views
-#: view:account.invoice:custom_views.custom_views_invoice_form
-msgid "['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]"
-msgstr "['|',('partner_id.child_ids','in',[partner_id]),('partner_id','=',partner_id),('state','=','valid')]"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]"
-msgstr "[('customer','=',True),('pre_customer','=',False),('parent_id','=',False)]"
-
-#. module: custom_views
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "[('is_in_current_pricelist', '=', True)]"
-msgstr "[('is_in_current_pricelist', '=', True)]"
-
-#. module: custom_views
-#: view:hr.expense.expense:custom_views.view_expenses_form_custom_view
-#: view:sale.order:custom_views.view_order_form_custom_view
-msgid "base.group_system"
-msgstr "base.group_system"
-
-#. module: custom_views
-#: view:stock.production.lot:custom_views.custom_views_production_lot_tree
-msgid "create_date desc"
-msgstr "create_date desc"
+#: model:ir.actions.act_window,name:custom_views.action_stock_invoice_onshipping_step_by_step
+msgid "Create Draft Invoices (yesterday's date)"
+msgstr "Crear facturas borrador (fecha de ayer)"
 
 #. module: custom_views
 #: view:product.template:custom_views.product_template_form_view_custom_view

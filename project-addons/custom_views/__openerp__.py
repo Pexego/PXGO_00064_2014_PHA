@@ -79,6 +79,7 @@
         'wizard/purchasable_products_view.xml',
         'wizard/product_incoming_parameters_view.xml',
         'wizard/deactivate_product_view.xml',
+        'wizard/stock_invoice_onshipping_view.xml',
         'data/remove_old_translations.xml',
         'data/wizards_units_precision.xml',
         'data/mrp_procedure_type.xml',
