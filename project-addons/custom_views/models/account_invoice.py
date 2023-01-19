@@ -24,10 +24,9 @@ class AccountInvoice(models.Model):
     partner_insured = fields.Boolean(related='partner_id.insured',
                                      readonly=True)
     partner_send_invoice_by_email = fields.Boolean(
-        string='Send invoice by email',
-        compute='_partner_send_invoice_by_email',
-        store=True,
-        readonly=True)
+        related='partner_id.send_invoice_by_email', readonly=True)
+    partner_parent_send_invoice_by_email = fields.Boolean(
+        related='commercial_partner_id.send_invoice_by_email', readonly=True)
     credit = fields.Float(compute='_get_credit')
     debit = fields.Float(compute='_get_debit')
     partner_parent_category_id = fields.Many2one(
@@ -39,14 +38,6 @@ class AccountInvoice(models.Model):
     cc_amount_total_with_sign = fields.Float(
         string='Company cur. total with sign',
         compute='_cc_amount_total_with_sign')
-
-    @api.one
-    @api.depends('partner_id', 'partner_id.parent_id')
-    def _partner_send_invoice_by_email(self):
-        p = self.partner_id
-        res = p.send_invoice_by_email or \
-              (p.parent_id and p.parent_id.send_invoice_by_email)
-        self.partner_send_invoice_by_email = res
 
     @api.one
     def _cc_amount_total_with_sign(self):
