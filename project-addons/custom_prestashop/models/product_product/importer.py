@@ -23,7 +23,7 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
             return {"odoo_id": product.id}
         else:
             if "-" in record["reference"] or re.match(
-                "[0-9]{1}[Xx]{1}", record["reference"]
+                "[0-9]{1,2}[Xx]{1}", record["reference"]
             ):
                 # creamos los productos para los packs
                 return {}
@@ -70,10 +70,12 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
     @only_create
     @mapping
     def name(self, record):
-        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+        if self.odoo_id(record).get('odoo_id') == self.env.\
+                ref( "custom_prestashop.product_product_generic_prestasghop" ).\
+                id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             backend_adapter = self.unit_for(
                 GenericAdapter, "prestashop.product.template"
@@ -99,29 +101,34 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
     @only_create
     @mapping
     def default_code(self, record):
-        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+        if self.odoo_id(record).get('odoo_id') == self.env.\
+                ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
-            return super(ProductCombinationMapperCustom, self).default_code(record)
+            return super(ProductCombinationMapperCustom, self).\
+                default_code(record)
 
     @only_create
     @mapping
     def ean13(self, record):
-        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+        if self.odoo_id(record).get('odoo_id') == self.env.\
+                ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(ProductCombinationMapperCustom, self).ean13(record)
         pass
 
     def _get_tax_ids(self, record):
-        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+        if self.odoo_id(record).get('odoo_id') == self.env.\
+                ref( "custom_prestashop.product_product_generic_prestasghop" ).\
+                id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(ProductCombinationMapperCustom, self)._get_tax_ids(record)
 
@@ -131,53 +138,59 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
 
     @mapping
     def pack_line_ids(self, record):
-        if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
+        if self.odoo_id(record).get('odoo_id') == self.env.\
+                ref( "custom_prestashop.product_product_generic_prestasghop" ).id:
             return {}
         pack_components = []
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             reference = record["reference"]
-            if "(" in reference:
-                new_ref = ""
-                if "(" in reference:
-                    new_ref = reference[: reference.index("(") - 2]
-                    reference = reference[reference.index("(") - 2 :]
-                while "(" in reference:
-                    inicio = reference.index("(")
-                    fin = reference.index(")")
-                    new_ref += reference[: inicio - 2]
-                    multiplicador = reference[inicio - 2 : inicio]
-                    new_references = []
-                    for subref in reference[inicio + 1 : fin].split("-"):
-                        new_references.append("{}{}".format(multiplicador, subref))
-                    new_ref += "-".join(new_references)
-                    reference = reference[fin + 1 :]
-                    if "(" not in reference:
-                        new_ref += reference
-                        reference = ""
-                reference = new_ref
+            # Expands occurrences of type 13x(FXXXX-FYYYY-FZZZZ)
+            # with or without multiplier
+            group_pattern = r'(?:\d{1,2}[Xx]{1}){0,1}\(.*?\)'
+            multiplier_pattern = r'\d{1,2}[Xx]{1}(?=\()'
+            reference_pattern = r'(?<=[\(-]).*?(?=[\)-])'
+            for group_match in re.findall(group_pattern, reference):
+                aux_ref = ''
+                multiplier_match = re.search(multiplier_pattern,
+                                             group_match)
+                if multiplier_match:
+                    multiplier = multiplier_match.group()
+                else:
+                    multiplier = ''
+                for ref in re.finditer(reference_pattern, group_match):
+                    aux_ref += ('-' if aux_ref > '' else '') + \
+                               multiplier + ref.group()
+                reference = reference.replace(group_match, aux_ref)
+
             template_backend_adapter = self.unit_for(
                 GenericAdapter, "prestashop.product.template"
             )
             combination_backend_adapter = self.unit_for(
                 GenericAdapter, "prestashop.product.combination"
             )
+
             pack_components = [(5,)]
-            # reference = re.sub('[0-9]{1}[Xx]{1}', '', reference)
-            pack_products = reference.split("-")
+            pack_products = reference.split('-')
+            multiplier_pattern = r'^\d{1,2}(?=[Xx]{1})'
             for prod_ref in pack_products:
-                if prod_ref.startswith("F"):
-                    quantity = 1
+                multiplier_match = re.search(multiplier_pattern, prod_ref)
+                if multiplier_match:
+                    qty_str = multiplier_match.group()
+                    quantity = int(qty_str)
+                    prod_ref = prod_ref[len(qty_str) + 1:]
                 else:
-                    quantity = int(prod_ref[0])
-                    prod_ref = prod_ref[2:]
-                template_ids = template_backend_adapter.search({"filter[reference]": prod_ref, "filter[active]": 1})
+                    quantity = 1
+
+                template_ids = template_backend_adapter.\
+                    search({"filter[reference]": prod_ref, "filter[active]": 1})
                 if template_ids:
-                    product_ids = combination_backend_adapter.search({"filter[reference]": prod_ref, "filter[id_product]": template_ids[0]})
-                    product = self.binder_for("prestashop.product.combination").to_odoo(
-                        product_ids[0], unwrap=True
-                    )
+                    product_ids = combination_backend_adapter.\
+                        search({"filter[reference]": prod_ref,
+                                "filter[id_product]": template_ids[0]})
+                    product = self.binder_for("prestashop.product.combination").\
+                        to_odoo(product_ids[0], unwrap=True)
                     product = product
                 else:
                     prod_ids = self.env["product.product"].search(
@@ -186,8 +199,10 @@ class ProductCombinationMapperCustom(ProductCombinationMapper):
                     if not prod_ids:
                         raise Exception("product not found {}".format(prod_ref))
                     product = prod_ids[0]
+
                 pack_components.append(
                     (0, 0, {"product_id": product.id, "quantity": quantity})
                 )
+
         if pack_components:
             return {"pack_line_ids": pack_components}
