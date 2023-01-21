@@ -34,7 +34,7 @@ class CustomTemplateMapper(TemplateMapper):
             return {"odoo_id": product.id}
         else:
             if "-" in record["reference"] or re.match(
-                "[0-9]{1}[Xx]{1}", record["reference"]
+                "[0-9]{1,2}[Xx]{1}", record["reference"]
             ):
                 # creamos los productos para los packs
                 return {}
@@ -54,7 +54,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).name(record)
         return {}
@@ -73,7 +73,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).default_code(record)
         return {}
@@ -84,7 +84,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).description(record)
         return {}
@@ -106,7 +106,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).sale_ok(record)
         return {}
@@ -117,7 +117,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).purchase_ok(record)
         return {}
@@ -144,7 +144,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).ean13(record)
         return {}
@@ -155,7 +155,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).taxes_id(record)
 
@@ -165,7 +165,7 @@ class CustomTemplateMapper(TemplateMapper):
         if self.odoo_id(record).get('odoo_id') == self.env.ref( "custom_prestashop.product_product_generic_prestasghop" ).product_tmpl_id.id:
             return {}
         if "-" in record["reference"] or re.match(
-            "[0-9]{1}[Xx]{1}", record["reference"]
+            "[0-9]{1,2}[Xx]{1}", record["reference"]
         ):
             return super(CustomTemplateMapper, self).type(record)
         return {}
@@ -199,7 +199,7 @@ class TemplateRecordImportCustom(TemplateRecordImport):
                 backend_adapter = self.unit_for(
                     GenericAdapter, "prestashop.product.template"
                 )
-                reference = re.sub("[0-9]{1}[Xx]{1}", "", reference)
+                reference = re.sub("[0-9]{1,2}[Xx]{1}", "", reference)
                 reference = reference.replace("(", "").replace(")", "")
                 pack_products = reference.split("-")
                 for prod_ref in pack_products:
