@@ -29,7 +29,7 @@ class StockInvoiceOnShipping(models.TransientModel):
                     with_context(active_ids=[id]).create_invoice()
                 new_cr.commit()
                 new_cr.close()
-                invoice_ids += invoice_id if invoice_id else []
+            invoice_ids += invoice_id if invoice_id else []
 
         if invoice_ids == []:
             raise Warning(_('Error!'), _('No invoice created!'))
