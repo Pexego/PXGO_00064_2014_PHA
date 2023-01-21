@@ -100,9 +100,11 @@
                     <group string="Facturas de hoy">
                         <filter string="Papel"
                                 domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
-                                         ('sale_channel_id', '!=', 6),
                                          ('partner_send_invoice_by_email', '=', False),
-                                         ('partner_parent_send_invoice_by_email', '=', False)]"/>
+                                         ('partner_parent_send_invoice_by_email', '=', False),
+                                         '|',
+                                         ('sale_channel_id', '!=', 6),
+                                         ('sale_channel_id', '=', False)]"/>
                         <separator/>
                         <filter string="EDI"
                                 domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
