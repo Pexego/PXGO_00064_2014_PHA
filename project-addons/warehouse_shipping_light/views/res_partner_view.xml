@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wsl_view_res_partner_form" model="ir.ui.view">
+            <field name="name">Warehouse Shipping Light - Partner form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="sequence">52</field>
+            <field name="arch" type="xml">
+                <field name="property_delivery_carrier" position="after">
+                    <field name="palet_report_type"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

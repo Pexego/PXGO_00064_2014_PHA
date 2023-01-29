@@ -16,6 +16,21 @@
             <field name="header_spacing">13</field>
         </record>
 
+        <record id="paperformat_palet_labels" model="report.paperformat">
+            <field name="name">Palet labels (Warehouse shipping light)</field>
+            <field name="format">custom</field>
+            <field name="dpi">90</field>
+            <field name="margin_top">16</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="page_height">150</field>
+            <field name="page_width">100</field>
+            <field name="orientation">Portrait</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">13</field>
+        </record>
+
         <record id="paperformat_expeditions" model="report.paperformat">
             <field name="name">Warehouse expeditions (Warehouse shipping light)</field>
             <field name="format">A4</field>
