@@ -148,6 +148,7 @@
 
         <report
             id="action_report_palet_labels"
+            menu="False"
             model="stock.picking"
             string="Palet labels"
             report_type="qweb-pdf"

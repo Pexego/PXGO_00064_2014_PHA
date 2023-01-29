@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import stock_transfer_details
+import stock_transfer_details, stock_palet_report_selector

@@ -51,5 +51,7 @@ class StockInvoiceOnShipping(models.TransientModel):
             return True
 
         action = action_obj.read()[0]
-        action['domain'] = "[('id','in', " + str(invoice_ids) + ")]"
+        action['domain'] = "[('state', '=', 'draft'), " \
+                           " ('date_invoice', '=', '{}')]".\
+            format(self.invoice_date)
         return action

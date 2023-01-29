@@ -1478,8 +1478,8 @@ msgstr "Código postal"
 
 #. module: custom_views
 #: model:ir.actions.act_window,name:custom_views.action_stock_invoice_onshipping_step_by_step
-msgid "Create Draft Invoices (yesterday's date)"
-msgstr "Crear facturas borrador (fecha de ayer)"
+msgid "Create Draft Invoices (sequential)"
+msgstr "Crear facturas borrador (secuencial)"
 
 #. module: custom_views
 #: view:product.template:custom_views.product_template_form_view_custom_view

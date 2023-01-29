@@ -25,7 +25,7 @@
             </field>
         </record>
 
-        <act_window name="Create Draft Invoices (yesterday's date)"
+        <act_window name="Create Draft Invoices (sequential)"
             res_model="stock.invoice.onshipping"
             src_model="stock.picking"
             key2="client_action_multi"

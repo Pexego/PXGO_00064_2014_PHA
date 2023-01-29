@@ -165,7 +165,7 @@ class SaleOrderImportCustom(SaleOrderImport):
             reference = backend_adapter.read(order["product_id"])["reference"]
             try:
                 if "-" in reference:
-                    reference = re.sub("[0-9]{1}[Xx]{1}", "", reference)
+                    reference = re.sub("[0-9]{1,2}[Xx]{1}", "", reference)
                     reference = reference.replace("(", "").replace(")", "")
                     pack_products = reference.split("-")
                     for prod_ref in pack_products:

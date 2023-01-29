@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_palet_labels_gs1-128-1">
+            <t t-foreach="docs" t-as="p">
+                <t t-set="partner" t-value="p.partner_id"/>
+                <t t-set="palets" t-value="[]"/>
+                <t t-set="palet_sscc" t-value="{}"/>
+                <t t-foreach="p.pack_operation_ids" t-as="po">
+                    <t t-if="po.palet and po.palet not in palets">
+                        <t t-esc="palets.append(po.palet)"/></t>
+                    <t t-if="po.sscc_ids.filtered(lambda r: r.type=='1')">
+                        <t t-esc="palet_sscc.update({po.palet: po.sscc_ids.filtered(lambda r: r.type=='1').name})"/>
+                    </t>
+                </t>
+                <t t-esc="palets.sort()"/>
+                <t t-esc="palets.reverse()"/>
+                <t t-if="not p.number_of_palets">
+                    <t t-call="report.html_container">
+                        <div class="page">
+                            <h2>
+                                <br/>
+                                <br/>
+                                <br/>~ NO HAY PALETS EN ESTE ALBARÁN ~
+                            </h2>
+                        </div>
+                    </t>
+                </t>
+                <t t-foreach="range(1, p.number_of_palets + 1)" t-as="palet_number">
+                    <t t-call="report.html_container">
+                        <div class="header">
+                            <div class="row">
+                                <div style="float: left;">
+                                    <span t-esc="'Palet %d de %d' % (palet_number, p.number_of_palets)"/>
+                                </div>
+                                <div style="float: right;">
+                                    SSCC: <span t-esc="palet_sscc[palet_number]"/>
+                                </div>
+                                <div style="clear: both;"/>
+                            </div>
+                        </div>
+                        <div class="page" style="margin: 0; padding: 0;">
+                            <style type="text/css">
+                                p, span, div {
+                                    padding: 0;
+                                    margin: 0;
+                                }
+                                div.wsl_section {
+                                    width: 100%;
+                                    line-height: 1em;
+                                    overflow: hidden;
+                                }
+                                div.wsl_section div {
+                                    float: left;
+                                    padding: 4px;
+                                }
+                                div.wsl_section div.wsl_label {
+                                    height: 100%;
+                                    text-align: right;
+                                    font-size: 12px;
+                                    font-weight: bold;
+                                }
+                                div.wsl_details  div.wsl_label {
+                                    height: auto;
+                                }
+                        div.wsl_section:nth-child(even) {
+                        background-color: #cceeff;
+                    }
+                    div.wsl_section:nth-child(odd) {
+                        background-color: #99ffcc;
+                    }
+                            </style>
+                            <div class="row">
+                                <div style="width: 100%; height: 590px;">
+                                    <div class="wsl_section" style="height: 10%; border: 1px solid black;">
+                                        <strong>
+                                            PHARMADUS BOTANICALS, S.L.<br/>
+                                            POL. IND. CAMPONARAYA SECTOR 2 PARCELA 3<br/>
+                                            24410 CAMPONARAYA (LEÓN)
+                                        </strong>
+                                    </div>
+                                    <div class="wsl_section" style="height: 16%; border: 1px solid black; border-top: 0;">
+                                        <div class="wsl_label" style="width: 19%; border-right: 1px solid black;">
+                                            LUGAR DE ENTREGA
+                                        </div>
+                                        <div style="width: 81%; height: 100%;">
+                                            <strong t-field="partner.name"/><br/>
+                                            <span t-field="partner.street"/> <span t-field="partner.street2"/><br/>
+                                            <span t-field="partner.zip"/> <span t-field="partner.city"></span><br/>
+                                            <span t-field="partner.state_id"></span> (<span t-field="partner.country_id"></span>)
+                                        </div>
+                                    </div>
+
+                                    <!-- Obtenemos los datos a mostrar -->
+                                    <t t-set="product" t-value="False"/>
+                                    <t t-set="lots" t-value="''"/>
+                                    <t t-set="dates" t-value="''"/>
+                                    <t t-set="oldest_lot" t-value="''"/>
+                                    <t t-set="oldest_date" t-value="'9999-12-31'"/>
+                                    <t t-set="quantity" t-value="0.0"/>
+                                    <t t-set="quantity_by_lots" t-value="''"/>
+                                    <t t-set="packages" t-value="[]"/>
+                                    <t t-foreach="p.pack_operation_ids" t-as="po">
+                                        <t t-if="po.palet == palet_number">
+                                            <t t-set="product" t-value="po.product_id"/>
+                                            <t t-if="lots > ''">
+                                                <t t-set="lots" t-value="lots + ', '"/>
+                                                <t t-set="dates" t-value="dates + ', '"/>
+                                            </t>
+                                            <t t-set="lots" t-value="lots + po.lot_id.name"/>
+                                            <t t-set="dates" t-value="dates + po.lot_id.use_date[:10]"/>
+                                            <t t-set="quantity" t-value="quantity + po.product_qty"/>
+                                            <t t-if="quantity_by_lots > ''">
+                                                <t t-set="quantity_by_lots" t-value="quantity_by_lots + '+' + ('%g' % po.product_qty)"/>
+                                            </t>
+                                            <t t-if="quantity_by_lots == ''">
+                                                <t t-set="quantity_by_lots" t-value="'(' + ('%g' % po.product_qty)"/>
+                                            </t>
+                                            <t t-if="po.lot_id.use_date[:10] &lt; oldest_date">
+                                                <t t-set="oldest_lot" t-value="po.lot_id.name"/>
+                                                <t t-set="oldest_date" t-value="po.lot_id.use_date[:10]"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                    <t t-if="'+' in quantity_by_lots">
+                                        <t t-set="quantity_by_lots" t-value="' ' + quantity_by_lots + ')'"/>
+                                    </t>
+                                    <t t-if="'+' not in quantity_by_lots">
+                                        <t t-set="quantity_by_lots" t-value="''"/>
+                                    </t>
+                                    <t t-set="gtin14" t-value="''"/>
+                                    <t t-if="product and product.gtin14_ids">
+                                        <t t-foreach="product.gtin14_ids" t-as="gt14">
+                                            <t t-foreach="gt14.partner_ids" t-as="gt14_partner">
+                                                <t t-if="(partner == gt14_partner) or (partner.parent_id == gt14_partner)">
+                                                    <t t-set="gtin14" t-value="gt14.gtin14"/>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="gtin14 == ''">
+                                            <t t-set="gtin14" t-value="product.gtin14_default.gtin14"/>
+                                        </t>
+                                    </t>
+
+                                    <div class="wsl_section" style="height: 11%; border: 1px solid black; border-top: 0;">
+                                        <div class="wsl_label" style="width: 24%; border-right: 1px solid black;">
+                                            DESCRIPCIÓN
+                                        </div>
+                                        <div style="width: 75%; height: 100%">
+                                            <t t-esc="product.name"/>
+                                        </div>
+                                    </div>
+                                    <div class="wsl_section wsl_details" style="height: 22%; border: 1px solid black; border-top: 0;">
+                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
+                                            GTIN13:
+                                        </div>
+                                        <div style="width: 76%;">
+                                            <t t-esc="product.gtin13"/>
+                                        </div>
+                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
+                                            UNIDADES:
+                                        </div>
+                                        <div style="width: 76%; border-left: 0;">
+                                            <span t-esc="('%g' % quantity) + quantity_by_lots"/>
+                                        </div>
+                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
+                                            Nº LOTE:
+                                        </div>
+                                        <div style="width: 76%;">
+                                            <t t-esc="lots"/>
+                                        </div>
+                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
+                                            CONS. PREF.:
+                                        </div>
+                                        <div style="width: 76%;">
+                                            <t t-esc="dates"/>
+                                        </div>
+                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
+                                            GTIN14:
+                                        </div>
+                                        <div style="width: 76%; border-left: 0;">
+                                            <t t-esc="gtin14"/>
+                                        </div>
+                                    </div>
+                                    <div class="wsl_section" style="height: 14%; text-align: center;">
+                                    </div>
+                                    <div class="wsl_section" style="height: 14%; text-align: center;">
+                                        <t t-set="data" t-value="'15' + oldest_date[2:].replace('-', '')"/>
+                                        <t t-set="data" t-value="data + '10' + oldest_lot.replace('-', '')"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % p.env['report'].barcode_base64('Code128_CleanLines', data)" style="width:400px; height:50px; margin-left:-6px; margin-bottom: 4px;"/>
+                                        <br/>
+                                        <t t-set="data" t-value="'(15)' + oldest_date[2:].replace('-', '')"/>
+                                        <t t-set="data" t-value="data + '(10)' + oldest_lot.replace('-', '')"/>
+                                        <span style="font-size: 18px; font-weight:bold;" t-esc="data"/>
+                                    </div>
+                                    <div class="wsl_section" style="height: 14%; text-align: center;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="action_report_palet_labels_gs1-128-1"
+            menu="False"
+            model="stock.picking"
+            string="Palet labels GS1-128 (02-37-15-10-00)"
+            report_type="qweb-pdf"
+            name="warehouse_shipping_light.report_palet_labels_gs1-128-1"
+            attachment_use="False"
+        />
+
+        <record id="warehouse_shipping_light.action_report_palet_labels_gs1-128-1" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="warehouse_shipping_light.paperformat_palet_labels"/>
+        </record>
+    </data>
+</openerp>
