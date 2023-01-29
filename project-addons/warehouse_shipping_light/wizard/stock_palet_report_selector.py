@@ -10,14 +10,14 @@ class StockPaletReportSelector(models.TransientModel):
         active_ids = self.env.context.get('active_ids')
         if active_ids:
             picking_id = self.env['stock.picking'].browse(active_ids[0])
-            return picking_id.partner_id.palet_report_type or 'standard'
+            return picking_id.partner_id.palet_report_type or 'normal'
         else:
-            return 'standard'
+            return 'normal'
 
     # Las opciones de este selector también están definidas en res.partner
     # por lo que, si las cambiamos, tenemos que actualizarlas allí también
     report_type = fields.Selection([
-            ('standard', 'Estándar'),
+            ('normal', 'Normal'),
             ('gs1-128-1', 'GS1-128 (02-37-15-10-00)')
         ],
         string='Tipo de etiquetas a imprimir',

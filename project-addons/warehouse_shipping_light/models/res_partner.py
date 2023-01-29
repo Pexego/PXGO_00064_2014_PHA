@@ -8,9 +8,9 @@ class ResPartner(models.Model):
     # Las opciones de este selector también están definidas en stock.palet.report.selector
     # por lo que, si las cambiamos, tenemos que actualizarlas allí también
     palet_report_type = fields.Selection([
-            ('standad', 'Estándar'),
+            ('normal', 'Normal'),
             ('gs1-128-1', 'GS1-128 (02-37-15-10-00)')
         ],
         string='Tipo de etiquetas de palet',
-        default='standard'
+        default='normal'
     )
