@@ -62,12 +62,12 @@
                         <span>
                             <t t-set="data" t-value="(('01' + gtin) if gtin and gtin &gt; '' else '')"/>
                             <t t-set="data" t-value="data + (('15' + time.strftime('%y%m%d', time.strptime(o.use_date,'%Y-%m-%d %H:%M:%S'))) if o.use_date else '')"/>
-                            <t t-set="data" t-value="data + (('10' + o.final_lot_id.name.replace('-', '/')) if o.final_lot_id else '')"/>
+                            <t t-set="data" t-value="data + (('10' + o.final_lot_id.name.replace('-', '')) if o.final_lot_id else '')"/>
                             <img t-att-src="'data:image/png;base64,%s' % o.env['report'].barcode_base64('Code128_CleanLines', data)" style="width:1050px; height:60px; margin-left:-25px;"/>
                             <br/>
                             <t t-set="data" t-value="(('(01)' + gtin) if gtin and gtin &gt; '' else '')"/>
                             <t t-set="data" t-value="data + (('(15)' + time.strftime('%y%m%d', time.strptime(o.use_date,'%Y-%m-%d %H:%M:%S'))) if o.use_date else '')"/>
-                            <t t-set="data" t-value="data + (('(10)' + o.final_lot_id.name) if o.final_lot_id else '')"/>
+                            <t t-set="data" t-value="data + (('(10)' + o.final_lot_id.name.replace('-', '')) if o.final_lot_id else '')"/>
                             <span style="font-size: 24px; font-weight:bold;" t-esc="data"/>
                         </span>
                     </div>
