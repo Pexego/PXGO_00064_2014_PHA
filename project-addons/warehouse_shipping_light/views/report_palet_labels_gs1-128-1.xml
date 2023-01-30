@@ -50,9 +50,11 @@
                                     line-height: 1em;
                                     overflow: hidden;
                                 }
+                                div.wsl_subsection {
+                                    width: 100%;
+                                }
                                 div.wsl_section div {
                                     float: left;
-                                    padding: 4px;
                                 }
                                 div.wsl_section div.wsl_label {
                                     height: 100%;
@@ -63,16 +65,13 @@
                                 div.wsl_details  div.wsl_label {
                                     height: auto;
                                 }
-                        div.wsl_section:nth-child(even) {
-                        background-color: #cceeff;
-                    }
-                    div.wsl_section:nth-child(odd) {
-                        background-color: #99ffcc;
-                    }
+                                .wsl_padding {
+                                    padding: 4px;
+                                }
                             </style>
                             <div class="row">
                                 <div style="width: 100%; height: 590px;">
-                                    <div class="wsl_section" style="height: 10%; border: 1px solid black;">
+                                    <div class="wsl_section wsl_padding" style="height: 10%; border: 1px solid black;">
                                         <strong>
                                             PHARMADUS BOTANICALS, S.L.<br/>
                                             POL. IND. CAMPONARAYA SECTOR 2 PARCELA 3<br/>
@@ -80,10 +79,10 @@
                                         </strong>
                                     </div>
                                     <div class="wsl_section" style="height: 16%; border: 1px solid black; border-top: 0;">
-                                        <div class="wsl_label" style="width: 19%; border-right: 1px solid black;">
+                                        <div class="wsl_label wsl_padding" style="width: 24%; border-right: 1px solid black;">
                                             LUGAR DE ENTREGA
                                         </div>
-                                        <div style="width: 81%; height: 100%;">
+                                        <div class="wsl_padding" style="width: 76%; height: 100%;">
                                             <strong t-field="partner.name"/><br/>
                                             <span t-field="partner.street"/> <span t-field="partner.street2"/><br/>
                                             <span t-field="partner.zip"/> <span t-field="partner.city"></span><br/>
@@ -99,6 +98,7 @@
                                     <t t-set="oldest_date" t-value="'9999-12-31'"/>
                                     <t t-set="quantity" t-value="0.0"/>
                                     <t t-set="quantity_by_lots" t-value="''"/>
+                                    <t t-set="complete" t-value="0"/>
                                     <t t-set="packages" t-value="[]"/>
                                     <t t-foreach="p.pack_operation_ids" t-as="po">
                                         <t t-if="po.palet == palet_number">
@@ -120,8 +120,15 @@
                                                 <t t-set="oldest_lot" t-value="po.lot_id.name"/>
                                                 <t t-set="oldest_date" t-value="po.lot_id.use_date[:10]"/>
                                             </t>
+                                            <t t-if="po.complete">
+                                                <t t-set="complete" t-value="complete + po.complete"/>
+                                            </t>
+                                            <t t-if="po.package and po.package not in packages">
+                                                <t t-esc="packages.append(po.package)"/>
+                                            </t>
                                         </t>
                                     </t>
+                                    <t t-set="gtin14_quantity" t-value="len(packages) + complete"/>
                                     <t t-if="'+' in quantity_by_lots">
                                         <t t-set="quantity_by_lots" t-value="' ' + quantity_by_lots + ')'"/>
                                     </t>
@@ -142,47 +149,73 @@
                                         </t>
                                     </t>
 
-                                    <div class="wsl_section" style="height: 11%; border: 1px solid black; border-top: 0;">
-                                        <div class="wsl_label" style="width: 24%; border-right: 1px solid black;">
+                                    <div class="wsl_section" style="height: 7%; border: 1px solid black; border-top: 0;">
+                                        <div class="wsl_label wsl_padding" style="width: 24%; border-right: 1px solid black;">
                                             DESCRIPCIÓN
                                         </div>
-                                        <div style="width: 75%; height: 100%">
+                                        <div class="wsl_padding" style="width: 76%; height: 100%;">
                                             <t t-esc="product.name"/>
                                         </div>
                                     </div>
-                                    <div class="wsl_section wsl_details" style="height: 22%; border: 1px solid black; border-top: 0;">
-                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
-                                            GTIN13:
+                                    <div class="wsl_section wsl_details" style="height: 25%; border: 1px solid black; border-top: 0; position: relative;">
+                                        <div style="position: absolute; top: 0; left: 0; width: 24%; height: 100%; border-right: 1px solid black; background: transparent;"/>
+                                        <div class="wsl_subsection">
+                                            <div class="wsl_label" style="width: 24%; padding: 4px 4px 0 0;">
+                                                GTIN13:
+                                            </div>
+                                            <div style="width: 76%; padding: 4px 0 0 4px;">
+                                                <t t-esc="product.gtin13"/>
+                                            </div>
                                         </div>
-                                        <div style="width: 76%;">
-                                            <t t-esc="product.gtin13"/>
+                                        <div class="wsl_subsection">
+                                            <div class="wsl_label" style="width: 24%; padding: 0 4px 0 0;">
+                                                UNIDADES:
+                                            </div>
+                                            <div style="width: 76%; padding: 0 0 0 4px;">
+                                                <span t-esc="('%g' % quantity) + quantity_by_lots"/>
+                                            </div>
                                         </div>
-                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
-                                            UNIDADES:
+                                        <div class="wsl_subsection">
+                                            <div class="wsl_label" style="width: 24%; padding: 0 4px 0 0;">
+                                                Nº LOTE:
+                                            </div>
+                                            <div style="width: 76%; padding: 0 0 0 4px;">
+                                                <t t-esc="lots"/>
+                                            </div>
                                         </div>
-                                        <div style="width: 76%; border-left: 0;">
-                                            <span t-esc="('%g' % quantity) + quantity_by_lots"/>
+                                        <div class="wsl_subsection">
+                                            <div class="wsl_label" style="width: 24%; padding: 0 4px 0 0;">
+                                                CONS. PREF.:
+                                            </div>
+                                            <div style="width: 76%; padding: 0 0 0 4px;">
+                                                <t t-esc="dates"/>
+                                            </div>
                                         </div>
-                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
-                                            Nº LOTE:
+                                        <div class="wsl_subsection" style="margin-top: 10px;">
+                                            <div class="wsl_label" style="width: 24%; padding: 0 4px 0 0;">
+                                                GTIN14:
+                                            </div>
+                                            <div style="width: 76%; padding: 0 0 0 4px;">
+                                                <t t-esc="gtin14"/>
+                                            </div>
                                         </div>
-                                        <div style="width: 76%;">
-                                            <t t-esc="lots"/>
-                                        </div>
-                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
-                                            CONS. PREF.:
-                                        </div>
-                                        <div style="width: 76%;">
-                                            <t t-esc="dates"/>
-                                        </div>
-                                        <div class="wsl_label" style="width: 23%; border-right: 1px solid black;">
-                                            GTIN14:
-                                        </div>
-                                        <div style="width: 76%; border-left: 0;">
-                                            <t t-esc="gtin14"/>
+                                        <div class="wsl_subsection">
+                                            <div class="wsl_label" style="width: 24%; padding: 0 4px 0 0;">
+                                                UNIDADES:
+                                            </div>
+                                            <div style="width: 76%; padding: 0 0 0 4px;">
+                                                <span t-esc="('%g' % gtin14_quantity)"/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="wsl_section" style="height: 14%; text-align: center;">
+                                    <div class="wsl_section" style="height: 14%; text-align: center; margin-top: 10px;">
+                                        <t t-set="data" t-value="'02' + gtin14"/>
+                                        <t t-set="data" t-value="data + '37' + str(gtin14_quantity)"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % p.env['report'].barcode_base64('Code128_CleanLines', data)" style="width:400px; height:50px; margin-left:-6px; margin-bottom: 4px;"/>
+                                        <br/>
+                                        <t t-set="data" t-value="'(02)' + gtin14"/>
+                                        <t t-set="data" t-value="data + '(37)' + str(gtin14_quantity)"/>
+                                        <span style="font-size: 18px; font-weight:bold;" t-esc="data"/>
                                     </div>
                                     <div class="wsl_section" style="height: 14%; text-align: center;">
                                         <t t-set="data" t-value="'15' + oldest_date[2:].replace('-', '')"/>
@@ -194,6 +227,11 @@
                                         <span style="font-size: 18px; font-weight:bold;" t-esc="data"/>
                                     </div>
                                     <div class="wsl_section" style="height: 14%; text-align: center;">
+                                        <t t-set="data" t-value="'00' + palet_sscc[palet_number]"/>
+                                        <img t-att-src="'data:image/png;base64,%s' % p.env['report'].barcode_base64('Code128_CleanLines', data)" style="width:400px; height:50px; margin-left:-6px; margin-bottom: 4px;"/>
+                                        <br/>
+                                        <t t-set="data" t-value="'(00)' + palet_sscc[palet_number]"/>
+                                        <span style="font-size: 18px; font-weight:bold;" t-esc="data"/>
                                     </div>
                                 </div>
                             </div>
