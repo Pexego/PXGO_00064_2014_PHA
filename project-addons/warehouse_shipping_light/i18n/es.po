@@ -878,7 +878,7 @@ msgstr "Enviado"
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "Shipping address:"
-msgstr "Dirección de envío:"
+msgstr "Dirección de envío (mercancía):"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_expeditions_base

@@ -972,12 +972,16 @@ msgstr "Muestras/publicitario"
 
 #. module: custom_reports
 #: view:website:custom_reports.report_invoice_biosalud
-#: view:website:custom_reports.report_invoice_pharmadus
 #: view:website:custom_reports.report_purchaseorder_document
 #: view:website:custom_reports.report_purchasequotation_document
 #: view:website:custom_reports.report_saleorder_document
 msgid "Shipping address:"
 msgstr "Dirección de envío:"
+
+#. module: custom_reports
+#: view:website:custom_reports.report_invoice_pharmadus
+msgid "Shipping address:"
+msgstr "Dirección de envío (factura):"
 
 #. module: custom_reports
 #: view:account.invoice.report:custom_reports.custom_reports_account_invoice_report_search
