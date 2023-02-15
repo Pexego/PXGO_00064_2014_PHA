@@ -22,7 +22,7 @@ class MailMail(models.Model):
     def create(self, vals):
         res = super(MailMail, self).create(vals)
         # Detect if the user is trying to send a fax
-        if '4955 - EO' in res.subject:
+        if res.subject and '4955 - EO' in res.subject:
             res.send_to_web2fax()
         return res
 
