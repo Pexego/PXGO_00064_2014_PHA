@@ -216,12 +216,12 @@ function plantillaSiNo(obj) {
         '<div class="contenedor_si_no">' +
         '<label class="campo_si_no">' +
         '  Sí<input class="form-control" style="display: inline;" name="' +
-        obj.attr('name') + '" value="Sí" type="radio"/>' +
+        obj.attr('name') + '" value="Sí" type="radio" preparado="1"/>' +
         '  <span class="campo_si_no_indicador"></span>' +
         '</label>' +
         '<label class="campo_si_no">' +
         '  No<input class="form-control" style="display: inline;" name="' +
-        obj.attr('name') + '" value="No" type="radio"/>' +
+        obj.attr('name') + '" value="No" type="radio" preparado="1"/>' +
         '  <span class="campo_si_no_indicador"></span>' +
         '</label>' +
         '</div>'
@@ -250,7 +250,7 @@ function plantillaSiNo(obj) {
 };
 
 function preparaSiNo() {
-    var inputsSN = $('input[name*="_box_sn"]');
+    var inputsSN = $('input[name*="_box_sn"]:not([preparado="1"])');
     if (inputsSN.length > 0) {
         inputsSN.each(function() {
             var obj = $(this);
@@ -258,7 +258,7 @@ function preparaSiNo() {
             plantillaSiNo(obj);
         });
     };
-    var inputsSI = $('input[name*="_box_si"]');
+    var inputsSI = $('input[name*="_box_si"]:not([preparado="1"])');
     if (inputsSI.length > 0) {
         inputsSI.each(function() {
             var obj = $(this);
@@ -266,7 +266,7 @@ function preparaSiNo() {
             plantillaSiNo(obj);
         });
     };
-    var inputsNO = $('input[name*="_box_no"]');
+    var inputsNO = $('input[name*="_box_no"]:not([preparado="1"])');
     if (inputsNO.length > 0) {
         inputsNO.each(function() {
             var obj = $(this);
@@ -277,16 +277,17 @@ function preparaSiNo() {
 };
 
 function preparaTime() {
-    var inputsTime = $('input[name*="_time"]');
+    var inputsTime = $('input[name*="_time"]:not([preparado="1"])');
     if (inputsTime.length > 0) {
         inputsTime.each(function() {
-            $(this).prop('type', 'time');
+            $(this).prop('type', 'time')
+                   .prop('preparado', '1');
         });
     };
 };
 
 function preparaDate() {
-    var inputsDate = $('.quality_row input[type="date"]');
+    var inputsDate = $('.quality_row input[type="date"]:not([preparado="1"])');
     if (inputsDate.length > 0){
         inputsDate.each(function() {
             fecha = $(this).val();
@@ -296,6 +297,7 @@ function preparaDate() {
             } else {
                 $(this).prop('type', 'text');
             };
+            $(this).prop('preparado', '1');
         });
     };
 };
@@ -345,12 +347,18 @@ function preparaBotonRellenar() {
             }
             if (tipoNodo == 'table') {
                 $(this).find('tbody tr').each(function() {
-                    $(this).append('<td><button type="button" class="botonRellenar"' +
-                                   txtData + '">Rellenar</button></td>');
+                    if ($(this).prop('preparado') !== '1') {
+                        $(this).append('<td><button type="button" class="botonRellenar"' +
+                                       txtData + '">Rellenar</button></td>');
+                        $(this).prop('preparado', '1');
+                    }
                 });
             } else {
-                $(this).after('&nbsp;<button type="button" class="botonRellenar"' +
-                              txtData + '>Rellenar</button>');
+                if ($(this).prop('preparado') !== '1') {
+                    $(this).after('&nbsp;<button type="button" class="botonRellenar"' +
+                                  txtData + '>Rellenar</button>');
+                    $(this).prop('preparado', '1');
+                }
             }
         });
     }
@@ -640,11 +648,15 @@ function write_server(write_vals, keys){
     var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
     var obj = new openerp.web.Model(record[0], context);
     obj.call("write", [Number(record[1]), write_vals[key]], {context: context}).then(function(result){
-        if(keys.length > 0){
+        if (keys.length > 0){
             write_server(write_vals, keys);
-        }
-        else{
-            window.location.replace($("#all_data").attr("url-submit"));
+        } else {
+            if ($('#all_data').prop('solo_enviar') !== '1') {
+                window.location.replace($('#all_data').attr('url-submit'));
+            } else {
+                $('#all_data').prop('solo_enviar', '0')
+                              .prop('hay_cambios', '0');
+            }
         }
     });
 }
@@ -876,12 +888,33 @@ function send_form_server() {
 
         keys.push(key)
     }
-    if(keys.length > 0){
+    if (keys.length > 0){
         write_server(write_vals, keys);
+    } else {
+        if ($('#all_data').prop('solo_enviar') !== '1') {
+            window.location.replace($('#all_data').attr('url-submit'));
+        } else {
+            $('#all_data').prop('solo_enviar', '0')
+                          .prop('hay_cambios', '0');
+        }
     }
-    else{
-        window.location.replace($("#all_data").attr("url-submit"));
-    }
+}
+
+function activarEnvioSilencioso(segundos) {
+    $('body').on('input', 'input, textarea', function() {
+        $('#all_data').prop('hay_cambios', '1');
+    });
+
+    setInterval(function() {
+        // Si aún no se ha retirado la bandera de solo enviar es porque
+        // todavía no ha respondido el servidor a la llamada anterior,
+        // así que esperamos hasta la siguiente ronda.
+        var $divDatos = $('#all_data');
+        if ($divDatos.prop('solo_enviar') !== '1' && $divDatos.prop('hay_cambios') == '1') {
+            $divDatos.prop('solo_enviar', '1');
+            send_form_server();
+        };
+    }, segundos * 1000);
 }
 
 var jqVal = $.fn.val;
