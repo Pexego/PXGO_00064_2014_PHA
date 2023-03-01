@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_prestashop_backend_gift_product,access_prestashop_backend_gift_product,model_prestashop_backend_gift_product,base.group_user,1,1,1,1
+access_product_prestashop_need_export_stock,access_product_prestashop_need_export_stock,model_product_prestashop_need_export_stock,base.group_user,1,1,1,1
