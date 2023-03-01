@@ -49,40 +49,62 @@ class PrestashopProductCombination(models.Model):
             recompute_prestashop_qty()
 
 
+class ProductPrestashopNeedExportStock(models.Model):
+    _name = 'product.prestashop.need.export.stock'
+
+    product_id = fields.Integer(index=True)
+
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    need_export_stock = fields.Boolean()
-
     @api.multi
     def update_prestashop_qty(self):
-        if self._context.get("cron_compute"):
-            self.with_context(disable_notify_changes = True).\
-                write({"need_export_stock": False})
-            for prod in self:
-                boms = self.env["mrp.bom"].search(
-                    [("bom_line_ids.product_id", "=", prod.id)]
+        flags = self.env['product.prestashop.need.export.stock']
+        if self._context.get('cron_compute'):
+            flags.search([('product_id', 'in', self.ids)]).unlink()
+            for product_id in self:
+                boms = self.env['mrp.bom'].search(
+                    [('bom_line_ids.product_id', '=', product_id.id)]
                 )
                 if boms:
                     self = (
                         self
-                        + boms.mapped("product_tmpl_id.product_variant_ids")
-                        + boms.mapped("product_id")
+                        + boms.mapped('product_tmpl_id.product_variant_ids')
+                        + boms.mapped('product_id')
                     )
-            for product in self:
-                product.product_tmpl_id.update_prestashop_quantities()
+            for product_id in self:
+                product_id.product_tmpl_id.update_prestashop_quantities()
                 # Recompute qty in combination binding
-                for combination_binding in product.prestashop_bind_ids:
+                for combination_binding in product_id.prestashop_bind_ids:
                     combination_binding.recompute_prestashop_qty()
-                for combination_binding in product.\
+                for combination_binding in product_id.\
                         prestashop_combinations_bind_ids:
                     combination_binding.recompute_prestashop_qty()
         else:
-            self.with_context(disable_notify_changes = True).\
-                write({"need_export_stock": True})
+            """
+            # Raise flag only for products linked with PrestaShop
+            new_ids = list(
+                set(self.filtered(lambda p: p.prestashop_bind_ids or
+                                            p.prestashop_combinations_bind_ids)
+                        .ids)
+                - set(flags.search([('product_id', 'in', self.ids)])
+                           .mapped('product_id'))
+            )
+            """
+            new_ids = list(
+                set(self.ids)
+                - set(flags.search([('product_id', 'in', self.ids)])
+                           .mapped('product_id'))
+            )
+            for id in new_ids:
+                flags.create({'product_id': id})
 
     @api.model
     def cron_export_custom_stock(self):
-        self.with_context(cron_compute=True).\
-            search([('need_export_stock', '=', True)]).update_prestashop_qty()
+        flags = self.env['product.prestashop.need.export.stock'].search([])
+        product_ids = flags.mapped('product_id')
+        if product_ids:
+            self.browse(product_ids).with_context(cron_compute=True)\
+                .update_prestashop_qty()
         return True
