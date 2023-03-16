@@ -82,16 +82,6 @@ class ProductProduct(models.Model):
                         prestashop_combinations_bind_ids:
                     combination_binding.recompute_prestashop_qty()
         else:
-            """
-            # Raise flag only for products linked with PrestaShop
-            new_ids = list(
-                set(self.filtered(lambda p: p.prestashop_bind_ids or
-                                            p.prestashop_combinations_bind_ids)
-                        .ids)
-                - set(flags.search([('product_id', 'in', self.ids)])
-                           .mapped('product_id'))
-            )
-            """
             new_ids = list(
                 set(self.ids)
                 - set(flags.search([('product_id', 'in', self.ids)])
