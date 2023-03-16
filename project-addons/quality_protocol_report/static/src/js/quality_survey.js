@@ -216,12 +216,12 @@ function plantillaSiNo(obj) {
         '<div class="contenedor_si_no">' +
         '<label class="campo_si_no">' +
         '  Sí<input class="form-control" style="display: inline;" name="' +
-        obj.attr('name') + '" value="Sí" type="radio" preparado="1"/>' +
+        obj.attr('name') + '" value="Sí" type="radio"/>' +
         '  <span class="campo_si_no_indicador"></span>' +
         '</label>' +
         '<label class="campo_si_no">' +
         '  No<input class="form-control" style="display: inline;" name="' +
-        obj.attr('name') + '" value="No" type="radio" preparado="1"/>' +
+        obj.attr('name') + '" value="No" type="radio"/>' +
         '  <span class="campo_si_no_indicador"></span>' +
         '</label>' +
         '</div>'
@@ -250,7 +250,7 @@ function plantillaSiNo(obj) {
 };
 
 function preparaSiNo() {
-    var inputsSN = $('input[name*="_box_sn"]:not([preparado="1"])');
+    var inputsSN = $('input[name*="_box_sn"]');
     if (inputsSN.length > 0) {
         inputsSN.each(function() {
             var obj = $(this);
@@ -258,7 +258,7 @@ function preparaSiNo() {
             plantillaSiNo(obj);
         });
     };
-    var inputsSI = $('input[name*="_box_si"]:not([preparado="1"])');
+    var inputsSI = $('input[name*="_box_si"]');
     if (inputsSI.length > 0) {
         inputsSI.each(function() {
             var obj = $(this);
@@ -266,7 +266,7 @@ function preparaSiNo() {
             plantillaSiNo(obj);
         });
     };
-    var inputsNO = $('input[name*="_box_no"]:not([preparado="1"])');
+    var inputsNO = $('input[name*="_box_no"]');
     if (inputsNO.length > 0) {
         inputsNO.each(function() {
             var obj = $(this);
@@ -277,17 +277,16 @@ function preparaSiNo() {
 };
 
 function preparaTime() {
-    var inputsTime = $('input[name*="_time"]:not([preparado="1"])');
+    var inputsTime = $('input[name*="_time"]');
     if (inputsTime.length > 0) {
         inputsTime.each(function() {
-            $(this).prop('type', 'time')
-                   .prop('preparado', '1');
+            $(this).prop('type', 'time');
         });
     };
 };
 
 function preparaDate() {
-    var inputsDate = $('.quality_row input[type="date"]:not([preparado="1"])');
+    var inputsDate = $('.quality_row input[type="date"]');
     if (inputsDate.length > 0){
         inputsDate.each(function() {
             fecha = $(this).val();
@@ -297,7 +296,6 @@ function preparaDate() {
             } else {
                 $(this).prop('type', 'text');
             };
-            $(this).prop('preparado', '1');
         });
     };
 };
@@ -347,18 +345,12 @@ function preparaBotonRellenar() {
             }
             if (tipoNodo == 'table') {
                 $(this).find('tbody tr').each(function() {
-                    if ($(this).prop('preparado') !== '1') {
-                        $(this).append('<td><button type="button" class="botonRellenar"' +
-                                       txtData + '">Rellenar</button></td>');
-                        $(this).prop('preparado', '1');
-                    }
+                    $(this).append('<td><button type="button" class="botonRellenar"' +
+                                   txtData + '">Rellenar</button></td>');
                 });
             } else {
-                if ($(this).prop('preparado') !== '1') {
-                    $(this).after('&nbsp;<button type="button" class="botonRellenar"' +
-                                  txtData + '>Rellenar</button>');
-                    $(this).prop('preparado', '1');
-                }
+                $(this).after('&nbsp;<button type="button" class="botonRellenar"' +
+                              txtData + '>Rellenar</button>');
             }
         });
     }
@@ -431,11 +423,6 @@ function preparaInputs() {
 
         // Evento para el botón de relleno automático de datos
         $(document).on('click', '.botonRellenar', botonRellenarClick);
-
-        // Actualizamos controles al agregar una nueva fila a las tablas
-        $('body').on('mouseup touchend', '.nuevaFila', function() {
-            setTimeout(preparaInputs, 1000);
-        });
     };
 };
 
@@ -563,7 +550,7 @@ $(function () {
                                     hideRowNumColumn: true,
                                     initData: initData,
                                     customGridButtons:{
-                                                append: $('<button class="nuevaFila"/>').text('Insert').get(0),
+                                                append: $('<button/>').text('Insert').get(0),
                                             },
                                     customRowButtons: no_delete_option ? [] : [{
                                         uiButton: {icons: {primary: 'ui-icon-delete'}, text: false },
@@ -588,7 +575,7 @@ $(function () {
                                 },
                                 hideRowNumColumn: true,
                                 customGridButtons:{
-                                    append: $('<button class="nuevaFila"/>').text('Insert').get(0),
+                                    append: $('<button/>').text('Insert').get(0),
                                 },
                                 customRowButtons: no_delete_option ? [] : [{
                                     uiButton: {icons: {primary: 'ui-icon-delete'}, text: false},
@@ -613,7 +600,7 @@ $(function () {
             clearInterval(bucleEspera);
             preparaInputs();
         };
-    }, 500);
+    }, 1000);
 });
 
 //Falta pepararlo para multiples tablas
@@ -653,15 +640,11 @@ function write_server(write_vals, keys){
     var context = {lang: 'es_ES', tz: 'Europe/Madrid'};
     var obj = new openerp.web.Model(record[0], context);
     obj.call("write", [Number(record[1]), write_vals[key]], {context: context}).then(function(result){
-        if (keys.length > 0){
+        if(keys.length > 0){
             write_server(write_vals, keys);
-        } else {
-            if ($('#all_data').prop('solo_enviar') !== '1') {
-                window.location.replace($('#all_data').attr('url-submit'));
-            } else {
-                $('#all_data').prop('solo_enviar', '0')
-                              .prop('hay_cambios', '0');
-            }
+        }
+        else{
+            window.location.replace($("#all_data").attr("url-submit"));
         }
     });
 }
@@ -893,187 +876,12 @@ function send_form_server() {
 
         keys.push(key)
     }
-    if (keys.length > 0){
+    if(keys.length > 0){
         write_server(write_vals, keys);
-    } else {
-        if ($('#all_data').prop('solo_enviar') !== '1') {
-            window.location.replace($('#all_data').attr('url-submit'));
-        } else {
-            $('#all_data').prop('solo_enviar', '0')
-                          .prop('hay_cambios', '0');
-        }
     }
-}
-
-function actualizarDatosFormularios(dicDatos) {
-    // No actualizamos nada hasta que se envíen los datos modificados
-    if ($('#all_data').prop('hay_cambios') === '1') {
-        return;
+    else{
+        window.location.replace($("#all_data").attr("url-submit"));
     }
-
-    $('.quality_form').each(function() {
-        var modelo = $(this).attr('model');
-
-        // Recorremos las tablas...
-        $(this).find('table').each(function() {
-            var tabla = $(this).attr('id');
-            var campoRel = $(this).attr('qfield');
-
-            // Si el campo de la relación no existe en el diccionario pasamos
-            if (!dicDatos.hasOwnProperty(campoRel)) return;
-
-            var aDatos = Object.keys(dicDatos[campoRel]);
-            var $cuerpo = $(this).find('tbody');
-            var $TRs = $cuerpo.find('tr');
-            // Si tenemos menos filas disponibles en la tabla que registros a
-            // actualizar, añadimos las filas que faltan.
-            if ($TRs.length < aDatos.length) {
-                for (let i = $TRs.length + 1; i <= aDatos.length; i++) {
-                    let contador = i.toString();
-                    let $clon = $($TRs[0]).clone();
-                    $clon.appendTo($cuerpo);
-                    $clon[0].outerHTML = $clon[0].outerHTML.replaceAll('_1"', '_' + contador + '"');
-                    $('input#' + tabla + '_id_' + contador).val('NEW_' + contador);
-                }
-            }
-            $TRs.each(function() {
-                var numFila = $(this).attr('id').replace(tabla + '_Row_', '');
-                var idRegistro = $('input#' + tabla + '_id_' + numFila).val();
-                // Si tenemos una fila nueva, actualizamos su ID
-                if (typeof idRegistro === 'string' && idRegistro.startsWith('NEW_')) {
-                    var fila = parseInt(numFila) - 1;
-                    if (fila < aDatos.length) {
-                        idRegistro = aDatos[fila];
-                        $('input#' + tabla + '_id_' + numFila).val(idRegistro);
-                    }
-                }
-                $(this).find('input').each(function() {
-                    var nombre = $(this).attr('name');
-                    var patron = '(?<=' + tabla + '_).+(?=_' + numFila + ')';
-                    var regExp = new RegExp(patron, 'g');
-                    var campo = regExp.exec(nombre)[0];
-                    if (idRegistro !== '') {
-                        var valor = dicDatos[campoRel][idRegistro][campo];
-                        var tipo = $(this).attr('type');
-                        if (valor == false) return;
-                        if (tipo == 'radio') {
-                            if ($(this).val() !== valor) {
-                                desmarcaCampoSiNo($(this));
-                            }
-                        } else if (tipo == 'date') {
-                            $(this).val(openerp.str_to_date(valor).format('d/m/Y'));
-                        } else {
-                            $(this).val(valor);
-                        }
-                    }
-                });
-            });
-        });
-
-        // ...y los inputs del formulario
-        $(this).find('.form-control').each(function() {
-            if ($(this).parents('table').length == 0) {
-                var valor = dicDatos[$(this).attr('name')];
-                if ($(this).attr('type') == 'radio') {
-                    if ($(this).val() !== valor) {
-                        desmarcaCampoSiNo($(this));
-                    }
-                } else {
-                    $(this).val(valor);
-                }
-            };
-        });
-    });
-}
-
-function activarEnvioSilencioso(segundos) {
-    if (imprimiendoEnPhantomJS) {
-        return;
-    }
-
-    $('body').on('input change keyup', 'input, textarea', function() {
-        $('#all_data').prop('hay_cambios', '1');
-    });
-    $('body').on('mouseup touchend', 'button', function() {
-        $('#all_data').prop('hay_cambios', '1');
-    });
-
-    setInterval(function() {
-        // Si aún no se ha retirado la bandera de solo enviar es porque
-        // todavía no ha respondido el servidor a la llamada anterior,
-        // así que esperamos hasta la siguiente ronda.
-        var $divDatos = $('#all_data');
-        if ($divDatos.prop('solo_enviar') !== '1' && $divDatos.prop('hay_cambios') == '1') {
-            $divDatos.prop('solo_enviar', '1');
-            send_form_server();
-        };
-    }, segundos * 1000);
-}
-
-function activarRefrescoAutomatico(segundos) {
-    if (imprimiendoEnPhantomJS) {
-        return;
-    }
-
-    setInterval(function() {
-        // No actualizamos nada hasta que se envíen los datos modificados
-        if ($('#all_data').prop('hay_cambios') === '1') {
-            return;
-        }
-
-        const CTX = {lang: 'es_ES', tz: 'Europe/Madrid'};
-        $('.quality_form').each(function() {
-            var modelo = $(this).attr('model');
-            var registro = Number($(this).attr('record'));
-            var campos = [];
-
-            // Recorremos las tablas...
-            $(this).find('table').each(function() {
-                campos.push($(this).attr('qfield'));
-            });
-
-            // ...y los inputs del formulario
-            $(this).find('.form-control').each(function() {
-                campos.push($(this).attr('name'));
-            });
-
-            // Pedimos los datos a Odoo
-            if (campos !== '[]') {
-                var obj = new openerp.web.Model(modelo, CTX);
-                obj.call('search_read',
-                         [[['id', '=', registro]], campos],
-                         {order: '', context: CTX})
-                   .then(function(datos) {
-                    var dicDatos = {};
-                    datos.forEach(dato => {
-                        Object.keys(dato).forEach(clave => {
-                            dicDatos[clave] = dato[clave];
-                            // Si tenemos un campo relacionado, recuperamos también sus datos
-                            if (Array.isArray(dicDatos[clave]) && dicDatos[clave].length > 0) {
-                                obj.call('fields_get', [clave], {context: CTX}).then(function(propiedadesCampo) {
-                                    var subModelo = propiedadesCampo[clave].relation;
-                                    var campoRelacion = propiedadesCampo[clave].relation_field;
-                                    var obj = new openerp.web.Model(subModelo, CTX);
-                                    obj.call('search_read',
-                                             [[['id', 'in', dicDatos[clave]]], []],
-                                             {order: 'id', context: CTX})
-                                       .then(function(datosRelacion) {
-                                        datosRelacion.forEach(datoRelacion => {
-                                            if (Array.isArray(dicDatos[clave])) {
-                                                dicDatos[clave] = {};
-                                            }
-                                            dicDatos[clave][datoRelacion['id']] = datoRelacion;
-                                        });
-                                        actualizarDatosFormularios(dicDatos);
-                                    });
-                                });
-                            }
-                        });
-                    });
-                });
-            }
-        });
-    }, segundos * 1000);
 }
 
 var jqVal = $.fn.val;
