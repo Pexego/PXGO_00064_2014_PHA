@@ -431,6 +431,11 @@ function preparaInputs() {
 
         // Evento para el botón de relleno automático de datos
         $(document).on('click', '.botonRellenar', botonRellenarClick);
+
+        // Actualizamos controles al agregar una nueva fila a las tablas
+        $('body').on('mouseup touchend', '.nuevaFila', function() {
+            setTimeout(preparaInputs, 1000);
+        });
     };
 };
 
@@ -558,7 +563,7 @@ $(function () {
                                     hideRowNumColumn: true,
                                     initData: initData,
                                     customGridButtons:{
-                                                append: $('<button/>').text('Insert').get(0),
+                                                append: $('<button class="nuevaFila"/>').text('Insert').get(0),
                                             },
                                     customRowButtons: no_delete_option ? [] : [{
                                         uiButton: {icons: {primary: 'ui-icon-delete'}, text: false },
@@ -583,7 +588,7 @@ $(function () {
                                 },
                                 hideRowNumColumn: true,
                                 customGridButtons:{
-                                    append: $('<button/>').text('Insert').get(0),
+                                    append: $('<button class="nuevaFila"/>').text('Insert').get(0),
                                 },
                                 customRowButtons: no_delete_option ? [] : [{
                                     uiButton: {icons: {primary: 'ui-icon-delete'}, text: false},
@@ -608,7 +613,7 @@ $(function () {
             clearInterval(bucleEspera);
             preparaInputs();
         };
-    }, 1000);
+    }, 500);
 });
 
 //Falta pepararlo para multiples tablas
@@ -900,8 +905,96 @@ function send_form_server() {
     }
 }
 
+function actualizarDatosFormularios(dicDatos) {
+    // No actualizamos nada hasta que se envíen los datos modificados
+    if ($('#all_data').prop('hay_cambios') === '1') {
+        return;
+    }
+
+    $('.quality_form').each(function() {
+        var modelo = $(this).attr('model');
+
+        // Recorremos las tablas...
+        $(this).find('table').each(function() {
+            var tabla = $(this).attr('id');
+            var campoRel = $(this).attr('qfield');
+
+            // Si el campo de la relación no existe en el diccionario pasamos
+            if (!dicDatos.hasOwnProperty(campoRel)) return;
+
+            var aDatos = Object.keys(dicDatos[campoRel]);
+            var $cuerpo = $(this).find('tbody');
+            var $TRs = $cuerpo.find('tr');
+            // Si tenemos menos filas disponibles en la tabla que registros a
+            // actualizar, añadimos las filas que faltan.
+            if ($TRs.length < aDatos.length) {
+                for (let i = $TRs.length + 1; i <= aDatos.length; i++) {
+                    let contador = i.toString();
+                    let $clon = $($TRs[0]).clone();
+                    $clon.appendTo($cuerpo);
+                    $clon[0].outerHTML = $clon[0].outerHTML.replaceAll('_1"', '_' + contador + '"');
+                    $('input#' + tabla + '_id_' + contador).val('NEW_' + contador);
+                }
+            }
+            $TRs.each(function() {
+                var numFila = $(this).attr('id').replace(tabla + '_Row_', '');
+                var idRegistro = $('input#' + tabla + '_id_' + numFila).val();
+                // Si tenemos una fila nueva, actualizamos su ID
+                if (typeof idRegistro === 'string' && idRegistro.startsWith('NEW_')) {
+                    var fila = parseInt(numFila) - 1;
+                    if (fila < aDatos.length) {
+                        idRegistro = aDatos[fila];
+                        $('input#' + tabla + '_id_' + numFila).val(idRegistro);
+                    }
+                }
+                $(this).find('input').each(function() {
+                    var nombre = $(this).attr('name');
+                    var patron = '(?<=' + tabla + '_).+(?=_' + numFila + ')';
+                    var regExp = new RegExp(patron, 'g');
+                    var campo = regExp.exec(nombre)[0];
+                    if (idRegistro !== '') {
+                        var valor = dicDatos[campoRel][idRegistro][campo];
+                        var tipo = $(this).attr('type');
+                        if (valor == false) return;
+                        if (tipo == 'radio') {
+                            if ($(this).val() !== valor) {
+                                desmarcaCampoSiNo($(this));
+                            }
+                        } else if (tipo == 'date') {
+                            $(this).val(openerp.str_to_date(valor).format('d/m/Y'));
+                        } else {
+                            $(this).val(valor);
+                        }
+                    }
+                });
+            });
+        });
+
+        // ...y los inputs del formulario
+        $(this).find('.form-control').each(function() {
+            if ($(this).parents('table').length == 0) {
+                var valor = dicDatos[$(this).attr('name')];
+                if ($(this).attr('type') == 'radio') {
+                    if ($(this).val() !== valor) {
+                        desmarcaCampoSiNo($(this));
+                    }
+                } else {
+                    $(this).val(valor);
+                }
+            };
+        });
+    });
+}
+
 function activarEnvioSilencioso(segundos) {
-    $('body').on('input', 'input, textarea', function() {
+    if (imprimiendoEnPhantomJS) {
+        return;
+    }
+
+    $('body').on('input change keyup', 'input, textarea', function() {
+        $('#all_data').prop('hay_cambios', '1');
+    });
+    $('body').on('mouseup touchend', 'button', function() {
         $('#all_data').prop('hay_cambios', '1');
     });
 
@@ -914,6 +1007,72 @@ function activarEnvioSilencioso(segundos) {
             $divDatos.prop('solo_enviar', '1');
             send_form_server();
         };
+    }, segundos * 1000);
+}
+
+function activarRefrescoAutomatico(segundos) {
+    if (imprimiendoEnPhantomJS) {
+        return;
+    }
+
+    setInterval(function() {
+        // No actualizamos nada hasta que se envíen los datos modificados
+        if ($('#all_data').prop('hay_cambios') === '1') {
+            return;
+        }
+
+        const CTX = {lang: 'es_ES', tz: 'Europe/Madrid'};
+        $('.quality_form').each(function() {
+            var modelo = $(this).attr('model');
+            var registro = Number($(this).attr('record'));
+            var campos = [];
+
+            // Recorremos las tablas...
+            $(this).find('table').each(function() {
+                campos.push($(this).attr('qfield'));
+            });
+
+            // ...y los inputs del formulario
+            $(this).find('.form-control').each(function() {
+                campos.push($(this).attr('name'));
+            });
+
+            // Pedimos los datos a Odoo
+            if (campos !== '[]') {
+                var obj = new openerp.web.Model(modelo, CTX);
+                obj.call('search_read',
+                         [[['id', '=', registro]], campos],
+                         {order: '', context: CTX})
+                   .then(function(datos) {
+                    var dicDatos = {};
+                    datos.forEach(dato => {
+                        Object.keys(dato).forEach(clave => {
+                            dicDatos[clave] = dato[clave];
+                            // Si tenemos un campo relacionado, recuperamos también sus datos
+                            if (Array.isArray(dicDatos[clave]) && dicDatos[clave].length > 0) {
+                                obj.call('fields_get', [clave], {context: CTX}).then(function(propiedadesCampo) {
+                                    var subModelo = propiedadesCampo[clave].relation;
+                                    var campoRelacion = propiedadesCampo[clave].relation_field;
+                                    var obj = new openerp.web.Model(subModelo, CTX);
+                                    obj.call('search_read',
+                                             [[['id', 'in', dicDatos[clave]]], []],
+                                             {order: 'id', context: CTX})
+                                       .then(function(datosRelacion) {
+                                        datosRelacion.forEach(datoRelacion => {
+                                            if (Array.isArray(dicDatos[clave])) {
+                                                dicDatos[clave] = {};
+                                            }
+                                            dicDatos[clave][datoRelacion['id']] = datoRelacion;
+                                        });
+                                        actualizarDatosFormularios(dicDatos);
+                                    });
+                                });
+                            }
+                        });
+                    });
+                });
+            }
+        });
     }, segundos * 1000);
 }
 
