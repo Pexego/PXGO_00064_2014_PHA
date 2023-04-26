@@ -2,14 +2,17 @@
 <openerp>
     <data>
         <record id="facturae_lines_invoice_form" model="ir.ui.view">
-            <field name="name">Invoice form - Add Facturae button</field>
+            <field name="name">Invoice form - Add Factura-e button</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="priority">16</field>
             <field name="arch" type="xml">
                 <group string="Amounts in company currency" position="inside">
                     <group string="Factura-e">
-                        <button name="facturae_lines" type="object" icon="gtk-edit" string="Detalle líneas factura" class="oe_read_only"/>
+                        <button name="facturae_lines" type="object" icon="gtk-edit"
+                                string="Detalle líneas factura" class="oe_read_only"/>
+                        <button name="facturae_clear_lines" icon="gtk-clear"
+                                type="object" class="oe_read_only"/>
                     </group>
                 </group>
             </field>

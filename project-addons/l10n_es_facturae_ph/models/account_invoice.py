@@ -2,7 +2,7 @@
 # © 2022 Pharmadus Botanicals
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, api
+from openerp import models, api, exceptions
 
 
 class AccountInvoice(models.Model):
@@ -35,3 +35,13 @@ class AccountInvoice(models.Model):
             'flags': {'initial_mode': 'edit'},
             'context': self.env.context
         }
+
+    @api.multi
+    def facturae_clear_lines(self):
+        invoice_line_ids = [line_id.id for line_id in self.invoice_line]
+        self.env['facturae.invoice.lines']. \
+            search([('invoice_line_id', 'in', invoice_line_ids)]).unlink()
+        return self.env['custom.views.warning'].show_message(
+            'Factura-e',
+            'Se ha limpiado el detalle de líneas de la factura-e'
+        )
