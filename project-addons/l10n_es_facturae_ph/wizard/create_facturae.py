@@ -545,36 +545,47 @@ class CreateFacturae(models.TransientModel):
             return texto
 
         def _invoices_facturae():
+            texto = '<Invoices>' \
+                    '<Invoice>' \
+                    '<InvoiceHeader>' \
+                    '<InvoiceNumber>{}</InvoiceNumber>' \
+                    '<InvoiceSeriesCode></InvoiceSeriesCode>' \
+                    '<InvoiceDocumentType>FC</InvoiceDocumentType>' \
+                    '<InvoiceClass>OO</InvoiceClass>' \
+                    '</InvoiceHeader>' \
+                    '<InvoiceIssueData>' \
+                    '<IssueDate>{}</IssueDate>'.\
+                format(invoice.number, invoice.date_invoice)
 
-            texto = ''
-            texto += '<Invoices>'
-            texto += '<Invoice>'
-            texto += '<InvoiceHeader>'
-            texto += '<InvoiceNumber>' + invoice.number + '</InvoiceNumber>'
-            texto += '<InvoiceSeriesCode></InvoiceSeriesCode>'
-            texto += '<InvoiceDocumentType>FC</InvoiceDocumentType>'
-            texto += '<InvoiceClass>OO</InvoiceClass>'
-            texto += '</InvoiceHeader>'
-            texto += '<InvoiceIssueData>'
-            texto += '<IssueDate>' + invoice.date_invoice + '</IssueDate>'
-            texto += '<InvoiceCurrencyCode>' + invoice.currency_id.name + \
-                     '</InvoiceCurrencyCode>'
-            texto += '<TaxCurrencyCode>' + invoice.currency_id.name + \
-                     '</TaxCurrencyCode>'
-            texto += '<LanguageName>es</LanguageName>'
-            texto += '</InvoiceIssueData>'
+            faceinv_id = self.env['facturae.invoice'].search([(
+                'invoice_id', '=', invoice.id
+            )])
+            if faceinv_id and faceinv_id.start_period and faceinv_id.end_period:
+                texto += '<InvoicingPeriod>' \
+                         '<StartDate>{}</StartDate>' \
+                         '<EndDate>{}</EndDate>' \
+                         '</InvoicingPeriod>'.\
+                    format(
+                        faceinv_id.start_period,
+                        faceinv_id.end_period
+                    )
+
+            texto += '<InvoiceCurrencyCode>{}</InvoiceCurrencyCode>' \
+                     '<TaxCurrencyCode>{}</TaxCurrencyCode>' \
+                     '<LanguageName>es</LanguageName>' \
+                     '</InvoiceIssueData>'.\
+                format(invoice.currency_id.name, invoice.currency_id.name)
             texto += _taxes_output()
             texto += _invoice_totals()
             texto += _invoice_items()
             if invoice.payment_mode_id:
                 texto += _invoice_payments()
-            texto += '<AdditionalData>'
-            texto += '<InvoiceAdditionalInformation>'
-            texto += (invoice.comment or "")
-            texto += '</InvoiceAdditionalInformation>'
-            texto += '</AdditionalData>'
-            texto += '</Invoice>'
-            texto += '</Invoices>'
+            texto += '<AdditionalData>' \
+                     '<InvoiceAdditionalInformation>{}' \
+                     '</InvoiceAdditionalInformation>' \
+                     '</AdditionalData>' \
+                     '</Invoice>' \
+                     '</Invoices>'.format(invoice.comment or '')
             return texto
 
         def _end_document():

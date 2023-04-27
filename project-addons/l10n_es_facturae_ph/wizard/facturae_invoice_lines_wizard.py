@@ -42,10 +42,17 @@ class FacturaeInvoiceLinesWizardDetail(models.TransientModel):
         res = super(FacturaeInvoiceLinesWizardDetail, self).write(vals)
         invoice_line_ids = \
             [wizard_line_id.invoice_line_id for wizard_line_id in self]
+        facturae_invoice_lines = self.env['facturae.invoice.lines']
         for invoice_line_id in invoice_line_ids:
             new_vals = vals.copy()
-            new_vals['invoice_line_id'] = invoice_line_id
-            self.env['facturae.invoice.lines'].create(new_vals)
+            facturae_invoice_line_id = facturae_invoice_lines. \
+                search([('invoice_line_id', '=', invoice_line_id)])
+            if facturae_invoice_line_id:
+                facturae_invoice_line_id.write(new_vals)
+            else:
+                new_vals['invoice_id'] = self.wizard_id.invoice_id
+                new_vals['invoice_line_id'] = invoice_line_id
+                facturae_invoice_lines.create(new_vals)
         return res
 
 
@@ -53,27 +60,37 @@ class FacturaeInvoiceLinesWizard(models.TransientModel):
     _name = 'facturae.invoice.lines.wizard'
 
     name = fields.Char(string='Factura Nº')
+    invoice_id = fields.Integer()
     partner = fields.Char(string='Cliente')
+    start_period = fields.Date('desde')
+    end_period = fields.Date('a')
     line_ids = fields.One2many(
+        string='Líneas de factura',
         comodel_name='facturae.invoice.lines.wizard.detail',
         inverse_name='wizard_id'
     )
 
     @api.multi
     def save_lines(self):
+        invoice_data = {
+            'invoice_id': self.invoice_id,
+            'start_period': self.start_period,
+            'end_period': self.end_period
+        }
+        facturae_invoice = self.env['facturae.invoice']
+        facturae_invoice_id = facturae_invoice.\
+            search([('invoice_id', '=', self.invoice_id)])
+        if facturae_invoice_id:
+            facturae_invoice_id.write(invoice_data)
+        else:
+            facturae_invoice.create(invoice_data)
         return True
 
     @api.multi
     def write(self, vals):
         res = super(FacturaeInvoiceLinesWizard, self).write(vals)
-
-        # Borramos los que se quedan sin datos que guardar
-        invoice_line_ids = []
-        for line_id in self.line_ids:
-            if not line_id.contract_reference and \
-               not line_id.transaction_reference:
-                invoice_line_ids += [line_id.invoice_line_id]
-        self.env['facturae.invoice.lines']. \
-            search([('invoice_line_id', 'in', invoice_line_ids)]).unlink()
-
+        invoice_line_ids = [line_id.invoice_line_id for line_id in self.line_ids]
+        self.env['facturae.invoice.lines'].\
+            search([('invoice_id', '=', self.invoice_id),
+                    ('invoice_line_id', 'not in', invoice_line_ids)]).unlink()
         return res
