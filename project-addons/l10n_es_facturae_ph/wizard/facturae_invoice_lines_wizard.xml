@@ -5,13 +5,16 @@
             <field name="name">Facturae invoice lines wizard form</field>
             <field name="model">facturae.invoice.lines.wizard</field>
             <field name="arch" type="xml">
-                <form string="Factura-e, detalle de líneas de factura">
-                    <separator string="Factura-e, detalle de líneas de factura"/>
+                <form string="Detalle de Factura-e">
+                    <separator string="Detalle de Factura-e"/>
                     <group>
                         <field name="name" readonly="1"/>
                         <field name="partner" readonly="1"/>
+                        <strong colspan="4" style="font-size: 1.2em;">Período de facturación</strong>
+                        <field name="start_period"/>
+                        <field name="end_period"/>
                         <group colspan="4">
-                            <field name="line_ids" nolabel="1">
+                            <field name="line_ids">
                                 <tree editable="top" create="0" delete="0">
                                     <field name="product_id" readonly="1"/>
                                     <field name="description" readonly="1"/>

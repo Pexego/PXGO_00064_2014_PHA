@@ -9,9 +9,9 @@
             <field name="arch" type="xml">
                 <group string="Amounts in company currency" position="inside">
                     <group string="Factura-e">
-                        <button name="facturae_lines" type="object" icon="gtk-edit"
-                                string="Detalle líneas factura" class="oe_read_only"/>
-                        <button name="facturae_clear_lines" icon="gtk-clear"
+                        <button name="facturae_detail" type="object" icon="gtk-edit"
+                                string="Detalle factura-e" class="oe_read_only"/>
+                        <button name="facturae_clear" icon="gtk-clear"
                                 type="object" class="oe_read_only"/>
                     </group>
                 </group>
