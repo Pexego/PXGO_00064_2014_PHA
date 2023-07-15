@@ -777,6 +777,11 @@ msgid "Price w/discount"
 msgstr "Precio c. dto"
 
 #. module: warehouse_shipping_light
+#: field:res.partner,print_weights_on_delivery_note:0
+msgid "Print weights on delivery note"
+msgstr "Imprimir albarán con pesos"
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_picking_base
 msgid "Product"
 msgstr "Producto"
@@ -1069,6 +1074,16 @@ msgstr "Matrícula del vehículo"
 #: view:stock.picking:warehouse_shipping_light.wsl_view_picking_form
 msgid "{'required': [('picking_type_code','=','outgoing')]}"
 msgstr "{'required': [('picking_type_code','=','outgoing')]}"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "| Customer's Ref."
+msgstr "| Ref. Cliente"
+
+#. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
+msgid "| Weight (kg)"
+msgstr "| Peso (kg)"
 
 #. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.report_palet_labels

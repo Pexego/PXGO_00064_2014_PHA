@@ -200,11 +200,15 @@
                         padding: 1px !important;
                     }
                 </style>
+
+                <t t-set="has_customer_ref" t-value="o.move_lines.mapped('product_id.customer_ids').with_context(cust_id=s.partner_id.id).filtered(lambda c: c.name.id == c._context['cust_id'])"/>
+                <t t-set="print_weights" t-value="s.partner_id.print_weights_on_delivery_note"/>
+
                 <table class="table table-condensed details">
                     <thead>
                         <tr>
                             <th>CN Code</th>
-                            <th>Product | EAN13<br/>Lot | Approved | Best before | Quantity</th>
+                            <th>Product | EAN13<t t-if="has_customer_ref"> | Customer's Ref.</t><t t-if="print_weights"> | Weight (kg)</t><br/>Lot | Approved | Best before | Quantity</th>
                             <th class="text-right">Qty</th>
                             <th class="text-right">Unit price</th>
                             <th class="text-right">Disc.(%)</th>
@@ -218,7 +222,16 @@
                                 <span t-field="m.product_id.cn_code"/>
                             </td>
                             <td style="min-width: 40%;">
-                                <span t-field="m.product_id.name"/><![CDATA[&nbsp;|&nbsp;]]><span t-field="m.product_id.ean13"/>
+                                <t t-if="has_customer_ref">
+                                    <t t-set="customer" t-value="m.product_id.mapped('customer_ids').with_context(cust_id=s.partner_id.id).filtered(lambda c: c.name.id == c._context['cust_id'])"/>
+                                    <t t-set="customer_ref" t-value="customer.product_code if customer else ''"/>
+                                </t>
+                                <t t-if="print_weights">
+                                    <t t-set="weight" t-value="str(m.product_id.weight).replace('.', ',')"/>
+                                </t>
+                                <span t-field="m.product_id.name"/>&amp;nbsp;|&amp;nbsp;<span t-field="m.product_id.ean13"/>
+                                <t t-if="has_customer_ref">&amp;nbsp;|&amp;nbsp;<span t-esc="customer_ref"/></t>
+                                <t t-if="print_weights">&amp;nbsp;|&amp;nbsp;<span t-esc="weight"/></t>
                                 <br/>
                                 <table>
                                     <tbody>
@@ -231,12 +244,12 @@
                                         <t t-foreach="pack_operations" t-as="po">
                                             <tr>
                                                 <td><span t-field="po.lot_id.name"/></td>
-                                                <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                <td>&amp;nbsp;|&amp;nbsp;</td>
                                                 <td>
                                                     <span t-if="po.lot_id.acceptance_date" t-field="po.lot_id.acceptance_date"/>
-                                                    <span t-if="not po.lot_id.acceptance_date"><![CDATA[&nbsp;&nbsp;&nbsp;]]></span>
+                                                    <span t-if="not po.lot_id.acceptance_date">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
                                                 </td>
-                                                <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                <td>&amp;nbsp;|&amp;nbsp;</td>
                                                 <td style="white-space: nowrap;">
                                                     <t t-set="u_date" t-value="po.lot_id.use_date"/>
                                                     <t t-if="u_date">
@@ -255,7 +268,7 @@
                                                         <span>(Unspecified)</span>
                                                     </t>
                                                 </td>
-                                                <td><![CDATA[&nbsp;|&nbsp;]]></td>
+                                                <td>&amp;nbsp;|&amp;nbsp;</td>
                                                 <td><span t-esc="'%g %s' % (po.move_quants_qty(m), po.product_uom_id.name)"/></td>
                                             </tr>
                                         </t>
@@ -276,12 +289,10 @@
                                 <span t-esc="'%g' % discount" style="padding-left: 10px;"/>
                             </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % (price_line - (price_line * discount / 100))"
-                                    t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                <span t-esc="'%g' % (price_line - (price_line * discount / 100))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                             </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % price_line"
-                                    t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                <span t-esc="'%g' % price_line" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                             </td>
                         </tr>
 
@@ -304,12 +315,10 @@
                                 <span t-esc="'%g' % carrier_line.discount" style="padding-left: 10px;"/>
                             </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % carrier_line.discounted_amount"
-                                    t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                <span t-esc="'%g' % carrier_line.discounted_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                             </td>
                             <td class="text-right">
-                                <span t-esc="'%g' % carrier_line.gross_amount"
-                                    t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                <span t-esc="'%g' % carrier_line.gross_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                             </td>
                         </tr>
                     </tbody>
@@ -323,64 +332,55 @@
                                 <tr class="border-black">
                                     <td>Amount</td>
                                     <td class="text-right">
-                                        <span t-field="exp.amount_gross_untaxed"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.amount_gross_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Article discount</td>
                                     <td class="text-right">
-                                        <span t-field="exp.article_discount"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.article_discount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Amount with article discount</td>
                                     <td class="text-right">
-                                        <span t-field="exp.amount_with_article_discount"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.amount_with_article_discount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><span t-field="exp.commercial_discount_display"/></td>
                                     <td class="text-right">
-                                        <span t-field="exp.commercial_discount_amount"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.commercial_discount_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Net amount</td>
                                     <td class="text-right">
-                                        <span t-field="exp.amount_net_untaxed"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.amount_net_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><span t-field="exp.financial_discount_display"/></td>
                                     <td class="text-right">
-                                        <span t-field="exp.financial_discount_amount"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.financial_discount_amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr class="border-black">
                                     <td><strong>Total Without Taxes</strong></td>
                                     <td class="text-right">
-                                        <span t-field="exp.amount_untaxed"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.amount_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Taxes</td>
                                     <td class="text-right">
-                                        <span t-field="exp.amount_tax"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <span t-field="exp.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr class="border-black">
                                     <td><strong>Total</strong></td>
                                     <td class="text-right">
-                                        <strong t-field="exp.amount_total"
-                                            t-field-options='{"widget": "monetary", "display_currency": "s.pricelist_id.currency_id"}'/>
+                                        <strong t-field="exp.amount_total" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;s.pricelist_id.currency_id&quot;}"/>
                                     </td>
                                 </tr>
                             </table>
@@ -422,7 +422,7 @@
             </div>
 
             <div class="footer">
-                <t t-set="sale_ok" t-value="1"></t>
+                <t t-set="sale_ok" t-value="1"/>
                 <t t-call="custom_reports.report_footer"/>
             </div>
         </template>
