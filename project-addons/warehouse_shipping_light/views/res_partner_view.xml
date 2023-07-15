@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <field name="property_delivery_carrier" position="after">
                     <field name="palet_report_type"/>
+                    <field name="print_weights_on_delivery_note"/>
                 </field>
             </field>
         </record>

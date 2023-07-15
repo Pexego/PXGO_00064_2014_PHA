@@ -14,3 +14,4 @@ class ResPartner(models.Model):
         string='Tipo de etiquetas de palet',
         default='normal'
     )
+    print_weights_on_delivery_note = fields.Boolean(default=False)

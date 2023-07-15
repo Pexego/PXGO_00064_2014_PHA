@@ -40,7 +40,7 @@ class ProductProduct(models.Model):
             'commission_exent', 'product_agent_ids', 'description_sale',
             'qc_aspects', 'qc_species', 'categ_id', 'property_account_income',
             'taxes_id', 'property_account_expense', 'supplier_taxes_id',
-            'sii_exempt_cause'
+            'sii_exempt_cause', 'grouping', 'subgrouping'
         )
         swo_fields_to_copy = {
             'product_uom', 'group_id', 'product_min_action_qty',
