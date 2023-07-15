@@ -201,8 +201,9 @@
                     }
                 </style>
 
-                <t t-set="has_customer_ref" t-value="o.move_lines.mapped('product_id.customer_ids').with_context(cust_id=s.partner_id.id).filtered(lambda c: c.name.id == c._context['cust_id'])"/>
-                <t t-set="print_weights" t-value="s.partner_id.print_weights_on_delivery_note"/>
+                <t t-set="partner_id" t-value="s.partner_id.parent_id if s.partner_id.parent_id else s.partner_id"/>
+                <t t-set="has_customer_ref" t-value="o.move_lines.mapped('product_id.customer_ids').with_context(cust_id=partner_id.id).filtered(lambda c: c.name.id == c._context['cust_id'])"/>
+                <t t-set="print_weights" t-value="partner_id.print_weights_on_delivery_note"/>
 
                 <table class="table table-condensed details">
                     <thead>
@@ -223,7 +224,7 @@
                             </td>
                             <td style="min-width: 40%;">
                                 <t t-if="has_customer_ref">
-                                    <t t-set="customer" t-value="m.product_id.mapped('customer_ids').with_context(cust_id=s.partner_id.id).filtered(lambda c: c.name.id == c._context['cust_id'])"/>
+                                    <t t-set="customer" t-value="m.product_id.mapped('customer_ids').with_context(cust_id=partner_id.id).filtered(lambda c: c.name.id == c._context['cust_id'])"/>
                                     <t t-set="customer_ref" t-value="customer.product_code if customer else ''"/>
                                 </t>
                                 <t t-if="print_weights">
