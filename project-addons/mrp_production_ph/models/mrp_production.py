@@ -65,6 +65,7 @@ class MrpProduction(models.Model):
     production_warning = fields.Char(compute='_production_warning',
                                      readonly=True)
     picking_weight = fields.Float(
+        default=0.0,
         digits=dp.get_precision('Product Unit of Measure'))
     return_weight = fields.Float(
         digits=dp.get_precision('Product Unit of Measure'))

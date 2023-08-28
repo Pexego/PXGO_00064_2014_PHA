@@ -60,10 +60,11 @@ class StockTransferDetails(models.TransientModel):
     @api.multi
     def write(self, vals):
         if 'picking_weight' in vals:
-            production_id = self.env['mrp.production'].\
+            prod_id = self.env['mrp.production'].\
                 search([('name', '=', self[0].picking_id.origin)])
-            if production_id:
-                production_id.write({'picking_weight': vals['picking_weight']})
+            if prod_id:
+                picking_weight = prod_id.picking_weight + vals['picking_weight']
+                prod_id.write({'picking_weight': picking_weight})
         return super(StockTransferDetails, self).write(vals)
 
 
