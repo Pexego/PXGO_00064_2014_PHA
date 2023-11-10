@@ -44,7 +44,7 @@
                         <tr>
                             <th>Client</th>
                             <th>Delivery address</th>
-                            <th>Phone</th>
+                            <th>Phone<br/>email</th>
                             <th>ZIP</th>
                             <th>City</th>
                             <th>Weight</th>
@@ -82,7 +82,11 @@
                                         <br/><span t-field="partner.street2"/>
                                     </t>
                                 </td>
-                                <td><span t-esc="(partner.phone if partner.phone and partner.phone != '.' else '') + (', ' if partner.phone and partner.phone != '.' and partner.mobile else '') + (partner.mobile if partner.mobile else '')"/></td>
+                                <td>
+                                    <span t-esc="(partner.phone if partner.phone and partner.phone != '.' else '') + (', ' if partner.phone and partner.phone != '.' and partner.mobile else '') + (partner.mobile if partner.mobile else '')"/>
+                                    <br/>
+                                    <span t-esc="partner.email if partner.email else partner.parent_id.email if partner.parent_id else ''"/>
+                                </td>
                                 <td><span t-field="partner.zip"/></td>
                                 <td><span t-field="partner.city"/></td>
                                 <td><span t-field="p.real_weight"/></td>
