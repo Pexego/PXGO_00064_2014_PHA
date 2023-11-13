@@ -21,7 +21,13 @@
 
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
+from cStringIO import StringIO
+import base64
 import time
+try:
+    import xlwt
+except ImportError:
+    xlwt = None
 
 
 class StockPicking(models.Model):
@@ -383,6 +389,96 @@ class StockExpeditions(models.Model):
                 _('Financial discount (%.2f %%)') % fin_discount_global
         else:
             self.financial_discount_display = _('Financial discount')
+
+    @api.multi
+    def get_excel_expedition(self):
+        wb = xlwt.Workbook()
+        ws = wb.add_sheet('Hoja de expediciones')
+        bold_style = xlwt.easyxf('align: wrap yes')
+        font = xlwt.Font()
+        font.bold = True
+        bold_style.font = font
+        row = 0
+        col = 0
+        for label in ['FECHA', 'EMPRESA', 'AGENCIA', 'CLIENTE',
+                      'DIRECCION DE ENVIO', 'TELEFONO', 'MOVIL', 'EMAIL',
+                      'C.P.', 'POBLACION', 'PESO', 'BULTOS', 'PALETS',
+                      'ALBARAN', 'ETIQUETAS YA IMPRESAS', 'CONTRAREEMBOLSO']:
+            ws.write(row, col, label, bold_style)
+            col += 1
+        # Adjust columns width
+        widths = [12, 25, 25, 30, 30, 12, 12, 20, 8, 25, 8, 9, 9, 17, 12, 22]
+        for col in range(16):
+            ws.col(col).width = widths[col] * 256
+
+        style = xlwt.easyxf('align: wrap yes')
+        for exp_id in self:
+            row += 1
+            col = 0
+            client_id = exp_id.partner_id
+            data = [
+                time.strftime('%d/%m/%Y', time.strptime(
+                    exp_id.date_done, '%Y-%m-%d %H:%M:%S')),
+                exp_id.company_id.name,
+                exp_id.carrier_id.display_name,
+                client_id.display_name +
+                  ((' - ' + client_id.comercial) if client_id.comercial else ''),
+                client_id.street +
+                  ((' - ' + client_id.street2) if client_id.street2 else ''),
+                client_id.phone,
+                client_id.mobile,
+                client_id.email if client_id.email else '',
+                client_id.zip,
+                client_id.city,
+                exp_id.real_weight,
+                exp_id.number_of_packages,
+                exp_id.number_of_palets if exp_id.number_of_palets else 0,
+                exp_id.name,
+                'SI' if (exp_id.carrier_id.partner_id in
+                         self.env.ref('.D_137344') and
+                         exp_id.sale_channel_id in
+                         self.env.ref('__export__.sale_channel_3')) else 'NO',
+                exp_id.amount_total if (
+                    exp_id.sale_id and
+                    exp_id.sale_id.payment_mode_id in
+                        exp_id.env.ref('__export__.payment_mode_43')
+                ) else ''
+            ]
+            for detail in data:
+                ws.write(row, col, detail, style)
+                col += 1
+
+        # Save Excel file to database
+        fp = StringIO()
+        wb.save(fp)
+        fp.seek(0)
+        data = fp.read()
+        fp.close()
+        b64data = base64.b64encode(data)
+        filename = 'Expediciones.xls'
+
+        ir_attachment = self.env['ir.attachment']
+        attachment = ir_attachment.search([('res_model', '=', self._name),
+                                           ('res_id', '=', 0),
+                                           ('name', '=', filename)])
+        if attachment:
+            attachment.write({'datas': b64data})
+        else:
+            attachment = ir_attachment.create({
+                'name': filename,
+                'datas': b64data,
+                'datas_fname': filename,
+                'res_model': self._name,
+                'res_id': 0,
+                'type': 'binary'
+            })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/binary/saveas?model=ir.attachment&field=datas' +
+                   '&filename_field=name&id=%s' % (attachment.id),
+            'target': 'self',
+        }
 
 
 class StockLocation(models.Model):
