@@ -467,6 +467,11 @@ msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: warehouse_shipping_light
+#: view:website:warehouse_shipping_light.wsl_report_expeditions_base
+msgid "email"
+msgstr "email"
+
+#. module: warehouse_shipping_light
 #: view:website:warehouse_shipping_light.wsl_report_delivery_note_document
 msgid "End of"
 msgstr "Fin de"

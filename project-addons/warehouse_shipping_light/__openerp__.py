@@ -47,7 +47,9 @@
         'views/sale_view.xml',
         'views/stock_view.xml',
         'views/res_partner_view.xml',
+        'views/assets_backend.xml',
         'security/ir.model.access.csv',
     ],
+    'qweb': ['static/src/xml/expeditions.xml'],
     'installable': True
 }

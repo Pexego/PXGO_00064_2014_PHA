@@ -1,0 +1,9 @@
+<openerp>
+    <data>
+        <template id="assets_backend" name="wsl_view assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/warehouse_shipping_light/static/src/js/expeditions.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>

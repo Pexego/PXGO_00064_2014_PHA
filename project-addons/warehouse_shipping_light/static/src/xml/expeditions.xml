@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+© 2023 Pharmadus I.T.
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<templates id="template" xml:space="preserve">
+    <t t-extend="ListView.buttons">
+        <t t-jquery="button.oe_list_add" t-operation="after">
+            <t t-if="widget.model == 'stock.expeditions'">
+                <button class="oe_button oe_highlight oe_wsl_excel_expeditions"
+                        type="button">Generar Excel</button>
+            </t>
+        </t>
+    </t>
+</templates>
