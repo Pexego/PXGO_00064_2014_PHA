@@ -67,6 +67,7 @@ class MrpProduction(models.Model):
     picking_weight = fields.Float(
         default=0.0,
         digits=dp.get_precision('Product Unit of Measure'))
+    picking_weight_ids = fields.Char('Production hoard picking list')
     return_weight = fields.Float(
         digits=dp.get_precision('Product Unit of Measure'))
     tare = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
