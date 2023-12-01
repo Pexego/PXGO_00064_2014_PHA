@@ -403,12 +403,13 @@ class StockExpeditions(models.Model):
         for label in ['FECHA', 'EMPRESA', 'AGENCIA', 'CLIENTE',
                       'DIRECCION DE ENVIO', 'TELEFONO', 'MOVIL', 'EMAIL',
                       'C.P.', 'POBLACION', 'PESO', 'BULTOS', 'PALETS',
-                      'ALBARAN', 'ETIQUETAS YA IMPRESAS', 'CONTRAREEMBOLSO']:
+                      'ALBARAN', 'ETIQUETAS YA IMPRESAS', 'CONTRAREEMBOLSO',
+                      'OBSERVACIONES']:
             ws.write(row, col, label, bold_style)
             col += 1
         # Adjust columns width
-        widths = [12, 25, 25, 30, 30, 12, 12, 20, 8, 25, 8, 9, 9, 17, 12, 22]
-        for col in range(16):
+        widths = [12, 25, 25, 30, 30, 12, 12, 20, 8, 25, 8, 9, 9, 17, 12, 22, 40]
+        for col in range(17):
             ws.col(col).width = widths[col] * 256
 
         style = xlwt.easyxf('align: wrap yes')
@@ -442,7 +443,8 @@ class StockExpeditions(models.Model):
                     exp_id.sale_id and
                     exp_id.sale_id.payment_mode_id in
                         exp_id.env.ref('__export__.payment_mode_43')
-                ) else ''
+                ) else '',
+                exp_id.carrier_note if exp_id.carrier_note else ''
             ]
             for detail in data:
                 ws.write(row, col, detail, style)
